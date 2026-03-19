@@ -11,17 +11,37 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 
 ## Steps
 
+### Phase 0 — Check for Existing Session
+
+1. Before doing anything else, check for `taproot/_brainstorms/discovery-status.md`.
+
+   - **If found**: read it and present a resume prompt:
+     > "I found an in-progress discovery session (last updated: [date], phase: [phase]).
+     >
+     > - **Resume** from where we left off
+     > - **Restart** from the beginning (status file will be overwritten)
+     > - **Abandon** without changes"
+
+     If resuming: skip to the phase indicated in the status file, treating all items marked `[x]` as already complete. Re-read the Notes section for context carried from the prior session.
+
+   - **If not found**: create it now with Phase set to `1` and proceed.
+
+   Save the status file after every confirmed intent, behaviour, and implementation — not just at the end.
+
+   **Stopping early:** at any point the user can say "stop" or "pause". Before ending the session, update the status file with the current phase and progress, and say:
+   > "Session saved to `taproot/_brainstorms/discovery-status.md`. Resume any time with `/tr-discover`."
+
 ### Phase 1 — Orient
 
-1. Read the project root for orientation materials in this order (skip if not found):
+2. Read the project root for orientation materials in this order (skip if not found):
    - `README.md` / `README.rst` / `README.txt`
    - `package.json`, `Cargo.toml`, `pyproject.toml`, `go.mod`, or other manifest files (name + description + scripts)
    - `ARCHITECTURE.md`, `DESIGN.md`, `docs/` directory listing
    - Existing `taproot/` directory (note any intents already documented to avoid duplication)
 
-2. Scan the top-level structure: list directories, identify entry points (`main.*`, `index.*`, `cli.*`, `server.*`, `app.*`), note the primary language and framework.
+3. Scan the top-level structure: list directories, identify entry points (`main.*`, `index.*`, `cli.*`, `server.*`, `app.*`), note the primary language and framework.
 
-3. Present a one-paragraph orientation to the user:
+4. Present a one-paragraph orientation to the user:
    > "I can see this is a [language/framework] project that [what it does based on README/manifest]. Before I propose any structure, I want to make sure I understand the **business goals** rather than the technical structure. The folder layout reflects how it was built, not why — and those are often different things."
 
    Then ask the first discovery question:
@@ -31,7 +51,7 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 
 ### Phase 2 — Surface Intents (interactive, one at a time)
 
-4. Based on the user's answer and the codebase scan, form a hypothesis about the top-level business intents. An intent is a **business goal** — not a module, not a command, not a feature flag. Good intents start with verbs: "Enable users to…", "Allow operators to…", "Provide developers with…".
+5. Based on the user's answer and the codebase scan, form a hypothesis about the top-level business intents. An intent is a **business goal** — not a module, not a command, not a feature flag. Good intents start with verbs: "Enable users to…", "Allow operators to…", "Provide developers with…".
 
    Common traps to avoid:
    - Don't create an intent per CLI command (those are often all part of one intent)
@@ -63,10 +83,12 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 
    e. Write `taproot/<slug>/intent.md` immediately after confirmation. Don't batch — write as you go.
 
+   f. Update `taproot/_brainstorms/discovery-status.md`: mark this intent `[x]` in Phase 2, set Phase to `2`, update Last updated.
+
 6. After all intents are confirmed and written, show a summary:
    > "Confirmed [N] intents: [list]. Do any of these feel wrong, or is there a significant area of the system we haven't covered?"
 
-   Incorporate any corrections before moving to Phase 3.
+   Incorporate any corrections before moving to Phase 3. Update status file: set Phase to `3`.
 
 ### Phase 3 — Discover Behaviours (per intent, interactive)
 
@@ -92,6 +114,8 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 
    e. Write `taproot/<intent-slug>/<behaviour-slug>/usecase.md` immediately.
 
+   f. Update status file: mark this behaviour `[x]` under its intent in Phase 3, update Last updated.
+
 8. After all behaviours for an intent are written:
    > "I've documented [N] behaviours for [intent]. Anything missing — behaviours the code handles that we didn't capture?"
 
@@ -116,12 +140,14 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 
    f. Write `taproot/<intent-slug>/<behaviour-slug>/<impl-slug>/impl.md`.
 
+   g. Update status file: mark this impl `[x]` under its behaviour in Phase 4, update Last updated.
+
 10. After each intent's implementations are written, run:
     ```
     taproot validate-structure
     taproot validate-format
     ```
-    Fix any validation errors before moving to the next intent.
+    Fix any validation errors before moving to the next intent. Update status file: set Phase to `4` when starting this phase.
 
 ### Phase 5 — Wrap Up
 
@@ -129,7 +155,9 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 
 12. Run `taproot check-orphans` to verify nothing is structurally broken.
 
-13. Present a closing summary:
+13. Update status file: set Phase to `complete`, update Last updated.
+
+14. Present a closing summary:
     > "Discovery complete. Documented [N] intents, [N] behaviours, [N] implementations.
     >
     > **Suggested next steps:**
@@ -140,6 +168,7 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 
 ## Output
 
+- `taproot/_brainstorms/discovery-status.md` — session state, updated continuously
 - `taproot/<intent-slug>/intent.md` for each confirmed intent
 - `taproot/<intent-slug>/<behaviour-slug>/usecase.md` for each confirmed behaviour
 - `taproot/<intent-slug>/<behaviour-slug>/<impl-slug>/impl.md` for each implementation
@@ -153,6 +182,33 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 - `taproot check-orphans`
 
 ## Document Formats
+
+### discovery-status.md
+
+```markdown
+# Discovery Status
+
+<!-- Managed by /tr-discover — do not edit Phase 2/3/4 checklists manually -->
+
+## Session
+- **Started:** <YYYY-MM-DD>
+- **Last updated:** <YYYY-MM-DD>
+- **Phase:** 1 | 2 | 3 | 4 | 5 | complete
+- **Scope:** whole project | <subdirectory>
+- **Depth:** full | behaviours | intents-only
+
+## Notes
+<!-- Free-form context to carry between sessions: key decisions, open questions, things to revisit -->
+
+## Phase 2 — Intents
+<!-- [x] = intent.md written; [ ] = proposed but not yet confirmed -->
+
+## Phase 3 — Behaviours
+<!-- One subsection per intent; [x] = usecase.md written -->
+
+## Phase 4 — Implementations
+<!-- One subsection per intent/behaviour path; [x] = impl.md written -->
+```
 
 ### intent.md
 
@@ -200,6 +256,14 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 ## Postconditions
 - <What is true after the flow completes>
 
+## Diagram
+<!-- Optional: add a Mermaid diagram for complex flows. Omit if the prose is clear enough. -->
+```mermaid
+sequenceDiagram
+  Actor->>System: <trigger>
+  System-->>Actor: <response>
+```
+
 ## Status
 - **State:** active
 - **Created:** <YYYY-MM-DD>
@@ -241,3 +305,5 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 - When unsure whether something deserves its own intent vs. being a behaviour under another intent, ask: "Would a non-technical stakeholder describe these as separate goals, or as one goal with multiple steps?"
 - Existing code may have dead code, vestigial features, or undocumented behaviours. Ask the user before documenting anything that looks unused.
 - If the project already has partial taproot coverage, read the existing docs first and only discover what's missing.
+- Save the status file eagerly — after every write, not just at phase boundaries. A session interrupted mid-phase should resume at the last confirmed item, not the start of the phase.
+- The Notes section of the status file is the memory of the session. Use it to capture decisions, open questions, and anything the user said that isn't captured in a document yet.
