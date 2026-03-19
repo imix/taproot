@@ -129,7 +129,7 @@ describe('runDodChecks — document-current condition', () => {
     expect(report.results[0]!.name).toBe('document-current');
     expect(report.results[0]!.passed).toBe(false);
     expect(report.results[0]!.correction).toBe('ensure all sections in readme.md are up to date');
-    expect(report.results[0]!.output).toContain('Manual check required');
+    expect(report.results[0]!.output).toContain('Agent check required');
     expect(report.allPassed).toBe(false);
   });
 
@@ -143,6 +143,21 @@ describe('runDodChecks — document-current condition', () => {
     );
     expect(report.results).toHaveLength(2);
     expect(report.results[1]!.passed).toBe(true);
+  });
+});
+
+describe('runDodChecks — check-if-affected condition', () => {
+  it('reports as agent check (not passed) with target as description', () => {
+    const report = runDodChecks(
+      [{ 'check-if-affected': 'src/commands/update.ts' }],
+      process.cwd()
+    );
+    expect(report.configured).toBe(true);
+    expect(report.results[0]!.name).toBe('check-if-affected: src/commands/update.ts');
+    expect(report.results[0]!.passed).toBe(false);
+    expect(report.results[0]!.output).toContain('Agent check required');
+    expect(report.results[0]!.correction).toContain('src/commands/update.ts');
+    expect(report.allPassed).toBe(false);
   });
 });
 

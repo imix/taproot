@@ -13,7 +13,7 @@ Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying docu
 3. For each marker file, system parses the markdown into sections
 4. System validates the sections against the schema for that document type:
    - `intent.md`: requires Goal, Stakeholders, Success Criteria, Status
-   - `usecase.md`: requires Actor, Preconditions, Main Flow, Postconditions, Status
+   - `usecase.md`: requires Actor, Preconditions, Main Flow, Postconditions, Status, Flow (Mermaid diagram), Related (links to related behaviours)
    - `impl.md`: requires Behaviour, Commits, Tests, Status
 5. System checks that Status fields contain allowed state values (from `.taproot.yaml` config)
 6. System checks that date fields are present if `require_dates` is enabled
@@ -35,3 +35,4 @@ Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying docu
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
+- **Last reviewed:** 2026-03-19

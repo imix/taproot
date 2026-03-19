@@ -34,6 +34,8 @@ export type DodConditionEntry = string | {
     correction?: string;
 } | {
     'document-current': string;
+} | {
+    'check-if-affected': string;
 };
 export interface TaprootConfig {
     version: number;

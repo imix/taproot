@@ -24,22 +24,28 @@ Define a UseCase (observable system behaviour) under an intent or another behavi
    - What's true when it succeeds? (Postconditions)
    - What can go wrong, and how should the system respond? (Error Conditions)
 
-4. Identify alternate flows proactively — don't just ask for them:
-   - "What if the user already has an account?" → Alternate Flow: Existing Account
-   - "What if the session expires mid-way?" → Alternate Flow: Session Timeout
-   Each alternate flow needs a trigger and its own steps.
+4. Identify alternate flows and error conditions proactively — don't just ask for them. Walk every step in the main flow and challenge it:
+   - "What if the input at this step is invalid or missing?"
+   - "What if an external call here times out or returns an error?"
+   - "What if the user navigates away or cancels mid-flow?"
+   - "What if this step is attempted twice in a row?"
+   Each recoverable branch becomes an **Alternate Flow** (with trigger + steps + outcome). Each unrecoverable failure becomes an **Error Condition** (with trigger + system response). Do not accept vague answers like "the request fails" — push for the specific trigger and the exact system response (e.g., "API returns 5xx — system shows inline error, preserves form state, and allows retry").
 
-5. Draft the `usecase.md`. Write main flow steps as active-voice actions: subject + verb + object. Bad: "The form is submitted." Good: "User submits the registration form."
+5. Generate a Mermaid diagram that visualises the main flow and key alternate/error branches. Use `sequenceDiagram` for actor–system interactions or `flowchart TD` for branching logic — choose whichever makes the flow most readable. This is the human-readable visual contract for the behaviour. Include it in the `## Flow` section of `usecase.md`.
 
-6. Determine the folder slug: kebab-case, verb-noun or noun phrase (e.g., `register-account`, `reset-password`, `verify-email-address`). Should be distinct from sibling behaviour slugs.
+6. Identify related behaviours. Scan sibling and parent behaviours for any that: share the same actor, share a precondition with this behaviour, produce an outcome this behaviour depends on, or are commonly triggered alongside this one. List them in `## Related` with a one-line note on the relationship (e.g., "must precede", "shares actor", "produces input for this flow").
 
-7. Create the directory `<parent>/<slug>/` and write `usecase.md`.
+7. Draft the `usecase.md`. Write main flow steps as active-voice actions: subject + verb + object. Bad: "The form is submitted." Good: "User submits the registration form."
 
-8. Run `taproot validate-structure --path <taproot-root>` and `taproot validate-format --path <parent>/<slug>/`.
+8. Determine the folder slug: kebab-case, verb-noun or noun phrase (e.g., `register-account`, `reset-password`, `verify-email-address`). Should be distinct from sibling behaviour slugs.
 
-9. If the behaviour has clear sub-components, suggest decomposition: "This behaviour has three distinct phases — would you like to break it into sub-behaviours: `<sub-slug-1>`, `<sub-slug-2>`, `<sub-slug-3>`?"
+9. Create the directory `<parent>/<slug>/` and write `usecase.md`.
 
-10. Suggest next action: "`/taproot:grill <parent>/<slug>/usecase.md` to stress-test, or `/taproot:implement <parent>/<slug>/` when ready to build."
+10. Run `taproot validate-structure --path <taproot-root>` and `taproot validate-format --path <parent>/<slug>/`.
+
+11. If the behaviour has clear sub-components, suggest decomposition: "This behaviour has three distinct phases — would you like to break it into sub-behaviours: `<sub-slug-1>`, `<sub-slug-2>`, `<sub-slug-3>`?"
+
+12. Suggest next action: "`/taproot:grill <parent>/<slug>/usecase.md` to stress-test, or `/taproot:implement <parent>/<slug>/` when ready to build."
 
 ## Output
 
@@ -77,7 +83,17 @@ A new `usecase.md` in `<parent>/<slug>/usecase.md`.
 - <What is true after successful completion>
 
 ## Error Conditions
-- <Error scenario>: <Expected system response>
+- **<Trigger>**: <Exact system response — specific, not generic>
+
+## Flow
+```mermaid
+sequenceDiagram
+    Actor->>System: <initiating action>
+    System-->>Actor: <response>
+```
+
+## Related
+- `<path/to/sibling/usecase.md>` — <relationship: must precede / shares actor / produces input / commonly co-triggered>
 
 ## Status
 - **State:** proposed | specified | implemented | tested | deprecated
@@ -85,10 +101,13 @@ A new `usecase.md` in `<parent>/<slug>/usecase.md`.
 - **Last reviewed:** <YYYY-MM-DD>
 
 ## Notes
-<Edge cases, open questions, links to related behaviours>
+<Edge cases, open questions>
 ```
 
 ## Notes
 
 - A behaviour should be completable in one user session. If it spans sessions or days, it is likely multiple behaviours.
 - Aim for 3–7 steps in the main flow. Fewer usually means the behaviour is too abstract; more usually means it should be decomposed.
+- The Mermaid diagram is the human-readable contract — it should be understandable by a non-technical stakeholder. Prefer `sequenceDiagram` for flows with clear actor–system turns; use `flowchart TD` for decision-heavy branching.
+- Error conditions should be specific: name the exact trigger (HTTP 5xx, timeout, duplicate key) and the exact system response (error message shown, state preserved, retry offered). Vague conditions ("request fails") are not acceptable.
+- Related behaviours are not just cross-references — they define the dependency graph that `/tr-analyse-change` uses for impact analysis.

@@ -36,7 +36,8 @@ export interface Violation {
 export type DodConditionEntry =
   | string
   | { run: string; name?: string; correction?: string }
-  | { 'document-current': string };
+  | { 'document-current': string }
+  | { 'check-if-affected': string };
 
 export interface TaprootConfig {
   version: number;

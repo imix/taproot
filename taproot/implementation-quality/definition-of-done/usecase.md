@@ -57,11 +57,14 @@
     - tests-passing
     - linter-clean
     - document-current: README.md and docs/ accurately reflect all currently implemented CLI commands, skills, and configuration options
+    - check-if-affected: src/commands/update.ts
+    - check-if-affected: skills/guide.md
     - run: npm run custom-check
       name: my-check
       correction: "Run the fix script"
   ```
 - Built-in names (`tests-passing`, `linter-clean`, `commit-conventions`) resolve to known commands and standard corrections without requiring shell configuration. Any entry with a `run:` key is executed as a shell command from the project root.
 - `document-current` is a parameterizable built-in that triggers agent-driven documentation review. When this condition runs, the agent reads the git log for recent changes, then reads `README.md` and `docs/` to identify any sections that are stale or missing. The agent applies the necessary updates before the condition passes — it does not prompt for manual confirmation. The parameter string describes what accurate documentation looks like (used as the agent's review target).
+- `check-if-affected: <file-or-description>` is a parameterizable built-in that triggers agent-driven impact reasoning. When this condition runs, the agent reads the git diff for the current impl, then reasons: "given what changed, should `<file-or-description>` have been updated too?" If yes and it was not touched — condition fails with: "This change likely requires updating `<target>` — review and apply." If the agent determines the change does not affect the target — condition passes silently. Multiple `check-if-affected` entries can be listed, each targeting a different file or concern.
 - "Propose corrections" means: for built-in conditions, the system states the standard fix explicitly (e.g. "Run `npm test` and fix failing tests"). For custom shell conditions, stdout/stderr from the failed command is surfaced as correction context, along with the `correction:` field if provided.
 - The README and docs currency condition is resolved via `document-current` — rather than a standalone triggered behaviour, it becomes a DoD gate enforced here with agent-driven review and update.

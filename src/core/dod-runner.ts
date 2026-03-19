@@ -36,6 +36,7 @@ interface ResolvedCondition {
   run?: string;
   correction: string;
   manualCheck?: boolean;
+  agentCheck?: boolean;
   description?: string;
 }
 
@@ -45,8 +46,17 @@ function resolveCondition(entry: DodConditionEntry): ResolvedCondition {
     return {
       name: 'document-current',
       correction: description,
-      manualCheck: true,
+      agentCheck: true,
       description,
+    };
+  }
+  if (typeof entry === 'object' && 'check-if-affected' in entry) {
+    const target = entry['check-if-affected'];
+    return {
+      name: `check-if-affected: ${target}`,
+      agentCheck: true,
+      description: target,
+      correction: `Review whether this change requires updating ${target} and apply updates if needed.`,
     };
   }
   if (typeof entry === 'string') {
@@ -124,11 +134,11 @@ export function runDodChecks(
   const results: DodResult[] = [];
   for (const entry of conditions) {
     const resolved = resolveCondition(entry);
-    if (resolved.manualCheck) {
+    if (resolved.agentCheck) {
       results.push({
         name: resolved.name,
         passed: false,
-        output: `Manual check required: ${resolved.description}`,
+        output: `Agent check required: ${resolved.description}`,
         correction: resolved.correction,
       });
     } else {

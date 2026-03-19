@@ -51,11 +51,13 @@ Implement a behaviour spec: write the code, write the tests, create the `impl.md
 
 8. Run `taproot link-commits --path <taproot-root>` to update the `impl.md` Commits section with the new hash.
 
-9. Update the `impl.md` Status to `complete` if all UseCase postconditions are met and all tests pass.
+9. Run `taproot dod <impl-path>` to evaluate the Definition of Done. If any conditions fail, address them before continuing. If no DoD is configured, this step is a no-op.
 
-10. Run `taproot validate-structure --path <taproot-root>`.
+10. Update the `impl.md` Status to `complete` if all UseCase postconditions are met, all tests pass, and all DoD conditions passed.
 
-11. Run `taproot coverage --path <taproot-root>` to show updated progress.
+11. Run `taproot validate-structure --path <taproot-root>`.
+
+12. Run `taproot coverage --path <taproot-root>` to show updated progress.
 
 ## Output
 
@@ -67,6 +69,7 @@ Implement a behaviour spec: write the code, write the tests, create the `impl.md
 ## CLI Dependencies
 
 - `taproot link-commits`
+- `taproot dod`
 - `taproot validate-structure`
 - `taproot coverage`
 
