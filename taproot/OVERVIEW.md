@@ -48,7 +48,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 - **human-readable-report** `[implemented]` — Actor: Developer or project stakeholder invoking `/tr-status`
   - agent-skill `[complete]` (0 commits, 1 test)
-- **route-requirement** `[specified]` — Actor: Human orchestrator / developer stating a requirement in natural language
+- **route-requirement** `[specified]` — Actor: Human orchestrator / developer stating a requirement in natural language — at any level of clarity, from vague instinct to fully-formed specification
   - agent-skill `[complete]` (1 commit, 1 test)
 
 ## implementation-planning `[active]`
