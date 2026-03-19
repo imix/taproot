@@ -35,6 +35,12 @@ npm install -g taproot
 # Initialize in your project
 taproot init --with-skills --agent claude
 
+youragent
+\> \/tr-ineed i want to build a webapp
+
+or
+\> \/tr-guide
+
 # Validate the hierarchy
 taproot validate-structure
 taproot validate-format

@@ -32,6 +32,8 @@ export type DodConditionEntry = string | {
     run: string;
     name?: string;
     correction?: string;
+} | {
+    'document-current': string;
 };
 export interface TaprootConfig {
     version: number;

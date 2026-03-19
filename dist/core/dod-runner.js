@@ -8,10 +8,6 @@ const BUILTINS = {
         run: 'npm run lint',
         correction: 'Fix lint errors reported above and re-run.',
     },
-    'readme-current': {
-        run: 'npm run docs:check',
-        correction: 'Run `npm run docs:generate` and commit the result.',
-    },
     'commit-conventions': {
         run: 'npm run check:commits',
         correction: 'Ensure your commits follow the project commit convention.',
@@ -19,6 +15,15 @@ const BUILTINS = {
 };
 const TIMEOUT_MS = 30_000;
 function resolveCondition(entry) {
+    if (typeof entry === 'object' && 'document-current' in entry) {
+        const description = entry['document-current'];
+        return {
+            name: 'document-current',
+            correction: description,
+            manualCheck: true,
+            description,
+        };
+    }
     if (typeof entry === 'string') {
         const builtin = BUILTINS[entry];
         if (!builtin) {
@@ -84,8 +89,18 @@ export function runDodChecks(conditions, cwd) {
     }
     const results = [];
     for (const entry of conditions) {
-        const { name, run, correction } = resolveCondition(entry);
-        results.push(runCondition(name, run, cwd, correction));
+        const resolved = resolveCondition(entry);
+        if (resolved.manualCheck) {
+            results.push({
+                name: resolved.name,
+                passed: false,
+                output: `Manual check required: ${resolved.description}`,
+                correction: resolved.correction,
+            });
+        }
+        else {
+            results.push(runCondition(resolved.name, resolved.run, cwd, resolved.correction));
+        }
     }
     return {
         configured: true,
