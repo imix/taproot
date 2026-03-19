@@ -23,6 +23,12 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **update-adapters-and-skills** `[implemented]` — Actor: Developer running `taproot update` after upgrading taproot or modifying skill definitions
   - cli-command `[complete]` (0 commits, 1 test)
 
+## documentation `[active]`
+
+**Goal:** Keep all taproot documentation accurate and current so that users, contributors, and integrators always have reliable information about what the tool does and how to use it
+
+- **generate-readme** `[specified]` — Actor: Taproot maintainer / contributor — a developer working on the taproot package who has made changes that affect the user-facing surface (CLI commands, skills, configuration options).
+
 ## hierarchy-integrity `[active]`
 
 **Goal:** Ensure the requirement hierarchy remains structurally valid and formally complete as it evolves — whether authored by humans, AI agents, or both.
@@ -41,7 +47,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **human-readable-report** `[implemented]` — Actor: Developer or project stakeholder invoking `/tr-status`
   - agent-skill `[complete]` (0 commits, 1 test)
 - **route-requirement** `[specified]` — Actor: Human orchestrator / developer stating a requirement in natural language
-  - agent-skill `[complete]` (0 commits, 1 test)
+  - agent-skill `[complete]` (1 commit, 1 test)
 
 ## implementation-planning `[active]`
 
@@ -50,6 +56,12 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **extract-next-slice** `[specified]` — Actor: Agentic developer / orchestrator (human who asks the agent to plan the next work item)
   - agent-skill `[in-progress]` (0 commits, 1 test)
   - cli-command `[complete]` (1 commit, 1 test)
+
+## implementation-quality `[active]`
+
+**Goal:** Allow teams to declare the conditions that must hold for any implementation to be considered complete — linting, tests, documentation currency, git conventions, or any custom check — and have taproot enforce them consistently across every implementation, whether authored by a human or an AI agent.
+
+- **definition-of-done** `[specified]` — Actor: `/tr-implement` — triggered automatically at the end of the implement flow before marking an impl `complete`. Can also be invoked standalone by a developer or CI pipeline to check the current state.
 
 ## project-discovery `[active]`
 
@@ -93,4 +105,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - cli-command `[complete]` (0 commits, 1 test)
 
 ---
-10 intents · 18 behaviours · 19 implementations · 18/19 complete
+12 intents · 20 behaviours · 19 implementations · 18/19 complete

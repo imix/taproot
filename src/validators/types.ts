@@ -33,6 +33,10 @@ export interface Violation {
   message: string;
 }
 
+export type DodConditionEntry =
+  | string
+  | { run: string; name?: string; correction?: string };
+
 export interface TaprootConfig {
   version: number;
   root: string;
@@ -53,4 +57,5 @@ export interface TaprootConfig {
     onPr: string[];
     onMerge: string[];
   };
+  definitionOfDone?: DodConditionEntry[];
 }

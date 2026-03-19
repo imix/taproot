@@ -10,6 +10,7 @@ import { registerSyncCheck } from './commands/sync-check.js';
 import { registerUpdate } from './commands/update.js';
 import { registerOverview } from './commands/overview.js';
 import { registerPlan } from './commands/plan.js';
+import { registerDod } from './commands/dod.js';
 
 const program = new Command();
 
@@ -28,5 +29,6 @@ registerSyncCheck(program);
 registerUpdate(program);
 registerOverview(program);
 registerPlan(program);
+registerDod(program);
 
 program.parse();
