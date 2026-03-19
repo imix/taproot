@@ -62,6 +62,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 **Goal:** Allow teams to declare the conditions that must hold for any implementation to be considered complete — linting, tests, documentation currency, git conventions, or any custom check — and have taproot enforce them consistently across every implementation, whether authored by a human or an AI agent.
 
 - **definition-of-done** `[specified]` — Actor: `/tr-implement` — triggered automatically at the end of the implement flow before marking an impl `complete`. Can also be invoked standalone by a developer or CI pipeline to check the current state.
+  - cli-command `[complete]` (1 commit, 1 test)
 
 ## project-discovery `[active]`
 
@@ -105,4 +106,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - cli-command `[complete]` (0 commits, 1 test)
 
 ---
-12 intents · 20 behaviours · 19 implementations · 18/19 complete
+12 intents · 20 behaviours · 20 implementations · 19/20 complete

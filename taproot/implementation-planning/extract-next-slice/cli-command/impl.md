@@ -16,6 +16,7 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `fd719c805c016069f1c629c5f53427ea1ead548a` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/plan.test.ts` — covers: AFK candidate detection (specified), HITL candidate detection (proposed), in-progress impl detection, fully-implemented hierarchy (all-implemented message), intent goal propagation, sort order (AFK before HITL), tree format output, JSON format output

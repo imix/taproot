@@ -20,11 +20,12 @@
 
 ## Commits
 - (to be filled by taproot link-commits)
+- `2dbb442e0e9cabde63e667083cf9a6e329405f86` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/dod.test.ts` — covers: no DoD configured, custom shell pass/fail, all-conditions-run, command not found, standalone mode (no impl.md change), impl.md marked complete on pass, not marked on fail, dry-run
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-19
