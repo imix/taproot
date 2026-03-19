@@ -37,6 +37,24 @@ Define a UseCase (observable system behaviour) under an intent or another behavi
 
 7. Draft the `usecase.md`. Write main flow steps as active-voice actions: subject + verb + object. Bad: "The form is submitted." Good: "User submits the registration form."
 
+7a. After writing the main flow, alternate flows, and error conditions, generate a `## Acceptance Criteria` section. Derive one Gherkin scenario per flow: the main flow, each named alternate flow, and each error condition. Assign stable IDs starting at `AC-1`. Insert the section immediately before `## Status`:
+
+   ```markdown
+   ## Acceptance Criteria
+
+   **AC-1: <Happy path title>**
+   - Given <precondition>
+   - When <actor action>
+   - Then <observable outcome>
+
+   **AC-2: <Alternate flow title>**
+   - Given <context>
+   - When <trigger>
+   - Then <system response>
+   ```
+
+   Note to developer: "I've generated N acceptance criteria — review and adjust the Given/When/Then wording before committing. IDs are immutable once assigned."
+
 8. Determine the folder slug: kebab-case, verb-noun or noun phrase (e.g., `register-account`, `reset-password`, `verify-email-address`). Should be distinct from sibling behaviour slugs.
 
 9. Create the directory `<parent>/<slug>/` and write `usecase.md`.
@@ -101,6 +119,18 @@ sequenceDiagram
 
 ## Related
 - `<path/to/sibling/usecase.md>` — <relationship: must precede / shares actor / produces input / commonly co-triggered>
+
+## Acceptance Criteria
+
+**AC-1: <Happy path title>**
+- Given <precondition>
+- When <actor action>
+- Then <observable outcome>
+
+**AC-2: <Alternate flow title>**
+- Given <context>
+- When <trigger>
+- Then <system response>
 
 ## Status
 - **State:** proposed | specified | implemented | tested | deprecated

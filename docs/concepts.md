@@ -129,6 +129,23 @@ sequenceDiagram
 ## Related
 - `./validate-token/usecase.md` — must follow this flow; consumes the token generated here
 
+## Acceptance Criteria
+
+**AC-1: Reset email sent**
+- Given the user has a registered account and is not logged in
+- When they submit their email address on the forgot-password form
+- Then the system sends a reset email and displays "Check your email"
+
+**AC-2: Unregistered email — same confirmation shown**
+- Given the email address is not registered
+- When the user submits it on the forgot-password form
+- Then the system displays "Check your email" without sending an email
+
+**AC-3: Rate limit exceeded**
+- Given the user has already requested 3 resets in the last hour
+- When they submit the form again
+- Then the system returns a 429 response and displays "Try again later"
+
 ## Implementations <!-- taproot-managed -->
 - [Email Trigger](./email-trigger/impl.md)
 

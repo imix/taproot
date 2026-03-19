@@ -219,6 +219,47 @@ function checkManagedSection(
   return violations;
 }
 
+export function checkAcceptanceCriteria(
+  doc: ParsedMarkdown,
+  node: FolderNode,
+): Violation[] {
+  const hasImplChildren = node.children.some(c => c.marker === 'impl');
+  const criteriaSection = doc.sections.get('acceptance criteria');
+
+  if (hasImplChildren && !criteriaSection) {
+    return [{
+      type: 'warning',
+      filePath: doc.filePath,
+      code: 'MISSING_ACCEPTANCE_CRITERIA',
+      message: 'usecase.md has implementations but no "## Acceptance Criteria" section',
+    }];
+  }
+
+  if (!criteriaSection) return [];
+
+  const violations: Violation[] = [];
+  const idPattern = /^\*\*AC-(\d+):/gm;
+  const seen = new Set<string>();
+  let m: RegExpExecArray | null;
+
+  while ((m = idPattern.exec(criteriaSection.rawBody)) !== null) {
+    const id = `AC-${m[1]}`;
+    if (seen.has(id)) {
+      const linesBefore = criteriaSection.rawBody.substring(0, m.index).split('\n').length;
+      violations.push({
+        type: 'error',
+        filePath: doc.filePath,
+        line: criteriaSection.startLine + linesBefore,
+        code: 'DUPLICATE_CRITERION_ID',
+        message: `Duplicate acceptance criterion ID "${id}" — each AC-N must be unique within the file`,
+      });
+    }
+    seen.add(id);
+  }
+
+  return violations;
+}
+
 export function validateFormat(
   doc: ParsedMarkdown,
   markerType: MarkerType,
@@ -234,6 +275,7 @@ export function validateFormat(
   }
   if (markerType === 'behaviour') {
     violations.push(...checkDiagramSection(doc));
+    if (node) violations.push(...checkAcceptanceCriteria(doc, node));
   }
   if (node) {
     violations.push(...checkLinkSection(doc, node));

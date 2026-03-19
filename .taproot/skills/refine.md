@@ -31,6 +31,7 @@ Update a behaviour spec (`usecase.md`) based on what was learned during or after
    - Update "Last reviewed" to today
    - If the finding is significant enough to change the state, update Status
    - **Preserve the `## Implementations <!-- taproot-managed -->` section exactly** — read and re-insert it unchanged before `## Status` after applying other edits. Never discard it during a rewrite.
+   - **Preserve `## Acceptance Criteria` IDs** — you may update the Given/When/Then wording, but never change an existing AC-N ID. If a new flow is added, assign the next available ID (highest existing + 1). If a criterion is retired, mark it `~~AC-N: deprecated~~` rather than removing it.
 
 5. Run `taproot sync-check --path <taproot-root>`. If any `impl.md` files under this behaviour are flagged as `SPEC_UPDATED`, list them explicitly: "These implementations may need to be reviewed against the updated spec: [list]."
 
