@@ -18,8 +18,19 @@ Stored as plain markdown alongside your code. Git-versioned. No database.
 
 ## Quick Start
 
+Taproot is not yet published to npm. Install directly from the repo:
+
 ```bash
-npm install -g taproot
+git clone https://github.com/imix/taproot.git
+cd taproot
+npm install
+npm run build
+npm link
+```
+
+Then in your project:
+
+```bash
 taproot init --with-skills --agent claude
 ```
 
