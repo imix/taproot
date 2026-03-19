@@ -24,6 +24,7 @@ export const SKILL_FILES = [
   'refine.md',
   'promote.md',
   'decompose.md',
+  'plan.md',
   'guide.md',
   'discover.md',
   'ineed.md',

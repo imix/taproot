@@ -10,121 +10,103 @@ Route a natural language requirement to the right place in the taproot hierarchy
 
 ## Steps
 
-### Step 1 — Read the hierarchy
+1. **Read the hierarchy** — Load `taproot/OVERVIEW.md` if it exists. If not, walk `taproot/` directly and read each `intent.md`. Build a mental map of: intent slug → goal summary → existing behaviour slugs.
 
-Load `taproot/OVERVIEW.md` if it exists. If not, walk `taproot/` directly and read each `intent.md`. Build a mental map of: intent slug → goal summary → existing behaviour slugs.
+2. **Classify the requirement** — Decide which path to take:
 
-### Step 2 — Classify the requirement
+   - **Quick path** (proceed to Step 5): Clear actor, clear goal, unambiguous outcome. The requirement can be matched against the hierarchy without exploration.
+   - **Discovery path** (proceed to Step 3): Vague, new domain, significant new capability, or unclear what success looks like. The requirement needs to be understood before it can be placed.
 
-Decide which path to take:
+   When in doubt, take the discovery path. A well-understood requirement produces a better behaviour spec.
 
-- **Quick path** (proceed to Step 5): Clear actor, clear goal, unambiguous outcome. The requirement can be matched against the hierarchy without exploration.
-- **Discovery path** (proceed to Step 3): Vague, new domain, significant new capability, or unclear what success looks like. The requirement needs to be understood before it can be placed.
+3. **Structured discovery** (discovery path only) — You are a facilitator, not a content generator. Ask one question at a time, build on answers, and don't move to the next phase until you understand the current one.
 
-When in doubt, take the discovery path. A well-understood requirement produces a better behaviour spec.
+   Open: *"Before I place this, let me make sure I understand it properly. A few questions."*
 
-### Step 3 — Structured discovery (discovery path only)
+   **Phase 1 — Problem space**
 
-You are a facilitator, not a content generator. Ask one question at a time, build on answers, and don't move to the next phase until you understand the current one.
+   Ask, building on each answer:
+   - "What triggered this need right now — is there a specific incident, user complaint, or gap that surfaced it?"
+   - "Who is blocked or frustrated without this? What do they do instead today?"
+   - "What happens if this is never built — what's the real cost of not having it?"
 
-Open: *"Before I place this, let me make sure I understand it properly. A few questions."*
+   **Phase 2 — Actor and persona**
 
-**Phase 1 — Problem space**
+   Ground the requirement in a specific person:
+   - "Walk me through a specific person who would use this. What's their role, and what are they trying to accomplish?"
+   - "Is there more than one type of user involved, with meaningfully different needs?"
 
-Ask, building on each answer:
-- "What triggered this need right now — is there a specific incident, user complaint, or gap that surfaced it?"
-- "Who is blocked or frustrated without this? What do they do instead today?"
-- "What happens if this is never built — what's the real cost of not having it?"
+   **Phase 3 — Success criteria**
 
-**Phase 2 — Actor and persona**
+   Elicit concrete, observable outcomes — not "what does done look like" but specific scenarios:
+   - "Give me 2–3 scenarios where this requirement is fully satisfied. Walk me through what happens in each."
+   - "How would you demonstrate this is solved — what would you show in a demo or test?"
+   - "What's the earliest, smallest version that would deliver real value?"
 
-Ground the requirement in a specific person:
-- "Walk me through a specific person who would use this. What's their role, and what are they trying to accomplish?"
-- "Is there more than one type of user involved, with meaningfully different needs?"
+   Push back on vague answers: *"users are happy"* → *"users can complete [action] without [current friction]"*
 
-**Phase 3 — Success criteria**
+   **Phase 4 — Scope boundary**
 
-Elicit concrete, observable outcomes — not "what does done look like" but specific scenarios:
-- "Give me 2–3 scenarios where this requirement is fully satisfied. Walk me through what happens in each."
-- "How would you demonstrate this is solved — what would you show in a demo or test?"
-- "What's the earliest, smallest version that would deliver real value?"
+   Establish what's explicitly deferred:
+   - "What's out of scope for now — what would you push to a later version?"
+   - "Are there edge cases you'd consciously defer?"
 
-Push back on vague answers: *"users are happy"* → *"users can complete [action] without [current friction]"*
+4. **Synthesise and confirm** (discovery path only) — Produce a structured summary and confirm it before routing:
 
-**Phase 4 — Scope boundary**
+   > "Here's what I understood:
+   > **Actor:** [specific user persona]
+   > **Need:** [concrete capability]
+   > **So that:** [observable outcome]
+   > **Success looks like:** [scenario 1], [scenario 2], [scenario 3]
+   > **Out of scope:** [deferred items]
+   >
+   > Does that capture it?
+   > **[A]** Go deeper   **[C]** Continue to placement"
 
-Establish what's explicitly deferred:
-- "What's out of scope for now — what would you push to a later version?"
-- "Are there edge cases you'd consciously defer?"
+   **If [A] — Advanced elicitation:** Apply one or more of the following, then return to synthesis:
+   - *Stress-test assumptions*: "What would have to be true for this requirement to be wrong or unnecessary?"
+   - *Edge cases*: "What happens when [user has no data / is offline / does it twice / does it wrong]?"
+   - *MVP challenge*: "What's the absolute minimum version that proves this works? What could you cut?"
+   - *Alternative approaches*: "Is there a simpler way to solve the underlying problem?"
+   - *Pre-mortem*: "Imagine this was built and nobody used it. What would be the most likely reason?"
 
-### Step 4 — Synthesise and confirm (discovery path only)
+   **If [C]:** Proceed to Step 5 with the synthesised requirement as context. This summary will carry forward into `/tr-behaviour` as richer input than a raw one-liner.
 
-Produce a structured summary and confirm it before routing:
+5. **Search for near-duplicates** — Scan existing `usecase.md` files under `taproot/`. If a behaviour closely matches the stated (or synthesised) requirement, surface it:
 
-> "Here's what I understood:
-> **Actor:** [specific user persona]
-> **Need:** [concrete capability]
-> **So that:** [observable outcome]
-> **Success looks like:** [scenario 1], [scenario 2], [scenario 3]
-> **Out of scope:** [deferred items]
->
-> Does that capture it?
-> **[A]** Go deeper   **[C]** Continue to placement"
+   > "There's already a behaviour `<path>` that covers `<summary>`. Is your requirement the same, a refinement, or a distinct addition?"
 
-**If [A] — Advanced elicitation:** Apply one or more of the following, then return to synthesis:
-- *Stress-test assumptions*: "What would have to be true for this requirement to be wrong or unnecessary?"
-- *Edge cases*: "What happens when [user has no data / is offline / does it twice / does it wrong]?"
-- *MVP challenge*: "What's the absolute minimum version that proves this works? What could you cut?"
-- *Alternative approaches*: "Is there a simpler way to solve the underlying problem?"
-- *Pre-mortem*: "Imagine this was built and nobody used it. What would be the most likely reason?"
+   - **Same** → link to existing document and stop
+   - **Refinement** → call `/taproot:refine <path>` and stop
+   - **Distinct** → continue with placement as a new sibling
 
-**If [C]:** Proceed to Step 5 with the synthesised requirement as context. This summary will carry forward into `/tr-behaviour` as richer input than a raw one-liner.
+6. **Find the best-fit parent** — Match the requirement's domain and goal against existing intents. Consider:
+   - Which intent's goal would be incomplete without this requirement?
+   - Which stakeholders are affected — do they match an existing intent's stakeholders?
+   - Is this a new top-level business goal (needs a new intent) or a behaviour under an existing one?
 
-### Step 5 — Search for near-duplicates
+7. **Resolve ambiguity** — If two or more intents could plausibly own this requirement, ask grill-style questions to resolve:
+   - "Who is the primary stakeholder — an end user, an operator, or a developer?"
+   - "If this was removed, which intent's success criteria would be most affected?"
+   - "Is this really one requirement or two that happen to arrive together?"
 
-Scan existing `usecase.md` files under `taproot/`. If a behaviour closely matches the stated (or synthesised) requirement, surface it:
+   Re-propose placement after each answer.
 
-> "There's already a behaviour `<path>` that covers `<summary>`. Is your requirement the same, a refinement, or a distinct addition?"
+8. **Propose placement with reasoning** — State your proposed location clearly:
 
-- **Same** → link to existing document and stop
-- **Refinement** → call `/taproot:refine <path>` and stop
-- **Distinct** → continue with placement as a new sibling
+   > "This sounds like it belongs under **`<intent-slug>`** (*`<intent goal>`*) as a new behaviour. Does that feel right?"
 
-### Step 6 — Find the best-fit parent
+   If no suitable parent exists:
 
-Match the requirement's domain and goal against existing intents. Consider:
-- Which intent's goal would be incomplete without this requirement?
-- Which stakeholders are affected — do they match an existing intent's stakeholders?
-- Is this a new top-level business goal (needs a new intent) or a behaviour under an existing one?
+   > "This doesn't clearly fit any existing intent — it may need a new one. I'd name it `<proposed-slug>` — *`<proposed goal>`*. Agree?"
 
-### Step 7 — Resolve ambiguity
+   If the developer disagrees: "Which intent feels like the right home? Or should this be a new intent entirely?" Re-propose based on their answer.
 
-If two or more intents could plausibly own this requirement, ask grill-style questions to resolve:
-- "Who is the primary stakeholder — an end user, an operator, or a developer?"
-- "If this was removed, which intent's success criteria would be most affected?"
-- "Is this really one requirement or two that happen to arrive together?"
+9. **Confirm and delegate** — Once the developer confirms placement, call the appropriate skill — carrying the synthesised summary (if discovery was run) as context for the behaviour definition:
 
-Re-propose placement after each answer.
-
-### Step 8 — Propose placement with reasoning
-
-State your proposed location clearly:
-
-> "This sounds like it belongs under **`<intent-slug>`** (*`<intent goal>`*) as a new behaviour. Does that feel right?"
-
-If no suitable parent exists:
-
-> "This doesn't clearly fit any existing intent — it may need a new one. I'd name it `<proposed-slug>` — *`<proposed goal>`*. Agree?"
-
-If the developer disagrees: "Which intent feels like the right home? Or should this be a new intent entirely?" Re-propose based on their answer.
-
-### Step 9 — Confirm and delegate
-
-Once the developer confirms placement, call the appropriate skill — carrying the synthesised summary (if discovery was run) as context for the behaviour definition:
-
-- **New top-level intent needed**: call `/taproot:intent` with the proposed slug and description, then call `/taproot:behaviour` under the new intent
-- **New behaviour under existing intent**: call `/taproot:behaviour <taproot/<intent-slug>/> "<synthesised requirement>"`
-- **New sub-behaviour under existing behaviour**: call `/taproot:behaviour <taproot/<intent-slug>/<behaviour-slug>/> "<synthesised requirement>"`
+   - **New top-level intent needed**: call `/taproot:intent` with the proposed slug and description, then call `/taproot:behaviour` under the new intent
+   - **New behaviour under existing intent**: call `/taproot:behaviour <taproot/<intent-slug>/> "<synthesised requirement>"`
+   - **New sub-behaviour under existing behaviour**: call `/taproot:behaviour <taproot/<intent-slug>/<behaviour-slug>/> "<synthesised requirement>"`
 
 ## Output
 

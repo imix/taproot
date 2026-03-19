@@ -1,26 +1,25 @@
-# Implementation: Agent Skill — /tr-implement + /tr-decompose
+# Implementation: Agent Skill — /tr-plan
 
 ## Behaviour
 ../usecase.md
 
 ## Design Decisions
-- Slice extraction is currently handled by agent skills rather than a dedicated CLI command — agents can reason about ambiguity, dependencies, and AFK/HITL classification in ways that are hard to encode as deterministic rules
-- `/tr-implement` handles the implementation of a specific slice once selected; `/tr-decompose` handles breaking a large intent into smaller implementable behaviours
+- A dedicated `/tr-plan` skill wraps `taproot plan` with conversational selection, confirmation, and delegation — separating the CLI scanning logic (deterministic, testable) from the agent dialogue layer (conversational, context-aware)
+- AFK/HITL classification delegates to `taproot plan` rather than re-implementing the logic: the CLI command uses `usecase.md` state as the proxy (`specified` → AFK, `proposed` → HITL), which is concrete and testable
+- The skill presents one recommendation by default (top AFK candidate) and offers a shortlist on request — minimising cognitive load for the common case while preserving full visibility
 
 ## Source Files
-- `skills/implement.md` — full skill definition for implementing a behaviour as a vertical slice
-- `skills/decompose.md` — full skill definition for breaking an intent into behaviours
+- `skills/plan.md` — full skill definition: scans via `taproot plan`, presents recommended slice, handles alternate flows (shortlist, all-done, path-specified), delegates to `/tr-implement`
+- `src/commands/plan.ts` — backing CLI command providing candidate scanning, AFK/HITL classification, and output formatting
 
 ## Commits
 - (run `taproot link-commits` to populate)
 
 ## Tests
-- `test/unit/skills.test.ts` — validates skill file format and required sections
+- `test/unit/skills.test.ts` — validates plan.md skill file format and required sections
+- `test/integration/plan.test.ts` — covers the underlying `taproot plan` CLI: AFK/HITL classification, in-progress detection, sort order, all-implemented message, tree and JSON output
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-19
-
-## Notes
-- A `taproot plan` CLI command to programmatically surface the next implementable slice (with AFK/HITL classification and dependency ordering) is a planned addition. Currently this relies on agent skill invocation, which requires an active agent session.

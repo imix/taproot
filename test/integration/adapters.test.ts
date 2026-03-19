@@ -37,9 +37,9 @@ describe('claude adapter', () => {
 
   it('each command file is a thin launcher referencing the skill file path', () => {
     generateAdapters('claude', tmpDir);
-    const brainstormPath = join(tmpDir, '.claude', 'commands', 'tr-brainstorm.md');
-    const content = readFileSync(brainstormPath, 'utf-8');
-    expect(content).toContain('@{project-root}/taproot/skills/brainstorm.md');
+    const planPath = join(tmpDir, '.claude', 'commands', 'tr-plan.md');
+    const content = readFileSync(planPath, 'utf-8');
+    expect(content).toContain('@{project-root}/taproot/skills/plan.md');
     // Should not inline skill body content
     expect(content).not.toContain('## Description');
     expect(content).not.toContain('## Inputs');
@@ -259,7 +259,7 @@ describe('taproot init --agent', () => {
   it('runInit with claude agent auto-installs skills into taproot/skills/', async () => {
     const { runInit } = await import('../../src/commands/init.js');
     runInit({ cwd: tmpDir, agent: 'claude' });
-    expect(existsSync(join(tmpDir, 'taproot', 'skills', 'brainstorm.md'))).toBe(true);
+    expect(existsSync(join(tmpDir, 'taproot', 'skills', 'plan.md'))).toBe(true);
     expect(existsSync(join(tmpDir, 'taproot', 'skills', 'intent.md'))).toBe(true);
   });
 });
