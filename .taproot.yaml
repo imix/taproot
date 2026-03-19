@@ -1,0 +1,27 @@
+version: 1
+root: taproot/
+commit_pattern: 'taproot\(([^)]+)\):'
+commit_trailer: Taproot
+agents:
+  - claude
+  - cursor
+  - generic
+validation:
+  require_dates: true
+  require_status: true
+  allowed_intent_states:
+    - draft
+    - active
+    - achieved
+    - deprecated
+  allowed_behaviour_states:
+    - proposed
+    - specified
+    - implemented
+    - tested
+    - deprecated
+  allowed_impl_states:
+    - planned
+    - in-progress
+    - complete
+    - needs-rework

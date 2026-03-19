@@ -138,6 +138,26 @@ export function checkBehaviourReference(
   return [];
 }
 
+export function checkDiagramSection(
+  doc: ParsedMarkdown,
+): Violation[] {
+  const diagramSection = doc.sections.get('diagram');
+  if (!diagramSection) return [];
+
+  const hasMermaidFence = /```mermaid/i.test(diagramSection.rawBody);
+  if (!hasMermaidFence) {
+    return [{
+      type: 'warning',
+      filePath: doc.filePath,
+      line: diagramSection.startLine,
+      code: 'DIAGRAM_MISSING_MERMAID_FENCE',
+      message: 'Diagram section exists but contains no mermaid code fence (```mermaid)',
+    }];
+  }
+
+  return [];
+}
+
 export function validateFormat(
   doc: ParsedMarkdown,
   markerType: MarkerType,
@@ -149,6 +169,9 @@ export function validateFormat(
   violations.push(...checkDateFormat(doc, config));
   if (markerType === 'impl') {
     violations.push(...checkBehaviourReference(doc, doc.filePath));
+  }
+  if (markerType === 'behaviour') {
+    violations.push(...checkDiagramSection(doc));
   }
   return violations;
 }

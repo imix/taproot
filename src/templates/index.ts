@@ -51,6 +51,14 @@ export function behaviourTemplate(date: string): string {
 ## Error Conditions
 - <Error scenario>: <Expected system response>
 
+## Diagram
+<!-- Optional: sequence, flowchart, or state diagram in Mermaid syntax -->
+\`\`\`mermaid
+sequenceDiagram
+  Actor->>System: <trigger>
+  System-->>Actor: <response>
+\`\`\`
+
 ## Status
 - **State:** proposed
 - **Created:** ${date}

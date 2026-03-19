@@ -3,6 +3,7 @@ import { join } from 'path';
 import type { Command } from 'commander';
 import { generateAdapters, type AgentName } from '../adapters/index.js';
 import { installSkills, SKILL_FILES } from './init.js';
+import { runOverview } from './overview.js';
 import { DEFAULT_CONFIG } from '../core/config.js';
 
 const TAPROOT_START = '<!-- TAPROOT:START -->';
@@ -79,7 +80,7 @@ function removeStale(cwd: string): string[] {
   return messages;
 }
 
-export function runUpdate(options: { cwd?: string }): string[] {
+export async function runUpdate(options: { cwd?: string }): Promise<string[]> {
   const cwd = options.cwd ?? process.cwd();
   const messages: string[] = [];
 
@@ -88,7 +89,7 @@ export function runUpdate(options: { cwd?: string }): string[] {
   if (agents.length === 0) {
     messages.push('No taproot agent adapters detected — nothing to update.');
     messages.push('Run `taproot init --agent <name>` to install adapters.');
-    return messages;
+    return Promise.resolve(messages);
   }
 
   messages.push(`Detected adapters: ${agents.join(', ')}`);
@@ -109,14 +110,22 @@ export function runUpdate(options: { cwd?: string }): string[] {
     }
   }
 
-  // Refresh bundled skills if any are already installed
+  // Refresh/install skills — always when claude adapter is present, otherwise only if already installed
   const skillsDir = join(cwd, DEFAULT_CONFIG.root, 'skills');
   const hasInstalledSkills = existsSync(skillsDir) &&
     SKILL_FILES.some(f => existsSync(join(skillsDir, f)));
 
-  if (hasInstalledSkills) {
+  if (agents.includes('claude') || hasInstalledSkills) {
     messages.push('');
     messages.push(...installSkills(skillsDir));
+  }
+
+  // Regenerate OVERVIEW.md
+  const taprootDir = join(cwd, DEFAULT_CONFIG.root);
+  const overviewMsgs = await runOverview({ taprootDir, cwd });
+  if (overviewMsgs.length > 0) {
+    messages.push('');
+    messages.push(...overviewMsgs);
   }
 
   messages.push('');
@@ -129,8 +138,8 @@ export function registerUpdate(program: Command): void {
     .command('update')
     .description('Regenerate agent adapters and refresh installed skills')
     .option('--path <path>', 'Project directory to update', process.cwd())
-    .action((options: { path: string }) => {
-      const msgs = runUpdate({ cwd: options.path });
+    .action(async (options: { path: string }) => {
+      const msgs = await runUpdate({ cwd: options.path });
       for (const msg of msgs) {
         process.stdout.write(msg + '\n');
       }
