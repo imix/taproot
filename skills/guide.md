@@ -69,6 +69,8 @@ ineed → intent → behaviour → implement → trace → status
 | `taproot coverage` | Show implementation coverage across the hierarchy |
 | `taproot sync-check` | Detect specs that may be stale relative to code |
 | `taproot overview` | Regenerate `taproot/OVERVIEW.md` summary |
+| `taproot dod [impl-path]` | Run Definition of Done checks; mark impl complete if all pass |
+| `taproot commithook` | Pre-commit gate: classifies staged files and runs DoR or DoD as appropriate |
 | `taproot init` | Initialize Taproot in a project |
 
 ### Rule of Thumb

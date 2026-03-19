@@ -21,11 +21,12 @@
 
 ## Commits
 - (to be filled by taproot link-commits)
+- `0a615b4f54387c9863b13c657dc474b97acdd644` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/commithook.test.ts` — covers: plain commit passes, requirement commit valid/invalid, declaration commit specified/not-specified/missing-Flow/missing-Related, implementation commit status-only/beyond-status/new-impl, DoR unit checks, hook installation content
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-19

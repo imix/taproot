@@ -72,6 +72,20 @@ taproot dod [impl-path]
 ```
 Run all configured DoD conditions from `.taproot.yaml`. With `impl-path`, marks the impl `complete` if all pass.
 
+## Pre-commit Hook
+
+```bash
+taproot commithook
+```
+Classifies staged files and runs the appropriate quality gate. Installed by `taproot init --with-hooks` as the sole content of `.git/hooks/pre-commit`.
+
+| Staged files | Gate |
+|---|---|
+| `taproot/` hierarchy files (`intent.md`, `usecase.md`) | validate-structure + validate-format |
+| `impl.md` only | Definition of Ready (DoR) — usecase must be `specified`, with Flow and Related sections |
+| source files + `impl.md` | verify only `## Status` changed in impl.md, then run DoD |
+| none of the above | no checks, commit proceeds |
+
 ## Commit Convention
 
 Link commits to implementations:
