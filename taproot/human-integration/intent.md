@@ -20,6 +20,7 @@ Keep the human orchestrator in meaningful control of the requirement hierarchy â
 
 ## Behaviours <!-- taproot-managed -->
 - [Cross-Linked Specs](./cross-linked-specs/usecase.md)
+- [Contextual Next-Step Guidance](./contextual-next-steps/usecase.md)
 - [Grill Me](./grill-me/usecase.md)
 - [Generate Human-Readable Status Report](./human-readable-report/usecase.md)
 - [Route a Natural Language Requirement](./route-requirement/usecase.md)
