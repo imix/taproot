@@ -31,8 +31,10 @@ npm link
 Then in your project:
 
 ```bash
-taproot init --with-skills --agent claude
+taproot init --agent claude
 ```
+
+Add `--with-hooks` to also install a pre-commit gate that validates the hierarchy on every commit.
 
 Then in your agent:
 
