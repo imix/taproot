@@ -19,7 +19,7 @@ Initializes Taproot in the current directory. Creates `taproot/` and `.taproot.y
 | `--with-hooks` | Installs `.git/hooks/pre-commit` running `taproot commithook` |
 | `--with-ci github` | Generates `.github/workflows/taproot.yml` with validate-structure, validate-format, and check-orphans |
 | `--with-ci gitlab` | Generates a `taproot-validate` job in `.gitlab-ci.yml` |
-| `--with-skills` | Copies skill definitions to `.taproot/skills/`; always implied when `--agent claude` is used |
+| `--with-skills` | Copies skill definitions to `.taproot/skills/`. Implied by `--agent claude` — only needed if you want skills without a Claude adapter. |
 | `--agent <name>` | Generates agent adapter files (see [Agent Setup](agents.md)) |
 
 Running `taproot init` again on an existing project is safe — it skips files that already exist and reports `exists` for each.
