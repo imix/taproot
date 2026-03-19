@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'fs';
+import { existsSync, readFileSync, statSync } from 'fs';
 import { join, dirname, resolve } from 'path';
 import { spawnSync } from 'child_process';
 import { parseMarkdown } from './markdown-parser.js';
@@ -138,7 +138,12 @@ function runDodBaseline(implPath, cwd) {
     });
     return results;
 }
-/** Read agent-check resolutions recorded in impl.md's ## DoD Resolutions section. */
+// Buffer to account for the time between Date.now() and the writeFileSync mtime.
+// Resolutions written within this window of impl.md's mtime are considered current.
+const RESOLUTION_STALE_BUFFER_MS = 2_000;
+/** Read agent-check resolutions recorded in impl.md's ## DoD Resolutions section.
+ *  Returns an empty set if impl.md has been modified after the resolutions were written
+ *  (indicating more implementation work happened since the agent resolved the checks). */
 export function readResolutions(implPath, cwd) {
     const absPath = resolve(cwd, implPath);
     if (!existsSync(absPath))
@@ -148,13 +153,24 @@ export function readResolutions(implPath, cwd) {
     const section = parsed.sections.get('dod resolutions');
     if (!section)
         return new Set();
-    const resolved = new Set();
+    const entries = [];
     for (const line of section.rawBody.split('\n')) {
-        const m = line.match(/^-\s+condition:\s+(.+?)\s+\|/);
-        if (m)
-            resolved.add(m[1].trim());
+        const m = line.match(/^-\s+condition:\s+(.+?)\s+\|.*\|\s+resolved:\s+(.+)$/);
+        if (m) {
+            const ts = Date.parse(m[2].trim());
+            if (!isNaN(ts))
+                entries.push({ condition: m[1].trim(), timestampMs: ts });
+        }
     }
-    return resolved;
+    if (entries.length === 0)
+        return new Set();
+    // If impl.md was modified after the last resolution (plus buffer), resolutions are stale
+    const implMtimeMs = statSync(absPath).mtimeMs;
+    const latestResolutionMs = Math.max(...entries.map(e => e.timestampMs));
+    if (implMtimeMs > latestResolutionMs + RESOLUTION_STALE_BUFFER_MS) {
+        return new Set(); // stale — impl.md changed after resolutions were recorded
+    }
+    return new Set(entries.map(e => e.condition));
 }
 export function runDodChecks(conditions, cwd, options) {
     const results = [];

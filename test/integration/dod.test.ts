@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { mkdtempSync, writeFileSync, mkdirSync, readFileSync, rmSync } from 'fs';
+import { mkdtempSync, writeFileSync, mkdirSync, readFileSync, rmSync, utimesSync } from 'fs';
 import { join, resolve } from 'path';
 import { tmpdir } from 'os';
 import { runDodChecks } from '../../src/core/dod-runner.js';
@@ -326,6 +326,22 @@ describe('writeResolution and agent check passing', () => {
     );
     const result = report.results.find(r => r.name === 'check-if-affected: src/commands/update.ts');
     expect(result?.passed).toBe(false);
+  });
+
+  it('agent check fails when resolution is stale (impl.md modified after resolution)', () => {
+    const implPath = makeImplMd(tmpDir);
+    writeResolution(implPath, 'check-if-affected: src/commands/update.ts', 'Not affected', tmpDir);
+    // Simulate impl.md being modified 10 seconds after the resolution was recorded
+    const future = new Date(Date.now() + 10_000);
+    utimesSync(implPath, future, future);
+    const report = runDodChecks(
+      [{ 'check-if-affected': 'src/commands/update.ts' }],
+      tmpDir,
+      { implPath }
+    );
+    const result = report.results.find(r => r.name === 'check-if-affected: src/commands/update.ts');
+    expect(result?.passed).toBe(false);
+    expect(result?.output).toContain('Agent check required');
   });
 
   it('writeResolution appends to existing ## DoD Resolutions section', () => {

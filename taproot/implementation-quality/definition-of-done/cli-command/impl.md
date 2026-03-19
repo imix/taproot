@@ -10,6 +10,7 @@
 - `agentCheck: true` on a `ResolvedCondition` causes the runner to emit "Agent check required: `<description>`" — the condition fails unless a resolution is recorded in `impl.md`
 - **`taproot dod --resolve <condition> --note "<text>"`** writes a resolution entry to `## DoD Resolutions` in impl.md. On subsequent runs, `readResolutions()` reads that section; matching agent checks pass.
 - Resolutions are stored in `impl.md` itself, so they travel with the implementation record. Clearing the `## DoD Resolutions` section re-triggers the checks.
+- **Stale resolution detection**: `readResolutions()` compares each resolution's embedded timestamp against `mtime(impl.md)`. If `mtime > latest_timestamp + 2s`, the resolution set is stale — impl.md was modified after the agent resolved the checks, so they must be re-verified. The 2s buffer accounts for the delta between `Date.now()` and the `writeFileSync` mtime.
 - `check-if-affected: <target>` is an agent-driven condition: agent reads the git diff and reasons whether `<target>` should have been updated; if so, applies changes and records resolution
 - All conditions always run (no short-circuit on failure) to satisfy the "run all, report all" requirement
 - `markImplComplete` uses a regex replace on the Status section — consistent with how `link-commits` appends to `impl.md`
@@ -27,7 +28,7 @@
 - (run `taproot link-commits` to populate)
 
 ## Tests
-- `test/integration/dod.test.ts` — covers: no DoD configured, custom shell pass/fail, all-conditions-run, command not found, standalone mode (no impl.md change), impl.md marked complete on pass, not marked on fail, dry-run, document-current agent check, check-if-affected agent check, DoD baseline (usecase missing/state-wrong/format-invalid/all-pass), writeResolution, agent check passing after resolution, no-conditions-but-implPath marks complete
+- `test/integration/dod.test.ts` — covers: no DoD configured, custom shell pass/fail, all-conditions-run, command not found, standalone mode (no impl.md change), impl.md marked complete on pass, not marked on fail, dry-run, document-current agent check, check-if-affected agent check, DoD baseline (usecase missing/state-wrong/format-invalid/all-pass), writeResolution, agent check passing after resolution, stale resolution detection (impl.md mtime > latest resolution timestamp), no-conditions-but-implPath marks complete
 
 ## Status
 - **State:** complete
@@ -35,6 +36,8 @@
 - **Last verified:** 2026-03-19
 
 ## DoD Resolutions
-- condition: document-current | note: docs/cli.md documents taproot dod including --dry-run; guide.md lists taproot dod | resolved: 2026-03-19T18:08:00Z
-- condition: check-if-affected: src/commands/update.ts | note: update.ts doesn't invoke dod; no change needed | resolved: 2026-03-19T18:08:00Z
-- condition: check-if-affected: skills/guide.md | note: guide.md already lists taproot dod command | resolved: 2026-03-19T18:08:00Z
+- condition: document-current | note: docs/cli.md documents taproot dod including --dry-run and --resolve; guide.md lists taproot dod | resolved: 2026-03-19T18:34:52.172Z
+- condition: check-if-affected: skills/guide.md | note: guide.md already lists taproot dod command | resolved: 2026-03-19T18:34:54.681Z
+
+- condition: check-if-affected: src/commands/update.ts | note: update.ts does not invoke dod; no change needed | resolved: 2026-03-19T18:34:53.462Z
+

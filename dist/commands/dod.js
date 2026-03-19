@@ -97,9 +97,10 @@ export function writeResolution(implPath, condition, note, cwd) {
     const entry = `- condition: ${condition} | note: ${note} | resolved: ${timestamp}`;
     let content = readFileSync(absPath, 'utf-8');
     const resolutionHeader = '## DoD Resolutions';
-    if (content.includes(resolutionHeader)) {
+    const hasResolutionSection = /^## DoD Resolutions$/m.test(content);
+    if (hasResolutionSection) {
         // Append to existing section before the next ## heading or end of file
-        content = content.replace(/(## DoD Resolutions\n)([\s\S]*?)(\n##\s|$)/, (_, header, body, suffix) => {
+        content = content.replace(/(^## DoD Resolutions\n)([\s\S]*?)(\n^##\s|$)/m, (_, header, body, suffix) => {
             const trimmed = body.trimEnd();
             return `${header}${trimmed ? trimmed + '\n' : ''}${entry}\n${suffix}`;
         });
