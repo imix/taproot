@@ -128,7 +128,7 @@ export function runInit(options) {
         const hookPath = join(hookDir, 'pre-commit');
         if (existsSync(join(cwd, '.git')) && !existsSync(hookPath)) {
             mkdirSync(hookDir, { recursive: true });
-            writeFileSync(hookPath, '#!/bin/sh\ntaproot validate-structure\ntaproot validate-format\n', { mode: 0o755 });
+            writeFileSync(hookPath, '#!/bin/sh\ntaproot commithook\n', { mode: 0o755 });
             messages.push('created  .git/hooks/pre-commit');
         }
     }

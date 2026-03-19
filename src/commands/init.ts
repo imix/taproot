@@ -146,7 +146,7 @@ export function runInit(options: {
     if (existsSync(join(cwd, '.git')) && !existsSync(hookPath)) {
       mkdirSync(hookDir, { recursive: true });
       writeFileSync(hookPath,
-        '#!/bin/sh\ntaproot validate-structure\ntaproot validate-format\n',
+        '#!/bin/sh\ntaproot commithook\n',
         { mode: 0o755 }
       );
       messages.push('created  .git/hooks/pre-commit');

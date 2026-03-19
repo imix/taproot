@@ -36,7 +36,8 @@ _No behaviours yet._
 
 - **analyse-change** `[specified]` — Actor: Any taproot skill operating in refine/modify mode (`tr-ineed`, `tr-intent`, `tr-behaviour`, `tr-implement`, `tr-refine`, `tr-promote`) — or an AI coding agent acting directly on the hierarchy — when about to modify an existing artefact.
   - agent-skill `[complete]` (1 commit, 1 test)
-- **pre-commit-enforcement** `[implemented]` — Actor: Git — triggered automatically when any contributor (human or agent) runs `git commit`
+- **pre-commit-enforcement** `[specified]` — Actor: Git — triggered automatically when any contributor (human or agent) runs `git commit`
+  - cli-command `[in-progress]` (0 commits, 1 test)
   - git-hook `[complete]` (0 commits, 1 test)
 - **validate-format** `[implemented]` — Actor: Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying document contents conform to the schema
   - cli-command `[complete]` (0 commits, 3 tests)
@@ -64,8 +65,9 @@ _No behaviours yet._
 
 **Goal:** Allow teams to declare the conditions that must hold for any implementation to be considered complete — linting, tests, documentation currency, git conventions, or any custom check — and have taproot enforce them consistently across every implementation, whether authored by a human or an AI agent.
 
-- **definition-of-done** `[specified]` — Actor: `/tr-implement` — triggered automatically at the end of the implement flow before marking an impl `complete`. Can also be invoked standalone by a developer or CI pipeline to check the current state.
+- **definition-of-done** `[specified]` — Actor: `/tr-implement` — triggered automatically at the end of the implement flow before marking an impl `complete`. Also invoked by `taproot commithook` on implementation commits (staged source files + `impl.md`). Can also be invoked standalone by a developer or CI pipeline.
   - cli-command `[complete]` (1 commit, 1 test)
+- **definition-of-ready** `[specified]` — Actor: `taproot commithook` — triggered automatically when a contributor commits an `impl.md` file without source code changes (the "I'm starting this implementation" declaration commit).
 
 ## project-discovery `[active]`
 
@@ -109,4 +111,4 @@ _No behaviours yet._
   - cli-command `[complete]` (0 commits, 1 test)
 
 ---
-12 intents · 21 behaviours · 21 implementations · 21/21 complete
+12 intents · 22 behaviours · 22 implementations · 21/22 complete

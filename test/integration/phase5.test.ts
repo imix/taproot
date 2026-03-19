@@ -123,11 +123,10 @@ describe('taproot init --with-hooks', () => {
     expect(existsSync(join(tmpDir, '.git', 'hooks', 'pre-commit'))).toBe(true);
   });
 
-  it('pre-commit hook contains validate commands', () => {
+  it('pre-commit hook delegates to taproot commithook', () => {
     mkdirSync(join(tmpDir, '.git', 'hooks'), { recursive: true });
     runInit({ cwd: tmpDir, withHooks: true });
     const content = readFileSync(join(tmpDir, '.git', 'hooks', 'pre-commit'), 'utf-8');
-    expect(content).toContain('taproot validate-structure');
-    expect(content).toContain('taproot validate-format');
+    expect(content).toContain('taproot commithook');
   });
 });

@@ -11,6 +11,7 @@ import { registerUpdate } from './commands/update.js';
 import { registerOverview } from './commands/overview.js';
 import { registerPlan } from './commands/plan.js';
 import { registerDod } from './commands/dod.js';
+import { registerCommithook } from './commands/commithook.js';
 
 const program = new Command();
 
@@ -30,5 +31,6 @@ registerUpdate(program);
 registerOverview(program);
 registerPlan(program);
 registerDod(program);
+registerCommithook(program);
 
 program.parse();

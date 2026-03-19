@@ -60,4 +60,5 @@ export interface TaprootConfig {
     onMerge: string[];
   };
   definitionOfDone?: DodConditionEntry[];
+  definitionOfReady?: DodConditionEntry[];
 }
