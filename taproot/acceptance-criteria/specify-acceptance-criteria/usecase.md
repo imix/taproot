@@ -83,6 +83,36 @@ flowchart TD
 - `taproot/requirements-hierarchy/initialise-hierarchy/usecase.md` — the usecase.md format is extended by this behaviour
 - `taproot/hierarchy-integrity/validate-format/usecase.md` — validate-format is extended to check for presence and well-formedness of the section
 
+## Acceptance Criteria
+
+**AC-1: Criteria written for new spec**
+- Given a `usecase.md` with main flow, alternate flows, and error conditions
+- When the author runs `/tr-behaviour` or writes the section manually
+- Then `usecase.md` contains a `## Acceptance Criteria` section with one Gherkin scenario per flow, each with a stable AC-N ID
+
+**AC-2: `/tr-behaviour` generates criteria automatically**
+- Given the developer invokes `/tr-behaviour` to create a new `usecase.md`
+- When the skill finishes writing the flows
+- Then the skill generates and writes the `## Acceptance Criteria` section and notes how many criteria were created
+
+**AC-3: Criteria added to existing spec**
+- Given an existing `usecase.md` with no `## Acceptance Criteria` section
+- When the developer runs `/tr-refine` or edits directly
+- Then the section is inserted before `## Status` with IDs starting at AC-1
+
+**AC-4: Rewording does not change IDs**
+- Given a `usecase.md` with existing AC-N IDs
+- When the author updates the Given/When/Then wording of a scenario
+- Then the ID is unchanged and `taproot validate-format` reports no errors
+
+**AC-5: Duplicate IDs detected**
+- Given a `usecase.md` where the same AC-N ID appears more than once
+- When the author runs `taproot validate-format`
+- Then a `DUPLICATE_CRITERION_ID` error is reported and the author renumbers the duplicate
+
+## Implementations <!-- taproot-managed -->
+- [Multi-Surface — validate-format + behaviour skill + refine skill + docs](./multi-surface/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-19
