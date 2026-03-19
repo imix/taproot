@@ -10,7 +10,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // Bundled skills directory — two levels up from src/commands/ → package root → skills/
 const BUNDLED_SKILLS_DIR = resolve(__dirname, '..', '..', 'skills');
 export const SKILL_FILES = [
-    'brainstorm.md',
     'grill.md',
     'grill-all.md',
     'intent.md',

@@ -32,10 +32,10 @@ Every folder is identified by its marker file: `intent.md`, `usecase.md`, or `im
 ### Typical Workflow
 
 ```
-brainstorm → intent → behaviour → implement → trace → status
+ineed → intent → behaviour → implement → trace → status
 ```
 
-1. **brainstorm** — explore a vague idea before committing to an intent
+1. **ineed** — route a requirement to the right place; runs structured discovery for vague ideas
 2. **intent** — define a business goal with stakeholders and success criteria
 3. **behaviour** — specify use cases under an intent (or decompose an intent first)
 4. **implement** — write code, tests, and an `impl.md` traceability record
@@ -46,7 +46,7 @@ brainstorm → intent → behaviour → implement → trace → status
 
 | Command | Purpose |
 |---|---|
-| `/tr-brainstorm` | Explore a problem space and produce candidate intents |
+| `/tr-ineed` | Route a requirement; runs structured discovery for vague ideas |
 | `/tr-intent` | Create or refine a business intent document |
 | `/tr-behaviour` | Define use cases under an intent or another behaviour |
 | `/tr-decompose` | Break an intent into multiple behaviours |
@@ -84,7 +84,7 @@ brainstorm → intent → behaviour → implement → trace → status
 
    - **If `taproot/OVERVIEW.md` exists**: "Your project has an overview at `taproot/OVERVIEW.md` — read it for a summary of current intents and their status."
    - **If intents exist but no OVERVIEW.md**: "Your project has existing intents. Run `taproot overview` to generate a summary, or use `/tr-status` for a full health report."
-   - **If no intents exist yet** (empty or missing `taproot/`): "This looks like a new project. A good starting point: describe your problem to `/tr-brainstorm`, or jump straight to `/tr-intent` if you already know what you want to build."
+   - **If no intents exist yet** (empty or missing `taproot/`): "This looks like a new project. A good starting point: describe your problem to `/tr-ineed`, or jump straight to `/tr-intent` if you already know what you want to build."
 
 4. Ask: "Would you like to start with a specific command, or do you have questions about the workflow?"
 

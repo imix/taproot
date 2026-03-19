@@ -2,11 +2,11 @@
 
 ## Description
 
-Stress-test a single Taproot artifact — an `intent.md`, `usecase.md`, `impl.md`, or brainstorm document — by challenging it from multiple angles. Produces a structured critique with prioritized findings. Does **not** auto-modify the artifact; the user decides what to act on.
+Stress-test a single Taproot artifact — an `intent.md`, `usecase.md`, or `impl.md` — by challenging it from multiple angles. Produces a structured critique with prioritized findings. Does **not** auto-modify the artifact; the user decides what to act on.
 
 ## Inputs
 
-- `path` (required): Path to a Taproot artifact (`intent.md`, `usecase.md`, `impl.md`, or a brainstorm file).
+- `path` (required): Path to a Taproot artifact (`intent.md`, `usecase.md`, or `impl.md`).
 
 ## Steps
 
@@ -45,13 +45,6 @@ Stress-test a single Taproot artifact — an `intent.md`, `usecase.md`, `impl.md
    - Will this implementation survive the next likely change to the behaviour spec? (e.g., if a new actor is added, or a new postcondition)
    - Are the source files listed complete? Could the behaviour actually be satisfied by these files, or are there missing dependencies?
    - Do the commits listed account for all the code in the source files? Are there uncommitted changes?
-
-   **For brainstorm documents:**
-   - Are the candidate intents actually distinct, or do they overlap significantly?
-   - Is the recommended starting point well-argued? Are there better arguments for a different candidate?
-   - What critical stakeholders or perspectives are missing from the analysis?
-   - Are any "open questions" actually answerable with a quick investigation before proceeding?
-   - Is the problem statement specific enough, or is it still at "we should do something about X" level?
 
 4. Categorize every finding:
    - **Blocker** — must be resolved before proceeding (spec is incomplete or contradictory in a way that will cause implementation failures)

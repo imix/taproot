@@ -1,6 +1,6 @@
 ---
 name: 'tr-grill'
-description: 'Stress-test a single Taproot artifact — an `intent.md`, `usecase.md`, `impl.md`, or brainstorm document — by challenging it from multiple angles'
+description: 'Stress-test a single Taproot artifact — an `intent.md`, `usecase.md`, or `impl.md` — by challenging it from multiple angles'
 ---
 
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
