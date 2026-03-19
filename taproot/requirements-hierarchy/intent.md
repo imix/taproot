@@ -19,7 +19,9 @@ Enable teams to capture the full requirements hierarchy — from business intent
 - All documents are git-versioned alongside source code
 - The format must be human-readable markdown, not a proprietary schema
 - Agent-agnostic: the hierarchy must be consumable by any AI coding assistant
+- `taproot/` contains only requirement documents (intents, behaviours, implementations); framework files (skills, config) live in `.taproot/`
 
 ## Status
 - **State:** active
 - **Created:** 2026-03-19
+- **Last reviewed:** 2026-03-19
