@@ -11,6 +11,7 @@ import type { FolderNode } from '../validators/types.js';
 
 interface OverviewIntent {
   name: string;
+  path: string;
   goal: string;
   state: string;
   behaviours: OverviewBehaviour[];
@@ -18,6 +19,7 @@ interface OverviewIntent {
 
 interface OverviewBehaviour {
   name: string;
+  path: string;
   actor: string;
   state: string;
   implementations: OverviewImpl[];
@@ -26,6 +28,7 @@ interface OverviewBehaviour {
 
 interface OverviewImpl {
   name: string;
+  path: string;
   state: string;
   commitCount: number;
   testCount: number;
@@ -63,7 +66,7 @@ function buildImpl(node: FolderNode): OverviewImpl {
     commitCount = data.commits.length;
     testCount = data.testFiles.length;
   } catch { /* use defaults */ }
-  return { name: node.name, state, commitCount, testCount };
+  return { name: node.name, path: `./${node.relativePath}/impl.md`, state, commitCount, testCount };
 }
 
 function buildBehaviour(node: FolderNode): OverviewBehaviour {
@@ -77,7 +80,7 @@ function buildBehaviour(node: FolderNode): OverviewBehaviour {
     if (child.marker === 'impl') implementations.push(buildImpl(child));
     else if (child.marker === 'behaviour') subBehaviours.push(buildBehaviour(child));
   }
-  return { name: node.name, actor, state, implementations, subBehaviours };
+  return { name: node.name, path: `./${node.relativePath}/usecase.md`, actor, state, implementations, subBehaviours };
 }
 
 function buildIntent(node: FolderNode): OverviewIntent {
@@ -90,7 +93,7 @@ function buildIntent(node: FolderNode): OverviewIntent {
   for (const child of node.children) {
     if (child.marker === 'behaviour') behaviours.push(buildBehaviour(child));
   }
-  return { name: node.name, goal, state, behaviours };
+  return { name: node.name, path: `./${node.relativePath}/intent.md`, goal, state, behaviours };
 }
 
 // ─── Formatters ───────────────────────────────────────────────────────────────
@@ -109,12 +112,12 @@ function implCounts(b: OverviewBehaviour): { total: number; complete: number } {
 function renderBehaviour(b: OverviewBehaviour, indent: string): string[] {
   const lines: string[] = [];
   const actor = b.actor ? ` — Actor: ${b.actor}` : '';
-  lines.push(`${indent}- **${b.name}** \`[${b.state}]\`${actor}`);
+  lines.push(`${indent}- **[${b.name}](${b.path})** \`[${b.state}]\`${actor}`);
   for (const impl of b.implementations) {
     const tests = impl.testCount > 0
       ? `, ${impl.testCount} test${impl.testCount !== 1 ? 's' : ''}`
       : ' ⚠ no tests';
-    lines.push(`${indent}  - ${impl.name} \`[${impl.state}]\` (${impl.commitCount} commit${impl.commitCount !== 1 ? 's' : ''}${tests})`);
+    lines.push(`${indent}  - [${impl.name}](${impl.path}) \`[${impl.state}]\` (${impl.commitCount} commit${impl.commitCount !== 1 ? 's' : ''}${tests})`);
   }
   for (const sub of b.subBehaviours) {
     lines.push(...renderBehaviour(sub, indent + '  '));
@@ -145,7 +148,7 @@ function formatOverview(intents: OverviewIntent[]): string {
   let totalComplete = 0;
 
   for (const intent of intents) {
-    lines.push(`## ${intent.name} \`[${intent.state}]\``);
+    lines.push(`## [${intent.name}](${intent.path}) \`[${intent.state}]\``);
     lines.push('');
     if (intent.goal) {
       lines.push(`**Goal:** ${intent.goal}`);

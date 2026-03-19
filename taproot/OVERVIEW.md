@@ -5,113 +5,113 @@
 
 Compact summary for AI agents. Read this before diving into individual taproot documents.
 
-## agent-context `[active]`
+## [agent-context](./agent-context/intent.md) `[active]`
 
 **Goal:** Give AI coding agents a live, navigable map of the codebase — what is implemented where, and why — so they can reason about code in the context of the requirements it fulfils.
 
-- **generate-context** `[implemented]` — Actor: CI pipeline or agentic developer generating a machine-optimised context snapshot
-  - cli-command `[complete]` (0 commits, 1 test)
-- **generate-overview** `[implemented]` — Actor: Agentic developer / orchestrator or AI coding agent refreshing the project summary
-  - cli-command `[complete]` (0 commits, 1 test)
-- **trace-hierarchy** `[specified]` — Actor: AI coding agent or agentic developer / orchestrator navigating the requirement hierarchy — asking "why does this code exist?" or "what's left to build for this intent?"
+- **[generate-context](./agent-context/generate-context/usecase.md)** `[implemented]` — Actor: CI pipeline or agentic developer generating a machine-optimised context snapshot
+  - [cli-command](./agent-context/generate-context/cli-command/impl.md) `[complete]` (0 commits, 1 test)
+- **[generate-overview](./agent-context/generate-overview/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator or AI coding agent refreshing the project summary
+  - [cli-command](./agent-context/generate-overview/cli-command/impl.md) `[complete]` (0 commits, 1 test)
+- **[trace-hierarchy](./agent-context/trace-hierarchy/usecase.md)** `[specified]` — Actor: AI coding agent or agentic developer / orchestrator navigating the requirement hierarchy — asking "why does this code exist?" or "what's left to build for this intent?"
 
-## agent-integration `[active]`
+## [agent-integration](./agent-integration/intent.md) `[active]`
 
 **Goal:** Enable any AI coding agent to participate fully in the taproot workflow — through skills, commands, adapters, or whatever invocation mechanism the agent supports — without being tied to a specific agent's ecosystem.
 
-- **generate-agent-adapter** `[implemented]` — Actor: Developer initializing taproot for a specific AI coding agent via `taproot init --agent `
-  - cli-command `[complete]` (0 commits, 2 tests)
-- **update-adapters-and-skills** `[implemented]` — Actor: Developer running `taproot update` after upgrading taproot or modifying skill definitions
-  - cli-command `[complete]` (0 commits, 1 test)
+- **[generate-agent-adapter](./agent-integration/generate-agent-adapter/usecase.md)** `[implemented]` — Actor: Developer initializing taproot for a specific AI coding agent via `taproot init --agent `
+  - [cli-command](./agent-integration/generate-agent-adapter/cli-command/impl.md) `[complete]` (0 commits, 2 tests)
+- **[update-adapters-and-skills](./agent-integration/update-adapters-and-skills/usecase.md)** `[implemented]` — Actor: Developer running `taproot update` after upgrading taproot or modifying skill definitions
+  - [cli-command](./agent-integration/update-adapters-and-skills/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
-## documentation `[deprecated]`
+## [documentation](./documentation/intent.md) `[deprecated]`
 
 **Goal:** Keep all taproot documentation accurate and current so that users, contributors, and integrators always have reliable information about what the tool does and how to use it
 
 _No behaviours yet._
 
-## hierarchy-integrity `[active]`
+## [hierarchy-integrity](./hierarchy-integrity/intent.md) `[active]`
 
 **Goal:** Ensure the requirement hierarchy remains structurally valid and formally complete as it evolves — whether authored by humans, AI agents, or both.
 
-- **analyse-change** `[specified]` — Actor: Any taproot skill operating in refine/modify mode (`tr-ineed`, `tr-intent`, `tr-behaviour`, `tr-implement`, `tr-refine`, `tr-promote`) — or an AI coding agent acting directly on the hierarchy — when about to modify an existing artefact.
-  - agent-skill `[complete]` (1 commit, 1 test)
-- **pre-commit-enforcement** `[specified]` — Actor: Git — triggered automatically when any contributor (human or agent) runs `git commit`
-  - cli-command `[complete]` (1 commit, 1 test)
-  - git-hook `[complete]` (0 commits, 1 test)
-- **validate-format** `[implemented]` — Actor: Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying document contents conform to the schema
-  - cli-command `[complete]` (0 commits, 3 tests)
-- **validate-structure** `[implemented]` — Actor: Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying the hierarchy is well-formed
-  - cli-command `[complete]` (0 commits, 2 tests)
+- **[analyse-change](./hierarchy-integrity/analyse-change/usecase.md)** `[specified]` — Actor: Any taproot skill operating in refine/modify mode (`tr-ineed`, `tr-intent`, `tr-behaviour`, `tr-implement`, `tr-refine`, `tr-promote`) — or an AI coding agent acting directly on the hierarchy — when about to modify an existing artefact.
+  - [agent-skill](./hierarchy-integrity/analyse-change/agent-skill/impl.md) `[complete]` (1 commit, 1 test)
+- **[pre-commit-enforcement](./hierarchy-integrity/pre-commit-enforcement/usecase.md)** `[specified]` — Actor: Git — triggered automatically when any contributor (human or agent) runs `git commit`
+  - [cli-command](./hierarchy-integrity/pre-commit-enforcement/cli-command/impl.md) `[complete]` (1 commit, 1 test)
+  - [git-hook](./hierarchy-integrity/pre-commit-enforcement/git-hook/impl.md) `[complete]` (0 commits, 1 test)
+- **[validate-format](./hierarchy-integrity/validate-format/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying document contents conform to the schema
+  - [cli-command](./hierarchy-integrity/validate-format/cli-command/impl.md) `[complete]` (0 commits, 3 tests)
+- **[validate-structure](./hierarchy-integrity/validate-structure/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying the hierarchy is well-formed
+  - [cli-command](./hierarchy-integrity/validate-structure/cli-command/impl.md) `[complete]` (0 commits, 2 tests)
 
-## human-integration `[active]`
+## [human-integration](./human-integration/intent.md) `[active]`
 
 **Goal:** Keep the human orchestrator in meaningful control of the requirement hierarchy — as its owner, its primary author of intent, and its final decision-maker — while making the current state of the project legible at a glance.
 
-- **cross-linked-specs** `[specified]` — Actor: `tr-behaviour` skill (when creating a new `usecase.md`) and `tr-implement` skill (when creating a new `impl.md`) — both maintain the link sections in their parent documents as a side-effect of document creation. `taproot update` runs a link-refresh pass across the full tree to backfill existing documents.
-  - multi-surface `[complete]` (0 commits, 1 test)
-- **human-readable-report** `[implemented]` — Actor: Developer or project stakeholder invoking `/tr-status`
-  - agent-skill `[complete]` (0 commits, 1 test)
-- **route-requirement** `[specified]` — Actor: Human orchestrator / developer stating a requirement in natural language — at any level of clarity, from vague instinct to fully-formed specification
-  - agent-skill `[complete]` (1 commit, 1 test)
+- **[cross-linked-specs](./human-integration/cross-linked-specs/usecase.md)** `[specified]` — Actor: `tr-behaviour` skill (when creating a new `usecase.md`) and `tr-implement` skill (when creating a new `impl.md`) — both maintain the link sections in their parent documents as a side-effect of document creation. `taproot update` runs a link-refresh pass across the full tree to backfill existing documents.
+  - [multi-surface](./human-integration/cross-linked-specs/multi-surface/impl.md) `[complete]` (0 commits, 1 test)
+- **[human-readable-report](./human-integration/human-readable-report/usecase.md)** `[implemented]` — Actor: Developer or project stakeholder invoking `/tr-status`
+  - [agent-skill](./human-integration/human-readable-report/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
+- **[route-requirement](./human-integration/route-requirement/usecase.md)** `[specified]` — Actor: Human orchestrator / developer stating a requirement in natural language — at any level of clarity, from vague instinct to fully-formed specification
+  - [agent-skill](./human-integration/route-requirement/agent-skill/impl.md) `[complete]` (1 commit, 1 test)
 
-## implementation-planning `[active]`
+## [implementation-planning](./implementation-planning/intent.md) `[active]`
 
 **Goal:** Enable orchestrators and agents to extract the next independently-implementable work item from the requirement hierarchy — as a thin vertical slice with clear acceptance criteria, dependencies, and traceability back to the originating behaviour.
 
-- **extract-next-slice** `[specified]` — Actor: Agentic developer / orchestrator (human who asks the agent to plan the next work item)
-  - agent-skill `[complete]` (1 commit, 2 tests)
-  - cli-command `[complete]` (1 commit, 1 test)
+- **[extract-next-slice](./implementation-planning/extract-next-slice/usecase.md)** `[specified]` — Actor: Agentic developer / orchestrator (human who asks the agent to plan the next work item)
+  - [agent-skill](./implementation-planning/extract-next-slice/agent-skill/impl.md) `[complete]` (1 commit, 2 tests)
+  - [cli-command](./implementation-planning/extract-next-slice/cli-command/impl.md) `[complete]` (1 commit, 1 test)
 
-## implementation-quality `[active]`
+## [implementation-quality](./implementation-quality/intent.md) `[active]`
 
 **Goal:** Allow teams to declare the conditions that must hold for any implementation to be considered complete — linting, tests, documentation currency, git conventions, or any custom check — and have taproot enforce them consistently across every implementation, whether authored by a human or an AI agent.
 
-- **definition-of-done** `[implemented]` — Actor: `/tr-implement` — triggered automatically at the end of the implement flow before marking an impl `complete`. Also invoked by `taproot commithook` on implementation commits (staged source files + `impl.md`). Can also be invoked standalone by a developer or CI pipeline.
-  - cli-command `[complete]` (0 commits, 1 test)
-- **definition-of-ready** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a contributor commits an `impl.md` file without source code changes (the "I'm starting this implementation" declaration commit).
-  - cli-command `[complete]` (0 commits, 1 test)
+- **[definition-of-done](./implementation-quality/definition-of-done/usecase.md)** `[implemented]` — Actor: `/tr-implement` — triggered automatically at the end of the implement flow before marking an impl `complete`. Also invoked by `taproot commithook` on implementation commits (staged source files + `impl.md`). Can also be invoked standalone by a developer or CI pipeline.
+  - [cli-command](./implementation-quality/definition-of-done/cli-command/impl.md) `[complete]` (0 commits, 1 test)
+- **[definition-of-ready](./implementation-quality/definition-of-ready/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a contributor commits an `impl.md` file without source code changes (the "I'm starting this implementation" declaration commit).
+  - [cli-command](./implementation-quality/definition-of-ready/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
-## project-discovery `[active]`
+## [project-discovery](./project-discovery/intent.md) `[active]`
 
 **Goal:** Reverse-engineer an existing codebase into a taproot requirement hierarchy through structured, interactive discovery — so that teams adopting taproot mid-project don't start from a blank slate.
 
-- **discover-existing-project** `[implemented]` — Actor: Developer invoking `/tr-discover` on a codebase that has no taproot hierarchy yet (or a partial one)
-  - agent-skill `[complete]` (0 commits, 1 test)
+- **[discover-existing-project](./project-discovery/discover-existing-project/usecase.md)** `[implemented]` — Actor: Developer invoking `/tr-discover` on a codebase that has no taproot hierarchy yet (or a partial one)
+  - [agent-skill](./project-discovery/discover-existing-project/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
 
-## requirements-completeness `[active]`
+## [requirements-completeness](./requirements-completeness/intent.md) `[active]`
 
 **Goal:** Verify that no requirement has been left without coverage at the level below it — every business intent has behaviours and every behaviour has implementations.
 
-- **coverage-report** `[implemented]` — Actor: Developer or operator running `taproot coverage`
-  - cli-command `[complete]` (0 commits, 1 test)
-- **sync-check** `[implemented]` — Actor: Developer or CI pipeline running `taproot sync-check`
-  - cli-command `[complete]` (0 commits, 1 test)
+- **[coverage-report](./requirements-completeness/coverage-report/usecase.md)** `[implemented]` — Actor: Developer or operator running `taproot coverage`
+  - [cli-command](./requirements-completeness/coverage-report/cli-command/impl.md) `[complete]` (0 commits, 1 test)
+- **[sync-check](./requirements-completeness/sync-check/usecase.md)** `[implemented]` — Actor: Developer or CI pipeline running `taproot sync-check`
+  - [cli-command](./requirements-completeness/sync-check/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
-## requirements-compliance `[active]`
+## [requirements-compliance](./requirements-compliance/intent.md) `[active]`
 
 **Goal:** Prove that the software as built actually implements the requirements as specified — establishing an auditable trail from business intent through stakeholder behaviour to working, tested code.
 
-- **check-orphans** `[implemented]` — Actor: Developer or CI pipeline running `taproot check-orphans`
-  - cli-command `[complete]` (0 commits, 1 test)
-- **link-commits** `[implemented]` — Actor: Developer or CI operator running `taproot link-commits`
-  - cli-command `[complete]` (0 commits, 1 test)
+- **[check-orphans](./requirements-compliance/check-orphans/usecase.md)** `[implemented]` — Actor: Developer or CI pipeline running `taproot check-orphans`
+  - [cli-command](./requirements-compliance/check-orphans/cli-command/impl.md) `[complete]` (0 commits, 1 test)
+- **[link-commits](./requirements-compliance/link-commits/usecase.md)** `[implemented]` — Actor: Developer or CI operator running `taproot link-commits`
+  - [cli-command](./requirements-compliance/link-commits/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
-## requirements-hierarchy `[active]`
+## [requirements-hierarchy](./requirements-hierarchy/intent.md) `[active]`
 
 **Goal:** Enable teams to capture the full requirements hierarchy — from business intent through stakeholder behaviour to system implementation — in a single, navigable, git-versioned structure.
 
-- **configure-hierarchy** `[implemented]` — Actor: Agentic developer / orchestrator customising taproot to match project conventions
-  - yaml-config `[complete]` (0 commits ⚠ no tests)
-- **initialise-hierarchy** `[implemented]` — Actor: Agentic developer / orchestrator setting up taproot in a new or existing project
-  - cli-command `[complete]` (0 commits, 1 test)
+- **[configure-hierarchy](./requirements-hierarchy/configure-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator customising taproot to match project conventions
+  - [yaml-config](./requirements-hierarchy/configure-hierarchy/yaml-config/impl.md) `[complete]` (0 commits ⚠ no tests)
+- **[initialise-hierarchy](./requirements-hierarchy/initialise-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator setting up taproot in a new or existing project
+  - [cli-command](./requirements-hierarchy/initialise-hierarchy/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
-## taproot-lifecycle `[active]`
+## [taproot-lifecycle](./taproot-lifecycle/intent.md) `[active]`
 
 **Goal:** Keep an installed taproot setup current as the tool evolves — refreshing skills, regenerating agent adapters, and removing stale artefacts from older versions.
 
-- **update-installation** `[implemented]` — Actor: Developer running `taproot update` after upgrading the taproot package
-  - cli-command `[complete]` (0 commits, 1 test)
+- **[update-installation](./taproot-lifecycle/update-installation/usecase.md)** `[implemented]` — Actor: Developer running `taproot update` after upgrading the taproot package
+  - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
 12 intents · 23 behaviours · 24 implementations · 24/24 complete

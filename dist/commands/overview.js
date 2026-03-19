@@ -40,7 +40,7 @@ function buildImpl(node) {
         testCount = data.testFiles.length;
     }
     catch { /* use defaults */ }
-    return { name: node.name, state, commitCount, testCount };
+    return { name: node.name, path: `./${node.relativePath}/impl.md`, state, commitCount, testCount };
 }
 function buildBehaviour(node) {
     const filePath = join(node.absolutePath, 'usecase.md');
@@ -55,7 +55,7 @@ function buildBehaviour(node) {
         else if (child.marker === 'behaviour')
             subBehaviours.push(buildBehaviour(child));
     }
-    return { name: node.name, actor, state, implementations, subBehaviours };
+    return { name: node.name, path: `./${node.relativePath}/usecase.md`, actor, state, implementations, subBehaviours };
 }
 function buildIntent(node) {
     const filePath = join(node.absolutePath, 'intent.md');
@@ -68,7 +68,7 @@ function buildIntent(node) {
         if (child.marker === 'behaviour')
             behaviours.push(buildBehaviour(child));
     }
-    return { name: node.name, goal, state, behaviours };
+    return { name: node.name, path: `./${node.relativePath}/intent.md`, goal, state, behaviours };
 }
 // ─── Formatters ───────────────────────────────────────────────────────────────
 function implCounts(b) {
@@ -84,12 +84,12 @@ function implCounts(b) {
 function renderBehaviour(b, indent) {
     const lines = [];
     const actor = b.actor ? ` — Actor: ${b.actor}` : '';
-    lines.push(`${indent}- **${b.name}** \`[${b.state}]\`${actor}`);
+    lines.push(`${indent}- **[${b.name}](${b.path})** \`[${b.state}]\`${actor}`);
     for (const impl of b.implementations) {
         const tests = impl.testCount > 0
             ? `, ${impl.testCount} test${impl.testCount !== 1 ? 's' : ''}`
             : ' ⚠ no tests';
-        lines.push(`${indent}  - ${impl.name} \`[${impl.state}]\` (${impl.commitCount} commit${impl.commitCount !== 1 ? 's' : ''}${tests})`);
+        lines.push(`${indent}  - [${impl.name}](${impl.path}) \`[${impl.state}]\` (${impl.commitCount} commit${impl.commitCount !== 1 ? 's' : ''}${tests})`);
     }
     for (const sub of b.subBehaviours) {
         lines.push(...renderBehaviour(sub, indent + '  '));
@@ -115,7 +115,7 @@ function formatOverview(intents) {
     let totalImpls = 0;
     let totalComplete = 0;
     for (const intent of intents) {
-        lines.push(`## ${intent.name} \`[${intent.state}]\``);
+        lines.push(`## [${intent.name}](${intent.path}) \`[${intent.state}]\``);
         lines.push('');
         if (intent.goal) {
             lines.push(`**Goal:** ${intent.goal}`);
