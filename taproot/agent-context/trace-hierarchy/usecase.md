@@ -78,6 +78,32 @@ _(Bottom-up: source file → intent)_
 - **impl.md has empty Source Files section**: tracing is possible but the chain is incomplete; agent warns that source files should be populated and offers `/tr-implement` to fill the record
 - **Ambiguous fuzzy match**: multiple `impl.md` files partially match the given file path — agent presents all candidates and asks the actor to confirm which one
 
+## Flow
+```mermaid
+flowchart TD
+    A[Actor provides target] --> B{Input type}
+    B -- source file or commit --> C[Search impl.md files for match]
+    B -- taproot folder path --> G[Top-down: read intent/behaviour]
+    B -- --unlinked flag --> K[Run taproot check-orphans]
+
+    C -- found --> D[Read impl.md + navigate up to usecase + intent]
+    C -- not found --> E[Report unlinked — offer /tr-implement]
+    D --> F[Display traceability chain + suggest next action]
+
+    G --> H[Walk subtree: collect behaviours + impls]
+    H --> I[Display tree with states + suggest next unimplemented]
+
+    K --> L[Walk src/ dirs for files not in any impl.md]
+    L --> M[Group by directory + suggest /tr-behaviour or /tr-implement]
+```
+
+## Related
+- `taproot/agent-context/generate-overview/usecase.md` — OVERVIEW.md is the agent's entry point for top-down orientation; tr-trace handles interactive navigation and bottom-up queries
+- `taproot/requirements-compliance/check-orphans/usecase.md` — `--unlinked` mode delegates to check-orphans for structural orphan detection
+
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — /tr-trace](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-19
