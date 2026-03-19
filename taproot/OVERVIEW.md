@@ -13,6 +13,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - cli-command `[complete]` (0 commits, 1 test)
 - **generate-overview** `[implemented]` — Actor: Agentic developer / orchestrator or AI coding agent refreshing the project summary
   - cli-command `[complete]` (0 commits, 1 test)
+- **trace-hierarchy** `[specified]` — Actor: AI coding agent or agentic developer / orchestrator navigating the requirement hierarchy — asking "why does this code exist?" or "what's left to build for this intent?"
 
 ## agent-integration `[active]`
 
@@ -28,6 +29,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 **Goal:** Keep all taproot documentation accurate and current so that users, contributors, and integrators always have reliable information about what the tool does and how to use it
 
 - **generate-readme** `[specified]` — Actor: Taproot maintainer / contributor — a developer working on the taproot package who has made changes that affect the user-facing surface (CLI commands, skills, configuration options).
+  - dod-builtin `[complete]` (0 commits ⚠ no tests)
 
 ## hierarchy-integrity `[active]`
 
@@ -106,4 +108,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - cli-command `[complete]` (0 commits, 1 test)
 
 ---
-12 intents · 20 behaviours · 20 implementations · 19/20 complete
+12 intents · 21 behaviours · 21 implementations · 20/21 complete
