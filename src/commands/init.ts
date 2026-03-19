@@ -87,8 +87,7 @@ export function runInit(options: {
 
   const configPath = join(cwd, '.taproot.yaml');
   const taprootDir = resolve(cwd, DEFAULT_CONFIG.root);
-  const skillsDir = join(taprootDir, 'skills');
-  const brainDir = join(taprootDir, '_brainstorms');
+  const skillsDir = join(cwd, '.taproot', 'skills');
 
   // Create taproot/ directory
   if (!existsSync(taprootDir)) {
@@ -96,16 +95,6 @@ export function runInit(options: {
     messages.push(`created  ${DEFAULT_CONFIG.root}`);
   } else {
     messages.push(`exists   ${DEFAULT_CONFIG.root}`);
-  }
-
-  if (!existsSync(skillsDir)) {
-    mkdirSync(skillsDir, { recursive: true });
-    messages.push(`created  ${DEFAULT_CONFIG.root}skills/`);
-  }
-
-  if (!existsSync(brainDir)) {
-    mkdirSync(brainDir, { recursive: true });
-    messages.push(`created  ${DEFAULT_CONFIG.root}_brainstorms/`);
   }
 
   // Write .taproot.yaml
@@ -231,9 +220,9 @@ export function installSkills(targetSkillsDir: string): string[] {
     const content = readFileSync(src, 'utf-8');
     if (!existsSync(dest)) {
       writeFileSync(dest, content);
-      messages.push(`created  taproot/skills/${filename}`);
+      messages.push(`created  .taproot/skills/${filename}`);
     } else {
-      messages.push(`exists   taproot/skills/${filename}`);
+      messages.push(`exists   .taproot/skills/${filename}`);
     }
   }
 

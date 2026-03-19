@@ -1,4 +1,4 @@
-import { existsSync, rmSync, readdirSync, readFileSync, unlinkSync } from 'fs';
+import { existsSync, rmSync, readdirSync, readFileSync, unlinkSync, mkdirSync, renameSync } from 'fs';
 import { join } from 'path';
 import type { Command } from 'commander';
 import { generateAdapters, type AgentName } from '../adapters/index.js';
@@ -77,6 +77,25 @@ function removeStale(cwd: string): string[] {
     }
   }
 
+  // Migrate taproot/skills/ → .taproot/skills/
+  const oldSkillsDir = join(cwd, DEFAULT_CONFIG.root, 'skills');
+  const newSkillsDir = join(cwd, '.taproot', 'skills');
+  if (existsSync(oldSkillsDir) && !existsSync(newSkillsDir)) {
+    mkdirSync(join(cwd, '.taproot'), { recursive: true });
+    renameSync(oldSkillsDir, newSkillsDir);
+    messages.push(`migrated taproot/skills/ → .taproot/skills/`);
+  } else if (existsSync(oldSkillsDir)) {
+    rmSync(oldSkillsDir, { recursive: true, force: true });
+    messages.push(`removed  taproot/skills/ (already migrated to .taproot/skills/)`);
+  }
+
+  // Remove taproot/_brainstorms/
+  const brainsDir = join(cwd, DEFAULT_CONFIG.root, '_brainstorms');
+  if (existsSync(brainsDir)) {
+    rmSync(brainsDir, { recursive: true, force: true });
+    messages.push(`removed  taproot/_brainstorms/`);
+  }
+
   return messages;
 }
 
@@ -111,7 +130,7 @@ export async function runUpdate(options: { cwd?: string }): Promise<string[]> {
   }
 
   // Refresh/install skills — always when claude adapter is present, otherwise only if already installed
-  const skillsDir = join(cwd, DEFAULT_CONFIG.root, 'skills');
+  const skillsDir = join(cwd, '.taproot', 'skills');
   const hasInstalledSkills = existsSync(skillsDir) &&
     SKILL_FILES.some(f => existsSync(join(skillsDir, f)));
 

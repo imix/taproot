@@ -111,7 +111,7 @@ description: '${skill.description.replace(/'/g, "\\'")}'
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
 
 <steps CRITICAL="TRUE">
-1. LOAD the FULL skill file at @{project-root}/taproot/skills/${skill.filename}
+1. LOAD the FULL skill file at @{project-root}/.taproot/skills/${skill.filename}
 2. READ its entire contents — this contains the complete skill definition with steps, inputs, and output format
 3. FOLLOW every step in the ## Steps section precisely and in order
 4. When the skill references other taproot commands (e.g. \`/taproot:intent\`), use the corresponding \`/tr-intent\` command instead
@@ -207,7 +207,7 @@ function generateCopilotAdapter(skills: SkillDef[], projectRoot: string): Adapte
 
 function buildCopilotSection(skills: SkillDef[]): string {
   const skillSummary = skills.map(s =>
-    `- **\`/taproot:${s.name}\`** — ${s.description}. Full definition: \`taproot/skills/${s.filename}\``
+    `- **\`/taproot:${s.name}\`** — ${s.description}. Full definition: \`.taproot/skills/${s.filename}\``
   ).join('\n');
 
   return `${TAPROOT_START}

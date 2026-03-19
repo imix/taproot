@@ -75,7 +75,7 @@ describe('taproot update', () => {
   it('refreshes installed skills if present', async () => {
     generateAdapters('cursor', tmpDir);
     // Simulate previously installed skills
-    const skillsDir = join(tmpDir, 'taproot', 'skills');
+    const skillsDir = join(tmpDir, '.taproot', 'skills');
     mkdirSync(skillsDir, { recursive: true });
     writeFileSync(join(skillsDir, 'grill.md'), 'old skill content');
 

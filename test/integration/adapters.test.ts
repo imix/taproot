@@ -39,7 +39,7 @@ describe('claude adapter', () => {
     generateAdapters('claude', tmpDir);
     const planPath = join(tmpDir, '.claude', 'commands', 'tr-plan.md');
     const content = readFileSync(planPath, 'utf-8');
-    expect(content).toContain('@{project-root}/taproot/skills/plan.md');
+    expect(content).toContain('@{project-root}/.taproot/skills/plan.md');
     // Should not inline skill body content
     expect(content).not.toContain('## Description');
     expect(content).not.toContain('## Inputs');
@@ -259,7 +259,7 @@ describe('taproot init --agent', () => {
   it('runInit with claude agent auto-installs skills into taproot/skills/', async () => {
     const { runInit } = await import('../../src/commands/init.js');
     runInit({ cwd: tmpDir, agent: 'claude' });
-    expect(existsSync(join(tmpDir, 'taproot', 'skills', 'plan.md'))).toBe(true);
-    expect(existsSync(join(tmpDir, 'taproot', 'skills', 'intent.md'))).toBe(true);
+    expect(existsSync(join(tmpDir, '.taproot', 'skills', 'plan.md'))).toBe(true);
+    expect(existsSync(join(tmpDir, '.taproot', 'skills', 'intent.md'))).toBe(true);
   });
 });

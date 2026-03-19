@@ -25,14 +25,15 @@ describe('taproot init', () => {
     expect(existsSync(join(tmpDir, '.taproot.yaml'))).toBe(true);
   });
 
-  it('creates taproot/skills/ directory', () => {
-    runInit({ cwd: tmpDir });
-    expect(existsSync(join(tmpDir, 'taproot', 'skills'))).toBe(true);
+  it('creates .taproot/skills/ directory when claude agent is selected', async () => {
+    const { runInit: ri } = await import('../../src/commands/init.js');
+    ri({ cwd: tmpDir, agent: 'claude' });
+    expect(existsSync(join(tmpDir, '.taproot', 'skills'))).toBe(true);
   });
 
-  it('creates taproot/_brainstorms/ directory', () => {
+  it('does not create taproot/_brainstorms/ directory', () => {
     runInit({ cwd: tmpDir });
-    expect(existsSync(join(tmpDir, 'taproot', '_brainstorms'))).toBe(true);
+    expect(existsSync(join(tmpDir, 'taproot', '_brainstorms'))).toBe(false);
   });
 
   it('creates taproot/CONVENTIONS.md', () => {
