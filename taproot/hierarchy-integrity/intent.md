@@ -21,6 +21,7 @@ Ensure the requirement hierarchy remains structurally valid and formally complet
 
 ## Behaviours <!-- taproot-managed -->
 - [Analyse Change Impact](./analyse-change/usecase.md)
+- [Cascade Impl Status to Parent UseCase](./cascade-impl-status/usecase.md)
 - [Pre-commit Enforcement](./pre-commit-enforcement/usecase.md)
 - [Validate Format](./validate-format/usecase.md)
 - [Validate Structure](./validate-structure/usecase.md)

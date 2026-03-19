@@ -37,6 +37,7 @@ _No behaviours yet._
 
 - **[analyse-change](./hierarchy-integrity/analyse-change/usecase.md)** `[specified]` — Actor: Any taproot skill operating in refine/modify mode (`tr-ineed`, `tr-intent`, `tr-behaviour`, `tr-implement`, `tr-refine`, `tr-promote`) — or an AI coding agent acting directly on the hierarchy — when about to modify an existing artefact.
   - [agent-skill](./hierarchy-integrity/analyse-change/agent-skill/impl.md) `[complete]` (1 commit, 1 test)
+- **[cascade-impl-status](./hierarchy-integrity/cascade-impl-status/usecase.md)** `[specified]` — Actor: `taproot dod` CLI (when marking an `impl.md` complete) and the `tr-implement` skill (step 5a, when adding the implementation link to `usecase.md`)
 - **[pre-commit-enforcement](./hierarchy-integrity/pre-commit-enforcement/usecase.md)** `[specified]` — Actor: Git — triggered automatically when any contributor (human or agent) runs `git commit`
   - [cli-command](./hierarchy-integrity/pre-commit-enforcement/cli-command/impl.md) `[complete]` (2 commits, 1 test)
   - [git-hook](./hierarchy-integrity/pre-commit-enforcement/git-hook/impl.md) `[complete]` (0 commits, 1 test)
@@ -117,4 +118,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-12 intents · 24 behaviours · 26 implementations · 26/26 complete
+12 intents · 25 behaviours · 26 implementations · 26/26 complete
