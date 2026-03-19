@@ -16,6 +16,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `ebdb01b91ce9fa66822a45725970cc53fe951dc9` — (auto-linked by taproot link-commits)
+- `dd86dc01c7bab2a958ff66de4998ff726899f045` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/skills.test.ts` — validates every file in `SKILL_FILES` (including `grill-me.md`) for required sections and format

@@ -37,7 +37,7 @@ _No behaviours yet._
 - **[analyse-change](./hierarchy-integrity/analyse-change/usecase.md)** `[specified]` — Actor: Any taproot skill operating in refine/modify mode (`tr-ineed`, `tr-intent`, `tr-behaviour`, `tr-implement`, `tr-refine`, `tr-promote`) — or an AI coding agent acting directly on the hierarchy — when about to modify an existing artefact.
   - [agent-skill](./hierarchy-integrity/analyse-change/agent-skill/impl.md) `[complete]` (1 commit, 1 test)
 - **[pre-commit-enforcement](./hierarchy-integrity/pre-commit-enforcement/usecase.md)** `[specified]` — Actor: Git — triggered automatically when any contributor (human or agent) runs `git commit`
-  - [cli-command](./hierarchy-integrity/pre-commit-enforcement/cli-command/impl.md) `[complete]` (1 commit, 1 test)
+  - [cli-command](./hierarchy-integrity/pre-commit-enforcement/cli-command/impl.md) `[complete]` (2 commits, 1 test)
   - [git-hook](./hierarchy-integrity/pre-commit-enforcement/git-hook/impl.md) `[complete]` (0 commits, 1 test)
 - **[validate-format](./hierarchy-integrity/validate-format/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying document contents conform to the schema
   - [cli-command](./hierarchy-integrity/validate-format/cli-command/impl.md) `[complete]` (0 commits, 3 tests)
@@ -49,8 +49,9 @@ _No behaviours yet._
 **Goal:** Keep the human orchestrator in meaningful control of the requirement hierarchy — as its owner, its primary author of intent, and its final decision-maker — while making the current state of the project legible at a glance.
 
 - **[cross-linked-specs](./human-integration/cross-linked-specs/usecase.md)** `[specified]` — Actor: `tr-behaviour` skill (when creating a new `usecase.md`) and `tr-implement` skill (when creating a new `impl.md`) — both maintain the link sections in their parent documents as a side-effect of document creation. `taproot update` runs a link-refresh pass across the full tree to backfill existing documents.
-  - [multi-surface](./human-integration/cross-linked-specs/multi-surface/impl.md) `[complete]` (0 commits, 1 test)
+  - [multi-surface](./human-integration/cross-linked-specs/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 - **[grill-me](./human-integration/grill-me/usecase.md)** `[specified]` — Actor: Developer or orchestrator who wants to stress-test a plan, design decision, or vague idea through relentless structured questioning — invoked directly via `/tr-grill-me`, or called by another skill (`tr-ineed`, `tr-behaviour`) when deeper elicitation is needed before writing a spec.
+  - [agent-skill](./human-integration/grill-me/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[human-readable-report](./human-integration/human-readable-report/usecase.md)** `[implemented]` — Actor: Developer or project stakeholder invoking `/tr-status`
   - [agent-skill](./human-integration/human-readable-report/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
 - **[route-requirement](./human-integration/route-requirement/usecase.md)** `[specified]` — Actor: Human orchestrator / developer stating a requirement in natural language — at any level of clarity, from vague instinct to fully-formed specification
@@ -69,7 +70,7 @@ _No behaviours yet._
 **Goal:** Allow teams to declare the conditions that must hold for any implementation to be considered complete — linting, tests, documentation currency, git conventions, or any custom check — and have taproot enforce them consistently across every implementation, whether authored by a human or an AI agent.
 
 - **[definition-of-done](./implementation-quality/definition-of-done/usecase.md)** `[implemented]` — Actor: `/tr-implement` — triggered automatically at the end of the implement flow before marking an impl `complete`. Also invoked by `taproot commithook` on implementation commits (staged source files + `impl.md`). Can also be invoked standalone by a developer or CI pipeline.
-  - [cli-command](./implementation-quality/definition-of-done/cli-command/impl.md) `[complete]` (0 commits, 1 test)
+  - [cli-command](./implementation-quality/definition-of-done/cli-command/impl.md) `[complete]` (1 commit, 1 test)
 - **[definition-of-ready](./implementation-quality/definition-of-ready/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a contributor commits an `impl.md` file without source code changes (the "I'm starting this implementation" declaration commit).
   - [cli-command](./implementation-quality/definition-of-ready/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
@@ -115,4 +116,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-12 intents · 24 behaviours · 24 implementations · 24/24 complete
+12 intents · 24 behaviours · 25 implementations · 25/25 complete
