@@ -19,6 +19,13 @@ Ensure the requirement hierarchy remains structurally valid and formally complet
 - CI integration is read-only validation; the pipeline never writes to the hierarchy
 - Validation must be fast enough to run as a git pre-commit hook without disrupting flow
 
+## Behaviours <!-- taproot-managed -->
+- [Analyse Change Impact](./analyse-change/usecase.md)
+- [Pre-commit Enforcement](./pre-commit-enforcement/usecase.md)
+- [Validate Format](./validate-format/usecase.md)
+- [Validate Structure](./validate-structure/usecase.md)
+
+
 ## Status
 - **State:** active
 - **Created:** 2026-03-19

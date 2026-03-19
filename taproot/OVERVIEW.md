@@ -49,6 +49,7 @@ _No behaviours yet._
 **Goal:** Keep the human orchestrator in meaningful control of the requirement hierarchy — as its owner, its primary author of intent, and its final decision-maker — while making the current state of the project legible at a glance.
 
 - **cross-linked-specs** `[specified]` — Actor: `tr-behaviour` skill (when creating a new `usecase.md`) and `tr-implement` skill (when creating a new `impl.md`) — both maintain the link sections in their parent documents as a side-effect of document creation. `taproot update` runs a link-refresh pass across the full tree to backfill existing documents.
+  - multi-surface `[complete]` (0 commits, 1 test)
 - **human-readable-report** `[implemented]` — Actor: Developer or project stakeholder invoking `/tr-status`
   - agent-skill `[complete]` (0 commits, 1 test)
 - **route-requirement** `[specified]` — Actor: Human orchestrator / developer stating a requirement in natural language — at any level of clarity, from vague instinct to fully-formed specification
@@ -113,4 +114,4 @@ _No behaviours yet._
   - cli-command `[complete]` (0 commits, 1 test)
 
 ---
-12 intents · 23 behaviours · 23 implementations · 23/23 complete
+12 intents · 23 behaviours · 24 implementations · 24/24 complete

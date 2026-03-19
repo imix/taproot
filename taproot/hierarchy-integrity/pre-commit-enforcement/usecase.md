@@ -78,6 +78,11 @@ flowchart TD
 - `../../implementation-quality/definition-of-ready/usecase.md` — Declaration tier invokes DoR
 - `../../implementation-quality/definition-of-done/usecase.md` — Implementation tier invokes DoD
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command — taproot commithook](./cli-command/impl.md)
+- [Git Hook — pre-commit enforcement](./git-hook/impl.md)
+
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-19

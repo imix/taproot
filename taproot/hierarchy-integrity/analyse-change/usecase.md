@@ -60,6 +60,10 @@ Any taproot skill operating in refine/modify mode (`tr-ineed`, `tr-intent`, `tr-
 - **Proposed change is too vague to analyse**: Agent asks for a more specific description of what is changing before proceeding.
 - **Uncertain dependency**: Agent cannot confidently determine whether an artefact is affected. Flags it as "possibly affected — review recommended" rather than forcing inclusion or exclusion.
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — /tr-analyse-change](./agent-skill/impl.md)
+
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-19

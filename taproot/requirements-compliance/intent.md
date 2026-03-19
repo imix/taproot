@@ -18,6 +18,11 @@ Prove that the software as built actually implements the requirements as specifi
 - The audit trail relies on git history — shallow clones or force-pushes can break it
 - A full chain report (intent → behaviour → impl → commit) is not yet generated as a single artefact; traceability is navigated document-by-document via `check-orphans` and the hierarchy itself
 
+## Behaviours <!-- taproot-managed -->
+- [Check for Orphaned or Broken References](./check-orphans/usecase.md)
+- [Link Commits to Implementation Records](./link-commits/usecase.md)
+
+
 ## Status
 - **State:** active
 - **Created:** 2026-03-19

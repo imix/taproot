@@ -31,6 +31,10 @@ Developer or CI pipeline running `taproot sync-check`
 - Developer is alerted to specifications or implementation records that may be out of sync with the current code
 - Teams can use this as a prompt to run `/tr-refine` to bring the spec back into alignment with what was built
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command — taproot sync-check](./cli-command/impl.md)
+
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

@@ -19,6 +19,11 @@ Enable any AI coding agent to participate fully in the taproot workflow — thro
 - Per-agent adapters are thin delivery wrappers only; all workflow logic lives in the portable definitions
 - Agent-specific behaviour (e.g. Claude Code hooks, Cursor rules format) is isolated to the adapter layer
 
+## Behaviours <!-- taproot-managed -->
+- [Generate Agent Adapter](./generate-agent-adapter/usecase.md)
+- [Update Adapters and Skills](./update-adapters-and-skills/usecase.md)
+
+
 ## Status
 - **State:** active
 - **Created:** 2026-03-19

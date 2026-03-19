@@ -17,6 +17,11 @@ Verify that no requirement has been left without coverage at the level below it 
 - Automated completeness checks cannot detect semantically missing requirements, only structurally missing links
 - Alternate-flow and error-condition coverage (checking whether each flow step in a usecase.md has a corresponding impl) is not currently automated — the tool checks for impl folder existence, not per-flow coverage
 
+## Behaviours <!-- taproot-managed -->
+- [Generate Coverage Report](./coverage-report/usecase.md)
+- [Detect Stale Specifications](./sync-check/usecase.md)
+
+
 ## Status
 - **State:** active
 - **Created:** 2026-03-19

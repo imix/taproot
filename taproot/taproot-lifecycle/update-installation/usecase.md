@@ -31,6 +31,10 @@ Developer running `taproot update` after upgrading the taproot package
 - Running `taproot update` again produces no additional changes
 - Agent skills invoke the correct, current workflow steps
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command — taproot update](./cli-command/impl.md)
+
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

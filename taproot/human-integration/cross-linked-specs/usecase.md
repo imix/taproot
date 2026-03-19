@@ -98,6 +98,10 @@ sequenceDiagram
 - `../../hierarchy-integrity/validate-structure/usecase.md` — structural validation detects orphaned folders; link validation is complementary, not redundant
 - `../../taproot-lifecycle/update-installation/usecase.md` — `taproot update` runs the backfill pass (Alternate Flow: Backfill existing hierarchy) as part of its standard refresh cycle
 
+## Implementations <!-- taproot-managed -->
+- [Multi-Surface — validate-format + update backfill + skill steps](./multi-surface/impl.md)
+
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-19

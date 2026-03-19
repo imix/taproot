@@ -33,6 +33,10 @@ Developer initializing taproot for a specific AI coding agent via `taproot init 
 - Skill definitions are installed locally so agents can load full specifications without internet access
 - The adapter is a thin delivery layer — all workflow logic remains in the canonical `taproot/skills/` definitions
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command — taproot init --agent](./cli-command/impl.md)
+
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

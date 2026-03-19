@@ -17,6 +17,12 @@ Give AI coding agents a live, navigable map of the codebase — what is implemen
 - Must work with any AI agent that can read files (not Claude-specific)
 - Bottom-up navigation (source file → intent) is supported by the `/tr-trace` skill; OVERVIEW.md and CONTEXT.md provide top-down orientation only
 
+## Behaviours <!-- taproot-managed -->
+- [Generate Agent Context File](./generate-context/usecase.md)
+- [Generate Project Overview](./generate-overview/usecase.md)
+- [Trace Requirement Hierarchy](./trace-hierarchy/usecase.md)
+
+
 ## Status
 - **State:** active
 - **Created:** 2026-03-19

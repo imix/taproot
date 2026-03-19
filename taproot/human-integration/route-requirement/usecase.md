@@ -119,6 +119,10 @@ _(Fast path: requirement is clear, concrete, and immediately placeable)_
 - **No hierarchy exists yet**: Agent offers to run `taproot init` first, then proceeds with placement
 - **Discovery reveals contradictory requirements**: Agent surfaces the contradiction and asks the developer to resolve it before placement
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — /tr-ineed](./agent-skill/impl.md)
+
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-19

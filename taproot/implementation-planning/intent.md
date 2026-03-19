@@ -20,6 +20,10 @@ Enable orchestrators and agents to extract the next independently-implementable 
 - Slice granularity follows the behaviour level: one behaviour (or a tightly-coupled cluster) per slice, not one layer per slice
 - HITL slices should be minimised; prefer designs that allow agents to proceed independently
 
+## Behaviours <!-- taproot-managed -->
+- [Extract Next Implementable Slice](./extract-next-slice/usecase.md)
+
+
 ## Status
 - **State:** active
 - **Created:** 2026-03-19

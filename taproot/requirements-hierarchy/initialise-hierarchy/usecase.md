@@ -30,6 +30,10 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 - `taproot/skills/` is populated with canonical skill definitions
 - The project is ready to receive intent, behaviour, and implementation documents
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command — taproot init](./cli-command/impl.md)
+
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

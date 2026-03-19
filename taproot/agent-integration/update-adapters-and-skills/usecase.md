@@ -28,6 +28,10 @@ Developer running `taproot update` after upgrading taproot or modifying skill de
 - Installed skills in `taproot/skills/` match the bundled versions
 - The update is idempotent — running it multiple times produces no unintended side effects
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command — taproot update](./cli-command/impl.md)
+
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

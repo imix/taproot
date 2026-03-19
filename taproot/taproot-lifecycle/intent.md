@@ -17,6 +17,10 @@ Keep an installed taproot setup current as the tool evolves — refreshing skill
 - Update only touches agents and skills that were previously installed — it does not install new adapters the user did not opt into
 - The command never modifies requirement documents (intent.md, usecase.md, impl.md)
 
+## Behaviours <!-- taproot-managed -->
+- [Update Taproot Installation](./update-installation/usecase.md)
+
+
 ## Status
 - **State:** active
 - **Created:** 2026-03-19

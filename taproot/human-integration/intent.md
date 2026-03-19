@@ -18,6 +18,12 @@ Keep the human orchestrator in meaningful control of the requirement hierarchy â
 - The human retains final approval authority; agents propose, humans confirm
 - The authoring lifecycle (creating intents, defining behaviours, implementing, refining) is supported by agent skills (`/tr-intent`, `/tr-behaviour`, `/tr-refine`, `/tr-promote`) documented under agent-integration â€” this intent covers the human-facing view (reporting, oversight, legibility)
 
+## Behaviours <!-- taproot-managed -->
+- [Cross-Linked Specs](./cross-linked-specs/usecase.md)
+- [Generate Human-Readable Status Report](./human-readable-report/usecase.md)
+- [Route a Natural Language Requirement](./route-requirement/usecase.md)
+
+
 ## Status
 - **State:** active
 - **Created:** 2026-03-19

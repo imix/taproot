@@ -27,6 +27,10 @@ CI pipeline or agentic developer generating a machine-optimised context snapshot
 - `taproot/CONTEXT.md` exists with a dated snapshot of the hierarchy state
 - AI agents reading CONTEXT.md get the full picture — what's done, what's in progress, and what needs attention — without traversing individual documents
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command — taproot coverage --format context](./cli-command/impl.md)
+
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

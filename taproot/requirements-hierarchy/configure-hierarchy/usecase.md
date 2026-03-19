@@ -33,6 +33,10 @@ Agentic developer / orchestrator customising taproot to match project convention
 - All taproot CLI commands use the updated configuration
 - Validation rules reflect the project's chosen conventions
 
+## Implementations <!-- taproot-managed -->
+- [YAML Config — .taproot.yaml](./yaml-config/impl.md)
+
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

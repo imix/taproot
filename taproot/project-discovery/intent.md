@@ -18,6 +18,10 @@ Reverse-engineer an existing codebase into a taproot requirement hierarchy throu
 - The process must not create intents that map 1:1 to modules, files, or CLI commands
 - Existing partial taproot coverage must be detected and skipped to avoid duplication
 
+## Behaviours <!-- taproot-managed -->
+- [Discover Existing Project into Taproot Hierarchy](./discover-existing-project/usecase.md)
+
+
 ## Status
 - **State:** active
 - **Created:** 2026-03-19

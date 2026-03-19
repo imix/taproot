@@ -32,6 +32,10 @@ Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying docu
 - Caller knows whether all documents conform to the schema
 - With `--fix`, missing sections are scaffolded so the document can be completed without starting from scratch
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command — taproot validate-format](./cli-command/impl.md)
+
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

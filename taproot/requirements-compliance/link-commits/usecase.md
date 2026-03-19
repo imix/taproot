@@ -45,6 +45,10 @@ sequenceDiagram
   taproot-->>Developer: report: N hashes added across M files
 ```
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command — taproot link-commits](./cli-command/impl.md)
+
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

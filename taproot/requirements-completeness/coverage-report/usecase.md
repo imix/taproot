@@ -37,6 +37,10 @@ sequenceDiagram
   taproot-->>Developer: formatted report (tree/markdown/json/context)
 ```
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command — taproot coverage](./cli-command/impl.md)
+
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

@@ -33,6 +33,10 @@ Developer or project stakeholder invoking `/tr-status`
 - Actionable next steps are surfaced and linked to the skills that address them
 - Project stakeholders can understand progress without reading individual taproot documents
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — /tr-status](./agent-skill/impl.md)
+
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

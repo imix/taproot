@@ -28,6 +28,10 @@ Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying the 
 - Caller knows whether the hierarchy is structurally valid
 - Each violation includes: severity (error/warning), file path, error code, human-readable message
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command — taproot validate-structure](./cli-command/impl.md)
+
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

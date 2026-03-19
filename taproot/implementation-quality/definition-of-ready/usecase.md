@@ -76,6 +76,10 @@ sequenceDiagram
 - `../../hierarchy-integrity/pre-commit-enforcement/usecase.md` — the hook that invokes DoR as one of its three commit-type tiers
 - `../../hierarchy-integrity/validate-format/usecase.md` — DoR delegates format checking to validate-format as part of its baseline
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command — taproot commithook (DoR tier)](./cli-command/impl.md)
+
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

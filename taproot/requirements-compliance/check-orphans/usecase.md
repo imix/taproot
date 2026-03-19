@@ -35,6 +35,10 @@ Developer or CI pipeline running `taproot check-orphans`
 - CI pipeline fails fast if any `impl.md` references are structurally broken
 - Orphaned specifications and dangling links are surfaced for remediation
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command — taproot check-orphans](./cli-command/impl.md)
+
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

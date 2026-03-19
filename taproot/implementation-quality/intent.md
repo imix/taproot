@@ -19,6 +19,11 @@ Allow teams to declare the conditions that must hold for any implementation to b
 - Conditions must be runnable in CI and locally without difference in behaviour
 - Failing a DoD condition must block completion — it cannot be silently skipped
 
+## Behaviours <!-- taproot-managed -->
+- [Definition of Done Enforcement](./definition-of-done/usecase.md)
+- [Definition of Ready](./definition-of-ready/usecase.md)
+
+
 ## Status
 - **State:** active
 - **Created:** 2026-03-19

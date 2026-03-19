@@ -27,6 +27,10 @@ Agentic developer / orchestrator or AI coding agent refreshing the project summa
 - `taproot/OVERVIEW.md` exists and reflects the current state of the hierarchy
 - AI agents can read OVERVIEW.md at session start to orient themselves without reading every document
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command — taproot overview](./cli-command/impl.md)
+
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

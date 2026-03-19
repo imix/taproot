@@ -60,6 +60,10 @@ sequenceDiagram
   Agent-->>Developer: closing summary with coverage report
 ```
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — /tr-discover](./agent-skill/impl.md)
+
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

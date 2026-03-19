@@ -33,6 +33,11 @@ Agentic developer / orchestrator (human who asks the agent to plan the next work
 - The selected behaviour is being implemented as a vertical slice — touching all layers needed for that behaviour to function end-to-end
 - On completion, the behaviour has a passing test and a traceable `impl.md`
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — /tr-plan](./agent-skill/impl.md)
+- [CLI Command — taproot plan](./cli-command/impl.md)
+
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-19
