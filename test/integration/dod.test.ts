@@ -3,7 +3,7 @@ import { mkdtempSync, writeFileSync, mkdirSync, readFileSync, rmSync } from 'fs'
 import { join, resolve } from 'path';
 import { tmpdir } from 'os';
 import { runDodChecks } from '../../src/core/dod-runner.js';
-import { runDod } from '../../src/commands/dod.js';
+import { runDod, writeResolution } from '../../src/commands/dod.js';
 
 // ─── helpers ─────────────────────────────────────────────────────────────────
 
@@ -25,7 +25,37 @@ function writeConfig(dir: string, dodConditions: unknown[]): void {
   writeFileSync(join(dir, '.taproot.yaml'), yaml, 'utf-8');
 }
 
+function makeUsecaseMd(dir: string, { state = 'specified', withRelated = true } = {}): string {
+  const behaviourDir = join(dir, 'taproot', 'some-intent', 'some-behaviour');
+  mkdirSync(behaviourDir, { recursive: true });
+  const usecasePath = join(behaviourDir, 'usecase.md');
+  const sections = [
+    '# Behaviour: Test',
+    '',
+    '## Actor',
+    'A test actor.',
+    '',
+    '## Preconditions',
+    '- None.',
+    '',
+    '## Main Flow',
+    '1. Step one.',
+    '',
+    '## Postconditions',
+    '- Done.',
+    '',
+  ];
+  sections.push('## Flow', '```mermaid', 'flowchart TD', '  A --> B', '```', '');
+  if (withRelated) {
+    sections.push('## Related', '- ../other/usecase.md', '');
+  }
+  sections.push('## Status', `- **State:** ${state}`, '- **Created:** 2026-03-19', '- **Last reviewed:** 2026-03-19', '');
+  writeFileSync(usecasePath, sections.join('\n'), 'utf-8');
+  return usecasePath;
+}
+
 function makeImplMd(dir: string, state = 'in-progress'): string {
+  makeUsecaseMd(dir); // always create a valid usecase alongside
   const implDir = join(dir, 'taproot', 'some-intent', 'some-behaviour', 'cli-command');
   mkdirSync(implDir, { recursive: true });
   const implPath = join(implDir, 'impl.md');
@@ -120,7 +150,7 @@ describe('runDodChecks — custom shell conditions', () => {
 });
 
 describe('runDodChecks — document-current condition', () => {
-  it('reports as manual check (not passed) with description as correction', () => {
+  it('reports as agent check (not passed) with description as correction', () => {
     const report = runDodChecks(
       [{ 'document-current': 'ensure all sections in readme.md are up to date' }],
       process.cwd()
@@ -172,6 +202,142 @@ describe('runDodChecks — command not found', () => {
   });
 });
 
+// ─── DoD baseline ─────────────────────────────────────────────────────────────
+
+describe('runDodChecks — DoD baseline (implPath provided)', () => {
+  let tmpDir: string;
+
+  beforeEach(() => { tmpDir = makeTempDir(); });
+  afterEach(() => { rmSync(tmpDir, { recursive: true, force: true }); });
+
+  it('runs baseline checks and reports configured: true even with no conditions', () => {
+    makeUsecaseMd(tmpDir);
+    const implPath = join(tmpDir, 'taproot', 'some-intent', 'some-behaviour', 'cli-command', 'impl.md');
+    mkdirSync(join(tmpDir, 'taproot', 'some-intent', 'some-behaviour', 'cli-command'), { recursive: true });
+    writeFileSync(implPath, '# Impl\n\n## Status\n- **State:** in-progress\n- **Created:** 2026-03-19\n- **Last verified:** 2026-03-19\n');
+    const report = runDodChecks(undefined, tmpDir, { implPath });
+    expect(report.configured).toBe(true);
+    expect(report.results.some(r => r.name.startsWith('baseline-'))).toBe(true);
+    expect(report.allPassed).toBe(true);
+  });
+
+  it('fails baseline when usecase.md is missing', () => {
+    const implDir = join(tmpDir, 'taproot', 'some-intent', 'some-behaviour', 'cli-command');
+    mkdirSync(implDir, { recursive: true });
+    const implPath = join(implDir, 'impl.md');
+    writeFileSync(implPath, '# Impl\n\n## Status\n- **State:** in-progress\n- **Created:** 2026-03-19\n- **Last verified:** 2026-03-19\n');
+    const report = runDodChecks(undefined, tmpDir, { implPath });
+    expect(report.allPassed).toBe(false);
+    expect(report.results[0]!.name).toBe('baseline-usecase-exists');
+    expect(report.results[0]!.passed).toBe(false);
+  });
+
+  it('fails baseline when usecase.md state is not specified', () => {
+    makeUsecaseMd(tmpDir, { state: 'proposed' });
+    const implDir = join(tmpDir, 'taproot', 'some-intent', 'some-behaviour', 'cli-command');
+    mkdirSync(implDir, { recursive: true });
+    const implPath = join(implDir, 'impl.md');
+    writeFileSync(implPath, '# Impl\n\n## Status\n- **State:** in-progress\n- **Created:** 2026-03-19\n- **Last verified:** 2026-03-19\n');
+    const report = runDodChecks(undefined, tmpDir, { implPath });
+    const baselineState = report.results.find(r => r.name === 'baseline-state-specified');
+    expect(baselineState?.passed).toBe(false);
+    expect(baselineState?.output).toContain('proposed');
+  });
+
+  it('fails baseline when usecase.md is missing a required section (e.g. ## Preconditions)', () => {
+    const behaviourDir = join(tmpDir, 'taproot', 'some-intent', 'some-behaviour');
+    mkdirSync(behaviourDir, { recursive: true });
+    // Write a usecase missing ## Preconditions (required by validate-format)
+    writeFileSync(join(behaviourDir, 'usecase.md'), [
+      '# Behaviour: Test',
+      '',
+      '## Actor',
+      'A test actor.',
+      '',
+      '## Main Flow',
+      '1. Step one.',
+      '',
+      '## Postconditions',
+      '- Done.',
+      '',
+      '## Status',
+      '- **State:** specified',
+      '- **Created:** 2026-03-19',
+      '- **Last reviewed:** 2026-03-19',
+      '',
+    ].join('\n'), 'utf-8');
+    const implDir = join(tmpDir, 'taproot', 'some-intent', 'some-behaviour', 'cli-command');
+    mkdirSync(implDir, { recursive: true });
+    const implPath = join(implDir, 'impl.md');
+    writeFileSync(implPath, '# Impl\n\n## Status\n- **State:** in-progress\n- **Created:** 2026-03-19\n- **Last verified:** 2026-03-19\n');
+    const report = runDodChecks(undefined, tmpDir, { implPath });
+    const baselineFormat = report.results.find(r => r.name === 'baseline-validate-format');
+    expect(baselineFormat?.passed).toBe(false);
+    expect(baselineFormat?.output).toContain('Preconditions');
+  });
+
+  it('passes all baseline checks with a valid usecase.md', () => {
+    makeUsecaseMd(tmpDir);
+    const implDir = join(tmpDir, 'taproot', 'some-intent', 'some-behaviour', 'cli-command');
+    mkdirSync(implDir, { recursive: true });
+    const implPath = join(implDir, 'impl.md');
+    writeFileSync(implPath, '# Impl\n\n## Status\n- **State:** in-progress\n- **Created:** 2026-03-19\n- **Last verified:** 2026-03-19\n');
+    const report = runDodChecks(undefined, tmpDir, { implPath });
+    const baselineResults = report.results.filter(r => r.name.startsWith('baseline-'));
+    expect(baselineResults.every(r => r.passed)).toBe(true);
+  });
+});
+
+// ─── agent check resolution ───────────────────────────────────────────────────
+
+describe('writeResolution and agent check passing', () => {
+  let tmpDir: string;
+
+  beforeEach(() => { tmpDir = makeTempDir(); });
+  afterEach(() => { rmSync(tmpDir, { recursive: true, force: true }); });
+
+  it('writeResolution appends ## DoD Resolutions section to impl.md', () => {
+    const implPath = makeImplMd(tmpDir);
+    writeResolution(implPath, 'check-if-affected: src/commands/update.ts', 'No changes needed', tmpDir);
+    const content = readFileSync(implPath, 'utf-8');
+    expect(content).toContain('## DoD Resolutions');
+    expect(content).toContain('condition: check-if-affected: src/commands/update.ts');
+    expect(content).toContain('No changes needed');
+  });
+
+  it('agent check passes when resolution exists in impl.md', () => {
+    const implPath = makeImplMd(tmpDir);
+    writeResolution(implPath, 'check-if-affected: src/commands/update.ts', 'Not affected', tmpDir);
+    const report = runDodChecks(
+      [{ 'check-if-affected': 'src/commands/update.ts' }],
+      tmpDir,
+      { implPath }
+    );
+    const result = report.results.find(r => r.name === 'check-if-affected: src/commands/update.ts');
+    expect(result?.passed).toBe(true);
+  });
+
+  it('agent check fails when no resolution recorded', () => {
+    const implPath = makeImplMd(tmpDir);
+    const report = runDodChecks(
+      [{ 'check-if-affected': 'src/commands/update.ts' }],
+      tmpDir,
+      { implPath }
+    );
+    const result = report.results.find(r => r.name === 'check-if-affected: src/commands/update.ts');
+    expect(result?.passed).toBe(false);
+  });
+
+  it('writeResolution appends to existing ## DoD Resolutions section', () => {
+    const implPath = makeImplMd(tmpDir);
+    writeResolution(implPath, 'document-current', 'Docs updated', tmpDir);
+    writeResolution(implPath, 'check-if-affected: src/commands/update.ts', 'Not affected', tmpDir);
+    const content = readFileSync(implPath, 'utf-8');
+    const count = (content.match(/condition:/g) ?? []).length;
+    expect(count).toBe(2);
+  });
+});
+
 // ─── runDod integration tests ─────────────────────────────────────────────────
 
 describe('runDod — reads from .taproot.yaml', () => {
@@ -180,7 +346,7 @@ describe('runDod — reads from .taproot.yaml', () => {
   beforeEach(() => { tmpDir = makeTempDir(); });
   afterEach(() => { rmSync(tmpDir, { recursive: true, force: true }); });
 
-  it('returns configured: false when no DoD in config', async () => {
+  it('returns configured: false when no DoD in config and no implPath', async () => {
     writeFileSync(join(tmpDir, '.taproot.yaml'), 'version: 1\nroot: taproot/\n', 'utf-8');
     const report = await runDod({ cwd: tmpDir });
     expect(report.configured).toBe(false);
@@ -239,5 +405,13 @@ describe('runDod — impl.md state update', () => {
     await runDod({ implPath, dryRun: true, cwd: tmpDir });
     const content = readFileSync(implPath, 'utf-8');
     expect(content).toContain('**State:** in-progress');
+  });
+
+  it('runs baseline and marks complete when no conditions configured but implPath given', async () => {
+    const implPath = makeImplMd(tmpDir, 'in-progress');
+    writeFileSync(join(tmpDir, '.taproot.yaml'), 'version: 1\nroot: taproot/\n', 'utf-8');
+    await runDod({ implPath, cwd: tmpDir });
+    const content = readFileSync(implPath, 'utf-8');
+    expect(content).toContain('**State:** complete');
   });
 });

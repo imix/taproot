@@ -8,18 +8,35 @@ import type { DodReport, DodResult } from '../core/dod-runner.js';
 export { DodReport, DodResult };
 
 export function registerDod(program: Command): void {
-  program
+  const dodCmd = program
     .command('dod [impl-path]')
     .description('Run Definition of Done checks; mark impl complete if all pass')
     .option('--dry-run', 'Run checks but do not update impl.md state')
     .option('--cwd <dir>', 'Working directory for running shell commands')
-    .action(async (implPath: string | undefined, options: { dryRun?: boolean; cwd?: string }) => {
+    .option('--resolve <condition>', 'Record agent resolution for a named condition')
+    .option('--note <note>', 'Resolution note (used with --resolve)')
+    .action(async (implPath: string | undefined, options: { dryRun?: boolean; cwd?: string; resolve?: string; note?: string }) => {
       const cwd = options.cwd ? resolve(options.cwd) : process.cwd();
+
+      // --resolve mode: write resolution to impl.md
+      if (options.resolve) {
+        if (!implPath) {
+          process.stderr.write('Error: --resolve requires an impl-path argument\n');
+          process.exitCode = 1;
+          return;
+        }
+        const note = options.note ?? '';
+        writeResolution(implPath, options.resolve, note, cwd);
+        process.stdout.write(`Recorded resolution for "${options.resolve}" in ${implPath}\n`);
+        return;
+      }
+
       const report = await runDod({ implPath, dryRun: options.dryRun ?? false, cwd });
 
       if (!report.configured) {
         process.stdout.write('No Definition of Done configured — skipping checks.\n');
         if (implPath && !options.dryRun) {
+          markImplComplete(resolve(cwd, implPath));
           process.stdout.write(`Marked ${implPath} complete.\n`);
         }
         return;
@@ -40,6 +57,9 @@ export function registerDod(program: Command): void {
         process.exitCode = 1;
       }
     });
+
+  // Suppress the default help output for the option name clash with commander reserved word
+  void dodCmd;
 }
 
 export async function runDod(options: {
@@ -49,10 +69,10 @@ export async function runDod(options: {
 }): Promise<DodReport> {
   const cwd = options.cwd ?? process.cwd();
   const { config } = loadConfig(cwd);
-  const report = runDodChecks(config.definitionOfDone, cwd);
+  const report = runDodChecks(config.definitionOfDone, cwd, { implPath: options.implPath });
 
   if (options.implPath && !options.dryRun && report.allPassed) {
-    markImplComplete(options.implPath);
+    markImplComplete(resolve(cwd, options.implPath));
   }
 
   return report;
@@ -74,8 +94,7 @@ function printReport(report: DodReport): void {
   }
 }
 
-function markImplComplete(implPath: string): void {
-  const absPath = resolve(implPath);
+function markImplComplete(absPath: string): void {
   if (!existsSync(absPath)) {
     throw new Error(`impl.md not found at ${absPath}`);
   }
@@ -86,4 +105,33 @@ function markImplComplete(implPath: string): void {
   );
   if (updated === content) return; // already complete or pattern not found
   writeFileSync(absPath, updated, 'utf-8');
+}
+
+/** Write an agent-check resolution to ## DoD Resolutions section in impl.md. */
+export function writeResolution(implPath: string, condition: string, note: string, cwd: string): void {
+  const absPath = resolve(cwd, implPath);
+  if (!existsSync(absPath)) {
+    throw new Error(`impl.md not found at ${absPath}`);
+  }
+  const timestamp = new Date().toISOString();
+  const entry = `- condition: ${condition} | note: ${note} | resolved: ${timestamp}`;
+
+  let content = readFileSync(absPath, 'utf-8');
+  const resolutionHeader = '## DoD Resolutions';
+
+  if (content.includes(resolutionHeader)) {
+    // Append to existing section before the next ## heading or end of file
+    content = content.replace(
+      /(## DoD Resolutions\n)([\s\S]*?)(\n##\s|$)/,
+      (_, header, body, suffix) => {
+        const trimmed = body.trimEnd();
+        return `${header}${trimmed ? trimmed + '\n' : ''}${entry}\n${suffix}`;
+      }
+    );
+  } else {
+    // Append new section at end of file
+    content = content.trimEnd() + `\n\n${resolutionHeader}\n${entry}\n`;
+  }
+
+  writeFileSync(absPath, content, 'utf-8');
 }

@@ -82,9 +82,9 @@ flowchart TD
 - `../../hierarchy-integrity/pre-commit-enforcement/usecase.md` — the hook invokes DoD on implementation commits (source + impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-19
-- **Last reviewed:** 2026-03-19
+- **Last verified:** 2026-03-19
 
 ## Notes
 - Conditions in `.taproot.yaml` use a mixed syntax: built-in names are bare strings; custom conditions use `run:` with optional `name:` and `correction:` keys; parameterizable built-ins use a `key: value` form:

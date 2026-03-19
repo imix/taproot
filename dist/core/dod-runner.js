@@ -1,4 +1,9 @@
+import { existsSync, readFileSync } from 'fs';
+import { join, dirname, resolve } from 'path';
 import { spawnSync } from 'child_process';
+import { parseMarkdown } from './markdown-parser.js';
+import { validateFormat } from '../validators/format-rules.js';
+import { loadConfig } from './config.js';
 const BUILTINS = {
     'tests-passing': {
         run: 'npm test',
@@ -92,18 +97,87 @@ function runCondition(name, command, cwd, correction) {
     }
     return { name, passed, output, correction: passed ? '' : correction };
 }
-export function runDodChecks(conditions, cwd) {
-    if (!conditions || conditions.length === 0) {
-        return { configured: false, results: [], allPassed: true };
-    }
+/** Run the always-on DoD baseline: usecase.md exists, state=specified, format-valid. */
+function runDodBaseline(implPath, cwd) {
+    const absImpl = resolve(cwd, implPath);
+    const behaviourDir = dirname(dirname(absImpl));
+    const usecasePath = join(behaviourDir, 'usecase.md');
     const results = [];
+    if (!existsSync(usecasePath)) {
+        results.push({
+            name: 'baseline-usecase-exists',
+            passed: false,
+            output: `No usecase.md at ${usecasePath}`,
+            correction: 'The behaviour spec this implementation references is missing. Restore it before marking complete.',
+        });
+        return results; // cannot check further without usecase
+    }
+    const content = readFileSync(usecasePath, 'utf-8');
+    const parsed = parseMarkdown(usecasePath, content);
+    // state: specified or more advanced (implemented/tested) — must not have regressed to proposed/deprecated
+    const statusSection = parsed.sections.get('status');
+    const stateMatch = statusSection?.rawBody.match(/\*\*State:\*\*\s*(\S+)/);
+    const state = stateMatch?.[1] ?? 'unknown';
+    const acceptedStates = new Set(['specified', 'implemented', 'tested']);
+    const isReady = acceptedStates.has(state);
+    results.push({
+        name: 'baseline-state-specified',
+        passed: isReady,
+        output: isReady ? '' : `usecase.md state is '${state}'`,
+        correction: "Restore usecase.md to 'specified' (or more advanced) before marking implementation complete.",
+    });
+    // validate-format
+    const { config } = loadConfig(cwd);
+    const violations = validateFormat(parsed, 'behaviour', config).filter(v => v.type === 'error');
+    const formatPassed = violations.length === 0;
+    results.push({
+        name: 'baseline-validate-format',
+        passed: formatPassed,
+        output: formatPassed ? '' : violations.map(v => v.message).join('\n'),
+        correction: 'Fix format violations in usecase.md and re-run.',
+    });
+    return results;
+}
+/** Read agent-check resolutions recorded in impl.md's ## DoD Resolutions section. */
+export function readResolutions(implPath, cwd) {
+    const absPath = resolve(cwd, implPath);
+    if (!existsSync(absPath))
+        return new Set();
+    const content = readFileSync(absPath, 'utf-8');
+    const parsed = parseMarkdown(absPath, content);
+    const section = parsed.sections.get('dod resolutions');
+    if (!section)
+        return new Set();
+    const resolved = new Set();
+    for (const line of section.rawBody.split('\n')) {
+        const m = line.match(/^-\s+condition:\s+(.+?)\s+\|/);
+        if (m)
+            resolved.add(m[1].trim());
+    }
+    return resolved;
+}
+export function runDodChecks(conditions, cwd, options) {
+    const results = [];
+    // Always run baseline when implPath is provided
+    if (options?.implPath) {
+        results.push(...runDodBaseline(options.implPath, cwd));
+    }
+    if (!conditions || conditions.length === 0) {
+        const configured = results.length > 0;
+        return { configured, results, allPassed: results.every(r => r.passed) };
+    }
+    // Read any agent-check resolutions recorded in impl.md
+    const resolvedChecks = options?.implPath
+        ? readResolutions(options.implPath, cwd)
+        : new Set();
     for (const entry of conditions) {
         const resolved = resolveCondition(entry);
         if (resolved.agentCheck) {
+            const isResolved = resolvedChecks.has(resolved.name);
             results.push({
                 name: resolved.name,
-                passed: false,
-                output: `Agent check required: ${resolved.description}`,
+                passed: isResolved,
+                output: isResolved ? '' : `Agent check required: ${resolved.description}`,
                 correction: resolved.correction,
             });
         }

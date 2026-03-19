@@ -65,9 +65,9 @@ _No behaviours yet._
 
 **Goal:** Allow teams to declare the conditions that must hold for any implementation to be considered complete — linting, tests, documentation currency, git conventions, or any custom check — and have taproot enforce them consistently across every implementation, whether authored by a human or an AI agent.
 
-- **definition-of-done** `[specified]` — Actor: `/tr-implement` — triggered automatically at the end of the implement flow before marking an impl `complete`. Also invoked by `taproot commithook` on implementation commits (staged source files + `impl.md`). Can also be invoked standalone by a developer or CI pipeline.
-  - cli-command `[complete]` (1 commit, 1 test)
-- **definition-of-ready** `[complete]` — Actor: `taproot commithook` — triggered automatically when a contributor commits an `impl.md` file without source code changes (the "I'm starting this implementation" declaration commit).
+- **definition-of-done** `[implemented]` — Actor: `/tr-implement` — triggered automatically at the end of the implement flow before marking an impl `complete`. Also invoked by `taproot commithook` on implementation commits (staged source files + `impl.md`). Can also be invoked standalone by a developer or CI pipeline.
+  - cli-command `[complete]` (0 commits, 1 test)
+- **definition-of-ready** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a contributor commits an `impl.md` file without source code changes (the "I'm starting this implementation" declaration commit).
   - cli-command `[complete]` (0 commits, 1 test)
 
 ## project-discovery `[active]`

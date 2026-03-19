@@ -77,6 +77,6 @@ sequenceDiagram
 - `../../hierarchy-integrity/validate-format/usecase.md` — DoR delegates format checking to validate-format as part of its baseline
 
 ## Status
-- **State:** complete
+- **State:** implemented
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-19

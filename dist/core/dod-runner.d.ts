@@ -10,4 +10,8 @@ export interface DodReport {
     results: DodResult[];
     allPassed: boolean;
 }
-export declare function runDodChecks(conditions: DodConditionEntry[] | undefined, cwd: string): DodReport;
+/** Read agent-check resolutions recorded in impl.md's ## DoD Resolutions section. */
+export declare function readResolutions(implPath: string, cwd: string): Set<string>;
+export declare function runDodChecks(conditions: DodConditionEntry[] | undefined, cwd: string, options?: {
+    implPath?: string;
+}): DodReport;
