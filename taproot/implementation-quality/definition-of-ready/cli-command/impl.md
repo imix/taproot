@@ -28,3 +28,8 @@
   - `document-current`: `docs/cli.md` and `skills/guide.md` already document `taproot commithook` and DoR — no update needed
   - `check-if-affected: src/commands/update.ts` — DoR is in `dor-runner.ts`/`commithook.ts`; `update.ts` unaffected
   - `check-if-affected: skills/guide.md` — guide already lists `taproot commithook` with DoR/DoD context — no update needed
+
+## DoD Resolutions
+- condition: document-current | note: docs/cli.md and skills/guide.md already document taproot commithook with DoR context | resolved: 2026-03-19T18:17:46.871Z
+- condition: check-if-affected: src/commands/update.ts | note: DoR logic lives in dor-runner.ts/commithook.ts; update.ts unaffected | resolved: 2026-03-19T18:17:48.139Z
+- condition: check-if-affected: skills/guide.md | note: guide.md already lists taproot commithook with DoR/DoD context | resolved: 2026-03-19T18:17:49.396Z
