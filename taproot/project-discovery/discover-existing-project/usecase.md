@@ -38,7 +38,7 @@ Developer invoking `/tr-discover` on a codebase that has no taproot hierarchy ye
 - All documents are marked `status: active` / `complete` (or `in-progress` where gaps were noted)
 - The session state is preserved in `taproot/_brainstorms/discovery-status.md` and can be resumed if interrupted
 
-## Diagram
+## Flow
 ```mermaid
 sequenceDiagram
   Developer->>Agent: /tr-discover
@@ -59,6 +59,9 @@ sequenceDiagram
   Agent->>taproot: validate-structure, validate-format
   Agent-->>Developer: closing summary with coverage report
 ```
+
+## Related
+- `taproot/human-integration/route-requirement/usecase.md` — individual requirements discovered during this flow are routed via tr-ineed
 
 ## Implementations <!-- taproot-managed -->
 - [Agent Skill — /tr-discover](./agent-skill/impl.md)

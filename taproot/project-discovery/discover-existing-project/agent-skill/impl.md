@@ -10,7 +10,8 @@
 - Depth control (`intents-only`, `behaviours`, `full`) allows developers to do a lightweight intent-capture session and defer detail work
 
 ## Source Files
-- `taproot/skills/discover.md` — full skill definition including all five phases, stop/resume protocol, and document format templates
+- `skills/discover.md` — canonical skill definition (package source)
+- `.taproot/skills/discover.md` — installed copy
 
 ## Commits
 - (run `taproot link-commits` to populate)

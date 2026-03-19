@@ -119,6 +119,28 @@ _(Fast path: requirement is clear, concrete, and immediately placeable)_
 - **No hierarchy exists yet**: Agent offers to run `taproot init` first, then proceeds with placement
 - **Discovery reveals contradictory requirements**: Agent surfaces the contradiction and asks the developer to resolve it before placement
 
+## Flow
+```mermaid
+flowchart TD
+    A[Developer states requirement] --> B{Classify}
+    B -- Quick: clear actor+goal --> C[Search hierarchy for near-duplicates]
+    B -- Substantive: vague/new domain --> D[Structured discovery: problem → persona → success criteria → scope]
+    D --> E[Synthesise & confirm with developer]
+    E -- Go deeper --> D
+    E -- Continue --> C
+    C --> F{Find parent intent}
+    F -- Match found --> G[Propose placement]
+    F -- No match --> H[Propose new intent]
+    G --> I{Developer confirms?}
+    I -- Yes --> J[Call /tr-intent or /tr-behaviour]
+    I -- No --> K[Developer names correct parent] --> J
+    H --> J
+    J --> L[New intent.md or usecase.md written]
+```
+
+## Related
+- `taproot/human-integration/grill-me/usecase.md` — structured discovery delegates to grill-me for advanced elicitation
+
 ## Implementations <!-- taproot-managed -->
 - [Agent Skill — /tr-ineed](./agent-skill/impl.md)
 
