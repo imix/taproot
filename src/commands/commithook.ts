@@ -76,7 +76,8 @@ function checkStatusOnly(
     if (headBody !== stagedBody) changedSections.push(section);
   }
 
-  const nonStatus = changedSections.filter(s => s !== 'status');
+  const ALLOWED_IMPL_SECTIONS = new Set(['status', 'dod resolutions']);
+  const nonStatus = changedSections.filter(s => !ALLOWED_IMPL_SECTIONS.has(s));
   if (nonStatus.length > 0) {
     return {
       passed: false,

@@ -46,6 +46,7 @@ Create a new business intent or refine an existing one. An intent captures the "
 2. Ask what changed: "What needs to be updated — the goal, the stakeholders, the success criteria, or the status?"
 
 3. Apply changes, preserving all sections. Update "Last reviewed" to today's date.
+   **Preserve the `## Behaviours <!-- taproot-managed -->` section exactly** — read and re-insert it unchanged before `## Status` after applying other edits. Never discard it during a rewrite.
 
 4. If the status is changing to `achieved`, verify at least one success criterion is checked off.
 

@@ -19,6 +19,10 @@ New user after email verification
 ## Error Conditions
 - Payment failure: Show error and retry option
 
+## Implementations <!-- taproot-managed -->
+- [Stripe Integration](./stripe-integration/impl.md)
+- [Trial Activation](./trial-activation/impl.md)
+
 ## Status
 - **State:** implemented
 - **Created:** 2024-02-01

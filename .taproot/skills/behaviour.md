@@ -41,11 +41,18 @@ Define a UseCase (observable system behaviour) under an intent or another behavi
 
 9. Create the directory `<parent>/<slug>/` and write `usecase.md`.
 
-10. Run `taproot validate-structure --path <taproot-root>` and `taproot validate-format --path <parent>/<slug>/`.
+10. Update the parent document's `## Behaviours <!-- taproot-managed -->` section:
+    - Read the parent `intent.md` (or parent `usecase.md` for sub-behaviours).
+    - If the `## Behaviours` section does not exist, insert it immediately before `## Status` (or append at end of file if `## Status` is absent), with the heading `## Behaviours <!-- taproot-managed -->`.
+    - Derive the link title from the first `# Heading` line of the new `usecase.md`; strip any type prefix (e.g. `# Behaviour: Foo` → `Foo`). Fall back to the folder slug if no heading is found.
+    - Append `- [<Title>](./<slug>/usecase.md)` to the section if the link is not already present.
+    - Write the updated parent document.
 
-11. If the behaviour has clear sub-components, suggest decomposition: "This behaviour has three distinct phases — would you like to break it into sub-behaviours: `<sub-slug-1>`, `<sub-slug-2>`, `<sub-slug-3>`?"
+11. Run `taproot validate-structure --path <taproot-root>` and `taproot validate-format --path <parent>/<slug>/`.
 
-12. Suggest next action: "`/taproot:grill <parent>/<slug>/usecase.md` to stress-test, or `/taproot:implement <parent>/<slug>/` when ready to build."
+12. If the behaviour has clear sub-components, suggest decomposition: "This behaviour has three distinct phases — would you like to break it into sub-behaviours: `<sub-slug-1>`, `<sub-slug-2>`, `<sub-slug-3>`?"
+
+13. Suggest next action: "`/taproot:grill <parent>/<slug>/usecase.md` to stress-test, or `/taproot:implement <parent>/<slug>/` when ready to build."
 
 ## Output
 

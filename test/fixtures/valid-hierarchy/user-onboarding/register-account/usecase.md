@@ -29,6 +29,10 @@ New user visiting the application for the first time
 - Invalid email format: Show inline validation error
 - Password too weak: Show password requirements
 
+## Implementations <!-- taproot-managed -->
+- [Email Validation](./email-validation/impl.md)
+- [Password Policy](./password-policy/impl.md)
+
 ## Status
 - **State:** implemented
 - **Created:** 2024-01-16

@@ -17,7 +17,7 @@ taproot init [--with-hooks] [--with-ci github|gitlab] [--with-skills] [--agent c
 ```bash
 taproot update
 ```
-Refresh installed agent adapters and skills to the current version. Removes stale artefacts from older layouts.
+Refresh installed agent adapters and skills to the current version. Removes stale artefacts from older layouts. Also runs a cross-link refresh pass: adds missing `## Behaviours <!-- taproot-managed -->` sections to `intent.md` files and `## Implementations <!-- taproot-managed -->` sections to `usecase.md` files, appending child links and pruning stale ones.
 
 ## Validation
 
@@ -29,7 +29,7 @@ Verify folder hierarchy nesting rules. Exit 0 if valid, exit 1 with violations.
 ```bash
 taproot validate-format [--path taproot/] [--fix]
 ```
-Validate marker files conform to their schemas. `--fix` scaffolds missing section headers.
+Validate marker files conform to their schemas. `--fix` scaffolds missing section headers. Also checks that every `intent.md` with child behaviour folders has a `## Behaviours` section, every `usecase.md` with child impl folders has an `## Implementations` section, and every link in those sections resolves to an existing file (`STALE_LINK`).
 
 ## Traceability
 

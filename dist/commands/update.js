@@ -1,9 +1,10 @@
 import { existsSync, rmSync, readdirSync, readFileSync, writeFileSync, unlinkSync, mkdirSync, renameSync } from 'fs';
-import { join } from 'path';
+import { join, dirname, relative, resolve } from 'path';
 import { generateAdapters } from '../adapters/index.js';
 import { installSkills, SKILL_FILES } from './init.js';
 import { runOverview } from './overview.js';
 import { DEFAULT_CONFIG } from '../core/config.js';
+import { walkHierarchy, flattenTree } from '../core/fs-walker.js';
 const TAPROOT_START = '<!-- TAPROOT:START -->';
 // Stale paths left behind by older taproot versions
 const STALE_PATHS = [
@@ -90,6 +91,99 @@ function removeStale(cwd) {
     }
     return messages;
 }
+function extractTitle(content, fallback) {
+    const m = content.match(/^# (?:[^:\n]+: )?(.+)$/m);
+    return m?.[1]?.trim() ?? fallback;
+}
+function upsertLinkSection(content, docPath, sectionTitle, childNodes, childDoc) {
+    const managedHeader = `## ${sectionTitle} <!-- taproot-managed -->`;
+    // Build desired links: rel path → title
+    const desiredLinks = [];
+    for (const child of childNodes) {
+        const childDocPath = join(child.absolutePath, childDoc);
+        if (!existsSync(childDocPath))
+            continue;
+        const rel = './' + relative(dirname(docPath), childDocPath).replace(/\\/g, '/');
+        const childContent = readFileSync(childDocPath, 'utf-8');
+        desiredLinks.push({ rel, title: extractTitle(childContent, child.name) });
+    }
+    const lines = content.split('\n');
+    // Find section start: any "## <Title>" line (with or without managed comment)
+    const sectionPattern = new RegExp(`^## ${sectionTitle}(\\s|$)`);
+    const sectionStartIdx = lines.findIndex(l => sectionPattern.test(l));
+    if (sectionStartIdx === -1) {
+        if (desiredLinks.length === 0)
+            return content;
+        // Insert before ## Status or append at end
+        const statusIdx = lines.findIndex(l => /^## Status(\s|$)/.test(l));
+        const newBlock = [managedHeader, ...desiredLinks.map(l => `- [${l.title}](${l.rel})`), ''];
+        if (statusIdx !== -1) {
+            lines.splice(statusIdx, 0, ...newBlock, '');
+        }
+        else {
+            if (lines[lines.length - 1] !== '')
+                lines.push('');
+            lines.push(...newBlock);
+        }
+        return lines.join('\n');
+    }
+    // Find section end: next "## " heading or EOF
+    let sectionEndIdx = lines.length;
+    for (let i = sectionStartIdx + 1; i < lines.length; i++) {
+        if (/^## /.test(lines[i])) {
+            sectionEndIdx = i;
+            break;
+        }
+    }
+    // Process body lines: prune stale links, collect existing
+    const bodyLines = lines.slice(sectionStartIdx + 1, sectionEndIdx);
+    const existingRels = new Set();
+    const prunedBody = [];
+    for (const line of bodyLines) {
+        const linkMatch = line.match(/\[.*?\]\((.+?)\)/);
+        if (linkMatch) {
+            const rel = linkMatch[1];
+            const resolved = resolve(dirname(docPath), rel);
+            if (!existsSync(resolved))
+                continue; // prune stale
+            existingRels.add(rel);
+        }
+        prunedBody.push(line);
+    }
+    // Append missing links
+    for (const { rel, title } of desiredLinks) {
+        if (!existingRels.has(rel)) {
+            prunedBody.push(`- [${title}](${rel})`);
+        }
+    }
+    // Replace the section (update header to managed form, replace body)
+    lines.splice(sectionStartIdx, sectionEndIdx - sectionStartIdx, managedHeader, ...prunedBody);
+    return lines.join('\n');
+}
+export function refreshLinks(cwd, taprootDir) {
+    const messages = [];
+    if (!existsSync(taprootDir))
+        return messages;
+    const tree = walkHierarchy(taprootDir);
+    const nodes = flattenTree(tree).filter(n => n.marker === 'intent' || n.marker === 'behaviour');
+    for (const node of nodes) {
+        const markerFile = node.marker === 'intent' ? 'intent.md' : 'usecase.md';
+        const docPath = join(node.absolutePath, markerFile);
+        if (!existsSync(docPath))
+            continue;
+        const childMarker = node.marker === 'intent' ? 'behaviour' : 'impl';
+        const childDoc = childMarker === 'behaviour' ? 'usecase.md' : 'impl.md';
+        const sectionTitle = node.marker === 'intent' ? 'Behaviours' : 'Implementations';
+        const childNodes = node.children.filter(c => c.marker === childMarker);
+        const content = readFileSync(docPath, 'utf-8');
+        const updated = upsertLinkSection(content, docPath, sectionTitle, childNodes, childDoc);
+        if (updated !== content) {
+            writeFileSync(docPath, updated, 'utf-8');
+            messages.push(`updated  ${relative(cwd, docPath)}`);
+        }
+    }
+    return messages;
+}
 export async function runUpdate(options) {
     const cwd = options.cwd ?? process.cwd();
     const messages = [];
@@ -122,8 +216,14 @@ export async function runUpdate(options) {
         messages.push('');
         messages.push(...installSkills(skillsDir));
     }
-    // Regenerate OVERVIEW.md
+    // Refresh cross-links (## Behaviours / ## Implementations sections)
     const taprootDir = join(cwd, DEFAULT_CONFIG.root);
+    const linkMsgs = refreshLinks(cwd, taprootDir);
+    if (linkMsgs.length > 0) {
+        messages.push('');
+        messages.push(...linkMsgs);
+    }
+    // Regenerate OVERVIEW.md
     const overviewMsgs = await runOverview({ taprootDir, cwd });
     if (overviewMsgs.length > 0) {
         messages.push('');

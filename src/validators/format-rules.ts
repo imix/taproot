@@ -1,6 +1,6 @@
 import { existsSync } from 'fs';
 import { resolve, dirname } from 'path';
-import type { ParsedMarkdown, MarkerType, TaprootConfig, Violation } from './types.js';
+import type { ParsedMarkdown, MarkerType, TaprootConfig, Violation, FolderNode } from './types.js';
 
 const REQUIRED_SECTIONS: Record<MarkerType, string[]> = {
   intent: ['stakeholders', 'goal', 'success criteria', 'status'],
@@ -158,10 +158,72 @@ export function checkDiagramSection(
   return [];
 }
 
+export function checkLinkSection(
+  doc: ParsedMarkdown,
+  node: FolderNode,
+): Violation[] {
+  if (node.marker === 'intent') {
+    const hasBehaviourChildren = node.children.some(c => c.marker === 'behaviour');
+    return checkManagedSection(doc, 'behaviours', 'Behaviours', hasBehaviourChildren);
+  }
+  if (node.marker === 'behaviour') {
+    const hasImplChildren = node.children.some(c => c.marker === 'impl');
+    return checkManagedSection(doc, 'implementations', 'Implementations', hasImplChildren);
+  }
+  return [];
+}
+
+function findSectionByPrefix(doc: ParsedMarkdown, prefix: string): import('./types.js').SectionContent | undefined {
+  for (const [key, value] of doc.sections) {
+    if (key === prefix || key.startsWith(prefix + ' ')) return value;
+  }
+  return undefined;
+}
+
+function checkManagedSection(
+  doc: ParsedMarkdown,
+  sectionKey: string,
+  sectionTitle: string,
+  hasChildren: boolean,
+): Violation[] {
+  const violations: Violation[] = [];
+  const section = findSectionByPrefix(doc, sectionKey);
+
+  if (hasChildren && !section) {
+    violations.push({
+      type: 'error',
+      filePath: doc.filePath,
+      code: 'MISSING_LINK_SECTION',
+      message: `Missing "## ${sectionTitle}" section — run \`taproot update\` to generate it`,
+    });
+    return violations;
+  }
+
+  if (!section) return [];
+
+  const linkPattern = /\[.*?\]\((.+?)\)/g;
+  let m: RegExpExecArray | null;
+  while ((m = linkPattern.exec(section.rawBody)) !== null) {
+    const linkTarget = m[1]!;
+    const resolved = resolve(dirname(doc.filePath), linkTarget);
+    if (!existsSync(resolved)) {
+      violations.push({
+        type: 'error',
+        filePath: doc.filePath,
+        code: 'STALE_LINK',
+        message: `STALE_LINK — link in ## ${sectionTitle} points to non-existent file: ${linkTarget}`,
+      });
+    }
+  }
+
+  return violations;
+}
+
 export function validateFormat(
   doc: ParsedMarkdown,
   markerType: MarkerType,
-  config: TaprootConfig
+  config: TaprootConfig,
+  node?: FolderNode,
 ): Violation[] {
   const violations: Violation[] = [];
   violations.push(...checkRequiredSections(doc, markerType));
@@ -172,6 +234,9 @@ export function validateFormat(
   }
   if (markerType === 'behaviour') {
     violations.push(...checkDiagramSection(doc));
+  }
+  if (node) {
+    violations.push(...checkLinkSection(doc, node));
   }
   return violations;
 }

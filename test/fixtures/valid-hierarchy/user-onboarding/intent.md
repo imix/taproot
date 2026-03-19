@@ -13,6 +13,10 @@ Enable new users to register and start using the product within 5 minutes.
 ## Constraints
 - Must comply with GDPR data handling requirements
 
+## Behaviours <!-- taproot-managed -->
+- [Register Account](./register-account/usecase.md)
+- [Choose Plan](./choose-plan/usecase.md)
+
 ## Status
 - **State:** active
 - **Created:** 2024-01-15

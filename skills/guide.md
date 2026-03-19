@@ -64,13 +64,14 @@ ineed → intent → behaviour → implement → trace → status
 | Command | Purpose |
 |---|---|
 | `taproot validate-structure` | Check folder and file naming conventions |
-| `taproot validate-format` | Check document frontmatter and required fields |
+| `taproot validate-format` | Check document frontmatter, required fields, and cross-link sections |
 | `taproot check-orphans` | Find folders missing their marker files |
 | `taproot coverage` | Show implementation coverage across the hierarchy |
 | `taproot sync-check` | Detect specs that may be stale relative to code |
 | `taproot overview` | Regenerate `taproot/OVERVIEW.md` summary |
 | `taproot dod [impl-path]` | Run Definition of Done checks; mark impl complete if all pass |
 | `taproot commithook` | Pre-commit gate: classifies staged files and runs DoR or DoD as appropriate |
+| `taproot update` | Refresh agent adapters, skills, and cross-link sections across the hierarchy |
 | `taproot init` | Initialize Taproot in a project |
 
 ### Rule of Thumb

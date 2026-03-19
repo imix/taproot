@@ -63,14 +63,14 @@ export async function runValidateFormat(options: {
     }
 
     const parsed = parseMarkdown(filePath, content);
-    const nodeViolations = validateFormat(parsed, node.marker, config);
+    const nodeViolations = validateFormat(parsed, node.marker, config, node);
 
     if (options.fix && nodeViolations.some(v => v.code === 'MISSING_SECTION')) {
       const fixed = applyFix(content, parsed, node.marker);
       writeFileSync(filePath, fixed, 'utf-8');
       // Re-parse and re-validate after fix
       const reparsed = parseMarkdown(filePath, fixed);
-      violations.push(...validateFormat(reparsed, node.marker, config));
+      violations.push(...validateFormat(reparsed, node.marker, config, node));
     } else {
       violations.push(...nodeViolations);
     }

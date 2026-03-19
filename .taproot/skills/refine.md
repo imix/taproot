@@ -30,6 +30,7 @@ Update a behaviour spec (`usecase.md`) based on what was learned during or after
    - For new constraints: add to Preconditions or Error Conditions
    - Update "Last reviewed" to today
    - If the finding is significant enough to change the state, update Status
+   - **Preserve the `## Implementations <!-- taproot-managed -->` section exactly** — read and re-insert it unchanged before `## Status` after applying other edits. Never discard it during a rewrite.
 
 5. Run `taproot sync-check --path <taproot-root>`. If any `impl.md` files under this behaviour are flagged as `SPEC_UPDATED`, list them explicitly: "These implementations may need to be reviewed against the updated spec: [list]."
 

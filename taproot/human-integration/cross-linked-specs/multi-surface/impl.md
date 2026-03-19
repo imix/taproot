@@ -32,6 +32,13 @@
 - `test/integration/cross-links.test.ts` — covers: validate-format detects missing ## Behaviours on intent.md with child behaviours; validate-format detects missing ## Implementations on usecase.md with child impls; validate-format passes when sections present; stale link detection (linked file missing); refreshLinks adds missing sections; refreshLinks appends missing child links; refreshLinks is idempotent; refreshLinks prunes stale links; title extracted from first # Heading; fallback to folder slug when no heading
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-19
+
+## DoD Resolutions
+- condition: document-current | note: docs/cli.md documents taproot update cross-link refresh and validate-format link section checks; skills/guide.md lists taproot update and updated validate-format description | resolved: 2026-03-19T19:56:18.230Z
+- condition: check-if-affected: skills/guide.md | note: guide.md updated to include taproot update and updated validate-format description | resolved: 2026-03-19T19:56:18.721Z
+
+- condition: check-if-affected: src/commands/update.ts | note: update.ts was modified — refreshLinks() added and called from runUpdate() | resolved: 2026-03-19T19:56:18.475Z
+

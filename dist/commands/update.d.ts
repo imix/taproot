@@ -1,4 +1,5 @@
 import type { Command } from 'commander';
+export declare function refreshLinks(cwd: string, taprootDir: string): string[];
 export declare function runUpdate(options: {
     cwd?: string;
     withHooks?: boolean;

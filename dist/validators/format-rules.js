@@ -124,7 +124,55 @@ export function checkDiagramSection(doc) {
     }
     return [];
 }
-export function validateFormat(doc, markerType, config) {
+export function checkLinkSection(doc, node) {
+    if (node.marker === 'intent') {
+        const hasBehaviourChildren = node.children.some(c => c.marker === 'behaviour');
+        return checkManagedSection(doc, 'behaviours', 'Behaviours', hasBehaviourChildren);
+    }
+    if (node.marker === 'behaviour') {
+        const hasImplChildren = node.children.some(c => c.marker === 'impl');
+        return checkManagedSection(doc, 'implementations', 'Implementations', hasImplChildren);
+    }
+    return [];
+}
+function findSectionByPrefix(doc, prefix) {
+    for (const [key, value] of doc.sections) {
+        if (key === prefix || key.startsWith(prefix + ' '))
+            return value;
+    }
+    return undefined;
+}
+function checkManagedSection(doc, sectionKey, sectionTitle, hasChildren) {
+    const violations = [];
+    const section = findSectionByPrefix(doc, sectionKey);
+    if (hasChildren && !section) {
+        violations.push({
+            type: 'error',
+            filePath: doc.filePath,
+            code: 'MISSING_LINK_SECTION',
+            message: `Missing "## ${sectionTitle}" section — run \`taproot update\` to generate it`,
+        });
+        return violations;
+    }
+    if (!section)
+        return [];
+    const linkPattern = /\[.*?\]\((.+?)\)/g;
+    let m;
+    while ((m = linkPattern.exec(section.rawBody)) !== null) {
+        const linkTarget = m[1];
+        const resolved = resolve(dirname(doc.filePath), linkTarget);
+        if (!existsSync(resolved)) {
+            violations.push({
+                type: 'error',
+                filePath: doc.filePath,
+                code: 'STALE_LINK',
+                message: `STALE_LINK — link in ## ${sectionTitle} points to non-existent file: ${linkTarget}`,
+            });
+        }
+    }
+    return violations;
+}
+export function validateFormat(doc, markerType, config, node) {
     const violations = [];
     violations.push(...checkRequiredSections(doc, markerType));
     violations.push(...checkStatusValue(doc, markerType, config));
@@ -134,6 +182,9 @@ export function validateFormat(doc, markerType, config) {
     }
     if (markerType === 'behaviour') {
         violations.push(...checkDiagramSection(doc));
+    }
+    if (node) {
+        violations.push(...checkLinkSection(doc, node));
     }
     return violations;
 }

@@ -38,7 +38,14 @@ Implement a behaviour spec: write the code, write the tests, create the `impl.md
    - **Tests**: list every test file, with a brief description of what scenarios it covers
    - **Status**: `in-progress`
 
-6. **Declaration commit** — commit `impl.md` alone (no source files):
+5a. Update the parent `usecase.md`'s `## Implementations <!-- taproot-managed -->` section:
+    - Read `<path>/usecase.md`.
+    - If the `## Implementations` section does not exist, insert it immediately before `## Status` (or append at end of file if `## Status` is absent), with the heading `## Implementations <!-- taproot-managed -->`.
+    - Derive the link title from the first `# Heading` line of the new `impl.md`; strip any type prefix (e.g. `# Implementation: Foo` → `Foo`). Fall back to the folder slug if no heading is found.
+    - Append `- [<Title>](./<impl-slug>/impl.md)` to the section if the link is not already present.
+    - Write the updated `usecase.md`. Stage it together with `impl.md` for the declaration commit.
+
+6. **Declaration commit** — commit `impl.md` and any `usecase.md` link-section update together (no source files):
    ```
    taproot(<intent-slug>/<behaviour-slug>/<impl-slug>): declare implementation
    ```
