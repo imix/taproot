@@ -67,6 +67,9 @@ flowchart TD
 - `taproot/implementation-quality/definition-of-done/usecase.md` — DoD is the trigger for this cascade; this behaviour is a postcondition of DoD passing
 - `taproot/hierarchy-integrity/pre-commit-enforcement/usecase.md` — the pre-commit hook runs DoD but does not cascade state; cascade happens in the dod CLI, not the hook
 
+## Implementations <!-- taproot-managed -->
+- [Multi-Surface — dod CLI + tr-implement skill](./multi-surface/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-19
