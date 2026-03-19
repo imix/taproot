@@ -17,7 +17,7 @@ CI pipeline or agentic developer generating a machine-optimised context snapshot
 4. System writes the file and reports the output path
 
 ## Alternate Flows
-- **On merge pipeline**: CONTEXT.md is regenerated after `taproot link-commits` so it includes the latest commit linkages
+- **On merge pipeline (aspirational)**: CONTEXT.md could be regenerated in CI after `taproot link-commits` — no CI workflow is currently bundled with taproot; teams configure this themselves
 - **Scoped path**: `--path` option generates context for a subtree only
 
 ## Error Conditions
@@ -28,5 +28,5 @@ CI pipeline or agentic developer generating a machine-optimised context snapshot
 - AI agents reading CONTEXT.md get the full picture — what's done, what's in progress, and what needs attention — without traversing individual documents
 
 ## Status
-- **State:** active
+- **State:** implemented
 - **Created:** 2026-03-19

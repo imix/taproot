@@ -6,7 +6,6 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 ## Preconditions
 - A project directory exists
 - `taproot` CLI is installed (`npm install -g taproot`)
-- No `taproot/` directory exists yet (or it exists but is empty)
 
 ## Main Flow
 1. Actor runs `taproot init` in the project root
@@ -22,14 +21,15 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 - **Interactive agent selection**: if `--agent` flag is omitted, system presents a checkbox prompt to select which agent adapters to install
 
 ## Error Conditions
-- **No write permission**: filesystem error is surfaced; no partial state is left
+- **No write permission**: filesystem error is surfaced; earlier steps that succeeded are not rolled back (no transactional guarantee)
 
 ## Postconditions
-- `taproot/` directory exists with standard subdirectories
+- `taproot/` directory exists with standard subdirectories (`skills/`, `_brainstorms/`)
 - `.taproot.yaml` exists with default configuration (can be customised after init)
 - `taproot/CONVENTIONS.md` exists as a human-readable format reference
+- `taproot/skills/` is populated with canonical skill definitions
 - The project is ready to receive intent, behaviour, and implementation documents
 
 ## Status
-- **State:** active
+- **State:** implemented
 - **Created:** 2026-03-19

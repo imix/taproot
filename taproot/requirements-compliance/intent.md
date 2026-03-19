@@ -11,12 +11,12 @@ Prove that the software as built actually implements the requirements as specifi
 ## Success Criteria
 - Every implementation record links to specific source files and git commits
 - The commit history shows which requirement drove each change
-- A compliance report can be generated showing intent → behaviour → impl → commit chains
 - Broken links (missing source files, invalid references) are detected and reported
 
 ## Constraints
 - Traceability is maintained by convention (commit tags, impl.md source references) not by tooling that auto-instruments code
 - The audit trail relies on git history — shallow clones or force-pushes can break it
+- A full chain report (intent → behaviour → impl → commit) is not yet generated as a single artefact; traceability is navigated document-by-document via `check-orphans` and the hierarchy itself
 
 ## Status
 - **State:** active

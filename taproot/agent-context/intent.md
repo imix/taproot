@@ -9,12 +9,13 @@ Give AI coding agents a live, navigable map of the codebase — what is implemen
 
 ## Success Criteria
 - An agent can navigate from a business intent down to the source files that implement it
-- An agent can navigate from a source file up to the behaviour and intent it belongs to
+- An agent can navigate from a source file up to the behaviour and intent it belongs to (via `/tr-trace`)
 - The context is machine-readable and stays current as the codebase evolves
 
 ## Constraints
 - Context must be derivable from the hierarchy itself — no manual curation step
 - Must work with any AI agent that can read files (not Claude-specific)
+- Bottom-up navigation (source file → intent) is supported by the `/tr-trace` skill; OVERVIEW.md and CONTEXT.md provide top-down orientation only
 
 ## Status
 - **State:** active

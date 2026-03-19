@@ -9,65 +9,85 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 **Goal:** Give AI coding agents a live, navigable map of the codebase — what is implemented where, and why — so they can reason about code in the context of the requirements it fulfils.
 
-- **generate-context** `[active]` — Actor: CI pipeline or agentic developer generating a machine-optimised context snapshot
-- **generate-overview** `[active]` — Actor: Agentic developer / orchestrator or AI coding agent refreshing the project summary
+- **generate-context** `[implemented]` — Actor: CI pipeline or agentic developer generating a machine-optimised context snapshot
+  - cli-command `[complete]` (0 commits, 1 test)
+- **generate-overview** `[implemented]` — Actor: Agentic developer / orchestrator or AI coding agent refreshing the project summary
+  - cli-command `[complete]` (0 commits, 1 test)
 
 ## agent-integration `[active]`
 
 **Goal:** Enable any AI coding agent to participate fully in the taproot workflow — through skills, commands, adapters, or whatever invocation mechanism the agent supports — without being tied to a specific agent's ecosystem.
 
-_No behaviours yet._
+- **generate-agent-adapter** `[implemented]` — Actor: Developer initializing taproot for a specific AI coding agent via `taproot init --agent `
+  - cli-command `[complete]` (0 commits, 2 tests)
+- **update-adapters-and-skills** `[implemented]` — Actor: Developer running `taproot update` after upgrading taproot or modifying skill definitions
+  - cli-command `[complete]` (0 commits, 1 test)
 
 ## hierarchy-integrity `[active]`
 
 **Goal:** Ensure the requirement hierarchy remains structurally valid and formally complete as it evolves — whether authored by humans, AI agents, or both.
 
-- **pre-commit-enforcement** `[active]` — Actor: Git — triggered automatically when any contributor (human or agent) runs `git commit`
-- **validate-format** `[active]` — Actor: Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying document contents conform to the schema
-- **validate-structure** `[active]` — Actor: Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying the hierarchy is well-formed
+- **pre-commit-enforcement** `[implemented]` — Actor: Git — triggered automatically when any contributor (human or agent) runs `git commit`
+  - git-hook `[complete]` (0 commits, 1 test)
+- **validate-format** `[implemented]` — Actor: Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying document contents conform to the schema
+  - cli-command `[complete]` (0 commits, 3 tests)
+- **validate-structure** `[implemented]` — Actor: Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying the hierarchy is well-formed
+  - cli-command `[complete]` (0 commits, 2 tests)
 
 ## human-integration `[active]`
 
 **Goal:** Keep the human orchestrator in meaningful control of the requirement hierarchy — as its owner, its primary author of intent, and its final decision-maker — while making the current state of the project legible at a glance.
 
-_No behaviours yet._
+- **human-readable-report** `[implemented]` — Actor: Developer or project stakeholder invoking `/tr-status`
+  - agent-skill `[complete]` (0 commits, 1 test)
 
 ## implementation-planning `[active]`
 
 **Goal:** Enable orchestrators and agents to extract the next independently-implementable work item from the requirement hierarchy — as a thin vertical slice with clear acceptance criteria, dependencies, and traceability back to the originating behaviour.
 
-_No behaviours yet._
+- **extract-next-slice** `[specified]` — Actor: Agentic developer / orchestrator (human who asks the agent to plan the next work item)
+  - agent-skill `[in-progress]` (0 commits, 1 test)
 
 ## project-discovery `[active]`
 
 **Goal:** Reverse-engineer an existing codebase into a taproot requirement hierarchy through structured, interactive discovery — so that teams adopting taproot mid-project don't start from a blank slate.
 
-_No behaviours yet._
+- **discover-existing-project** `[implemented]` — Actor: Developer invoking `/tr-discover` on a codebase that has no taproot hierarchy yet (or a partial one)
+  - agent-skill `[complete]` (0 commits, 1 test)
 
 ## requirements-completeness `[active]`
 
-**Goal:** Verify that no requirement has been left without coverage at the level below it — every business intent has behaviours, every behaviour has implementations, and every exception case in a behaviour has a corresponding implementation.
+**Goal:** Verify that no requirement has been left without coverage at the level below it — every business intent has behaviours and every behaviour has implementations.
 
-_No behaviours yet._
+- **coverage-report** `[implemented]` — Actor: Developer or operator running `taproot coverage`
+  - cli-command `[complete]` (0 commits, 1 test)
+- **sync-check** `[implemented]` — Actor: Developer or CI pipeline running `taproot sync-check`
+  - cli-command `[complete]` (0 commits, 1 test)
 
 ## requirements-compliance `[active]`
 
 **Goal:** Prove that the software as built actually implements the requirements as specified — establishing an auditable trail from business intent through stakeholder behaviour to working, tested code.
 
-_No behaviours yet._
+- **check-orphans** `[implemented]` — Actor: Developer or CI pipeline running `taproot check-orphans`
+  - cli-command `[complete]` (0 commits, 1 test)
+- **link-commits** `[implemented]` — Actor: Developer or CI operator running `taproot link-commits`
+  - cli-command `[complete]` (0 commits, 1 test)
 
 ## requirements-hierarchy `[active]`
 
 **Goal:** Enable teams to capture the full requirements hierarchy — from business intent through stakeholder behaviour to system implementation — in a single, navigable, git-versioned structure.
 
-- **configure-hierarchy** `[active]` — Actor: Agentic developer / orchestrator customising taproot to match project conventions
-- **initialise-hierarchy** `[active]` — Actor: Agentic developer / orchestrator setting up taproot in a new or existing project
+- **configure-hierarchy** `[implemented]` — Actor: Agentic developer / orchestrator customising taproot to match project conventions
+  - yaml-config `[complete]` (0 commits ⚠ no tests)
+- **initialise-hierarchy** `[implemented]` — Actor: Agentic developer / orchestrator setting up taproot in a new or existing project
+  - cli-command `[complete]` (0 commits, 1 test)
 
 ## taproot-lifecycle `[active]`
 
 **Goal:** Keep an installed taproot setup current as the tool evolves — refreshing skills, regenerating agent adapters, and removing stale artefacts from older versions.
 
-_No behaviours yet._
+- **update-installation** `[implemented]` — Actor: Developer running `taproot update` after upgrading the taproot package
+  - cli-command `[complete]` (0 commits, 1 test)
 
 ---
-10 intents · 7 behaviours · 0 implementations · 0/0 complete
+10 intents · 17 behaviours · 17 implementations · 16/17 complete

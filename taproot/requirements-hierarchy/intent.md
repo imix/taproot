@@ -12,7 +12,7 @@ Enable teams to capture the full requirements hierarchy — from business intent
 - A business intent can be expressed with goal, stakeholders, success criteria, and constraints
 - Each intent can have one or more observable stakeholder behaviours (usecases) with actor, flow, and postconditions
 - Each behaviour can be linked to one or more system-level implementations
-- The hierarchy is navigable top-down (intent → behaviour → impl) and bottom-up (impl → behaviour → intent)
+- Navigation of the hierarchy (top-down and bottom-up) is provided by the agent-context and project-discovery intents
 
 ## Constraints
 - The filesystem is the data model — no external database or service required

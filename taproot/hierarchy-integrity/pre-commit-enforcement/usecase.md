@@ -16,8 +16,9 @@ Git — triggered automatically when any contributor (human or agent) runs `git 
 6. If either fails (exit 1), git aborts the commit and prints the violation report
 
 ## Alternate Flows
-- **No taproot changes in commit**: validation still runs but passes instantly (no marker files changed)
+- **No taproot changes in commit**: validation still runs unconditionally against all marker files — passes quickly if the hierarchy is valid, regardless of what was staged
 - **CI enforcement**: CI pipeline runs the same commands on PRs as a read-only check (does not block local commits, only merges)
+- **Existing pre-commit hook**: `taproot init --with-hooks` appends the taproot check to the existing hook file rather than replacing it
 
 ## Error Conditions
 - **taproot CLI not installed**: hook fails with a "command not found" error — contributor must install taproot globally
@@ -28,5 +29,5 @@ Git — triggered automatically when any contributor (human or agent) runs `git 
 - On failure: commit is blocked; contributor fixes violations and re-commits
 
 ## Status
-- **State:** active
+- **State:** implemented
 - **Created:** 2026-03-19

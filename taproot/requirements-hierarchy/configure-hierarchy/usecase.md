@@ -24,12 +24,15 @@ Agentic developer / orchestrator customising taproot to match project convention
 
 ## Error Conditions
 - **Invalid YAML syntax**: CLI reports a parse error with the file path on next invocation
-- **Unknown config key**: silently ignored (deep merge skips unrecognised keys)
+- **Unknown config key**: silently ignored (deep merge skips unrecognised keys) — typos in key names go undetected; see Constraints
+
+## Constraints (this behaviour)
+- Unknown configuration keys are silently ignored — this is a known limitation; a typo in a key name (e.g. `comit_pattern`) produces no error and the value is discarded silently
 
 ## Postconditions
 - All taproot CLI commands use the updated configuration
 - Validation rules reflect the project's chosen conventions
 
 ## Status
-- **State:** active
+- **State:** implemented
 - **Created:** 2026-03-19

@@ -5,7 +5,7 @@
 ## Session
 - **Started:** 2026-03-19
 - **Last updated:** 2026-03-19
-- **Phase:** 3 (paused — adding Mermaid diagram support to usecase.md before continuing)
+- **Phase:** complete
 - **Scope:** whole project
 - **Depth:** full
 
@@ -43,28 +43,64 @@
 - [x] generate-context
 
 ### requirements-compliance
-- [ ] link-commits
-- [ ] check-orphans
+- [x] link-commits
+- [x] check-orphans
 
 ### requirements-completeness
-- [ ] coverage-report
-- [ ] sync-check
+- [x] coverage-report
+- [x] sync-check
 
 ### agent-integration
-- [ ] generate-agent-adapter
-- [ ] update-adapters-and-skills
+- [x] generate-agent-adapter
+- [x] update-adapters-and-skills
 
 ### implementation-planning
-- [ ] extract-next-slice
+- [x] extract-next-slice
 
 ### human-integration
-- [ ] human-readable-report
+- [x] human-readable-report
 
 ### project-discovery
-- [ ] discover-existing-project (stop/resume)
+- [x] discover-existing-project (stop/resume)
 
 ### taproot-lifecycle
-- [ ] update-installation
+- [x] update-installation
 
 ## Phase 4 — Implementations
-<!-- To be populated after Phase 3 is complete -->
+
+### requirements-hierarchy
+- [x] requirements-hierarchy/initialise-hierarchy/cli-command
+- [x] requirements-hierarchy/configure-hierarchy/yaml-config
+
+### hierarchy-integrity
+- [x] hierarchy-integrity/validate-structure/cli-command
+- [x] hierarchy-integrity/validate-format/cli-command
+- [x] hierarchy-integrity/pre-commit-enforcement/git-hook
+
+### agent-context
+- [x] agent-context/generate-overview/cli-command
+- [x] agent-context/generate-context/cli-command
+
+### requirements-compliance
+- [x] requirements-compliance/link-commits/cli-command
+- [x] requirements-compliance/check-orphans/cli-command
+
+### requirements-completeness
+- [x] requirements-completeness/coverage-report/cli-command
+- [x] requirements-completeness/sync-check/cli-command
+
+### agent-integration
+- [x] agent-integration/generate-agent-adapter/cli-command
+- [x] agent-integration/update-adapters-and-skills/cli-command
+
+### implementation-planning
+- [x] implementation-planning/extract-next-slice/agent-skill (in-progress — no CLI command yet)
+
+### human-integration
+- [x] human-integration/human-readable-report/agent-skill
+
+### project-discovery
+- [x] project-discovery/discover-existing-project/agent-skill
+
+### taproot-lifecycle
+- [x] taproot-lifecycle/update-installation/cli-command

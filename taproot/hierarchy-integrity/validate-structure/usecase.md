@@ -29,5 +29,5 @@ Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying the 
 - Each violation includes: severity (error/warning), file path, error code, human-readable message
 
 ## Status
-- **State:** active
+- **State:** implemented
 - **Created:** 2026-03-19

@@ -33,5 +33,5 @@ Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying docu
 - With `--fix`, missing sections are scaffolded so the document can be completed without starting from scratch
 
 ## Status
-- **State:** active
+- **State:** implemented
 - **Created:** 2026-03-19
