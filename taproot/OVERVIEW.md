@@ -36,6 +36,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 **Goal:** Ensure the requirement hierarchy remains structurally valid and formally complete as it evolves — whether authored by humans, AI agents, or both.
 
 - **analyse-change** `[specified]` — Actor: Any taproot skill operating in refine/modify mode (`tr-ineed`, `tr-intent`, `tr-behaviour`, `tr-implement`, `tr-refine`, `tr-promote`) — or an AI coding agent acting directly on the hierarchy — when about to modify an existing artefact.
+  - agent-skill `[complete]` (1 commit, 1 test)
 - **pre-commit-enforcement** `[implemented]` — Actor: Git — triggered automatically when any contributor (human or agent) runs `git commit`
   - git-hook `[complete]` (0 commits, 1 test)
 - **validate-format** `[implemented]` — Actor: Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying document contents conform to the schema
@@ -109,4 +110,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - cli-command `[complete]` (0 commits, 1 test)
 
 ---
-12 intents · 22 behaviours · 21 implementations · 21/21 complete
+12 intents · 22 behaviours · 22 implementations · 22/22 complete

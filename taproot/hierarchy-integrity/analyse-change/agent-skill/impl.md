@@ -14,6 +14,7 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `3389b09d41baf0f09a9ef06473bab889f5a59032` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/skills.test.ts` — validates analyse-change.md skill file format and required sections
