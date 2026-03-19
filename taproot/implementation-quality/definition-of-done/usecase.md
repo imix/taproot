@@ -1,49 +1,85 @@
 # Behaviour: Definition of Done Enforcement
 
 ## Actor
-`/tr-implement` — triggered automatically at the end of the implement flow before marking an impl `complete`. Can also be invoked standalone by a developer or CI pipeline to check the current state.
+`/tr-implement` — triggered automatically at the end of the implement flow before marking an impl `complete`. Also invoked by `taproot commithook` on implementation commits (staged source files + `impl.md`). Can also be invoked standalone by a developer or CI pipeline.
 
 ## Preconditions
 - Implementation work is complete (code written, tests written)
 - `impl.md` exists for the behaviour being implemented
-- If DoD conditions are configured, `.taproot.yaml` contains a `definition-of-done` list following the declared syntax (see Notes)
+- The parent `usecase.md` was DoR-validated at declaration commit time
 
 ## Main Flow
-1. System reads `definition-of-done` conditions from `.taproot.yaml`
-2. System runs all conditions — every condition runs regardless of whether earlier ones fail
-3. For each condition, system records: name, pass/fail, output, and a proposed correction if failed. For `document-current` conditions specifically: the agent reads recent git commits and diffs, identifies stale sections in `README.md` and `docs/`, and applies updates directly. The condition passes once updates are made — no correction prompt is shown.
-4. If all conditions pass: system marks the impl `state: complete` and reports success
-5. If any conditions fail: system reports all failures together, each with a proposed correction, and does NOT mark the impl complete
+1. System always runs the DoD baseline (non-configurable):
+   - Parent `usecase.md` still exists
+   - Parent `usecase.md` still has `state: specified`
+   - `taproot validate-format` passes on the parent `usecase.md`
+2. System reads `definitionOfDone` conditions from `.taproot.yaml` (may be empty — baseline already ran)
+3. System runs all configured conditions — every condition runs regardless of whether earlier ones fail
+4. For each condition, system records: name, pass/fail, output, and a proposed correction if failed:
+   - Shell conditions: executed directly; exit code 0 = pass
+   - `document-current`: agent reads recent git commits and diffs, identifies stale sections in `README.md` and `docs/`, and applies updates directly — condition passes once updates are made
+   - `check-if-affected`: agent reads the git diff, reasons whether the target file should have been updated, applies changes if needed — condition passes once resolved; agent writes resolution to `impl.md` via `taproot dod --resolve`
+5. If all conditions pass: system marks `impl.md` `state: complete` and reports success
+6. If any conditions fail: system reports all failures together with corrections and does NOT mark impl complete
 
 ## Alternate Flows
-### No DoD configured
-- **Trigger:** `.taproot.yaml` exists but has no `definition-of-done` section, or the file does not exist
+### No configured conditions
+- **Trigger:** `.taproot.yaml` has no `definitionOfDone` section, or the file does not exist
 - **Steps:**
-  1. System skips the DoD check entirely
-  2. System marks impl `complete` and notes: "No Definition of Done configured — skipping checks"
+  1. System runs DoD baseline only (step 1 of main flow)
+  2. If baseline passes: impl is marked `complete`
+  3. If baseline fails: impl is blocked with correction
+
+### Agent check resolution
+- **Trigger:** Agent resolves an agent-driven condition (`document-current`, `check-if-affected`) and calls `taproot dod --resolve <condition> "<resolution note>"`
+- **Steps:**
+  1. System writes the resolution to a `## DoD Resolutions` section in `impl.md` with condition name, resolution note, and timestamp
+  2. On subsequent DoD runs, system reads `impl.md` for resolutions — if a valid resolution exists for an agent check, it passes without re-prompting
+  3. Resolutions are valid for the current impl session — stale resolutions (impl.md modified after resolution) are ignored and the agent check re-triggers
 
 ### Standalone check (outside `/tr-implement`)
-- **Trigger:** Developer or CI pipeline runs the DoD check manually against an existing impl
+- **Trigger:** Developer or CI pipeline runs `taproot dod [impl-path]` manually
 - **Steps:**
-  1. System runs all conditions as in the main flow
+  1. System runs baseline + all configured conditions
   2. System reports full pass/fail summary with proposed corrections
   3. System does not modify `impl.md` state — reporting only
 
 ### Custom shell command condition
-- **Trigger:** A condition in `.taproot.yaml` is declared as a shell command rather than a built-in condition name
+- **Trigger:** A condition in `.taproot.yaml` is declared with a `run:` key
 - **Steps:**
   1. System executes the shell command in the project root
   2. Exit code 0 = pass; non-zero = fail
-  3. On failure, system includes stdout/stderr in the report and proposes: "Fix the issue reported above, then re-run"
+  3. On failure, system includes stdout/stderr and the `correction:` field if provided
 
 ## Postconditions
 - If all conditions passed: `impl.md` has `state: complete`
-- If any condition failed: `impl.md` state is unchanged; developer has a full list of failures with proposed corrections
+- If any condition failed: `impl.md` state is unchanged; contributor has a full list of failures with corrections
 
 ## Error Conditions
+- **DoD baseline fails — usecase.md missing or no longer specified**: `FAIL — the behaviour spec this implementation references is no longer valid. Restore the spec to 'specified' before marking complete`
 - **Condition script not found**: reported as a failure with correction "Ensure the command exists and is executable from the project root"
 - **Condition times out**: reported as a failure with correction "Check for hanging processes or increase the timeout in `.taproot.yaml`"
-- **`.taproot.yaml` DoD section is malformed**: system aborts the check and reports a parse error with the offending line; impl is not marked complete
+- **`.taproot.yaml` DoD section is malformed**: system aborts and reports a parse error with the offending line; impl is not marked complete
+
+## Flow
+```mermaid
+flowchart TD
+    A[taproot dod] --> B[run DoD baseline]
+    B -->|usecase missing / not specified| FAIL1[FAIL — spec invalid]
+    B -->|baseline passes| C[read configured conditions]
+    C -->|none configured| D[mark impl complete]
+    C -->|conditions present| E[run all conditions]
+    E --> F{all pass?}
+    F -->|yes| D
+    F -->|no| FAIL2[FAIL — report all failures\nwith corrections]
+    E --> G{agent check?}
+    G -->|resolution in impl.md| PASS[pass]
+    G -->|no resolution| FAIL3[FAIL — agent check required]
+```
+
+## Related
+- `../definition-of-ready/usecase.md` — DoD baseline re-validates DoR conditions; DoR must have passed at declaration commit time
+- `../../hierarchy-integrity/pre-commit-enforcement/usecase.md` — the hook invokes DoD on implementation commits (source + impl.md)
 
 ## Status
 - **State:** specified
@@ -63,8 +99,6 @@
       name: my-check
       correction: "Run the fix script"
   ```
-- Built-in names (`tests-passing`, `linter-clean`, `commit-conventions`) resolve to known commands and standard corrections without requiring shell configuration. Any entry with a `run:` key is executed as a shell command from the project root.
-- `document-current` is a parameterizable built-in that triggers agent-driven documentation review. When this condition runs, the agent reads the git log for recent changes, then reads `README.md` and `docs/` to identify any sections that are stale or missing. The agent applies the necessary updates before the condition passes — it does not prompt for manual confirmation. The parameter string describes what accurate documentation looks like (used as the agent's review target).
-- `check-if-affected: <file-or-description>` is a parameterizable built-in that triggers agent-driven impact reasoning. When this condition runs, the agent reads the git diff for the current impl, then reasons: "given what changed, should `<file-or-description>` have been updated too?" If yes and it was not touched — condition fails with: "This change likely requires updating `<target>` — review and apply." If the agent determines the change does not affect the target — condition passes silently. Multiple `check-if-affected` entries can be listed, each targeting a different file or concern.
-- "Propose corrections" means: for built-in conditions, the system states the standard fix explicitly (e.g. "Run `npm test` and fix failing tests"). For custom shell conditions, stdout/stderr from the failed command is surfaced as correction context, along with the `correction:` field if provided.
-- The README and docs currency condition is resolved via `document-current` — rather than a standalone triggered behaviour, it becomes a DoD gate enforced here with agent-driven review and update.
+- Built-in names (`tests-passing`, `linter-clean`, `commit-conventions`) resolve to known commands and standard corrections without requiring shell configuration.
+- `document-current` and `check-if-affected` are agent-driven conditions — they always fail in a plain shell context and require agent reasoning to resolve. Agents call `taproot dod --resolve <condition> "<note>"` to record their resolution in `impl.md`.
+- DoD can never be a no-op: the baseline always runs, even with no configured conditions. An impl cannot be marked `complete` without the baseline passing.
