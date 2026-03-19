@@ -21,5 +21,12 @@
 - `test/unit/skills.test.ts` — validates every file in `SKILL_FILES` (including `trace.md`) for required sections and format
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-19
+
+## DoD Resolutions
+- condition: document-current | note: README.md and docs/ accurately cover /tr-trace (agents.md line 36, workflows.md lines 46-51). Fixed incorrect description in skills/guide.md (was 'Map recent commits' — corrected to navigation description). | resolved: 2026-03-19T21:45:10.556Z
+- condition: check-if-affected: skills/guide.md | note: Fixed incorrect /tr-trace description in skills/guide.md (was 'Map recent commits back to taproot documents'); copied to .taproot/skills/guide.md | resolved: 2026-03-19T21:45:11.014Z
+
+- condition: check-if-affected: src/commands/update.ts | note: trace.md already in SKILL_FILES in init.ts; update.ts reads from SKILL_FILES and requires no change | resolved: 2026-03-19T21:45:10.784Z
+

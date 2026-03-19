@@ -51,7 +51,7 @@ ineed → intent → behaviour → implement → trace → status
 | `/tr-behaviour` | Define use cases under an intent or another behaviour |
 | `/tr-decompose` | Break an intent into multiple behaviours |
 | `/tr-implement` | Implement a behaviour with code, tests, and `impl.md` |
-| `/tr-trace` | Map recent commits back to taproot documents |
+| `/tr-trace` | Navigate the hierarchy in any direction — file to intent (bottom-up), intent to code (top-down), lateral across siblings |
 | `/tr-status` | Generate a health dashboard for the hierarchy |
 | `/tr-review` | Stress-test a spec with adversarial questions |
 | `/tr-review-all` | Run review across an entire subtree |
