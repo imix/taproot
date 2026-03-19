@@ -164,11 +164,16 @@ export function readResolutions(implPath, cwd) {
     }
     if (entries.length === 0)
         return new Set();
-    // If impl.md was modified after the last resolution (plus buffer), resolutions are stale
-    const implMtimeMs = statSync(absPath).mtimeMs;
-    const latestResolutionMs = Math.max(...entries.map(e => e.timestampMs));
-    if (implMtimeMs > latestResolutionMs + RESOLUTION_STALE_BUFFER_MS) {
-        return new Set(); // stale — impl.md changed after resolutions were recorded
+    // If impl.md is already complete, resolutions are always valid — DoD already passed.
+    // Only check staleness for in-progress impls, where the developer may have changed
+    // implementation code after the agent recorded resolutions.
+    const isComplete = /\*\*State:\*\*\s*complete/.test(content);
+    if (!isComplete) {
+        const implMtimeMs = statSync(absPath).mtimeMs;
+        const latestResolutionMs = Math.max(...entries.map(e => e.timestampMs));
+        if (implMtimeMs > latestResolutionMs + RESOLUTION_STALE_BUFFER_MS) {
+            return new Set(); // stale — impl.md changed after resolutions were recorded
+        }
     }
     return new Set(entries.map(e => e.condition));
 }
