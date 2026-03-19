@@ -67,6 +67,8 @@ Validates that marker files (`intent.md`, `usecase.md`, `impl.md`) conform to th
 - Every `usecase.md` with child impl folders has an `## Implementations <!-- taproot-managed -->` section
 - Every link in those sections resolves to an existing file (detects `STALE_LINK`)
 - `impl.md` `## Behaviour` references point to existing `usecase.md` files
+- Every `usecase.md` with child impl folders has a `## Acceptance Criteria` section (warns `MISSING_ACCEPTANCE_CRITERIA` if absent)
+- Acceptance criterion IDs (`AC-N`) are unique within a file (errors `DUPLICATE_CRITERION_ID` if duplicate)
 
 Use `--fix` to scaffold missing section headers automatically. This is safe to run repeatedly — it only adds what's missing, never overwrites existing content.
 
