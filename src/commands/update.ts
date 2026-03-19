@@ -1,4 +1,4 @@
-import { existsSync, rmSync, readdirSync, readFileSync, unlinkSync, mkdirSync, renameSync } from 'fs';
+import { existsSync, rmSync, readdirSync, readFileSync, writeFileSync, unlinkSync, mkdirSync, renameSync } from 'fs';
 import { join } from 'path';
 import type { Command } from 'commander';
 import { generateAdapters, type AgentName } from '../adapters/index.js';
@@ -96,10 +96,20 @@ function removeStale(cwd: string): string[] {
     messages.push(`removed  taproot/_brainstorms/`);
   }
 
+  // Migrate old pre-commit hook content to taproot commithook
+  const hookPath = join(cwd, '.git', 'hooks', 'pre-commit');
+  if (existsSync(hookPath)) {
+    const hookContent = readFileSync(hookPath, 'utf-8');
+    if (hookContent.includes('validate-structure') || hookContent.includes('validate-format')) {
+      writeFileSync(hookPath, '#!/bin/sh\ntaproot commithook\n', { mode: 0o755 });
+      messages.push(`migrated .git/hooks/pre-commit → taproot commithook`);
+    }
+  }
+
   return messages;
 }
 
-export async function runUpdate(options: { cwd?: string }): Promise<string[]> {
+export async function runUpdate(options: { cwd?: string; withHooks?: boolean }): Promise<string[]> {
   const cwd = options.cwd ?? process.cwd();
   const messages: string[] = [];
 
@@ -147,6 +157,19 @@ export async function runUpdate(options: { cwd?: string }): Promise<string[]> {
     messages.push(...overviewMsgs);
   }
 
+  // Install hook if --with-hooks and none exists
+  if (options.withHooks) {
+    const hookDir = join(cwd, '.git', 'hooks');
+    const hookPath = join(hookDir, 'pre-commit');
+    if (existsSync(join(cwd, '.git')) && !existsSync(hookPath)) {
+      mkdirSync(hookDir, { recursive: true });
+      writeFileSync(hookPath, '#!/bin/sh\ntaproot commithook\n', { mode: 0o755 });
+      messages.push(`created  .git/hooks/pre-commit`);
+    } else if (existsSync(hookPath)) {
+      messages.push(`exists   .git/hooks/pre-commit`);
+    }
+  }
+
   messages.push('');
   messages.push('Update complete.');
   return messages;
@@ -157,8 +180,9 @@ export function registerUpdate(program: Command): void {
     .command('update')
     .description('Regenerate agent adapters and refresh installed skills')
     .option('--path <path>', 'Project directory to update', process.cwd())
-    .action(async (options: { path: string }) => {
-      const msgs = await runUpdate({ cwd: options.path });
+    .option('--with-hooks', 'Install pre-commit hook if not already present')
+    .action(async (options: { path: string; withHooks?: boolean }) => {
+      const msgs = await runUpdate({ cwd: options.path, withHooks: options.withHooks });
       for (const msg of msgs) {
         process.stdout.write(msg + '\n');
       }

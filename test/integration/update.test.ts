@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { mkdtempSync, rmSync, mkdirSync, writeFileSync, existsSync } from 'fs';
+import { mkdtempSync, rmSync, mkdirSync, writeFileSync, existsSync, readFileSync } from 'fs';
 import { tmpdir } from 'os';
 import { join } from 'path';
 import { runUpdate } from '../../src/commands/update.js';
@@ -87,5 +87,35 @@ describe('taproot update', () => {
     generateAdapters('generic', tmpDir);
     const msgs = await runUpdate({ cwd: tmpDir });
     expect(msgs[msgs.length - 1]).toBe('Update complete.');
+  });
+
+  it('migrates old pre-commit hook to taproot commithook', async () => {
+    generateAdapters('claude', tmpDir);
+    const hookDir = join(tmpDir, '.git', 'hooks');
+    mkdirSync(hookDir, { recursive: true });
+    writeFileSync(join(hookDir, 'pre-commit'), '#!/bin/sh\ntaproot validate-structure\ntaproot validate-format\n', { mode: 0o755 });
+
+    const msgs = await runUpdate({ cwd: tmpDir });
+    expect(msgs.some(m => m.includes('migrated') && m.includes('pre-commit'))).toBe(true);
+    expect(readFileSync(join(hookDir, 'pre-commit'), 'utf-8')).toContain('taproot commithook');
+  });
+
+  it('installs hook with --with-hooks when none exists', async () => {
+    generateAdapters('generic', tmpDir);
+    mkdirSync(join(tmpDir, '.git', 'hooks'), { recursive: true });
+
+    const msgs = await runUpdate({ cwd: tmpDir, withHooks: true });
+    expect(existsSync(join(tmpDir, '.git', 'hooks', 'pre-commit'))).toBe(true);
+    expect(msgs.some(m => m.includes('created') && m.includes('pre-commit'))).toBe(true);
+  });
+
+  it('reports exists for hook with --with-hooks when hook already present', async () => {
+    generateAdapters('generic', tmpDir);
+    const hookDir = join(tmpDir, '.git', 'hooks');
+    mkdirSync(hookDir, { recursive: true });
+    writeFileSync(join(hookDir, 'pre-commit'), '#!/bin/sh\ntaproot commithook\n', { mode: 0o755 });
+
+    const msgs = await runUpdate({ cwd: tmpDir, withHooks: true });
+    expect(msgs.some(m => m.includes('exists') && m.includes('pre-commit'))).toBe(true);
   });
 });
