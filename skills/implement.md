@@ -30,30 +30,34 @@ Implement a behaviour spec: write the code, write the tests, create the `impl.md
 
    Present the plan. Do not proceed to writing code until the user approves.
 
-5. After user approval, implement:
-   a. Write the source code files
-   b. Write the tests — each test should be traceable to a specific UseCase step, postcondition, error condition, or alternate flow trigger. Name tests descriptively.
-   c. Verify the tests pass
-
-6. Create the implementation folder `<path>/<impl-slug>/` and write `impl.md`:
+5. Create the implementation folder `<path>/<impl-slug>/` and write `impl.md`:
    - **Behaviour**: relative path to `../usecase.md`
    - **Design Decisions**: record every non-obvious choice made during implementation, with the reason
    - **Source Files**: list every file created or significantly modified, with a one-line description of its role
    - **Commits**: leave placeholder — will be filled by `taproot link-commits` after commit
    - **Tests**: list every test file, with a brief description of what scenarios it covers
-   - **Status**: `in-progress` (set to `complete` when all postconditions are verifiable)
+   - **Status**: `in-progress`
 
-7. Commit the code with the conventional tag format:
+6. **Declaration commit** — commit `impl.md` alone (no source files):
+   ```
+   taproot(<intent-slug>/<behaviour-slug>/<impl-slug>): declare implementation
+   ```
+   The pre-commit hook will run Definition of Ready (DoR) checks on the parent `usecase.md`. If DoR fails, fix the spec before proceeding — do not bypass the hook.
+
+7. After the declaration commit, implement:
+   a. Write the source code files
+   b. Write the tests — each test should be traceable to a specific UseCase step, postcondition, error condition, or alternate flow trigger. Name tests descriptively.
+   c. Verify the tests pass
+
+8. Run `taproot dod <impl-path>` to evaluate the Definition of Done. For agent-driven conditions (`check-if-affected`, `document-current`): reason about each, apply any needed changes, then record your resolution with `taproot dod <impl-path> --resolve "<condition>" --note "<reasoning>"`. Re-run until all conditions pass. `taproot dod` marks `impl.md` state `complete` when all pass.
+
+9. **Implementation commit** — commit source files and `impl.md` together:
    ```
    taproot(<intent-slug>/<behaviour-slug>/<impl-slug>): <what this commit does>
    ```
-   Example: `taproot(password-reset/request-reset/email-trigger): add rate limiting to reset email endpoint`
+   The pre-commit hook checks that `impl.md` changed only in the `## Status` section (state `in-progress` → `complete`) and re-runs DoD in dry-run mode.
 
-8. Run `taproot link-commits --path <taproot-root>` to update the `impl.md` Commits section with the new hash.
-
-9. Run `taproot dod <impl-path>` to evaluate the Definition of Done. If any conditions fail, address them before continuing. If no DoD is configured, this step is a no-op.
-
-10. Update the `impl.md` Status to `complete` if all UseCase postconditions are met, all tests pass, and all DoD conditions passed.
+10. Run `taproot link-commits --path <taproot-root>` to update the `impl.md` Commits section with the new hashes.
 
 11. Run `taproot validate-structure --path <taproot-root>`.
 
@@ -64,7 +68,7 @@ Implement a behaviour spec: write the code, write the tests, create the `impl.md
 - Working source code satisfying the UseCase
 - Tests covering all main flow steps, alternate flows, postconditions, and error conditions
 - A `impl.md` in `<path>/<impl-slug>/impl.md` with all sections filled
-- A commit with `taproot(<path>):` tag
+- Two commits: a declaration commit (impl.md alone) and an implementation commit (source + impl.md)
 
 ## CLI Dependencies
 
