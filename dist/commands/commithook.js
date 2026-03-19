@@ -110,6 +110,10 @@ export async function runCommithook(options) {
     // Declaration tier: DoR check on the behaviour spec
     if (tiers.includes('declaration')) {
         for (const implFile of staged.filter(isImplMd)) {
+            // Skip DoR for modifications to already-committed impl files — only gate first declarations
+            const headCheck = spawnSync('git', ['show', `HEAD:${implFile}`], { cwd, encoding: 'utf-8' });
+            if (headCheck.status === 0)
+                continue;
             const report = runDorChecks(implFile, cwd);
             if (!report.allPassed) {
                 process.stdout.write(`taproot commithook — Declaration commit: DoR failed for ${implFile}\n`);
