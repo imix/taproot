@@ -25,3 +25,6 @@ validation:
     - in-progress
     - complete
     - needs-rework
+definitionOfDone:
+  - tests-passing
+  - document-current: ensure all sections in readme.md are up to date

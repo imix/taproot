@@ -51,15 +51,17 @@
 - **Last reviewed:** 2026-03-19
 
 ## Notes
-- Conditions in `.taproot.yaml` use a mixed syntax: built-in names are bare strings; custom conditions use `run:` with optional `name:` and `correction:` keys:
+- Conditions in `.taproot.yaml` use a mixed syntax: built-in names are bare strings; custom conditions use `run:` with optional `name:` and `correction:` keys; parameterizable built-ins use a `key: value` form:
   ```yaml
-  definition-of-done:
+  definitionOfDone:
     - tests-passing
     - linter-clean
-    - run: npm run docs:check
-      name: readme-current
-      correction: "Run `npm run docs:generate` and commit the result"
+    - document-current: ensure all sections in readme.md are up to date
+    - run: npm run custom-check
+      name: my-check
+      correction: "Run the fix script"
   ```
-- Built-in names (`tests-passing`, `linter-clean`, `readme-current`, `commit-conventions`) resolve to known commands and standard corrections without requiring shell configuration. Any entry with a `run:` key is executed as a shell command from the project root.
+- Built-in names (`tests-passing`, `linter-clean`, `commit-conventions`) resolve to known commands and standard corrections without requiring shell configuration. Any entry with a `run:` key is executed as a shell command from the project root.
+- `document-current` is a parameterizable built-in that takes a description of what must be true about a document. It is agent/human-verified (no shell command is run) and the description is surfaced as correction context when the condition is not yet confirmed.
 - "Propose corrections" means: for built-in conditions, the system states the standard fix explicitly (e.g. "Run `npm test` and fix failing tests"). For custom shell conditions, stdout/stderr from the failed command is surfaced as correction context, along with the `correction:` field if provided.
-- The README currency condition (`readme-current`) is the resolution of the `documentation/generate-readme` behaviour — rather than being a standalone triggered behaviour, it becomes a DoD gate enforced here.
+- The README currency condition is resolved via `document-current` — rather than a standalone triggered behaviour, it becomes a DoD gate enforced here with a human/agent-verified description.

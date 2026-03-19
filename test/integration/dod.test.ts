@@ -119,6 +119,33 @@ describe('runDodChecks — custom shell conditions', () => {
   });
 });
 
+describe('runDodChecks — document-current condition', () => {
+  it('reports as manual check (not passed) with description as correction', () => {
+    const report = runDodChecks(
+      [{ 'document-current': 'ensure all sections in readme.md are up to date' }],
+      process.cwd()
+    );
+    expect(report.configured).toBe(true);
+    expect(report.results[0]!.name).toBe('document-current');
+    expect(report.results[0]!.passed).toBe(false);
+    expect(report.results[0]!.correction).toBe('ensure all sections in readme.md are up to date');
+    expect(report.results[0]!.output).toContain('Manual check required');
+    expect(report.allPassed).toBe(false);
+  });
+
+  it('runs subsequent conditions after document-current', () => {
+    const report = runDodChecks(
+      [
+        { 'document-current': 'check readme' },
+        { run: 'true', name: 'after' },
+      ],
+      process.cwd()
+    );
+    expect(report.results).toHaveLength(2);
+    expect(report.results[1]!.passed).toBe(true);
+  });
+});
+
 describe('runDodChecks — command not found', () => {
   it('reports failure with correction for missing command', () => {
     const report = runDodChecks(
