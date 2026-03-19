@@ -3,6 +3,12 @@
 ## Behaviour
 ../usecase.md
 
+## Commits
+- `6ae04ec` — taproot(documentation/generate-readme/dod-builtin): add document-current DoD condition
+
+## Tests
+- `test/integration/dod.test.ts` — covers `document-current` condition parsing, manual-check reporting, and subsequent condition execution
+
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19

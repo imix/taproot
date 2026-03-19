@@ -1,46 +1,46 @@
-# Behaviour: Generate README
+# Behaviour: Maintain README Currency
 
 ## Actor
-Taproot maintainer / contributor — a developer working on the taproot package who has made changes that affect the user-facing surface (CLI commands, skills, configuration options).
+Taproot maintainer / contributor — a developer who has made changes that affect the user-facing surface (CLI commands, skills, configuration options).
 
 ## Preconditions
-- The taproot source code is in a buildable state
-- At least one CLI command or skill is implemented
+- A user-facing change has been made (new command, skill, config option, or structural documentation change)
+- `README.md` and `docs/` exist in the project root
 
 ## Main Flow
-1. Maintainer runs the README generation step (e.g. as part of the build or release process)
-2. System inspects authoritative sources: CLI command definitions, skill files, and configuration schema
-3. System extracts the user-facing surface: available commands with their flags and descriptions, available skills with their descriptions, configuration options
-4. System renders the README sections from extracted data and static narrative templates
-5. System writes `README.md` at the project root
-6. Maintainer reviews the output and commits it alongside the code change that prompted it
+1. Maintainer identifies what user-facing change was made (new command, skill, config option, or structural change)
+2. Maintainer updates the relevant section(s) in `README.md` or the appropriate file under `docs/`
+3. Maintainer commits the documentation change alongside the code change that prompted it
 
 ## Alternate Flows
-### No changes to user-facing surface
-- **Trigger:** Maintainer runs the generation step but no commands, skills, or config options have changed since the last generation
+### DoD gate triggers a review
+- **Trigger:** `/tr-implement` runs the DoD check and the `document-current` condition fires
 - **Steps:**
-  1. System detects no diff in the generated output
-  2. System reports "README is already up to date — no changes written"
+  1. Agent surfaces the condition description: "ensure all sections in readme.md are up to date"
+  2. Maintainer reviews `README.md` and `docs/` against recent changes
+  3. If current: maintainer confirms; DoD gate passes and the impl is marked complete
+  4. If stale: maintainer updates the relevant sections, then confirms
 
-### New skill or command not yet reflected in templates
-- **Trigger:** A new command or skill exists in source but has no narrative template entry
+### No user-facing changes
+- **Trigger:** Code change does not affect CLI commands, skills, or configuration options
 - **Steps:**
-  1. System generates a placeholder section with a `<!-- TODO: add description for <name> -->` marker
-  2. System reports which items need narrative attention before the README is complete
+  1. Maintainer skips documentation update
+  2. When the `document-current` DoD gate fires, maintainer confirms "no documentation changes needed"
+  3. DoD gate passes
 
 ## Postconditions
 - `README.md` accurately reflects all currently implemented CLI commands, skills, and configuration options
-- No manual editing of README is required to keep it in sync with the codebase
+- `docs/` contains detailed reference material: concepts, CLI reference, agent setup, workflows, and configuration
 
 ## Error Conditions
-- **Source file missing or unparseable**: system reports which file could not be read and skips that section rather than failing entirely
-- **Template rendering error**: system reports the error with the affected section name; remaining sections are written
+- **README drift discovered by a user**: maintainer identifies the stale section, updates it, and commits
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-19
 - **Last reviewed:** 2026-03-19
 
 ## Notes
-- The README is a development artifact, not a taproot runtime artifact — generation is part of the taproot maintainer's build/release workflow, not triggered by `taproot` CLI invocations
-- The authoritative sources for content are: `src/commands/`, `skills/`, and the config schema — not the taproot hierarchy itself
+- Documentation currency is enforced through a `document-current` DoD gate rather than automated generation — the gate requires human/agent verification before any impl is marked complete
+- `README.md` is a fast intro (tagline, folder diagram, quick start, why, links); detailed reference lives in `docs/` (concepts, CLI, agents, workflows, configuration)
+- No code generation pipeline exists; manual editing is the maintenance mechanism, DoD is the enforcement mechanism

@@ -28,8 +28,8 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 **Goal:** Keep all taproot documentation accurate and current so that users, contributors, and integrators always have reliable information about what the tool does and how to use it
 
-- **generate-readme** `[specified]` — Actor: Taproot maintainer / contributor — a developer working on the taproot package who has made changes that affect the user-facing surface (CLI commands, skills, configuration options).
-  - dod-builtin `[complete]` (0 commits ⚠ no tests)
+- **generate-readme** `[implemented]` — Actor: Taproot maintainer / contributor — a developer who has made changes that affect the user-facing surface (CLI commands, skills, configuration options).
+  - dod-builtin `[complete]` (1 commit, 1 test)
 
 ## hierarchy-integrity `[active]`
 
