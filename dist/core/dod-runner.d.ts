@@ -9,6 +9,7 @@ export interface DodReport {
     configured: boolean;
     results: DodResult[];
     allPassed: boolean;
+    usecaseCascade?: string;
 }
 /** Read agent-check resolutions recorded in impl.md's ## DoD Resolutions section.
  *  Returns an empty set if impl.md has been modified after the resolutions were written

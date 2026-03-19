@@ -71,7 +71,7 @@ flowchart TD
 - [Multi-Surface — dod CLI + tr-implement skill](./multi-surface/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-19
 - **Last reviewed:** 2026-03-19
 

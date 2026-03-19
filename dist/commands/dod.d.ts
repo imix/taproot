@@ -7,5 +7,7 @@ export declare function runDod(options: {
     dryRun?: boolean;
     cwd?: string;
 }): Promise<DodReport>;
+/** Advance parent usecase.md state from 'specified' → 'implemented' when impl is marked complete. */
+export declare function cascadeUsecaseState(absImplPath: string): string | null;
 /** Write an agent-check resolution to ## DoD Resolutions section in impl.md. */
 export declare function writeResolution(implPath: string, condition: string, note: string, cwd: string): void;

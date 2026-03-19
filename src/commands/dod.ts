@@ -1,5 +1,5 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs';
-import { resolve } from 'path';
+import { resolve, dirname, join } from 'path';
 import type { Command } from 'commander';
 import { loadConfig } from '../core/config.js';
 import { runDodChecks } from '../core/dod-runner.js';
@@ -37,6 +37,8 @@ export function registerDod(program: Command): void {
         process.stdout.write('No Definition of Done configured — skipping checks.\n');
         if (implPath && !options.dryRun) {
           markImplComplete(resolve(cwd, implPath));
+          const cascade = cascadeUsecaseState(resolve(cwd, implPath));
+          if (cascade) process.stdout.write(`Advanced parent usecase state: ${cascade}\n`);
           process.stdout.write(`Marked ${implPath} complete.\n`);
         }
         return;
@@ -46,6 +48,7 @@ export function registerDod(program: Command): void {
 
       if (report.allPassed) {
         if (implPath && !options.dryRun) {
+          if (report.usecaseCascade) process.stdout.write(`Advanced parent usecase state: ${report.usecaseCascade}\n`);
           process.stdout.write(`\nAll checks passed. Marked ${implPath} complete.\n`);
         } else if (implPath && options.dryRun) {
           process.stdout.write('\nAll checks passed. (dry-run: impl.md not updated)\n');
@@ -72,7 +75,10 @@ export async function runDod(options: {
   const report = runDodChecks(config.definitionOfDone, cwd, { implPath: options.implPath });
 
   if (options.implPath && !options.dryRun && report.allPassed) {
-    markImplComplete(resolve(cwd, options.implPath));
+    const absPath = resolve(cwd, options.implPath);
+    markImplComplete(absPath);
+    const cascade = cascadeUsecaseState(absPath);
+    return { ...report, usecaseCascade: cascade ?? undefined };
   }
 
   return report;
@@ -92,6 +98,20 @@ function printReport(report: DodReport): void {
       process.stdout.write(`    → ${result.correction}\n`);
     }
   }
+}
+
+/** Advance parent usecase.md state from 'specified' → 'implemented' when impl is marked complete. */
+export function cascadeUsecaseState(absImplPath: string): string | null {
+  const usecasePath = join(dirname(dirname(absImplPath)), 'usecase.md');
+  if (!existsSync(usecasePath)) return null;
+  const content = readFileSync(usecasePath, 'utf-8');
+  const today = new Date().toISOString().slice(0, 10);
+  const updated = content
+    .replace(/(\*\*State:\*\*\s*)specified/, '$1implemented')
+    .replace(/(\*\*Last reviewed:\*\*\s*)\d{4}-\d{2}-\d{2}/, `$1${today}`);
+  if (updated === content) return null;
+  writeFileSync(usecasePath, updated, 'utf-8');
+  return 'specified → implemented';
 }
 
 function markImplComplete(absPath: string): void {

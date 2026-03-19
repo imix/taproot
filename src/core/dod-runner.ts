@@ -17,6 +17,7 @@ export interface DodReport {
   configured: boolean;
   results: DodResult[];
   allPassed: boolean;
+  usecaseCascade?: string;
 }
 
 const BUILTINS: Record<string, { run: string; correction: string }> = {

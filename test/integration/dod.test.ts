@@ -3,7 +3,7 @@ import { mkdtempSync, writeFileSync, mkdirSync, readFileSync, rmSync, utimesSync
 import { join, resolve } from 'path';
 import { tmpdir } from 'os';
 import { runDodChecks } from '../../src/core/dod-runner.js';
-import { runDod, writeResolution } from '../../src/commands/dod.js';
+import { runDod, writeResolution, cascadeUsecaseState } from '../../src/commands/dod.js';
 
 // ─── helpers ─────────────────────────────────────────────────────────────────
 
@@ -351,6 +351,79 @@ describe('writeResolution and agent check passing', () => {
     const content = readFileSync(implPath, 'utf-8');
     const count = (content.match(/condition:/g) ?? []).length;
     expect(count).toBe(2);
+  });
+});
+
+// ─── cascadeUsecaseState ──────────────────────────────────────────────────────
+
+describe('cascadeUsecaseState', () => {
+  let tmpDir: string;
+
+  beforeEach(() => { tmpDir = makeTempDir(); });
+  afterEach(() => { rmSync(tmpDir, { recursive: true, force: true }); });
+
+  it('advances usecase state from specified to implemented', () => {
+    const implPath = makeImplMd(tmpDir); // creates usecase.md with state: specified
+    const result = cascadeUsecaseState(implPath);
+    expect(result).toBe('specified → implemented');
+    const content = readFileSync(join(tmpDir, 'taproot', 'some-intent', 'some-behaviour', 'usecase.md'), 'utf-8');
+    expect(content).toContain('**State:** implemented');
+  });
+
+  it('returns null and does not modify usecase already in implemented state', () => {
+    makeImplMd(tmpDir); // creates usecase with state: specified
+    const usecasePath = join(tmpDir, 'taproot', 'some-intent', 'some-behaviour', 'usecase.md');
+    const original = readFileSync(usecasePath, 'utf-8').replace('**State:** specified', '**State:** implemented');
+    writeFileSync(usecasePath, original, 'utf-8');
+    const implPath = join(tmpDir, 'taproot', 'some-intent', 'some-behaviour', 'cli-command', 'impl.md');
+    const result = cascadeUsecaseState(implPath);
+    expect(result).toBeNull();
+    expect(readFileSync(usecasePath, 'utf-8')).toContain('**State:** implemented');
+  });
+
+  it('returns null gracefully when usecase.md does not exist', () => {
+    const implDir = join(tmpDir, 'taproot', 'some-intent', 'some-behaviour', 'cli-command');
+    mkdirSync(implDir, { recursive: true });
+    const implPath = join(implDir, 'impl.md');
+    writeFileSync(implPath, '# Impl\n## Status\n- **State:** in-progress\n');
+    // No usecase.md created
+    expect(() => cascadeUsecaseState(implPath)).not.toThrow();
+    expect(cascadeUsecaseState(implPath)).toBeNull();
+  });
+});
+
+// ─── runDod — cascade integration ────────────────────────────────────────────
+
+describe('runDod — usecase state cascade', () => {
+  let tmpDir: string;
+
+  beforeEach(() => { tmpDir = makeTempDir(); });
+  afterEach(() => { rmSync(tmpDir, { recursive: true, force: true }); });
+
+  it('cascades usecase state to implemented when DoD passes', async () => {
+    const implPath = makeImplMd(tmpDir, 'in-progress');
+    writeConfig(tmpDir, [{ run: 'true', name: 'ok' }]);
+    const report = await runDod({ implPath, cwd: tmpDir });
+    expect(report.usecaseCascade).toBe('specified → implemented');
+    const content = readFileSync(join(tmpDir, 'taproot', 'some-intent', 'some-behaviour', 'usecase.md'), 'utf-8');
+    expect(content).toContain('**State:** implemented');
+  });
+
+  it('does not cascade in dry-run mode', async () => {
+    const implPath = makeImplMd(tmpDir, 'in-progress');
+    writeConfig(tmpDir, [{ run: 'true', name: 'ok' }]);
+    await runDod({ implPath, dryRun: true, cwd: tmpDir });
+    const content = readFileSync(join(tmpDir, 'taproot', 'some-intent', 'some-behaviour', 'usecase.md'), 'utf-8');
+    expect(content).toContain('**State:** specified');
+  });
+
+  it('does not cascade when DoD fails', async () => {
+    const implPath = makeImplMd(tmpDir, 'in-progress');
+    writeConfig(tmpDir, [{ run: 'false', name: 'fail' }]);
+    const report = await runDod({ implPath, cwd: tmpDir });
+    expect(report.usecaseCascade).toBeUndefined();
+    const content = readFileSync(join(tmpDir, 'taproot', 'some-intent', 'some-behaviour', 'usecase.md'), 'utf-8');
+    expect(content).toContain('**State:** specified');
   });
 });
 

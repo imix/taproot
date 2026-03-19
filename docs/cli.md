@@ -145,7 +145,7 @@ Surfaces unimplemented behaviours as work items, ordered by priority (intents wi
 taproot dod [impl-path] [--dry-run]
 ```
 
-Runs all configured DoD conditions from `.taproot.yaml` against the specified implementation (or all implementations if no path is given). If all conditions pass and an `impl-path` is provided, marks the impl `complete` and records the results in `## DoD Resolutions`.
+Runs all configured DoD conditions from `.taproot.yaml` against the specified implementation (or all implementations if no path is given). If all conditions pass and an `impl-path` is provided, marks the impl `complete`, records the results in `## DoD Resolutions`, and automatically advances the parent `usecase.md` state from `specified` to `implemented` if it hasn't been already.
 
 See [Configuration](configuration.md) for how to define DoD conditions.
 

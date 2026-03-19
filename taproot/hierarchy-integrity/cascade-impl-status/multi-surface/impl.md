@@ -22,5 +22,12 @@
 - `test/integration/dod.test.ts` — cascadeUsecaseState: advances specified→implemented, no-op if already implemented, graceful missing usecase; runDod cascade: cascades on pass, skips on dry-run, skips on fail
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-19
+
+## DoD Resolutions
+- condition: document-current | note: Added cascade behaviour to taproot dod description in docs/cli.md | resolved: 2026-03-19T21:57:22.440Z
+- condition: check-if-affected: skills/guide.md | note: cascade is automatic behavior of taproot dod, not a user-facing command — no guide update needed | resolved: 2026-03-19T21:57:22.897Z
+
+- condition: check-if-affected: src/commands/update.ts | note: update.ts refreshes adapters/skills — not affected by impl state cascade logic | resolved: 2026-03-19T21:57:22.671Z
+
