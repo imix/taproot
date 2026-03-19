@@ -114,7 +114,7 @@ flowchart TD
 - [Multi-Surface — validate-format + behaviour skill + refine skill + docs](./multi-surface/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-19
 - **Last reviewed:** 2026-03-19
 

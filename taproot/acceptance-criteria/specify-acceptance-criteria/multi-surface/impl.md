@@ -22,6 +22,13 @@
 - `test/integration/acceptance-criteria.test.ts`
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-19
+
+## DoD Resolutions
+- condition: document-current | note: docs/cli.md updated with MISSING_ACCEPTANCE_CRITERIA and DUPLICATE_CRITERION_ID violation codes | resolved: 2026-03-19T22:32:00.969Z
+- condition: check-if-affected: skills/guide.md | note: guide.md lists validate-format in CLI table; no new commands to surface yet (acceptance-check is a future behaviour) — no changes needed | resolved: 2026-03-19T22:32:08.953Z
+
+- condition: check-if-affected: src/commands/update.ts | note: update.ts manages auto-generated sections (## Behaviours, ## Implementations); ## Acceptance Criteria is author-managed, not touched by taproot update — no changes needed | resolved: 2026-03-19T22:32:08.715Z
+
