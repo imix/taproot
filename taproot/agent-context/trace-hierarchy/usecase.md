@@ -6,12 +6,15 @@ AI coding agent or agentic developer / orchestrator navigating the requirement h
 ## Preconditions
 - A taproot hierarchy exists with at least one `impl.md`
 - `impl.md` files contain populated `## Source Files` and `## Commits` sections (for bottom-up tracing to be effective)
+- Actor provides `target` (a file path, commit hash, or taproot folder path) unless using `--unlinked`
+- Optional `direction` parameter: `up` (default for file/commit inputs), `down` (default for intent/behaviour folder inputs), `lateral`
 
 ## Main Flow
 _(Bottom-up: source file → intent)_
 
 1. Actor invokes `/tr-trace <file-path>`
 2. Agent searches all `impl.md` files under `taproot/` for the given path in `## Source Files` sections — exact match first, then fuzzy if not found
+   - If not found in any `impl.md`: agent reports "No traceability record found for `<file>`" and offers to run `/tr-trace --unlinked` or `/tr-implement` to create a record — flow ends
 3. Agent reads the matched `impl.md` (state, commit count, test count) and navigates up to the parent `usecase.md`, then the parent `intent.md`
 4. Agent displays the full traceability chain:
    ```
@@ -65,12 +68,6 @@ _(Bottom-up: source file → intent)_
   4. Agent groups unlinked files by directory and suggests a likely behaviour and intent for each group
   5. Agent offers `/tr-implement` or `/tr-behaviour` invocations for each group
 
-### File not found in any impl.md
-- **Trigger:** The given file path does not appear in any `impl.md`
-- **Steps:**
-  1. Agent reports: "No traceability record found for `<file>`."
-  2. Agent offers: run `/tr-trace --unlinked` to find all unlinked files, or `/tr-implement` to create a traceability record for this file
-
 ## Postconditions
 - Actor understands the full requirement chain for the given source file, commit, or hierarchy node
 - Actor knows the implementation state, commit count, and test coverage at every level of the chain
@@ -91,3 +88,4 @@ _(Bottom-up: source file → intent)_
 - Top-down and lateral navigation overlap functionally with `taproot coverage --format tree`, but `/tr-trace` provides richer impl-level context (commit count, test file paths, state) and is interactive — it suggests next actions rather than just reporting.
 - The `--unlinked` mode complements `taproot check-orphans`: `check-orphans` finds broken references within the hierarchy; `--unlinked` finds source code that has no hierarchy entry at all.
 - This behaviour is fulfilled by the `/tr-trace` agent skill (`taproot/skills/trace.md`) — there is no corresponding CLI command.
+- CLI dependencies used by the skill: `taproot check-orphans` (unlinked scan and orphan surfacing), `taproot coverage` (implementation state data for top-down display).
