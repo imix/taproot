@@ -56,7 +56,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 **Goal:** Enable orchestrators and agents to extract the next independently-implementable work item from the requirement hierarchy — as a thin vertical slice with clear acceptance criteria, dependencies, and traceability back to the originating behaviour.
 
 - **extract-next-slice** `[specified]` — Actor: Agentic developer / orchestrator (human who asks the agent to plan the next work item)
-  - agent-skill `[in-progress]` (0 commits, 1 test)
+  - agent-skill `[complete]` (1 commit, 2 tests)
   - cli-command `[complete]` (1 commit, 1 test)
 
 ## implementation-quality `[active]`
@@ -108,4 +108,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - cli-command `[complete]` (0 commits, 1 test)
 
 ---
-12 intents · 21 behaviours · 21 implementations · 20/21 complete
+12 intents · 21 behaviours · 21 implementations · 21/21 complete

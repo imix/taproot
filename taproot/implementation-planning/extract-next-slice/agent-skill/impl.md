@@ -14,6 +14,7 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `da06fc8aca181df9a21d0ed4740274c85608f71c` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/skills.test.ts` — validates plan.md skill file format and required sections
