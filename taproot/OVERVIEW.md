@@ -5,6 +5,13 @@
 
 Compact summary for AI agents. Read this before diving into individual taproot documents.
 
+## [acceptance-criteria](./acceptance-criteria/intent.md) `[active]`
+
+**Goal:** Make the requirement hierarchy the single source of truth for what the system is supposed to do and whether it has been verified — by embedding Gherkin-style acceptance criteria directly in behaviour specs and tracing them to test implementations.
+
+- **[specify-acceptance-criteria](./acceptance-criteria/specify-acceptance-criteria/usecase.md)** `[specified]` — Actor: Developer or agent authoring a `usecase.md` — either via `/tr-behaviour` or by editing directly
+- **[verify-coverage](./acceptance-criteria/verify-coverage/usecase.md)** `[specified]` — Actor: Developer or CI pipeline running `taproot acceptance-check`
+
 ## [agent-context](./agent-context/intent.md) `[active]`
 
 **Goal:** Give AI coding agents a live, navigable map of the codebase — what is implemented where, and why — so they can reason about code in the context of the requirements it fulfils.
@@ -119,4 +126,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-12 intents · 25 behaviours · 27 implementations · 27/27 complete
+13 intents · 27 behaviours · 27 implementations · 27/27 complete
