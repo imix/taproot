@@ -9,6 +9,7 @@ import { registerCoverage } from './commands/coverage.js';
 import { registerSyncCheck } from './commands/sync-check.js';
 import { registerUpdate } from './commands/update.js';
 import { registerOverview } from './commands/overview.js';
+import { registerPlan } from './commands/plan.js';
 
 const program = new Command();
 
@@ -26,5 +27,6 @@ registerCoverage(program);
 registerSyncCheck(program);
 registerUpdate(program);
 registerOverview(program);
+registerPlan(program);
 
 program.parse();
