@@ -40,6 +40,8 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 - **human-readable-report** `[implemented]` — Actor: Developer or project stakeholder invoking `/tr-status`
   - agent-skill `[complete]` (0 commits, 1 test)
+- **route-requirement** `[specified]` — Actor: Human orchestrator / developer stating a requirement in natural language
+  - agent-skill `[complete]` (0 commits, 1 test)
 
 ## implementation-planning `[active]`
 
@@ -47,6 +49,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 - **extract-next-slice** `[specified]` — Actor: Agentic developer / orchestrator (human who asks the agent to plan the next work item)
   - agent-skill `[in-progress]` (0 commits, 1 test)
+  - cli-command `[complete]` (1 commit, 1 test)
 
 ## project-discovery `[active]`
 
@@ -90,4 +93,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - cli-command `[complete]` (0 commits, 1 test)
 
 ---
-10 intents · 17 behaviours · 17 implementations · 16/17 complete
+10 intents · 18 behaviours · 19 implementations · 18/19 complete

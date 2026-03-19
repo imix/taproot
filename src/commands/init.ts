@@ -27,6 +27,7 @@ export const SKILL_FILES = [
   'decompose.md',
   'guide.md',
   'discover.md',
+  'ineed.md',
 ];
 
 export function registerInit(program: Command): void {
