@@ -65,7 +65,7 @@ Any taproot skill operating in refine/modify mode (`tr-ineed`, `tr-intent`, `tr-
 
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-19
 - **Last reviewed:** 2026-03-19
 

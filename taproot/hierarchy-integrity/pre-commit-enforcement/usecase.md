@@ -84,6 +84,6 @@ flowchart TD
 
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-19
 - **Last reviewed:** 2026-03-19

@@ -35,11 +35,11 @@ _No behaviours yet._
 
 **Goal:** Ensure the requirement hierarchy remains structurally valid and formally complete as it evolves — whether authored by humans, AI agents, or both.
 
-- **[analyse-change](./hierarchy-integrity/analyse-change/usecase.md)** `[specified]` — Actor: Any taproot skill operating in refine/modify mode (`tr-ineed`, `tr-intent`, `tr-behaviour`, `tr-implement`, `tr-refine`, `tr-promote`) — or an AI coding agent acting directly on the hierarchy — when about to modify an existing artefact.
+- **[analyse-change](./hierarchy-integrity/analyse-change/usecase.md)** `[implemented]` — Actor: Any taproot skill operating in refine/modify mode (`tr-ineed`, `tr-intent`, `tr-behaviour`, `tr-implement`, `tr-refine`, `tr-promote`) — or an AI coding agent acting directly on the hierarchy — when about to modify an existing artefact.
   - [agent-skill](./hierarchy-integrity/analyse-change/agent-skill/impl.md) `[complete]` (1 commit, 1 test)
 - **[cascade-impl-status](./hierarchy-integrity/cascade-impl-status/usecase.md)** `[implemented]` — Actor: `taproot dod` CLI (when marking an `impl.md` complete) and the `tr-implement` skill (step 5a, when adding the implementation link to `usecase.md`)
   - [multi-surface](./hierarchy-integrity/cascade-impl-status/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
-- **[pre-commit-enforcement](./hierarchy-integrity/pre-commit-enforcement/usecase.md)** `[specified]` — Actor: Git — triggered automatically when any contributor (human or agent) runs `git commit`
+- **[pre-commit-enforcement](./hierarchy-integrity/pre-commit-enforcement/usecase.md)** `[implemented]` — Actor: Git — triggered automatically when any contributor (human or agent) runs `git commit`
   - [cli-command](./hierarchy-integrity/pre-commit-enforcement/cli-command/impl.md) `[complete]` (2 commits, 1 test)
   - [git-hook](./hierarchy-integrity/pre-commit-enforcement/git-hook/impl.md) `[complete]` (0 commits, 1 test)
 - **[validate-format](./hierarchy-integrity/validate-format/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying document contents conform to the schema
@@ -51,20 +51,20 @@ _No behaviours yet._
 
 **Goal:** Keep the human orchestrator in meaningful control of the requirement hierarchy — as its owner, its primary author of intent, and its final decision-maker — while making the current state of the project legible at a glance.
 
-- **[cross-linked-specs](./human-integration/cross-linked-specs/usecase.md)** `[specified]` — Actor: `tr-behaviour` skill (when creating a new `usecase.md`) and `tr-implement` skill (when creating a new `impl.md`) — both maintain the link sections in their parent documents as a side-effect of document creation. `taproot update` runs a link-refresh pass across the full tree to backfill existing documents.
+- **[cross-linked-specs](./human-integration/cross-linked-specs/usecase.md)** `[implemented]` — Actor: `tr-behaviour` skill (when creating a new `usecase.md`) and `tr-implement` skill (when creating a new `impl.md`) — both maintain the link sections in their parent documents as a side-effect of document creation. `taproot update` runs a link-refresh pass across the full tree to backfill existing documents.
   - [multi-surface](./human-integration/cross-linked-specs/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 - **[grill-me](./human-integration/grill-me/usecase.md)** `[implemented]` — Actor: Developer or orchestrator who wants to stress-test a plan, design decision, or vague idea through relentless structured questioning — invoked directly via `/tr-grill-me`, or called by another skill (`tr-ineed`, `tr-behaviour`) when deeper elicitation is needed before writing a spec.
   - [agent-skill](./human-integration/grill-me/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[human-readable-report](./human-integration/human-readable-report/usecase.md)** `[implemented]` — Actor: Developer or project stakeholder invoking `/tr-status`
   - [agent-skill](./human-integration/human-readable-report/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
-- **[route-requirement](./human-integration/route-requirement/usecase.md)** `[specified]` — Actor: Human orchestrator / developer stating a requirement in natural language — at any level of clarity, from vague instinct to fully-formed specification
+- **[route-requirement](./human-integration/route-requirement/usecase.md)** `[implemented]` — Actor: Human orchestrator / developer stating a requirement in natural language — at any level of clarity, from vague instinct to fully-formed specification
   - [agent-skill](./human-integration/route-requirement/agent-skill/impl.md) `[complete]` (1 commit, 1 test)
 
 ## [implementation-planning](./implementation-planning/intent.md) `[active]`
 
 **Goal:** Enable orchestrators and agents to extract the next independently-implementable work item from the requirement hierarchy — as a thin vertical slice with clear acceptance criteria, dependencies, and traceability back to the originating behaviour.
 
-- **[extract-next-slice](./implementation-planning/extract-next-slice/usecase.md)** `[specified]` — Actor: Agentic developer / orchestrator (human who asks the agent to plan the next work item)
+- **[extract-next-slice](./implementation-planning/extract-next-slice/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator (human who asks the agent to plan the next work item)
   - [agent-skill](./implementation-planning/extract-next-slice/agent-skill/impl.md) `[complete]` (1 commit, 2 tests)
   - [cli-command](./implementation-planning/extract-next-slice/cli-command/impl.md) `[complete]` (1 commit, 1 test)
 
