@@ -14,6 +14,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[generate-overview](./agent-context/generate-overview/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator or AI coding agent refreshing the project summary
   - [cli-command](./agent-context/generate-overview/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 - **[trace-hierarchy](./agent-context/trace-hierarchy/usecase.md)** `[specified]` — Actor: AI coding agent or agentic developer / orchestrator navigating the requirement hierarchy — asking "why does this code exist?" or "what's left to build for this intent?"
+  - [agent-skill](./agent-context/trace-hierarchy/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 
 ## [agent-integration](./agent-integration/intent.md) `[active]`
 
@@ -116,4 +117,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-12 intents · 24 behaviours · 25 implementations · 25/25 complete
+12 intents · 24 behaviours · 26 implementations · 26/26 complete
