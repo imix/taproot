@@ -13,7 +13,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [cli-command](./agent-context/generate-context/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 - **[generate-overview](./agent-context/generate-overview/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator or AI coding agent refreshing the project summary
   - [cli-command](./agent-context/generate-overview/cli-command/impl.md) `[complete]` (0 commits, 1 test)
-- **[trace-hierarchy](./agent-context/trace-hierarchy/usecase.md)** `[specified]` — Actor: AI coding agent or agentic developer / orchestrator navigating the requirement hierarchy — asking "why does this code exist?" or "what's left to build for this intent?"
+- **[trace-hierarchy](./agent-context/trace-hierarchy/usecase.md)** `[implemented]` — Actor: AI coding agent or agentic developer / orchestrator navigating the requirement hierarchy — asking "why does this code exist?" or "what's left to build for this intent?"
   - [agent-skill](./agent-context/trace-hierarchy/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 
 ## [agent-integration](./agent-integration/intent.md) `[active]`
@@ -51,7 +51,7 @@ _No behaviours yet._
 
 - **[cross-linked-specs](./human-integration/cross-linked-specs/usecase.md)** `[specified]` — Actor: `tr-behaviour` skill (when creating a new `usecase.md`) and `tr-implement` skill (when creating a new `impl.md`) — both maintain the link sections in their parent documents as a side-effect of document creation. `taproot update` runs a link-refresh pass across the full tree to backfill existing documents.
   - [multi-surface](./human-integration/cross-linked-specs/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
-- **[grill-me](./human-integration/grill-me/usecase.md)** `[specified]` — Actor: Developer or orchestrator who wants to stress-test a plan, design decision, or vague idea through relentless structured questioning — invoked directly via `/tr-grill-me`, or called by another skill (`tr-ineed`, `tr-behaviour`) when deeper elicitation is needed before writing a spec.
+- **[grill-me](./human-integration/grill-me/usecase.md)** `[implemented]` — Actor: Developer or orchestrator who wants to stress-test a plan, design decision, or vague idea through relentless structured questioning — invoked directly via `/tr-grill-me`, or called by another skill (`tr-ineed`, `tr-behaviour`) when deeper elicitation is needed before writing a spec.
   - [agent-skill](./human-integration/grill-me/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[human-readable-report](./human-integration/human-readable-report/usecase.md)** `[implemented]` — Actor: Developer or project stakeholder invoking `/tr-status`
   - [agent-skill](./human-integration/human-readable-report/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
