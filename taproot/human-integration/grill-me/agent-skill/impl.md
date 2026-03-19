@@ -21,5 +21,12 @@
 - `test/unit/skills.test.ts` — validates every file in `SKILL_FILES` (including `grill-me.md`) for required sections and format
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-19
+
+## DoD Resolutions
+- condition: document-current | note: README.md and all docs/ files updated this session; /tr-grill-me documented in agents.md and workflows.md | resolved: 2026-03-19T21:34:39.022Z
+- condition: check-if-affected: skills/guide.md | note: /tr-grill-me already listed in skills/guide.md slash commands table | resolved: 2026-03-19T21:34:40.782Z
+
+- condition: check-if-affected: src/commands/update.ts | note: grill-me.md already in SKILL_FILES in init.ts; update.ts reads from SKILL_FILES and requires no change | resolved: 2026-03-19T21:34:40.291Z
+
