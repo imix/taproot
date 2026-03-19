@@ -49,6 +49,10 @@ Taproot is designed to work with how teams actually develop: requirements emerge
 - **CLI validates structure and format** — agent skills create content and trace relationships
 - **Agent-agnostic** — works with Claude Code, Cursor, Copilot, Windsurf, or any file-reading assistant
 
+## Taproot tracks itself
+
+Taproot's own requirements are managed with Taproot. The [`taproot/OVERVIEW.md`](taproot/OVERVIEW.md) shows 12 intents, 24 behaviours, and 24 implementations — all complete — covering everything from validation rules to agent skill design. It's a working example of what a hierarchy looks like in practice.
+
 ## Docs
 
 - [Document types & examples](docs/concepts.md)
