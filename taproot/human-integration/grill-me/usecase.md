@@ -89,6 +89,9 @@ sequenceDiagram
 - `./route-requirement/usecase.md` — `tr-ineed` delegates to `grill-me` on the "Go deeper [A]" path during structured discovery
 - `./human-readable-report/usecase.md` — `tr-status` suggests `tr-grill-me` for semantic review of the plan after reporting hierarchy health
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — /tr-grill-me](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-19
