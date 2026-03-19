@@ -17,6 +17,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `7ba1ecdc69a7759550a9b287f2ff7e88dd48d3cc` — (auto-linked by taproot link-commits)
+- `d5dfd104dc3b8c05ff4416f05c89aaeb375d089d` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/dod.test.ts` — cascadeUsecaseState: advances specified→implemented, no-op if already implemented, graceful missing usecase; runDod cascade: cascades on pass, skips on dry-run, skips on fail

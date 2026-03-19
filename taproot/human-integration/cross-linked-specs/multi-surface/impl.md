@@ -27,6 +27,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `36fcc327a0333c36e8e88a4ecdea0f1b303c9737` — (auto-linked by taproot link-commits)
+- `3d6a59df62329ebdf978509f830ded97865fce7c` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/cross-links.test.ts` — covers: validate-format detects missing ## Behaviours on intent.md with child behaviours; validate-format detects missing ## Implementations on usecase.md with child impls; validate-format passes when sections present; stale link detection (linked file missing); refreshLinks adds missing sections; refreshLinks appends missing child links; refreshLinks is idempotent; refreshLinks prunes stale links; title extracted from first # Heading; fallback to folder slug when no heading
