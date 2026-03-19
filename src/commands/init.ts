@@ -14,6 +14,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const BUNDLED_SKILLS_DIR = resolve(__dirname, '..', '..', 'skills');
 
 export const SKILL_FILES = [
+  'analyse-change.md',
   'grill.md',
   'grill-all.md',
   'intent.md',
