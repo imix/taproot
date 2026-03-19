@@ -24,12 +24,11 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **update-adapters-and-skills** `[implemented]` — Actor: Developer running `taproot update` after upgrading taproot or modifying skill definitions
   - cli-command `[complete]` (0 commits, 1 test)
 
-## documentation `[active]`
+## documentation `[deprecated]`
 
 **Goal:** Keep all taproot documentation accurate and current so that users, contributors, and integrators always have reliable information about what the tool does and how to use it
 
-- **generate-readme** `[implemented]` — Actor: Taproot maintainer / contributor — a developer who has made changes that affect the user-facing surface (CLI commands, skills, configuration options).
-  - dod-builtin `[complete]` (1 commit, 1 test)
+_No behaviours yet._
 
 ## hierarchy-integrity `[active]`
 
@@ -110,4 +109,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - cli-command `[complete]` (0 commits, 1 test)
 
 ---
-12 intents · 22 behaviours · 22 implementations · 22/22 complete
+12 intents · 21 behaviours · 21 implementations · 21/21 complete

@@ -19,9 +19,9 @@ Keep all taproot documentation accurate and current so that users, contributors,
 - Must remain readable without any special tooling (plain Markdown)
 
 ## Status
-- **State:** active
+- **State:** deprecated
 - **Created:** 2026-03-19
 - **Last reviewed:** 2026-03-19
 
 ## Notes
-First behaviour to implement: auto-generated README for the taproot npm package, synced from the current state of implemented features.
+Deprecated — documentation currency is now enforced through the `document-current` DoD condition in `implementation-quality/definition-of-done`. The goal of keeping docs accurate remains valid but is fulfilled there, not as a standalone intent.

@@ -27,4 +27,4 @@ validation:
     - needs-rework
 definitionOfDone:
   - tests-passing
-  - document-current: ensure all sections in readme.md are up to date
+  - document-current: README.md and docs/ accurately reflect all currently implemented CLI commands, skills, and configuration options

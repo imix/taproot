@@ -11,7 +11,7 @@
 ## Main Flow
 1. System reads `definition-of-done` conditions from `.taproot.yaml`
 2. System runs all conditions — every condition runs regardless of whether earlier ones fail
-3. For each condition, system records: name, pass/fail, output, and a proposed correction if failed
+3. For each condition, system records: name, pass/fail, output, and a proposed correction if failed. For `document-current` conditions specifically: the agent reads recent git commits and diffs, identifies stale sections in `README.md` and `docs/`, and applies updates directly. The condition passes once updates are made — no correction prompt is shown.
 4. If all conditions pass: system marks the impl `state: complete` and reports success
 5. If any conditions fail: system reports all failures together, each with a proposed correction, and does NOT mark the impl complete
 
@@ -56,12 +56,12 @@
   definitionOfDone:
     - tests-passing
     - linter-clean
-    - document-current: ensure all sections in readme.md are up to date
+    - document-current: README.md and docs/ accurately reflect all currently implemented CLI commands, skills, and configuration options
     - run: npm run custom-check
       name: my-check
       correction: "Run the fix script"
   ```
 - Built-in names (`tests-passing`, `linter-clean`, `commit-conventions`) resolve to known commands and standard corrections without requiring shell configuration. Any entry with a `run:` key is executed as a shell command from the project root.
-- `document-current` is a parameterizable built-in that takes a description of what must be true about a document. It is agent/human-verified (no shell command is run) and the description is surfaced as correction context when the condition is not yet confirmed.
+- `document-current` is a parameterizable built-in that triggers agent-driven documentation review. When this condition runs, the agent reads the git log for recent changes, then reads `README.md` and `docs/` to identify any sections that are stale or missing. The agent applies the necessary updates before the condition passes — it does not prompt for manual confirmation. The parameter string describes what accurate documentation looks like (used as the agent's review target).
 - "Propose corrections" means: for built-in conditions, the system states the standard fix explicitly (e.g. "Run `npm test` and fix failing tests"). For custom shell conditions, stdout/stderr from the failed command is surfaced as correction context, along with the `correction:` field if provided.
-- The README currency condition is resolved via `document-current` — rather than a standalone triggered behaviour, it becomes a DoD gate enforced here with a human/agent-verified description.
+- The README and docs currency condition is resolved via `document-current` — rather than a standalone triggered behaviour, it becomes a DoD gate enforced here with agent-driven review and update.
