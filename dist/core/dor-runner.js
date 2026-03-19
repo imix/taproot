@@ -37,7 +37,7 @@ export function runDorChecks(implMdPath, cwd) {
         name: 'state-specified',
         passed: isSpecified,
         output: isSpecified ? '' : `usecase.md state is '${state}'`,
-        correction: "Bring the spec to 'specified' (run /tr-grill then /tr-refine) before starting implementation",
+        correction: "Bring the spec to 'specified' (run /tr-review then /tr-refine) before starting implementation",
     });
     // 3. Required sections
     const required = [

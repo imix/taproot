@@ -15,8 +15,9 @@ const BUNDLED_SKILLS_DIR = resolve(__dirname, '..', '..', 'skills');
 
 export const SKILL_FILES = [
   'analyse-change.md',
-  'grill.md',
-  'grill-all.md',
+  'review.md',
+  'review-all.md',
+  'grill-me.md',
   'intent.md',
   'behaviour.md',
   'implement.md',

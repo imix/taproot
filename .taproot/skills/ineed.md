@@ -118,9 +118,9 @@ None — this skill delegates all writing to other skills.
 
 ## Notes
 
-- **Fast path vs discovery path**: The fast path is for requirements that are already clear. When in doubt, take the discovery path — a few extra minutes of elicitation produces a behaviour spec that doesn't need to be grilled and refined immediately after.
+- **Fast path vs discovery path**: The fast path is for requirements that are already clear. When in doubt, take the discovery path — a few extra minutes of elicitation produces a behaviour spec with less need for immediate refinement.
 - **Facilitator mindset**: You are not generating content, you are helping the developer articulate what they already know. Every question should help them think, not just answer.
 - **Discovery produces richer specs**: The synthesis summary from Step 4 carries forward into `/taproot:behaviour`, giving it a structured actor, goal, success criteria, and scope boundary to work from — not just a raw one-liner.
-- **Advanced elicitation** techniques (pre-mortem, MVP challenge, edge cases, alternative approaches) are the same used in `/taproot:grill` — reuse that framing rather than inventing new questions.
+- **Advanced elicitation** techniques (pre-mortem, MVP challenge, edge cases, alternative approaches) are available via `/taproot:grill-me` — reuse that framing rather than inventing new questions.
 - **Conversational detection**: Detecting a requirement from casual speech without explicit `/tr-ineed` invocation is a Claude Code behaviour — the agent watches for phrases like "we also need...", "the system should...", "I want users to be able to..." and asks "Should I add that to the taproot hierarchy?" before proceeding.
 - `/tr-ineed` is the Claude Code adapter command name for this skill.

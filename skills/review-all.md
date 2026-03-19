@@ -1,8 +1,8 @@
-# Skill: grill-all
+# Skill: review-all
 
 ## Description
 
-Run a comprehensive review of an entire subtree — an intent and all its descendants, or the entire `taproot/` root. Applies the per-artifact grill logic from `/taproot:grill` to each node, then adds cross-cutting analysis that can only be done by comparing artifacts against each other. Produces a consolidated report.
+Run a comprehensive review of an entire subtree — an intent and all its descendants, or the entire `taproot/` root. Applies the per-artifact review logic from `/taproot:review` to each node, then adds cross-cutting analysis that can only be done by comparing artifacts against each other. Produces a consolidated report.
 
 ## Inputs
 
@@ -18,10 +18,10 @@ Run a comprehensive review of an entire subtree — an intent and all its descen
 
 4. Walk the subtree top-down. For each artifact found:
    - Read the file
-   - Apply the grill logic from `/taproot:grill` (Steps 3 of that skill)
+   - Apply the review logic from `/taproot:review` (Steps 3 of that skill)
    - Record findings tagged with the artifact path
 
-5. After grilling all individual artifacts, perform **cross-cutting analysis**:
+5. After reviewing all individual artifacts, perform **cross-cutting analysis**:
 
    **Intent ↔ Behaviours:**
    - For each intent, check every success criterion against the list of behaviours. Is there at least one behaviour that, if implemented, would contribute to satisfying each criterion? Flag criteria with no corresponding behaviour as **Coverage Gaps**.
@@ -79,5 +79,5 @@ A consolidated review report covering the entire subtree, with structural issues
 
 ## Notes
 
-- For large hierarchies (>20 artifacts), batch the per-artifact grilling by intent to avoid overwhelming the user. Present one intent at a time and ask if they want to continue.
+- For large hierarchies (>20 artifacts), batch the per-artifact review by intent to avoid overwhelming the user. Present one intent at a time and ask if they want to continue.
 - If the user wants to act on findings immediately, each finding can link to the skill that fixes it: `/taproot:refine` for behaviour and impl issues, `/taproot:intent` for intent issues, `/taproot:implement` for unimplemented flows.

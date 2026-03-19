@@ -77,7 +77,7 @@ describe('taproot update', () => {
     // Simulate previously installed skills
     const skillsDir = join(tmpDir, '.taproot', 'skills');
     mkdirSync(skillsDir, { recursive: true });
-    writeFileSync(join(skillsDir, 'grill.md'), 'old skill content');
+    writeFileSync(join(skillsDir, 'review.md'), 'old skill content');
 
     const msgs = await runUpdate({ cwd: tmpDir });
     expect(msgs.some(m => m.includes('skills'))).toBe(true);

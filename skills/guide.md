@@ -53,8 +53,9 @@ ineed → intent → behaviour → implement → trace → status
 | `/tr-implement` | Implement a behaviour with code, tests, and `impl.md` |
 | `/tr-trace` | Map recent commits back to taproot documents |
 | `/tr-status` | Generate a health dashboard for the hierarchy |
-| `/tr-grill` | Stress-test a spec with adversarial questions |
-| `/tr-grill-all` | Run grill across an entire subtree |
+| `/tr-review` | Stress-test a spec with adversarial questions |
+| `/tr-review-all` | Run review across an entire subtree |
+| `/tr-grill-me` | Interview the user relentlessly to sharpen a plan or design |
 | `/tr-refine` | Update a behaviour spec based on implementation learnings |
 | `/tr-promote` | Move discoveries from implementation back upstream |
 | `/tr-guide` | Show this guide |

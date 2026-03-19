@@ -4,7 +4,7 @@
 
 ```
 /tr-intent "Users need to reset their password without contacting support"
-/tr-grill taproot/password-reset/intent.md
+/tr-review taproot/password-reset/intent.md
 /tr-decompose taproot/password-reset/
 /tr-implement taproot/password-reset/request-reset/
 taproot coverage --path taproot/password-reset/

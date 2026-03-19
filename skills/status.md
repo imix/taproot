@@ -61,7 +61,7 @@ Generated: <date>
    - Missing tests fourth
    - Stale specs fifth
 
-7. If no issues are found: "Everything looks healthy. <N> intents, <N> behaviours, <N> implementations — all valid, complete, and tested. Consider running `/taproot:grill-all` for a deeper semantic review."
+7. If no issues are found: "Everything looks healthy. <N> intents, <N> behaviours, <N> implementations — all valid, complete, and tested. Consider running `/taproot:review-all` for a deeper semantic review."
 
 ## Output
 
@@ -78,4 +78,4 @@ A narrative health summary with metrics, issue categorization, and prioritized a
 ## Notes
 
 - This skill is read-only. It reports, it does not modify.
-- For deep semantic issues (unclear specs, over-scoped intents), this skill will not catch them — suggest `/taproot:grill-all` for that.
+- For deep semantic issues (unclear specs, over-scoped intents), this skill will not catch them — suggest `/taproot:review-all` for that.

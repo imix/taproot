@@ -45,7 +45,7 @@ Escalate a significant finding from implementation or behaviour level up to the 
 
 10. Run `taproot validate-format --path <intent-folder>`.
 
-11. Report: "Intent updated. <N> behaviours flagged for potential re-evaluation. Consider running `/taproot:grill taproot/<intent-slug>/intent.md` after the dust settles."
+11. Report: "Intent updated. <N> behaviours flagged for potential re-evaluation. Consider running `/taproot:review taproot/<intent-slug>/intent.md` after the dust settles."
 
 ## Output
 
@@ -60,4 +60,4 @@ Importantly, this skill does **not** auto-modify other behaviours — it creates
 ## Notes
 
 - Use this skill when the finding changes the answer to "is this intent achievable?" or "are we building the right thing?" — not for normal implementation learnings (use `/taproot:refine` for those).
-- If multiple findings accumulate in the Notes section without being resolved, that is a signal to run a full `/taproot:grill` or `/taproot:grill-all` on the intent.
+- If multiple findings accumulate in the Notes section without being resolved, that is a signal to run a full `/taproot:review` or `/taproot:review-all` on the intent.

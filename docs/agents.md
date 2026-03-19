@@ -26,8 +26,8 @@ After `taproot init --agent claude`, skills are available as slash commands:
 | `/tr-implement` | Implement a behaviour with full traceability |
 | `/tr-trace` | Navigate: file → impl → behaviour → intent (and back) |
 | `/tr-status` | Coverage dashboard with actionable suggestions |
-| `/tr-grill` | Stress-test any artifact |
-| `/tr-grill-all` | Comprehensive review of a subtree |
+| `/tr-review` | Stress-test any artifact |
+| `/tr-review-all` | Comprehensive review of a subtree |
 | `/tr-refine` | Update a spec from implementation learnings |
 | `/tr-promote` | Escalate a finding to the intent level |
 

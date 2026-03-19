@@ -23,7 +23,7 @@ Developer or project stakeholder invoking `/tr-status`
 
 ## Alternate Flows
 - **`--path <subpath>`**: Scopes all commands to a subtree of the hierarchy
-- **No issues found**: Agent presents a clean health summary with a suggestion to run `/tr-grill-all` for deeper semantic review
+- **No issues found**: Agent presents a clean health summary with a suggestion to run `/tr-review-all` for deeper semantic review
 
 ## Error Conditions
 - **Validation errors present**: Agent flags these as top priority before presenting the rest of the report — broken structure/format must be fixed before other metrics are meaningful

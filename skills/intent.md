@@ -37,7 +37,7 @@ Create a new business intent or refine an existing one. An intent captures the "
 
 7. Run `taproot validate-format --path taproot/<slug>/`.
 
-8. If validation passes, suggest: "Intent created at `taproot/<slug>/intent.md`. Ready to decompose into behaviours? Run `/taproot:decompose taproot/<slug>/` or `/taproot:grill taproot/<slug>/intent.md` to stress-test it first."
+8. If validation passes, suggest: "Intent created at `taproot/<slug>/intent.md`. Ready to decompose into behaviours? Run `/taproot:decompose taproot/<slug>/` or `/taproot:review taproot/<slug>/intent.md` to stress-test it first."
 
 ### Refining an existing intent
 

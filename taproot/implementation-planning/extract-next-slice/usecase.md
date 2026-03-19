@@ -21,7 +21,7 @@ Agentic developer / orchestrator (human who asks the agent to plan the next work
 
 ## Alternate Flows
 - **Multiple candidates at the same priority**: Agent presents a short-list and asks the developer to choose
-- **All behaviours implemented**: Agent reports complete coverage and suggests `/tr-grill-all` for semantic review
+- **All behaviours implemented**: Agent reports complete coverage and suggests `/tr-review-all` for semantic review
 - **Developer specifies a path**: Agent skips discovery and proceeds directly to implement the named behaviour
 
 ## Error Conditions

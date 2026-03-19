@@ -113,7 +113,7 @@ export function formatPlan(report, format) {
 function formatTree(report) {
     const lines = [];
     if (report.allImplemented) {
-        lines.push('All behaviours are implemented. Consider running `taproot check-orphans` or `/tr-grill-all`.');
+        lines.push('All behaviours are implemented. Consider running `taproot check-orphans` or `/tr-review-all`.');
         lines.push('');
         return lines.join('\n');
     }
