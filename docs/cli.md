@@ -1,104 +1,198 @@
 # CLI Reference
 
+The Taproot CLI handles setup, validation, and reporting. It does not generate content — that's what the agent skills do. The rule of thumb: use `/tr-*` commands when you want the AI to write or update documents; use `taproot` CLI commands to validate, report, and check structural integrity.
+
+---
+
 ## Setup
+
+### `taproot init`
 
 ```bash
 taproot init [--with-hooks] [--with-ci github|gitlab] [--with-skills] [--agent claude|cursor|copilot|windsurf|generic|all]
 ```
 
+Initializes Taproot in the current directory. Creates `taproot/` and `.taproot.yaml` if they don't exist, then installs whichever integrations you request.
+
 | Option | Effect |
 |--------|--------|
-| `--with-hooks` | Installs git pre-commit hook running structure and format validation |
-| `--with-ci github` | Generates `.github/workflows/taproot.yml` |
-| `--with-ci gitlab` | Generates `.gitlab-ci.yml` taproot validation job |
-| `--with-skills` | Copies skill definitions to `taproot/skills/` |
-| `--agent <name>` | Generates agent adapter files |
+| `--with-hooks` | Installs `.git/hooks/pre-commit` running `taproot commithook` |
+| `--with-ci github` | Generates `.github/workflows/taproot.yml` with validate-structure, validate-format, and check-orphans |
+| `--with-ci gitlab` | Generates a `taproot-validate` job in `.gitlab-ci.yml` |
+| `--with-skills` | Copies skill definitions to `.taproot/skills/`; always implied when `--agent claude` is used |
+| `--agent <name>` | Generates agent adapter files (see [Agent Setup](agents.md)) |
+
+Running `taproot init` again on an existing project is safe — it skips files that already exist and reports `exists` for each.
+
+### `taproot update`
 
 ```bash
-taproot update
+taproot update [--with-hooks]
 ```
-Refresh installed agent adapters and skills to the current version. Removes stale artefacts from older layouts. Also runs a cross-link refresh pass: adds missing `## Behaviours <!-- taproot-managed -->` sections to `intent.md` files and `## Implementations <!-- taproot-managed -->` sections to `usecase.md` files, appending child links and pruning stale ones.
+
+Refreshes installed agent adapters and skills to the current version. Run this after upgrading the `taproot` package.
+
+The update command also:
+- Removes stale artefacts from older Taproot layouts (e.g., the pre-v0.1 `taproot/skills/` directory)
+- Runs a cross-link refresh: adds missing `## Behaviours <!-- taproot-managed -->` sections to `intent.md` files and `## Implementations <!-- taproot-managed -->` sections to `usecase.md` files, then appends any missing child links and prunes any links to non-existent files
+- Migrates old `taproot validate-structure` / `taproot validate-format` pre-commit hooks to the newer `taproot commithook` format
+
+---
 
 ## Validation
+
+### `taproot validate-structure`
 
 ```bash
 taproot validate-structure [--path taproot/] [--strict]
 ```
-Verify folder hierarchy nesting rules. Exit 0 if valid, exit 1 with violations.
+
+Verifies that the folder hierarchy follows Taproot's nesting rules:
+- Intent folders contain `intent.md` and optionally behaviour subdirectories
+- Behaviour folders contain `usecase.md` and optionally impl or sub-behaviour subdirectories
+- Implementation folders contain `impl.md` and are always leaves (no children)
+- Folder names match the allowed pattern (lowercase kebab-case)
+
+Exit 0 if valid, exit 1 with violations. Use `--strict` to treat warnings as errors.
+
+### `taproot validate-format`
 
 ```bash
 taproot validate-format [--path taproot/] [--fix]
 ```
-Validate marker files conform to their schemas. `--fix` scaffolds missing section headers. Also checks that every `intent.md` with child behaviour folders has a `## Behaviours` section, every `usecase.md` with child impl folders has an `## Implementations` section, and every link in those sections resolves to an existing file (`STALE_LINK`).
+
+Validates that marker files (`intent.md`, `usecase.md`, `impl.md`) conform to their schemas — required sections present, required fields populated, state values from the allowed set. Also checks:
+
+- Every `intent.md` with child behaviour folders has a `## Behaviours <!-- taproot-managed -->` section
+- Every `usecase.md` with child impl folders has an `## Implementations <!-- taproot-managed -->` section
+- Every link in those sections resolves to an existing file (detects `STALE_LINK`)
+- `impl.md` `## Behaviour` references point to existing `usecase.md` files
+
+Use `--fix` to scaffold missing section headers automatically. This is safe to run repeatedly — it only adds what's missing, never overwrites existing content.
+
+---
 
 ## Traceability
+
+### `taproot link-commits`
 
 ```bash
 taproot link-commits [--since <date|hash>] [--dry-run]
 ```
-Scan git log for `taproot(<path>): message` commits and link them to `impl.md` records.
+
+Scans the git log for commits matching the conventional format (`taproot(<path>): message` or `Taproot: <path>` trailer) and adds them to the `## Commits` section of the corresponding `impl.md`. Use `--dry-run` to preview changes without writing them. Use `--since` to limit the scan to recent commits.
+
+### `taproot check-orphans`
 
 ```bash
-taproot check-orphans [--include-unimplemented]
+taproot check-orphans [--path taproot/] [--include-unimplemented]
 ```
-Find broken references: missing source files, invalid behaviour refs, commits not in git history.
+
+Finds broken references across the hierarchy:
+- Source files listed in `impl.md` that no longer exist on disk
+- `## Behaviour` references in `impl.md` that point to non-existent `usecase.md` files
+- Commits in `## Commits` that are not in git history
+
+Use `--include-unimplemented` to also report behaviours with no implementations (useful for coverage gaps, not just broken links).
+
+---
 
 ## Reporting
 
-```bash
-taproot coverage [--format tree|json|markdown|context]
-```
-Completeness summary. `--format context` writes `taproot/CONTEXT.md` for agent consumption.
+### `taproot coverage`
 
 ```bash
-taproot sync-check [--since <date>]
+taproot coverage [--path taproot/] [--format tree|json|markdown|context]
 ```
-Detect staleness: source files modified after `impl.md`, spec updated after implementations.
+
+Summarizes implementation completeness across the hierarchy: how many behaviours have at least one implementation, how many are still planned. The default output is a tree view. Use `--format context` to write `taproot/CONTEXT.md` — a compact summary suitable for pasting into an agent context window.
+
+### `taproot sync-check`
+
+```bash
+taproot sync-check [--path taproot/] [--since <date>]
+```
+
+Detects staleness in two directions:
+- **Code newer than spec:** a source file in `## Source Files` has been modified more recently than the `impl.md` was last verified — the implementation may have drifted from the spec
+- **Spec newer than implementation:** a `usecase.md` was reviewed after the corresponding `impl.md` was completed — the implementation may not reflect the latest spec
+
+Run this before a release or when you suspect specs have drifted from the code.
+
+### `taproot overview`
 
 ```bash
 taproot overview
 ```
-Regenerate `taproot/OVERVIEW.md` — a compact hierarchy summary for agent orientation.
+
+Regenerates `taproot/OVERVIEW.md` — a compact hierarchy summary with clickable links to every intent, behaviour, and impl in the tree. The overview is the agent's entry point for orientation: agent skills read it to understand the shape of the project before drilling into individual files.
+
+### `taproot plan`
 
 ```bash
 taproot plan [--format tree|json]
 ```
-Surface unimplemented behaviours as AFK or HITL work items, ordered by priority.
+
+Surfaces unimplemented behaviours as work items, ordered by priority (intents with more coverage are prioritized to reach completion). Useful for sprint planning or for orienting a new contributor. The `/tr-plan` skill provides an AI-driven version with more context.
+
+---
 
 ## Definition of Done
 
+### `taproot dod`
+
 ```bash
-taproot dod [impl-path]
+taproot dod [impl-path] [--dry-run]
 ```
-Run all configured DoD conditions from `.taproot.yaml`. With `impl-path`, marks the impl `complete` if all pass.
+
+Runs all configured DoD conditions from `.taproot.yaml` against the specified implementation (or all implementations if no path is given). If all conditions pass and an `impl-path` is provided, marks the impl `complete` and records the results in `## DoD Resolutions`.
+
+See [Configuration](configuration.md) for how to define DoD conditions.
+
+---
 
 ## Pre-commit Hook
+
+### `taproot commithook`
 
 ```bash
 taproot commithook
 ```
-Classifies staged files and runs the appropriate quality gate. Installed by `taproot init --with-hooks` as the sole content of `.git/hooks/pre-commit`.
 
-| Staged files | Gate |
+Classifies the staged files and runs the appropriate quality gate. Installed by `taproot init --with-hooks` as the content of `.git/hooks/pre-commit` — you do not call this directly.
+
+The hook uses a three-tier classification:
+
+| Staged files | Gate applied |
 |---|---|
-| `taproot/` hierarchy files (`intent.md`, `usecase.md`) | validate-structure + validate-format |
-| `impl.md` only | Definition of Ready (DoR) — usecase must be `specified`, with Flow and Related sections |
-| source files + `impl.md` | verify only `## Status` changed in impl.md, then run DoD |
-| none of the above | no checks, commit proceeds |
+| Only hierarchy files (`intent.md`, `usecase.md`) | `validate-structure` + `validate-format` — hierarchy must be valid before the commit lands |
+| Only `impl.md` (no source files) | Definition of Ready — the parent `usecase.md` must be in `specified` state and have `## Flow` and `## Related` sections |
+| Source files + `impl.md` | Verify only `## Status` (and `## DoD Resolutions`) changed in `impl.md`; then run DoD |
+| No hierarchy or impl files | No checks; commit proceeds |
+
+The DoR gate prevents committing an implementation record before the behaviour is fully specified. The DoD gate prevents marking an implementation complete without passing the quality checks defined in `.taproot.yaml`.
+
+---
 
 ## Commit Convention
 
-Link commits to implementations:
+Link commits to implementations using the conventional tag format:
 
 ```
 taproot(<intent>/<behaviour>/<impl>): <message>
 ```
 
-Or use a trailer:
+For example:
+```
+taproot(password-reset/request-reset/email-trigger): add rate limiting
+```
+
+Or use a commit trailer:
+
 ```
 fix: handle missing user gracefully
 
 Taproot: password-reset/request-reset/email-trigger
 ```
 
-Then run `taproot link-commits` to update `impl.md` automatically.
+After tagging commits, run `taproot link-commits` to update the `## Commits` section of the corresponding `impl.md` automatically. The CI integration (see [Configuration](configuration.md)) can run this on every merge.
