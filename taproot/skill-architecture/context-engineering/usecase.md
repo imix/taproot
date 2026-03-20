@@ -5,7 +5,7 @@ Skill author — a human developer or AI agent writing or updating a taproot ski
 
 ## Preconditions
 - A new skill is being implemented, or an existing skill is being significantly revised
-- The `check-if-affected-by: skill-architecture/context-engineering` condition is present in `.taproot.yaml`'s `definitionOfDone`, causing this spec to be evaluated at DoD time for every skill implementation
+- The `check-if-affected-by: skill-architecture/context-engineering` condition is present in `.taproot/settings.yaml`'s `definitionOfDone`, causing this spec to be evaluated at DoD time for every skill implementation
 
 ## Main Flow
 1. Skill author writes (or updates) a skill file.
@@ -133,6 +133,6 @@ flowchart TD
 - **Last reviewed:** 2026-03-20
 
 ## Notes
-- This spec is enforced via `check-if-affected-by: skill-architecture/context-engineering` in `.taproot.yaml`. To add it: `definitionOfDone: - check-if-affected-by: skill-architecture/context-engineering`
+- This spec is enforced via `check-if-affected-by: skill-architecture/context-engineering` in `.taproot/settings.yaml`. To add it: `definitionOfDone: - check-if-affected-by: skill-architecture/context-engineering`
 - The "context rot" phenomenon (Karpathy, 2025): focused 300-token context often outperforms unfocused 113k-token context. These constraints directly address the taproot-specific causes of context bloat.
 - Chromatic Labs (2025): loading only skill metadata (~50 tokens) at session start, deferring full SKILL.md load to invocation, is the primary mechanism behind C-1 and C-4.

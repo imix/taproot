@@ -1,6 +1,6 @@
 # Configuration
 
-## `.taproot.yaml`
+## `.taproot/settings.yaml`
 
 Created by `taproot init`. All settings have defaults — you only need to add what you want to override.
 
@@ -50,7 +50,7 @@ The `definitionOfDone` list controls what `taproot dod` checks and what the pre-
 | `document-current: <description>` | Agent-verified: the agent checks whether the described documentation is current and applies updates if needed. |
 | `check-if-affected: <file>` | Agent-verified: the agent reviews whether the given file needed updating as a result of this implementation and applies changes if needed. |
 | `check-if-affected-by: <behaviour-path>` | Agent-verified: the agent reads the referenced behaviour spec and determines whether it applies to this implementation — verifying compliance if it does, recording "not applicable" if it does not. Use for cross-cutting requirements that every implementation of a given type must satisfy (e.g. every new skill must satisfy `human-integration/contextual-next-steps`). |
-| `check: <free-form question>` | Agent-verified: the agent reads the question, reasons whether the answer is yes, no, or not applicable for this specific implementation, and takes any indicated action (e.g. adds an entry to `.taproot.yaml`, documents a new pattern). The two default entries in `.taproot.yaml` cover the most common meta-questions. |
+| `check: <free-form question>` | Agent-verified: the agent reads the question, reasons whether the answer is yes, no, or not applicable for this specific implementation, and takes any indicated action (e.g. adds an entry to `.taproot/settings.yaml`, documents a new pattern). The two default entries in `.taproot/settings.yaml` cover the most common meta-questions. |
 | `run: <command>` | Custom shell command. Exit 0 = pass, any other exit code = fail. |
 
 You can give any condition a custom name with `name: <label>`, which is used in DoD reports:

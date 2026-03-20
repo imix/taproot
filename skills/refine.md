@@ -18,7 +18,7 @@ Update a behaviour spec (`usecase.md`) based on what was learned during or after
 
    If a match is found, **interrupt before reading the spec**:
    > "Before I refine this — that finding sounds like the **`<pattern-name>`** pattern. <one-line description>. See `docs/patterns.md`."
-   > **[A] Apply the pattern** — configure it in `.taproot.yaml` instead of editing the spec
+   > **[A] Apply the pattern** — configure it in `.taproot/settings.yaml` instead of editing the spec
    > **[B] Continue refining** — the spec change is the right approach
 
    - **[A]**: guide through applying the pattern. Do not modify `usecase.md`.

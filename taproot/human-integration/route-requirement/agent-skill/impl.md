@@ -40,6 +40,6 @@
 
 - condition: check-if-affected: src/commands/update.ts | note: Not affected. update.ts copies skill files by name; no change to file names or copy logic. | resolved: 2026-03-20T10:03:05.837Z
 - condition: check-if-affected-by: implementation-quality/architecture-compliance | note: compliant — change is markdown-only (description text in command file); no source code modified; no architectural constraints affected | resolved: 2026-03-20T19:10:00.000Z
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml? | note: no — description text update is not a cross-cutting concern | resolved: 2026-03-20T19:10:00.000Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — description text update is not a cross-cutting concern | resolved: 2026-03-20T19:10:00.000Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — updating a command description string is not a reusable pattern | resolved: 2026-03-20T19:10:00.000Z
 

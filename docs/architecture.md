@@ -46,4 +46,4 @@ Core modules must not import from commands. Commands may import from core, valid
 
 ## Testing
 
-Integration tests use real temporary directories (`mkdtempSync`) — no mocking the filesystem. Config in tests must be written to `.taproot/settings.yaml` (not `.taproot.yaml`).
+Integration tests use real temporary directories (`mkdtempSync`) — no mocking the filesystem. Config in tests must be written to `.taproot/settings.yaml` (not `.taproot/settings.yaml`).

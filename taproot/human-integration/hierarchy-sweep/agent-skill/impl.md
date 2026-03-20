@@ -43,7 +43,7 @@
 - condition: document-current | note: added /tr-sweep to docs/agents.md skills table; added /tr-sweep to skills/guide.md command reference table | resolved: 2026-03-20T15:56:49.737Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — in-session per-file iteration is the natural agent approach; not a reusable pattern worth documenting | resolved: 2026-03-20T17:26:38.670Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml? | note: no — in-session per-file processing is specific to sweep; no new architectural constraint | resolved: 2026-03-20T17:26:38.439Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — in-session per-file processing is specific to sweep; no new architectural constraint | resolved: 2026-03-20T17:26:38.439Z
 
 - condition: check-if-affected-by: implementation-quality/architecture-compliance | note: not applicable — skills/sweep.md is a markdown skill file; architecture-compliance governs CLI source code | resolved: 2026-03-20T17:26:38.211Z
 
@@ -62,7 +62,7 @@
 - condition: document-current | note: sweep.md already documented in docs/agents.md and skills/guide.md; description updated from 'calls taproot apply' to 'processes files in-session' — no new CLI commands or config options introduced | resolved: 2026-03-20T17:26:36.554Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — in-session per-file iteration is the natural agent approach; no new pattern needed | resolved: 2026-03-20T15:58:01.063Z
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml? | note: no — /tr-sweep is a user-facing skill, not an architectural constraint | resolved: 2026-03-20T15:58:00.833Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — /tr-sweep is a user-facing skill, not an architectural constraint | resolved: 2026-03-20T15:58:00.833Z
 - condition: check-if-affected-by: skill-architecture/context-engineering | note: evaluated all 6 constraints: C-1 description ~25 tokens (compliant); C-2 no embedded reference docs (compliant); C-3 no cross-skill repetition (compliant); C-4 no bulk file pre-loads — enumeration happens at step 2 when needed (compliant); C-5 /compact signal added before What's next? block at step 5/6 boundary (compliant); C-6 What's next? block present at end of step 6 (compliant) | resolved: 2026-03-20T15:57:51.607Z
 - condition: check-if-affected-by: implementation-quality/architecture-compliance | note: not applicable — architecture-compliance governs CLI command source code; skills/sweep.md is a markdown skill file with no source code | resolved: 2026-03-20T15:57:12.994Z
 - condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — pattern-hints applies to skills that receive a user-expressed need and route it; /tr-sweep receives a task description and executes it directly | resolved: 2026-03-20T15:57:12.760Z

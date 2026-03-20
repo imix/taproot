@@ -5,7 +5,7 @@ Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying the 
 
 ## Preconditions
 - `taproot/` directory exists
-- `.taproot.yaml` is present or defaults are used
+- `.taproot/settings.yaml` is present or defaults are used
 
 ## Main Flow
 1. Actor runs `taproot validate-structure`

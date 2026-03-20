@@ -36,7 +36,7 @@
 - condition: document-current | note: Updated README.md: changed '/tr-discover — reverse-engineer an existing codebase' to 'existing project (source, requirements, or both)'. guide.md does not mention /tr-discover and needs no update. docs/ has no discover-specific content. | resolved: 2026-03-20T19:49:07.565Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No. Heuristic requirements artifact detection is specific to the discover skill. Not a reusable pattern applicable across the hierarchy. | resolved: 2026-03-20T19:49:50.950Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml? | note: No. This change extends a single skill (discover.md) with requirements artifact detection. Not a cross-cutting concern across all implementations. | resolved: 2026-03-20T19:49:50.716Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: No. This change extends a single skill (discover.md) with requirements artifact detection. Not a cross-cutting concern across all implementations. | resolved: 2026-03-20T19:49:50.716Z
 
 - condition: check-if-affected-by: implementation-quality/architecture-compliance | note: Already resolved at DoR. Skill file is plain markdown — compliant with agent-agnostic output constraint. No source modules or architectural concerns involved. | resolved: 2026-03-20T19:49:50.490Z
 

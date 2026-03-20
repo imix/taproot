@@ -42,7 +42,7 @@
 - condition: document-current | note: docs/cli.md documents taproot dod including --dry-run and --resolve; guide.md lists taproot dod | resolved: 2026-03-19T18:34:52.172Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: yes — added 'Open-ended agent questions (check:)' pattern to docs/patterns.md describing when and how to use check: vs check-if-affected-by | resolved: 2026-03-20T10:57:46.667Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml? | note: no — adding the check: condition type is a capability enhancement to the existing DoD runner; it does not define a new architectural rule that applies to every implementation | resolved: 2026-03-20T10:57:45.455Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — adding the check: condition type is a capability enhancement to the existing DoD runner; it does not define a new architectural rule that applies to every implementation | resolved: 2026-03-20T10:57:45.455Z
 
 - condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — pattern-hints applies to skills that route user requests; the DoD CLI command is invoked by the agent at commit time, not in response to a user expressing a need | resolved: 2026-03-20T10:57:44.173Z
 

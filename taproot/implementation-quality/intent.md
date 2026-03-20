@@ -9,7 +9,7 @@
 Allow teams to declare the conditions that must hold for any implementation to be considered complete — linting, tests, documentation currency, git conventions, or any custom check — and have taproot enforce them consistently across every implementation, whether authored by a human or an AI agent.
 
 ## Success Criteria
-- [ ] Teams can configure a Definition of Done in `.taproot.yaml` with one or more named conditions
+- [ ] Teams can configure a Definition of Done in `.taproot/settings.yaml` with one or more named conditions
 - [ ] `/tr-implement` checks all configured DoD conditions before marking an impl `complete`
 - [ ] Each condition produces a clear pass/fail result with an actionable error message on failure
 - [ ] Built-in conditions cover the most common needs (tests passing, linter clean, README current, commit conventions)
@@ -31,4 +31,4 @@ Allow teams to declare the conditions that must hold for any implementation to b
 - **Last reviewed:** 2026-03-19
 
 ## Notes
-First behaviour: configurable Definition of Done — conditions declared in `.taproot.yaml` and enforced by `/tr-implement`. Future behaviours may include lint-enforcement, commit-convention checks, and coverage thresholds as first-class conditions.
+First behaviour: configurable Definition of Done — conditions declared in `.taproot/settings.yaml` and enforced by `/tr-implement`. Future behaviours may include lint-enforcement, commit-convention checks, and coverage thresholds as first-class conditions.

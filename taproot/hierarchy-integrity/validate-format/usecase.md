@@ -15,7 +15,7 @@ Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying docu
    - `intent.md`: requires Goal, Stakeholders, Success Criteria, Status
    - `usecase.md`: requires Actor, Preconditions, Main Flow, Postconditions, Status, Flow (Mermaid diagram), Related (links to related behaviours)
    - `impl.md`: requires Behaviour, Commits, Tests, Status
-5. System checks that Status fields contain allowed state values (from `.taproot.yaml` config)
+5. System checks that Status fields contain allowed state values (from `.taproot/settings.yaml` config)
 6. System checks that date fields are present if `require_dates` is enabled
 7. System prints violations with file path, line number where available, and error code
 8. System exits with code 0 (valid) or 1 (violations found)

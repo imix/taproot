@@ -32,7 +32,7 @@
 - condition: document-current | note: README.md and docs/ do not need updating — commit-awareness is a new check-if-affected-by entry in settings.yaml; docs/configuration.md explains the check-if-affected-by mechanism generically and does not enumerate specific entries; no new CLI commands or configuration options introduced | resolved: 2026-03-20T19:18:02.904Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — commit-awareness enforcement uses the existing check-if-affected-by pattern already documented in docs/patterns.md; no new pattern to add | resolved: 2026-03-20T19:18:51.800Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml? | note: yes — this story introduces check-if-affected-by: skill-architecture/commit-awareness, which has been added to definitionOfDone in .taproot/settings.yaml | resolved: 2026-03-20T19:18:51.563Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: yes — this story introduces check-if-affected-by: skill-architecture/commit-awareness, which has been added to definitionOfDone in .taproot/settings.yaml | resolved: 2026-03-20T19:18:51.563Z
 
 - condition: check-if-affected-by: implementation-quality/architecture-compliance | note: compliant — all changes are markdown (skills/implement.md) and YAML (.taproot/settings.yaml); no source code modified; no architectural constraints affected (filesystem as data model, no global state, no I/O outside command boundaries) | resolved: 2026-03-20T19:18:51.327Z
 

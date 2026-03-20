@@ -29,7 +29,7 @@
 - condition: document-current | note: skills/status.md updated with Parked section in report template; guide.md describes /tr-status at a high level only (no report sections listed) — no change needed; docs/agents.md lists /tr-status as a coverage dashboard — no section-level detail to update | resolved: 2026-03-20T18:33:53.194Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — surfacing deferred items in a status report is specific behaviour, not a reusable pattern | resolved: 2026-03-20T18:33:55.296Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml? | note: no — Parked section is a reporting addition to one skill; not a cross-cutting enforcement concern | resolved: 2026-03-20T18:33:55.063Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — Parked section is a reporting addition to one skill; not a cross-cutting enforcement concern | resolved: 2026-03-20T18:33:55.063Z
 
 - condition: check-if-affected-by: implementation-quality/architecture-compliance | note: compliant — change is markdown-only (skills/status.md); no source code modified; no architectural constraints affected | resolved: 2026-03-20T18:33:54.834Z
 

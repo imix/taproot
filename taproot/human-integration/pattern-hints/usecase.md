@@ -20,7 +20,7 @@ Agent — processing any user-expressed need via any taproot skill (`/tr-ineed`,
    >
    > **[A] Use this pattern now** — I'll guide you through applying it
    > **[B] Continue as a new requirement** — route and spec it normally
-4. If **[A]**: agent guides the user through applying the pattern directly (e.g. for `check-if-affected-by`: write the behaviour spec, add the DoD entry to `.taproot.yaml`).
+4. If **[A]**: agent guides the user through applying the pattern directly (e.g. for `check-if-affected-by`: write the behaviour spec, add the DoD entry to `.taproot/settings.yaml`).
 5. If **[B]**: agent continues with the original skill flow, unmodified.
 
 ## Alternate Flows
@@ -41,7 +41,7 @@ Agent — processing any user-expressed need via any taproot skill (`/tr-ineed`,
   3. Chosen pattern → step 4 of main flow. Neither → step 5.
 
 ### Pattern already in use
-- **Trigger:** User's requirement matches a pattern that is already configured in `.taproot.yaml` or already implemented in the hierarchy
+- **Trigger:** User's requirement matches a pattern that is already configured in `.taproot/settings.yaml` or already implemented in the hierarchy
 - **Steps:**
   1. Agent notes the existing usage:
      > "That pattern is already active (`check-if-affected-by: skill-architecture/context-engineering`). Is your need covered by that, or is this a separate concern?"
@@ -105,7 +105,7 @@ flowchart TD
 - Then the original skill flow proceeds without any pattern hint being shown
 
 **AC-5: Pattern already in use**
-- Given a user expresses a need that matches a pattern already in `.taproot.yaml`
+- Given a user expresses a need that matches a pattern already in `.taproot/settings.yaml`
 - When the agent scans patterns
 - Then it notes the existing usage and asks whether the need is already covered or is a separate concern
 
@@ -116,7 +116,7 @@ flowchart TD
 
 **AC-7: Pattern applied via [A] — no requirement added to hierarchy**
 - Given the user chooses [A] Use pattern
-- When the pattern is applied (e.g. spec written, .taproot.yaml updated)
+- When the pattern is applied (e.g. spec written, .taproot/settings.yaml updated)
 - Then no duplicate behaviour is added to the hierarchy — the pattern application is the resolution
 
 ## Implementations <!-- taproot-managed -->

@@ -54,3 +54,4 @@
 
 - condition: check-if-affected: src/commands/update.ts | note: update.ts regenerates agent adapters and skill files; skill content changes (not structure) do not affect update.ts logic — no changes needed | resolved: 2026-03-20T06:11:51.890Z
 
+- condition: sweep-taproot-yaml-rename | note: .taproot.yaml references updated to .taproot/settings.yaml across the project; this impl.md contains no such references — no content changes required | resolved: 2026-03-20

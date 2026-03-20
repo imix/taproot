@@ -12,7 +12,7 @@ The Taproot CLI handles setup, validation, and reporting. It does not generate c
 taproot init [--with-hooks] [--with-ci github|gitlab] [--with-skills] [--agent claude|cursor|copilot|windsurf|generic|all]
 ```
 
-Initializes Taproot in the current directory. Creates `taproot/` and `.taproot.yaml` if they don't exist, then installs whichever integrations you request.
+Initializes Taproot in the current directory. Creates `taproot/` and `.taproot/settings.yaml` if they don't exist, then installs whichever integrations you request.
 
 | Option | Effect |
 |--------|--------|
@@ -168,7 +168,7 @@ Surfaces unimplemented behaviours as work items, ordered by priority (intents wi
 taproot dod [impl-path] [--dry-run]
 ```
 
-Runs all configured DoD conditions from `.taproot.yaml` against the specified implementation (or all implementations if no path is given). If all conditions pass and an `impl-path` is provided, marks the impl `complete`, records the results in `## DoD Resolutions`, and automatically advances the parent `usecase.md` state from `specified` to `implemented` if it hasn't been already.
+Runs all configured DoD conditions from `.taproot/settings.yaml` against the specified implementation (or all implementations if no path is given). If all conditions pass and an `impl-path` is provided, marks the impl `complete`, records the results in `## DoD Resolutions`, and automatically advances the parent `usecase.md` state from `specified` to `implemented` if it hasn't been already.
 
 See [Configuration](configuration.md) for how to define DoD conditions.
 
@@ -194,7 +194,7 @@ The hook uses a three-tier classification, where the implementation tier is dete
 | Source files found in map but `impl.md` NOT staged | **Blocked** — "Stage `impl.md` alongside your source files. No implementation commit should proceed without its traceability record." |
 | No tracked source files, no hierarchy or impl files | No checks; commit proceeds |
 
-The DoR gate prevents committing an implementation record before the behaviour is fully specified. The DoD gate prevents marking an implementation complete without passing the quality checks defined in `.taproot.yaml`.
+The DoR gate prevents committing an implementation record before the behaviour is fully specified. The DoD gate prevents marking an implementation complete without passing the quality checks defined in `.taproot/settings.yaml`.
 
 ---
 

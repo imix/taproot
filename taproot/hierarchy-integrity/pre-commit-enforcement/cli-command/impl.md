@@ -11,7 +11,7 @@
 - "Status-only changed" check compares `git show HEAD:<impl>` vs `git show :<impl>` using the markdown section parser — robust against whitespace and ordering; fails if any section other than `status` or `dod resolutions` differs
 - If impl.md is new in HEAD (first commit), it's treated as not-yet-declared and the implementation commit is rejected — forces the two-commit discipline (declaration then implementation)
 - DoD is run in `--dry-run` mode from the hook — the hook does not mark impl complete, only gates the commit
-- DoR baseline checks (7 conditions) always run for declaration commits; configured `definitionOfReady` conditions in `.taproot.yaml` run additionally
+- DoR baseline checks (7 conditions) always run for declaration commits; configured `definitionOfReady` conditions in `.taproot/settings.yaml` run additionally
 
 ## Source Files
 - `src/commands/commithook.ts` — `taproot commithook` CLI command; staged file classification, tier dispatch, status-only check

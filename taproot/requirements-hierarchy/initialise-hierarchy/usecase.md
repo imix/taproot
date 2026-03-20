@@ -12,7 +12,7 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 2. System creates the `taproot/` root directory
 3. System creates `taproot/skills/` for skill definitions
 4. System creates `taproot/_brainstorms/` for exploratory notes
-5. System writes `.taproot.yaml` with default configuration
+5. System writes `.taproot/settings.yaml` with default configuration
 6. System writes `taproot/CONVENTIONS.md` with document format reference and commit conventions
 7. System reports each created path
 
@@ -25,7 +25,7 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 
 ## Postconditions
 - `taproot/` directory exists with standard subdirectories (`skills/`, `_brainstorms/`)
-- `.taproot.yaml` exists with default configuration (can be customised after init)
+- `.taproot/settings.yaml` exists with default configuration (can be customised after init)
 - `taproot/CONVENTIONS.md` exists as a human-readable format reference
 - `taproot/skills/` is populated with canonical skill definitions
 - The project is ready to receive intent, behaviour, and implementation documents

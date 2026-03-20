@@ -17,7 +17,7 @@
    c. `taproot validate-format` passes on the `usecase.md`
    d. `usecase.md` contains a `## Flow` section with a Mermaid diagram
    e. `usecase.md` contains a `## Related` section
-4. System reads `definitionOfReady` conditions from `.taproot.yaml` (if present) and runs each — same condition format as DoD (bare built-in names, `run:` shell commands, parameterised built-ins, `check:` agent questions)
+4. System reads `definitionOfReady` conditions from `.taproot/settings.yaml` (if present) and runs each — same condition format as DoD (bare built-in names, `run:` shell commands, parameterised built-ins, `check:` agent questions)
 5. If all conditions pass: system allows the commit to proceed
 6. If any conditions fail: system prints all failures with corrections and blocks the commit
 
@@ -37,7 +37,7 @@
   4. Resolution recorded in the DoR output; commit proceeds if all checks resolve
 
 ### No `definitionOfReady` configured
-- **Trigger:** `.taproot.yaml` has no `definitionOfReady` section
+- **Trigger:** `.taproot/settings.yaml` has no `definitionOfReady` section
 - **Steps:**
   1. System runs baseline checks only
   2. No additional conditions are evaluated

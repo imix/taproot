@@ -28,9 +28,9 @@
 
 ## DoD Resolutions
 - condition: document-current | note: No new CLI commands, skills, or configuration options added. Changes are internal to skill step content (description trims, step reordering, /compact signal additions). README.md and docs/ remain accurate. | resolved: 2026-03-20T09:51:26.112Z
-- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — context-engineering is already enforced via check-if-affected-by in .taproot.yaml; the enforcement pattern is already documented in docs/patterns.md | resolved: 2026-03-20T16:08:33.145Z
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — context-engineering is already enforced via check-if-affected-by in .taproot/settings.yaml; the enforcement pattern is already documented in docs/patterns.md | resolved: 2026-03-20T16:08:33.145Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml? | note: this story IS the cross-cutting concern mechanism (check-if-affected-by: skill-architecture/context-engineering is already in .taproot.yaml); no additional entries needed | resolved: 2026-03-20T16:08:32.910Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: this story IS the cross-cutting concern mechanism (check-if-affected-by: skill-architecture/context-engineering is already in .taproot/settings.yaml); no additional entries needed | resolved: 2026-03-20T16:08:32.910Z
 
 - condition: check-if-affected-by: implementation-quality/architecture-compliance | note: not applicable — this impl modifies skill files (skills/*.md), not CLI source code; architecture-compliance constraints govern CLI command implementations | resolved: 2026-03-20T16:08:32.674Z
 

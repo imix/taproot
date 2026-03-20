@@ -34,7 +34,7 @@
 - condition: document-current | note: docs/agents.md and skills/guide.md updated with /tr-research entry; no other docs reference the full skill list | resolved: 2026-03-20T08:11:13.230Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — /tr-research is an existing documented skill; no new pattern revealed | resolved: 2026-03-20T16:07:23.049Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml? | note: no — research skill is self-contained; no new cross-cutting concern introduced | resolved: 2026-03-20T16:07:22.819Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — research skill is self-contained; no new cross-cutting concern introduced | resolved: 2026-03-20T16:07:22.819Z
 
 - condition: check-if-affected-by: implementation-quality/architecture-compliance | note: not applicable — skills/research.md is a markdown skill file; architecture-compliance constraints govern CLI source code, not skill markdown definitions | resolved: 2026-03-20T16:07:22.586Z
 

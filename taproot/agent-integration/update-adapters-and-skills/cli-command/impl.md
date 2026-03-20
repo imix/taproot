@@ -4,7 +4,7 @@
 ../usecase.md
 
 ## Design Decisions
-- Agent detection is heuristic-based (scan for characteristic files) rather than config-based — avoids requiring developers to maintain a list of installed agents in `.taproot.yaml`; the filesystem is the source of truth
+- Agent detection is heuristic-based (scan for characteristic files) rather than config-based — avoids requiring developers to maintain a list of installed agents in `.taproot/settings.yaml`; the filesystem is the source of truth
 - Stale path removal is encoded as a static list of known old layouts (`STALE_PATHS`) — explicit, auditable, and easy to extend as the tool evolves
 - OVERVIEW.md regeneration is always included in the update — keeps the overview current after any skill changes without requiring a separate command
 

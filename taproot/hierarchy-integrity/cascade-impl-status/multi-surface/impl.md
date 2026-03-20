@@ -33,3 +33,4 @@
 
 - condition: check-if-affected: src/commands/update.ts | note: update.ts refreshes adapters/skills — not affected by impl state cascade logic | resolved: 2026-03-19T21:57:22.671Z
 
+- condition: sweep-taproot-yaml-rename | note: .taproot.yaml references updated to .taproot/settings.yaml across the project; this impl.md contains no such references — no content changes required | resolved: 2026-03-20

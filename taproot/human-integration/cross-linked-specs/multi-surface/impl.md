@@ -40,6 +40,14 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md documents taproot update cross-link refresh and validate-format link section checks; skills/guide.md lists taproot update and updated validate-format description | resolved: 2026-03-19T19:56:18.230Z
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — cross-linked-specs link management is already described in the usecase.md itself. Not a reusable pattern for docs/patterns.md. | resolved: 2026-03-20T20:03:55.977Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — cross-linked-specs is already the mechanism enforced by taproot update and tr-implement/tr-behaviour as side-effects. No new .taproot/settings.yaml entry needed. | resolved: 2026-03-20T20:03:55.740Z
+
+- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: not applicable — this implementation modifies taproot hierarchy markdown files (usecase.md and impl.md link sections). No CLI source code, no architectural decisions involved. docs/architecture.md constraints do not apply to hierarchy document link management. | resolved: 2026-03-20T20:03:55.500Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: cross-linked-specs writes usecase.md and impl.md link sections as side-effects of document creation — it is a multi-surface impl (usecase.md updates + impl.md updates), not a skill file with git commit steps. commit-awareness constraints apply to skills/*.md files with explicit git commit instructions. Not applicable. | resolved: 2026-03-20T20:03:55.258Z
+
 - condition: check-if-affected-by: human-integration/pattern-hints | note: Updated in pattern-hints implementation pass. behaviour.md received pattern check step 1a; implement.md received pattern check in step 4. Both comply with the spec: pattern check fires before the skill's main work, [A]/[B] choice offered, docs/patterns.md read on demand. | resolved: 2026-03-20T10:31:23.550Z
 
 - condition: check-if-affected-by: skill-architecture/context-engineering | note: C-5 /compact signal added to guide.md in the context-engineering compliance pass. C-1: guide.md description is within 50 tokens. C-2/C-3: no embedded docs or cross-skill repetition. C-4: no bulk pre-load. All constraints compliant. | resolved: 2026-03-20T09:56:14.063Z
@@ -52,3 +60,4 @@
 
 - condition: check-if-affected: src/commands/update.ts | note: update.ts was modified — refreshLinks() added and called from runUpdate() | resolved: 2026-03-19T19:56:18.475Z
 
+- condition: sweep-taproot-yaml-rename | note: .taproot.yaml references updated to .taproot/settings.yaml across the project; this impl.md contains no such references — no content changes required | resolved: 2026-03-20

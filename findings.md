@@ -11,11 +11,10 @@
 * remove bmad from examples (is it directly referenced somewhere)
 * how do we handle NFRs? just as acceptance criteria?
 * we need an impact analysis skill
-* partial usecase implementations?
 * add writing styles, clear concise, short sentences for BA. friendly but not too long for doc
 * add shell script option to DoD and DoR
 * multi agents with defined roles?
 
 * in gates like DoD, DoR we want to check if other uncommitted stuff is there -> how to force commit?
 
-* sweep .taproot.yaml -> taproot/settings.yaml
+* partial usecase implementations?

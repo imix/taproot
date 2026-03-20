@@ -29,7 +29,7 @@ Implement a behaviour spec: write the code, write the tests, create the `impl.md
 
    If a match is found, surface it before the plan:
    > "Before the plan — this looks like it could use the **`<pattern-name>`** pattern rather than a custom implementation. See `docs/patterns.md`."
-   > **[A] Use the pattern** — apply it via `.taproot.yaml` instead of writing source code
+   > **[A] Use the pattern** — apply it via `.taproot/settings.yaml` instead of writing source code
    > **[B] Continue with implementation** — the custom implementation is intentional
 
    Then **propose the implementation plan:**
