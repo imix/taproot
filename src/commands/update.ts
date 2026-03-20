@@ -259,7 +259,7 @@ export async function runUpdate(options: { cwd?: string; withHooks?: boolean }):
 
   if (agents.includes('claude') || hasInstalledSkills) {
     messages.push('');
-    messages.push(...installSkills(skillsDir));
+    messages.push(...installSkills(skillsDir, true));
   }
 
   // Refresh cross-links (## Behaviours / ## Implementations sections)

@@ -32,6 +32,8 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/agents.md and skills/guide.md updated with /tr-research entry; no other docs reference the full skill list | resolved: 2026-03-20T08:11:13.230Z
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — this impl.md tracks init.ts solely for the SKILL_FILES entry; force-parameter change does not affect research skill installation or commit patterns | resolved: 2026-03-20T20:54:47.729Z
+
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — /tr-research is an existing documented skill; no new pattern revealed | resolved: 2026-03-20T16:07:23.049Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — research skill is self-contained; no new cross-cutting concern introduced | resolved: 2026-03-20T16:07:22.819Z
@@ -51,4 +53,5 @@
 - condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts reads SKILL_FILES from init.ts dynamically; adding research.md to SKILL_FILES is sufficient | resolved: 2026-03-20T08:11:13.463Z
 - condition: check-if-affected: src/commands/init.ts | note: init.ts changed (config path moved to .taproot/settings.yaml) — SKILL_FILES entry for research.md is unchanged; no impact on research skill installation | resolved: 2026-03-20T12:00:00.000Z
 - condition: sweep-update | note: src/commands/init.ts updated to add 'sweep.md' to SKILL_FILES for /tr-sweep distribution; research.md SKILL_FILES entry unaffected | resolved: 2026-03-20T16:00:00.000Z
+- condition: fix-update-skill-overwrite | note: installSkills gained a force parameter; research.md entry in SKILL_FILES unaffected — only the copy logic changed | resolved: 2026-03-20
 

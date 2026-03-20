@@ -206,7 +206,7 @@ export function runInit(options: {
   return messages;
 }
 
-export function installSkills(targetSkillsDir: string): string[] {
+export function installSkills(targetSkillsDir: string, force = false): string[] {
   const messages: string[] = [];
 
   if (!existsSync(BUNDLED_SKILLS_DIR)) {
@@ -227,6 +227,9 @@ export function installSkills(targetSkillsDir: string): string[] {
     if (!existsSync(dest)) {
       writeFileSync(dest, content);
       messages.push(`created  .taproot/skills/${filename}`);
+    } else if (force) {
+      writeFileSync(dest, content);
+      messages.push(`updated  .taproot/skills/${filename}`);
     } else {
       messages.push(`exists   .taproot/skills/${filename}`);
     }
