@@ -15,6 +15,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `b3a3c806bbb38a053e1268e6fb9ea6bfc1b0127d` — (auto-linked by taproot link-commits)
+- `66bec03cbe0534db95125f39ec514a7075a6ae77` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/skills.test.ts` — AC-proxy tests verifying implement.md contains: settings.yaml reference, declaration commit + DoR awareness, implementation commit + real-diff guidance
