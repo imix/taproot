@@ -119,6 +119,9 @@ flowchart TD
 - When the pattern is applied (e.g. spec written, .taproot.yaml updated)
 - Then no duplicate behaviour is added to the hierarchy — the pattern application is the resolution
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill Pattern Check](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-20
