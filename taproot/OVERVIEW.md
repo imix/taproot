@@ -59,7 +59,8 @@ _No behaviours yet._
 
 **Goal:** Keep the human orchestrator in meaningful control of the requirement hierarchy — as its owner, its primary author of intent, and its final decision-maker — while making the current state of the project legible at a glance.
 
-- **[contextual-next-steps](./human-integration/contextual-next-steps/usecase.md)** `[specified]` — Actor: Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the moment it produces its primary output
+- **[contextual-next-steps](./human-integration/contextual-next-steps/usecase.md)** `[implemented]` — Actor: Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the moment it produces its primary output
+  - [all-skills](./human-integration/contextual-next-steps/all-skills/impl.md) `[complete]` (2 commits, 1 test)
 - **[cross-linked-specs](./human-integration/cross-linked-specs/usecase.md)** `[implemented]` — Actor: `tr-behaviour` skill (when creating a new `usecase.md`) and `tr-implement` skill (when creating a new `impl.md`) — both maintain the link sections in their parent documents as a side-effect of document creation. `taproot update` runs a link-refresh pass across the full tree to backfill existing documents.
   - [multi-surface](./human-integration/cross-linked-specs/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 - **[grill-me](./human-integration/grill-me/usecase.md)** `[implemented]` — Actor: Developer or orchestrator who wants to stress-test a plan, design decision, or vague idea through relentless structured questioning — invoked directly via `/tr-grill-me`, or called by another skill (`tr-ineed`, `tr-behaviour`) when deeper elicitation is needed before writing a spec.
@@ -128,4 +129,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-13 intents · 28 behaviours · 28 implementations · 28/28 complete
+13 intents · 28 behaviours · 29 implementations · 29/29 complete

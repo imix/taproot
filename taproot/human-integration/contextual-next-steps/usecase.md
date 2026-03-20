@@ -127,7 +127,7 @@ flowchart TD
 - [All Skills — Next-Step Guidance](./all-skills/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-19
 - **Last reviewed:** 2026-03-20
 
