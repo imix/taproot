@@ -101,5 +101,5 @@ flowchart TD
 - [CLAUDE.md — Pre-Commit Ownership Scan](./claude-md/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-20
