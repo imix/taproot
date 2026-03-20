@@ -145,7 +145,8 @@ _No behaviours yet._
 
 **Goal:** Define and enforce the architectural constraints that govern how taproot skills are built — so that every skill is context-efficient, consistent in how it loads resources, and explicit about its effect on the developer's session
 
-- **[commit-awareness](./skill-architecture/commit-awareness/usecase.md)** `[specified]` — Actor: Skill author — a human developer or AI agent writing or updating a taproot skill file (`skills/*.md`) that includes a `git commit` step.
+- **[commit-awareness](./skill-architecture/commit-awareness/usecase.md)** `[implemented]` — Actor: Skill author — a human developer or AI agent writing or updating a taproot skill file (`skills/*.md`) that includes a `git commit` step.
+  - [multi-surface](./skill-architecture/commit-awareness/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 - **[context-engineering](./skill-architecture/context-engineering/usecase.md)** `[implemented]` — Actor: Skill author — a human developer or AI agent writing or updating a taproot skill file (`skills/*.md`).
   - [agent-skill](./skill-architecture/context-engineering/agent-skill/impl.md) `[complete]` (2 commits ⚠ no tests)
 
@@ -157,4 +158,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-15 intents · 37 behaviours · 38 implementations · 37/38 complete
+15 intents · 37 behaviours · 39 implementations · 38/39 complete
