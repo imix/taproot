@@ -149,7 +149,7 @@ flowchart TD
 - [Discover and Decompose](./discover-and-decompose/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-20
 - **Last reviewed:** 2026-03-20
 

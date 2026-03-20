@@ -28,8 +28,16 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 
    Save the status file after every confirmed intent, behaviour, and implementation — not just at the end.
 
-   **Stopping early:** at any point the user can say "stop" or "pause". Before ending the session, update the status file with the current phase and progress, and say:
-   > "Session saved to `taproot/_brainstorms/discovery-status.md`. Resume any time with `/tr-discover`."
+   **Stopping early:** at any point the user can say "stop" or "pause". Before ending the session, update the status file with the current phase and progress, then write a session summary:
+   ```
+   Session ended.
+   Written (<n>): <list of written paths>
+   Skipped (<n>): <list of skipped paths>
+   Remaining (<n>): <list of remaining paths not yet reached>
+   Resume: run /tr-discover and choose Resume.
+   ```
+
+   **Auto-proceed:** if the user says "just go", "do all", or invokes with `--auto`, acknowledge once ("Auto-proceeding through remaining items — say 'stop' at any time to pause.") then write all remaining documents without pausing for confirmation. Still report each path as it is written. At the end, show the same completion summary.
 
 ### Phase 1 — Orient
 
@@ -81,7 +89,20 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
       - `constraints`: known limitations, non-goals, or boundaries
       - `status`: `active` (it's already built)
 
-   e. Write `taproot/<slug>/intent.md` immediately after confirmation. Don't batch — write as you go.
+   e. Present the proposed `intent.md` to the user before writing:
+
+      ```
+      Proposed: taproot/<slug>/intent.md — <title>
+
+      <full proposed content>
+
+      [Y] Write it   [E] Edit before writing   [S] Skip   [Q] Quit session
+      ```
+
+      - **[Y]**: write the file, report the path written, proceed to the next intent
+      - **[E]**: apply the developer's corrections, re-present the updated proposal with the same menu
+      - **[S]**: skip — do not write; note "Skipped `taproot/<slug>/intent.md`" and move on
+      - **[Q]**: stop the session immediately and write the session summary (see Phase 0)
 
    f. Update `taproot/_brainstorms/discovery-status.md`: mark this intent `[x]` in Phase 2, set Phase to `2`, update Last updated.
 
@@ -112,7 +133,17 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
       - `error conditions`: how the system responds to failures
       - `postconditions`: what's true after the flow completes
 
-   e. Write `taproot/<intent-slug>/<behaviour-slug>/usecase.md` immediately.
+   e. Present the proposed `usecase.md` to the user before writing:
+
+      ```
+      Proposed: taproot/<intent-slug>/<behaviour-slug>/usecase.md — <behaviour name>
+
+      <full proposed content>
+
+      [Y] Write it   [E] Edit before writing   [S] Skip   [Q] Quit session
+      ```
+
+      Apply Y/E/S/Q as described in step 5e above.
 
    f. Update status file: mark this behaviour `[x]` under its intent in Phase 3, update Last updated.
 
@@ -138,7 +169,17 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 
    e. Determine the implementation slug (derive from the primary approach: `rest-api`, `cli`, `background-job`, `library`, etc.).
 
-   f. Write `taproot/<intent-slug>/<behaviour-slug>/<impl-slug>/impl.md`.
+   f. Present the proposed `impl.md` to the user before writing:
+
+      ```
+      Proposed: taproot/<intent-slug>/<behaviour-slug>/<impl-slug>/impl.md — <behaviour name>
+
+      <full proposed content>
+
+      [Y] Write it   [E] Edit before writing   [S] Skip   [Q] Quit session
+      ```
+
+      Apply Y/E/S/Q as described in step 5e above.
 
    g. Update status file: mark this impl `[x]` under its behaviour in Phase 4, update Last updated.
 

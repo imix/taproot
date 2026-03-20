@@ -21,6 +21,13 @@
 - `test/integration/pause-and-confirm.test.ts` — verifies both skill files contain Y/E/S/Q menu pattern, auto-proceed language, and session summary language
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-20
 - **Last verified:** 2026-03-20
+
+## DoD Resolutions
+- condition: document-current | note: This is a skill-file-only change (no new CLI commands, no API changes). The Y/E/S/Q protocol is documented within discover.md and decompose.md themselves. README.md and docs/ describe skill capabilities at a high level and do not need to document internal skill interaction patterns. | resolved: 2026-03-20T06:28:04.264Z
+- condition: check-if-affected: skills/guide.md | note: guide.md references /tr-discover only as a brief skill description. The Y/E/S/Q pause-and-confirm protocol is an internal interaction pattern users encounter when running discover — it does not need to be mentioned in the onboarding guide. | resolved: 2026-03-20T06:28:06.672Z
+
+- condition: check-if-affected: src/commands/update.ts | note: update.ts regenerates agent adapters and skill files from source. This implementation changes skill file content (adding confirmation step language) but not skill file structure. update.ts logic is unaffected. | resolved: 2026-03-20T06:28:05.476Z
+

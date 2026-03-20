@@ -53,7 +53,25 @@ Gap: Success criterion "Support <5 second load time" has no behaviour —
 
 8. Ask: "Which of these should I create? You can say 'all', list specific numbers, or say 'none' to just use this as a planning reference."
 
-9. For each approved behaviour, run `/taproot:behaviour <path> "<description>"` to create the `usecase.md`. Pass enough context from the decomposition (actor, what criterion it satisfies) so the behaviour is well-formed from the start.
+9. For each approved behaviour, present a preview of the proposed `usecase.md` before delegating:
+
+   ```
+   Proposed: taproot/<intent-slug>/<behaviour-slug>/usecase.md — <behaviour name>
+
+   Actor: <actor>
+   Satisfies: <success criterion>
+   Depends on: <dependency or "none">
+
+   [Y] Create it   [E] Edit description before creating   [S] Skip   [Q] Quit
+
+   ```
+
+   - **[Y]**: run `/taproot:behaviour <path> "<description>"` to create the `usecase.md`
+   - **[E]**: apply corrections to the description, re-present the preview, then create on next [Y]
+   - **[S]**: skip — note "Skipped `taproot/<intent-slug>/<behaviour-slug>/`" and move to the next
+   - **[Q]**: stop immediately; list what was created, skipped, and remaining
+
+   If the user says "just go" or "do all", acknowledge once and create the remaining behaviours without pausing.
 
 10. After all approved behaviours are created, run `taproot validate-structure --path <taproot-root>`.
 
