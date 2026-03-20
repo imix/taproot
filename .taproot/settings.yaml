@@ -25,6 +25,9 @@ validation:
     - in-progress
     - complete
     - needs-rework
+definitionOfReady:
+  - check-if-affected-by: implementation-quality/architecture-compliance
+
 definitionOfDone:
   - tests-passing
   - document-current: README.md and docs/ accurately reflect all currently implemented CLI commands, skills, and configuration options

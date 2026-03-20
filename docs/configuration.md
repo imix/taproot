@@ -78,7 +78,20 @@ The `definitionOfReady` list controls what the pre-commit hook checks when you m
 
 ### Condition syntax
 
-The `definitionOfReady` conditions use the same syntax as `definitionOfDone` — bare built-in names, `run:` shell commands, and `check:` agent questions. The baseline checks (usecase exists, state=specified, Flow diagram, Related section) always run regardless of what's configured here.
+The `definitionOfReady` conditions use the same syntax as `definitionOfDone` — bare built-in names, `run:` shell commands, `check:` agent questions, and `check-if-affected-by:` behaviour spec references. The baseline checks (usecase exists, state=specified, Flow diagram, Related section) always run regardless of what's configured here.
+
+### `check-if-affected-by:` at DoR time
+
+Use `check-if-affected-by` in `definitionOfReady` to enforce pre-implementation architecture compliance. The agent reads the referenced behaviour spec and determines whether the proposed implementation's design decisions comply before any code is written.
+
+The canonical use case is architecture compliance:
+
+```yaml
+definitionOfReady:
+  - check-if-affected-by: implementation-quality/architecture-compliance
+```
+
+This requires every `impl.md` declaration to be checked against `docs/architecture.md` before implementation begins. See `docs/architecture.md` for the project's architectural decisions and constraints.
 
 ### `check:` at DoR time
 
