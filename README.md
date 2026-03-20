@@ -73,6 +73,7 @@ Taproot's own requirements are managed with Taproot. The [`taproot/OVERVIEW.md`]
 - [Agent setup & skills](docs/agents.md)
 - [Workflows](docs/workflows.md)
 - [Configuration & CI](docs/configuration.md)
+- [Patterns](docs/patterns.md)
 
 ## License
 
