@@ -12,9 +12,11 @@ Git — triggered automatically when any contributor (human or agent) runs `git 
 2. Git invokes `.git/hooks/pre-commit`
 3. Hook runs `taproot commithook`
 4. `taproot commithook` inspects staged files and classifies the commit:
-   - **Implementation commit** — staged files include `impl.md` AND source code files: verify only the Status section changed in `impl.md`, then run DoD (`taproot dod`)
-   - **Declaration commit** — staged files include `impl.md` but no source code files: run DoR checks against the parent `usecase.md`
-   - **Requirement commit** — staged files include `taproot/` hierarchy files (`intent.md`, `usecase.md`) but no `impl.md`: run `taproot validate-structure` and `taproot validate-format`
+   - **Implementation commit** — one or more staged files appear in the `## Source Files` section of any `impl.md` in the hierarchy (reverse lookup):
+     - If the matching `impl.md` is also staged: verify only the Status section changed in `impl.md`, then run DoD (`taproot dod`)
+     - If the matching `impl.md` is NOT staged: FAIL — "Stage `impl.md` alongside your source files. No implementation commit should proceed without its traceability record."
+   - **Declaration commit** — staged files include `impl.md` but no source files matched by reverse lookup: run DoR checks against the parent `usecase.md`
+   - **Requirement commit** — staged files include `taproot/` hierarchy files (`intent.md`, `usecase.md`) but no matched source files and no `impl.md`: run `taproot validate-structure` and `taproot validate-format`
    - **Plain commit** — staged files include none of the above: no taproot checks run, commit proceeds immediately
 5. If all applicable checks pass (exit 0): commit proceeds normally
 6. If any check fails (exit 1): git aborts the commit and prints the full violation report with corrections
@@ -45,6 +47,7 @@ Git — triggered automatically when any contributor (human or agent) runs `git 
 - On failure: commit is blocked; contributor has a full list of failures with corrections
 
 ## Error Conditions
+- **Source files committed without impl.md**: `FAIL — Stage impl.md alongside your source files. No implementation commit should proceed without its traceability record.` (triggered when reverse lookup matches source files but impl.md is absent from staging)
 - **`impl.md` changed beyond Status section in implementation commit**: `FAIL — implementation commits may only update the Status section of impl.md. Stage other impl.md changes in a separate declaration commit`
 - **DoR fails**: errors from definition-of-ready (missing usecase, not specified, format violations, missing Mermaid/Related)
 - **DoD fails**: errors from definition-of-done (failing shell conditions, unresolved agent checks)
@@ -56,11 +59,13 @@ Git — triggered automatically when any contributor (human or agent) runs `git 
 flowchart TD
     A[git commit] --> B[taproot commithook]
     B --> C{classify staged files}
-    C -->|source + impl.md| D[Implementation commit]
+    C -->|source files match impl.md Source Files| D[Implementation commit]
     C -->|impl.md only| E[Declaration commit]
     C -->|taproot/ files| F[Requirement commit]
     C -->|none of the above| G[Plain commit → PASS]
-    D --> D1{only Status changed\nin impl.md?}
+    D --> D0{impl.md staged?}
+    D0 -->|no| FAIL0[FAIL — stage impl.md\nalongside source files]
+    D0 -->|yes| D1{only Status changed\nin impl.md?}
     D1 -->|no| FAIL1[FAIL — impl.md changes\nmust be in declaration commit]
     D1 -->|yes| D2[run DoD]
     D2 -->|pass| PASS[commit proceeds]
@@ -72,6 +77,10 @@ flowchart TD
     F1 -->|pass| PASS
     F1 -->|fail| FAIL4[FAIL — hierarchy violations]
 ```
+
+## Notes
+- **Reverse lookup for source file detection:** `taproot commithook` walks all `impl.md` files in the hierarchy, parses their `## Source Files` sections, and builds a map of `file path → impl.md path`. Any staged file whose path appears in this map is classified as an implementation source file. Files not tracked by any impl.md (e.g. `.gitignore`, CI configs, docs not listed in a `## Source Files` section) are never classified as implementation source files and pass through as plain commits.
+- **Multiple impl.md matches:** if staged source files span multiple impl.md files, each matching impl.md must be staged and its DoD must pass. Partial staging (some impl.md files staged, others not) blocks the commit.
 
 ## Related
 - `../validate-format/usecase.md` — Requirement tier delegates format checking here
@@ -86,4 +95,4 @@ flowchart TD
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
-- **Last reviewed:** 2026-03-19
+- **Last reviewed:** 2026-03-20
