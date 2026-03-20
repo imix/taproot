@@ -1,7 +1,7 @@
-* add acceptance criteria to all usecase
-* `taproot apply` removed: headless agent invocation (`claude -p`) is blocked by Claude's permission system — agent correctly identifies edits but cannot write files. Fix needs agent-agnostic solution (not just `--allowedTools` which is Claude-specific). Usecase set to `specified`, impl set to `needs-rework`.
 * we need to ensure, that agents can run autonomously without user interaction
 * taproot should work for all kind of projects, not only development. e.g. book authoring, financial reporting
+
+* we need quality gates for intents and usecases (similar to DoR)
 
 * claude bias, many things refer claude even though it should be agent agnostic. /tr-xxx commands probably not the same name in all agent?
 * maybe just ask during init which agent to use
@@ -16,3 +16,6 @@
 * add shell script option to DoD and DoR
 * multi agents with defined roles?
 
+* in gates like DoD, DoR we want to check if other uncommitted stuff is there -> how to force commit?
+
+* sweep .taproot.yaml -> taproot/settings.yaml

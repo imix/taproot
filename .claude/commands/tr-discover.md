@@ -1,6 +1,6 @@
 ---
 name: 'tr-discover'
-description: 'Reverse-engineer an existing codebase into a taproot hierarchy through structured, interactive discovery'
+description: 'Reverse-engineer an existing project into a taproot hierarchy through structured, interactive discovery'
 ---
 
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
