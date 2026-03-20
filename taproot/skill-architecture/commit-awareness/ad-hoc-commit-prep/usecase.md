@@ -98,6 +98,7 @@ flowchart TD
 - Then both impl.md files are resolved and staged in the same commit
 
 ## Implementations <!-- taproot-managed -->
+- [CLAUDE.md — Pre-Commit Ownership Scan](./claude-md/impl.md)
 
 ## Status
 - **State:** specified
