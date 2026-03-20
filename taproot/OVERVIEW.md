@@ -98,9 +98,9 @@ _No behaviours yet._
 
 ## [project-discovery](./project-discovery/intent.md) `[active]`
 
-**Goal:** Reverse-engineer an existing codebase into a taproot requirement hierarchy through structured, interactive discovery — so that teams adopting taproot mid-project don't start from a blank slate.
+**Goal:** A project with an existing codebase, existing requirements, or both can be fully represented as a taproot requirement hierarchy — so that teams using another tool or workflow can adopt taproot without losing prior work or starting from scratch.
 
-- **[discover-existing-project](./project-discovery/discover-existing-project/usecase.md)** `[implemented]` — Actor: Developer invoking `/tr-discover` on a codebase that has no taproot hierarchy yet (or a partial one)
+- **[discover-existing-project](./project-discovery/discover-existing-project/usecase.md)** `[implemented]` — Actor: Developer invoking `/tr-discover` on a project that has no taproot hierarchy yet (or a partial one)
   - [agent-skill](./project-discovery/discover-existing-project/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
 
 ## [requirements-completeness](./requirements-completeness/intent.md) `[active]`
