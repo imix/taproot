@@ -11,7 +11,8 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 - **[specify-acceptance-criteria](./acceptance-criteria/specify-acceptance-criteria/usecase.md)** `[implemented]` — Actor: Developer or agent authoring a `usecase.md` — either via `/tr-behaviour` or by editing directly
   - [multi-surface](./acceptance-criteria/specify-acceptance-criteria/multi-surface/impl.md) `[complete]` (0 commits, 1 test)
-- **[verify-coverage](./acceptance-criteria/verify-coverage/usecase.md)** `[specified]` — Actor: Developer or CI pipeline running `taproot acceptance-check`
+- **[verify-coverage](./acceptance-criteria/verify-coverage/usecase.md)** `[implemented]` — Actor: Developer or CI pipeline running `taproot acceptance-check`
+  - [cli-command](./acceptance-criteria/verify-coverage/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ## [agent-context](./agent-context/intent.md) `[active]`
 
@@ -60,7 +61,7 @@ _No behaviours yet._
 **Goal:** Keep the human orchestrator in meaningful control of the requirement hierarchy — as its owner, its primary author of intent, and its final decision-maker — while making the current state of the project legible at a glance.
 
 - **[contextual-next-steps](./human-integration/contextual-next-steps/usecase.md)** `[implemented]` — Actor: Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the moment it produces its primary output
-  - [all-skills](./human-integration/contextual-next-steps/all-skills/impl.md) `[complete]` (3 commits, 1 test)
+  - [all-skills](./human-integration/contextual-next-steps/all-skills/impl.md) `[complete]` (5 commits, 1 test)
 - **[cross-linked-specs](./human-integration/cross-linked-specs/usecase.md)** `[implemented]` — Actor: `tr-behaviour` skill (when creating a new `usecase.md`) and `tr-implement` skill (when creating a new `impl.md`) — both maintain the link sections in their parent documents as a side-effect of document creation. `taproot update` runs a link-refresh pass across the full tree to backfill existing documents.
   - [multi-surface](./human-integration/cross-linked-specs/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 - **[grill-me](./human-integration/grill-me/usecase.md)** `[implemented]` — Actor: Developer or orchestrator who wants to stress-test a plan, design decision, or vague idea through relentless structured questioning — invoked directly via `/tr-grill-me`, or called by another skill (`tr-ineed`, `tr-behaviour`) when deeper elicitation is needed before writing a spec.
@@ -131,4 +132,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-13 intents · 29 behaviours · 30 implementations · 30/30 complete
+13 intents · 29 behaviours · 31 implementations · 31/31 complete

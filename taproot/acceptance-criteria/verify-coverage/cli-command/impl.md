@@ -16,6 +16,8 @@
 
 ## Commits
 <!-- taproot-managed -->
+- `dfd471011fa3a20b815a850296dd869e1f616505` — (auto-linked by taproot link-commits)
+- `e31f59824c3d3cea2bfbde6803af9b101139b5fb` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/acceptance-check.test.ts` — covers: criteria collection, test scanning, uncovered/orphaned/missing detection, exit codes, --path scoping, --format json, error conditions
