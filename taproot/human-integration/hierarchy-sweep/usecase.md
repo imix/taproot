@@ -11,22 +11,23 @@ Developer — applying a uniform task across many hierarchy items without accumu
 1. Developer runs `/tr-sweep` and describes the task: what to apply and which items (e.g. "add a Notes section to all usecases")
 2. Skill enumerates matching items and presents the list: `"Found 14 usecases"`
 3. Skill confirms with the developer before proceeding: `"Apply '<task>' to each of these 14 items?"`
-4. Skill writes `filelist.txt` (one path per line) and `prompt.txt` (the task description)
-5. Skill calls `taproot apply filelist.txt prompt.txt`
-6. `taproot apply` processes each file and prints a summary:
+4. Skill iterates through the confirmed file list in-session. For each file:
+   a. Skill reads the file and applies the task prompt directly
+   b. Skill marks the file as completed: `[x] taproot/foo/bar/usecase.md`
+5. Developer sees live progress after each file completes:
    ```
-   Apply complete — 14 files processed
-     ✓ modified:  8
-     ○ skipped:   5
-     ✗ errors:    1  taproot/foo/bar/usecase.md — <reason>
+   [x] taproot/intent-a/behaviour-b/usecase.md
+   [x] taproot/intent-a/behaviour-c/usecase.md
+   [ ] taproot/intent-a/behaviour-d/usecase.md ← processing...
    ```
+6. After all files are processed, skill shows a summary (N modified, M skipped) and next steps
 
 ## Alternate Flows
 
 ### Developer cancels at confirmation
 - **Trigger:** Developer says no at step 3
 - **Steps:**
-  1. Skill discards the filelist — no files are written, `taproot apply` is not called
+  1. Skill stops — no files are processed
 
 ### Surfaced by `/tr-ineed`
 - Developer expresses a bulk-edit intent (e.g. "add X to all usecases")
@@ -47,40 +48,45 @@ Developer — applying a uniform task across many hierarchy items without accumu
 sequenceDiagram
     participant Dev as Developer
     participant Skill as /tr-sweep
-    participant CLI as taproot apply
 
     Dev->>Skill: /tr-sweep + task description
     Skill->>Dev: "Found 14 usecases — apply '<task>'?"
     alt confirmed
-        Skill->>Skill: write filelist.txt + prompt.txt
-        Skill->>CLI: taproot apply filelist.txt prompt.txt
-        CLI-->>Dev: summary
+        loop for each file
+            Skill->>Skill: read file + apply task
+            Skill->>Dev: [x] taproot/foo/bar/usecase.md
+        end
+        Skill->>Dev: summary + next steps
     else cancelled
-        Skill-->>Dev: aborted — no files written
+        Skill-->>Dev: cancelled — no files processed
     end
 ```
 
 ## Related
-- `../../requirements-hierarchy/apply-task/usecase.md` — `taproot apply` executes the sweep; this skill generates the inputs
 - `../route-requirement/usecase.md` — `/tr-ineed` surfaces sweep when it detects bulk-edit intent
 - `../pause-and-confirm/usecase.md` — related pattern: multi-document operations with developer checkpoints
 
 ## Acceptance Criteria
 
-**AC-1: Generates filelist and calls taproot apply**
+**AC-1: Processes each file in-session and marks it complete**
 - Given a hierarchy with 5 usecases and a developer-confirmed task
 - When `/tr-sweep` runs
-- Then `filelist.txt` and `prompt.txt` are written and `taproot apply` is called with them
+- Then each file is read, the task is applied, and the file is marked `[x]` as completed
 
 **AC-2: Confirmation step prevents accidental execution**
 - Given a developer who declines at the confirmation step
 - When `/tr-sweep` presents the item list
-- Then no files are written and `taproot apply` is not called
+- Then no files are processed
 
 **AC-3: Surfaced by `/tr-ineed`**
 - Given developer says "I want to add X to all usecases" via `/tr-ineed`
 - When `/tr-ineed` processes the input
 - Then it offers to invoke `/tr-sweep` before routing as a new requirement
+
+**AC-4: Live progress visible after each file**
+- Given a sweep in progress over N files
+- When each file completes
+- Then the developer sees `[x] <path>` for completed files and can observe progress before the sweep finishes
 
 ## Implementations <!-- taproot-managed -->
 - [Agent Skill — /tr-sweep](./agent-skill/impl.md)
@@ -89,3 +95,4 @@ sequenceDiagram
 - **State:** implemented
 - **Created:** 2026-03-20
 - **Last reviewed:** 2026-03-20
+- **Refined:** 2026-03-20 — execution model changed from `taproot apply` delegation to in-session per-file iteration
