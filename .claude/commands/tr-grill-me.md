@@ -1,6 +1,6 @@
 ---
 name: 'tr-grill-me'
-description: 'Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree'
+description: 'Interview the user relentlessly about a plan or design, resolving each decision branch with a recommendation until shared understanding is reached'
 ---
 
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:

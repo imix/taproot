@@ -25,6 +25,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
+- **Last verified:** 2026-03-20
 
 ## DoD Resolutions
 - condition: document-current | note: README.md and all docs/ files updated this session; /tr-grill-me documented in agents.md and workflows.md | resolved: 2026-03-19T21:34:39.022Z
@@ -37,4 +38,8 @@
 - condition: check-if-affected: skills/guide.md | note: /tr-grill-me already listed in skills/guide.md slash commands table | resolved: 2026-03-19T21:34:40.782Z
 
 - condition: check-if-affected: src/commands/update.ts | note: grill-me.md already in SKILL_FILES in init.ts; update.ts reads from SKILL_FILES and requires no change | resolved: 2026-03-19T21:34:40.291Z
+- condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — change is a description string update in .claude/commands/tr-grill-me.md only; pattern-hints applies to skills that process natural language requirements; no skill logic changed | resolved: 2026-03-20T19:10:00.000Z
+- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: compliant — change is markdown-only (description text in command file); no source code modified; no architectural constraints affected | resolved: 2026-03-20T19:10:00.000Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml? | note: no — description text update is not a cross-cutting concern | resolved: 2026-03-20T19:10:00.000Z
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — updating a command description string is not a reusable pattern | resolved: 2026-03-20T19:10:00.000Z
 

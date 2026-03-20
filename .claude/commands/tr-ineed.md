@@ -1,6 +1,6 @@
 ---
 name: 'tr-ineed'
-description: 'Route a natural language requirement to the right place in the taproot hierarchy'
+description: 'Route a natural language requirement to the right place in the taproot hierarchy — clarifying vague requirements through structured discovery before placing and delegating them'
 ---
 
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
