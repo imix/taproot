@@ -16,6 +16,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `93dc43995ed503777d1564a3bf065ae53733d2c6` — (auto-linked by taproot link-commits)
+- `ad376b0d9e5e3d24d38d8225d1571f0c592455d7` — (auto-linked by taproot link-commits)
 
 ## Tests
 - (no dedicated test file — config loading is exercised indirectly by every integration test)

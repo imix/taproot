@@ -34,9 +34,9 @@ export const DEFAULT_CONFIG = {
 function findConfigFile(startDir) {
     let current = resolve(startDir);
     while (true) {
-        const candidate = join(current, '.taproot.yaml');
+        const candidate = join(current, '.taproot', 'settings.yaml');
         if (existsSync(candidate))
-            return candidate;
+            return { configFile: candidate, projectRoot: current };
         const parent = dirname(current);
         if (parent === current)
             return null;
@@ -64,14 +64,14 @@ function deepMerge(defaults, overrides) {
     return result;
 }
 export function loadConfig(cwd = process.cwd()) {
-    const configFile = findConfigFile(cwd);
-    if (!configFile) {
+    const found = findConfigFile(cwd);
+    if (!found) {
         return {
             config: { ...DEFAULT_CONFIG, root: resolve(cwd, DEFAULT_CONFIG.root) },
             configDir: cwd,
         };
     }
-    const configDir = dirname(configFile);
+    const { configFile, projectRoot } = found;
     let raw;
     try {
         raw = yaml.load(readFileSync(configFile, 'utf-8'));
@@ -80,7 +80,7 @@ export function loadConfig(cwd = process.cwd()) {
         throw new Error(`Failed to parse ${configFile}: ${err.message}`);
     }
     const merged = deepMerge(DEFAULT_CONFIG, (raw ?? {}));
-    merged.root = resolve(configDir, merged.root);
-    return { config: merged, configDir };
+    merged.root = resolve(projectRoot, merged.root);
+    return { config: merged, configDir: projectRoot };
 }
 //# sourceMappingURL=config.js.map

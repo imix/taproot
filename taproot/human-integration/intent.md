@@ -26,6 +26,7 @@ Keep the human orchestrator in meaningful control of the requirement hierarchy â
 - [Pause and Confirm Before Writing Each Document](./pause-and-confirm/usecase.md)
 - [Route a Natural Language Requirement](./route-requirement/usecase.md)
 - [Surface Relevant Patterns Before Proceeding](./pattern-hints/usecase.md)
+- [Hierarchy Sweep](./hierarchy-sweep/usecase.md)
 
 
 ## Status

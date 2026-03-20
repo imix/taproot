@@ -1,5 +1,17 @@
-* discover should really user confirm every intent,usecase,implementation not auto-proceed (or only auto proceed if asked by the user or on decisions)
-* add exception cases in use cases (if not already there)
+* add acceptance criteria to all usecase
+* we need to ensure, that agents can run autonmously without user interaction
 * taproot should work for all kind of projects, not only development. e.g. book authoring, financial reporting
-* we need to improve the acceptance criteria, BDD style, gerkhin or similar
-* i want a web view on the requirements. simple website hosted from the md files. clickable, renders meremaid.
+
+* claude bias, many things refer claude even though it should be agent agnostic. /tr-xxx commands probably not the same name in all agent?
+* maybe just ask during init which agent to use
+* during init, ask question if want to add hook (essential for process safety)
+
+* extend discover to convert existing requirements (e.g. BMAD), if necessary do research to find out more on a toolkit, implementation style etc.
+* remove bmad from examples (is it directly referenced somewhere)
+* how do we handle NFRs? just as acceptance criteria?
+* we need an impact analysis skill
+* partial usecase implementations?
+* add writing styles, clear concise, short sentences for BA. friendly but not too long for doc
+* add shell script option to DoD and DoR
+* multi agents with defined roles?
+
