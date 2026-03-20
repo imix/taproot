@@ -32,6 +32,14 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/agents.md and skills/guide.md updated with /tr-research entry; no other docs reference the full skill list | resolved: 2026-03-20T08:11:13.230Z
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — /tr-research is an existing documented skill; no new pattern revealed | resolved: 2026-03-20T16:07:23.049Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml? | note: no — research skill is self-contained; no new cross-cutting concern introduced | resolved: 2026-03-20T16:07:22.819Z
+
+- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: not applicable — skills/research.md is a markdown skill file; architecture-compliance constraints govern CLI source code, not skill markdown definitions | resolved: 2026-03-20T16:07:22.586Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: compliant — /tr-research includes a pattern check at step 0 via docs/patterns.md scan before routing; pattern-hints spec is satisfied | resolved: 2026-03-20T16:07:22.353Z
+
 - condition: check-if-affected-by: skill-architecture/context-engineering | note: Updated in context-engineering compliance pass. C-1: description trimmed to ~20 tokens (compliant). C-5: /compact signal added before What's next? in [S]ave path. C-2/C-3/C-4/C-6: compliant. | resolved: 2026-03-20T09:58:01.227Z
 
 - condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — /tr-research writes at most one document (research/<slug>.md); pause-and-confirm applies to bulk-authoring skills that write multiple docs in sequence | resolved: 2026-03-20T08:11:14.155Z
@@ -42,4 +50,5 @@
 
 - condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts reads SKILL_FILES from init.ts dynamically; adding research.md to SKILL_FILES is sufficient | resolved: 2026-03-20T08:11:13.463Z
 - condition: check-if-affected: src/commands/init.ts | note: init.ts changed (config path moved to .taproot/settings.yaml) — SKILL_FILES entry for research.md is unchanged; no impact on research skill installation | resolved: 2026-03-20T12:00:00.000Z
+- condition: sweep-update | note: src/commands/init.ts updated to add 'sweep.md' to SKILL_FILES for /tr-sweep distribution; research.md SKILL_FILES entry unaffected | resolved: 2026-03-20T16:00:00.000Z
 

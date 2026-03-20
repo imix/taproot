@@ -79,7 +79,7 @@ function extractFirstSentence(content: string): string {
 
 // Skills that modify the taproot hierarchy — need OVERVIEW.md regenerated after
 const TREE_MODIFYING_SKILLS = new Set([
-  'intent', 'behaviour', 'implement', 'refine', 'promote', 'decompose', 'trace', 'discover',
+  'intent', 'behaviour', 'implement', 'refine', 'promote', 'decompose', 'trace', 'discover', 'sweep',
 ]);
 
 function generateClaudeAdapter(skills: SkillDef[], projectRoot: string): AdapterResult {

@@ -53,7 +53,7 @@ function extractFirstSentence(content) {
 // Invoked as /tr-<name>
 // Skills that modify the taproot hierarchy — need OVERVIEW.md regenerated after
 const TREE_MODIFYING_SKILLS = new Set([
-    'intent', 'behaviour', 'implement', 'refine', 'promote', 'decompose', 'trace', 'discover',
+    'intent', 'behaviour', 'implement', 'refine', 'promote', 'decompose', 'trace', 'discover', 'sweep',
 ]);
 function generateClaudeAdapter(skills, projectRoot) {
     const targetDir = join(projectRoot, '.claude', 'commands');
@@ -113,7 +113,7 @@ ${s.content}
 `.trimStart()).join('\n');
     return `---
 description: Taproot requirement hierarchy — skill definitions and document conventions
-globs: ["taproot/**", ".taproot.yaml"]
+globs: ["taproot/**", ".taproot/settings.yaml"]
 alwaysApply: false
 ---
 

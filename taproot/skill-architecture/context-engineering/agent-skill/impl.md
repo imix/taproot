@@ -43,6 +43,12 @@
 
 ## DoD Resolutions
 - condition: document-current | note: No new CLI commands, skills, or configuration options added. Changes are internal to skill step content (description trims, step reordering, /compact signal additions). README.md and docs/ remain accurate. | resolved: 2026-03-20T09:51:26.112Z
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — context-engineering is already enforced via check-if-affected-by in .taproot.yaml; the enforcement pattern is already documented in docs/patterns.md | resolved: 2026-03-20T16:08:33.145Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml? | note: this story IS the cross-cutting concern mechanism (check-if-affected-by: skill-architecture/context-engineering is already in .taproot.yaml); no additional entries needed | resolved: 2026-03-20T16:08:32.910Z
+
+- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: not applicable — this impl modifies skill files (skills/*.md), not CLI source code; architecture-compliance constraints govern CLI command implementations | resolved: 2026-03-20T16:08:32.674Z
+
 - condition: check-if-affected-by: human-integration/pattern-hints | note: Updated in pattern-hints implementation pass. All 16 skills had pattern check steps added (ineed, behaviour, implement, refine directly; others indirectly via the same impl pass). Compliant with pattern-hints spec: interruptive step 0/1a, [A]/[B] choice, docs/patterns.md read on demand. | resolved: 2026-03-20T10:33:33.804Z
 
 - condition: check-if-affected-by: skill-architecture/context-engineering | note: This impl.md is not a skill file — context-engineering constraints (C-1 through C-6) govern skills/*.md files only. C-1/C-2/C-3/C-4/C-5/C-6 are all not applicable to an implementation record. The skill files modified by this implementation have been evaluated and corrected against all six constraints. | resolved: 2026-03-20T09:51:56.094Z
@@ -54,4 +60,5 @@
 - condition: check-if-affected: skills/guide.md | note: Updated in this implementation — C-5 /compact signal added to guide.md step 4. The skills table descriptions are independently authored and remain accurate; no further changes needed. | resolved: 2026-03-20T09:51:34.828Z
 
 - condition: check-if-affected: src/commands/update.ts | note: Not affected. update.ts copies skill files by name from skills/ to .taproot/skills/. No change to file names, structure, or copy logic is required — skill files were updated in place. | resolved: 2026-03-20T09:51:33.576Z
+- condition: sweep-update | note: skills/guide.md updated to add /tr-sweep to the Slash Commands table; this is a content addition, not a context-engineering compliance issue | resolved: 2026-03-20T16:00:00.000Z
 
