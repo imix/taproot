@@ -61,4 +61,6 @@
 
 - condition: check-if-affected: src/commands/update.ts | note: Not affected. update.ts copies skill files by name from skills/ to .taproot/skills/. No change to file names, structure, or copy logic is required — skill files were updated in place. | resolved: 2026-03-20T09:51:33.576Z
 - condition: sweep-update | note: skills/guide.md updated to add /tr-sweep to the Slash Commands table; this is a content addition, not a context-engineering compliance issue | resolved: 2026-03-20T16:00:00.000Z
+- condition: commit-awareness-update | note: skills/implement.md updated as part of skill-architecture/commit-awareness implementation — pre-commit context steps added to steps 6 and 9; context-engineering compliance unaffected (C-1 description unchanged, C-5 /compact signal unchanged, C-6 What's next block unchanged) | resolved: 2026-03-20T20:00:00.000Z
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — this impl.md is an implementation record, not a skill file; commit-awareness constraints govern skills/*.md files that contain git commit steps; this implementation modified skill content files (skills/*.md) as its deliverable, not as an implementation artifact | resolved: 2026-03-20T20:00:00.000Z
 

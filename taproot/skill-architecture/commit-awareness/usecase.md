@@ -144,6 +144,6 @@ flowchart TD
 - [Multi-Surface — settings.yaml + implement.md + tests](./multi-surface/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-20
 - **Last reviewed:** 2026-03-20

@@ -88,3 +88,24 @@ describe('status.md — Parked section (AC-1, AC-2)', () => {
     expect(content).toMatch(/omit.*if 0|if.*zero|if both are zero/i);
   });
 });
+
+// ─── AC-1/AC-3/AC-4: implement.md commit-awareness ────────────────────────────
+
+describe('implement.md — commit-awareness (AC-1, AC-3, AC-4)', () => {
+  const implementPath = resolve(SKILLS_DIR, 'implement.md');
+  const content = readFileSync(implementPath, 'utf-8');
+
+  it('AC-1: references .taproot/settings.yaml for pre-commit context', () => {
+    expect(content).toContain('settings.yaml');
+  });
+
+  it('AC-3: declaration commit step surfaces DoR awareness', () => {
+    expect(content).toMatch(/declaration commit/i);
+    expect(content).toMatch(/definitionOfReady|DoR/);
+  });
+
+  it('AC-4: implementation commit step instructs impl.md real-diff requirement', () => {
+    expect(content).toMatch(/implementation commit/i);
+    expect(content).toMatch(/real diff/i);
+  });
+});

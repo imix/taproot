@@ -57,10 +57,15 @@ Implement a behaviour spec: write the code, write the tests, create the `impl.md
     - Write the updated `usecase.md`. Stage it together with `impl.md` for the declaration commit.
 
 6. **Declaration commit** — commit `impl.md` and any `usecase.md` link-section update together (no source files):
+
+   Before committing:
+   - Read `.taproot/settings.yaml` and note the `definitionOfReady` conditions — these are the checks the hook will run. If the file has no `definitionOfReady` section, only baseline DoR checks run.
+   - There is no standalone `taproot dor` command — DoR runs automatically via the pre-commit hook when impl.md is staged without source files (this is a **declaration commit**). Resolve any agent-driven DoR conditions (e.g. `check-if-affected-by`) in impl.md under `## DoR Resolutions` before staging.
+
    ```
    taproot(<intent-slug>/<behaviour-slug>/<impl-slug>): declare implementation
    ```
-   The pre-commit hook will run Definition of Ready (DoR) checks on the parent `usecase.md`. If DoR fails, fix the spec before proceeding — do not bypass the hook.
+   If DoR fails, fix the spec or add the missing DoR resolution before proceeding — do not bypass the hook.
 
 7. After the declaration commit, implement:
    a. Write the source code files
@@ -70,10 +75,15 @@ Implement a behaviour spec: write the code, write the tests, create the `impl.md
 8. Run `taproot dod <impl-path>` to evaluate the Definition of Done. For agent-driven conditions (`check-if-affected`, `document-current`): reason about each, apply any needed changes, then record your resolution with `taproot dod <impl-path> --resolve "<condition>" --note "<reasoning>"`. Re-run until all conditions pass. `taproot dod` marks `impl.md` state `complete` when all pass.
 
 9. **Implementation commit** — commit source files and `impl.md` together:
+
+   Before staging:
+   - This is an **implementation commit** — the hook detects source files tracked by impl.md and requires impl.md to be staged alongside them with a **real diff**. The `--resolve` records written by `taproot dod` in step 8 are that diff. If impl.md shows no diff, re-run `taproot dod` to confirm all conditions are resolved and that status was updated.
+   - Stage impl.md with source files in the same commit — the hook rejects implementation commits missing their traceability record.
+
    ```
    taproot(<intent-slug>/<behaviour-slug>/<impl-slug>): <what this commit does>
    ```
-   The pre-commit hook checks that `impl.md` changed only in the `## Status` section (state `in-progress` → `complete`) and re-runs DoD in dry-run mode.
+   The pre-commit hook checks that `impl.md` changed only in the `## Status` and `## DoD Resolutions` sections and re-runs DoD in dry-run mode.
 
 10. Run `taproot link-commits --path <taproot-root>` to update the `impl.md` Commits section with the new hashes.
 
