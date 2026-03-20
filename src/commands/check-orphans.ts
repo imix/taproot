@@ -70,6 +70,11 @@ function checkImplReferences(node: FolderNode, repoRoot: string | null): Violati
   const data = parseImplData(doc);
   const violations: Violation[] = [];
 
+  // Skip all reference checks for deferred impls
+  const statusSection = doc.sections.get('status');
+  const stateMatch = statusSection ? /\*\*State:\*\*\s*(\S+)/.exec(statusSection.rawBody) : null;
+  if (stateMatch?.[1]?.trim() === 'deferred') return [];
+
   // Check behaviour reference
   if (data.behaviourRef) {
     const resolvedRef = resolve(dirname(filePath), data.behaviourRef);
@@ -128,9 +133,21 @@ function checkImplReferences(node: FolderNode, repoRoot: string | null): Violati
   return violations;
 }
 
+function readBehaviourState(node: FolderNode): string {
+  try {
+    const content = readFileSync(join(node.absolutePath, 'usecase.md'), 'utf-8');
+    const doc = parseMarkdown(join(node.absolutePath, 'usecase.md'), content);
+    const match = /\*\*State:\*\*\s*(\S+)/.exec(doc.sections.get('status')?.rawBody ?? '');
+    return match?.[1]?.trim() ?? 'unknown';
+  } catch {
+    return 'unknown';
+  }
+}
+
 function checkUnimplementedBehaviour(node: FolderNode): Violation[] {
   const hasImplChild = node.children.some(c => c.marker === 'impl');
   if (hasImplChild) return [];
+  if (readBehaviourState(node) === 'deferred') return [];
   return [{
     type: 'warning',
     filePath: join(node.absolutePath, 'usecase.md'),

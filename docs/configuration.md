@@ -22,8 +22,8 @@ validation:
   require_dates: true           # intent.md and impl.md must have Created: dates
   require_status: true          # all marker files must have a ## Status section
   allowed_intent_states: [draft, active, achieved, deprecated]
-  allowed_behaviour_states: [proposed, specified, implemented, tested, deprecated]
-  allowed_impl_states: [planned, in-progress, complete, needs-rework]
+  allowed_behaviour_states: [proposed, specified, implemented, tested, deprecated, deferred]
+  allowed_impl_states: [planned, in-progress, complete, needs-rework, deferred]
 
 # Definition of Done — conditions checked before taproot dod marks an impl complete.
 definitionOfDone:

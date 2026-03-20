@@ -13,8 +13,8 @@ export const DEFAULT_CONFIG: TaprootConfig = {
     requireDates: true,
     requireStatus: true,
     allowedIntentStates: ['draft', 'active', 'achieved', 'deprecated'],
-    allowedBehaviourStates: ['proposed', 'specified', 'implemented', 'tested', 'deprecated'],
-    allowedImplStates: ['planned', 'in-progress', 'complete', 'needs-rework'],
+    allowedBehaviourStates: ['proposed', 'specified', 'implemented', 'tested', 'deprecated', 'deferred'],
+    allowedImplStates: ['planned', 'in-progress', 'complete', 'needs-rework', 'deferred'],
   },
   hooks: {
     preCommit: ['taproot validate-structure', 'taproot validate-format'],
