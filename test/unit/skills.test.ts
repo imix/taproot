@@ -109,3 +109,31 @@ describe('implement.md — commit-awareness (AC-1, AC-3, AC-4)', () => {
     expect(content).toMatch(/real diff/i);
   });
 });
+
+// ─── AC-1/AC-2/AC-4: sweep.md confirmation gate and live progress ─────────────
+
+describe('sweep.md — confirmation gate and live progress (AC-1, AC-2, AC-4)', () => {
+  const sweepPath = resolve(SKILLS_DIR, 'sweep.md');
+  const content = readFileSync(sweepPath, 'utf-8');
+
+  it('AC-1: [x] progress marking present in step 4 output', () => {
+    expect(content).toContain('[x]');
+  });
+
+  it('AC-2: Y/N confirmation gate present before processing', () => {
+    expect(content).toMatch(/\[Y\].*Yes.*\[N\].*No/s);
+  });
+
+  it('AC-2: cancelled when developer declines', () => {
+    expect(content).toMatch(/cancelled/i);
+  });
+
+  it('AC-4: [x] progress line includes taproot path', () => {
+    expect(content).toMatch(/\[x\] taproot\//);
+  });
+
+  it('cross-item context warning redirects to /tr-review-all', () => {
+    expect(content).toContain('cross-item context');
+    expect(content).toContain('tr-review-all');
+  });
+});

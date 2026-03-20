@@ -26,15 +26,13 @@
 - `dd8d7c70bf7f6e0490cdcdd68e94300c316a32b0` — (auto-linked by taproot link-commits)
 
 ## Tests
-- Skill content satisfies AC-1 (step 4: reads each file and applies task in-session, marks [x] on completion)
-- Skill content satisfies AC-2 (step 3: confirmation gate, stops if developer says no)
-- Skill content satisfies AC-4 (step 4c: [x] progress line after each file)
-- AC-3 is specified in the ineed skill, not implemented here
+- `test/unit/skills.test.ts` — AC-1: [x] progress marking present; AC-2: Y/N confirmation gate and cancellation; AC-4: [x] line includes taproot path; cross-item context warning redirects to /tr-review-all
 
 ## Status
 - **State:** complete
 - **Created:** 2026-03-20
 - **Last verified:** 2026-03-20
+- **Note:** AC-specific tests added to test/unit/skills.test.ts (AC-1, AC-2, AC-4)
 
 ## DoR Resolutions
 - condition: check-if-affected-by: implementation-quality/architecture-compliance | note: compliant — skill is a pure markdown file with no source code; no I/O, no state; the architecture constraints (stateless, actionable errors, command boundaries) govern CLI commands, not skill markdown; not applicable | resolved: 2026-03-20T15:45:00.000Z
