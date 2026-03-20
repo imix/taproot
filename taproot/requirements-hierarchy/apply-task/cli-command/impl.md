@@ -26,7 +26,8 @@
 - `test/integration/apply.test.ts` — covers AC-1 (modified), AC-2 (skipped), AC-3 (path validation), AC-4 (error + restore), blank lines/comments in filelist, missing input files
 
 ## Status
-- **State:** needs-rework
+- **State:** deferred
+- **Reason:** headless agent permission system blocks file writes in unattended mode — fix requires agent-agnostic mechanism; see usecase.md Finding section
 - **Created:** 2026-03-20
 - **Last verified:** 2026-03-20
 

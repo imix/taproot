@@ -67,7 +67,7 @@ _No behaviours yet._
 - **[grill-me](./human-integration/grill-me/usecase.md)** `[implemented]` — Actor: Developer or orchestrator who wants to stress-test a plan, design decision, or vague idea through relentless structured questioning — invoked directly via `/tr-grill-me`, or called by another skill (`tr-ineed`, `tr-behaviour`) when deeper elicitation is needed before writing a spec.
   - [agent-skill](./human-integration/grill-me/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[hierarchy-sweep](./human-integration/hierarchy-sweep/usecase.md)** `[implemented]` — Actor: Developer — applying a uniform task across many hierarchy items without accumulating context drift. Also surfaced by `/tr-ineed` when the developer expresses a bulk-edit intent (e.g. "add X to all usecases").
-  - [agent-skill](./human-integration/hierarchy-sweep/agent-skill/impl.md) `[complete]` (3 commits ⚠ no tests)
+  - [agent-skill](./human-integration/hierarchy-sweep/agent-skill/impl.md) `[complete]` (7 commits ⚠ no tests)
 - **[human-readable-report](./human-integration/human-readable-report/usecase.md)** `[implemented]` — Actor: Developer or project stakeholder invoking `/tr-status`
   - [agent-skill](./human-integration/human-readable-report/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
 - **[pattern-hints](./human-integration/pattern-hints/usecase.md)** `[implemented]` — Actor: Agent — processing any user-expressed need via any taproot skill (`/tr-ineed`, `/tr-behaviour`, `/tr-implement`, `/tr-refine`, or any skill that receives a natural language description of intent).
@@ -131,6 +131,8 @@ _No behaviours yet._
   - [yaml-config](./requirements-hierarchy/configure-hierarchy/yaml-config/impl.md) `[complete]` (2 commits ⚠ no tests)
 - **[initialise-hierarchy](./requirements-hierarchy/initialise-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator setting up taproot in a new or existing project
   - [cli-command](./requirements-hierarchy/initialise-hierarchy/cli-command/impl.md) `[complete]` (0 commits, 1 test)
+- **[park-hierarchy-item](./requirements-hierarchy/park-hierarchy-item/usecase.md)** `[implemented]` — Actor: Developer — who has decided that a behaviour or implementation is not being pursued for the foreseeable future and wants to formally record that decision in the hierarchy.
+  - [multi-surface](./requirements-hierarchy/park-hierarchy-item/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 
 ## [research](./research/intent.md) `[active]`
 
@@ -154,4 +156,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-15 intents · 35 behaviours · 37 implementations · 36/37 complete
+15 intents · 36 behaviours · 38 implementations · 37/38 complete

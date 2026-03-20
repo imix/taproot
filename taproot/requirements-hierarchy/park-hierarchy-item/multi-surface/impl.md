@@ -19,6 +19,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `462b1cc457a2c6366d353ca4fb90fd57c503628c` — (auto-linked by taproot link-commits)
+- `0e15c283e05d72bd917976d770ee5d253c726e43` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/park-hierarchy-item.test.ts` — covers AC-1 (deferred usecase not flagged), AC-2 (deferred impl with missing source not flagged), AC-3 (deferred behaviour excluded from plan), AC-5 (deferred rejected on intent.md), AC-6 (un-parked impl resumes normal checking), AC-7 (specified behaviour with deferred impl stays as plan candidate)
