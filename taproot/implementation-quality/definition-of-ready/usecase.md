@@ -97,6 +97,31 @@ sequenceDiagram
 - When no resolution has been recorded
 - Then DoR blocks the commit with "agent check required: <question text>"
 
+**AC-3: Fails baseline when usecase.md does not exist**
+- Given an `impl.md` with no parent `usecase.md` at the expected path
+- When DoR runs
+- Then the `usecase-exists` check fails
+
+**AC-4: Fails baseline when usecase state is not specified**
+- Given a `usecase.md` with `state: proposed`
+- When DoR runs against an `impl.md` under that behaviour
+- Then the `state-specified` check fails
+
+**AC-5: Passes all baseline checks for a fully-specified usecase**
+- Given a `usecase.md` with `state: specified`, all required sections, a `## Flow` section with Mermaid, and a `## Related` section
+- When DoR runs
+- Then all baseline checks pass and `allPassed` is true
+
+**AC-6: Fails when Flow section is missing**
+- Given a `usecase.md` with no `## Flow` section
+- When DoR runs
+- Then the `flow-diagram` check fails
+
+**AC-7: Fails when Related section is missing**
+- Given a `usecase.md` with no `## Related` section
+- When DoR runs
+- Then the `related-behaviours` check fails
+
 ## Implementations <!-- taproot-managed -->
 - [CLI Command — taproot commithook (DoR tier)](./cli-command/impl.md)
 

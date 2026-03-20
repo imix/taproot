@@ -32,6 +32,38 @@ Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying the 
 - [CLI Command — taproot validate-structure](./cli-command/impl.md)
 
 
+## Acceptance Criteria
+
+**AC-1: No errors for a complete valid hierarchy**
+- Given a well-formed hierarchy with correctly nested intent, behaviour, and impl folders
+- When the actor runs `taproot validate-structure`
+- Then no errors are reported
+
+**AC-2: IMPL_PARENT_INVALID when impl.md is directly under an intent**
+- Given a hierarchy where an `impl.md` is placed directly under an intent folder (skipping the behaviour level)
+- When the actor runs `taproot validate-structure`
+- Then a violation with code `IMPL_PARENT_INVALID` is reported
+
+**AC-3: DUPLICATE_MARKERS when folder has both intent.md and usecase.md**
+- Given a folder containing both `intent.md` and `usecase.md`
+- When the actor runs `taproot validate-structure`
+- Then a violation with code `DUPLICATE_MARKERS` is reported
+
+**AC-4: INVALID_FOLDER_NAME for non-kebab-case folder names**
+- Given a folder whose name contains uppercase letters or underscores
+- When the actor runs `taproot validate-structure`
+- Then a violation with code `INVALID_FOLDER_NAME` is reported
+
+**AC-5: ORPHAN_FOLDER for empty folders with no descendants**
+- Given a folder that has no marker file and no child folders
+- When the actor runs `taproot validate-structure`
+- Then a violation with code `ORPHAN_FOLDER` is reported
+
+**AC-6: Strict mode runs without crashing**
+- Given a valid hierarchy
+- When the actor runs `taproot validate-structure --strict`
+- Then the command completes and returns an array of violations (may be empty)
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

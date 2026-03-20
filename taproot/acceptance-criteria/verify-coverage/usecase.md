@@ -86,6 +86,73 @@ flowchart TD
 - `taproot/requirements-compliance/check-orphans/usecase.md` — sibling check: check-orphans finds missing source files; acceptance-check finds missing test coverage
 - `taproot/hierarchy-integrity/validate-format/usecase.md` — validate-format checks section presence; acceptance-check checks cross-file coverage
 
+## Acceptance Criteria
+
+**AC-1: Collects AC-N IDs from ## Acceptance Criteria sections**
+- Given a `usecase.md` with `**AC-1:**` and `**AC-2:**` in its `## Acceptance Criteria` section
+- When `collectCriteria` runs
+- Then it returns both IDs in order
+
+**AC-2: Skips deprecated criteria (strikethrough ~~**AC-N)**
+- Given a `usecase.md` with `~~**AC-1: Deprecated**~~` and active `**AC-2:**`
+- When `collectCriteria` runs
+- Then only `AC-2` is returned; `AC-1` is excluded
+
+**AC-3: Returns empty when no ## Acceptance Criteria section exists**
+- Given a `usecase.md` with no `## Acceptance Criteria` section
+- When `collectCriteria` runs
+- Then an empty array is returned
+
+**AC-4: Finds AC-N references in test files with file and line info**
+- Given a test file containing `AC-1` and `AC-3` references
+- When `scanTestFiles` runs on that directory
+- Then both IDs are found, each with the correct line number
+
+**AC-5: Ignores non-test files**
+- Given a directory containing `helpers.ts` and `README.md` with AC-N mentions (but no `*.test.ts` files)
+- When `scanTestFiles` runs
+- Then no references are returned
+
+**AC-6: Scans nested test directories**
+- Given test files in `unit/` and `integration/` subdirectories
+- When `scanTestFiles` runs on the parent
+- Then references from both subdirectories are found
+
+**AC-7: Reports usecase.md with impl child but no AC section as missing**
+- Given a `usecase.md` with an impl child folder and no `## Acceptance Criteria` section
+- When `collectMissingSections` runs
+- Then that `usecase.md` path is returned as a missing section
+
+**AC-8: Does not report usecase.md that has an AC section**
+- Given a `usecase.md` with an impl child folder and a valid `## Acceptance Criteria` section
+- When `collectMissingSections` runs
+- Then that path is not returned
+
+**AC-9: Does not report usecase.md with no impl children**
+- Given a `usecase.md` with no child impl folders
+- When `collectMissingSections` runs
+- Then that path is not returned regardless of whether an AC section is present
+
+**AC-10: Returns covered when all spec IDs appear in tests**
+- Given specs with `AC-1` and `AC-2`, and a test file containing both
+- When `runAcceptanceCheck` runs
+- Then both IDs are in `covered`, `uncovered` is empty, and `orphaned` is empty
+
+**AC-11: Detects uncovered criteria**
+- Given specs with `AC-1` and `AC-2`, and a test file containing only `AC-1`
+- When `runAcceptanceCheck` runs
+- Then `AC-2` is in `uncovered` and `AC-1` is in `covered`
+
+**AC-12: Detects orphaned test references**
+- Given a spec with `AC-1` and a test file containing `AC-1` and `AC-99`
+- When `runAcceptanceCheck` runs
+- Then `AC-99` is in `orphaned` and `AC-1` is not
+
+**AC-13: Returns empty report for empty hierarchy**
+- Given a hierarchy with no `usecase.md` files
+- When `runAcceptanceCheck` runs
+- Then `uncovered`, `orphaned`, and `covered` are all empty
+
 ## Implementations <!-- taproot-managed -->
 - [CLI Command](./cli-command/impl.md)
 

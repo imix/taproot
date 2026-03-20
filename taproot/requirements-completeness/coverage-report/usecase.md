@@ -41,6 +41,38 @@ sequenceDiagram
 - [CLI Command — taproot coverage](./cli-command/impl.md)
 
 
+## Acceptance Criteria
+
+**AC-1: Returns correct intent, behaviour, and implementation counts**
+- Given a hierarchy with 1 intent, 2 behaviours, and 4 implementations
+- When the actor runs `taproot coverage`
+- Then totals report 1 intent, 2 behaviours, and 4 implementations
+
+**AC-2: Reflects correct complete and tested impl counts**
+- Given a hierarchy where 4 impls are complete and 3 have test files
+- When the actor runs `taproot coverage`
+- Then `completeImpls` is 4 and `testedImpls` is 3
+
+**AC-3: Captures intent state and name**
+- Given an intent with `state: active` and name `user-onboarding`
+- When the actor runs `taproot coverage`
+- Then the intent entry in the report has `state: active` and `name: user-onboarding`
+
+**AC-4: JSON format is valid and has correct structure**
+- Given any valid hierarchy
+- When the actor runs `taproot coverage --format json`
+- Then the output is parseable JSON with `totals` and `intents` properties
+
+**AC-5: Tree format shows intent name, state, and ⚠ for untested impls**
+- Given a hierarchy containing an impl with no test files
+- When the actor runs `taproot coverage --format tree`
+- Then the output contains the intent name, its state in brackets, and a ⚠ symbol
+
+**AC-6: Markdown format contains required headings**
+- Given any valid hierarchy
+- When the actor runs `taproot coverage --format markdown`
+- Then the output contains `# Taproot Coverage Report` and the intent name
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

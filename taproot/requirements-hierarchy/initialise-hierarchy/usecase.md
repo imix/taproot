@@ -34,6 +34,48 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 - [CLI Command — taproot init](./cli-command/impl.md)
 
 
+## Acceptance Criteria
+
+**AC-1: Creates taproot/ directory**
+- Given a new empty project directory
+- When the actor runs `taproot init`
+- Then a `taproot/` directory is created
+
+**AC-2: Creates .taproot/settings.yaml**
+- Given a new empty project directory
+- When the actor runs `taproot init`
+- Then `.taproot/settings.yaml` is created
+
+**AC-3: Creates .taproot/skills/ directory when claude agent is selected**
+- Given a project directory
+- When the actor runs `taproot init --agent claude`
+- Then `.taproot/skills/` directory is created
+
+**AC-4: Does not create taproot/_brainstorms/ directory**
+- Given a new empty project directory
+- When the actor runs `taproot init`
+- Then `taproot/_brainstorms/` is not created
+
+**AC-5: Creates taproot/CONVENTIONS.md**
+- Given a new empty project directory
+- When the actor runs `taproot init`
+- Then `taproot/CONVENTIONS.md` is created
+
+**AC-6: Returns messages describing what was created**
+- Given a new empty project directory
+- When the actor runs `taproot init`
+- Then the returned messages include references to `taproot/` and `.taproot/settings.yaml`
+
+**AC-7: Is idempotent — running twice does not fail**
+- Given a project where `taproot init` has already been run
+- When the actor runs `taproot init` again
+- Then the command completes without throwing an error
+
+**AC-8: Reports "exists" on second run instead of "created"**
+- Given a project where `taproot init` has already been run
+- When the actor runs `taproot init` again
+- Then the returned messages include the word "exists"
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

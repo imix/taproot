@@ -49,6 +49,18 @@ sequenceDiagram
 - [CLI Command — taproot link-commits](./cli-command/impl.md)
 
 
+## Acceptance Criteria
+
+**AC-1: Throws an error when not in a git repository**
+- Given a directory that is not inside a git repository
+- When the actor runs `taproot link-commits`
+- Then the command throws an error whose message contains "git"
+
+**AC-2: Dry-run does not write files**
+- Given a git repository with a valid hierarchy
+- When the actor runs `taproot link-commits --dry-run`
+- Then the command returns an array of results without writing any files
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

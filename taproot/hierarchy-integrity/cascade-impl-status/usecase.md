@@ -70,6 +70,38 @@ flowchart TD
 ## Implementations <!-- taproot-managed -->
 - [Multi-Surface — dod CLI + tr-implement skill](./multi-surface/impl.md)
 
+## Acceptance Criteria
+
+**AC-1: Advances usecase state from specified to implemented**
+- Given an `impl.md` whose parent `usecase.md` has `state: specified`
+- When `cascadeUsecaseState` is called after DoD passes
+- Then the usecase state is updated to `implemented` and the function returns `"specified → implemented"`
+
+**AC-2: Does not modify usecase already in implemented state**
+- Given a `usecase.md` already in `state: implemented`
+- When `cascadeUsecaseState` is called
+- Then the usecase file is unchanged and the function returns null
+
+**AC-3: Handles gracefully when usecase.md does not exist**
+- Given an `impl.md` with no sibling `usecase.md` in the parent directory
+- When `cascadeUsecaseState` is called
+- Then no exception is thrown and the function returns null
+
+**AC-4: Cascades usecase state when DoD passes**
+- Given an `impl.md` in `in-progress` state with a parent `usecase.md` in `specified` state
+- When `taproot dod` runs all conditions pass
+- Then `usecaseCascade` is `"specified → implemented"` and the usecase file contains `**State:** implemented`
+
+**AC-5: Does not cascade in dry-run mode**
+- Given an `impl.md` with a parent `usecase.md` in `specified` state
+- When `taproot dod --dry-run` runs
+- Then the usecase file is unchanged (still `specified`)
+
+**AC-6: Does not cascade when DoD fails**
+- Given an `impl.md` with a parent `usecase.md` in `specified` state
+- When `taproot dod` runs and a condition fails
+- Then `usecaseCascade` is undefined and the usecase file remains `specified`
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

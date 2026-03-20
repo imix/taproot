@@ -36,6 +36,48 @@ Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying docu
 - [CLI Command — taproot validate-format](./cli-command/impl.md)
 
 
+## Acceptance Criteria
+
+**AC-1: Valid documents report no errors**
+- Given a hierarchy with valid intent.md, usecase.md, and impl.md documents
+- When the actor runs `taproot validate-format`
+- Then no schema errors are reported
+
+**AC-2: MISSING_SECTION detected for missing required sections**
+- Given an intent.md missing `## Stakeholders` and `## Success Criteria`
+- When the actor runs `taproot validate-format`
+- Then violations with code `MISSING_SECTION` are reported, one per missing section
+
+**AC-3: INVALID_STATUS_VALUE detected for unknown state**
+- Given a document whose `## Status` section contains an unknown state value
+- When the actor runs `taproot validate-format`
+- Then a violation with code `INVALID_STATUS_VALUE` is reported
+
+**AC-4: INVALID_DATE_FORMAT detected for non-ISO dates**
+- Given a document with a date field that is not in ISO format
+- When the actor runs `taproot validate-format`
+- Then a violation with code `INVALID_DATE_FORMAT` is reported
+
+**AC-5: --fix adds missing section headers without destroying existing content**
+- Given an intent.md missing `## Stakeholders` and `## Success Criteria`
+- When the actor runs `taproot validate-format --fix`
+- Then both missing section headers are appended to the file and existing content (e.g. `## Goal`) is preserved unchanged
+
+**AC-6: MISSING_ACCEPTANCE_CRITERIA warning when impl child exists but section absent**
+- Given a usecase.md with at least one child impl folder but no `## Acceptance Criteria` section
+- When the actor runs `taproot validate-format`
+- Then a `MISSING_ACCEPTANCE_CRITERIA` warning is reported for that usecase.md
+
+**AC-7: No warning for usecase with no impl children**
+- Given a usecase.md with no child impl folders and no `## Acceptance Criteria` section
+- When the actor runs `taproot validate-format`
+- Then no `MISSING_ACCEPTANCE_CRITERIA` warning is reported
+
+**AC-8: DUPLICATE_CRITERION_ID error when same AC-N appears twice**
+- Given a usecase.md where the same AC-N ID appears in two separate criterion headings
+- When the actor runs `taproot validate-format`
+- Then a `DUPLICATE_CRITERION_ID` error is reported, identifying the duplicate ID
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

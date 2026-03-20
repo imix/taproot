@@ -98,6 +98,58 @@ sequenceDiagram
 - `../../hierarchy-integrity/validate-structure/usecase.md` — structural validation detects orphaned folders; link validation is complementary, not redundant
 - `../../taproot-lifecycle/update-installation/usecase.md` — `taproot update` runs the backfill pass (Alternate Flow: Backfill existing hierarchy) as part of its standard refresh cycle
 
+## Acceptance Criteria
+
+**AC-1: Reports MISSING_LINK_SECTION for intent.md with child behaviour folders**
+- Given an `intent.md` with child behaviour folders but no `## Behaviours` section
+- When `taproot validate-format` runs
+- Then a violation with code `MISSING_LINK_SECTION` mentioning "Behaviours" is reported
+
+**AC-2: Reports MISSING_LINK_SECTION for usecase.md with child impl folders**
+- Given a `usecase.md` with child impl folders but no `## Implementations` section
+- When `taproot validate-format` runs
+- Then a violation with code `MISSING_LINK_SECTION` mentioning "Implementations" is reported
+
+**AC-3: No link errors when sections are present and valid**
+- Given an `intent.md` with a valid `## Behaviours` section and a `usecase.md` with a valid `## Implementations` section
+- When `taproot validate-format` runs
+- Then no `MISSING_LINK_SECTION` or `STALE_LINK` violations are reported
+
+**AC-4: Reports STALE_LINK when linked file does not exist**
+- Given an `intent.md` whose `## Behaviours` section links to a `usecase.md` that does not exist
+- When `taproot validate-format` runs
+- Then a violation with code `STALE_LINK` is reported
+
+**AC-5: refreshLinks inserts ## Behaviours section with correct link**
+- Given an `intent.md` with a child behaviour folder but no `## Behaviours` section
+- When `taproot update` (refreshLinks) runs
+- Then `## Behaviours <!-- taproot-managed -->` is inserted and the link points to `./my-behaviour/usecase.md`
+
+**AC-6: refreshLinks inserts ## Implementations section with correct link**
+- Given a `usecase.md` with a child impl folder but no `## Implementations` section
+- When `taproot update` (refreshLinks) runs
+- Then `## Implementations <!-- taproot-managed -->` is inserted and the link points to `./my-impl/impl.md`
+
+**AC-7: refreshLinks is idempotent**
+- Given a hierarchy where refreshLinks has already run
+- When refreshLinks runs again
+- Then no file changes are made and no messages are returned
+
+**AC-8: refreshLinks removes stale links**
+- Given an `intent.md` with a `## Behaviours` link pointing to a folder that no longer exists
+- When refreshLinks runs
+- Then the stale link is removed from the section
+
+**AC-9: refreshLinks uses title from first # heading**
+- Given a `usecase.md` with heading `# Behaviour: my-behaviour`
+- When refreshLinks inserts the link into the parent intent
+- Then the link text is `[my-behaviour]`
+
+**AC-10: refreshLinks falls back to folder slug when no heading**
+- Given a `usecase.md` with no `#` heading
+- When refreshLinks inserts the link into the parent intent
+- Then the link text is the folder slug
+
 ## Implementations <!-- taproot-managed -->
 - [Multi-Surface — validate-format + update backfill + skill steps](./multi-surface/impl.md)
 

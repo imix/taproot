@@ -122,6 +122,76 @@ flowchart TD
 - When `taproot dod` is run
 - Then the condition appears in the output as an agent check required, with the full question text displayed
 
+**AC-4: Custom shell command passes when exit code is 0, fails when non-zero**
+- Given a condition with `run: true` and another with `run: false`
+- When `taproot dod` runs
+- Then the `true` condition passes and the `false` condition fails
+
+**AC-5: All conditions run even when an earlier one fails**
+- Given three conditions where first and third fail
+- When `taproot dod` runs
+- Then all three conditions are evaluated and two failures are reported
+
+**AC-6: document-current condition reports as agent check required**
+- Given a `document-current` condition in `.taproot.yaml`
+- When `taproot dod` runs without a resolution in `impl.md`
+- Then the condition is reported as not passed with "Agent check required" in the output
+
+**AC-7: check-if-affected condition reports as agent check required**
+- Given a `check-if-affected: src/commands/update.ts` condition
+- When `taproot dod` runs without a resolution
+- Then the condition name is `check-if-affected: src/commands/update.ts` and output contains "Agent check required"
+
+**AC-8: check-if-affected-by condition reports as agent check required**
+- Given a `check-if-affected-by: human-integration/contextual-next-steps` condition
+- When `taproot dod` runs without a resolution
+- Then the condition name is `check-if-affected-by: human-integration/contextual-next-steps` and output contains "Agent check required"
+
+**AC-9: DoD baseline fails when usecase.md is missing**
+- Given an `impl.md` with no parent `usecase.md`
+- When `taproot dod` runs with that `implPath`
+- Then the `baseline-usecase-exists` check fails
+
+**AC-10: DoD baseline fails when usecase state is not specified**
+- Given a `usecase.md` with `state: proposed`
+- When `taproot dod` runs
+- Then the `baseline-state-specified` check fails with output containing `proposed`
+
+**AC-11: DoD baseline passes with a valid usecase.md**
+- Given a fully-specified `usecase.md` with all required sections
+- When `taproot dod` runs
+- Then all baseline checks pass
+
+**AC-12: agent check passes when resolution is recorded in impl.md**
+- Given a `check-if-affected` condition and a matching resolution entry in `## DoD Resolutions`
+- When `taproot dod` runs
+- Then that condition passes
+
+**AC-13: agent check fails when no resolution recorded**
+- Given a `check-if-affected` condition and no resolution in `impl.md`
+- When `taproot dod` runs
+- Then that condition fails
+
+**AC-14: agent check fails when resolution is stale**
+- Given a resolution recorded in `impl.md` but `impl.md` modified after the resolution timestamp
+- When `taproot dod` runs
+- Then the condition fails with "Agent check required"
+
+**AC-15: Marks impl complete when all conditions pass and implPath provided**
+- Given an `impl.md` in `in-progress` state and all conditions passing
+- When `taproot dod` runs with `implPath`
+- Then `impl.md` state becomes `complete`
+
+**AC-16: Does not mark impl complete when a condition fails**
+- Given an `impl.md` in `in-progress` state and a failing condition
+- When `taproot dod` runs
+- Then `impl.md` state remains `in-progress`
+
+**AC-17: Does not modify impl.md in dry-run mode**
+- Given an `impl.md` in `in-progress` state and all conditions passing
+- When `taproot dod --dry-run` runs
+- Then `impl.md` is unchanged
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

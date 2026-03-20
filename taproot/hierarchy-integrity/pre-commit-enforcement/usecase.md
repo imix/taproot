@@ -82,6 +82,73 @@ flowchart TD
 - **Reverse lookup for source file detection:** `taproot commithook` walks all `impl.md` files in the hierarchy, parses their `## Source Files` sections, and builds a map of `file path → impl.md path`. Any staged file whose path appears in this map is classified as an implementation source file. Files not tracked by any impl.md (e.g. `.gitignore`, CI configs, docs not listed in a `## Source Files` section) are never classified as implementation source files and pass through as plain commits.
 - **Multiple impl.md matches:** if staged source files span multiple impl.md files, each matching impl.md must be staged and its DoD must pass. Partial staging (some impl.md files staged, others not) blocks the commit.
 
+## Acceptance Criteria
+
+**AC-1: Passes when no taproot files are staged (plain commit)**
+- Given only non-taproot files staged (e.g. `src/foo.ts`)
+- When `taproot commithook` runs
+- Then exit code is 0
+
+**AC-2: Passes for source files not tracked in any impl.md**
+- Given a file like `.gitignore` staged but not referenced by any `impl.md`
+- When `taproot commithook` runs
+- Then exit code is 0
+
+**AC-3: Passes when valid hierarchy files are staged (requirement commit)**
+- Given a valid `intent.md` staged under `taproot/`
+- When `taproot commithook` runs
+- Then exit code is 0
+
+**AC-4: Fails when staged hierarchy files have format errors**
+- Given an `intent.md` with missing required sections staged
+- When `taproot commithook` runs
+- Then exit code is 1
+
+**AC-5: Passes when impl.md references a specified usecase (declaration commit)**
+- Given an `impl.md` staged alone whose parent `usecase.md` has `state: specified`, a Flow section, and a Related section
+- When `taproot commithook` runs
+- Then exit code is 0
+
+**AC-6: Fails when parent usecase is not in specified state**
+- Given an `impl.md` staged whose parent `usecase.md` has `state: proposed`
+- When `taproot commithook` runs
+- Then exit code is 1
+
+**AC-7: Fails when parent usecase has no Flow section**
+- Given an `impl.md` staged whose parent `usecase.md` has no `## Flow` section
+- When `taproot commithook` runs
+- Then exit code is 1
+
+**AC-8: Fails when parent usecase has no Related section**
+- Given an `impl.md` staged whose parent `usecase.md` has no `## Related` section
+- When `taproot commithook` runs
+- Then exit code is 1
+
+**AC-9: Passes when only Status section changed in impl.md alongside its tracked source file**
+- Given a tracked source file and its `impl.md` (Status section only changed) both staged
+- When `taproot commithook` runs
+- Then exit code is 0
+
+**AC-10: Fails when impl.md changes beyond Status section alongside its tracked source**
+- Given a tracked source file and its `impl.md` (non-Status content changed) both staged
+- When `taproot commithook` runs
+- Then exit code is 1
+
+**AC-11: Fails when tracked source file is staged without its impl.md**
+- Given a source file tracked by an `impl.md` staged alone (impl.md not staged)
+- When `taproot commithook` runs
+- Then exit code is 1
+
+**AC-12: Fails when new impl.md and its tracked source are staged without a prior declaration**
+- Given a new `impl.md` and its tracked source file staged together without a prior declaration commit
+- When `taproot commithook` runs
+- Then exit code is 1
+
+**AC-13: taproot init --with-hooks installs pre-commit hook containing taproot commithook**
+- Given a project with a `.git/hooks/` directory
+- When the actor runs `taproot init --with-hooks`
+- Then `.git/hooks/pre-commit` is created containing `taproot commithook` (not the old validate-structure calls)
+
 ## Related
 - `../validate-format/usecase.md` — Requirement tier delegates format checking here
 - `../../implementation-quality/definition-of-ready/usecase.md` — Declaration tier invokes DoR

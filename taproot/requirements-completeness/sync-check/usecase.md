@@ -35,6 +35,23 @@ Developer or CI pipeline running `taproot sync-check`
 - [CLI Command — taproot sync-check](./cli-command/impl.md)
 
 
+## Acceptance Criteria
+
+**AC-1: Runs without error on a valid hierarchy**
+- Given a valid hierarchy
+- When the actor runs `taproot sync-check`
+- Then the command completes and returns an array (may be empty)
+
+**AC-2: Returns only warnings, never errors**
+- Given any hierarchy
+- When the actor runs `taproot sync-check`
+- Then no violations with `type: error` are returned — all violations are warnings
+
+**AC-3: Only IMPL_STALE and SPEC_UPDATED violation codes are used**
+- Given any hierarchy that produces violations
+- When the actor runs `taproot sync-check`
+- Then every violation code is either `IMPL_STALE` or `SPEC_UPDATED`
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

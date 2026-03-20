@@ -31,6 +31,38 @@ CI pipeline or agentic developer generating a machine-optimised context snapshot
 - [CLI Command — taproot coverage --format context](./cli-command/impl.md)
 
 
+## Acceptance Criteria
+
+**AC-1: Output contains required top-level sections**
+- Given a valid hierarchy
+- When the actor runs `taproot coverage --format context`
+- Then the generated content contains `# Taproot Context`, `## Summary`, and `## Hierarchy`
+
+**AC-2: Output includes intent and behaviour names**
+- Given a hierarchy containing intent `user-onboarding` with behaviour `register-account`
+- When the actor runs `taproot coverage --format context`
+- Then the output contains both `user-onboarding` and `register-account`
+
+**AC-3: Output includes summary totals**
+- Given a hierarchy with at least one implementation
+- When the actor runs `taproot coverage --format context`
+- Then the output contains total counts including the word `implementations`
+
+**AC-4: Output marks impls with no tests as needing attention**
+- Given a hierarchy with an implementation that has no test files
+- When the actor runs `taproot coverage --format context`
+- Then the output contains a "Missing tests" notice and the impl name
+
+**AC-5: Output includes a quick-reference CLI block**
+- Given any valid hierarchy
+- When the actor runs `taproot coverage --format context`
+- Then the output contains `taproot validate-structure` and `taproot coverage`
+
+**AC-6: Output contains auto-generated comment**
+- Given any valid hierarchy
+- When the actor runs `taproot coverage --format context`
+- Then the output contains "Auto-generated" and "do not edit manually"
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

@@ -32,6 +32,33 @@ Developer running `taproot update` after upgrading taproot or modifying skill de
 - [CLI Command — taproot update](./cli-command/impl.md)
 
 
+## Acceptance Criteria
+
+**AC-1: Reports nothing to update when no adapters are installed**
+- Given a project with no agent adapter files
+- When the actor runs `taproot update`
+- Then the first message indicates no taproot agent adapters were detected
+
+**AC-2: Detects and regenerates claude adapter**
+- Given a project with the claude adapter installed
+- When the actor runs `taproot update`
+- Then messages indicate the claude adapter was processed and `tr-intent.md` was updated
+
+**AC-3: Detects and regenerates cursor adapter**
+- Given a project with the cursor adapter installed
+- When the actor runs `taproot update`
+- Then messages indicate the cursor adapter was processed and `taproot.md` was updated
+
+**AC-4: Refreshes installed skills if present**
+- Given a project with a `taproot/skills/` directory
+- When the actor runs `taproot update`
+- Then messages indicate skills were refreshed
+
+**AC-5: Ends with "Update complete." message**
+- Given any project with at least one detected adapter
+- When the actor runs `taproot update`
+- Then the last message is "Update complete."
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19

@@ -39,6 +39,23 @@ Developer or CI pipeline running `taproot check-orphans`
 - [CLI Command — taproot check-orphans](./cli-command/impl.md)
 
 
+## Acceptance Criteria
+
+**AC-1: No BROKEN_BEHAVIOUR_REF in a valid fixture**
+- Given a hierarchy where every `impl.md` references a `usecase.md` that exists
+- When the actor runs `taproot check-orphans`
+- Then no violations with code `BROKEN_BEHAVIOUR_REF` are reported
+
+**AC-2: Reports MISSING_SOURCE_FILE for source files that do not exist on disk**
+- Given an `impl.md` listing a source file path that does not exist on disk
+- When the actor runs `taproot check-orphans`
+- Then one or more violations with code `MISSING_SOURCE_FILE` are reported
+
+**AC-3: Reports UNIMPLEMENTED_BEHAVIOUR when --include-unimplemented is set**
+- Given a hierarchy where all behaviours have implementations
+- When the actor runs `taproot check-orphans --include-unimplemented`
+- Then zero violations with code `UNIMPLEMENTED_BEHAVIOUR` are reported
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
