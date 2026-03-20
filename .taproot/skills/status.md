@@ -44,6 +44,12 @@ Generated: <date>
 - <N> potentially stale specs (code changed after spec):
     · taproot/<path>/impl.md — source file modified <N> days ago
 
+## Parked
+- <N> behaviours deferred: (omit section entirely if 0)
+    · taproot/<intent>/<behaviour>/ — <reason if provided>
+- <N> implementations deferred:
+    · taproot/<path>/impl.md — <reason if provided>
+
 ## Structural Issues
 - <from check-orphans>
 
