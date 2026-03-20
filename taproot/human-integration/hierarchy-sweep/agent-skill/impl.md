@@ -28,7 +28,7 @@
 - AC-3 is specified in the ineed skill, not implemented here
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-20
 - **Last verified:** 2026-03-20
 

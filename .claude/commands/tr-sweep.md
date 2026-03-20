@@ -1,6 +1,6 @@
 ---
 name: 'tr-sweep'
-description: 'Apply a uniform task to a filtered set of hierarchy files — enumerate, confirm, then call taproot apply'
+description: 'Apply a uniform task to a filtered set of hierarchy files — enumerate matching items, confirm with the developer, then process each file in-session with live progress marking'
 ---
 
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:

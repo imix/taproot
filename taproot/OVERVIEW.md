@@ -125,8 +125,8 @@ _No behaviours yet._
 
 **Goal:** Enable teams to capture the full requirements hierarchy — from business intent through stakeholder behaviour to system implementation — in a single, navigable, git-versioned structure.
 
-- **[apply-task](./requirements-hierarchy/apply-task/usecase.md)** `[implemented]` — Actor: Developer or agent — applying a uniform transformation to a set of hierarchy files using a configured AI agent.
-  - [cli-command](./requirements-hierarchy/apply-task/cli-command/impl.md) `[complete]` (3 commits, 1 test)
+- **[apply-task](./requirements-hierarchy/apply-task/usecase.md)** `[specified]` — Actor: Developer or agent — applying a uniform transformation to a set of hierarchy files using a configured AI agent.
+  - [cli-command](./requirements-hierarchy/apply-task/cli-command/impl.md) `[needs-rework]` (3 commits, 1 test)
 - **[configure-hierarchy](./requirements-hierarchy/configure-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator customising taproot to match project conventions
   - [yaml-config](./requirements-hierarchy/configure-hierarchy/yaml-config/impl.md) `[complete]` (2 commits ⚠ no tests)
 - **[initialise-hierarchy](./requirements-hierarchy/initialise-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator setting up taproot in a new or existing project
@@ -154,4 +154,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-15 intents · 35 behaviours · 37 implementations · 37/37 complete
+15 intents · 35 behaviours · 37 implementations · 36/37 complete

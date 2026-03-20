@@ -2,7 +2,7 @@
 
 ## Description
 
-Apply a uniform task to a filtered set of hierarchy files — enumerate matching items, confirm with the developer, then call `taproot apply` to execute.
+Apply a uniform task to a filtered set of hierarchy files — enumerate matching items, confirm with the developer, then process each file in-session with live progress marking.
 
 ## Inputs
 
@@ -20,13 +20,13 @@ Apply a uniform task to a filtered set of hierarchy files — enumerate matching
 
    Also check if the task requires **cross-item context** (e.g. "renumber all AC IDs globally" — needs awareness of IDs across files). If yes, warn:
    > "This task needs cross-item context — consider `/tr-review-all` instead."
-   > And stop without writing any files.
+   > And stop.
 
 2. Enumerate matching files under the scope path (default: `taproot/`). Walk the hierarchy and collect all files matching the target type(s). Exclude any files that are clearly not candidates (e.g. OVERVIEW.md, impl.md files in `proposed` state for an intent-only sweep).
 
    If no files are found:
    > "No `<type>` items found under `<scope>`."
-   > Stop without writing any files.
+   > Stop.
 
 3. Present the list and ask for confirmation:
    > "Found **N** `<type>` files under `<scope>`:"
@@ -38,27 +38,33 @@ Apply a uniform task to a filtered set of hierarchy files — enumerate matching
    > "Apply '`<task>`' to each of these **N** files? **[Y] Yes** / **[N] No**"
 
    If the developer says **[N]** or "no" or "cancel":
-   > "Cancelled — no files written."
+   > "Cancelled."
    > Stop.
 
-4. Write `filelist.txt` to the project root (one relative path per line, relative to project root):
-   ```
-   taproot/intent-a/behaviour-b/usecase.md
-   taproot/intent-a/behaviour-c/usecase.md
-   ```
+4. For each file in the confirmed list, process it in-session:
+   a. Read the file to understand its current content
+   b. Apply the task directly — edit the file in place
+   c. Output progress immediately after completing each file:
+      ```
+      [x] taproot/intent-a/behaviour-b/usecase.md
+      ```
 
-   Write `prompt.txt` to the project root containing the task description. The prompt should be self-contained — the agent reading it has access to the file (via `$TAPROOT_APPLY_FILE`) but no other context, so be explicit:
-   ```
-   <task description>
+   **For tasks requiring codebase exploration** (e.g. "add ACs from existing tests", "fill in missing fields from source code"), before processing each file:
+   - Identify **where to look**: explicit directory paths relevant to the file (e.g. `test/integration/`, `src/commands/`)
+   - Find the **matching artefact**: use the usecase slug (second-to-last path segment) to locate a related test file, source file, or doc (e.g. slug `validate-format` → `test/integration/validate-format.test.ts`)
+   - If no match is found for a file, mark it skipped and move on:
+     ```
+     [ ] taproot/intent-a/behaviour-c/usecase.md — no matching test file found
+     ```
 
-   Edit the file in place. Read the file first to understand its current content, then apply the task.
-   ```
+   If the task description is vague, ask one clarifying question before processing the first file: "What specifically should change — is there a pattern to add, a section to fill, or a format to fix?"
 
-5. Run `taproot apply filelist.txt prompt.txt` and wait for the summary output.
+5. After all files are processed, show a summary:
+   > "Sweep complete — N files processed: M modified, K skipped"
 
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
-6. Show the summary from `taproot apply` and present next steps:
+6. Present next steps:
 
    **What's next?**
    [A] `/tr-sweep` again — run another sweep with a different task or scope
@@ -66,18 +72,18 @@ Apply a uniform task to a filtered set of hierarchy files — enumerate matching
 
 ## Output
 
-- `filelist.txt` — one relative file path per line
-- `prompt.txt` — the task prompt passed to the agent per file
-- Summary from `taproot apply`
+- In-session edits to each matched file
+- Live `[x]` progress line per file
+- Summary: N processed, M modified, K skipped
 
 ## CLI Dependencies
 
-- `taproot apply`
+None — all processing is done in-session by the agent.
 
 ## Notes
 
-- `/tr-sweep` generates the inputs; `taproot apply` executes the per-file agent invocations.
-- The developer confirmation at step 3 is non-negotiable — no files are written before confirmation.
-- Keep prompts in `prompt.txt` self-contained: the agent has filesystem access but no conversation context.
+- The developer confirmation at step 3 is non-negotiable — no files are processed before confirmation.
+- Each file is processed independently — the agent reads and edits it directly in context. No temp files or subprocesses.
+- For codebase-exploration tasks: use the usecase slug (second-to-last path segment) to find related artefacts. Always verify the match exists before assuming it applies.
 - If the task description is vague ("improve them"), ask one clarifying question before proceeding: "What specifically should change — is there a pattern to add, a section to fill, or a format to fix?"
 - `/tr-sweep` is the Claude Code adapter command name for this skill.
