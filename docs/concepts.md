@@ -72,7 +72,7 @@ A behaviour contains:
 - **Flow** — a Mermaid diagram of the main flow; the human-readable visual contract
 - **Related** — other behaviours that share an actor, have precondition overlap, or must precede/follow this one
 - **Implementations** — auto-maintained list of child impl records (managed by `taproot update`)
-- **Status** — lifecycle state: `proposed` → `specified` → `implemented` → `tested` → `deprecated`
+- **Status** — lifecycle state: `proposed` → `specified` → `implemented` → `tested` → `deprecated` (or `deferred` to park without deleting)
 
 ```markdown
 # Behaviour: Request Password Reset
@@ -245,5 +245,8 @@ Each document has a `State` field that tracks its lifecycle. States are validate
 | `needs-rework` | — | — | Implementation failed DoD |
 | `achieved` | All behaviours complete | — | — |
 | `deprecated` | No longer relevant | No longer relevant | — |
+| `deferred` | — | Not pursuing for now | Not pursuing for now |
 
 The pre-commit hook uses state transitions to enforce workflow gates: you cannot declare an implementation without the parent behaviour being in `specified` state, and you cannot mark an implementation complete without passing Definition of Done checks.
+
+**Deferred items** are consciously parked — `deferred` is not a synonym for `proposed` (not started) or `needs-rework` (broken). It means "we explored or attempted this and decided to stop for now." Deferred behaviours are excluded from `taproot plan` candidates, and deferred implementations are excluded from `check-orphans` errors (missing source files, missing test files). Both are reported in a separate Parked section by `tr-status`. Use `deprecated` (not `deferred`) on intents.
