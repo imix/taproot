@@ -53,7 +53,11 @@ Stress-test a single Taproot artifact — an `intent.md`, `usecase.md`, or `impl
 
 5. Present findings in priority order (blockers first), using concrete examples from the artifact text. For each finding, quote the specific line or section being challenged.
 
-6. Close with: "To fix these, I can run `/taproot:refine <path>` to update the spec, or `/taproot:intent <path>` to revise an intent."
+6. Present next steps:
+
+   **What's next?**
+   [A] `/tr-refine <path>` — apply the findings to the spec
+   [B] `/tr-implement <path>/` — spec is clean; proceed to implementation
 
 ## Output
 

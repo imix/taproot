@@ -66,6 +66,13 @@ Run a comprehensive review of an entire subtree — an intent and all its descen
 
 7. Close with a prioritized action list: "Recommended next steps: (1) resolve structural issues, (2) address blockers in [artifact], (3) fill coverage gaps for [criterion]."
 
+8. Present next steps:
+
+   **What's next?**
+   [A] `/tr-refine <highest-priority-path>` — fix the top-priority finding
+   [B] `/tr-plan` — surface the next implementable behaviour
+   [C] `/tr-ineed` — add a requirement surfaced by the review
+
 ## Output
 
 A consolidated review report covering the entire subtree, with structural issues, cross-cutting analysis, and per-artifact findings.

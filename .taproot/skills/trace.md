@@ -36,7 +36,17 @@ File: src/auth/password-reset.ts
                State: active
 ```
 
-6. If not found in any `impl.md`: "No traceability record found for `<file>`. This file may be unlinked. Run `/taproot:trace --unlinked` to find all unlinked files, or `/taproot:implement` to create a traceability record."
+6. If not found in any `impl.md`: "No traceability record found for `<file>`. This file may be unlinked."
+
+   **What's next?**
+   [A] `/tr-trace --unlinked` — find all unlinked files across the codebase
+   [B] `/tr-implement <path>/` — create a traceability record for this file
+
+   If the chain was found, present:
+
+   **What's next?**
+   [A] `/tr-refine <behaviour-path>/` — update the spec if it has drifted from the code
+   [B] `/tr-implement <behaviour-path>/` — add a new implementation under this behaviour
 
 ### Bottom-up (from a commit hash)
 
@@ -67,7 +77,11 @@ Intent: Password Reset Without Support Contact [active]
 Progress: 1/5 behaviours fully implemented and tested
 ```
 
-4. Suggest next actions: "3 behaviours have no implementations — want to start with `/taproot:implement taproot/password-reset/verify-identity/`?"
+4. Suggest next actions based on the tree state:
+
+   **What's next?**
+   [A] `/tr-implement taproot/<intent-slug>/<unimplemented-behaviour-slug>/` — implement the first unimplemented behaviour
+   [B] `/tr-refine taproot/<intent-slug>/<behaviour-slug>/` — update a spec that has drifted
 
 ### Lateral (siblings and cousins)
 

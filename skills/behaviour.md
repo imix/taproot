@@ -70,7 +70,11 @@ Define a UseCase (observable system behaviour) under an intent or another behavi
 
 12. If the behaviour has clear sub-components, suggest decomposition: "This behaviour has three distinct phases — would you like to break it into sub-behaviours: `<sub-slug-1>`, `<sub-slug-2>`, `<sub-slug-3>`?"
 
-13. Suggest next action: "`/taproot:review <parent>/<slug>/usecase.md` to stress-test, or `/taproot:implement <parent>/<slug>/` when ready to build."
+13. Present next steps:
+
+   **What's next?**
+   [A] `/tr-implement taproot/<parent>/<slug>/` — start building
+   [B] `/tr-review taproot/<parent>/<slug>/usecase.md` — stress-test the spec first
 
 ## Output
 

@@ -71,6 +71,12 @@ Implement a behaviour spec: write the code, write the tests, create the `impl.md
 
 12. Run `taproot coverage --path <taproot-root>` to show updated progress.
 
+13. Present next steps:
+
+   **What's next?**
+   [A] `/tr-plan` — surface the next implementable behaviour
+   [B] `/tr-status` — see full project health after this implementation
+
 ## Output
 
 - Working source code satisfying the UseCase

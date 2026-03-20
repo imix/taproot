@@ -59,6 +59,12 @@ Gap: Success criterion "Support <5 second load time" has no behaviour —
 
 11. Run `taproot coverage --path <path>` to show the new state.
 
+12. Present next steps:
+
+    **What's next?**
+    [A] `/tr-implement taproot/<intent-slug>/<first-behaviour-slug>/` — start building the first behaviour
+    [B] `/tr-review taproot/<intent-slug>/<behaviour-slug>/usecase.md` — stress-test a behaviour spec first
+
 ## Output
 
 A proposed list of behaviours with criterion traceability, then `usecase.md` files for each approved behaviour.

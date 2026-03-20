@@ -73,7 +73,12 @@ Analyse the impact of a proposed change to an existing hierarchy artefact before
    ```
 
 9. **Gate on confirmation:**
-   - **[A] Proceed**: return the impact report as context and indicate the caller may now make edits
+   - **[A] Proceed**: return the impact report as context and indicate the caller may now make edits. Then:
+
+     **What's next?**
+     [A1] `/tr-refine <path>` — apply the change to the behaviour spec
+     [A2] `/tr-intent <path>` — revise the intent if upstream is affected
+
    - **[N] Narrow**: ask "What would you like to change about the proposed delta?" then return to Step 3 with the revised description
    - **[C] Cancel**: report "No changes made." and stop
 

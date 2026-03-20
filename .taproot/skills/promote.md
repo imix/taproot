@@ -45,7 +45,11 @@ Escalate a significant finding from implementation or behaviour level up to the 
 
 10. Run `taproot validate-format --path <intent-folder>`.
 
-11. Report: "Intent updated. <N> behaviours flagged for potential re-evaluation. Consider running `/taproot:review taproot/<intent-slug>/intent.md` after the dust settles."
+11. Report: "Intent updated. <N> behaviours flagged for potential re-evaluation."
+
+    **What's next?**
+    [A] `/tr-refine taproot/<intent-slug>/<behaviour-slug>/` — refine the most-affected behaviour
+    [B] `/tr-review taproot/<intent-slug>/intent.md` — stress-test the updated intent
 
 ## Output
 

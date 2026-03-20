@@ -105,11 +105,11 @@ export function cascadeUsecaseState(absImplPath: string): string | null {
   const usecasePath = join(dirname(dirname(absImplPath)), 'usecase.md');
   if (!existsSync(usecasePath)) return null;
   const content = readFileSync(usecasePath, 'utf-8');
+  if (!/\*\*State:\*\*\s*specified/.test(content)) return null;
   const today = new Date().toISOString().slice(0, 10);
   const updated = content
     .replace(/(\*\*State:\*\*\s*)specified/, '$1implemented')
     .replace(/(\*\*Last reviewed:\*\*\s*)\d{4}-\d{2}-\d{2}/, `$1${today}`);
-  if (updated === content) return null;
   writeFileSync(usecasePath, updated, 'utf-8');
   return 'specified → implemented';
 }

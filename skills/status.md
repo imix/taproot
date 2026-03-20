@@ -61,7 +61,14 @@ Generated: <date>
    - Missing tests fourth
    - Stale specs fifth
 
-7. If no issues are found: "Everything looks healthy. <N> intents, <N> behaviours, <N> implementations — all valid, complete, and tested. Consider running `/taproot:review-all` for a deeper semantic review."
+7. If no issues are found: "Everything looks healthy. <N> intents, <N> behaviours, <N> implementations — all valid, complete, and tested."
+
+   In all cases, present next steps:
+
+   **What's next?**
+   [A] `/tr-plan` — pick the next behaviour to implement
+   [B] `/tr-ineed` — capture a new requirement
+   [C] `/tr-review-all` — deeper semantic review of specs
 
 ## Output
 

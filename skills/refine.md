@@ -41,6 +41,12 @@ Update a behaviour spec (`usecase.md`) based on what was learned during or after
 
 8. Report what changed.
 
+9. Present next steps:
+
+   **What's next?**
+   [A] Commit the spec change — `git add <path>/usecase.md && git commit`
+   [B] `/tr-implement <path>/` — spec changed significantly; reimplementation needed
+
 ## Output
 
 An updated `usecase.md` reflecting the new understanding. A list of any downstream effects (impl.md files that may need review, intent-level implications).

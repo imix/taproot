@@ -37,7 +37,12 @@ Create a new business intent or refine an existing one. An intent captures the "
 
 7. Run `taproot validate-format --path taproot/<slug>/`.
 
-8. If validation passes, suggest: "Intent created at `taproot/<slug>/intent.md`. Ready to decompose into behaviours? Run `/taproot:decompose taproot/<slug>/` or `/taproot:review taproot/<slug>/intent.md` to stress-test it first."
+8. If validation passes, present next steps:
+
+   **What's next?**
+   [A] `/tr-behaviour taproot/<slug>/` — define the first behaviour under this intent
+   [B] `/tr-decompose taproot/<slug>/` — decompose the intent into a full behaviour set
+   [C] `/tr-review taproot/<slug>/intent.md` — stress-test the spec before building
 
 ### Refining an existing intent
 
@@ -53,6 +58,11 @@ Create a new business intent or refine an existing one. An intent captures the "
 5. Run `taproot validate-format --path <parent-of-path>`.
 
 6. Report what changed.
+
+   **What's next?**
+   [A] `/tr-behaviour <path>/` — add or refine a behaviour under this intent
+   [B] `/tr-review <path>/intent.md` — stress-test the updated intent
+   [C] `/tr-status` — see overall project health
 
 ## Output
 

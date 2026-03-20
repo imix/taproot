@@ -158,13 +158,12 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 13. Update status file: set Phase to `complete`, update Last updated.
 
 14. Present a closing summary:
-    > "Discovery complete. Documented [N] intents, [N] behaviours, [N] implementations.
-    >
-    > **Suggested next steps:**
-    > - Run `/tr-grill-all` to stress-test the specs for gaps and ambiguities
-    > - Run `/tr-status` for a full health report
-    > - Add taproot commit tags to future commits: `taproot(<intent>/<behaviour>/<impl>): <message>`
-    > - If you discover behaviours that aren't implemented yet, use `/tr-behaviour` then `/tr-implement`"
+    > "Discovery complete. Documented [N] intents, [N] behaviours, [N] implementations."
+
+    **What's next?**
+    [A] `/tr-status` — see coverage gaps and health report
+    [B] `/tr-plan` — surface the next behaviour to implement
+    [C] `/tr-ineed` — capture requirements that surfaced during discovery but weren't formalised
 
 ## Output
 

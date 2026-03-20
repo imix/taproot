@@ -39,10 +39,13 @@ Based on Matt Pocock's `grill-me` skill (MIT licensed, https://github.com/mattpo
 
    ## Constraints surfaced
    - [constraint or risk that emerged]
-
-   ## Recommended next action
-   [The clearest next step given the resolved decisions]
    ```
+
+   Then present next steps:
+
+   **What's next?**
+   [A] `/tr-ineed "<clarified requirement>"` — route the sharpened requirement into the hierarchy
+   [B] `/tr-behaviour <path>/` — write the spec now that the design is clear
 
 ## Output
 

@@ -90,7 +90,13 @@ ineed → intent → behaviour → implement → trace → status
    - **If intents exist but no OVERVIEW.md**: "Your project has existing intents. Run `taproot overview` to generate a summary, or use `/tr-status` for a full health report."
    - **If no intents exist yet** (empty or missing `taproot/`): "This looks like a new project. A good starting point: describe your problem to `/tr-ineed`, or jump straight to `/tr-intent` if you already know what you want to build."
 
-4. Ask: "Would you like to start with a specific command, or do you have questions about the workflow?"
+4. Close with context-aware guidance:
+
+   Nothing obvious next — whenever you're ready:
+
+   **What's next?**
+   [A] `/tr-ineed` — capture your first (or next) requirement
+   [B] `/tr-status` — see the current project health at a glance
 
 ## Output
 

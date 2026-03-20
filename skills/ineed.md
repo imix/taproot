@@ -76,7 +76,7 @@ Route a natural language requirement to the right place in the taproot hierarchy
 
    > "There's already a behaviour `<path>` that covers `<summary>`. Is your requirement the same, a refinement, or a distinct addition?"
 
-   - **Same** → link to existing document and stop
+   - **Same** → link to existing document and present: **Next:** `/tr-refine <path>` — refine the existing behaviour if the wording needs updating
    - **Refinement** → call `/taproot:refine <path>` and stop
    - **Distinct** → continue with placement as a new sibling
 

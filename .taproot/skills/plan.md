@@ -17,8 +17,14 @@ Surface the next independently-implementable work item from the requirement hier
    - **HITL** candidates: behaviours with `proposed` state, needing human review first
    - **In-progress** implementations: partially-implemented behaviours that can be resumed
 
-3. If no candidates are found (all behaviours fully implemented), report:
-   > "Everything is implemented. Consider running `/tr-grill-all` for a semantic review, or `/tr-behaviour` to define new behaviours."
+3. If no candidates are found (all behaviours fully implemented), report: "Everything is implemented."
+
+   Nothing obvious next — whenever you're ready:
+
+   **What's next?**
+   [A] `/tr-review-all` — semantic review of the full hierarchy
+   [B] `/tr-ineed` — capture a new requirement
+
    Then stop.
 
 4. Recommend the top AFK candidate (first in the sorted output). Present it as:
@@ -35,7 +41,8 @@ Surface the next independently-implementable work item from the requirement hier
 5. If the top candidate is HITL (no AFK candidates exist), flag it:
    > "The next unimplemented behaviour is HITL — the spec needs clarification before an agent can proceed autonomously."
    > "Behaviour: `<path>`"
-   > "Suggested action: `/tr-refine taproot/<path>/` to sharpen the spec, then return here."
+
+   **Next:** `/tr-refine taproot/<path>/` — sharpen the spec, then return here
 
 6. Invoke `/tr-implement taproot/<behaviour-path>/` with the confirmed path.
 
