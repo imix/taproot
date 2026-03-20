@@ -34,7 +34,7 @@ Agentic developer / orchestrator customising taproot to match project convention
 - Validation rules reflect the project's chosen conventions
 
 ## Implementations <!-- taproot-managed -->
-- [YAML Config — .taproot.yaml](./yaml-config/impl.md)
+- [YAML Config — .taproot/settings.yaml](./yaml-config/impl.md)
 
 
 ## Status

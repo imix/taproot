@@ -6,7 +6,7 @@
 ## Design Decisions
 - Interactive checkbox prompt (via `@inquirer/checkbox`) lets developers pick agent adapters at init time — avoids a required argument for the most common case
 - `--agent all` shorthand installs all supported adapters in one shot
-- `.taproot.yaml` is generated with commented defaults rather than a minimal file — aids discoverability for first-time users
+- `.taproot/settings.yaml` is generated with commented defaults rather than a minimal file — aids discoverability for first-time users
 - Skills are installed to `taproot/skills/` at init time so agents can load them locally without internet access
 
 ## Source Files
