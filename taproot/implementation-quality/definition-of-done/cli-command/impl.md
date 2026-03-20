@@ -39,6 +39,10 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md documents taproot dod including --dry-run and --resolve; guide.md lists taproot dod | resolved: 2026-03-19T18:34:52.172Z
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: This implementation is a CLI command and TypeScript parser — not a bulk-authoring skill. The pause-and-confirm behaviour applies only to skills that write multiple documents in sequence (discover, decompose). Not applicable. | resolved: 2026-03-20T07:15:41.144Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: This implementation is a CLI command (taproot dod) and a TypeScript parser — it is not a skill file. The contextual-next-steps behaviour applies to agent skill files that produce output. Not applicable. | resolved: 2026-03-20T07:15:39.917Z
+
 - condition: check-if-affected: skills/guide.md | note: guide.md already lists taproot dod command | resolved: 2026-03-19T18:34:54.681Z
 
 - condition: check-if-affected: src/commands/update.ts | note: update.ts does not invoke dod; no change needed | resolved: 2026-03-19T18:34:53.462Z

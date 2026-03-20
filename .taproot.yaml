@@ -30,3 +30,5 @@ definitionOfDone:
   - document-current: README.md and docs/ accurately reflect all currently implemented CLI commands, skills, and configuration options
   - check-if-affected: src/commands/update.ts
   - check-if-affected: skills/guide.md
+  - check-if-affected-by: human-integration/contextual-next-steps
+  - check-if-affected-by: human-integration/pause-and-confirm

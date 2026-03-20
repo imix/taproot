@@ -47,7 +47,9 @@ The `definitionOfDone` list controls what `taproot dod` checks and what the pre-
 | `tests-passing` | Built-in: runs `npm test` (or `yarn test`). Passes if exit code is 0. |
 | `linter-clean` | Built-in: runs `npm run lint`. Passes if exit code is 0. |
 | `commit-conventions` | Built-in: runs `npm run check:commits`. Passes if exit code is 0. |
-| `document-current: <description>` | Manual / agent-verified: surfaces the description as a correction prompt. The agent checks whether the described documentation is current; a human can also verify and mark it passed. |
+| `document-current: <description>` | Agent-verified: the agent checks whether the described documentation is current and applies updates if needed. |
+| `check-if-affected: <file>` | Agent-verified: the agent reviews whether the given file needed updating as a result of this implementation and applies changes if needed. |
+| `check-if-affected-by: <behaviour-path>` | Agent-verified: the agent reads the referenced behaviour spec and determines whether it applies to this implementation — verifying compliance if it does, recording "not applicable" if it does not. Use for cross-cutting requirements that every implementation of a given type must satisfy (e.g. every new skill must satisfy `human-integration/contextual-next-steps`). |
 | `run: <command>` | Custom shell command. Exit 0 = pass, any other exit code = fail. |
 
 You can give any condition a custom name with `name: <label>`, which is used in DoD reports:
