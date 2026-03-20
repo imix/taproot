@@ -1,5 +1,6 @@
 import { spawnSync } from 'child_process';
-import { resolve } from 'path';
+import { existsSync, readFileSync, readdirSync } from 'fs';
+import { resolve, join, relative } from 'path';
 import type { Command } from 'commander';
 import { parseMarkdown } from '../core/markdown-parser.js';
 import { runDorChecks, type DorReport } from '../core/dor-runner.js';
@@ -18,10 +19,6 @@ function isHierarchyFile(f: string): boolean {
   return f.startsWith('taproot/') || f.startsWith('taproot\\');
 }
 
-function isSourceFile(f: string): boolean {
-  return !isHierarchyFile(f) && !f.startsWith('.taproot/') && !f.startsWith('.taproot\\');
-}
-
 function getStagedFiles(cwd: string): string[] {
   const result = spawnSync('git', ['diff', '--cached', '--name-only'], {
     cwd,
@@ -31,18 +28,58 @@ function getStagedFiles(cwd: string): string[] {
   return result.stdout.split('\n').filter(Boolean);
 }
 
+/** Walk all impl.md files on disk and build a map of source file path → impl.md path. */
+export function buildSourceToImplMap(cwd: string): Map<string, string> {
+  const map = new Map<string, string>();
+  const taprootDir = join(cwd, 'taproot');
+  if (!existsSync(taprootDir)) return map;
+
+  function walkDir(dir: string): void {
+    let entries;
+    try {
+      entries = readdirSync(dir, { withFileTypes: true });
+    } catch {
+      return;
+    }
+    for (const entry of entries) {
+      const fullPath = join(dir, entry.name);
+      if (entry.isDirectory()) {
+        walkDir(fullPath);
+      } else if (entry.isFile() && entry.name === 'impl.md') {
+        const relImpl = relative(cwd, fullPath).replace(/\\/g, '/');
+        let content: string;
+        try {
+          content = readFileSync(fullPath, 'utf-8');
+        } catch {
+          continue;
+        }
+        const parsed = parseMarkdown(relImpl, content);
+        const sourceSection = parsed.sections.get('source files');
+        if (sourceSection) {
+          for (const m of sourceSection.rawBody.matchAll(/`([^`]+)`/g)) {
+            map.set(m[1]!, relImpl);
+          }
+        }
+      }
+    }
+  }
+
+  walkDir(taprootDir);
+  return map;
+}
+
 type CommitTier = 'plain' | 'requirement' | 'declaration' | 'implementation';
 
-function classifyCommit(files: string[]): CommitTier[] {
+function classifyCommit(files: string[], sourceToImpl: Map<string, string>): CommitTier[] {
   const hasImplMd = files.some(isImplMd);
-  const hasSource = files.some(isSourceFile);
   const hasHierarchy = files.some(f => isHierarchyFile(f) && !isImplMd(f));
+  const hasTrackedSource = files.some(f => sourceToImpl.has(f));
 
-  if (!hasImplMd && !hasHierarchy) return ['plain'];
+  if (!hasImplMd && !hasHierarchy && !hasTrackedSource) return ['plain'];
 
   const tiers: CommitTier[] = [];
   if (hasHierarchy) tiers.push('requirement');
-  if (hasImplMd && hasSource) tiers.push('implementation');
+  if (hasTrackedSource) tiers.push('implementation');
   else if (hasImplMd) tiers.push('declaration');
   return tiers;
 }
@@ -109,7 +146,8 @@ function printDorReport(report: DorReport): void {
 export async function runCommithook(options: { cwd: string }): Promise<number> {
   const { cwd } = options;
   const staged = getStagedFiles(cwd);
-  const tiers = classifyCommit(staged);
+  const sourceToImpl = buildSourceToImplMap(cwd);
+  const tiers = classifyCommit(staged, sourceToImpl);
 
   if (tiers.includes('plain')) return 0;
 
@@ -142,9 +180,28 @@ export async function runCommithook(options: { cwd: string }): Promise<number> {
     }
   }
 
-  // Implementation tier: Status-only check + DoD
+  // Implementation tier: reverse-lookup which impl.md(s) are implicated, then Status-only + DoD
   if (tiers.includes('implementation')) {
-    for (const implFile of staged.filter(isImplMd)) {
+    // Group staged source files by the impl.md that tracks them
+    const implToSources = new Map<string, string[]>();
+    for (const f of staged) {
+      const implPath = sourceToImpl.get(f);
+      if (implPath) {
+        if (!implToSources.has(implPath)) implToSources.set(implPath, []);
+        implToSources.get(implPath)!.push(f);
+      }
+    }
+
+    for (const [implFile] of implToSources) {
+      // FAIL if the matching impl.md is not staged
+      if (!staged.includes(implFile)) {
+        process.stdout.write(
+          `taproot commithook — Implementation commit: Stage \`${implFile}\` alongside your source files. No implementation commit should proceed without its traceability record.\n`
+        );
+        failed = true;
+        continue;
+      }
+
       const statusCheck = checkStatusOnly(implFile, cwd);
       if (!statusCheck.passed) {
         process.stdout.write(`taproot commithook — Implementation commit: ${statusCheck.message}\n`);

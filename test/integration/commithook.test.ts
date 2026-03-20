@@ -3,7 +3,7 @@ import { mkdtempSync, rmSync, mkdirSync, writeFileSync, readFileSync, existsSync
 import { tmpdir } from 'os';
 import { join } from 'path';
 import { spawnSync } from 'child_process';
-import { runCommithook } from '../../src/commands/commithook.js';
+import { runCommithook, buildSourceToImplMap } from '../../src/commands/commithook.js';
 import { runInit } from '../../src/commands/init.js';
 import { runDorChecks } from '../../src/core/dor-runner.js';
 
@@ -120,6 +120,13 @@ describe('runCommithook — plain commit', () => {
     const code = await runCommithook({ cwd: tmpDir });
     expect(code).toBe(0);
   });
+
+  it('passes for source files not tracked in any impl.md', async () => {
+    // .gitignore, config files, etc. — never in any impl.md Source Files
+    stage([{ path: '.gitignore', content: 'node_modules\n' }], tmpDir);
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(0);
+  });
 });
 
 describe('runCommithook — requirement commit', () => {
@@ -230,14 +237,13 @@ describe('runCommithook — implementation commit', () => {
     git(['commit', '-m', 'declaration commit'], tmpDir);
   });
 
-  it('passes when only Status section changed in impl.md alongside source files', async () => {
+  it('passes when only Status section changed in impl.md alongside tracked source file', async () => {
+    // src/test.ts is listed in IMPL_MD's ## Source Files
     writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'my-impl', 'impl.md'), IMPL_MD_COMPLETE);
     mkdirSync(join(tmpDir, 'src'), { recursive: true });
-    writeFileSync(join(tmpDir, 'src', 'code.ts'), 'export const x = 1;');
-    git(['add', 'taproot/my-intent/my-behaviour/my-impl/impl.md', 'src/code.ts'], tmpDir);
+    writeFileSync(join(tmpDir, 'src', 'test.ts'), 'export const x = 1;');
+    git(['add', 'taproot/my-intent/my-behaviour/my-impl/impl.md', 'src/test.ts'], tmpDir);
     const code = await runCommithook({ cwd: tmpDir });
-    // DoD may fail (no conditions configured passes baseline), but status-only check passes
-    // With no definitionOfDone and DoR-baseline passing, should pass
     expect(code).toBe(0);
   });
 
@@ -245,22 +251,34 @@ describe('runCommithook — implementation commit', () => {
     const modifiedImpl = IMPL_MD_COMPLETE.replace('Some decision', 'A different decision');
     writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'my-impl', 'impl.md'), modifiedImpl);
     mkdirSync(join(tmpDir, 'src'), { recursive: true });
-    writeFileSync(join(tmpDir, 'src', 'code.ts'), 'export const x = 1;');
-    git(['add', 'taproot/my-intent/my-behaviour/my-impl/impl.md', 'src/code.ts'], tmpDir);
+    writeFileSync(join(tmpDir, 'src', 'test.ts'), 'export const x = 1;');
+    git(['add', 'taproot/my-intent/my-behaviour/my-impl/impl.md', 'src/test.ts'], tmpDir);
     const code = await runCommithook({ cwd: tmpDir });
     expect(code).toBe(1);
   });
 
-  it('fails when impl.md is new (not previously declared)', async () => {
+  it('fails when tracked source file is staged without its impl.md', async () => {
+    // src/test.ts is tracked by my-impl/impl.md — staging it without impl.md must be blocked
+    mkdirSync(join(tmpDir, 'src'), { recursive: true });
+    writeFileSync(join(tmpDir, 'src', 'test.ts'), 'export const x = 1;');
+    git(['add', 'src/test.ts'], tmpDir);
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(1);
+  });
+
+  it('fails when impl.md is new (not previously declared) and staged with its tracked source', async () => {
+    // Write a new impl.md that tracks src/new-feature.ts
+    const newImplContent = IMPL_MD.replace('`src/test.ts`', '`src/new-feature.ts`');
     mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'new-impl'), { recursive: true });
     mkdirSync(join(tmpDir, 'src'), { recursive: true });
-    writeFileSync(join(tmpDir, 'src', 'code.ts'), 'export const x = 1;');
-    stage([{
-      path: 'taproot/my-intent/my-behaviour/new-impl/impl.md',
-      content: IMPL_MD,
-    }], tmpDir);
-    git(['add', 'src/code.ts'], tmpDir);
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'new-impl', 'impl.md'), newImplContent);
+    writeFileSync(join(tmpDir, 'src', 'new-feature.ts'), 'export const x = 1;');
+    git(['add',
+      'taproot/my-intent/my-behaviour/new-impl/impl.md',
+      'src/new-feature.ts',
+    ], tmpDir);
     const code = await runCommithook({ cwd: tmpDir });
+    // checkStatusOnly: no HEAD version → FAIL "commit impl.md alone first"
     expect(code).toBe(1);
   });
 });
@@ -308,6 +326,34 @@ describe('runDorChecks', () => {
     writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'my-impl', 'impl.md'), IMPL_MD);
     const report = runDorChecks('taproot/my-intent/my-behaviour/my-impl/impl.md', tmpDir);
     expect(report.results.find(r => r.name === 'related-behaviours')!.passed).toBe(false);
+  });
+});
+
+describe('buildSourceToImplMap', () => {
+  it('returns empty map when no impl.md files exist', () => {
+    const map = buildSourceToImplMap(tmpDir);
+    expect(map.size).toBe(0);
+  });
+
+  it('maps source files to their impl.md path', () => {
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'my-impl'), { recursive: true });
+    writeFileSync(
+      join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'my-impl', 'impl.md'),
+      IMPL_MD
+    );
+    const map = buildSourceToImplMap(tmpDir);
+    expect(map.get('src/test.ts')).toBe('taproot/my-intent/my-behaviour/my-impl/impl.md');
+  });
+
+  it('ignores impl.md files with no Source Files section', () => {
+    const noSources = IMPL_MD.replace(/## Source Files[\s\S]*?## Commits/, '## Commits');
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'my-impl'), { recursive: true });
+    writeFileSync(
+      join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'my-impl', 'impl.md'),
+      noSources
+    );
+    const map = buildSourceToImplMap(tmpDir);
+    expect(map.size).toBe(0);
   });
 });
 

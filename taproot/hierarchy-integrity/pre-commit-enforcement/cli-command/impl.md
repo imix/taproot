@@ -32,3 +32,14 @@
 - **State:** complete
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-19
+
+## DoD Resolutions
+- condition: document-current | note: docs/cli.md commithook section updated: added reverse-lookup explanation and new table row for missing impl.md case | resolved: 2026-03-20T07:33:53.988Z
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — commithook is a CLI command, not a skill that authors documents; pause-and-confirm does not apply | resolved: 2026-03-20T07:34:01.416Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — commithook is a CLI command invoked by git, not a skill; produces no agent guidance output | resolved: 2026-03-20T07:34:01.189Z
+
+- condition: check-if-affected: skills/guide.md | note: not applicable — guide.md references commithook at command-reference level only; classification internals not documented there | resolved: 2026-03-20T07:34:00.961Z
+
+- condition: check-if-affected: src/commands/update.ts | note: not applicable — update.ts migrates old hook format to taproot commithook; hook migration logic unchanged by reverse-lookup change | resolved: 2026-03-20T07:34:00.728Z
+

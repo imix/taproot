@@ -184,14 +184,15 @@ taproot commithook
 
 Classifies the staged files and runs the appropriate quality gate. Installed by `taproot init --with-hooks` as the content of `.git/hooks/pre-commit` — you do not call this directly.
 
-The hook uses a three-tier classification:
+The hook uses a three-tier classification, where the implementation tier is detected by **reverse-lookup**: the hook walks all `impl.md` files in `taproot/` and builds a map of every source file path listed in their `## Source Files` sections. Any staged file that appears in this map triggers the implementation tier. Files not tracked by any `impl.md` (e.g. `.gitignore`, CI configs) always pass as plain commits.
 
 | Staged files | Gate applied |
 |---|---|
 | Only hierarchy files (`intent.md`, `usecase.md`) | `validate-structure` + `validate-format` — hierarchy must be valid before the commit lands |
-| Only `impl.md` (no source files) | Definition of Ready — the parent `usecase.md` must be in `specified` state and have `## Flow` and `## Related` sections |
-| Source files + `impl.md` | Verify only `## Status` (and `## DoD Resolutions`) changed in `impl.md`; then run DoD |
-| No hierarchy or impl files | No checks; commit proceeds |
+| Only `impl.md` (no source files in map) | Definition of Ready — the parent `usecase.md` must be in `specified` state and have `## Flow` and `## Related` sections |
+| Source files found in map + `impl.md` staged | Verify only `## Status` (and `## DoD Resolutions`) changed in `impl.md`; then run DoD |
+| Source files found in map but `impl.md` NOT staged | **Blocked** — "Stage `impl.md` alongside your source files. No implementation commit should proceed without its traceability record." |
+| No tracked source files, no hierarchy or impl files | No checks; commit proceeds |
 
 The DoR gate prevents committing an implementation record before the behaviour is fully specified. The DoD gate prevents marking an implementation complete without passing the quality checks defined in `.taproot.yaml`.
 
