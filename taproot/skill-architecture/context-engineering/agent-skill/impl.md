@@ -11,22 +11,7 @@
 - Both `skills/` (package source) and `.taproot/skills/` (installed copy) are updated in sync per CLAUDE.md policy.
 
 ## Source Files
-- `skills/ineed.md` — C-1 description trim; C-4 defer OVERVIEW read to step 2; C-5 add /compact signal
-- `skills/grill-me.md` — C-1 description trim; C-4 defer spec read to step 2; C-5 add /compact signal
-- `skills/research.md` — C-1 description trim; C-5 add /compact signal
-- `skills/trace.md` — C-5 add /compact signal
-- `skills/discover.md` — C-5 add /compact signal
-- `skills/decompose.md` — C-5 add /compact signal
-- `skills/intent.md` — C-5 add /compact signal
-- `skills/implement.md` — C-5 add /compact signal
-- `skills/behaviour.md` — C-5 add /compact signal
-- `skills/promote.md` — C-5 add /compact signal
-- `skills/guide.md` — C-5 add /compact signal
-- `skills/refine.md` — C-5 add /compact signal
-- `skills/analyse-change.md` — C-5 add /compact signal
-- `skills/review.md` — C-5 add /compact signal
-- `skills/review-all.md` — C-5 add /compact signal
-- `skills/plan.md` — C-5 add /compact signal
+- (none — this implementation is a one-time compliance sweep enforced via DoD check at each skill's own implementation commit, not through permanent file ownership; individual skill files are owned by their respective impl.md records)
 
 ## Commits
 - placeholder
