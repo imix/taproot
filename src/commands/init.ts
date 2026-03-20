@@ -30,6 +30,7 @@ export const SKILL_FILES = [
   'guide.md',
   'discover.md',
   'ineed.md',
+  'research.md',
 ];
 
 export function registerInit(program: Command): void {

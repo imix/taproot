@@ -129,6 +129,7 @@ _No behaviours yet._
 **Goal:** Enable developers and agents to research any domain or technical subject before writing a behaviour spec — by scanning local resources, searching the web, and drawing on expert knowledge — so that requirements are grounded in what already exists and what domain practice recommends, rather than invented from scratch.
 
 - **[research-subject](./research/research-subject/usecase.md)** `[specified]` — Actor: Developer or AI agent — either invoking `/tr-research ` explicitly, or triggered automatically from within `/tr-ineed` when a knowledge-intensive topic is detected.
+  - [agent-skill](./research/research-subject/agent-skill/impl.md) `[in-progress]` (0 commits, 1 test)
 
 ## [taproot-lifecycle](./taproot-lifecycle/intent.md) `[active]`
 
@@ -138,4 +139,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-14 intents · 30 behaviours · 31 implementations · 31/31 complete
+14 intents · 30 behaviours · 32 implementations · 31/32 complete

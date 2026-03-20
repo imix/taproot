@@ -24,6 +24,17 @@
 - `test/unit/skills.test.ts` — covers all `SKILL_FILES` entries automatically: readable/non-empty, `# Skill:` heading, required sections present, Steps section has numbered list items
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-20
 - **Last verified:** 2026-03-20
+
+## DoD Resolutions
+- condition: document-current | note: docs/agents.md and skills/guide.md updated with /tr-research entry; no other docs reference the full skill list | resolved: 2026-03-20T08:11:13.230Z
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — /tr-research writes at most one document (research/<slug>.md); pause-and-confirm applies to bulk-authoring skills that write multiple docs in sequence | resolved: 2026-03-20T08:11:14.155Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: applies and compliant — /tr-research step 8 [S] path presents a What's next? menu with /tr-behaviour and /tr-ineed options | resolved: 2026-03-20T08:11:13.925Z
+
+- condition: check-if-affected: skills/guide.md | note: updated — added /tr-research row to the slash commands table | resolved: 2026-03-20T08:11:13.695Z
+
+- condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts reads SKILL_FILES from init.ts dynamically; adding research.md to SKILL_FILES is sufficient | resolved: 2026-03-20T08:11:13.463Z
+

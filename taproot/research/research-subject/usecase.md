@@ -158,6 +158,6 @@ flowchart TD
 - [Agent Skill — /tr-research](./agent-skill/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-20
 - **Last reviewed:** 2026-03-20
