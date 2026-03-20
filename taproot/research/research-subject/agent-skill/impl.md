@@ -19,6 +19,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `e9f601c82d0147fd6620495dec9bb2e03f007170` — (auto-linked by taproot link-commits)
+- `cbbf695679761a15bfd2162f34d1629fc8f5e0c5` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/skills.test.ts` — covers all `SKILL_FILES` entries automatically: readable/non-empty, `# Skill:` heading, required sections present, Steps section has numbered list items

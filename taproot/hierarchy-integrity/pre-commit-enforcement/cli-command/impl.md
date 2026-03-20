@@ -24,6 +24,7 @@
 - (to be filled by taproot link-commits)
 - `0a615b4f54387c9863b13c657dc474b97acdd644` — (auto-linked by taproot link-commits)
 - `668555b15c48975f5d576c57f88bea40f0609756` — (auto-linked by taproot link-commits)
+- `00e7123aef6b6caab016a0d1237f33b4b8b428be` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/commithook.test.ts` — covers: plain commit (tracked/untracked source files), requirement commit valid/invalid, declaration commit specified/not-specified/missing-Flow/missing-Related, implementation commit status-only/beyond-status/missing-impl.md/new-impl, reverse-lookup map unit tests, DoR unit checks, hook installation content

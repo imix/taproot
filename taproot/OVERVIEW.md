@@ -49,7 +49,7 @@ _No behaviours yet._
 - **[cascade-impl-status](./hierarchy-integrity/cascade-impl-status/usecase.md)** `[implemented]` — Actor: `taproot dod` CLI (when marking an `impl.md` complete) and the `tr-implement` skill (step 5a, when adding the implementation link to `usecase.md`)
   - [multi-surface](./hierarchy-integrity/cascade-impl-status/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 - **[pre-commit-enforcement](./hierarchy-integrity/pre-commit-enforcement/usecase.md)** `[implemented]` — Actor: Git — triggered automatically when any contributor (human or agent) runs `git commit`
-  - [cli-command](./hierarchy-integrity/pre-commit-enforcement/cli-command/impl.md) `[complete]` (2 commits, 1 test)
+  - [cli-command](./hierarchy-integrity/pre-commit-enforcement/cli-command/impl.md) `[complete]` (3 commits, 1 test)
   - [git-hook](./hierarchy-integrity/pre-commit-enforcement/git-hook/impl.md) `[complete]` (0 commits, 1 test)
 - **[validate-format](./hierarchy-integrity/validate-format/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying document contents conform to the schema
   - [cli-command](./hierarchy-integrity/validate-format/cli-command/impl.md) `[complete]` (0 commits, 3 tests)
@@ -86,7 +86,7 @@ _No behaviours yet._
 **Goal:** Allow teams to declare the conditions that must hold for any implementation to be considered complete — linting, tests, documentation currency, git conventions, or any custom check — and have taproot enforce them consistently across every implementation, whether authored by a human or an AI agent.
 
 - **[definition-of-done](./implementation-quality/definition-of-done/usecase.md)** `[implemented]` — Actor: `/tr-implement` — triggered automatically at the end of the implement flow before marking an impl `complete`. Also invoked by `taproot commithook` on implementation commits (staged source files + `impl.md`). Can also be invoked standalone by a developer or CI pipeline.
-  - [cli-command](./implementation-quality/definition-of-done/cli-command/impl.md) `[complete]` (2 commits, 1 test)
+  - [cli-command](./implementation-quality/definition-of-done/cli-command/impl.md) `[complete]` (3 commits, 1 test)
 - **[definition-of-ready](./implementation-quality/definition-of-ready/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a contributor commits an `impl.md` file without source code changes (the "I'm starting this implementation" declaration commit).
   - [cli-command](./implementation-quality/definition-of-ready/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
@@ -128,8 +128,8 @@ _No behaviours yet._
 
 **Goal:** Enable developers and agents to research any domain or technical subject before writing a behaviour spec — by scanning local resources, searching the web, and drawing on expert knowledge — so that requirements are grounded in what already exists and what domain practice recommends, rather than invented from scratch.
 
-- **[research-subject](./research/research-subject/usecase.md)** `[specified]` — Actor: Developer or AI agent — either invoking `/tr-research ` explicitly, or triggered automatically from within `/tr-ineed` when a knowledge-intensive topic is detected.
-  - [agent-skill](./research/research-subject/agent-skill/impl.md) `[in-progress]` (0 commits, 1 test)
+- **[research-subject](./research/research-subject/usecase.md)** `[implemented]` — Actor: Developer or AI agent — either invoking `/tr-research ` explicitly, or triggered automatically from within `/tr-ineed` when a knowledge-intensive topic is detected.
+  - [agent-skill](./research/research-subject/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 
 ## [taproot-lifecycle](./taproot-lifecycle/intent.md) `[active]`
 
@@ -139,4 +139,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-14 intents · 30 behaviours · 32 implementations · 31/32 complete
+14 intents · 30 behaviours · 32 implementations · 32/32 complete
