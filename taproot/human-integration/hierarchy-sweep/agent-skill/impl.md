@@ -20,6 +20,9 @@
 - `289b48b5cfd2db12c28e00294acae59d8f5c7737` — (auto-linked by taproot link-commits)
 - `9231e6513cbfc8cd4c61839dbaab9cde9c73b4f8` — (auto-linked by taproot link-commits)
 - `ee1cccba468bfef1086afb56cd47d5fe721cefcc` — (auto-linked by taproot link-commits)
+- `4d115a13084f77a46ef22e1bec3ef1b7c5db3840` — (auto-linked by taproot link-commits)
+- `5759ada7eb364678c368f716041cc835812f21f8` — (auto-linked by taproot link-commits)
+- `5d513054bd0f6f365b001f74b07bb48282550759` — (auto-linked by taproot link-commits)
 
 ## Tests
 - Skill content satisfies AC-1 (step 4: reads each file and applies task in-session, marks [x] on completion)
