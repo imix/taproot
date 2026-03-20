@@ -10,7 +10,7 @@ Generate a health dashboard for the requirement hierarchy. Combines `taproot cov
 
 ## Steps
 
-1. Run `taproot coverage --path <path> --format json` and parse the output.
+1. Run `taproot coverage --path <path> --format json` and parse the output. Key fields: `totals.behaviours`, `totals.implementations`, `totals.completeImpls`, `totals.testedImpls`, `totals.deferredBehaviours`, `totals.deferredImpls`. Use `deferredBehaviours` and `deferredImpls` to populate the **Parked** section; omit the section entirely if both are zero.
 
 2. Run `taproot check-orphans --path <path> --include-unimplemented` and collect violations.
 

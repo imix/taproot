@@ -68,3 +68,23 @@ describe('canonical skill files', () => {
     });
   }
 });
+
+// ─── AC-1/AC-2: status.md Parked section ──────────────────────────────────────
+
+describe('status.md — Parked section (AC-1, AC-2)', () => {
+  const statusPath = resolve(SKILLS_DIR, 'status.md');
+  const content = readFileSync(statusPath, 'utf-8');
+
+  it('AC-1: references deferredBehaviours and deferredImpls JSON fields', () => {
+    expect(content).toContain('deferredBehaviours');
+    expect(content).toContain('deferredImpls');
+  });
+
+  it('AC-1: report template contains a ## Parked section', () => {
+    expect(content).toContain('## Parked');
+  });
+
+  it('AC-2: Parked section includes instruction to omit when zero deferred items', () => {
+    expect(content).toMatch(/omit.*if 0|if.*zero|if both are zero/i);
+  });
+});
