@@ -5,10 +5,10 @@ Agentic developer / orchestrator customising taproot to match project convention
 
 ## Preconditions
 - Taproot has been initialised (`taproot init` has been run)
-- `.taproot.yaml` exists in the project root
+- `.taproot/settings.yaml` exists in the project root
 
 ## Main Flow
-1. Actor opens `.taproot.yaml` in a text editor or agent session
+1. Actor opens `.taproot/settings.yaml` in a text editor or agent session
 2. Actor modifies one or more configuration keys:
    - `root` — path to the taproot directory (default: `taproot/`)
    - `commit_pattern` / `commit_trailer` — how commits are linked to implementations
@@ -19,7 +19,7 @@ Agentic developer / orchestrator customising taproot to match project convention
 4. All subsequent CLI commands pick up the updated configuration automatically (no reload step)
 
 ## Alternate Flows
-- **No `.taproot.yaml` present**: CLI falls back to built-in defaults and searches parent directories
+- **No `.taproot/settings.yaml` present**: CLI falls back to built-in defaults
 - **Partial config**: unspecified keys are deep-merged with defaults — only overridden keys need to be present
 
 ## Error Conditions
@@ -40,3 +40,4 @@ Agentic developer / orchestrator customising taproot to match project convention
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
+- **Last reviewed:** 2026-03-20
