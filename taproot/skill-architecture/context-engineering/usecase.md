@@ -124,6 +124,9 @@ flowchart TD
 - When DoD evaluates this spec
 - Then the new step is flagged as violating C-4
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill Compliance Pass](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-20
