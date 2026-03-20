@@ -55,6 +55,14 @@ Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the 
   1. Skill proposes a low-friction fallback: `taproot overview` to orient, or `/tr-ineed` to capture anything new
   2. Guidance is framed as optional: "Nothing obvious next — whenever you're ready: ..."
 
+### Findings-informed guidance
+- **Trigger:** The skill's output includes specific identified actionable items — e.g. `/tr-status` finds an unimplemented behaviour; `/tr-review-all` flags a broken spec at a known path
+- **Steps:**
+  1. Skill selects the top 1–2 highest-priority items from its findings
+  2. Those items appear as the first lettered options with the exact command and path pre-filled
+  3. A generic fallback option (e.g. `/tr-plan` or `/tr-ineed`) is the final option
+  4. Generic workflow-only options are suppressed when specific findings are more actionable
+
 ### `/tr-ineed` terminates without delegating (near-duplicate detected)
 - **Trigger:** `/tr-ineed` finds an existing behaviour that matches the stated requirement and stops rather than routing to a new skill
 - **Steps:**
@@ -64,6 +72,7 @@ Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the 
 - The final block of the skill output contains either a `**Next:**` line (deterministic) or a `**What's next?**` section (open-ended or fallback)
 - The guidance names a real command with a real path — no generic placeholders
 - The developer can act on the suggestion without any additional orientation turn
+- When the skill identified specific actionable findings, those appear as direct lettered options — not buried in the report with only generic options below
 
 ## Error Conditions
 - **Context is genuinely ambiguous and no reasonable options exist:** Skill omits the guidance block entirely — silence is better than a placeholder like "consider what to do next"
@@ -79,6 +88,7 @@ flowchart TD
     F -- yes, one clear continuation --> G[Show single Next: line with command + path]
     F -- open-ended, multiple valid options --> H[Show lettered menu: 2–3 options with rationale]
     F -- nothing obvious, terminal context --> I[Show low-friction fallback: overview or tr-ineed]
+    F -- findings: specific items identified --> J[Surface top 1-2 findings as lettered options; generic fallback last]
 ```
 
 ## Related
@@ -118,6 +128,11 @@ flowchart TD
 - When the skill finishes
 - Then the output contains a soft fallback command preceded by "Nothing obvious next" or equivalent, making clear it is optional
 
+**AC-7: Findings-informed menu surfaces specific items as direct options**
+- Given `/tr-status` identifies an unimplemented behaviour at `taproot/acceptance-criteria/verify-coverage/`
+- When the skill finishes its output
+- Then the "What's next?" menu contains `/tr-implement taproot/acceptance-criteria/verify-coverage/` as a lettered option — not just generic options like `/tr-plan`
+
 **AC-6: /tr-ineed near-duplicate termination shows refinement option**
 - Given `/tr-ineed` detects an existing behaviour that matches the requirement and stops
 - When the match is confirmed
@@ -140,7 +155,7 @@ flowchart TD
   - `/tr-refine` → open-ended: commit the change **or** `/tr-implement <path>/` (if spec changes require reimplementing)
   - `/tr-review` → open-ended: `/tr-refine <path>` (if issues found) **or** `/tr-implement <path>/` (if spec is clean)
   - `/tr-plan` → deterministic: `/tr-implement <returned-slice-path>/`
-  - `/tr-status` → open-ended: `/tr-plan` (pick next item) **or** `/tr-ineed` (capture a gap)
+  - `/tr-status` → findings-informed when specific items found (surface top 1–2 as direct options + one generic fallback); otherwise open-ended: `/tr-plan` (pick next item) **or** `/tr-ineed` (capture a gap)
   - `/tr-discover` → open-ended: `/tr-status` (see coverage), `/tr-plan` (get next slice), or `/tr-ineed` (add missing requirements)
   - `/tr-analyse-change` → open-ended: `/tr-refine <path>` (apply safe changes) **or** `/tr-intent <path>` (if upstream affected)
   - `/tr-promote` → open-ended: `/tr-refine` on each impacted sibling behaviour
