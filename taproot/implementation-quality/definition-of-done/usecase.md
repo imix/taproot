@@ -20,6 +20,7 @@
    - `document-current`: agent reads recent git commits and diffs, identifies stale sections in `README.md` and `docs/`, and applies updates directly — condition passes once updates are made
    - `check-if-affected`: agent reads the git diff, reasons whether the target file should have been updated, applies changes if needed — condition passes once resolved; agent writes resolution to `impl.md` via `taproot dod --resolve`
    - `check-if-affected-by`: agent reads the referenced behaviour spec at `<behaviour-path>`, reasons whether that cross-cutting behaviour applies to the current implementation, verifies compliance and applies changes if needed — condition passes once resolved; agent writes resolution to `impl.md` via `taproot dod --resolve`
+   - `check:`: agent reads the free-form question text, reasons whether the answer is yes, no, or not applicable for this implementation, and takes any indicated action (e.g. adds an entry to `.taproot.yaml`, updates `docs/patterns.md`) — agent calls `taproot dod --resolve "check: <text>" "<resolution note>"` recording what was done or why it does not apply
 5. If all conditions pass: system marks `impl.md` `state: complete` and reports success
 6. If any conditions fail: system reports all failures together with corrections and does NOT mark impl complete
 
@@ -40,6 +41,14 @@
   4. If applicable and already satisfied: agent records "satisfied — `<how>`" and resolves
   5. If applicable but not satisfied: agent applies the necessary changes, then resolves
   6. Agent calls `taproot dod --resolve "check-if-affected-by: <path>" "<resolution note>"`
+
+### Generic agent check (`check:` condition)
+- **Trigger:** A condition declared as `check: <free-form text>` — an open-ended question the agent reasons about at DoD time
+- **Steps:**
+  1. Agent reads the question text
+  2. Agent reasons whether the answer is yes, no, or not applicable for this specific implementation
+  3. If yes — agent takes the indicated action (e.g. adds a `check-if-affected-by` entry to `.taproot.yaml`, documents a new pattern in `docs/patterns.md`)
+  4. Agent calls `taproot dod --resolve "check: <text>" "<what was done or why it does not apply>"`
 
 ### Agent check resolution
 - **Trigger:** Agent resolves an agent-driven condition (`document-current`, `check-if-affected`, `check-if-affected-by`) and calls `taproot dod --resolve <condition> "<resolution note>"`
@@ -96,10 +105,28 @@ flowchart TD
 - [CLI Command — taproot dod](./cli-command/impl.md)
 
 
+## Acceptance Criteria
+
+**AC-1: Generic check condition — action taken**
+- Given `.taproot.yaml` contains `check: "does this story introduce a cross-cutting concern..."`
+- When the agent runs DoD on an implementation that does introduce such a concern
+- Then the agent adds the appropriate `check-if-affected-by` or `check-if-affected` entry to `.taproot.yaml` and records the resolution via `taproot dod --resolve`
+
+**AC-2: Generic check condition — not applicable**
+- Given `.taproot.yaml` contains a `check:` condition
+- When the agent runs DoD on an implementation where the answer is no
+- Then the agent records "no — <reason>" via `taproot dod --resolve` and the condition passes without any file changes
+
+**AC-3: Generic check condition — appears in dod output**
+- Given `.taproot.yaml` contains a `check:` condition with no prior resolution in `impl.md`
+- When `taproot dod` is run
+- Then the condition appears in the output as an agent check required, with the full question text displayed
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-20
+- **Last reviewed:** 2026-03-20
 
 ## Notes
 - Conditions in `.taproot.yaml` use a mixed syntax: built-in names are bare strings; custom conditions use `run:` with optional `name:` and `correction:` keys; parameterizable built-ins use a `key: value` form:
@@ -111,11 +138,14 @@ flowchart TD
     - check-if-affected: src/commands/update.ts
     - check-if-affected: skills/guide.md
     - check-if-affected-by: human-integration/contextual-next-steps
+    - check: "does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml?"
+    - check: "does this story reveal a reusable pattern worth documenting in docs/patterns.md?"
     - run: npm run custom-check
       name: my-check
       correction: "Run the fix script"
   ```
 - Built-in names (`tests-passing`, `linter-clean`, `commit-conventions`) resolve to known commands and standard corrections without requiring shell configuration.
-- `document-current`, `check-if-affected`, and `check-if-affected-by` are agent-driven conditions — they always fail in a plain shell context and require agent reasoning to resolve. Agents call `taproot dod --resolve <condition> "<note>"` to record their resolution in `impl.md`.
+- `document-current`, `check-if-affected`, `check-if-affected-by`, and `check:` are agent-driven conditions — they always fail in a plain shell context and require agent reasoning to resolve. Agents call `taproot dod --resolve <condition> "<note>"` to record their resolution in `impl.md`.
+- `check:` is the most open-ended agent condition: write any question whose answer might change what gets committed or configured. The two taproot default entries (cross-cutting concern, new pattern) are a starting point — replace or extend them for your project.
 - `check-if-affected-by` is the inverse of `check-if-affected`: where `check-if-affected` asks "did my change require updating X?", `check-if-affected-by` asks "does cross-cutting behaviour X apply to what I just built, and if so, is it satisfied?". Use it for requirements that apply to every implementation of a given type — e.g. every new skill must satisfy `human-integration/contextual-next-steps` and `human-integration/pause-and-confirm`.
 - DoD can never be a no-op: the baseline always runs, even with no configured conditions. An impl cannot be marked `complete` without the baseline passing.
