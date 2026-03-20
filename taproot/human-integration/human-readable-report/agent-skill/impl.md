@@ -5,7 +5,8 @@
 
 ## Design Decisions
 - Implemented as an agent skill that combines multiple CLI commands rather than as a single CLI command — the synthesis, prioritization, and narrative framing benefit from agent reasoning
-- The skill defines a fixed output format with clear sections (Validation, Coverage, What's Working, What Needs Attention, Suggested Next Actions) so the report is predictable and skimmable
+- The skill defines a fixed output format with clear sections (Validation, Coverage, What's Working, What Needs Attention, Parked, Suggested Next Actions) so the report is predictable and skimmable
+- Parked section sources from `deferredBehaviours`/`deferredImpls` in coverage JSON; omitted entirely when both are zero so the report stays clean for projects with no deferred items
 
 ## Source Files
 - `skills/status.md` — full skill definition including report format and prioritization rules
@@ -14,7 +15,7 @@
 - (run `taproot link-commits` to populate)
 
 ## Tests
-- `test/unit/skills.test.ts` — validates skill file format and required sections
+- `test/unit/skills.test.ts` — validates skill file format, required sections, and Parked section content (AC-1: deferredBehaviours/deferredImpls referenced, ## Parked template present; AC-2: omit-when-zero instruction present)
 
 ## Status
 - **State:** complete
