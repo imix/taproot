@@ -41,6 +41,8 @@
 
 ## DoD Resolutions
 - condition: document-current | note: No new CLI commands, skills, or configuration options added. Changes are internal to skill step content (description trims, step reordering, /compact signal additions). README.md and docs/ remain accurate. | resolved: 2026-03-20T09:51:26.112Z
+- condition: check-if-affected-by: human-integration/pattern-hints | note: Updated in pattern-hints implementation pass. All 16 skills had pattern check steps added (ineed, behaviour, implement, refine directly; others indirectly via the same impl pass). Compliant with pattern-hints spec: interruptive step 0/1a, [A]/[B] choice, docs/patterns.md read on demand. | resolved: 2026-03-20T10:33:33.804Z
+
 - condition: check-if-affected-by: skill-architecture/context-engineering | note: This impl.md is not a skill file — context-engineering constraints (C-1 through C-6) govern skills/*.md files only. C-1/C-2/C-3/C-4/C-5/C-6 are all not applicable to an implementation record. The skill files modified by this implementation have been evaluated and corrected against all six constraints. | resolved: 2026-03-20T09:51:56.094Z
 
 - condition: check-if-affected-by: human-integration/pause-and-confirm | note: Not applicable. pause-and-confirm governs skills that write documents during a user-facing interactive workflow. This is a developer/agent implementation session modifying skill source files — not a user-facing skill output. The files written are the implementation deliverables, not documents produced for a user during a skill session. | resolved: 2026-03-20T09:51:46.413Z

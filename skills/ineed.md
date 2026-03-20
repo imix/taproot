@@ -10,6 +10,23 @@ Route a natural language requirement to the right place in the taproot hierarchy
 
 ## Steps
 
+0. **Pattern check** — If `docs/patterns.md` exists, scan the stated requirement for semantic matches against the patterns listed there. Match signals:
+   - "apply to all / every implementation / every skill / everywhere" → `check-if-affected-by`
+   - "guide agents / architecture rules / agents should follow / enforce a rule" → `check-if-affected-by`
+   - "enforce documentation / docs must stay current / keep docs accurate" → `document-current`
+   - "every new feature must update X / keep X in sync / always update X" → `check-if-affected: X`
+   - "research before building / check if a library exists / look up how to implement" → research-first (`/tr-research`)
+
+   If a match is found, **interrupt before proceeding**:
+   > "Before I route this — that sounds like the **`<pattern-name>`** pattern. <one-line description>. See `docs/patterns.md` for how to use it."
+   > **[A] Use this pattern now** — I'll guide you through applying it
+   > **[B] Continue as a new requirement** — route and spec it normally
+
+   - **[A]**: read the relevant section of `docs/patterns.md` and guide the user through applying the pattern directly. Do not create a new hierarchy entry.
+   - **[B]** or no match: proceed to step 1.
+
+   If multiple patterns match, list all before asking. If `docs/patterns.md` is absent, skip silently.
+
 1. **Classify the requirement** — Load `taproot/OVERVIEW.md` if it exists; if not, walk `taproot/` and read each `intent.md`. Use this hierarchy map to decide which path to take:
 
    - **Quick path** (proceed to Step 4): Clear actor, clear goal, unambiguous outcome. The requirement can be matched against the hierarchy without exploration.

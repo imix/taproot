@@ -40,6 +40,8 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md documents taproot update cross-link refresh and validate-format link section checks; skills/guide.md lists taproot update and updated validate-format description | resolved: 2026-03-19T19:56:18.230Z
+- condition: check-if-affected-by: human-integration/pattern-hints | note: Updated in pattern-hints implementation pass. behaviour.md received pattern check step 1a; implement.md received pattern check in step 4. Both comply with the spec: pattern check fires before the skill's main work, [A]/[B] choice offered, docs/patterns.md read on demand. | resolved: 2026-03-20T10:31:23.550Z
+
 - condition: check-if-affected-by: skill-architecture/context-engineering | note: C-5 /compact signal added to guide.md in the context-engineering compliance pass. C-1: guide.md description is within 50 tokens. C-2/C-3: no embedded docs or cross-skill repetition. C-4: no bulk pre-load. All constraints compliant. | resolved: 2026-03-20T09:56:14.063Z
 
 - condition: check-if-affected-by: human-integration/pause-and-confirm | note: Not applicable. This impl covers guide.md and docs updates — no multi-document sequential writing in a user-facing skill session. | resolved: 2026-03-20T09:56:12.387Z

@@ -28,6 +28,8 @@
 
 ## DoD Resolutions
 - condition: document-current | note: Not affected. ineed.md changes are internal (C-1 trim, C-4 step merge, C-5 /compact signal, C-6 What's next? block added). No new CLI commands or configuration options. | resolved: 2026-03-20T10:03:04.603Z
+- condition: check-if-affected-by: human-integration/pattern-hints | note: Updated in pattern-hints implementation pass. ineed.md received pattern check step 0, which fires before classification. Complies with spec: interruptive before proceeding, [A]/[B] choice, docs/patterns.md read on demand. | resolved: 2026-03-20T10:31:24.882Z
+
 - condition: check-if-affected-by: skill-architecture/context-engineering | note: Updated in compliance pass. C-1: trimmed to ~20 tokens. C-4: OVERVIEW.md read folded into step 1 (classify) where it is first used — no longer a standalone bulk-load step. C-5: /compact signal added. C-6: What's next? block added. All compliant. | resolved: 2026-03-20T10:03:10.838Z
 
 - condition: check-if-affected-by: human-integration/pause-and-confirm | note: Not applicable. ineed.md delegates writing to other skills (/tr-intent, /tr-behaviour). It writes no documents directly. | resolved: 2026-03-20T10:03:09.553Z
