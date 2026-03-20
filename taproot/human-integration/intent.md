@@ -23,6 +23,7 @@ Keep the human orchestrator in meaningful control of the requirement hierarchy â
 - [Contextual Next-Step Guidance](./contextual-next-steps/usecase.md)
 - [Grill Me](./grill-me/usecase.md)
 - [Generate Human-Readable Status Report](./human-readable-report/usecase.md)
+- [Pause and Confirm Before Writing Each Document](./pause-and-confirm/usecase.md)
 - [Route a Natural Language Requirement](./route-requirement/usecase.md)
 
 

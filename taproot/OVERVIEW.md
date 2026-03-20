@@ -67,6 +67,7 @@ _No behaviours yet._
   - [agent-skill](./human-integration/grill-me/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[human-readable-report](./human-integration/human-readable-report/usecase.md)** `[implemented]` — Actor: Developer or project stakeholder invoking `/tr-status`
   - [agent-skill](./human-integration/human-readable-report/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
+- **[pause-and-confirm](./human-integration/pause-and-confirm/usecase.md)** `[specified]` — Actor: Developer using any taproot skill that writes more than one document in sequence (primarily `/tr-discover`, `/tr-decompose`, and any future bulk-authoring skill)
 - **[route-requirement](./human-integration/route-requirement/usecase.md)** `[implemented]` — Actor: Human orchestrator / developer stating a requirement in natural language — at any level of clarity, from vague instinct to fully-formed specification
   - [agent-skill](./human-integration/route-requirement/agent-skill/impl.md) `[complete]` (1 commit, 1 test)
 
@@ -129,4 +130,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-13 intents · 28 behaviours · 29 implementations · 29/29 complete
+13 intents · 29 behaviours · 29 implementations · 29/29 complete
