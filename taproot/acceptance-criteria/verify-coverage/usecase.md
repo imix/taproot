@@ -90,9 +90,9 @@ flowchart TD
 - [CLI Command](./cli-command/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-19
-- **Last reviewed:** 2026-03-19
+- **Last reviewed:** 2026-03-20
 
 ## Notes
 - Criterion ID matching is grep-based: the string `AC-N` must appear verbatim in the test file content. Common patterns: `it('AC-1: happy path ...')`, `describe('AC-3')`, `// covers AC-2`. Any occurrence counts.

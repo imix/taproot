@@ -72,6 +72,27 @@ Validates that marker files (`intent.md`, `usecase.md`, `impl.md`) conform to th
 
 Use `--fix` to scaffold missing section headers automatically. This is safe to run repeatedly — it only adds what's missing, never overwrites existing content.
 
+### `taproot acceptance-check`
+
+```bash
+taproot acceptance-check [--path taproot/] [--tests <dir>] [--format json]
+```
+
+Verifies that every acceptance criterion ID (`AC-N`) defined in `## Acceptance Criteria` sections is referenced by at least one test file, and that no test file references a criterion that doesn't exist in any spec.
+
+Reports three categories:
+- **Uncovered:** criterion IDs present in specs but not found in any test file (exit 1)
+- **Orphaned:** criterion IDs found in test files but not defined in any `usecase.md` (exit 1)
+- **Missing sections:** `usecase.md` files with child implementations but no `## Acceptance Criteria` section (warning only)
+
+| Option | Effect |
+|--------|--------|
+| `--path <path>` | Limit spec collection to a subtree; test files are still scanned globally |
+| `--tests <dir>` | Override test directory (repeatable; defaults to `test/`, `tests/`, `spec/`) |
+| `--format json` | Output a JSON report instead of human-readable text |
+
+Criterion ID matching is grep-based: the string `AC-N` must appear verbatim somewhere in the test file. Common patterns: `it('AC-1: ...')`, `describe('AC-3')`, `// covers AC-2`. Deprecated criteria (lines starting with `~~**AC-N`) are excluded from the check.
+
 ---
 
 ## Traceability

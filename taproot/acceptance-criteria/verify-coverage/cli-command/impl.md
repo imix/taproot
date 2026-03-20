@@ -21,6 +21,13 @@
 - `test/integration/acceptance-check.test.ts` — covers: criteria collection, test scanning, uncovered/orphaned/missing detection, exit codes, --path scoping, --format json, error conditions
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-20
 - **Last verified:** 2026-03-20
+
+## DoD Resolutions
+- condition: check-if-affected: src/commands/update.ts | note: update.ts regenerates agent adapters and skill files — it does not enumerate or invoke CLI commands. Adding acceptance-check to cli.ts does not affect update.ts logic. | resolved: 2026-03-20T06:54:30.454Z
+- condition: document-current | note: docs/cli.md updated: added taproot acceptance-check section under Validation with full option descriptions, output format examples, and deprecation handling note. | resolved: 2026-03-20T06:54:52.723Z
+
+- condition: check-if-affected: skills/guide.md | note: guide.md mentions acceptance criteria in the directory structure diagram but does not list CLI commands — no update needed. The new command is documented in docs/cli.md. | resolved: 2026-03-20T06:54:31.689Z
+

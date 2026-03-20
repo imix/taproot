@@ -12,6 +12,7 @@ import { registerOverview } from './commands/overview.js';
 import { registerPlan } from './commands/plan.js';
 import { registerDod } from './commands/dod.js';
 import { registerCommithook } from './commands/commithook.js';
+import { registerAcceptanceCheck } from './commands/acceptance-check.js';
 
 const program = new Command();
 
@@ -32,5 +33,6 @@ registerOverview(program);
 registerPlan(program);
 registerDod(program);
 registerCommithook(program);
+registerAcceptanceCheck(program);
 
 program.parse();
