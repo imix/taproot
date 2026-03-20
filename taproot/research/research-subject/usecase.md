@@ -154,6 +154,9 @@ flowchart TD
 - When step 4 is reached
 - Then the skill asks one clarifying question about domain or language context before issuing any web search queries
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — /tr-research](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-20
