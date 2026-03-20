@@ -22,6 +22,7 @@ Allow teams to declare the conditions that must hold for any implementation to b
 ## Behaviours <!-- taproot-managed -->
 - [Definition of Done Enforcement](./definition-of-done/usecase.md)
 - [Definition of Ready](./definition-of-ready/usecase.md)
+- [Architecture Compliance Check](./architecture-compliance/usecase.md)
 
 
 ## Status
