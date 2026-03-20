@@ -152,6 +152,7 @@ flowchart TD
 - **State:** implemented
 - **Created:** 2026-03-20
 - **Last reviewed:** 2026-03-20
+- **Note:** Phase 0.5 in /tr-discover (requirements artifact detection + conflict resolution question) does not violate this spec — those are configuration questions, not document writes. Requirements-only mode (skip Phase 4) reduces write count but uses the same Y/E/S/Q protocol.
 
 ## Notes
 - The Y/E/S/Q pattern is the minimum required interface. Skills may extend it (e.g. `[R] Regenerate` to re-draft from scratch), but must include all four base options.
