@@ -64,6 +64,15 @@ function resolveCondition(entry: DodConditionEntry): ResolvedCondition {
       correction: `Review whether this change requires updating ${target} and apply updates if needed.`,
     };
   }
+  if (typeof entry === 'object' && 'check-if-affected-by' in entry) {
+    const behaviourPath = entry['check-if-affected-by'];
+    return {
+      name: `check-if-affected-by: ${behaviourPath}`,
+      agentCheck: true,
+      description: behaviourPath,
+      correction: `Read the behaviour spec at ${behaviourPath}/usecase.md. Determine whether it applies to this implementation and verify compliance. If it applies, ensure this implementation satisfies it; if not, record why it does not apply.`,
+    };
+  }
   if (typeof entry === 'string') {
     const builtin = BUILTINS[entry];
     if (!builtin) {

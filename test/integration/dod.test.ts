@@ -191,6 +191,21 @@ describe('runDodChecks — check-if-affected condition', () => {
   });
 });
 
+describe('runDodChecks — check-if-affected-by condition', () => {
+  it('reports as agent check (not passed) with behaviour path as description', () => {
+    const report = runDodChecks(
+      [{ 'check-if-affected-by': 'human-integration/contextual-next-steps' }],
+      process.cwd()
+    );
+    expect(report.configured).toBe(true);
+    expect(report.results[0]!.name).toBe('check-if-affected-by: human-integration/contextual-next-steps');
+    expect(report.results[0]!.passed).toBe(false);
+    expect(report.results[0]!.output).toContain('Agent check required');
+    expect(report.results[0]!.correction).toContain('human-integration/contextual-next-steps');
+    expect(report.allPassed).toBe(false);
+  });
+});
+
 describe('runDodChecks — command not found', () => {
   it('reports failure with correction for missing command', () => {
     const report = runDodChecks(
