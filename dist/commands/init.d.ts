@@ -9,4 +9,4 @@ export declare function runInit(options: {
     withSkills?: boolean;
     agent?: AgentName | AgentName[] | 'all';
 }): string[];
-export declare function installSkills(targetSkillsDir: string): string[];
+export declare function installSkills(targetSkillsDir: string, force?: boolean): string[];

@@ -36,6 +36,8 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md commithook section updated: added reverse-lookup explanation and new table row for missing impl.md case | resolved: 2026-03-20T07:33:53.988Z
+- condition: fix-dor-sections-allowed | note: commithook.ts: ALLOWED_IMPL_SECTIONS now includes dor resolutions — allows rename sweeps to update DoR resolution notes without triggering declaration-commit requirement | resolved: 2026-03-20T21:31:02.634Z
+
 - condition: fix-dor-sections-allowed | note: ALLOWED_IMPL_SECTIONS now includes dor resolutions — allows rename sweeps and DoR resolution changes in implementation commits; declaration-only intent preserved since DoR still runs when impl.md is staged without source files | resolved: 2026-03-20T21:26:48.213Z
 
 - condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — commithook is a CLI command, not a skill that authors documents; pause-and-confirm does not apply | resolved: 2026-03-20T07:34:01.416Z

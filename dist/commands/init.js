@@ -183,7 +183,7 @@ export function runInit(options) {
     messages.push('Taproot initialized. Run `taproot validate-structure` to verify.');
     return messages;
 }
-export function installSkills(targetSkillsDir) {
+export function installSkills(targetSkillsDir, force = false) {
     const messages = [];
     if (!existsSync(BUNDLED_SKILLS_DIR)) {
         messages.push(`warning  Skills directory not found at ${BUNDLED_SKILLS_DIR} — skipping`);
@@ -201,6 +201,10 @@ export function installSkills(targetSkillsDir) {
         if (!existsSync(dest)) {
             writeFileSync(dest, content);
             messages.push(`created  .taproot/skills/${filename}`);
+        }
+        else if (force) {
+            writeFileSync(dest, content);
+            messages.push(`updated  .taproot/skills/${filename}`);
         }
         else {
             messages.push(`exists   .taproot/skills/${filename}`);

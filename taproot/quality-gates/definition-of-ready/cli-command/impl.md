@@ -35,6 +35,12 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md and skills/guide.md already document taproot commithook with DoR context | resolved: 2026-03-19T18:17:46.871Z
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — src/commands/commithook.ts follows architecture rules: stateless, I/O at command boundary, no global state; change adds one constant to ALLOWED_IMPL_SECTIONS | resolved: 2026-03-20T21:31:40.376Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — definition-of-ready CLI command has no git commit step; it validates impl.md specs and reports DoR results | resolved: 2026-03-20T21:31:40.146Z
+
+- condition: fix-dor-sections-allowed | note: commithook.ts: same fix — dor resolutions added to allowed sections so DoR notes can be updated in implementation commits | resolved: 2026-03-20T21:31:02.861Z
+
 - condition: fix-dor-sections-allowed | note: same fix — dor resolutions added to ALLOWED_IMPL_SECTIONS in commithook.ts | resolved: 2026-03-20T21:26:48.449Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — check: at DoR uses the same pattern as check: at DoD, already documented in docs/patterns.md | resolved: 2026-03-20T11:09:39.794Z

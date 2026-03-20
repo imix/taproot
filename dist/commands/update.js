@@ -214,7 +214,7 @@ export async function runUpdate(options) {
         SKILL_FILES.some(f => existsSync(join(skillsDir, f)));
     if (agents.includes('claude') || hasInstalledSkills) {
         messages.push('');
-        messages.push(...installSkills(skillsDir));
+        messages.push(...installSkills(skillsDir, true));
     }
     // Refresh cross-links (## Behaviours / ## Implementations sections)
     const taprootDir = join(cwd, DEFAULT_CONFIG.root);
