@@ -14,6 +14,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `1d869f7b3e68613f7bc481cb9a909301ca7752a4` — (auto-linked by taproot link-commits)
+- `0b4b1eb3dea6f7ee3b513d576c8d71d0bef4ca25` — (auto-linked by taproot link-commits)
 
 ## Tests
 - (no automated test — activation is verified by the DoR runner's existing `check-if-affected-by` test coverage; the architecture doc's content is human-maintained)
