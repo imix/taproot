@@ -13,6 +13,9 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `f06f838328680e3b8116931e226baa9f63cd6d23` — (auto-linked by taproot link-commits)
+- `851ad3963e81f6034c44923547ec9406d65af8b9` — (auto-linked by taproot link-commits)
+- `11527cc344aa3d95ae1a6e136b70d4c11b2cb7de` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/skills.test.ts` — validates skill file format, required sections, and Parked section content (AC-1: deferredBehaviours/deferredImpls referenced, ## Parked template present; AC-2: omit-when-zero instruction present)
