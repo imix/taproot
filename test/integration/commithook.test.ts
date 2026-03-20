@@ -327,6 +327,47 @@ describe('runDorChecks', () => {
     const report = runDorChecks('taproot/my-intent/my-behaviour/my-impl/impl.md', tmpDir);
     expect(report.results.find(r => r.name === 'related-behaviours')!.passed).toBe(false);
   });
+
+  it('fails when check: condition is unresolved (no DoR Resolutions in impl.md)', () => {
+    writeFileSync(join(tmpDir, '.taproot.yaml'), [
+      'version: 1',
+      'root: taproot/',
+      'definitionOfReady:',
+      '  - check: "is this spec complete enough to implement?"',
+    ].join('\n'));
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'usecase.md'), VALID_USECASE);
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'my-impl', 'impl.md'), IMPL_MD);
+    const report = runDorChecks('taproot/my-intent/my-behaviour/my-impl/impl.md', tmpDir);
+    const result = report.results.find(r => r.name === 'check: is this spec complete enough to implement?');
+    expect(result).toBeDefined();
+    expect(result!.passed).toBe(false);
+    expect(result!.output).toContain('Agent check required');
+    expect(report.allPassed).toBe(false);
+  });
+
+  it('passes when check: condition is resolved in impl.md DoR Resolutions', () => {
+    const question = 'is this spec complete enough to implement?';
+    const conditionName = `check: ${question}`;
+    const now = new Date().toISOString();
+    writeFileSync(join(tmpDir, '.taproot.yaml'), [
+      'version: 1',
+      'root: taproot/',
+      'definitionOfReady:',
+      `  - check: "${question}"`,
+    ].join('\n'));
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'usecase.md'), VALID_USECASE);
+    const implWithResolution = IMPL_MD + [
+      '',
+      '## DoR Resolutions',
+      `- condition: ${conditionName} | note: yes, spec is clear | resolved: ${now}`,
+    ].join('\n');
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'my-impl', 'impl.md'), implWithResolution);
+    const report = runDorChecks('taproot/my-intent/my-behaviour/my-impl/impl.md', tmpDir);
+    const result = report.results.find(r => r.name === conditionName);
+    expect(result).toBeDefined();
+    expect(result!.passed).toBe(true);
+    expect(report.allPassed).toBe(true);
+  });
 });
 
 describe('buildSourceToImplMap', () => {

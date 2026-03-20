@@ -3,6 +3,24 @@ import { join, dirname, resolve } from 'path';
 import { spawnSync } from 'child_process';
 import { parseMarkdown } from './markdown-parser.js';
 import { loadConfig } from './config.js';
+/** Read agent-check resolutions from impl.md's ## DoR Resolutions section. */
+export function readDorResolutions(implMdPath, cwd) {
+    const absPath = resolve(cwd, implMdPath);
+    if (!existsSync(absPath))
+        return new Set();
+    const content = readFileSync(absPath, 'utf-8');
+    const parsed = parseMarkdown(absPath, content);
+    const section = parsed.sections.get('dor resolutions');
+    if (!section)
+        return new Set();
+    const conditions = new Set();
+    for (const line of section.rawBody.split('\n')) {
+        const m = line.match(/^-\s+condition:\s+(.+?)\s+\|/);
+        if (m)
+            conditions.add(m[1].trim());
+    }
+    return conditions;
+}
 /** Resolve the parent usecase.md from an impl.md path.
  *  impl.md lives at taproot/<intent>/<behaviour>/<impl>/impl.md
  *  usecase.md lives at taproot/<intent>/<behaviour>/usecase.md
@@ -75,8 +93,33 @@ export function runDorChecks(implMdPath, cwd) {
     const { config } = loadConfig(cwd);
     const dorConditions = config.definitionOfReady;
     if (dorConditions && dorConditions.length > 0) {
+        const resolvedChecks = readDorResolutions(implMdPath, cwd);
         for (const entry of dorConditions) {
-            if (typeof entry === 'string') {
+            if (typeof entry === 'object' && 'check' in entry) {
+                const question = entry['check'];
+                const name = `check: ${question}`;
+                const isResolved = resolvedChecks.has(name);
+                results.push({
+                    name,
+                    passed: isResolved,
+                    output: isResolved ? '' : `Agent check required: ${question}`,
+                    correction: `Reason about the question and record a resolution in impl.md under ## DoR Resolutions: "- condition: ${name} | note: <reasoning> | resolved: <ISO-timestamp>"`,
+                });
+            }
+            else if (typeof entry === 'object' && ('document-current' in entry || 'check-if-affected' in entry || 'check-if-affected-by' in entry)) {
+                // Other agent-check types — treat as unresolvable shell-side, report as agent check
+                const key = 'document-current' in entry ? 'document-current' : 'check-if-affected' in entry ? 'check-if-affected' : 'check-if-affected-by';
+                const value = entry[key];
+                const name = `${key}: ${value}`;
+                const isResolved = resolvedChecks.has(name);
+                results.push({
+                    name,
+                    passed: isResolved,
+                    output: isResolved ? '' : `Agent check required: ${value}`,
+                    correction: `Resolve this agent check and record it in impl.md under ## DoR Resolutions.`,
+                });
+            }
+            else if (typeof entry === 'string') {
                 const r = spawnSync(entry, { shell: true, cwd, encoding: 'utf-8', timeout: 30_000 });
                 results.push({
                     name: entry,

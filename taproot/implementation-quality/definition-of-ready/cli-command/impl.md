@@ -33,6 +33,24 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md and skills/guide.md already document taproot commithook with DoR context | resolved: 2026-03-19T18:17:46.871Z
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — check: at DoR uses the same pattern as check: at DoD, already documented in docs/patterns.md | resolved: 2026-03-20T11:09:39.794Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml? | note: no — adding check: to DoR is a capability enhancement, not a new cross-cutting concern | resolved: 2026-03-20T11:09:38.516Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — pattern-hints applies to skills routing user requests; commithook is a git hook | resolved: 2026-03-20T11:09:37.297Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — this is a CLI command (TypeScript source), not a skill file | resolved: 2026-03-20T11:09:36.041Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — taproot commithook is a CLI command, not a skill that authors multiple documents | resolved: 2026-03-20T11:09:34.773Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — taproot commithook is a CLI command invoked by git; it produces no agent guidance output | resolved: 2026-03-20T11:09:33.498Z
+
+- condition: check-if-affected: skills/guide.md | note: guide.md lists taproot commithook with DoR/DoD context; no new command added, only internal behavior; no update needed | resolved: 2026-03-20T11:09:32.260Z
+
+- condition: check-if-affected: src/commands/update.ts | note: not affected — DoR changes are in dor-runner.ts; update.ts only regenerates adapter files | resolved: 2026-03-20T11:09:30.997Z
+
+- condition: document-current | note: docs/configuration.md updated: added check: to DoD condition table and added definitionOfReady section with DoR Resolutions format | resolved: 2026-03-20T11:09:29.794Z
+
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no new pattern introduced — check: at DoR follows the same pattern as check: at DoD (already documented in docs/patterns.md); the DoR Resolutions section follows the same format as DoD Resolutions | resolved: 2026-03-20T11:04:50.444Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml? | note: no — adding check: to DoR is a capability enhancement; it does not introduce a new architectural rule requiring a new check-if-affected-by entry | resolved: 2026-03-20T11:04:49.215Z

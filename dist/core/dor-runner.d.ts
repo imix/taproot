@@ -1,3 +1,5 @@
+/** Read agent-check resolutions from impl.md's ## DoR Resolutions section. */
+export declare function readDorResolutions(implMdPath: string, cwd: string): Set<string>;
 export interface DorResult {
     name: string;
     passed: boolean;
