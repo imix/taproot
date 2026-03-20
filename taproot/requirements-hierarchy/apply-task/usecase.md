@@ -101,6 +101,9 @@ sequenceDiagram
 - When the developer interrupts
 - Then the 3 processed files retain their state and the remaining 2 are untouched
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command — taproot apply](./cli-command/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-20
