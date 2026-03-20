@@ -140,6 +140,9 @@ flowchart TD
 - When DoD evaluates this spec
 - Then C-1 is compliant (gate = validate-format/structure), C-2 is compliant (only requirement commit surfaced), C-3 is recorded as "not applicable — no impl.md involved"
 
+## Implementations <!-- taproot-managed -->
+- [Multi-Surface — settings.yaml + implement.md + tests](./multi-surface/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-20
