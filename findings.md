@@ -1,5 +1,6 @@
 * add acceptance criteria to all usecase
-* we need to ensure, that agents can run autonmously without user interaction
+* `taproot apply` removed: headless agent invocation (`claude -p`) is blocked by Claude's permission system — agent correctly identifies edits but cannot write files. Fix needs agent-agnostic solution (not just `--allowedTools` which is Claude-specific). Usecase set to `specified`, impl set to `needs-rework`.
+* we need to ensure, that agents can run autonomously without user interaction
 * taproot should work for all kind of projects, not only development. e.g. book authoring, financial reporting
 
 * claude bias, many things refer claude even though it should be agent agnostic. /tr-xxx commands probably not the same name in all agent?

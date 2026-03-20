@@ -26,7 +26,7 @@
 - `test/integration/apply.test.ts` — covers AC-1 (modified), AC-2 (skipped), AC-3 (path validation), AC-4 (error + restore), blank lines/comments in filelist, missing input files
 
 ## Status
-- **State:** complete
+- **State:** needs-rework
 - **Created:** 2026-03-20
 - **Last verified:** 2026-03-20
 
@@ -35,6 +35,26 @@
 
 ## DoD Resolutions
 - condition: check-if-affected-by: implementation-quality/architecture-compliance | note: compliant — stateless CLI command; external I/O (file reads/writes, agent spawn) in src/commands/apply.ts at command boundary; core logic (validation, diff) inline in command handler (no separate core module needed at this size); no global mutable state; error messages are actionable | resolved: 2026-03-20T15:36:07.435Z
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — finding documented in usecase.md Finding section | resolved: 2026-03-20T17:11:12.225Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml? | note: no — removal introduces no new cross-cutting concern | resolved: 2026-03-20T17:11:11.994Z
+
+- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: not applicable — implementation removed | resolved: 2026-03-20T17:11:11.760Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — implementation removed | resolved: 2026-03-20T17:11:11.529Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — implementation removed | resolved: 2026-03-20T17:11:11.303Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — implementation removed | resolved: 2026-03-20T17:11:11.074Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — implementation removed | resolved: 2026-03-20T17:11:10.840Z
+
+- condition: check-if-affected: skills/guide.md | note: not affected — taproot apply was not mentioned in onboarding guide | resolved: 2026-03-20T17:11:10.614Z
+
+- condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts propagates skill files; removing apply requires no change | resolved: 2026-03-20T17:11:10.386Z
+
+- condition: document-current | note: taproot apply removed from docs/cli.md (Bulk Operations section deleted) | resolved: 2026-03-20T17:11:10.161Z
+
 - condition: document-current | note: added taproot apply to docs/cli.md under new Bulk Operations section — documents filelist format, status codes, agent resolution, and connection to /tr-sweep | resolved: 2026-03-20T15:39:21.500Z
 - condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts propagates skill and adapter files to agent directories; taproot apply is a CLI command, not an adapter or skill; no changes needed | resolved: 2026-03-20T15:39:32.083Z
 - condition: check-if-affected: skills/guide.md | note: not affected — guide.md covers the taproot workflow conceptually for onboarding; taproot apply is a CLI utility called by skills, not a skill developers invoke directly; no mention needed in onboarding guide | resolved: 2026-03-20T15:39:32.312Z
