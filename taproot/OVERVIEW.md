@@ -89,7 +89,7 @@ _No behaviours yet._
 **Goal:** Allow teams to declare the conditions that must hold for any implementation to be considered complete — linting, tests, documentation currency, git conventions, or any custom check — and have taproot enforce them consistently across every implementation, whether authored by a human or an AI agent.
 
 - **[architecture-compliance](./implementation-quality/architecture-compliance/usecase.md)** `[implemented]` — Actor: Developer or agent declaring a new implementation (committing an `impl.md`) — the check runs automatically at Definition of Ready time before any code is written.
-  - [multi-surface](./implementation-quality/architecture-compliance/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
+  - [multi-surface](./implementation-quality/architecture-compliance/multi-surface/impl.md) `[complete]` (3 commits, 1 test)
 - **[definition-of-done](./implementation-quality/definition-of-done/usecase.md)** `[implemented]` — Actor: `/tr-implement` — triggered automatically at the end of the implement flow before marking an impl `complete`. Also invoked by `taproot commithook` on implementation commits (staged source files + `impl.md`). Can also be invoked standalone by a developer or CI pipeline.
   - [cli-command](./implementation-quality/definition-of-done/cli-command/impl.md) `[complete]` (3 commits, 1 test)
 - **[definition-of-ready](./implementation-quality/definition-of-ready/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a contributor commits an `impl.md` file without source code changes (the "I'm starting this implementation" declaration commit).
@@ -124,7 +124,8 @@ _No behaviours yet._
 
 **Goal:** Enable teams to capture the full requirements hierarchy — from business intent through stakeholder behaviour to system implementation — in a single, navigable, git-versioned structure.
 
-- **[apply-task](./requirements-hierarchy/apply-task/usecase.md)** `[specified]` — Actor: Developer or agent — applying a uniform transformation to a set of hierarchy files using a configured AI agent.
+- **[apply-task](./requirements-hierarchy/apply-task/usecase.md)** `[implemented]` — Actor: Developer or agent — applying a uniform transformation to a set of hierarchy files using a configured AI agent.
+  - [cli-command](./requirements-hierarchy/apply-task/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 - **[configure-hierarchy](./requirements-hierarchy/configure-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator customising taproot to match project conventions
   - [yaml-config](./requirements-hierarchy/configure-hierarchy/yaml-config/impl.md) `[complete]` (2 commits ⚠ no tests)
 - **[initialise-hierarchy](./requirements-hierarchy/initialise-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator setting up taproot in a new or existing project
@@ -152,4 +153,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-15 intents · 35 behaviours · 35 implementations · 35/35 complete
+15 intents · 35 behaviours · 36 implementations · 36/36 complete
