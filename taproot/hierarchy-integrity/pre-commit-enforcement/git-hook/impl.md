@@ -4,7 +4,7 @@
 ../usecase.md
 
 ## Design Decisions
-- The hook is installed as a shell script that delegates to `taproot validate-structure && taproot validate-format` — keeps the hook thin and lets the CLI handle the actual validation logic
+- The hook is installed as a shell script that delegates to `taproot commithook` — keeps the hook thin and lets the CLI handle all classification and validation logic
 - Hook installation is opt-in via `--with-hooks` flag on `taproot init`, not enabled by default — avoids disrupting teams that aren't ready for enforcement yet
 - If a `.git/hooks/pre-commit` already exists, the taproot check is appended rather than replacing the existing hook
 
