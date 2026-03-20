@@ -18,6 +18,8 @@
 
 ## Commits
 - placeholder
+- `66143dba2b4236b46dde2a3f1153f6f857c8e8fc` — (auto-linked by taproot link-commits)
+- `4de58738cb4dd7b89eb15bf5b3469d00b6ce7921` — (auto-linked by taproot link-commits)
 
 ## Tests
 - None — agent-verifiable at DoD via ACs. Pattern matching is semantic reasoning, not an executable assertion.

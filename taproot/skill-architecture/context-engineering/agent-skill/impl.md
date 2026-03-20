@@ -30,6 +30,8 @@
 
 ## Commits
 - placeholder
+- `0cfe26d7c7b5c1f65a26a9084a4b7c912c46f7b2` — (auto-linked by taproot link-commits)
+- `644e0ec95f4cf48b0abf01cad46cf464a2bfff92` — (auto-linked by taproot link-commits)
 
 ## Tests
 - None — this behaviour is enforced via agent reasoning at DoD time (C-1 through C-6 are agent-verifiable conditions, not executable assertions). Acceptance criteria are verified manually at DoD.
