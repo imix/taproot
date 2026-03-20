@@ -16,6 +16,9 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `289b48b5cfd2db12c28e00294acae59d8f5c7737` — (auto-linked by taproot link-commits)
+- `9231e6513cbfc8cd4c61839dbaab9cde9c73b4f8` — (auto-linked by taproot link-commits)
+- `ee1cccba468bfef1086afb56cd47d5fe721cefcc` — (auto-linked by taproot link-commits)
 
 ## Tests
 - Skill content satisfies AC-1 (step 4+5: writes filelist.txt + prompt.txt, calls taproot apply)

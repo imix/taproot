@@ -20,6 +20,7 @@
 - (run `taproot link-commits` to populate)
 - `4beb91b319e05bcd29558d4d9b79b79d755a3960` — (auto-linked by taproot link-commits)
 - `d83f105bc08903b77860325b0f92068472944c96` — (auto-linked by taproot link-commits)
+- `f9fa8b401171c71879823d7c7c585fa21db25fca` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/apply.test.ts` — covers AC-1 (modified), AC-2 (skipped), AC-3 (path validation), AC-4 (error + restore), blank lines/comments in filelist, missing input files
