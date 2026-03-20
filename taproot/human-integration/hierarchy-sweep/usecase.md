@@ -82,6 +82,9 @@ sequenceDiagram
 - When `/tr-ineed` processes the input
 - Then it offers to invoke `/tr-sweep` before routing as a new requirement
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — /tr-sweep](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-20
