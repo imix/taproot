@@ -21,6 +21,7 @@ Define and enforce the architectural constraints that govern how taproot skills 
 
 ## Behaviours <!-- taproot-managed -->
 - [Context-Efficient Skill Design](./context-engineering/usecase.md)
+- [Commit-Aware Skill Design](./commit-awareness/usecase.md)
 
 ## Status
 - **State:** active

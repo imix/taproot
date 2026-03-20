@@ -69,7 +69,7 @@ _No behaviours yet._
 - **[hierarchy-sweep](./human-integration/hierarchy-sweep/usecase.md)** `[implemented]` — Actor: Developer — applying a uniform task across many hierarchy items without accumulating context drift. Also surfaced by `/tr-ineed` when the developer expresses a bulk-edit intent (e.g. "add X to all usecases").
   - [agent-skill](./human-integration/hierarchy-sweep/agent-skill/impl.md) `[complete]` (7 commits ⚠ no tests)
 - **[human-readable-report](./human-integration/human-readable-report/usecase.md)** `[implemented]` — Actor: Developer or project stakeholder invoking `/tr-status`
-  - [agent-skill](./human-integration/human-readable-report/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
+  - [agent-skill](./human-integration/human-readable-report/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
 - **[pattern-hints](./human-integration/pattern-hints/usecase.md)** `[implemented]` — Actor: Agent — processing any user-expressed need via any taproot skill (`/tr-ineed`, `/tr-behaviour`, `/tr-implement`, `/tr-refine`, or any skill that receives a natural language description of intent).
   - [agent-skill](./human-integration/pattern-hints/agent-skill/impl.md) `[complete]` (2 commits ⚠ no tests)
 - **[pause-and-confirm](./human-integration/pause-and-confirm/usecase.md)** `[implemented]` — Actor: Developer using any taproot skill that writes more than one document in sequence (primarily `/tr-discover`, `/tr-decompose`, and any future bulk-authoring skill)
@@ -126,7 +126,7 @@ _No behaviours yet._
 **Goal:** Enable teams to capture the full requirements hierarchy — from business intent through stakeholder behaviour to system implementation — in a single, navigable, git-versioned structure.
 
 - **[apply-task](./requirements-hierarchy/apply-task/usecase.md)** `[specified]` — Actor: Developer or agent — applying a uniform transformation to a set of hierarchy files using a configured AI agent.
-  - [cli-command](./requirements-hierarchy/apply-task/cli-command/impl.md) `[deferred]` (3 commits, 1 test)
+  - [cli-command](./requirements-hierarchy/apply-task/cli-command/impl.md) `[deferred]` (4 commits, 1 test)
 - **[configure-hierarchy](./requirements-hierarchy/configure-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator customising taproot to match project conventions
   - [yaml-config](./requirements-hierarchy/configure-hierarchy/yaml-config/impl.md) `[complete]` (2 commits ⚠ no tests)
 - **[initialise-hierarchy](./requirements-hierarchy/initialise-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator setting up taproot in a new or existing project
@@ -145,6 +145,7 @@ _No behaviours yet._
 
 **Goal:** Define and enforce the architectural constraints that govern how taproot skills are built — so that every skill is context-efficient, consistent in how it loads resources, and explicit about its effect on the developer's session
 
+- **[commit-awareness](./skill-architecture/commit-awareness/usecase.md)** `[specified]` — Actor: Skill author — a human developer or AI agent writing or updating a taproot skill file (`skills/*.md`) that includes a `git commit` step.
 - **[context-engineering](./skill-architecture/context-engineering/usecase.md)** `[implemented]` — Actor: Skill author — a human developer or AI agent writing or updating a taproot skill file (`skills/*.md`).
   - [agent-skill](./skill-architecture/context-engineering/agent-skill/impl.md) `[complete]` (2 commits ⚠ no tests)
 
@@ -156,4 +157,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-15 intents · 36 behaviours · 38 implementations · 37/38 complete
+15 intents · 37 behaviours · 38 implementations · 37/38 complete
