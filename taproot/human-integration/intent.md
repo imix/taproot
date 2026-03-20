@@ -25,6 +25,7 @@ Keep the human orchestrator in meaningful control of the requirement hierarchy â
 - [Generate Human-Readable Status Report](./human-readable-report/usecase.md)
 - [Pause and Confirm Before Writing Each Document](./pause-and-confirm/usecase.md)
 - [Route a Natural Language Requirement](./route-requirement/usecase.md)
+- [Surface Relevant Patterns Before Proceeding](./pattern-hints/usecase.md)
 
 
 ## Status
