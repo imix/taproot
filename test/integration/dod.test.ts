@@ -206,6 +206,60 @@ describe('runDodChecks — check-if-affected-by condition', () => {
   });
 });
 
+describe('runDodChecks — check: condition', () => {
+  it('reports as agent check (not passed) with question as description', () => {
+    const question = 'does this story introduce a cross-cutting concern?';
+    const report = runDodChecks([{ check: question }], process.cwd());
+    expect(report.configured).toBe(true);
+    expect(report.results[0]!.name).toBe(`check: ${question}`);
+    expect(report.results[0]!.passed).toBe(false);
+    expect(report.results[0]!.output).toContain('Agent check required');
+    expect(report.results[0]!.correction).toContain(question);
+    expect(report.allPassed).toBe(false);
+  });
+
+  it('passes when a resolution is recorded in impl.md', () => {
+    const tmpDir = mkdtempSync(join(tmpdir(), 'taproot-check-'));
+    const question = 'does this story introduce a cross-cutting concern?';
+    const conditionName = `check: ${question}`;
+    const now = new Date().toISOString();
+
+    // Create minimal behaviour/usecase.md so baseline passes
+    const behaviourDir = join(tmpDir, 'taproot', 'my-behaviour');
+    const implDir = join(behaviourDir, 'cli-command');
+    mkdirSync(implDir, { recursive: true });
+
+    writeFileSync(join(behaviourDir, 'usecase.md'), [
+      '# Behaviour: My Behaviour',
+      '## Status',
+      '**State:** specified',
+      '**Created:** 2026-01-01',
+    ].join('\n'));
+
+    const implPath = join(implDir, 'impl.md');
+    writeFileSync(implPath, [
+      '# Implementation: My Behaviour',
+      '## Status',
+      '**State:** in-progress',
+      '**Created:** 2026-01-01',
+      '## DoD Resolutions',
+      `- condition: ${conditionName} | agent | resolved: ${now}`,
+    ].join('\n'));
+
+    const report = runDodChecks(
+      [{ check: question }],
+      tmpDir,
+      { implPath: join('taproot', 'my-behaviour', 'cli-command', 'impl.md') }
+    );
+
+    const result = report.results.find(r => r.name === conditionName);
+    expect(result).toBeDefined();
+    expect(result!.passed).toBe(true);
+
+    rmSync(tmpDir, { recursive: true });
+  });
+});
+
 describe('runDodChecks — command not found', () => {
   it('reports failure with correction for missing command', () => {
     const report = runDodChecks(

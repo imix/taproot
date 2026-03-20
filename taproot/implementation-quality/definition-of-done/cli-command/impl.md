@@ -40,6 +40,14 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md documents taproot dod including --dry-run and --resolve; guide.md lists taproot dod | resolved: 2026-03-19T18:34:52.172Z
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: yes — added 'Open-ended agent questions (check:)' pattern to docs/patterns.md describing when and how to use check: vs check-if-affected-by | resolved: 2026-03-20T10:57:46.667Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml? | note: no — adding the check: condition type is a capability enhancement to the existing DoD runner; it does not define a new architectural rule that applies to every implementation | resolved: 2026-03-20T10:57:45.455Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — pattern-hints applies to skills that route user requests; the DoD CLI command is invoked by the agent at commit time, not in response to a user expressing a need | resolved: 2026-03-20T10:57:44.173Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — this implementation is a CLI command (TypeScript source), not a skill file; context-engineering constraints apply only to skill files in skills/*.md | resolved: 2026-03-20T10:57:27.071Z
+
 - condition: check-if-affected-by: human-integration/pause-and-confirm | note: This implementation is a CLI command and TypeScript parser — not a bulk-authoring skill. The pause-and-confirm behaviour applies only to skills that write multiple documents in sequence (discover, decompose). Not applicable. | resolved: 2026-03-20T07:15:41.144Z
 
 - condition: check-if-affected-by: human-integration/contextual-next-steps | note: This implementation is a CLI command (taproot dod) and a TypeScript parser — it is not a skill file. The contextual-next-steps behaviour applies to agent skill files that produce output. Not applicable. | resolved: 2026-03-20T07:15:39.917Z

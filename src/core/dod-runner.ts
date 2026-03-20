@@ -73,6 +73,15 @@ function resolveCondition(entry: DodConditionEntry): ResolvedCondition {
       correction: `Read the behaviour spec at ${behaviourPath}/usecase.md. Determine whether it applies to this implementation and verify compliance. If it applies, ensure this implementation satisfies it; if not, record why it does not apply.`,
     };
   }
+  if (typeof entry === 'object' && 'check' in entry) {
+    const question = entry['check'];
+    return {
+      name: `check: ${question}`,
+      agentCheck: true,
+      description: question,
+      correction: question,
+    };
+  }
   if (typeof entry === 'string') {
     const builtin = BUILTINS[entry];
     if (!builtin) {

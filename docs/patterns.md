@@ -88,3 +88,31 @@ The agent is asked: "Does this implementation require changes to `<file>`?" If y
 - The domain is unfamiliar (new algorithm, new protocol, new library)
 - Existing libraries may already solve the problem (avoid reinventing the wheel)
 - The spec author is not a domain expert and an expert is available to grill
+
+---
+
+## Open-ended agent questions (`check:`)
+
+**Problem:** You have a one-off question the agent should reason about at DoD (or DoR) time — something too project-specific to warrant a full behaviour spec, but important enough to enforce at every commit. Examples: "should this story be split?", "does this change affect the public API contract?", "is there a simpler approach we haven't considered?".
+
+**Pattern:** Add a `check:` entry to `definitionOfDone` (or `definitionOfReady`) in `.taproot.yaml`.
+
+```yaml
+definitionOfDone:
+  - check: "does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml?"
+  - check: "does this story reveal a reusable pattern worth documenting in docs/patterns.md?"
+```
+
+The agent reads the question text, reasons whether the answer is yes, no, or not applicable for the current implementation, and calls `taproot dod --resolve "check: <text>" "<what was done or why it does not apply>"`.
+
+**When to use it:**
+- The question is project-specific (not architectural enough to justify a full spec)
+- The question has an action: if yes, the agent *does something* (adds to config, updates docs, flags a concern)
+- Use `check-if-affected-by` when the rule applies to many implementations; use `check:` for one-off reasoning prompts
+
+**Taproot's built-in defaults:**
+
+| Question | Action if yes |
+|---|---|
+| `does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml?` | Agent adds the entry to `.taproot.yaml` |
+| `does this story reveal a reusable pattern worth documenting in docs/patterns.md?` | Agent adds a pattern entry to `docs/patterns.md` |
