@@ -36,6 +36,18 @@ export function checkStatusValue(doc, markerType, config) {
             }];
     }
     const value = (match[1] ?? '').trim();
+    if (markerType === 'intent' && value === 'deferred') {
+        const bodyLines = statusSection.bodyLines;
+        const stateLine = bodyLines.findIndex(l => /\*\*State:\*\*/.test(l));
+        const lineNumber = statusSection.startLine + (stateLine >= 0 ? stateLine + 1 : 0);
+        return [{
+                type: 'error',
+                filePath: doc.filePath,
+                line: lineNumber,
+                code: 'INVALID_STATUS_VALUE',
+                message: 'deferred is not a valid state for intent.md — use deprecated instead',
+            }];
+    }
     const allowed = markerType === 'intent' ? config.validation.allowedIntentStates :
         markerType === 'behaviour' ? config.validation.allowedBehaviourStates :
             config.validation.allowedImplStates;

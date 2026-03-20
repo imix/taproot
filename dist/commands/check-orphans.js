@@ -56,6 +56,11 @@ function checkImplReferences(node, repoRoot) {
     const doc = parseMarkdown(filePath, content);
     const data = parseImplData(doc);
     const violations = [];
+    // Skip all reference checks for deferred impls
+    const statusSection = doc.sections.get('status');
+    const stateMatch = statusSection ? /\*\*State:\*\*\s*(\S+)/.exec(statusSection.rawBody) : null;
+    if (stateMatch?.[1]?.trim() === 'deferred')
+        return [];
     // Check behaviour reference
     if (data.behaviourRef) {
         const resolvedRef = resolve(dirname(filePath), data.behaviourRef);
@@ -109,9 +114,22 @@ function checkImplReferences(node, repoRoot) {
     }
     return violations;
 }
+function readBehaviourState(node) {
+    try {
+        const content = readFileSync(join(node.absolutePath, 'usecase.md'), 'utf-8');
+        const doc = parseMarkdown(join(node.absolutePath, 'usecase.md'), content);
+        const match = /\*\*State:\*\*\s*(\S+)/.exec(doc.sections.get('status')?.rawBody ?? '');
+        return match?.[1]?.trim() ?? 'unknown';
+    }
+    catch {
+        return 'unknown';
+    }
+}
 function checkUnimplementedBehaviour(node) {
     const hasImplChild = node.children.some(c => c.marker === 'impl');
     if (hasImplChild)
+        return [];
+    if (readBehaviourState(node) === 'deferred')
         return [];
     return [{
             type: 'warning',

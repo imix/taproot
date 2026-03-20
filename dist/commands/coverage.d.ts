@@ -28,6 +28,8 @@ export interface CoverageReport {
         implementations: number;
         completeImpls: number;
         testedImpls: number;
+        deferredBehaviours: number;
+        deferredImpls: number;
     };
 }
 export declare function registerCoverage(program: Command): void;

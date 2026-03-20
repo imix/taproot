@@ -58,14 +58,19 @@ function collectCandidates(node, intentName, intentGoal) {
         for (const sub of subBehaviours) {
             candidates.push(...collectCandidates(sub, intentName, intentGoal));
         }
-        // Check impl status
-        const implStates = implChildren.map(c => readState(join(c.absolutePath, 'impl.md')));
-        const allComplete = implStates.length > 0 && implStates.every(s => s === 'complete');
-        const inProgressCount = implStates.filter(s => s === 'in-progress').length;
+        const specState = readState(join(node.absolutePath, 'usecase.md'));
+        // Skip deferred behaviours entirely
+        if (specState === 'deferred')
+            return candidates;
+        // Check impl status — exclude deferred impls from completion accounting
+        const activeImplStates = implChildren
+            .map(c => readState(join(c.absolutePath, 'impl.md')))
+            .filter(s => s !== 'deferred');
+        const allComplete = activeImplStates.length > 0 && activeImplStates.every(s => s === 'complete');
+        const inProgressCount = activeImplStates.filter(s => s === 'in-progress').length;
         // Skip if fully implemented
         if (allComplete)
             return candidates;
-        const specState = readState(join(node.absolutePath, 'usecase.md'));
         const { classification, reason } = classify(specState, inProgressCount > 0);
         candidates.push({
             behaviourPath: node.relativePath,

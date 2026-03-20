@@ -41,14 +41,26 @@ export async function runCoverage(options) {
     let implCount = 0;
     let completeCount = 0;
     let testedCount = 0;
+    let deferredBehaviourCount = 0;
+    let deferredImplCount = 0;
     function countBehaviour(b) {
-        behaviourCount++;
+        if (b.state === 'deferred') {
+            deferredBehaviourCount++;
+        }
+        else {
+            behaviourCount++;
+        }
         for (const impl of b.implementations) {
-            implCount++;
-            if (impl.state === 'complete')
-                completeCount++;
-            if (impl.testCount > 0)
-                testedCount++;
+            if (impl.state === 'deferred') {
+                deferredImplCount++;
+            }
+            else {
+                implCount++;
+                if (impl.state === 'complete')
+                    completeCount++;
+                if (impl.testCount > 0)
+                    testedCount++;
+            }
         }
         for (const sub of b.subBehaviours)
             countBehaviour(sub);
@@ -65,6 +77,8 @@ export async function runCoverage(options) {
             implementations: implCount,
             completeImpls: completeCount,
             testedImpls: testedCount,
+            deferredBehaviours: deferredBehaviourCount,
+            deferredImpls: deferredImplCount,
         },
     };
 }
@@ -315,6 +329,8 @@ function renderBehaviourContext(b, lines, prefix, childPrefix) {
 function collectUnimplemented(report) {
     const paths = [];
     function walk(b) {
+        if (b.state === 'deferred')
+            return;
         if (b.implementations.length === 0 && b.subBehaviours.length === 0) {
             paths.push(b.path);
         }
