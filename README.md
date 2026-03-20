@@ -41,7 +41,7 @@ Then in your agent:
 ```
 /tr-guide              ← onboarding walkthrough
 /tr-ineed <idea>       ← route any requirement into the hierarchy
-/tr-discover           ← reverse-engineer an existing codebase into taproot
+/tr-discover           ← reverse-engineer an existing project into taproot (source, requirements, or both)
 /tr-status             ← health dashboard: coverage, orphans, stale specs
 ```
 

@@ -2,7 +2,7 @@
 
 ## Description
 
-Reverse-engineer an existing codebase into a taproot hierarchy through structured, interactive discovery. Interviews the user to surface business intents, identifies behaviours from existing code, and produces `intent.md`, `usecase.md`, and `impl.md` files for what's already built. Heavily interactive — expect multiple rounds of clarification.
+Reverse-engineer an existing project into a taproot hierarchy — from source code, existing requirements artifacts (PRDs, stories, ADRs), or both. Interviews the user to surface business intents and behaviours. Heavily interactive.
 
 ## Inputs
 
@@ -24,7 +24,7 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 
      If resuming: skip to the phase indicated in the status file, treating all items marked `[x]` as already complete. Re-read the Notes section for context carried from the prior session.
 
-   - **If not found**: create it now with Phase set to `1` and proceed.
+   - **If not found**: create it now with Phase set to `0.5` and proceed.
 
    Save the status file after every confirmed intent, behaviour, and implementation — not just at the end.
 
@@ -39,18 +39,46 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 
    **Auto-proceed:** if the user says "just go", "do all", or invokes with `--auto`, acknowledge once ("Auto-proceeding through remaining items — say 'stop' at any time to pause.") then write all remaining documents without pausing for confirmation. Still report each path as it is written. At the end, show the same completion summary.
 
+### Phase 0.5 — Detect Requirements Artifacts
+
+2. Scan the project for existing requirements artifacts using naming heuristics. Look for folders or files whose names suggest structured requirements — including but not limited to: `prd`, `requirements`, `specs`, `stories`, `epics`, `architecture`, `adr`, `design`, `rfcs`, `briefs`, `tickets`. Apply common-sense filtering: `requirements.txt` (Python deps), image files, and folders whose contents are test spec files (e.g. Jest/Mocha `.spec.ts`) are not requirements artifacts.
+
+   If candidates are found:
+   - Read them to understand their structure and content
+   - If the format or originating tool is unfamiliar, research it (web search or README inspection) before drawing conclusions
+   - Record what was found in the status file Notes section
+
+3. Based on what was found, ask the developer how to proceed — **but only if there is something to ask**:
+
+   - **No artifacts found, source code present**: proceed silently to Phase 1 — no prompt needed
+   - **Artifacts found, no source code**:
+     > "I found what looks like requirements in `<path>` — [brief description of structure, e.g. 'stories organised by epic' or 'a single PRD markdown file']. No source code detected.
+     >
+     > Should I import these as specified behaviours? (They'll be marked `status: specified` with no implementation records until code exists.)
+     >
+     > [Y] Import as specs   [N] Cancel"
+   - **Both source code and requirements artifacts found**:
+     > "I found source code and requirements in `<path>` — [brief description]. If they conflict, which takes precedence?
+     >
+     > [S] Source wins — requirements are hints only; source is authoritative
+     > [R] Requirements win — requirements are the spec; source fills in the impl
+     > [C] Case-by-case — ask me each time there's a conflict"
+
+   Record the developer's choice in the status file. This choice applies for the entire session.
+
 ### Phase 1 — Orient
 
-2. Read the project root for orientation materials in this order (skip if not found):
+4. Read the project root for orientation materials in this order (skip if not found):
    - `README.md` / `README.rst` / `README.txt`
    - `package.json`, `Cargo.toml`, `pyproject.toml`, `go.mod`, or other manifest files (name + description + scripts)
    - `ARCHITECTURE.md`, `DESIGN.md`, `docs/` directory listing
    - Existing `taproot/` directory (note any intents already documented to avoid duplication)
+   - Any requirements artifacts found in Phase 0.5 — use these as supplementary context for intent hypotheses
 
-3. Scan the top-level structure: list directories, identify entry points (`main.*`, `index.*`, `cli.*`, `server.*`, `app.*`), note the primary language and framework.
+5. Scan the top-level structure: list directories, identify entry points (`main.*`, `index.*`, `cli.*`, `server.*`, `app.*`), note the primary language and framework.
 
-4. Present a one-paragraph orientation to the user:
-   > "I can see this is a [language/framework] project that [what it does based on README/manifest]. Before I propose any structure, I want to make sure I understand the **business goals** rather than the technical structure. The folder layout reflects how it was built, not why — and those are often different things."
+6. Present a one-paragraph orientation to the user:
+   > "I can see this is a [language/framework] project that [what it does based on README/manifest/requirements]. Before I propose any structure, I want to make sure I understand the **business goals** rather than the technical structure. The folder layout reflects how it was built, not why — and those are often different things."
 
    Then ask the first discovery question:
    > "In one or two sentences: what problem does this software solve, and who uses it?"
@@ -59,17 +87,18 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 
 ### Phase 2 — Surface Intents (interactive, one at a time)
 
-5. Based on the user's answer and the codebase scan, form a hypothesis about the top-level business intents. An intent is a **business goal** — not a module, not a command, not a feature flag. Good intents start with verbs: "Enable users to…", "Allow operators to…", "Provide developers with…".
+7. Based on the user's answer, the codebase scan, and any requirements artifacts, form a hypothesis about the top-level business intents. An intent is a **business goal** — not a module, not a command, not a feature flag. Good intents start with verbs: "Enable users to…", "Allow operators to…", "Provide developers with…".
 
    Common traps to avoid:
    - Don't create an intent per CLI command (those are often all part of one intent)
    - Don't create an intent per file or module (technical decomposition ≠ business intent)
    - Don't create an intent for infrastructure concerns (logging, config loading) unless they are externally visible
+   - Don't trust requirements artifacts blindly — validate against source code (or ask the developer) before writing
 
-5. For each hypothesised intent (present them one at a time, not all at once):
+8. For each hypothesised intent (present them one at a time, not all at once):
 
    a. State the candidate intent:
-      > "I think one intent might be: **[goal statement]**. This would cover [what code/features I think belong here]."
+      > "I think one intent might be: **[goal statement]**. This would cover [what code/features/requirements I think belong here]."
 
    b. Ask a probing question about it — pick the most relevant one:
       - "Is this something users directly ask for, or is it a means to an end for a larger goal?"
@@ -87,7 +116,7 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
       - `stakeholders`: who cares about this (with their perspective)
       - `success criteria`: 1–3 measurable outcomes
       - `constraints`: known limitations, non-goals, or boundaries
-      - `status`: `active` (it's already built)
+      - `status`: `active`
 
    e. Present the proposed `intent.md` to the user before writing:
 
@@ -106,7 +135,7 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 
    f. Update `taproot/_brainstorms/discovery-status.md`: mark this intent `[x]` in Phase 2, set Phase to `2`, update Last updated.
 
-6. After all intents are confirmed and written, show a summary:
+9. After all intents are confirmed and written, show a summary:
    > "Confirmed [N] intents: [list]. Do any of these feel wrong, or is there a significant area of the system we haven't covered?"
 
    Incorporate any corrections before moving to Phase 3. Update status file: set Phase to `3`.
@@ -115,75 +144,81 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 
 *Skip this phase if `depth` is `intents-only`.*
 
-7. For each confirmed intent, work through it one at a time:
+10. For each confirmed intent, work through it one at a time:
 
-   a. Read the relevant source files — identify the entry points, public APIs, or user-facing interactions that belong to this intent.
+    a. Read the relevant source files and/or requirements artifacts — identify the entry points, public APIs, user-facing interactions, or specified requirements that belong to this intent.
 
-   b. Propose use cases — observable system behaviours from the actor's perspective. A use case is a specific interaction with a clear trigger, flow, and outcome. Name them from the actor's perspective: "User resets password", not "Password reset endpoint".
+    b. Propose use cases — observable system behaviours from the actor's perspective. A use case is a specific interaction with a clear trigger, flow, and outcome. Name them from the actor's perspective: "User resets password", not "Password reset endpoint".
 
-   c. For each proposed use case, ask:
-      - "Does this behaviour have any important alternate flows or error conditions I should know about?"
-      - "Is this one behaviour or two? [e.g., if the happy path and the error recovery feel like distinct things]"
+       When both source and requirements are present and conflict:
+       - If **source wins**: derive the behaviour from code; note in the usecase if the requirements described something different
+       - If **requirements win**: derive the behaviour from the requirements; note in the usecase if the source diverges
+       - If **case-by-case**: surface the conflict to the developer before proposing the behaviour
 
-   d. Confirm the use case structure with the user, then determine from the existing code:
-      - `actor`: who initiates this (User, Operator, System, External service)
-      - `preconditions`: what must be true before this can happen
-      - `main flow`: numbered steps describing what happens (read from the actual code)
-      - `alternate flows`: edge cases the code handles
-      - `error conditions`: how the system responds to failures
-      - `postconditions`: what's true after the flow completes
+    c. For each proposed use case, ask:
+       - "Does this behaviour have any important alternate flows or error conditions I should know about?"
+       - "Is this one behaviour or two? [e.g., if the happy path and the error recovery feel like distinct things]"
 
-   e. Present the proposed `usecase.md` to the user before writing:
+    d. Confirm the use case structure with the user, then determine:
+       - `actor`: who initiates this (User, Operator, System, External service)
+       - `preconditions`: what must be true before this can happen
+       - `main flow`: numbered steps describing what happens
+       - `alternate flows`: edge cases handled
+       - `error conditions`: how the system responds to failures
+       - `postconditions`: what's true after the flow completes
 
-      ```
-      Proposed: taproot/<intent-slug>/<behaviour-slug>/usecase.md — <behaviour name>
+    e. Present the proposed `usecase.md` to the user before writing:
 
-      <full proposed content>
+       ```
+       Proposed: taproot/<intent-slug>/<behaviour-slug>/usecase.md — <behaviour name>
 
-      [Y] Write it   [E] Edit before writing   [S] Skip   [Q] Quit session
-      ```
+       <full proposed content>
 
-      Apply Y/E/S/Q as described in step 5e above.
+       [Y] Write it   [E] Edit before writing   [S] Skip   [Q] Quit session
+       ```
 
-   f. Update status file: mark this behaviour `[x]` under its intent in Phase 3, update Last updated.
+       Apply Y/E/S/Q as described in step 8e above.
 
-8. After all behaviours for an intent are written:
-   > "I've documented [N] behaviours for [intent]. Anything missing — behaviours the code handles that we didn't capture?"
+    f. Update status file: mark this behaviour `[x]` under its intent in Phase 3, update Last updated.
+
+11. After all behaviours for an intent are written:
+    > "I've documented [N] behaviours for [intent]. Anything missing — behaviours the code or requirements describe that we didn't capture?"
 
 ### Phase 4 — Link Implementations (per behaviour)
 
 *Skip this phase if `depth` is `intents-only` or `behaviours`.*
+*Skip this phase entirely if operating in requirements-only mode (no source code found in Phase 0.5).*
 
-9. For each confirmed behaviour, identify the implementation:
+12. For each confirmed behaviour, identify the implementation:
 
-   a. Find the source files that implement it — be specific, not just the module.
+    a. Find the source files that implement it — be specific, not just the module.
 
-   b. Find relevant tests — look for test files that exercise this behaviour's main flow, alternate flows, and error conditions.
+    b. Find relevant tests — look for test files that exercise this behaviour's main flow, alternate flows, and error conditions.
 
-   c. Identify any relevant commits if git history is available: `git log --oneline -- <relevant files> | head -20`
+    c. Identify any relevant commits if git history is available: `git log --oneline -- <relevant files> | head -20`
 
-   d. Ask the user one question before writing:
-      > "Is the implementation of [behaviour] complete and tested, or are there known gaps?"
+    d. Ask the user one question before writing:
+       > "Is the implementation of [behaviour] complete and tested, or are there known gaps?"
 
-      If there are gaps, note them in the `impl.md` Notes section and set Status to `in-progress`. Otherwise `complete`.
+       If there are gaps, note them in the `impl.md` Notes section and set Status to `in-progress`. Otherwise `complete`.
 
-   e. Determine the implementation slug (derive from the primary approach: `rest-api`, `cli`, `background-job`, `library`, etc.).
+    e. Determine the implementation slug (derive from the primary approach: `rest-api`, `cli`, `background-job`, `library`, etc.).
 
-   f. Present the proposed `impl.md` to the user before writing:
+    f. Present the proposed `impl.md` to the user before writing:
 
-      ```
-      Proposed: taproot/<intent-slug>/<behaviour-slug>/<impl-slug>/impl.md — <behaviour name>
+       ```
+       Proposed: taproot/<intent-slug>/<behaviour-slug>/<impl-slug>/impl.md — <behaviour name>
 
-      <full proposed content>
+       <full proposed content>
 
-      [Y] Write it   [E] Edit before writing   [S] Skip   [Q] Quit session
-      ```
+       [Y] Write it   [E] Edit before writing   [S] Skip   [Q] Quit session
+       ```
 
-      Apply Y/E/S/Q as described in step 5e above.
+       Apply Y/E/S/Q as described in step 8e above.
 
-   g. Update status file: mark this impl `[x]` under its behaviour in Phase 4, update Last updated.
+    g. Update status file: mark this impl `[x]` under its behaviour in Phase 4, update Last updated.
 
-10. After each intent's implementations are written, run:
+13. After each intent's implementations are written, run:
     ```
     taproot validate-structure
     taproot validate-format
@@ -192,14 +227,15 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 
 ### Phase 5 — Wrap Up
 
-11. Run `taproot coverage` and present the results.
+14. Run `taproot coverage` and present the results.
 
-12. Run `taproot check-orphans` to verify nothing is structurally broken.
+15. Run `taproot check-orphans` to verify nothing is structurally broken.
 
-13. Update status file: set Phase to `complete`, update Last updated.
+16. Update status file: set Phase to `complete`, update Last updated.
 
-14. Present a closing summary:
+17. Present a closing summary:
     > "Discovery complete. Documented [N] intents, [N] behaviours, [N] implementations."
+    > *(If requirements-only: "Documented [N] intents, [N] behaviours — marked `specified`, ready for implementation.")*
 
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
@@ -213,8 +249,9 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 - `taproot/_brainstorms/discovery-status.md` — session state, updated continuously
 - `taproot/<intent-slug>/intent.md` for each confirmed intent
 - `taproot/<intent-slug>/<behaviour-slug>/usecase.md` for each confirmed behaviour
-- `taproot/<intent-slug>/<behaviour-slug>/<impl-slug>/impl.md` for each implementation
-- All documents reflect existing code and are written with `status: active` / `complete` (or `in-progress` where gaps are noted)
+  - Marked `status: specified` when derived from requirements with no source code
+  - Marked `status: implemented` when source code exists and impl.md is written
+- `taproot/<intent-slug>/<behaviour-slug>/<impl-slug>/impl.md` for each implementation (skipped in requirements-only mode)
 
 ## CLI Dependencies
 
@@ -235,12 +272,14 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 ## Session
 - **Started:** <YYYY-MM-DD>
 - **Last updated:** <YYYY-MM-DD>
-- **Phase:** 1 | 2 | 3 | 4 | 5 | complete
+- **Phase:** 0.5 | 1 | 2 | 3 | 4 | 5 | complete
 - **Scope:** whole project | <subdirectory>
 - **Depth:** full | behaviours | intents-only
+- **Conflict resolution:** source-wins | requirements-win | case-by-case | not-applicable
 
 ## Notes
 <!-- Free-form context to carry between sessions: key decisions, open questions, things to revisit -->
+<!-- Also records: what requirements artifacts were found and what tool/format they use -->
 
 ## Phase 2 — Intents
 <!-- [x] = intent.md written; [ ] = proposed but not yet confirmed -->
@@ -307,7 +346,7 @@ sequenceDiagram
 ```
 
 ## Status
-- **State:** active
+- **State:** active | specified
 - **Created:** <YYYY-MM-DD>
 ```
 
@@ -342,10 +381,12 @@ sequenceDiagram
 
 ## Notes
 
-- Discovery is a conversation, not a scan. The code tells you *what* exists; the user tells you *why* it matters. Both are needed.
+- Discovery is a conversation, not a scan. The code tells you *what* exists; requirements artifacts tell you *what was intended*; the user tells you *why* it matters. All three are inputs — only the user's confirmation produces output.
+- Requirements artifacts are hints, not truth. They may be stale, aspirational, or simply wrong. Always validate against source code where it exists; surface discrepancies to the developer rather than silently resolving them.
 - Resist the urge to map modules to intents 1:1. A single intent often spans many files; a single file often serves multiple intents.
 - When unsure whether something deserves its own intent vs. being a behaviour under another intent, ask: "Would a non-technical stakeholder describe these as separate goals, or as one goal with multiple steps?"
 - Existing code may have dead code, vestigial features, or undocumented behaviours. Ask the user before documenting anything that looks unused.
 - If the project already has partial taproot coverage, read the existing docs first and only discover what's missing.
 - Save the status file eagerly — after every write, not just at phase boundaries. A session interrupted mid-phase should resume at the last confirmed item, not the start of the phase.
-- The Notes section of the status file is the memory of the session. Use it to capture decisions, open questions, and anything the user said that isn't captured in a document yet.
+- The Notes section of the status file is the memory of the session. Use it to capture decisions, open questions, and anything the user said that isn't captured in a document yet — including what requirements tool was found and how it structures its artifacts.
+- Never hardcode knowledge of a specific requirements tool. If you encounter an unfamiliar format, read a sample, check the README, or do a web search — then reason from evidence.
