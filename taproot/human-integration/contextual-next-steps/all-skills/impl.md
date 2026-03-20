@@ -12,6 +12,7 @@
 - **`trace` bottom-up:** Guidance split — "not found" path shows `--unlinked` and `/tr-implement`; "found" path shows `/tr-refine` and `/tr-implement`
 - **`analyse-change` gate:** Guidance appears after `[A] Proceed` only — not after `[N]` (returns to loop) or `[C]` (stops)
 - **No new TypeScript:** Pure skill-file authoring; no CLI changes required
+- **`status` findings-informed guidance (AC-7):** `skills/status.md` step 7 updated to surface top 1–2 specific priority items as direct lettered options when findings exist; generic fallback menu shown only when project is healthy
 
 ## Source Files
 - `skills/intent.md` — creating path step 8, refining path step 6
@@ -35,6 +36,7 @@
 <!-- taproot-managed -->
 - `f3a0669546cdcffbbc1589ab3de4fd9757c4400f` — (auto-linked by taproot link-commits)
 - `9d31355b7c347db8b94d506a10fbc50477f36f59` — (auto-linked by taproot link-commits)
+- `fe208c0cf8be1dacaa6eb11150ee8af5bb3774d8` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/contextual-next-steps.test.ts` — verifies each skill file contains `**Next:**` or `**What's next?**` in its steps section
