@@ -32,3 +32,4 @@ definitionOfDone:
   - check-if-affected: skills/guide.md
   - check-if-affected-by: human-integration/contextual-next-steps
   - check-if-affected-by: human-integration/pause-and-confirm
+  - check-if-affected-by: skill-architecture/context-engineering
