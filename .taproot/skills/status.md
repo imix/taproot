@@ -63,12 +63,21 @@ Generated: <date>
 
 7. If no issues are found: "Everything looks healthy. <N> intents, <N> behaviours, <N> implementations — all valid, complete, and tested."
 
-   In all cases, present next steps:
+   Present next steps based on what was found:
 
-   **What's next?**
-   [A] `/tr-plan` — pick the next behaviour to implement
-   [B] `/tr-ineed` — capture a new requirement
-   [C] `/tr-review-all` — deeper semantic review of specs
+   - **If specific priority items were found** (unimplemented behaviours, missing tests, validation errors): surface the top 1–2 as direct lettered options with the exact command and path pre-filled. Add one generic fallback option last. Example:
+
+     **What's next?**
+     [A] `/tr-implement taproot/<intent>/<behaviour>/` — implement unimplemented behaviour
+     [B] `/tr-refine taproot/<intent>/<behaviour>/` — add missing tests
+     [C] `/tr-plan` — pick a different next item
+
+   - **If no specific items were found** (healthy project): show the generic fallback menu:
+
+     **What's next?**
+     [A] `/tr-plan` — pick the next behaviour to implement
+     [B] `/tr-ineed` — capture a new requirement
+     [C] `/tr-review-all` — deeper semantic review of specs
 
 ## Output
 
