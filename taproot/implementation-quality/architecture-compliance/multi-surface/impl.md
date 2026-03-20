@@ -28,6 +28,8 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/configuration.md updated: added check-if-affected-by to DoR condition syntax and documented architecture compliance use case with reference to docs/architecture.md. docs/architecture.md created as the architecture reference document. README.md and other docs/ files not affected. | resolved: 2026-03-20T13:38:11.010Z
+- condition: sessions-convention | note: docs/architecture.md updated: added _sessions/ scratch space convention. Architecture doc remains accurate and actionable. | resolved: 2026-03-20T20:13:47.707Z
+
 - condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — architecture-compliance implementation writes docs/architecture.md and updates .taproot/settings.yaml. Neither is a skill file (skills/*.md) containing git commit steps. commit-awareness constraints do not apply. | resolved: 2026-03-20T20:03:59.590Z
 
 - condition: check-if-affected-by: implementation-quality/architecture-compliance | note: this IS the architecture compliance implementation — self-referentially compliant by definition | resolved: 2026-03-20T13:43:59.658Z

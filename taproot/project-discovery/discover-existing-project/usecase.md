@@ -10,7 +10,7 @@ Developer invoking `/tr-discover` on a project that has no taproot hierarchy yet
 
 ## Main Flow
 1. Developer invokes `/tr-discover`
-2. Agent checks for `taproot/_brainstorms/discovery-status.md` — if found, offers to resume, restart, or abandon the prior session
+2. Agent checks for `taproot/_sessions/discovery-status.md` — if found, offers to resume, restart, or abandon the prior session
 3. Agent scans for existing requirements artifacts using naming heuristics — folders or files named `prd`, `requirements`, `specs`, `stories`, `epics`, `architecture`, `adr`, `design`, `rfcs`, and similar (excluding known non-requirement files such as `requirements.txt`). If candidates are found, agent reads them to understand their structure; if the format or tool is unfamiliar, agent researches it before proceeding.
 4. Agent presents what it found and asks the developer how to proceed:
    - **No artifacts found**: proceed silently — standard code-first flow
@@ -50,7 +50,7 @@ Developer invoking `/tr-discover` on a project that has no taproot hierarchy yet
 - The project has a living taproot hierarchy that reflects what was built and/or specified
 - For source-based discovery: documents are marked `status: active` / `complete` (or `in-progress` where gaps were noted)
 - For requirements-only discovery: behaviours are marked `status: specified`; no `impl.md` files are created
-- The session state is preserved in `taproot/_brainstorms/discovery-status.md` and can be resumed if interrupted
+- The session state is preserved in `taproot/_sessions/discovery-status.md` and can be resumed if interrupted
 
 ## Flow
 ```mermaid
@@ -125,3 +125,4 @@ sequenceDiagram
 - **State:** implemented
 - **Created:** 2026-03-19
 - **Last reviewed:** 2026-03-20
+- **Note:** `_brainstorms/` renamed to `_sessions/` — the folder contains structured session state, not ideation artefacts

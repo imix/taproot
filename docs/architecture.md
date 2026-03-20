@@ -24,6 +24,8 @@ Architectural decisions, constraints, and patterns for the taproot codebase. Eve
 
 **`taproot/` contains only requirement documents** — Skills, config, and framework files live in `.taproot/`. Never mix framework files into the requirements hierarchy.
 
+**`taproot/_sessions/` is the scratch space for agent session state** — Skills that persist resumable session data (phase progress, confirmed items, open questions) write to `taproot/_sessions/<skill-name>-status.md`. This folder is not a formal hierarchy document and is excluded from `taproot validate-structure`. Use `_sessions/`, not `_brainstorms/` — the latter implies ideation rather than structured state.
+
 **Markdown is the schema** — All hierarchy documents (intent.md, usecase.md, impl.md) must be valid CommonMark. No proprietary extensions.
 
 **Error messages must be actionable** — Every error surface (CLI output, DoD/DoR failures, validate-format output) must include a correction hint, not just a description of what failed.
