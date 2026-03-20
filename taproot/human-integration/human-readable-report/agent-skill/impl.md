@@ -31,7 +31,7 @@
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — Parked section is a reporting addition to one skill; not a cross-cutting enforcement concern | resolved: 2026-03-20T18:33:55.063Z
 
-- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: compliant — change is markdown-only (skills/status.md); no source code modified; no architectural constraints affected | resolved: 2026-03-20T18:33:54.834Z
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — change is markdown-only (skills/status.md); no source code modified; no architectural constraints affected | resolved: 2026-03-20T18:33:54.834Z
 
 - condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — pattern-hints applies to skills that process natural language requirements; tr-status processes CLI command output, not user intent descriptions | resolved: 2026-03-20T18:33:54.602Z
 

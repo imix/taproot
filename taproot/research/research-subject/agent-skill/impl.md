@@ -38,7 +38,7 @@
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — research skill is self-contained; no new cross-cutting concern introduced | resolved: 2026-03-20T16:07:22.819Z
 
-- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: not applicable — skills/research.md is a markdown skill file; architecture-compliance constraints govern CLI source code, not skill markdown definitions | resolved: 2026-03-20T16:07:22.586Z
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — skills/research.md is a markdown skill file; architecture-compliance constraints govern CLI source code, not skill markdown definitions | resolved: 2026-03-20T16:07:22.586Z
 
 - condition: check-if-affected-by: human-integration/pattern-hints | note: compliant — /tr-research includes a pattern check at step 0 via docs/patterns.md scan before routing; pattern-hints spec is satisfied | resolved: 2026-03-20T16:07:22.353Z
 

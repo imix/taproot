@@ -33,15 +33,15 @@
 - **Last verified:** 2026-03-20
 
 ## DoR Resolutions
-- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: compliant — stateless CLI command; external I/O (file reads/writes, agent spawn) at command boundary in runApply; no global mutable state; validation runs before any filesystem mutation | resolved: 2026-03-20T15:36:07.435Z
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — stateless CLI command; external I/O (file reads/writes, agent spawn) at command boundary in runApply; no global mutable state; validation runs before any filesystem mutation | resolved: 2026-03-20T15:36:07.435Z
 
 ## DoD Resolutions
-- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: compliant — stateless CLI command; external I/O (file reads/writes, agent spawn) in src/commands/apply.ts at command boundary; core logic (validation, diff) inline in command handler (no separate core module needed at this size); no global mutable state; error messages are actionable | resolved: 2026-03-20T15:36:07.435Z
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — stateless CLI command; external I/O (file reads/writes, agent spawn) in src/commands/apply.ts at command boundary; core logic (validation, diff) inline in command handler (no separate core module needed at this size); no global mutable state; error messages are actionable | resolved: 2026-03-20T15:36:07.435Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — finding documented in usecase.md Finding section | resolved: 2026-03-20T17:11:12.225Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — removal introduces no new cross-cutting concern | resolved: 2026-03-20T17:11:11.994Z
 
-- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: not applicable — implementation removed | resolved: 2026-03-20T17:11:11.760Z
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — implementation removed | resolved: 2026-03-20T17:11:11.760Z
 
 - condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — implementation removed | resolved: 2026-03-20T17:11:11.529Z
 

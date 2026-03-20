@@ -23,7 +23,7 @@
 - **Created:** 2026-03-20
 
 ## DoR Resolutions
-- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: compliant — implementation is a CLAUDE.md markdown addition; no source code modified; no architectural constraints affected | resolved: 2026-03-20
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — implementation is a CLAUDE.md markdown addition; no source code modified; no architectural constraints affected | resolved: 2026-03-20
 
 ## DoD Resolutions
 - condition: document-current | note: CLAUDE.md is the documentation surface for this behaviour — it IS the implementation. README.md and docs/ describe CLI commands and skills at a high level; pre-commit agent guidance belongs in CLAUDE.md, not in docs/ | resolved: 2026-03-20T21:09:02.487Z
@@ -31,7 +31,7 @@
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — ad-hoc commit prep is specific to Claude Code agent guidance in CLAUDE.md; it does not introduce a new architectural constraint that should gate future skill implementations | resolved: 2026-03-20T21:09:04.603Z
 
-- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: not applicable — architecture-compliance governs CLI source code; CLAUDE.md is a markdown instruction file with no source code | resolved: 2026-03-20T21:09:04.372Z
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — architecture-compliance governs CLI source code; CLAUDE.md is a markdown instruction file with no source code | resolved: 2026-03-20T21:09:04.372Z
 
 - condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — CLAUDE.md is a persistent instruction file; pattern-hints applies to skills that receive natural language descriptions and check docs/patterns.md at step 0 | resolved: 2026-03-20T21:09:04.133Z
 

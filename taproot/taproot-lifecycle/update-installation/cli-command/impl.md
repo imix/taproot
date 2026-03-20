@@ -31,7 +31,7 @@
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — skill force-overwrite is specific to the update command; no new architectural constraint | resolved: 2026-03-20T20:55:10.150Z
 
-- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: compliant — force parameter added to installSkills follows existing patterns: no global state, parameter passed down, no I/O in core logic | resolved: 2026-03-20T20:55:09.912Z
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — force parameter added to installSkills follows existing patterns: no global state, parameter passed down, no I/O in core logic | resolved: 2026-03-20T20:55:09.912Z
 
 - condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — taproot update is a CLI command, not a skill that routes user requirements | resolved: 2026-03-20T20:55:09.683Z
 

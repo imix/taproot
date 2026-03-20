@@ -32,7 +32,7 @@
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — acceptance criteria is already enforced via the existing MISSING_ACCEPTANCE_CRITERIA validate-format check | resolved: 2026-03-20T18:30:44.657Z
 
-- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: compliant — checkAcceptanceCriteria() is pure validation logic in src/validators/format-rules.ts; no I/O; no global state; skill changes are markdown-only | resolved: 2026-03-20T18:30:44.418Z
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — checkAcceptanceCriteria() is pure validation logic in src/validators/format-rules.ts; no I/O; no global state; skill changes are markdown-only | resolved: 2026-03-20T18:30:44.418Z
 
 - condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — pattern-hints applies to skills that receive a natural language description of intent and check docs/patterns.md; behaviour.md and refine.md are spec-authoring skills, not requirement-routing skills | resolved: 2026-03-20T18:30:44.178Z
 

@@ -44,7 +44,7 @@
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — cross-linked-specs is already the mechanism enforced by taproot update and tr-implement/tr-behaviour as side-effects. No new .taproot/settings.yaml entry needed. | resolved: 2026-03-20T20:03:55.740Z
 
-- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: not applicable — this implementation modifies taproot hierarchy markdown files (usecase.md and impl.md link sections). No CLI source code, no architectural decisions involved. docs/architecture.md constraints do not apply to hierarchy document link management. | resolved: 2026-03-20T20:03:55.500Z
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — this implementation modifies taproot hierarchy markdown files (usecase.md and impl.md link sections). No CLI source code, no architectural decisions involved. docs/architecture.md constraints do not apply to hierarchy document link management. | resolved: 2026-03-20T20:03:55.500Z
 
 - condition: check-if-affected-by: skill-architecture/commit-awareness | note: cross-linked-specs writes usecase.md and impl.md link sections as side-effects of document creation — it is a multi-surface impl (usecase.md updates + impl.md updates), not a skill file with git commit steps. commit-awareness constraints apply to skills/*.md files with explicit git commit instructions. Not applicable. | resolved: 2026-03-20T20:03:55.258Z
 

@@ -35,7 +35,7 @@
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — pattern-hints is already enforced via check-if-affected-by: human-integration/pattern-hints in .taproot/settings.yaml. No new entry needed. | resolved: 2026-03-20T20:04:07.970Z
 
-- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: not applicable — pattern-hints implementation modifies skills/*.md (agent skill markdown). No CLI source code, no architectural decisions in docs/architecture.md apply. | resolved: 2026-03-20T20:04:07.737Z
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — pattern-hints implementation modifies skills/*.md (agent skill markdown). No CLI source code, no architectural decisions in docs/architecture.md apply. | resolved: 2026-03-20T20:04:07.737Z
 
 - condition: check-if-affected-by: human-integration/pattern-hints | note: this IS the pattern-hints implementation — it defines the behaviour. Self-referential check: the skill scans docs/patterns.md for matches and interrupts before proceeding, exactly as specified in the usecase. Compliant. | resolved: 2026-03-20T20:04:07.505Z
 

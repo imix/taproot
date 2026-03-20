@@ -26,7 +26,7 @@
 - **Created:** 2026-03-20
 
 ## DoR Resolutions
-- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: compliant — changes are YAML config (.taproot/settings.yaml) and markdown skill files (skills/implement.md); no source code modified; no architectural constraints affected | resolved: 2026-03-20T20:00:00.000Z
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — changes are YAML config (.taproot/settings.yaml) and markdown skill files (skills/implement.md); no source code modified; no architectural constraints affected | resolved: 2026-03-20T20:00:00.000Z
 
 ## DoD Resolutions
 - condition: document-current | note: README.md and docs/ do not need updating — commit-awareness is a new check-if-affected-by entry in settings.yaml; docs/configuration.md explains the check-if-affected-by mechanism generically and does not enumerate specific entries; no new CLI commands or configuration options introduced | resolved: 2026-03-20T19:18:02.904Z
@@ -34,7 +34,7 @@
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: yes — this story introduces check-if-affected-by: skill-architecture/commit-awareness, which has been added to definitionOfDone in .taproot/settings.yaml | resolved: 2026-03-20T19:18:51.563Z
 
-- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: compliant — all changes are markdown (skills/implement.md) and YAML (.taproot/settings.yaml); no source code modified; no architectural constraints affected (filesystem as data model, no global state, no I/O outside command boundaries) | resolved: 2026-03-20T19:18:51.327Z
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — all changes are markdown (skills/implement.md) and YAML (.taproot/settings.yaml); no source code modified; no architectural constraints affected (filesystem as data model, no global state, no I/O outside command boundaries) | resolved: 2026-03-20T19:18:51.327Z
 
 - condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — pattern-hints applies to skills that receive natural language descriptions and check docs/patterns.md; this implementation modifies settings.yaml and implement.md step content, not requirement-routing logic | resolved: 2026-03-20T19:18:51.091Z
 

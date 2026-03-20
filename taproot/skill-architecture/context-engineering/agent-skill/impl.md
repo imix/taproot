@@ -17,6 +17,7 @@
 - placeholder
 - `0cfe26d7c7b5c1f65a26a9084a4b7c912c46f7b2` — (auto-linked by taproot link-commits)
 - `644e0ec95f4cf48b0abf01cad46cf464a2bfff92` — (auto-linked by taproot link-commits)
+- `86e173893fefe36da515fa9cc408d02d7c719fc1` — (auto-linked by taproot link-commits)
 
 ## Tests
 - None — this behaviour is enforced via agent reasoning at DoD time (C-1 through C-6 are agent-verifiable conditions, not executable assertions). Acceptance criteria are verified manually at DoD.
@@ -32,7 +33,7 @@
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: this story IS the cross-cutting concern mechanism (check-if-affected-by: skill-architecture/context-engineering is already in .taproot/settings.yaml); no additional entries needed | resolved: 2026-03-20T16:08:32.910Z
 
-- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: not applicable — this impl modifies skill files (skills/*.md), not CLI source code; architecture-compliance constraints govern CLI command implementations | resolved: 2026-03-20T16:08:32.674Z
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — this impl modifies skill files (skills/*.md), not CLI source code; architecture-compliance constraints govern CLI command implementations | resolved: 2026-03-20T16:08:32.674Z
 
 - condition: check-if-affected-by: human-integration/pattern-hints | note: Updated in pattern-hints implementation pass. All 16 skills had pattern check steps added (ineed, behaviour, implement, refine directly; others indirectly via the same impl pass). Compliant with pattern-hints spec: interruptive step 0/1a, [A]/[B] choice, docs/patterns.md read on demand. | resolved: 2026-03-20T10:33:33.804Z
 

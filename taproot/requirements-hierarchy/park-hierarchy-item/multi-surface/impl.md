@@ -26,7 +26,7 @@
 - `test/integration/park-hierarchy-item.test.ts` — covers AC-1 (deferred usecase not flagged), AC-2 (deferred impl with missing source not flagged), AC-3 (deferred behaviour excluded from plan), AC-5 (deferred rejected on intent.md), AC-6 (un-parked impl resumes normal checking), AC-7 (specified behaviour with deferred impl stays as plan candidate)
 
 ## DoR Resolutions
-- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: compliant — config change in src/core/config.ts (core layer, no I/O); validation change in src/validators/format-rules.ts (pure logic); command changes in src/commands/ (I/O at command boundary); no global mutable state; error messages include correction hints | resolved: 2026-03-20
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — config change in src/core/config.ts (core layer, no I/O); validation change in src/validators/format-rules.ts (pure logic); command changes in src/commands/ (I/O at command boundary); no global mutable state; error messages include correction hints | resolved: 2026-03-20
 
 ## Status
 - **State:** complete
@@ -39,7 +39,7 @@
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — the deferred state affects multiple CLI commands but this is a first-class feature implemented directly, not a cross-cutting enforcement constraint that would need to be wired up per-implementation | resolved: 2026-03-20T18:00:27.053Z
 
-- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: compliant — all changes respect module boundaries: config defaults in src/core/config.ts, pure validation logic in src/validators/format-rules.ts, I/O-boundary changes in src/commands/; no global mutable state introduced; error message for deferred-on-intent.md includes correction hint (use deprecated instead) | resolved: 2026-03-20T18:00:26.822Z
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — all changes respect module boundaries: config defaults in src/core/config.ts, pure validation logic in src/validators/format-rules.ts, I/O-boundary changes in src/commands/; no global mutable state introduced; error message for deferred-on-intent.md includes correction hint (use deprecated instead) | resolved: 2026-03-20T18:00:26.822Z
 
 - condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — pattern-hints applies to agent skills that process user-expressed needs via the taproot skill system; this is a CLI and validator change | resolved: 2026-03-20T18:00:18.356Z
 
