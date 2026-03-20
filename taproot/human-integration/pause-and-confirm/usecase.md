@@ -145,6 +145,9 @@ flowchart TD
 - When the session completes
 - Then every file on disk was either explicitly confirmed with [Y] or written during an opted-in auto-proceed pass
 
+## Implementations <!-- taproot-managed -->
+- [Discover and Decompose](./discover-and-decompose/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-20
