@@ -123,6 +123,9 @@ flowchart TD
 - When the match is confirmed
 - Then the output presents `/tr-refine <matched-path>` as the next step rather than silently stopping
 
+## Implementations <!-- taproot-managed -->
+- [All Skills — Next-Step Guidance](./all-skills/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-19
