@@ -41,4 +41,5 @@
 - condition: check-if-affected: skills/guide.md | note: not affected — guide.md lists /tr-status as a health dashboard command but does not enumerate report sections; Parked section addition requires no change to the onboarding guide | resolved: 2026-03-20T18:33:53.659Z
 
 - condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts copies skill files to agent adapter directories; the Parked section addition to status.md is propagated via the CLAUDE.md copy-back step, not via update.ts | resolved: 2026-03-20T18:33:53.424Z
+- condition: document-current | note: skills/status.md step 1 updated to explicitly name deferredBehaviours and deferredImpls JSON fields for Parked section population; no other docs require updating | resolved: 2026-03-20T19:00:00.000Z
 
