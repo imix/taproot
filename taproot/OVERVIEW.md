@@ -60,14 +60,15 @@ _No behaviours yet._
 **Goal:** Keep the human orchestrator in meaningful control of the requirement hierarchy — as its owner, its primary author of intent, and its final decision-maker — while making the current state of the project legible at a glance.
 
 - **[contextual-next-steps](./human-integration/contextual-next-steps/usecase.md)** `[implemented]` — Actor: Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the moment it produces its primary output
-  - [all-skills](./human-integration/contextual-next-steps/all-skills/impl.md) `[complete]` (2 commits, 1 test)
+  - [all-skills](./human-integration/contextual-next-steps/all-skills/impl.md) `[complete]` (3 commits, 1 test)
 - **[cross-linked-specs](./human-integration/cross-linked-specs/usecase.md)** `[implemented]` — Actor: `tr-behaviour` skill (when creating a new `usecase.md`) and `tr-implement` skill (when creating a new `impl.md`) — both maintain the link sections in their parent documents as a side-effect of document creation. `taproot update` runs a link-refresh pass across the full tree to backfill existing documents.
   - [multi-surface](./human-integration/cross-linked-specs/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 - **[grill-me](./human-integration/grill-me/usecase.md)** `[implemented]` — Actor: Developer or orchestrator who wants to stress-test a plan, design decision, or vague idea through relentless structured questioning — invoked directly via `/tr-grill-me`, or called by another skill (`tr-ineed`, `tr-behaviour`) when deeper elicitation is needed before writing a spec.
   - [agent-skill](./human-integration/grill-me/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[human-readable-report](./human-integration/human-readable-report/usecase.md)** `[implemented]` — Actor: Developer or project stakeholder invoking `/tr-status`
   - [agent-skill](./human-integration/human-readable-report/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
-- **[pause-and-confirm](./human-integration/pause-and-confirm/usecase.md)** `[specified]` — Actor: Developer using any taproot skill that writes more than one document in sequence (primarily `/tr-discover`, `/tr-decompose`, and any future bulk-authoring skill)
+- **[pause-and-confirm](./human-integration/pause-and-confirm/usecase.md)** `[implemented]` — Actor: Developer using any taproot skill that writes more than one document in sequence (primarily `/tr-discover`, `/tr-decompose`, and any future bulk-authoring skill)
+  - [discover-and-decompose](./human-integration/pause-and-confirm/discover-and-decompose/impl.md) `[complete]` (2 commits, 1 test)
 - **[route-requirement](./human-integration/route-requirement/usecase.md)** `[implemented]` — Actor: Human orchestrator / developer stating a requirement in natural language — at any level of clarity, from vague instinct to fully-formed specification
   - [agent-skill](./human-integration/route-requirement/agent-skill/impl.md) `[complete]` (1 commit, 1 test)
 
@@ -130,4 +131,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-13 intents · 29 behaviours · 29 implementations · 29/29 complete
+13 intents · 29 behaviours · 30 implementations · 30/30 complete

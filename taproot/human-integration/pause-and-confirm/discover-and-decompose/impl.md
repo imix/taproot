@@ -16,6 +16,8 @@
 
 ## Commits
 <!-- taproot-managed -->
+- `56a71b9a00c326aa9bf3da07c1f89d8536cb888a` — (auto-linked by taproot link-commits)
+- `2423b20150dbe6b49a9ada2dc8d2dc35d02fd292` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/pause-and-confirm.test.ts` — verifies both skill files contain Y/E/S/Q menu pattern, auto-proceed language, and session summary language
