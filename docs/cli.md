@@ -160,6 +160,38 @@ Surfaces unimplemented behaviours as work items, ordered by priority (intents wi
 
 ---
 
+## Bulk Operations
+
+### `taproot apply`
+
+```bash
+taproot apply <filelist> <prompt>
+```
+
+Applies a prompt task to each file in a filelist using the configured agent. Each file is processed sequentially: the agent receives the prompt and the file path (via `$TAPROOT_APPLY_FILE` env var), edits the file in place, and exits. Taproot detects the change via diff and records the result.
+
+| Status | Meaning |
+|--------|---------|
+| `modified` | Agent exited 0 and the file content changed |
+| `skipped` | Agent exited 0 but the file is unchanged |
+| `error` | Agent exited non-zero; file restored from snapshot; processing continues |
+
+The filelist is a plain text file, one path per line, relative to the working directory. Lines starting with `#` and blank lines are ignored. All paths must exist and resolve under `taproot/` — the command aborts before processing if any path fails validation.
+
+Example output:
+```
+Apply complete — 14 files processed
+  ✓ modified:  8
+  ○ skipped:   5
+  ✗ errors:    1  taproot/foo/bar/usecase.md — agent exited with code 1
+```
+
+The agent CLI is resolved from the `agents:` list in `.taproot/settings.yaml` (first entry that responds to `--version`), falling back to `claude`.
+
+Typically used by the `/tr-sweep` skill, which generates the filelist and prompt then calls `taproot apply`.
+
+---
+
 ## Definition of Done
 
 ### `taproot dod`

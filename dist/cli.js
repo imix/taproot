@@ -12,6 +12,8 @@ import { registerOverview } from './commands/overview.js';
 import { registerPlan } from './commands/plan.js';
 import { registerDod } from './commands/dod.js';
 import { registerCommithook } from './commands/commithook.js';
+import { registerAcceptanceCheck } from './commands/acceptance-check.js';
+import { registerApply } from './commands/apply.js';
 const program = new Command();
 program
     .name('taproot')
@@ -29,5 +31,7 @@ registerOverview(program);
 registerPlan(program);
 registerDod(program);
 registerCommithook(program);
+registerAcceptanceCheck(program);
+registerApply(program);
 program.parse();
 //# sourceMappingURL=cli.js.map
