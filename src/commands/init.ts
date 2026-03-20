@@ -87,7 +87,7 @@ export function runInit(options: {
   const cwd = options.cwd ?? process.cwd();
   const messages: string[] = [];
 
-  const configPath = join(cwd, '.taproot.yaml');
+  const configPath = join(cwd, '.taproot', 'settings.yaml');
   const taprootDir = resolve(cwd, DEFAULT_CONFIG.root);
   const skillsDir = join(cwd, '.taproot', 'skills');
 
@@ -99,7 +99,10 @@ export function runInit(options: {
     messages.push(`exists   ${DEFAULT_CONFIG.root}`);
   }
 
-  // Write .taproot.yaml
+  // Ensure .taproot/ directory exists
+  mkdirSync(join(cwd, '.taproot'), { recursive: true });
+
+  // Write .taproot/settings.yaml
   if (!existsSync(configPath)) {
     const configForYaml = {
       version: DEFAULT_CONFIG.version,
@@ -116,9 +119,9 @@ export function runInit(options: {
       },
     };
     writeFileSync(configPath, yaml.dump(configForYaml));
-    messages.push('created  .taproot.yaml');
+    messages.push('created  .taproot/settings.yaml');
   } else {
-    messages.push('exists   .taproot.yaml');
+    messages.push('exists   .taproot/settings.yaml');
   }
 
   // Write CONVENTIONS.md

@@ -20,9 +20,9 @@ describe('taproot init', () => {
     expect(existsSync(join(tmpDir, 'taproot'))).toBe(true);
   });
 
-  it('creates .taproot.yaml', () => {
+  it('creates .taproot/settings.yaml', () => {
     runInit({ cwd: tmpDir });
-    expect(existsSync(join(tmpDir, '.taproot.yaml'))).toBe(true);
+    expect(existsSync(join(tmpDir, '.taproot', 'settings.yaml'))).toBe(true);
   });
 
   it('creates .taproot/skills/ directory when claude agent is selected', async () => {
@@ -44,7 +44,7 @@ describe('taproot init', () => {
   it('returns messages describing what was created', () => {
     const messages = runInit({ cwd: tmpDir });
     expect(messages.some(m => m.includes('taproot/'))).toBe(true);
-    expect(messages.some(m => m.includes('.taproot.yaml'))).toBe(true);
+    expect(messages.some(m => m.includes('.taproot/settings.yaml'))).toBe(true);
   });
 
   it('is idempotent — running twice does not fail', () => {

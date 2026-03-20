@@ -41,4 +41,5 @@
 - condition: check-if-affected: skills/guide.md | note: updated — added /tr-research row to the slash commands table | resolved: 2026-03-20T08:11:13.695Z
 
 - condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts reads SKILL_FILES from init.ts dynamically; adding research.md to SKILL_FILES is sufficient | resolved: 2026-03-20T08:11:13.463Z
+- condition: check-if-affected: src/commands/init.ts | note: init.ts changed (config path moved to .taproot/settings.yaml) — SKILL_FILES entry for research.md is unchanged; no impact on research skill installation | resolved: 2026-03-20T12:00:00.000Z
 

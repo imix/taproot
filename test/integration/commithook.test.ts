@@ -329,7 +329,7 @@ describe('runDorChecks', () => {
   });
 
   it('fails when check: condition is unresolved (no DoR Resolutions in impl.md)', () => {
-    writeFileSync(join(tmpDir, '.taproot.yaml'), [
+    writeFileSync(join(tmpDir, '.taproot', 'settings.yaml'), [
       'version: 1',
       'root: taproot/',
       'definitionOfReady:',
@@ -349,7 +349,7 @@ describe('runDorChecks', () => {
     const question = 'is this spec complete enough to implement?';
     const conditionName = `check: ${question}`;
     const now = new Date().toISOString();
-    writeFileSync(join(tmpDir, '.taproot.yaml'), [
+    writeFileSync(join(tmpDir, '.taproot', 'settings.yaml'), [
       'version: 1',
       'root: taproot/',
       'definitionOfReady:',

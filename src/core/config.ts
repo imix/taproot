@@ -34,11 +34,11 @@ export const DEFAULT_CONFIG: TaprootConfig = {
   },
 };
 
-function findConfigFile(startDir: string): string | null {
+function findConfigFile(startDir: string): { configFile: string; projectRoot: string } | null {
   let current = resolve(startDir);
   while (true) {
-    const candidate = join(current, '.taproot.yaml');
-    if (existsSync(candidate)) return candidate;
+    const candidate = join(current, '.taproot', 'settings.yaml');
+    if (existsSync(candidate)) return { configFile: candidate, projectRoot: current };
     const parent = dirname(current);
     if (parent === current) return null;
     current = parent;
@@ -68,16 +68,16 @@ function deepMerge<T>(defaults: T, overrides: Partial<T>): T {
 }
 
 export function loadConfig(cwd: string = process.cwd()): { config: TaprootConfig; configDir: string } {
-  const configFile = findConfigFile(cwd);
+  const found = findConfigFile(cwd);
 
-  if (!configFile) {
+  if (!found) {
     return {
       config: { ...DEFAULT_CONFIG, root: resolve(cwd, DEFAULT_CONFIG.root) },
       configDir: cwd,
     };
   }
 
-  const configDir = dirname(configFile);
+  const { configFile, projectRoot } = found;
   let raw: unknown;
   try {
     raw = yaml.load(readFileSync(configFile, 'utf-8'));
@@ -86,7 +86,7 @@ export function loadConfig(cwd: string = process.cwd()): { config: TaprootConfig
   }
 
   const merged = deepMerge(DEFAULT_CONFIG, (raw ?? {}) as Partial<TaprootConfig>);
-  merged.root = resolve(configDir, merged.root);
+  merged.root = resolve(projectRoot, merged.root);
 
-  return { config: merged, configDir };
+  return { config: merged, configDir: projectRoot };
 }

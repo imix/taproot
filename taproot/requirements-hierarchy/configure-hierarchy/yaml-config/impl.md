@@ -21,6 +21,6 @@
 - (no dedicated test file — config loading is exercised indirectly by every integration test)
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-20

@@ -154,7 +154,7 @@ ${s.content}
 
   return `---
 description: Taproot requirement hierarchy — skill definitions and document conventions
-globs: ["taproot/**", ".taproot.yaml"]
+globs: ["taproot/**", ".taproot/settings.yaml"]
 alwaysApply: false
 ---
 

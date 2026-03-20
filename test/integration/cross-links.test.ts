@@ -12,7 +12,8 @@ function makeTempDir(): string {
 }
 
 function writeConfig(dir: string): void {
-  writeFileSync(join(dir, '.taproot.yaml'), [
+  mkdirSync(join(dir, '.taproot'), { recursive: true });
+  writeFileSync(join(dir, '.taproot', 'settings.yaml'), [
     'version: 1',
     'root: taproot/',
   ].join('\n') + '\n', 'utf-8');

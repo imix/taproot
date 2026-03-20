@@ -22,7 +22,8 @@ function writeConfig(dir: string, dodConditions: unknown[]): void {
         : `  - run: "${(c as { run: string }).run}"${(c as { name?: string }).name ? `\n    name: ${(c as { name?: string }).name}` : ''}${(c as { correction?: string }).correction ? `\n    correction: "${(c as { correction?: string }).correction}"` : ''}`
     ),
   ].join('\n') + '\n';
-  writeFileSync(join(dir, '.taproot.yaml'), yaml, 'utf-8');
+  mkdirSync(join(dir, '.taproot'), { recursive: true });
+  writeFileSync(join(dir, '.taproot', 'settings.yaml'), yaml, 'utf-8');
 }
 
 function makeUsecaseMd(dir: string, { state = 'specified', withRelated = true } = {}): string {
@@ -498,14 +499,15 @@ describe('runDod — usecase state cascade', () => {
 
 // ─── runDod integration tests ─────────────────────────────────────────────────
 
-describe('runDod — reads from .taproot.yaml', () => {
+describe('runDod — reads from .taproot/settings.yaml', () => {
   let tmpDir: string;
 
   beforeEach(() => { tmpDir = makeTempDir(); });
   afterEach(() => { rmSync(tmpDir, { recursive: true, force: true }); });
 
   it('returns configured: false when no DoD in config and no implPath', async () => {
-    writeFileSync(join(tmpDir, '.taproot.yaml'), 'version: 1\nroot: taproot/\n', 'utf-8');
+    mkdirSync(join(tmpDir, '.taproot'), { recursive: true });
+    writeFileSync(join(tmpDir, '.taproot', 'settings.yaml'), 'version: 1\nroot: taproot/\n', 'utf-8');
     const report = await runDod({ cwd: tmpDir });
     expect(report.configured).toBe(false);
     expect(report.allPassed).toBe(true);
@@ -567,7 +569,8 @@ describe('runDod — impl.md state update', () => {
 
   it('runs baseline and marks complete when no conditions configured but implPath given', async () => {
     const implPath = makeImplMd(tmpDir, 'in-progress');
-    writeFileSync(join(tmpDir, '.taproot.yaml'), 'version: 1\nroot: taproot/\n', 'utf-8');
+    mkdirSync(join(tmpDir, '.taproot'), { recursive: true });
+    writeFileSync(join(tmpDir, '.taproot', 'settings.yaml'), 'version: 1\nroot: taproot/\n', 'utf-8');
     await runDod({ implPath, cwd: tmpDir });
     const content = readFileSync(implPath, 'utf-8');
     expect(content).toContain('**State:** complete');
