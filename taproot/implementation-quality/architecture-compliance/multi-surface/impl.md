@@ -27,6 +27,7 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/configuration.md updated: added check-if-affected-by to DoR condition syntax and documented architecture compliance use case with reference to docs/architecture.md. docs/architecture.md created as the architecture reference document. README.md and other docs/ files not affected. | resolved: 2026-03-20T13:38:11.010Z
+- condition: check-if-affected-by: implementation-quality/architecture-compliance | note: this IS the architecture compliance implementation — self-referentially compliant by definition | resolved: 2026-03-20T13:43:59.658Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: yes — architecture compliance pre-check is a reusable pattern; however it is already captured in docs/patterns.md indirectly via check-if-affected-by, and the specific use case is documented in docs/configuration.md. No new pattern entry needed. | resolved: 2026-03-20T13:39:40.782Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml? | note: yes — added check-if-affected-by: implementation-quality/architecture-compliance to definitionOfReady in settings.yaml; this is itself the cross-cutting concern | resolved: 2026-03-20T13:39:40.553Z

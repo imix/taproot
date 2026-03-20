@@ -37,5 +37,6 @@ definitionOfDone:
   - check-if-affected-by: human-integration/pause-and-confirm
   - check-if-affected-by: skill-architecture/context-engineering
   - check-if-affected-by: human-integration/pattern-hints
+  - check-if-affected-by: implementation-quality/architecture-compliance
   - check: "does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml?"
   - check: "does this story reveal a reusable pattern worth documenting in docs/patterns.md?"
