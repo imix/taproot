@@ -27,6 +27,28 @@ Agentic developer / orchestrator or AI coding agent refreshing the project summa
 - `taproot/OVERVIEW.md` exists and reflects the current state of the hierarchy
 - AI agents can read OVERVIEW.md at session start to orient themselves without reading every document
 
+## Acceptance Criteria
+
+**AC-1: Overview file is written**
+- Given a taproot hierarchy with at least one intent
+- When `taproot overview` is run
+- Then `taproot/OVERVIEW.md` is created or overwritten with a structured summary of all intents, behaviours, and implementations
+
+**AC-2: Empty hierarchy produces no file**
+- Given a taproot directory with no intent documents
+- When `taproot overview` is run
+- Then the system prints "No intents found" and does not write OVERVIEW.md
+
+**AC-3: Malformed document is included with partial data**
+- Given a usecase.md or intent.md with a missing section
+- When `taproot overview` is run
+- Then the document is included in OVERVIEW.md with the available data; no error is thrown and no document is silently omitted
+
+**AC-4: Overview reflects current state after update**
+- Given a hierarchy that has changed since the last overview generation
+- When `taproot update` is run (which includes overview generation)
+- Then OVERVIEW.md reflects the current state of the hierarchy
+
 ## Implementations <!-- taproot-managed -->
 - [CLI Command — taproot overview](./cli-command/impl.md)
 

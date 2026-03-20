@@ -77,6 +77,43 @@ sequenceDiagram
   Agent-->>Developer: closing summary with coverage report
 ```
 
+## Acceptance Criteria
+
+**AC-1: Source-only project produces full hierarchy**
+- Given a project with source code and no requirements artifacts
+- When `/tr-discover` is invoked
+- Then the agent runs the standard code-first flow and produces intent.md, usecase.md, and impl.md files without prompting about requirements
+
+**AC-2: Requirements-only project offered import**
+- Given a project with requirements artifacts (e.g. a `prd/` folder) and no source code
+- When `/tr-discover` scans the project
+- Then the agent describes what it found and asks the developer to confirm import as specified behaviours before writing anything
+
+**AC-3: Mixed project asks for conflict resolution preference**
+- Given a project with both source code and requirements artifacts
+- When `/tr-discover` scans the project
+- Then the agent asks the developer which takes precedence (source / requirements / case-by-case) before proceeding
+
+**AC-4: No document written without developer confirmation**
+- Given any discovery mode (source, requirements, or mixed)
+- When the agent proposes an intent or behaviour
+- Then no file is written until the developer confirms via the [Y]/[E]/[S]/[Q] menu
+
+**AC-5: Requirements-only import marks behaviours as specified**
+- Given a developer confirms requirements-only import
+- When the agent creates the hierarchy
+- Then all usecase.md files are marked `status: specified` and no impl.md files are created
+
+**AC-6: Interrupted session resumes from last checkpoint**
+- Given a discovery session was interrupted mid-flow
+- When the developer runs `/tr-discover` again and chooses Resume
+- Then the agent skips all already-confirmed items and continues from the last incomplete phase
+
+**AC-7: Unknown requirements tool is researched before prompting**
+- Given requirements artifacts from an unfamiliar tool are detected
+- When the agent scans the project
+- Then the agent reads the artifacts and researches the tool before describing what it found to the developer
+
 ## Related
 - `taproot/human-integration/route-requirement/usecase.md` — individual requirements discovered during this flow are routed via tr-ineed
 

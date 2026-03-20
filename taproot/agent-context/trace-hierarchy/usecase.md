@@ -97,6 +97,38 @@ flowchart TD
     L --> M[Group by directory + suggest /tr-behaviour or /tr-implement]
 ```
 
+## Acceptance Criteria
+
+**AC-1: Bottom-up trace from source file**
+- Given a source file path that appears in an impl.md Source Files section
+- When `/tr-trace <file-path>` is invoked
+- Then the agent displays the full chain: file → impl → behaviour → intent, with state, commit count, and test count at each level
+
+**AC-2: Unlinked source file is flagged**
+- Given a source file path not referenced in any impl.md
+- When `/tr-trace <file-path>` is invoked
+- Then the agent reports the file as unlinked and offers `/tr-implement` to create a traceability record
+
+**AC-3: Top-down trace from intent folder**
+- Given a taproot intent or behaviour folder path
+- When `/tr-trace <folder-path>` is invoked
+- Then the agent displays the full subtree with all behaviours and implementations, their states, and a progress summary
+
+**AC-4: Bottom-up trace from commit hash**
+- Given a commit hash (full or short) referenced in an impl.md Commits section
+- When `/tr-trace <hash>` is invoked
+- Then the agent traces the commit to its impl, behaviour, and intent
+
+**AC-5: Unlinked scan groups orphaned source files**
+- Given source files not referenced by any impl.md
+- When `/tr-trace --unlinked` is invoked
+- Then the agent groups unlinked files by directory and suggests likely behaviours and intents for each group
+
+**AC-6: Ambiguous fuzzy match is surfaced**
+- Given a file path that partially matches multiple impl.md Source Files sections
+- When `/tr-trace <file-path>` is invoked
+- Then the agent presents all candidates and asks the actor to confirm which one applies
+
 ## Related
 - `taproot/agent-context/generate-overview/usecase.md` — OVERVIEW.md is the agent's entry point for top-down orientation; tr-trace handles interactive navigation and bottom-up queries
 - `taproot/requirements-compliance/check-orphans/usecase.md` — `--unlinked` mode delegates to check-orphans for structural orphan detection

@@ -85,6 +85,33 @@ sequenceDiagram
     Agent-->>Dev: Decision synthesis (resolved / deferred / constraints / next action)
 ```
 
+## Acceptance Criteria
+
+**AC-1: Agent recommends before developer responds**
+- Given a developer invokes `/tr-grill-me` with a plan
+- When the agent identifies the first decision branch
+- Then the agent asks the question and immediately provides its own recommended answer before waiting for the developer's response
+
+**AC-2: Every branch is resolved or explicitly deferred**
+- Given a plan with multiple decision branches
+- When the grill-me session completes
+- Then every identified branch is either marked resolved (with chosen path and reasoning) or explicitly deferred (with a stated reason)
+
+**AC-3: Codebase-answerable branch resolved without developer**
+- Given a question that can be answered by reading the codebase or hierarchy
+- When the agent explores the repo
+- Then the branch is resolved from evidence and marked resolved without asking the developer
+
+**AC-4: Vague input triggers grounding question**
+- Given a plan too abstract to extract specific decision points
+- When the agent processes the input
+- Then the agent asks one grounding question before identifying branches
+
+**AC-5: Embedded mode returns synthesis to calling skill**
+- Given grill-me is invoked by another skill (e.g. tr-ineed option [A])
+- When the session completes
+- Then the synthesis summary is returned to the calling skill rather than presented as a standalone report
+
 ## Related
 - `./route-requirement/usecase.md` — `tr-ineed` delegates to `grill-me` on the "Go deeper [A]" path during structured discovery
 - `./human-readable-report/usecase.md` — `tr-status` suggests `tr-grill-me` for semantic review of the plan after reporting hierarchy health

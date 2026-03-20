@@ -60,6 +60,33 @@ Any taproot skill operating in refine/modify mode (`tr-ineed`, `tr-intent`, `tr-
 - **Proposed change is too vague to analyse**: Agent asks for a more specific description of what is changing before proceeding.
 - **Uncertain dependency**: Agent cannot confidently determine whether an artefact is affected. Flags it as "possibly affected — review recommended" rather than forcing inclusion or exclusion.
 
+## Acceptance Criteria
+
+**AC-1: Impact summary presented before any edit**
+- Given an existing hierarchy artefact and a proposed change description
+- When `/tr-analyse-change` is invoked
+- Then the agent presents an impact summary (direct, downstream, upstream, possibly-affected) and waits for caller confirmation before any edits are made
+
+**AC-2: Self-contained change is identified**
+- Given a proposed change that affects only the target artefact with no structural or conceptual dependents
+- When the agent walks the hierarchy
+- Then the agent reports "This change is self-contained — no other artefacts are affected"
+
+**AC-3: Large blast radius triggers explicit confirmation**
+- Given a proposed change that affects a large number of artefacts
+- When the impact list is presented
+- Then the agent asks the caller to confirm the full scope or narrow the change before proceeding
+
+**AC-4: New artefact redirected to creation skill**
+- Given a target path that does not exist in the hierarchy
+- When `/tr-analyse-change` is invoked
+- Then the agent flags this as an addition (not a modification) and redirects to `/tr-ineed`
+
+**AC-5: Cancel stops all edits**
+- Given a caller who cancels after reviewing the impact summary
+- When the caller chooses Cancel
+- Then no hierarchy artefacts are modified
+
 ## Implementations <!-- taproot-managed -->
 - [Agent Skill — /tr-analyse-change](./agent-skill/impl.md)
 

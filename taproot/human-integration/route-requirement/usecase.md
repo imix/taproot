@@ -138,6 +138,38 @@ flowchart TD
     J --> L[New intent.md or usecase.md written]
 ```
 
+## Acceptance Criteria
+
+**AC-1: Clear requirement placed without discovery**
+- Given a requirement with a clear actor, goal, and outcome
+- When the developer invokes `/tr-ineed`
+- Then the agent proposes placement directly without entering structured discovery
+
+**AC-2: Vague requirement enters structured discovery**
+- Given a vague or broad requirement
+- When the developer invokes `/tr-ineed`
+- Then the agent opens as a facilitator and runs the four-phase discovery flow before proposing placement
+
+**AC-3: Near-duplicate is surfaced before placement**
+- Given a requirement that closely matches an existing behaviour
+- When the agent searches the hierarchy
+- Then the agent surfaces the existing document and asks whether this is the same, a refinement, or a distinct addition
+
+**AC-4: Placement confirmed before writing**
+- Given a proposed parent intent
+- When the agent proposes placement
+- Then no document is written until the developer explicitly confirms
+
+**AC-5: Conversational requirement detected**
+- Given a developer mentions a requirement casually without invoking `/tr-ineed`
+- When the agent detects a requirement statement
+- Then the agent asks "Should I add that to the taproot hierarchy?" before proceeding
+
+**AC-6: No suitable parent triggers new intent proposal**
+- Given a requirement that doesn't map to any existing intent
+- When the agent searches the hierarchy
+- Then the agent proposes a new intent slug and goal and asks the developer to confirm before calling `/tr-intent`
+
 ## Related
 - `taproot/human-integration/grill-me/usecase.md` — structured discovery delegates to grill-me for advanced elicitation
 

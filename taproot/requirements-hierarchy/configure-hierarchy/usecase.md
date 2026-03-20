@@ -33,6 +33,28 @@ Agentic developer / orchestrator customising taproot to match project convention
 - All taproot CLI commands use the updated configuration
 - Validation rules reflect the project's chosen conventions
 
+## Acceptance Criteria
+
+**AC-1: Updated config is picked up by next CLI invocation**
+- Given an actor modifies a key in `.taproot/settings.yaml`
+- When any taproot CLI command is run next
+- Then the command uses the updated configuration without requiring a restart or reload step
+
+**AC-2: Partial config deep-merges with defaults**
+- Given a `.taproot/settings.yaml` that specifies only some keys
+- When a CLI command reads the config
+- Then unspecified keys use built-in default values
+
+**AC-3: Missing settings file falls back to defaults**
+- Given no `.taproot/settings.yaml` exists
+- When a CLI command runs
+- Then it uses built-in defaults and does not error
+
+**AC-4: Invalid YAML syntax produces a clear error**
+- Given `.taproot/settings.yaml` contains a YAML syntax error
+- When a CLI command runs
+- Then it reports a parse error with the file path
+
 ## Implementations <!-- taproot-managed -->
 - [YAML Config — .taproot/settings.yaml](./yaml-config/impl.md)
 
