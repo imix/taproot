@@ -32,6 +32,8 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/agents.md and skills/guide.md updated with /tr-research entry; no other docs reference the full skill list | resolved: 2026-03-20T08:11:13.230Z
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: Updated in context-engineering compliance pass. C-1: description trimmed to ~20 tokens (compliant). C-5: /compact signal added before What's next? in [S]ave path. C-2/C-3/C-4/C-6: compliant. | resolved: 2026-03-20T09:58:01.227Z
+
 - condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — /tr-research writes at most one document (research/<slug>.md); pause-and-confirm applies to bulk-authoring skills that write multiple docs in sequence | resolved: 2026-03-20T08:11:14.155Z
 
 - condition: check-if-affected-by: human-integration/contextual-next-steps | note: applies and compliant — /tr-research step 8 [S] path presents a What's next? menu with /tr-behaviour and /tr-ineed options | resolved: 2026-03-20T08:11:13.925Z

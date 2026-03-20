@@ -68,6 +68,8 @@ Run a comprehensive review of an entire subtree — an intent and all its descen
 
 8. Present next steps:
 
+> 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
+
    **What's next?**
    [A] `/tr-refine <highest-priority-path>` — fix the top-priority finding
    [B] `/tr-plan` — surface the next implementable behaviour

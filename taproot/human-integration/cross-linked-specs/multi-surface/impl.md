@@ -40,6 +40,12 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md documents taproot update cross-link refresh and validate-format link section checks; skills/guide.md lists taproot update and updated validate-format description | resolved: 2026-03-19T19:56:18.230Z
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: C-5 /compact signal added to guide.md in the context-engineering compliance pass. C-1: guide.md description is within 50 tokens. C-2/C-3: no embedded docs or cross-skill repetition. C-4: no bulk pre-load. All constraints compliant. | resolved: 2026-03-20T09:56:14.063Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: Not applicable. This impl covers guide.md and docs updates — no multi-document sequential writing in a user-facing skill session. | resolved: 2026-03-20T09:56:12.387Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: Compliant. This skill (guide.md description update) does not produce primary output — it is a reference skill. What's next? not applicable. | resolved: 2026-03-20T09:56:11.132Z
+
 - condition: check-if-affected: skills/guide.md | note: guide.md updated to include taproot update and updated validate-format description | resolved: 2026-03-19T19:56:18.721Z
 
 - condition: check-if-affected: src/commands/update.ts | note: update.ts was modified — refreshLinks() added and called from runUpdate() | resolved: 2026-03-19T19:56:18.475Z

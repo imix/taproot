@@ -2,7 +2,7 @@
 
 ## Description
 
-Route a natural language requirement to the right place in the taproot hierarchy. For clear, concrete requirements: deduplicate, find the best parent, confirm placement, delegate to the right skill. For vague or substantive requirements: run a structured discovery session first — problem space, persona, success criteria, scope boundary — then synthesise before routing. The developer leaves with a richer, more grounded requirement, not just a placed one.
+Route a natural language requirement to the right place in the taproot hierarchy — clarifying vague requirements through structured discovery before placing and delegating them.
 
 ## Inputs
 
@@ -10,16 +10,14 @@ Route a natural language requirement to the right place in the taproot hierarchy
 
 ## Steps
 
-1. **Read the hierarchy** — Load `taproot/OVERVIEW.md` if it exists. If not, walk `taproot/` directly and read each `intent.md`. Build a mental map of: intent slug → goal summary → existing behaviour slugs.
+1. **Classify the requirement** — Load `taproot/OVERVIEW.md` if it exists; if not, walk `taproot/` and read each `intent.md`. Use this hierarchy map to decide which path to take:
 
-2. **Classify the requirement** — Decide which path to take:
-
-   - **Quick path** (proceed to Step 5): Clear actor, clear goal, unambiguous outcome. The requirement can be matched against the hierarchy without exploration.
-   - **Discovery path** (proceed to Step 3): Vague, new domain, significant new capability, or unclear what success looks like. The requirement needs to be understood before it can be placed.
+   - **Quick path** (proceed to Step 4): Clear actor, clear goal, unambiguous outcome. The requirement can be matched against the hierarchy without exploration.
+   - **Discovery path** (proceed to Step 2): Vague, new domain, significant new capability, or unclear what success looks like. The requirement needs to be understood before it can be placed.
 
    When in doubt, take the discovery path. A well-understood requirement produces a better behaviour spec.
 
-3. **Structured discovery** (discovery path only) — You are a facilitator, not a content generator. Ask one question at a time, build on answers, and don't move to the next phase until you understand the current one.
+2. **Structured discovery** (discovery path only) — You are a facilitator, not a content generator. Ask one question at a time, build on answers, and don't move to the next phase until you understand the current one.
 
    Open: *"Before I place this, let me make sure I understand it properly. A few questions."*
 
@@ -70,9 +68,9 @@ Route a natural language requirement to the right place in the taproot hierarchy
    - *Alternative approaches*: "Is there a simpler way to solve the underlying problem?"
    - *Pre-mortem*: "Imagine this was built and nobody used it. What would be the most likely reason?"
 
-   **If [C]:** Proceed to Step 5 with the synthesised requirement as context. This summary will carry forward into `/tr-behaviour` as richer input than a raw one-liner.
+   **If [C]:** Proceed to Step 4 with the synthesised requirement as context. This summary will carry forward into `/tr-behaviour` as richer input than a raw one-liner.
 
-5. **Search for near-duplicates** — Scan existing `usecase.md` files under `taproot/`. If a behaviour closely matches the stated (or synthesised) requirement, surface it:
+4. **Search for near-duplicates** — Scan existing `usecase.md` files under `taproot/`. If a behaviour closely matches the stated (or synthesised) requirement, surface it:
 
    > "There's already a behaviour `<path>` that covers `<summary>`. Is your requirement the same, a refinement, or a distinct addition?"
 
@@ -80,19 +78,19 @@ Route a natural language requirement to the right place in the taproot hierarchy
    - **Refinement** → call `/taproot:refine <path>` and stop
    - **Distinct** → continue with placement as a new sibling
 
-6. **Find the best-fit parent** — Match the requirement's domain and goal against existing intents. Consider:
+5. **Find the best-fit parent** — Match the requirement's domain and goal against existing intents. Consider:
    - Which intent's goal would be incomplete without this requirement?
    - Which stakeholders are affected — do they match an existing intent's stakeholders?
    - Is this a new top-level business goal (needs a new intent) or a behaviour under an existing one?
 
-7. **Resolve ambiguity** — If two or more intents could plausibly own this requirement, ask grill-style questions to resolve:
+6. **Resolve ambiguity** — If two or more intents could plausibly own this requirement, ask grill-style questions to resolve:
    - "Who is the primary stakeholder — an end user, an operator, or a developer?"
    - "If this was removed, which intent's success criteria would be most affected?"
    - "Is this really one requirement or two that happen to arrive together?"
 
    Re-propose placement after each answer.
 
-8. **Propose placement with reasoning** — State your proposed location clearly:
+7. **Propose placement with reasoning** — State your proposed location clearly:
 
    > "This sounds like it belongs under **`<intent-slug>`** (*`<intent goal>`*) as a new behaviour. Does that feel right?"
 
@@ -102,15 +100,20 @@ Route a natural language requirement to the right place in the taproot hierarchy
 
    If the developer disagrees: "Which intent feels like the right home? Or should this be a new intent entirely?" Re-propose based on their answer.
 
-9. **Confirm and delegate** — Once the developer confirms placement, call the appropriate skill — carrying the synthesised summary (if discovery was run) as context for the behaviour definition:
+8. **Confirm and delegate** — Once the developer confirms placement, call the appropriate skill — carrying the synthesised summary (if discovery was run) as context for the behaviour definition:
 
    - **New top-level intent needed**: call `/taproot:intent` with the proposed slug and description, then call `/taproot:behaviour` under the new intent
    - **New behaviour under existing intent**: call `/taproot:behaviour <taproot/<intent-slug>/> "<synthesised requirement>"`
    - **New sub-behaviour under existing behaviour**: call `/taproot:behaviour <taproot/<intent-slug>/<behaviour-slug>/> "<synthesised requirement>"`
 
+> 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
+
+**What's next?**
+Delegated to the appropriate skill above.
+
 ## Output
 
-Delegates to `/taproot:intent` and/or `/taproot:behaviour`. No files are written directly by this skill. For discovery-path requirements, the synthesis summary produced in Step 4 becomes the input context for the delegated skill.
+Delegates to `/taproot:intent` and/or `/taproot:behaviour`. No files are written directly by this skill. For discovery-path requirements, the synthesis summary produced in Step 3 becomes the input context for the delegated skill.
 
 ## CLI Dependencies
 

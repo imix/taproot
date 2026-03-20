@@ -38,11 +38,15 @@ File: src/auth/password-reset.ts
 
 6. If not found in any `impl.md`: "No traceability record found for `<file>`. This file may be unlinked."
 
+> 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
+
    **What's next?**
    [A] `/tr-trace --unlinked` — find all unlinked files across the codebase
    [B] `/tr-implement <path>/` — create a traceability record for this file
 
    If the chain was found, present:
+
+> 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
    [A] `/tr-refine <behaviour-path>/` — update the spec if it has drifted from the code

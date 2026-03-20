@@ -2,7 +2,7 @@
 
 ## Description
 
-Research any domain or technical subject before writing a behaviour spec — by scanning local resources, searching the web, and drawing on expert knowledge. Produces a structured synthesis that is either saved as a citable document or fed directly into a spec. Can be invoked explicitly (`/tr-research <topic>`) or triggered automatically from within `/tr-ineed` when a knowledge-intensive domain is detected.
+Research any domain or technical subject before writing a behaviour spec — by scanning local resources, searching the web, and drawing on expert knowledge.
 
 ## Inputs
 
@@ -92,6 +92,9 @@ Research any domain or technical subject before writing a behaviour spec — by 
    > **`[Q] Discard and stop`**
 
    - **[S]** — create `research/` directory if absent; write `research/<topic-slug>.md` using the final summary structure from step 7; present:
+
+> 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
+
      **What's next?**
      [A] `/tr-behaviour taproot/<intent>/` — write a spec informed by this research
      [B] `/tr-ineed "<topic>"` — route it as a requirement with research context attached

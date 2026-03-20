@@ -28,6 +28,12 @@
 
 ## DoD Resolutions
 - condition: document-current | note: README.md and docs/ accurately cover /tr-trace (agents.md line 36, workflows.md lines 46-51). Fixed incorrect description in skills/guide.md (was 'Map recent commits' — corrected to navigation description). | resolved: 2026-03-19T21:45:10.556Z
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: Updated in context-engineering compliance pass. C-1: description within 50 tokens. C-5: /compact signal added before both What's next? blocks (two terminal paths). C-2/C-3/C-4/C-6: compliant. | resolved: 2026-03-20T09:57:09.595Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: Not applicable. trace is a read-only skill — it reads and presents hierarchy information without writing any documents. | resolved: 2026-03-20T09:57:08.354Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: Compliant. trace.md has What's next? blocks at both terminal output points (chain found, chain not found). | resolved: 2026-03-20T09:57:07.109Z
+
 - condition: check-if-affected: skills/guide.md | note: Fixed incorrect /tr-trace description in skills/guide.md (was 'Map recent commits back to taproot documents'); copied to .taproot/skills/guide.md | resolved: 2026-03-19T21:45:11.014Z
 
 - condition: check-if-affected: src/commands/update.ts | note: trace.md already in SKILL_FILES in init.ts; update.ts reads from SKILL_FILES and requires no change | resolved: 2026-03-19T21:45:10.784Z

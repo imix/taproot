@@ -201,6 +201,8 @@ Reverse-engineer an existing codebase into a taproot hierarchy through structure
 14. Present a closing summary:
     > "Discovery complete. Documented [N] intents, [N] behaviours, [N] implementations."
 
+> 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
+
     **What's next?**
     [A] `/tr-status` — see coverage gaps and health report
     [B] `/tr-plan` — surface the next behaviour to implement

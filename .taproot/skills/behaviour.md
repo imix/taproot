@@ -72,6 +72,8 @@ Define a UseCase (observable system behaviour) under an intent or another behavi
 
 13. Present next steps:
 
+> 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
+
    **What's next?**
    [A] `/tr-implement taproot/<parent>/<slug>/` — start building
    [B] `/tr-review taproot/<parent>/<slug>/usecase.md` — stress-test the spec first

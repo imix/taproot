@@ -28,6 +28,12 @@
 
 ## DoD Resolutions
 - condition: document-current | note: README.md and all docs/ files updated this session; /tr-grill-me documented in agents.md and workflows.md | resolved: 2026-03-19T21:34:39.022Z
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: Updated in context-engineering compliance pass. C-1: description trimmed to ~20 tokens (compliant). C-4: OVERVIEW.md read deferred to step 1 where it informs branch identification (compliant). C-5: /compact signal added before What's next? block. C-2/C-3/C-6: compliant. | resolved: 2026-03-20T09:56:44.345Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: Not applicable. grill-me is a single-session interview skill — it produces one synthesis document. No multi-document sequential writing in user-facing workflow. | resolved: 2026-03-20T09:56:43.051Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: Compliant. grill-me.md has a What's next? block at step 6 output. Already present before this change. | resolved: 2026-03-20T09:56:41.741Z
+
 - condition: check-if-affected: skills/guide.md | note: /tr-grill-me already listed in skills/guide.md slash commands table | resolved: 2026-03-19T21:34:40.782Z
 
 - condition: check-if-affected: src/commands/update.ts | note: grill-me.md already in SKILL_FILES in init.ts; update.ts reads from SKILL_FILES and requires no change | resolved: 2026-03-19T21:34:40.291Z

@@ -2,7 +2,7 @@
 
 ## Description
 
-Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. For each question, provide a recommended answer. If a question can be answered by exploring the codebase or hierarchy, explore instead of asking. Use when the user wants to stress-test a plan, get challenged on their design, or when another skill (e.g. `/taproot:ineed`) needs deeper elicitation before writing a spec.
+Interview the user relentlessly about a plan or design, resolving each decision branch with a recommendation until shared understanding is reached.
 
 Based on Matt Pocock's `grill-me` skill (MIT licensed, https://github.com/mattpocock/skills/blob/main/grill-me/SKILL.md).
 
@@ -12,9 +12,7 @@ Based on Matt Pocock's `grill-me` skill (MIT licensed, https://github.com/mattpo
 
 ## Steps
 
-1. Read `taproot/OVERVIEW.md` (if it exists) and any existing specs that relate to the plan. This context informs the questions and recommendations you'll make.
-
-2. Identify the key decision branches in the plan — the points where different choices lead to meaningfully different outcomes. These become the agenda for the session.
+1. Identify the key decision branches in the plan — the points where different choices lead to meaningfully different outcomes. These become the agenda for the session. If the plan relates to an existing taproot artefact, read the relevant `usecase.md` or `intent.md` now (and `taproot/OVERVIEW.md` if you need the broader hierarchy context).
 
 3. For each unresolved branch, in dependency order:
 
@@ -42,6 +40,8 @@ Based on Matt Pocock's `grill-me` skill (MIT licensed, https://github.com/mattpo
    ```
 
    Then present next steps:
+
+> 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
    [A] `/tr-ineed "<clarified requirement>"` — route the sharpened requirement into the hierarchy

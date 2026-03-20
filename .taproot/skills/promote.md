@@ -47,6 +47,8 @@ Escalate a significant finding from implementation or behaviour level up to the 
 
 11. Report: "Intent updated. <N> behaviours flagged for potential re-evaluation."
 
+> 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
+
     **What's next?**
     [A] `/tr-refine taproot/<intent-slug>/<behaviour-slug>/` — refine the most-affected behaviour
     [B] `/tr-review taproot/<intent-slug>/intent.md` — stress-test the updated intent

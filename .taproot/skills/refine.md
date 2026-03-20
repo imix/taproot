@@ -43,6 +43,8 @@ Update a behaviour spec (`usecase.md`) based on what was learned during or after
 
 9. Present next steps:
 
+> 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
+
    **What's next?**
    [A] Commit the spec change — `git add <path>/usecase.md && git commit`
    [B] `/tr-implement <path>/` — spec changed significantly; reimplementation needed

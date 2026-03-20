@@ -23,3 +23,16 @@
 - **State:** complete
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-19
+
+## DoD Resolutions
+- condition: document-current | note: Not affected. discover.md changes are internal (C-5 /compact signal). No new CLI commands or configuration options. docs/ and README.md remain accurate. | resolved: 2026-03-20T09:59:21.278Z
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: C-5 /compact signal added before final What's next? block. C-1: description within 50 tokens. C-2/C-3/C-4: compliant. C-6: What's next? present. | resolved: 2026-03-20T09:59:27.545Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: Compliant. discover.md presents each proposed intent/behaviour to the developer for confirmation before writing (see step 5 and 7 pause-and-confirm gates). | resolved: 2026-03-20T09:59:26.285Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: Compliant. discover.md has a What's next? block at step 14 (final step). | resolved: 2026-03-20T09:59:25.051Z
+
+- condition: check-if-affected: skills/guide.md | note: guide.md description of /tr-discover is independently authored and accurate. No update needed. | resolved: 2026-03-20T09:59:23.791Z
+
+- condition: check-if-affected: src/commands/update.ts | note: Not affected. update.ts copies skill files by name; no change to file names or copy logic. | resolved: 2026-03-20T09:59:22.549Z
+

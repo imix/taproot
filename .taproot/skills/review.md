@@ -55,6 +55,8 @@ Stress-test a single Taproot artifact — an `intent.md`, `usecase.md`, or `impl
 
 6. Present next steps:
 
+> 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
+
    **What's next?**
    [A] `/tr-refine <path>` — apply the findings to the spec
    [B] `/tr-implement <path>/` — spec is clean; proceed to implementation

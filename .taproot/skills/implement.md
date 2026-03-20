@@ -73,6 +73,8 @@ Implement a behaviour spec: write the code, write the tests, create the `impl.md
 
 13. Present next steps:
 
+> 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
+
    **What's next?**
    [A] `/tr-plan` — surface the next implementable behaviour
    [B] `/tr-status` — see full project health after this implementation

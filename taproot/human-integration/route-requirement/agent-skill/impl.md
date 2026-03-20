@@ -25,3 +25,16 @@
 - **State:** complete
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-19
+
+## DoD Resolutions
+- condition: document-current | note: Not affected. ineed.md changes are internal (C-1 trim, C-4 step merge, C-5 /compact signal, C-6 What's next? block added). No new CLI commands or configuration options. | resolved: 2026-03-20T10:03:04.603Z
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: Updated in compliance pass. C-1: trimmed to ~20 tokens. C-4: OVERVIEW.md read folded into step 1 (classify) where it is first used — no longer a standalone bulk-load step. C-5: /compact signal added. C-6: What's next? block added. All compliant. | resolved: 2026-03-20T10:03:10.838Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: Not applicable. ineed.md delegates writing to other skills (/tr-intent, /tr-behaviour). It writes no documents directly. | resolved: 2026-03-20T10:03:09.553Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: Compliant. ineed.md was missing a What's next? block — one was added in this implementation pass (step 8 output). Now compliant. | resolved: 2026-03-20T10:03:08.342Z
+
+- condition: check-if-affected: skills/guide.md | note: guide.md description of /tr-ineed is independently authored and remains accurate. | resolved: 2026-03-20T10:03:07.090Z
+
+- condition: check-if-affected: src/commands/update.ts | note: Not affected. update.ts copies skill files by name; no change to file names or copy logic. | resolved: 2026-03-20T10:03:05.837Z
+

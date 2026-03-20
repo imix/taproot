@@ -39,6 +39,8 @@ Create a new business intent or refine an existing one. An intent captures the "
 
 8. If validation passes, present next steps:
 
+> 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
+
    **What's next?**
    [A] `/tr-behaviour taproot/<slug>/` — define the first behaviour under this intent
    [B] `/tr-decompose taproot/<slug>/` — decompose the intent into a full behaviour set
@@ -58,6 +60,8 @@ Create a new business intent or refine an existing one. An intent captures the "
 5. Run `taproot validate-format --path <parent-of-path>`.
 
 6. Report what changed.
+
+> 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
    [A] `/tr-behaviour <path>/` — add or refine a behaviour under this intent

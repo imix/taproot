@@ -95,6 +95,8 @@ ineed → intent → behaviour → implement → trace → status
 
    Nothing obvious next — whenever you're ready:
 
+> 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
+
    **What's next?**
    [A] `/tr-ineed` — capture your first (or next) requirement
    [B] `/tr-status` — see the current project health at a glance

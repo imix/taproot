@@ -56,6 +56,7 @@ ineed → intent → behaviour → implement → trace → status
 | `/tr-review` | Stress-test a spec with adversarial questions |
 | `/tr-review-all` | Run review across an entire subtree |
 | `/tr-grill-me` | Interview the user relentlessly to sharpen a plan or design |
+| `/tr-research` | Research a domain or technical subject before speccing — local resources, web search, expert grilling |
 | `/tr-refine` | Update a behaviour spec based on implementation learnings |
 | `/tr-promote` | Move discoveries from implementation back upstream |
 | `/tr-guide` | Show this guide |
@@ -93,6 +94,8 @@ ineed → intent → behaviour → implement → trace → status
 4. Close with context-aware guidance:
 
    Nothing obvious next — whenever you're ready:
+
+> 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
    [A] `/tr-ineed` — capture your first (or next) requirement
