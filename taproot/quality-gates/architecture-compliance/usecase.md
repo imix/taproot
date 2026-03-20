@@ -6,12 +6,12 @@ Developer or agent declaring a new implementation (committing an `impl.md`) — 
 ## Preconditions
 - `docs/architecture.md` exists in the project
 - An `impl.md` is being declared (declaration commit in progress)
-- `check-if-affected-by: implementation-quality/architecture-compliance` is configured in `definitionOfReady` in `.taproot/settings.yaml`
+- `check-if-affected-by: quality-gates/architecture-compliance` is configured in `definitionOfReady` in `.taproot/settings.yaml`
 
 ## Main Flow
 1. Developer commits an `impl.md` (declaration commit)
 2. Pre-commit hook runs DoR checks against the `impl.md`
-3. DoR runner encounters `check-if-affected-by: implementation-quality/architecture-compliance`
+3. DoR runner encounters `check-if-affected-by: quality-gates/architecture-compliance`
 4. Agent reads `docs/architecture.md` and the `impl.md` Design Decisions section
 5. Agent reasons: does this implementation's approach conflict with any architectural decision or constraint?
 6. If compliant (or not applicable): agent records a resolution in `impl.md` under `## DoR Resolutions` and DoR passes
@@ -93,4 +93,4 @@ sequenceDiagram
 ## Notes
 - `docs/architecture.md` is a freeform document — not a usecase. It captures architectural decisions, constraints, and patterns the team has agreed on (e.g. "all CLI commands must be stateless", "no global mutable state", "external I/O only at command boundaries").
 - The DoR runner already only operates on `impl.md` files — the "impl.md only" constraint is structurally enforced, not configured.
-- To activate: add `- check-if-affected-by: implementation-quality/architecture-compliance` to `definitionOfReady` in `.taproot/settings.yaml`.
+- To activate: add `- check-if-affected-by: quality-gates/architecture-compliance` to `definitionOfReady` in `.taproot/settings.yaml`.

@@ -24,4 +24,4 @@ Keep all taproot documentation accurate and current so that users, contributors,
 - **Last reviewed:** 2026-03-19
 
 ## Notes
-Deprecated — documentation currency is now enforced through the `document-current` DoD condition in `implementation-quality/definition-of-done`. The goal of keeping docs accurate remains valid but is fulfilled there, not as a standalone intent.
+Deprecated — documentation currency is now enforced through the `document-current` DoD condition in `quality-gates/definition-of-done`. The goal of keeping docs accurate remains valid but is fulfilled there, not as a standalone intent.

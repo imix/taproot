@@ -105,8 +105,8 @@ flowchart TD
 ## Related
 - `../context-engineering/usecase.md` — sibling architectural constraint; same `check-if-affected-by` enforcement pattern; context-engineering governs context efficiency, commit-awareness governs commit process knowledge
 - `../../hierarchy-integrity/pre-commit-enforcement/usecase.md` — the authoritative source for commit classification logic that C-2 requires skills to surface
-- `../../implementation-quality/definition-of-done/usecase.md` — the DoD gate that C-1 requires skills to invoke proactively for implementation commits
-- `../../implementation-quality/definition-of-ready/usecase.md` — the DoR gate for declaration commits
+- `../../quality-gates/definition-of-done/usecase.md` — the DoD gate that C-1 requires skills to invoke proactively for implementation commits
+- `../../quality-gates/definition-of-ready/usecase.md` — the DoR gate for declaration commits
 
 ## Acceptance Criteria
 

@@ -151,8 +151,8 @@ flowchart TD
 
 ## Related
 - `../validate-format/usecase.md` — Requirement tier delegates format checking here
-- `../../implementation-quality/definition-of-ready/usecase.md` — Declaration tier invokes DoR
-- `../../implementation-quality/definition-of-done/usecase.md` — Implementation tier invokes DoD
+- `../../quality-gates/definition-of-ready/usecase.md` — Declaration tier invokes DoR
+- `../../quality-gates/definition-of-done/usecase.md` — Implementation tier invokes DoD
 
 ## Implementations <!-- taproot-managed -->
 - [CLI Command — taproot commithook](./cli-command/impl.md)

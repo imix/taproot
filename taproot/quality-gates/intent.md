@@ -1,23 +1,25 @@
-# Intent: Implementation Quality Standards
+# Intent: Quality Gates
 
 ## Stakeholders
 - Developer / contributor: Engineer implementing a behaviour — needs clear, consistent criteria for what "done" means so they don't ship incomplete or non-compliant work
-- Team lead / orchestrator: Person or agent overseeing the project — needs confidence that every merged implementation meets the team's agreed quality bar
+- Spec author (human or agent): Person or agent writing intents and usecases — needs to know what a well-formed spec looks like before writing it, not after the hook rejects it
+- Team lead / orchestrator: Person or agent overseeing the project — needs confidence that every merged requirement document and implementation meets the team's agreed quality bar
 - Operator / CI pipeline: Automated system running checks — needs machine-readable conditions to enforce without human intervention
 
 ## Goal
-Allow teams to declare the conditions that must hold for any implementation to be considered complete — linting, tests, documentation currency, git conventions, or any custom check — and have taproot enforce them consistently across every implementation, whether authored by a human or an AI agent.
+Enforce quality at every level of the hierarchy — from intent and usecase documents through to implementations — so that vague specs, missing acceptance criteria, and incomplete implementations are caught at commit time, not during review.
 
 ## Success Criteria
+- [ ] A `usecase.md` or `intent.md` missing required quality elements (e.g. acceptance criteria, observable actor, measurable goal) is rejected at commit time with an actionable error
 - [ ] Teams can configure a Definition of Done in `.taproot/settings.yaml` with one or more named conditions
 - [ ] `/tr-implement` checks all configured DoD conditions before marking an impl `complete`
 - [ ] Each condition produces a clear pass/fail result with an actionable error message on failure
-- [ ] Built-in conditions cover the most common needs (tests passing, linter clean, README current, commit conventions)
-- [ ] Custom/arbitrary shell commands can be registered as conditions, enabling any team-specific check
+- [ ] Agent context includes enough guidance that specs are written correctly on the first attempt
 
 ## Constraints
 - Conditions must be runnable in CI and locally without difference in behaviour
-- Failing a DoD condition must block completion — it cannot be silently skipped
+- Failing a quality gate must block the commit — it cannot be silently skipped
+- Semantic quality checks must use checkable heuristics (AC section present, step count, etc.) — subjective judgement stays in `/tr-review`
 
 ## Behaviours <!-- taproot-managed -->
 - [Definition of Done Enforcement](./definition-of-done/usecase.md)

@@ -88,7 +88,7 @@ The canonical use case is architecture compliance:
 
 ```yaml
 definitionOfReady:
-  - check-if-affected-by: implementation-quality/architecture-compliance
+  - check-if-affected-by: quality-gates/architecture-compliance
 ```
 
 This requires every `impl.md` declaration to be checked against `docs/architecture.md` before implementation begins. See `docs/architecture.md` for the project's architectural decisions and constraints.

@@ -64,7 +64,7 @@ flowchart TD
 
 ## Related
 - `taproot/hierarchy-integrity/validate-format/usecase.md` — validate-format can detect stale state (impl complete but usecase still `specified`); this behaviour fixes it proactively rather than reporting it
-- `taproot/implementation-quality/definition-of-done/usecase.md` — DoD is the trigger for this cascade; this behaviour is a postcondition of DoD passing
+- `taproot/quality-gates/definition-of-done/usecase.md` — DoD is the trigger for this cascade; this behaviour is a postcondition of DoD passing
 - `taproot/hierarchy-integrity/pre-commit-enforcement/usecase.md` — the pre-commit hook runs DoD but does not cascade state; cascade happens in the dod CLI, not the hook
 
 ## Implementations <!-- taproot-managed -->
