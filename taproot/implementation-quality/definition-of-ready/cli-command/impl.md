@@ -7,7 +7,9 @@
 - DoR logic lives in `src/core/dor-runner.ts` as a reusable module — invoked by `taproot commithook` for declaration commits, and available as a baseline for DoD
 - `resolveUsecasePath(implMdPath, cwd)` resolves the parent `usecase.md` by walking one level up from the `impl.md` directory: `taproot/X/Y/Z/impl.md` → `taproot/X/Y/usecase.md`
 - Baseline checks are always enforced (not configurable): usecase-exists, state=specified, validate-format, Flow section with Mermaid, Related section
-- Configured `definitionOfReady` conditions in `.taproot.yaml` use the same condition format as DoD (bare built-in names, `run:` shell commands)
+- Configured `definitionOfReady` conditions in `.taproot.yaml` use the same condition format as DoD (bare built-in names, `run:` shell commands, `check:` agent questions)
+- `check:` conditions are resolved by reading `## DoR Resolutions` in the staged impl.md — no staleness check (impl.md is brand-new at declaration commit time)
+- `readDorResolutions(implMdPath, cwd)` reads the `## DoR Resolutions` section from impl.md on disk, returning resolved condition names as a Set
 - If a complete impl.md already exists under the same behaviour, a warning is emitted but the commit is not blocked — allows replacement implementations
 
 ## Source Files
@@ -18,12 +20,12 @@
 - (run `taproot link-commits` to populate)
 
 ## Tests
-- `test/integration/commithook.test.ts` — covers: declaration commit with valid spec passes, missing usecase.md fails, state not-specified fails, missing Flow fails, missing Related fails, configured DoR conditions evaluated
+- `test/integration/commithook.test.ts` — covers: declaration commit with valid spec passes, missing usecase.md fails, state not-specified fails, missing Flow fails, missing Related fails, configured DoR conditions evaluated; check: fails when unresolved, passes when DoR Resolutions present
 
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-03-19
+- **Last verified:** 2026-03-20
 - **Agent checks (verified):**
   - `document-current`: `docs/cli.md` and `skills/guide.md` already document `taproot commithook` and DoR — no update needed
   - `check-if-affected: src/commands/update.ts` — DoR is in `dor-runner.ts`/`commithook.ts`; `update.ts` unaffected
@@ -31,6 +33,24 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md and skills/guide.md already document taproot commithook with DoR context | resolved: 2026-03-19T18:17:46.871Z
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no new pattern introduced — check: at DoR follows the same pattern as check: at DoD (already documented in docs/patterns.md); the DoR Resolutions section follows the same format as DoD Resolutions | resolved: 2026-03-20T11:04:50.444Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot.yaml? | note: no — adding check: to DoR is a capability enhancement; it does not introduce a new architectural rule requiring a new check-if-affected-by entry | resolved: 2026-03-20T11:04:49.215Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — pattern-hints applies to skills routing user requests; taproot commithook is a git hook, not a user-facing skill | resolved: 2026-03-20T11:04:47.936Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — this implementation is a CLI command (TypeScript source), not a skill file | resolved: 2026-03-20T11:04:46.673Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — taproot commithook is a CLI command, not a skill that authors multiple documents in sequence | resolved: 2026-03-20T11:04:45.392Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — taproot commithook is a CLI command invoked by git; it produces no agent guidance output | resolved: 2026-03-20T11:04:44.160Z
+
+- condition: check-if-affected: skills/guide.md | note: guide.md lists taproot commithook with DoR/DoD context; no new command was added, only internal behavior; no update needed | resolved: 2026-03-20T11:04:42.898Z
+
+- condition: check-if-affected: src/commands/update.ts | note: not affected — DoR changes are in dor-runner.ts; update.ts only regenerates adapter files and does not touch DoR logic | resolved: 2026-03-20T11:04:41.643Z
+
+- condition: document-current | note: updated docs/configuration.md: added check: to DoD condition table; added Definition of Ready section documenting definitionOfReady, check: at DoR, and DoR Resolutions format | resolved: 2026-03-20T11:04:40.371Z
+
 - condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — taproot commithook is a CLI command, not a skill that authors documents in sequence | resolved: 2026-03-20T07:34:57.109Z
 
 - condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — taproot commithook (DoR tier) is a CLI command invoked by git; it produces no agent guidance output | resolved: 2026-03-20T07:34:56.869Z

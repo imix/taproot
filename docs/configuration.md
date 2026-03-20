@@ -50,6 +50,7 @@ The `definitionOfDone` list controls what `taproot dod` checks and what the pre-
 | `document-current: <description>` | Agent-verified: the agent checks whether the described documentation is current and applies updates if needed. |
 | `check-if-affected: <file>` | Agent-verified: the agent reviews whether the given file needed updating as a result of this implementation and applies changes if needed. |
 | `check-if-affected-by: <behaviour-path>` | Agent-verified: the agent reads the referenced behaviour spec and determines whether it applies to this implementation — verifying compliance if it does, recording "not applicable" if it does not. Use for cross-cutting requirements that every implementation of a given type must satisfy (e.g. every new skill must satisfy `human-integration/contextual-next-steps`). |
+| `check: <free-form question>` | Agent-verified: the agent reads the question, reasons whether the answer is yes, no, or not applicable for this specific implementation, and takes any indicated action (e.g. adds an entry to `.taproot.yaml`, documents a new pattern). The two default entries in `.taproot.yaml` cover the most common meta-questions. |
 | `run: <command>` | Custom shell command. Exit 0 = pass, any other exit code = fail. |
 
 You can give any condition a custom name with `name: <label>`, which is used in DoD reports:
@@ -68,6 +69,29 @@ DoD runs in two places:
 2. **Pre-commit hook (implementation tier)** — when you commit source files alongside an `impl.md`. The hook checks DoD in dry-run mode; if any condition fails, the commit is blocked.
 
 Results are recorded in the `## DoD Resolutions` section of `impl.md`. The section is maintained by `taproot dod` — do not edit it manually.
+
+---
+
+## Definition of Ready
+
+The `definitionOfReady` list controls what the pre-commit hook checks when you make a declaration commit (committing `impl.md` without source files). All conditions must pass before the declaration commit is accepted.
+
+### Condition syntax
+
+The `definitionOfReady` conditions use the same syntax as `definitionOfDone` — bare built-in names, `run:` shell commands, and `check:` agent questions. The baseline checks (usecase exists, state=specified, Flow diagram, Related section) always run regardless of what's configured here.
+
+### `check:` at DoR time
+
+When a `check:` condition is present in `definitionOfReady`, the agent reasons about the question before making the declaration commit. The resolution is written directly into the new `impl.md` under `## DoR Resolutions`:
+
+```markdown
+## DoR Resolutions
+- condition: check: is this spec complete enough? | note: yes, all flows are specified | resolved: 2026-03-20T10:00:00.000Z
+```
+
+### When DoR runs
+
+DoR runs once: when the declaration commit is made (committing `impl.md` alone, before any source code). It is enforced by the pre-commit hook's declaration tier.
 
 ---
 
