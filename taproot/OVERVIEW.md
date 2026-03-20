@@ -66,7 +66,7 @@ _No behaviours yet._
   - [multi-surface](./human-integration/cross-linked-specs/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 - **[grill-me](./human-integration/grill-me/usecase.md)** `[implemented]` — Actor: Developer or orchestrator who wants to stress-test a plan, design decision, or vague idea through relentless structured questioning — invoked directly via `/tr-grill-me`, or called by another skill (`tr-ineed`, `tr-behaviour`) when deeper elicitation is needed before writing a spec.
   - [agent-skill](./human-integration/grill-me/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
-- **[hierarchy-sweep](./human-integration/hierarchy-sweep/usecase.md)** `[proposed]` — Actor: Developer — applying a uniform task across many hierarchy items without accumulating context drift. Also surfaced by `/tr-ineed` when the developer expresses a bulk-edit intent (e.g. "add X to all usecases").
+- **[hierarchy-sweep](./human-integration/hierarchy-sweep/usecase.md)** `[specified]` — Actor: Developer — applying a uniform task across many hierarchy items without accumulating context drift. Also surfaced by `/tr-ineed` when the developer expresses a bulk-edit intent (e.g. "add X to all usecases").
 - **[human-readable-report](./human-integration/human-readable-report/usecase.md)** `[implemented]` — Actor: Developer or project stakeholder invoking `/tr-status`
   - [agent-skill](./human-integration/human-readable-report/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
 - **[pattern-hints](./human-integration/pattern-hints/usecase.md)** `[implemented]` — Actor: Agent — processing any user-expressed need via any taproot skill (`/tr-ineed`, `/tr-behaviour`, `/tr-implement`, `/tr-refine`, or any skill that receives a natural language description of intent).
@@ -88,7 +88,8 @@ _No behaviours yet._
 
 **Goal:** Allow teams to declare the conditions that must hold for any implementation to be considered complete — linting, tests, documentation currency, git conventions, or any custom check — and have taproot enforce them consistently across every implementation, whether authored by a human or an AI agent.
 
-- **[architecture-compliance](./implementation-quality/architecture-compliance/usecase.md)** `[specified]` — Actor: Developer or agent declaring a new implementation (committing an `impl.md`) — the check runs automatically at Definition of Ready time before any code is written.
+- **[architecture-compliance](./implementation-quality/architecture-compliance/usecase.md)** `[implemented]` — Actor: Developer or agent declaring a new implementation (committing an `impl.md`) — the check runs automatically at Definition of Ready time before any code is written.
+  - [multi-surface](./implementation-quality/architecture-compliance/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 - **[definition-of-done](./implementation-quality/definition-of-done/usecase.md)** `[implemented]` — Actor: `/tr-implement` — triggered automatically at the end of the implement flow before marking an impl `complete`. Also invoked by `taproot commithook` on implementation commits (staged source files + `impl.md`). Can also be invoked standalone by a developer or CI pipeline.
   - [cli-command](./implementation-quality/definition-of-done/cli-command/impl.md) `[complete]` (3 commits, 1 test)
 - **[definition-of-ready](./implementation-quality/definition-of-ready/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a contributor commits an `impl.md` file without source code changes (the "I'm starting this implementation" declaration commit).
@@ -123,6 +124,7 @@ _No behaviours yet._
 
 **Goal:** Enable teams to capture the full requirements hierarchy — from business intent through stakeholder behaviour to system implementation — in a single, navigable, git-versioned structure.
 
+- **[apply-task](./requirements-hierarchy/apply-task/usecase.md)** `[specified]` — Actor: Developer or agent — applying a uniform transformation to a set of hierarchy files using a configured AI agent.
 - **[configure-hierarchy](./requirements-hierarchy/configure-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator customising taproot to match project conventions
   - [yaml-config](./requirements-hierarchy/configure-hierarchy/yaml-config/impl.md) `[complete]` (2 commits ⚠ no tests)
 - **[initialise-hierarchy](./requirements-hierarchy/initialise-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator setting up taproot in a new or existing project
@@ -150,4 +152,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-15 intents · 34 behaviours · 34 implementations · 34/34 complete
+15 intents · 35 behaviours · 35 implementations · 35/35 complete

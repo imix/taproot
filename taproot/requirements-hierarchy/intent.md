@@ -24,6 +24,7 @@ Enable teams to capture the full requirements hierarchy — from business intent
 ## Behaviours <!-- taproot-managed -->
 - [Configure Hierarchy Behaviour](./configure-hierarchy/usecase.md)
 - [Initialise Hierarchy in a Project](./initialise-hierarchy/usecase.md)
+- [Apply Task to Hierarchy Files](./apply-task/usecase.md)
 
 
 ## Status
