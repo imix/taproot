@@ -107,6 +107,9 @@ sequenceDiagram
 - When the DoR runner fires the nfr-measurability check
 - Then the check completes within 30 seconds (within the `TIMEOUT_MS` constant used by the DoD runner)
 
+## Implementations <!-- taproot-managed -->
+- [Settings Wiring](./settings-wiring/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-21
