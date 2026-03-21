@@ -30,7 +30,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 **Goal:** Enable any AI coding agent to participate fully in the taproot workflow — through skills, commands, adapters, or whatever invocation mechanism the agent supports — without being tied to a specific agent's ecosystem.
 
 - **[generate-agent-adapter](./agent-integration/generate-agent-adapter/usecase.md)** `[implemented]` — Actor: Developer initializing taproot for a specific AI coding agent via `taproot init --agent `
-  - [cli-command](./agent-integration/generate-agent-adapter/cli-command/impl.md) `[complete]` (0 commits, 2 tests)
+  - [cli-command](./agent-integration/generate-agent-adapter/cli-command/impl.md) `[complete]` (1 commit, 2 tests)
 - **[update-adapters-and-skills](./agent-integration/update-adapters-and-skills/usecase.md)** `[implemented]` — Actor: Developer running `taproot update` after upgrading taproot or modifying skill definitions
   - [cli-command](./agent-integration/update-adapters-and-skills/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
@@ -134,7 +134,7 @@ _No behaviours yet._
 - **[configure-hierarchy](./requirements-hierarchy/configure-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator customising taproot to match project conventions
   - [yaml-config](./requirements-hierarchy/configure-hierarchy/yaml-config/impl.md) `[complete]` (2 commits ⚠ no tests)
 - **[initialise-hierarchy](./requirements-hierarchy/initialise-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator setting up taproot in a new or existing project
-  - [cli-command](./requirements-hierarchy/initialise-hierarchy/cli-command/impl.md) `[complete]` (0 commits, 1 test)
+  - [cli-command](./requirements-hierarchy/initialise-hierarchy/cli-command/impl.md) `[complete]` (1 commit, 1 test)
 - **[park-hierarchy-item](./requirements-hierarchy/park-hierarchy-item/usecase.md)** `[implemented]` — Actor: Developer — who has decided that a behaviour or implementation is not being pursued for the foreseeable future and wants to formally record that decision in the hierarchy.
   - [multi-surface](./requirements-hierarchy/park-hierarchy-item/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 
