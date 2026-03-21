@@ -289,6 +289,10 @@ describe('--agent all', () => {
 // ─── init --agent integration ─────────────────────────────────────────────────
 
 describe('taproot init --agent', () => {
+  beforeEach(() => {
+    mkdirSync(join(tmpDir, '.git')); // runInit requires a git repo
+  });
+
   it('runInit with agent option generates adapter files', async () => {
     const { runInit } = await import('../../src/commands/init.js');
     runInit({ cwd: tmpDir, agent: 'generic' });

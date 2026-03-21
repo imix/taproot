@@ -9,6 +9,7 @@ describe('taproot init', () => {
 
   beforeEach(() => {
     tmpDir = mkdtempSync(join(tmpdir(), 'taproot-init-test-'));
+    mkdirSync(join(tmpDir, '.git')); // taproot requires a git repo
   });
 
   afterEach(() => {
@@ -77,6 +78,14 @@ describe('taproot init', () => {
   it('AC-11: agent option installs adapter without prompt', () => {
     runInit({ cwd: tmpDir, agent: 'claude' });
     expect(existsSync(join(tmpDir, '.taproot', 'skills'))).toBe(true);
+  });
+
+  // AC-13: no .git directory → abort with error
+  it('AC-13: throws if no .git directory exists', () => {
+    rmSync(join(tmpDir, '.git'), { recursive: true, force: true });
+    expect(() => runInit({ cwd: tmpDir })).toThrow(/git init/i);
+    expect(existsSync(join(tmpDir, 'taproot'))).toBe(false);
+    expect(existsSync(join(tmpDir, '.taproot'))).toBe(false);
   });
 
   it('gemini agent installs skills into .taproot/skills/', () => {

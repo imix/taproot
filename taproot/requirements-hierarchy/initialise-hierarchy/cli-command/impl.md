@@ -29,6 +29,7 @@
 ## DoD Resolutions
 - condition: gemini-toml-fix | note: src/adapters/index.ts updated to fix Gemini TOML format — removed invalid [command] section and name field; top-level prompt and description only. | resolved: 2026-03-21
 - condition: gemini-skills-install | note: src/commands/init.ts updated so gemini agent triggers skill installation (needsSkills includes 'gemini'). test/integration/init.test.ts updated with test asserting skills are installed for gemini. | resolved: 2026-03-21
+- condition: no-git-abort | note: AC-13 implemented — runInit throws if .git absent. test/integration/init.test.ts: AC-13 test added. test/integration/adapters.test.ts, phase5.test.ts: beforeEach updated to create .git. | resolved: 2026-03-21
 - condition: sweep-update | note: src/adapters/index.ts updated to add 'sweep' to TREE_MODIFYING_SKILLS; src/commands/init.ts updated to add 'sweep.md' to SKILL_FILES — both changes required for /tr-sweep skill distribution via taproot update | resolved: 2026-03-20T16:00:00.000Z
 - condition: check-if-affected-by: skill-architecture/commit-awareness | note: taproot init is a CLI command, not a skill file — commit-awareness constraints govern skills/*.md files that contain git commit steps. Not applicable. | resolved: 2026-03-21T07:47:18.616Z
 

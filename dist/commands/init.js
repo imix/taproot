@@ -84,6 +84,9 @@ export function registerInit(program) {
 export function runInit(options) {
     const cwd = options.cwd ?? process.cwd();
     const messages = [];
+    if (!existsSync(join(cwd, '.git'))) {
+        throw new Error('No git repository found. Run `git init` first, then re-run `taproot init`.');
+    }
     const configPath = join(cwd, '.taproot', 'settings.yaml');
     const taprootDir = resolve(cwd, DEFAULT_CONFIG.root);
     const skillsDir = join(cwd, '.taproot', 'skills');

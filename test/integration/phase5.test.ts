@@ -8,7 +8,10 @@ import { runInit } from '../../src/commands/init.js';
 const fixture = (name: string) => resolve(__dirname, '../fixtures', name);
 
 let tmpDir: string;
-beforeEach(() => { tmpDir = mkdtempSync(join(tmpdir(), 'taproot-p5-')); });
+beforeEach(() => {
+  tmpDir = mkdtempSync(join(tmpdir(), 'taproot-p5-'));
+  mkdirSync(join(tmpDir, '.git'));
+});
 afterEach(() => { rmSync(tmpDir, { recursive: true, force: true }); });
 
 // ─── coverage --format context ────────────────────────────────────────────────

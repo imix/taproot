@@ -28,6 +28,7 @@
 - **Last verified:** 2026-03-21
 
 ## DoD Resolutions
+- condition: no-git-abort | note: test/integration/adapters.test.ts beforeEach updated to create .git — required by AC-13 (runInit throws without git). Not applicable to adapter generation logic. | resolved: 2026-03-21
 - condition: gemini-toml-format-fix | note: Gemini CLI command TOML schema uses top-level `prompt` and `description` fields only — no `[command]` section, no `name` field (name derived from filename). Fixed buildGeminiSkillFile to match the actual schema. | resolved: 2026-03-21
 - condition: document-current | note: init.test.ts updated to add AC-9–12 tests for interactive init prompts. agent-adapter impl not affected — adapter generation logic and init.ts adapter path unchanged. | resolved: 2026-03-21T07:50:39.999Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: init.test.ts updated to add AC-9–12 tests for interactive init prompts. agent-adapter impl not affected — adapter generation logic and init.ts adapter path unchanged. | resolved: 2026-03-21T07:50:42.365Z
