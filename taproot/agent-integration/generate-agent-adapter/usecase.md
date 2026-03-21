@@ -5,7 +5,7 @@ Developer initializing taproot for a specific AI coding agent via `taproot init 
 
 ## Preconditions
 - Taproot is installed (`taproot` CLI available)
-- The developer has selected an AI coding agent to integrate: `claude`, `cursor`, `copilot`, `windsurf`, or `generic`
+- The developer has selected an AI coding agent to integrate: `claude`, `cursor`, `copilot`, `windsurf`, `gemini`, or `generic`
 - A taproot hierarchy exists (or `taproot init` is being run for the first time)
 
 ## Main Flow
@@ -16,12 +16,13 @@ Developer initializing taproot for a specific AI coding agent via `taproot init 
    - **cursor**: a single `.cursor/rules/taproot.md` combining all skills in Cursor's rules format
    - **copilot**: injects a taproot section into `.github/copilot-instructions.md` (creating the file if absent), using `<!-- TAPROOT:START/END -->` markers for idempotent updates
    - **windsurf**: injects a taproot section into `.windsurfrules` using the same markers
+   - **gemini**: creates one `.gemini/commands/tr-<skill>.toml` file per skill — a thin launcher that loads the full skill from `.taproot/skills/`
    - **generic**: generates `AGENTS.md` at the project root with the full skill reference
 4. System installs skill definitions to `taproot/skills/` so the agent can load them locally
 5. System reports which files were created or updated
 
 ## Alternate Flows
-- **`--agent all`**: Generates adapters for all supported agents in one run
+- **`--agent all`**: Generates adapters for all six supported agents in one run
 - **File already exists** (copilot/windsurf/generic): System replaces only the `<!-- TAPROOT:START -->…<!-- TAPROOT:END -->` section, preserving any other content in the file
 - **Re-running on existing installation**: Adapter files are overwritten/updated (idempotent); equivalent to `taproot update`
 
@@ -94,10 +95,15 @@ Developer initializing taproot for a specific AI coding agent via `taproot init 
 - When the actor runs `taproot init --agent generic`
 - Then `AGENTS.md` is created containing `## Description`, `## Steps`, skill invocations, and CLI commands like `taproot validate-structure`
 
-**AC-12: --agent all generates all five adapters**
+**AC-12: --agent all generates all six adapters**
 - Given a project directory
 - When the actor runs `taproot init --agent all`
-- Then adapters for claude, cursor, copilot, windsurf, and generic are all generated
+- Then adapters for claude, cursor, copilot, windsurf, gemini, and generic are all generated
+
+**AC-14: Gemini adapter creates one command file per skill in .gemini/commands/**
+- Given a project directory
+- When the actor runs `taproot init --agent gemini`
+- Then one `.gemini/commands/tr-<skill>.toml` file is created for each skill, each referencing `.taproot/skills/<skill>.md`
 
 **AC-13: taproot init --agent generates adapter files and includes paths in messages**
 - Given a project directory
