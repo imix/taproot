@@ -36,6 +36,18 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md commithook section updated: added reverse-lookup explanation and new table row for missing impl.md case | resolved: 2026-03-20T07:33:53.988Z
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: getSection() helper for markdown section extraction is internal to commithook.ts and too narrow to document as a standalone pattern | resolved: 2026-03-21T06:27:33.982Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no new cross-cutting concern — spec quality checks are part of the existing commithook requirement tier, not a new orthogonal concern | resolved: 2026-03-21T06:27:33.753Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — new checkUsecaseQuality and checkIntentQuality functions run in the requirement tier; all 6 ACs for each behaviour are covered by tests | resolved: 2026-03-21T06:27:33.522Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: compliant — spec quality failures include actionable correction hints in the same format as existing commithook error messages | resolved: 2026-03-21T06:27:33.293Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — commithook.ts is the pre-commit hook itself; commit-awareness governs skills that contain git commit steps, not the hook that enforces them | resolved: 2026-03-21T06:27:33.062Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — commithook.ts is the enforcement mechanism, not a skill; context-engineering governs skill context loading which does not apply here | resolved: 2026-03-21T06:27:25.060Z
+
 - condition: fix-dor-sections-allowed | note: commithook.ts: ALLOWED_IMPL_SECTIONS now includes dor resolutions — allows rename sweeps to update DoR resolution notes without triggering declaration-commit requirement | resolved: 2026-03-20T21:31:02.634Z
 
 - condition: fix-dor-sections-allowed | note: ALLOWED_IMPL_SECTIONS now includes dor resolutions — allows rename sweeps and DoR resolution changes in implementation commits; declaration-only intent preserved since DoR still runs when impl.md is staged without source files | resolved: 2026-03-20T21:26:48.213Z

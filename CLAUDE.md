@@ -18,3 +18,20 @@ Before staging and committing any source files, proactively scan for impl.md own
 This prevents the pre-commit hook from failing with "Stage impl.md alongside your source files."
 
 If no impl.md claims any staged file, treat it as a plain commit and proceed normally.
+
+## Writing intent.md and usecase.md
+
+The pre-commit hook enforces these quality rules at commit time. Write specs correctly on the first attempt:
+
+**For `intent.md`:**
+- `## Goal` must start with a verb describing a *business outcome*: "Enable", "Allow", "Ensure", "Provide", "Reduce", etc.
+- Goal must NOT mention implementation technology (REST, SQL, API, PostgreSQL, etc.)
+- `## Stakeholders` must list at least one stakeholder with their perspective
+- `## Success Criteria` must contain at least one measurable criterion distinct from the goal
+
+**For `usecase.md`:**
+- `## Acceptance Criteria` must be present with at least one `**AC-1:**` Gherkin entry (Given/When/Then)
+- `## Actor` must name a human, external system, or service — not an implementation mechanism (not "the endpoint", "the database", "the API")
+- `## Postconditions` must be present and non-empty
+
+If the hook rejects a spec, the error message includes a correction hint. Fix the issue, re-stage, and re-commit.

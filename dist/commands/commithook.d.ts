@@ -1,6 +1,13 @@
 import type { Command } from 'commander';
 /** Walk all impl.md files on disk and build a map of source file path → impl.md path. */
 export declare function buildSourceToImplMap(cwd: string): Map<string, string>;
+export interface SpecFailure {
+    file: string;
+    message: string;
+    hint: string;
+}
+export declare function checkUsecaseQuality(filePath: string, content: string): SpecFailure[];
+export declare function checkIntentQuality(filePath: string, content: string): SpecFailure[];
 export declare function runCommithook(options: {
     cwd: string;
 }): Promise<number>;

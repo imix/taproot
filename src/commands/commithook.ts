@@ -84,6 +84,130 @@ function classifyCommit(files: string[], sourceToImpl: Map<string, string>): Com
   return tiers;
 }
 
+// ─── Spec quality checks ──────────────────────────────────────────────────────
+
+export interface SpecFailure {
+  file: string;
+  message: string;
+  hint: string;
+}
+
+const TECH_KEYWORDS = /\b(REST|GraphQL|API|SQL|PostgreSQL|MySQL|Redis|HTTP|gRPC|JSON|XML|YAML|endpoint|database|query|table|schema|microservice|lambda|function|webhook)\b/i;
+
+const VERB_STARTS = /^(Enable|Allow|Provide|Ensure|Support|Let|Give|Help|Make|Prevent|Reduce|Increase|Improve|Create|Manage|Track|Monitor|Enforce|Detect|Generate|Expose|Send|Receive|Process|Handle|Validate|Notify|Authorize|Authenticate|Store|Retrieve|Display|Show|List|Search|Filter|Export|Import|Sync|Deploy|Configure|Schedule|Audit|Report|Analyse|Analyze)\b/i;
+
+const IMPL_MECHANISM_ACTORS = /\b(endpoint|REST|API route|database|query|table|function|lambda|microservice|webhook|handler|controller|service|repository|middleware)\b/i;
+
+/** Extract the body text of a named `## Section` from markdown content. */
+function getSection(content: string, name: string): string | null {
+  const parts = content.split(/\n(?=## )/);
+  const section = parts.find(p => p.startsWith(`## ${name}`));
+  if (!section) return null;
+  return section.replace(/^## [^\n]*\n/, '');
+}
+
+export function checkUsecaseQuality(filePath: string, content: string): SpecFailure[] {
+  const failures: SpecFailure[] = [];
+
+  // AC section present with AC-N: entry
+  if (!/^## Acceptance Criteria/m.test(content)) {
+    failures.push({
+      file: filePath,
+      message: 'Missing `## Acceptance Criteria` section',
+      hint: "Add an `## Acceptance Criteria` section with at least one `AC-1:` Gherkin scenario before committing",
+    });
+  } else if (!/\*\*AC-\d+:/m.test(content)) {
+    failures.push({
+      file: filePath,
+      message: '`## Acceptance Criteria` section has no AC-N: entries',
+      hint: "Add at least one `**AC-1:**` entry with a Given/When/Then scenario",
+    });
+  }
+
+  // Actor section: must not describe an implementation mechanism
+  const actorBody = getSection(content, 'Actor');
+  if (actorBody !== null) {
+    const firstLine = actorBody.trim().split('\n')[0] ?? '';
+    if (IMPL_MECHANISM_ACTORS.test(firstLine)) {
+      failures.push({
+        file: filePath,
+        message: `Actor describes an implementation mechanism: "${firstLine}"`,
+        hint: "Actor should be a human, system, or external service — not an implementation detail (e.g. 'Developer', 'External payment service')",
+      });
+    }
+  }
+
+  // Postconditions section present and non-empty
+  const postBody = getSection(content, 'Postconditions');
+  if (postBody === null || postBody.trim().length === 0) {
+    failures.push({
+      file: filePath,
+      message: 'Missing or empty `## Postconditions` section',
+      hint: "Add a `## Postconditions` section describing what is true after the flow succeeds",
+    });
+  }
+
+  return failures;
+}
+
+export function checkIntentQuality(filePath: string, content: string): SpecFailure[] {
+  const failures: SpecFailure[] = [];
+
+  // Goal section: present, starts with a verb
+  const goalBody = getSection(content, 'Goal');
+  if (goalBody === null || goalBody.trim().length === 0) {
+    failures.push({
+      file: filePath,
+      message: 'Missing or empty `## Goal` section',
+      hint: "Add a `## Goal` section starting with a verb describing a business outcome — e.g. 'Enable users to...', 'Allow operators to...'",
+    });
+  } else {
+    const firstLine = goalBody.trim().split('\n')[0]!.trim();
+    if (!VERB_STARTS.test(firstLine)) {
+      failures.push({
+        file: filePath,
+        message: `Goal does not start with a verb: "${firstLine}"`,
+        hint: "Goal must start with a verb describing a business outcome — e.g. 'Enable users to...', 'Allow operators to...', 'Ensure teams can...'",
+      });
+    }
+    if (TECH_KEYWORDS.test(firstLine)) {
+      failures.push({
+        file: filePath,
+        message: `Goal describes implementation technology: "${firstLine}"`,
+        hint: "Goal should describe the business outcome, not the technical approach. Remove references to implementation technology (REST, SQL, etc.)",
+      });
+    }
+  }
+
+  // Stakeholders section: present and non-empty
+  const stakeBody = getSection(content, 'Stakeholders');
+  if (stakeBody === null || stakeBody.trim().length === 0) {
+    failures.push({
+      file: filePath,
+      message: 'Missing or empty `## Stakeholders` section',
+      hint: "Add a `## Stakeholders` section with at least one stakeholder and their perspective",
+    });
+  }
+
+  // Success Criteria section: present and non-empty
+  const scBody = getSection(content, 'Success Criteria');
+  if (scBody === null || scBody.trim().length === 0) {
+    failures.push({
+      file: filePath,
+      message: 'Missing or empty `## Success Criteria` section',
+      hint: "Add at least one measurable success criterion that is observable and distinct from the goal statement",
+    });
+  }
+
+  return failures;
+}
+
+function getStagedContent(filePath: string, cwd: string): string | null {
+  const result = spawnSync('git', ['show', `:${filePath}`], { cwd, encoding: 'utf-8' });
+  if (result.status !== 0) return null;
+  return result.stdout;
+}
+
 // ─── Status-only change check ─────────────────────────────────────────────────
 
 function checkStatusOnly(
@@ -161,6 +285,27 @@ export async function runCommithook(options: { cwd: string }): Promise<number> {
     if (violations.some(v => v.type === 'error')) {
       process.stdout.write('taproot commithook — Requirement commit: hierarchy violations found\n');
       process.stdout.write(renderViolations(violations));
+      failed = true;
+    }
+
+    // Spec quality checks for usecase.md and intent.md files
+    const specFailures: SpecFailure[] = [];
+    for (const f of staged) {
+      if (!isHierarchyFile(f)) continue;
+      const content = getStagedContent(f, cwd);
+      if (!content) continue;
+      if (f.endsWith('usecase.md')) {
+        specFailures.push(...checkUsecaseQuality(f, content));
+      } else if (f.endsWith('intent.md')) {
+        specFailures.push(...checkIntentQuality(f, content));
+      }
+    }
+    if (specFailures.length > 0) {
+      process.stdout.write('taproot commithook — Requirement commit: spec quality issues found\n');
+      for (const failure of specFailures) {
+        process.stdout.write(`  ✗ ${failure.file}: ${failure.message}\n`);
+        process.stdout.write(`    → ${failure.hint}\n`);
+      }
       failed = true;
     }
   }

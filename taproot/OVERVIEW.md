@@ -102,6 +102,8 @@ _No behaviours yet._
   - [cli-command](./quality-gates/definition-of-done/cli-command/impl.md) `[complete]` (3 commits, 1 test)
 - **[definition-of-ready](./quality-gates/definition-of-ready/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a contributor commits an `impl.md` file without source code changes (the "I'm starting this implementation" declaration commit).
   - [cli-command](./quality-gates/definition-of-ready/cli-command/impl.md) `[complete]` (2 commits, 1 test)
+- **[validate-intent-quality](./quality-gates/validate-intent-quality/usecase.md)** `[specified]` — Actor: `taproot commithook` — triggered automatically when an `intent.md` is committed (requirement commit)
+- **[validate-usecase-quality](./quality-gates/validate-usecase-quality/usecase.md)** `[specified]` — Actor: `taproot commithook` — triggered automatically when a `usecase.md` is committed (requirement commit)
 
 ## [requirements-completeness](./requirements-completeness/intent.md) `[active]`
 
@@ -160,4 +162,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-15 intents · 38 behaviours · 40 implementations · 39/40 complete
+15 intents · 40 behaviours · 40 implementations · 39/40 complete

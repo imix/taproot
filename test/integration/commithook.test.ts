@@ -3,7 +3,7 @@ import { mkdtempSync, rmSync, mkdirSync, writeFileSync, readFileSync, existsSync
 import { tmpdir } from 'os';
 import { join } from 'path';
 import { spawnSync } from 'child_process';
-import { runCommithook, buildSourceToImplMap } from '../../src/commands/commithook.js';
+import { runCommithook, buildSourceToImplMap, checkUsecaseQuality, checkIntentQuality } from '../../src/commands/commithook.js';
 import { runInit } from '../../src/commands/init.js';
 import { runDorChecks } from '../../src/core/dor-runner.js';
 
@@ -134,7 +134,7 @@ describe('runCommithook — requirement commit', () => {
     mkdirSync(join(tmpDir, 'taproot', 'my-intent'), { recursive: true });
     stage([{
       path: 'taproot/my-intent/intent.md',
-      content: `# Intent: Test\n\n## Goal\nTest goal\n\n## Stakeholders\n- Dev\n\n## Success Criteria\n- [ ] Works\n\n## Status\n- **State:** active\n- **Created:** 2026-03-19\n`,
+      content: `# Intent: Test\n\n## Goal\nEnable teams to test the system\n\n## Stakeholders\n- Dev: needs to verify behaviour\n\n## Success Criteria\n- [ ] Tests pass reliably\n\n## Status\n- **State:** active\n- **Created:** 2026-03-19\n`,
     }], tmpDir);
     const code = await runCommithook({ cwd: tmpDir });
     expect(code).toBe(0);
@@ -395,6 +395,136 @@ describe('buildSourceToImplMap', () => {
     );
     const map = buildSourceToImplMap(tmpDir);
     expect(map.size).toBe(0);
+  });
+});
+
+describe('checkUsecaseQuality', () => {
+  const VALID = `# Behaviour: Test\n\n## Actor\nDeveloper\n\n## Main Flow\n1. Developer does something\n\n## Acceptance Criteria\n\n**AC-1: Thing works**\n- Given ...\n- When ...\n- Then ...\n\n## Postconditions\n- Something is true\n`;
+
+  it('passes a usecase with AC, valid actor, and postconditions', () => {
+    const failures = checkUsecaseQuality('taproot/x/usecase.md', VALID);
+    expect(failures).toHaveLength(0);
+  });
+
+  it('fails when ## Acceptance Criteria section is missing', () => {
+    const content = VALID.replace(/## Acceptance Criteria[\s\S]*?## Postconditions/, '## Postconditions');
+    const failures = checkUsecaseQuality('taproot/x/usecase.md', content);
+    expect(failures.some(f => f.message.includes('Acceptance Criteria'))).toBe(true);
+  });
+
+  it('fails when AC section has no AC-N: entries', () => {
+    const content = VALID.replace('**AC-1: Thing works**', 'No structured entries here');
+    const failures = checkUsecaseQuality('taproot/x/usecase.md', content);
+    expect(failures.some(f => f.message.includes('AC-N:') || f.message.includes('no AC-N'))).toBe(true);
+  });
+
+  it('fails when actor describes an implementation mechanism', () => {
+    const content = VALID.replace('## Actor\nDeveloper', '## Actor\nthe REST endpoint');
+    const failures = checkUsecaseQuality('taproot/x/usecase.md', content);
+    expect(failures.some(f => f.message.includes('implementation mechanism'))).toBe(true);
+  });
+
+  it('fails when ## Postconditions section is missing', () => {
+    const content = VALID.replace(/## Postconditions[\s\S]*$/, '');
+    const failures = checkUsecaseQuality('taproot/x/usecase.md', content);
+    expect(failures.some(f => f.message.includes('Postconditions'))).toBe(true);
+  });
+
+  it('fails when ## Postconditions section is empty', () => {
+    const content = VALID.replace('- Something is true', '');
+    const failures = checkUsecaseQuality('taproot/x/usecase.md', content);
+    expect(failures.some(f => f.message.includes('Postconditions'))).toBe(true);
+  });
+});
+
+describe('checkIntentQuality', () => {
+  const VALID = `# Intent: Test\n\n## Goal\nEnable teams to manage their workflow\n\n## Stakeholders\n- Developer: needs clear criteria\n\n## Success Criteria\n- [ ] Teams can configure conditions\n`;
+
+  it('passes a well-formed intent', () => {
+    const failures = checkIntentQuality('taproot/x/intent.md', VALID);
+    expect(failures).toHaveLength(0);
+  });
+
+  it('fails when ## Goal section is missing', () => {
+    const content = VALID.replace(/## Goal[\s\S]*?## Stakeholders/, '## Stakeholders');
+    const failures = checkIntentQuality('taproot/x/intent.md', content);
+    expect(failures.some(f => f.message.includes('Goal'))).toBe(true);
+  });
+
+  it('fails when goal does not start with a recognised verb', () => {
+    const content = VALID.replace('Enable teams to manage their workflow', 'A system for managing workflow');
+    const failures = checkIntentQuality('taproot/x/intent.md', content);
+    expect(failures.some(f => f.message.includes('does not start with a verb'))).toBe(true);
+  });
+
+  it('fails when goal references implementation technology', () => {
+    const content = VALID.replace('Enable teams to manage their workflow', 'Enable teams to use a REST API to manage workflow');
+    const failures = checkIntentQuality('taproot/x/intent.md', content);
+    expect(failures.some(f => f.message.includes('implementation technology'))).toBe(true);
+  });
+
+  it('fails when ## Stakeholders section is missing', () => {
+    const content = VALID.replace(/## Stakeholders[\s\S]*?## Success Criteria/, '## Success Criteria');
+    const failures = checkIntentQuality('taproot/x/intent.md', content);
+    expect(failures.some(f => f.message.includes('Stakeholders'))).toBe(true);
+  });
+
+  it('fails when ## Success Criteria section is missing', () => {
+    const content = VALID.replace(/## Success Criteria[\s\S]*$/, '');
+    const failures = checkIntentQuality('taproot/x/intent.md', content);
+    expect(failures.some(f => f.message.includes('Success Criteria'))).toBe(true);
+  });
+});
+
+describe('runCommithook — spec quality gates (requirement commit)', () => {
+  it('blocks commit when usecase.md is missing Acceptance Criteria', async () => {
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour'), { recursive: true });
+    stage([{
+      path: 'taproot/my-intent/my-behaviour/usecase.md',
+      content: `# Behaviour: Test\n\n## Actor\nDeveloper\n\n## Main Flow\n1. Developer acts\n\n## Postconditions\n- Done\n\n## Status\n- **State:** specified\n- **Created:** 2026-03-21\n`,
+    }], tmpDir);
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(1);
+  });
+
+  it('blocks commit when usecase.md actor is an implementation mechanism', async () => {
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour'), { recursive: true });
+    stage([{
+      path: 'taproot/my-intent/my-behaviour/usecase.md',
+      content: `# Behaviour: Test\n\n## Actor\nthe database\n\n## Main Flow\n1. Database queries\n\n## Acceptance Criteria\n\n**AC-1:** Given ... When ... Then ...\n\n## Postconditions\n- Done\n\n## Status\n- **State:** specified\n- **Created:** 2026-03-21\n`,
+    }], tmpDir);
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(1);
+  });
+
+  it('blocks commit when intent.md goal does not start with a verb', async () => {
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent'), { recursive: true });
+    stage([{
+      path: 'taproot/my-intent/intent.md',
+      content: `# Intent: Test\n\n## Goal\nA better workflow for teams\n\n## Stakeholders\n- Dev: needs this\n\n## Success Criteria\n- [ ] Works\n\n## Status\n- **State:** active\n- **Created:** 2026-03-21\n`,
+    }], tmpDir);
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(1);
+  });
+
+  it('blocks commit when intent.md goal references implementation technology', async () => {
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent'), { recursive: true });
+    stage([{
+      path: 'taproot/my-intent/intent.md',
+      content: `# Intent: Test\n\n## Goal\nProvide a REST API to expose workflow data\n\n## Stakeholders\n- Dev: needs this\n\n## Success Criteria\n- [ ] API works\n\n## Status\n- **State:** active\n- **Created:** 2026-03-21\n`,
+    }], tmpDir);
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(1);
+  });
+
+  it('blocks commit when intent.md is missing Success Criteria', async () => {
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent'), { recursive: true });
+    stage([{
+      path: 'taproot/my-intent/intent.md',
+      content: `# Intent: Test\n\n## Goal\nEnable teams to track their work\n\n## Stakeholders\n- Dev: needs this\n\n## Status\n- **State:** active\n- **Created:** 2026-03-21\n`,
+    }], tmpDir);
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(1);
   });
 });
 
