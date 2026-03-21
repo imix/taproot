@@ -58,4 +58,5 @@
 - condition: gemini-adapter-addition | note: src/commands/init.ts updated to add gemini: 'Gemini CLI' label to AGENT_LABELS. This is a UI label for the interactive prompt only — no behavioral change to commit.md or the commit skill. Not applicable to this implementation. | resolved: 2026-03-21
 - condition: gemini-skills-install | note: src/commands/init.ts updated to install skills when gemini adapter is selected (needsSkills now includes gemini). No behavioral change to commit skill. Not applicable to this implementation. | resolved: 2026-03-21
 - condition: no-git-abort | note: src/commands/init.ts updated to abort with error if .git is absent. No behavioral change to commit skill. Not applicable to this implementation. | resolved: 2026-03-21
+- condition: agent-support-tiers | note: src/commands/init.ts updated to add tier labels to interactive prompt and tier lines to install output. No behavioral change to commit skill. Not applicable to this implementation. | resolved: 2026-03-21
 

@@ -5,7 +5,7 @@ import yaml from 'js-yaml';
 import type { Command } from 'commander';
 import { DEFAULT_CONFIG } from '../core/config.js';
 import { intentTemplate, behaviourTemplate, implTemplate } from '../templates/index.js';
-import { generateAdapters, ALL_AGENTS, type AgentName } from '../adapters/index.js';
+import { generateAdapters, ALL_AGENTS, AGENT_TIERS, getTierLabel, type AgentName } from '../adapters/index.js';
 import checkbox from '@inquirer/checkbox';
 import confirm from '@inquirer/confirm';
 
@@ -49,7 +49,7 @@ export function registerInit(program: Command): void {
       let agent: AgentName | AgentName[] | 'all' | undefined = options.agent as AgentName | 'all' | undefined;
 
       if (!agent) {
-        const AGENT_LABELS: Record<AgentName, string> = {
+        const AGENT_BASE_LABELS: Record<AgentName, string> = {
           claude: 'Claude Code',
           cursor: 'Cursor',
           copilot: 'GitHub Copilot',
@@ -59,7 +59,10 @@ export function registerInit(program: Command): void {
         };
         const selected = await checkbox({
           message: 'Which agent adapter(s) would you like to generate?',
-          choices: ALL_AGENTS.map((a) => ({ name: AGENT_LABELS[a], value: a })),
+          choices: ALL_AGENTS.map((a) => ({
+            name: `${AGENT_BASE_LABELS[a]} (${getTierLabel(a)})`,
+            value: a,
+          })),
         });
         if (selected.length === ALL_AGENTS.length) {
           agent = 'all';
@@ -184,6 +187,11 @@ export function runInit(options: {
         const rel = file.path.replace(cwd + '/', '').replace(cwd + '\\', '');
         const verb = file.status === 'created' ? 'created' : file.status === 'updated' ? 'updated' : 'exists ';
         messages.push(`${verb}  ${rel}`);
+      }
+      const tier = AGENT_TIERS[result.agent];
+      messages.push(`         ${getTierLabel(result.agent)}`);
+      if (tier === 3) {
+        messages.push(`         Community-supported: adapter generated but not officially validated end-to-end. Feedback and fixes welcome.`);
       }
     }
   }

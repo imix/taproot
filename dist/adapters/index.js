@@ -15,6 +15,22 @@ const BUNDLED_SKILLS_DIR = resolve(__dirname, '..', '..', 'skills');
 const TAPROOT_START = '<!-- TAPROOT:START -->';
 const TAPROOT_END = '<!-- TAPROOT:END -->';
 export const ALL_AGENTS = ['claude', 'cursor', 'copilot', 'windsurf', 'gemini', 'generic'];
+export const AGENT_TIERS = {
+    claude: 1,
+    gemini: 2,
+    cursor: 3,
+    copilot: 3,
+    windsurf: 3,
+    generic: 3,
+};
+const TIER_LABELS = {
+    1: 'Tier 1 — fully supported',
+    2: 'Tier 2 — implemented & tested',
+    3: 'Tier 3 — community supported',
+};
+export function getTierLabel(agent) {
+    return TIER_LABELS[AGENT_TIERS[agent]];
+}
 // ─── Public entry point ───────────────────────────────────────────────────────
 export function generateAdapters(agents, projectRoot) {
     const targets = agents === 'all' ? ALL_AGENTS : Array.isArray(agents) ? agents : [agents];

@@ -21,6 +21,27 @@ const TAPROOT_END = '<!-- TAPROOT:END -->';
 export type AgentName = 'claude' | 'cursor' | 'copilot' | 'windsurf' | 'gemini' | 'generic';
 export const ALL_AGENTS: AgentName[] = ['claude', 'cursor', 'copilot', 'windsurf', 'gemini', 'generic'];
 
+export type AgentTier = 1 | 2 | 3;
+
+export const AGENT_TIERS: Record<AgentName, AgentTier> = {
+  claude:   1,
+  gemini:   2,
+  cursor:   3,
+  copilot:  3,
+  windsurf: 3,
+  generic:  3,
+};
+
+const TIER_LABELS: Record<AgentTier, string> = {
+  1: 'Tier 1 — fully supported',
+  2: 'Tier 2 — implemented & tested',
+  3: 'Tier 3 — community supported',
+};
+
+export function getTierLabel(agent: AgentName): string {
+  return TIER_LABELS[AGENT_TIERS[agent]];
+}
+
 export interface AdapterResult {
   agent: AgentName;
   files: Array<{ path: string; status: 'created' | 'updated' | 'exists' }>;

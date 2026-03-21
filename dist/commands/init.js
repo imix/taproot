@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 import yaml from 'js-yaml';
 import { DEFAULT_CONFIG } from '../core/config.js';
 import { intentTemplate, behaviourTemplate, implTemplate } from '../templates/index.js';
-import { generateAdapters, ALL_AGENTS } from '../adapters/index.js';
+import { generateAdapters, ALL_AGENTS, AGENT_TIERS, getTierLabel } from '../adapters/index.js';
 import checkbox from '@inquirer/checkbox';
 import confirm from '@inquirer/confirm';
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -43,7 +43,7 @@ export function registerInit(program) {
         .action(async (options) => {
         let agent = options.agent;
         if (!agent) {
-            const AGENT_LABELS = {
+            const AGENT_BASE_LABELS = {
                 claude: 'Claude Code',
                 cursor: 'Cursor',
                 copilot: 'GitHub Copilot',
@@ -53,7 +53,10 @@ export function registerInit(program) {
             };
             const selected = await checkbox({
                 message: 'Which agent adapter(s) would you like to generate?',
-                choices: ALL_AGENTS.map((a) => ({ name: AGENT_LABELS[a], value: a })),
+                choices: ALL_AGENTS.map((a) => ({
+                    name: `${AGENT_BASE_LABELS[a]} (${getTierLabel(a)})`,
+                    value: a,
+                })),
             });
             if (selected.length === ALL_AGENTS.length) {
                 agent = 'all';
@@ -161,6 +164,11 @@ export function runInit(options) {
                 const rel = file.path.replace(cwd + '/', '').replace(cwd + '\\', '');
                 const verb = file.status === 'created' ? 'created' : file.status === 'updated' ? 'updated' : 'exists ';
                 messages.push(`${verb}  ${rel}`);
+            }
+            const tier = AGENT_TIERS[result.agent];
+            messages.push(`         ${getTierLabel(result.agent)}`);
+            if (tier === 3) {
+                messages.push(`         Community-supported: adapter generated but not officially validated end-to-end. Feedback and fixes welcome.`);
             }
         }
     }

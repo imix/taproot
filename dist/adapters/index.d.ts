@@ -7,6 +7,9 @@
  */
 export type AgentName = 'claude' | 'cursor' | 'copilot' | 'windsurf' | 'gemini' | 'generic';
 export declare const ALL_AGENTS: AgentName[];
+export type AgentTier = 1 | 2 | 3;
+export declare const AGENT_TIERS: Record<AgentName, AgentTier>;
+export declare function getTierLabel(agent: AgentName): string;
 export interface AdapterResult {
     agent: AgentName;
     files: Array<{

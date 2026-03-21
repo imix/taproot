@@ -101,4 +101,34 @@ describe('taproot init', () => {
     expect(existsSync(join(tmpDir, '.git', 'hooks', 'pre-commit'))).toBe(true);
     expect(messages.some(m => m.includes('pre-commit'))).toBe(true);
   });
+
+  // AC-2: Tier 1 agent install output includes tier label
+  it('AC-2: claude install output includes Tier 1 label', () => {
+    const messages = runInit({ cwd: tmpDir, agent: 'claude' });
+    expect(messages.some(m => m.includes('Tier 1'))).toBe(true);
+    expect(messages.some(m => m.includes('fully supported'))).toBe(true);
+  });
+
+  // AC-3: Tier 2 agent install output includes tier label
+  it('AC-3: gemini install output includes Tier 2 label', () => {
+    const messages = runInit({ cwd: tmpDir, agent: 'gemini' });
+    expect(messages.some(m => m.includes('Tier 2'))).toBe(true);
+    expect(messages.some(m => m.includes('implemented & tested'))).toBe(true);
+  });
+
+  // AC-4: Tier 3 agent install output includes community note
+  it('AC-4: cursor install output includes Tier 3 and community note', () => {
+    const messages = runInit({ cwd: tmpDir, agent: 'cursor' });
+    expect(messages.some(m => m.includes('Tier 3'))).toBe(true);
+    expect(messages.some(m => /community.supported/i.test(m))).toBe(true);
+  });
+
+  // AC-6: default tier for unknown agent is Tier 3 — static map coverage
+  it('AC-6: AGENT_TIERS assigns Tier 3 to community agents', async () => {
+    const { AGENT_TIERS } = await import('../../src/adapters/index.js');
+    expect(AGENT_TIERS['cursor']).toBe(3);
+    expect(AGENT_TIERS['copilot']).toBe(3);
+    expect(AGENT_TIERS['windsurf']).toBe(3);
+    expect(AGENT_TIERS['generic']).toBe(3);
+  });
 });

@@ -53,4 +53,5 @@
 - condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts reads SKILL_FILES from init.ts dynamically; sweep.md entry in SKILL_FILES is sufficient | resolved: 2026-03-20T16:05:53.634Z
 
 - condition: document-current | note: docs/agents.md and skills/guide.md updated with /tr-sweep — all CLI commands and skills remain accurately documented | resolved: 2026-03-20T16:05:53.399Z
+- condition: agent-support-tiers | note: src/adapters/index.ts updated to add AGENT_TIERS static map and getTierLabel helper. Not a behavioral change to taproot init scaffolding — tier data co-located with adapter definitions. Not applicable to this init CLI implementation. | resolved: 2026-03-21
 

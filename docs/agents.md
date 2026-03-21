@@ -4,14 +4,17 @@ Taproot works with any AI assistant that can read files. Run `taproot init --age
 
 ## Supported Agents
 
-| Agent | Command | What gets installed |
-|-------|---------|---------------------|
-| Claude Code | `taproot init --agent claude` | `.claude/commands/tr-*.md` — one file per slash command |
-| Cursor | `taproot init --agent cursor` | `.cursor/rules/taproot.md` — project-wide rules |
-| GitHub Copilot | `taproot init --agent copilot` | `.github/copilot-instructions.md` |
-| Windsurf | `taproot init --agent windsurf` | `.windsurfrules` |
-| Any agent | `taproot init --agent generic` | `AGENTS.md` — agent-agnostic instructions |
-| All agents | `taproot init --agent all` | All of the above |
+| Agent | Support Tier | Command | What gets installed |
+|-------|-------------|---------|---------------------|
+| Claude Code | **Tier 1** — fully supported | `taproot init --agent claude` | `.claude/commands/tr-*.md` — one file per slash command |
+| Gemini CLI | **Tier 2** — implemented & tested | `taproot init --agent gemini` | `.gemini/commands/tr-*.toml` — one file per command |
+| Cursor | **Tier 3** — community supported | `taproot init --agent cursor` | `.cursor/rules/taproot.md` — project-wide rules |
+| GitHub Copilot | **Tier 3** — community supported | `taproot init --agent copilot` | `.github/copilot-instructions.md` |
+| Windsurf | **Tier 3** — community supported | `taproot init --agent windsurf` | `.windsurfrules` |
+| Any agent | **Tier 3** — community supported | `taproot init --agent generic` | `AGENTS.md` — agent-agnostic instructions |
+| All agents | — | `taproot init --agent all` | All of the above |
+
+**Tier 1** agents are fully tested with all features supported and covered in CI. **Tier 2** agents have working adapters with basic end-to-end validation. **Tier 3** agents are community-supported — adapters are generated but not officially validated end-to-end. Feedback and fixes welcome.
 
 You can install multiple adapters in the same project. If your team uses Cursor and you use Claude Code, run `taproot init --agent all`.
 
