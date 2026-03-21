@@ -18,6 +18,7 @@
 - `0cfe26d7c7b5c1f65a26a9084a4b7c912c46f7b2` — (auto-linked by taproot link-commits)
 - `644e0ec95f4cf48b0abf01cad46cf464a2bfff92` — (auto-linked by taproot link-commits)
 - `86e173893fefe36da515fa9cc408d02d7c719fc1` — (auto-linked by taproot link-commits)
+- `105b33c4fae4d10d35d5fc73e7fb7c1fc06f6581` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/claude-md.test.ts` — AC-8: CLAUDE.md contains no numbered multi-step procedure sequences (C-7 compliance)
