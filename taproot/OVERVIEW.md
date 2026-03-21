@@ -156,7 +156,7 @@ _No behaviours yet._
   - **[commit-skill](./skill-architecture/commit-awareness/commit-skill/usecase.md)** `[implemented]` — Actor: Agent — executing any taproot skill that ends in a commit, or responding to a user saying "commit", "let's commit", "commit that", or similar natural-language commit intent.
     - [agent-skill](./skill-architecture/commit-awareness/commit-skill/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[context-engineering](./skill-architecture/context-engineering/usecase.md)** `[implemented]` — Actor: Skill author — a human developer or AI agent writing or updating a taproot skill file (`skills/*.md`).
-  - [agent-skill](./skill-architecture/context-engineering/agent-skill/impl.md) `[complete]` (3 commits ⚠ no tests)
+  - [agent-skill](./skill-architecture/context-engineering/agent-skill/impl.md) `[complete]` (4 commits, 1 test)
 
 ## [taproot-lifecycle](./taproot-lifecycle/intent.md) `[active]`
 

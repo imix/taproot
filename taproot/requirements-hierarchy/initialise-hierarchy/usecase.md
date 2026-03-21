@@ -9,25 +9,32 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 
 ## Main Flow
 1. Actor runs `taproot init` in the project root
-2. System creates the `taproot/` root directory
-3. System creates `taproot/skills/` for skill definitions
-4. System creates `taproot/_brainstorms/` for exploratory notes
-5. System writes `.taproot/settings.yaml` with default configuration
-6. System writes `taproot/CONVENTIONS.md` with document format reference and commit conventions
-7. System reports each created path
+2. System prompts: "Which agent adapter would you like to install?" — presents a selection list (claude, cursor, none)
+3. System prompts: "Install the pre-commit hook? (Strongly recommended — prevents implementation commits without traceability and requirement commits without quality checks) [Y/n]"
+4. System creates the `taproot/` root directory
+5. System creates `taproot/skills/` for skill definitions
+6. System writes `.taproot/settings.yaml` with default configuration
+7. System writes `taproot/CONVENTIONS.md` with document format reference and commit conventions
+8. System installs the selected agent adapter (if any)
+9. System installs the pre-commit hook (if confirmed)
+10. System reports each created path
 
 ## Alternate Flows
+- **Non-interactive mode**: if `--agent <name>` is passed, skip the agent selection prompt and use the provided value; if `--with-hooks` is passed, skip the hook prompt and install the hook
+- **No agent selected**: actor selects "none" at the agent prompt — adapter installation is skipped, all other steps proceed normally
+- **Hook declined**: actor answers "n" at the hook prompt — hook installation is skipped; system notes "Pre-commit hook not installed — run `taproot init --with-hooks` to add it later"
 - **Directory already exists**: system reports `exists` instead of `created` and skips creation — idempotent
-- **Interactive agent selection**: if `--agent` flag is omitted, system presents a checkbox prompt to select which agent adapters to install
 
 ## Error Conditions
 - **No write permission**: filesystem error is surfaced; earlier steps that succeeded are not rolled back (no transactional guarantee)
 
 ## Postconditions
-- `taproot/` directory exists with standard subdirectories (`skills/`, `_brainstorms/`)
+- `taproot/` directory exists with `skills/` subdirectory
 - `.taproot/settings.yaml` exists with default configuration (can be customised after init)
 - `taproot/CONVENTIONS.md` exists as a human-readable format reference
 - `taproot/skills/` is populated with canonical skill definitions
+- Selected agent adapter is installed (or none if declined)
+- Pre-commit hook is installed at `.git/hooks/pre-commit` if confirmed, absent otherwise
 - The project is ready to receive intent, behaviour, and implementation documents
 
 ## Implementations <!-- taproot-managed -->
@@ -46,10 +53,10 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 - When the actor runs `taproot init`
 - Then `.taproot/settings.yaml` is created
 
-**AC-3: Creates .taproot/skills/ directory when claude agent is selected**
-- Given a project directory
-- When the actor runs `taproot init --agent claude`
-- Then `.taproot/skills/` directory is created
+**AC-3: Agent selection prompt installs selected adapter**
+- Given a new project directory
+- When the actor runs `taproot init` and selects "claude" from the agent prompt
+- Then the `.taproot/skills/` directory is created and skill files are installed
 
 **AC-4: Does not create taproot/_brainstorms/ directory**
 - Given a new empty project directory
@@ -76,6 +83,27 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 - When the actor runs `taproot init` again
 - Then the returned messages include the word "exists"
 
+**AC-9: Hook prompt presented with safety rationale**
+- Given a new project directory
+- When the actor runs `taproot init` and reaches the hook prompt
+- Then the prompt describes the hook as recommended and explains what it prevents (implementation commits without traceability, requirement commits without quality checks)
+
+**AC-10: Declining hook skips installation and reports it**
+- Given a new project directory
+- When the actor runs `taproot init` and answers "n" to the hook prompt
+- Then no pre-commit hook is created and the output notes it was skipped
+
+**AC-11: --agent flag skips agent selection prompt**
+- Given an actor runs `taproot init --agent claude`
+- When init runs
+- Then no agent selection prompt is shown and the claude adapter is installed directly
+
+**AC-12: --with-hooks flag skips hook prompt and installs hook**
+- Given an actor runs `taproot init --with-hooks`
+- When init runs
+- Then no hook prompt is shown and the pre-commit hook is installed
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
+- **Last reviewed:** 2026-03-21
