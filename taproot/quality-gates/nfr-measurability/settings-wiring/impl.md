@@ -14,6 +14,8 @@
 
 ## Commits
 <!-- taproot-managed -->
+- `3f13a2ea050faacd83d9032b5d76b0446c497e0a` — (auto-linked by taproot link-commits)
+- `55bee91cfa4bdb392e81d6950429eaf6901442ba` — (auto-linked by taproot link-commits)
 
 ## Tests
 - (no automated test — agent-driven check; verified by DoR runner's existing check-if-affected-by integration test coverage)
