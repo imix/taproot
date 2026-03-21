@@ -207,12 +207,13 @@ describe('gemini adapter', () => {
     expect(content).toContain('.taproot/skills/intent.md');
   });
 
-  it('each command file has name and description fields', () => {
+  it('each command file has a description field (no [command] section, name derived from filename)', () => {
     generateAdapters('gemini', tmpDir);
     const intentPath = join(tmpDir, '.gemini', 'commands', 'tr-intent.toml');
     const content = readFileSync(intentPath, 'utf-8');
-    expect(content).toContain('name = "tr-intent"');
     expect(content).toContain('description = "');
+    expect(content).not.toContain('[command]');
+    expect(content).not.toContain('name = ');
   });
 
   it('each command file contains imperative execution framing', () => {

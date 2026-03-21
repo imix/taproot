@@ -317,9 +317,8 @@ function buildGeminiSkillFile(skill: SkillDef): string {
   const overviewStep = TREE_MODIFYING_SKILLS.has(skill.name)
     ? '\n5. Run `taproot overview` to update taproot/OVERVIEW.md with the current project state'
     : '';
-  return `[command]
-name = "tr-${skill.name}"
-description = "${skill.description.replace(/"/g, '\\"')}"
+  return `description = "${skill.description.replace(/"/g, '\\"')}"
+
 prompt = """
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
 
