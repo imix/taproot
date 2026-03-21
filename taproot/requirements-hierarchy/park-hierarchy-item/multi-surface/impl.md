@@ -35,6 +35,10 @@
 
 ## DoD Resolutions
 - condition: document-current | note: Updated docs/concepts.md: added deferred to state table and added explanatory paragraph. Updated docs/configuration.md: added deferred to allowed_behaviour_states and allowed_impl_states examples. update.ts propagates skill/adapter files only — not affected. skills/guide.md has no state references — not affected. | resolved: 2026-03-20T17:59:49.767Z
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — park-hierarchy-item impl modifies state validation and deferred lifecycle logic; it does not touch any skill that reads git state or references commits | resolved: 2026-03-21T11:06:36.626Z
+
+- condition: document-current | note: no docs changes needed for this story — NFR-N is a spec format concern; park-hierarchy-item impl is complete and unaffected | resolved: 2026-03-21T11:05:53.342Z
+
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — deferred state is a lifecycle mechanism, not a reusable pattern; it is documented in docs/concepts.md as part of the state table | resolved: 2026-03-20T18:00:27.286Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — the deferred state affects multiple CLI commands but this is a first-class feature implemented directly, not a cross-cutting enforcement constraint that would need to be wired up per-implementation | resolved: 2026-03-20T18:00:27.053Z

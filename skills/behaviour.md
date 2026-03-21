@@ -69,6 +69,15 @@ Define a UseCase (observable system behaviour) under an intent or another behavi
 
    Note to developer: "I've generated N acceptance criteria — review and adjust the Given/When/Then wording before committing. IDs are immutable once assigned."
 
+7b. After generating functional ACs, ask: "Are there quality constraints on this behaviour — performance targets, security requirements, reliability thresholds, or accessibility standards?" If yes, derive one `**NFR-N:**` entry per constraint using the NFR Gherkin pattern:
+   - **Given** — the environmental or load condition (e.g. "500 concurrent users", "mobile network", "authenticated session")
+   - **When** — the actor action that triggers measurement
+   - **Then** — a measurable threshold: number + unit, named standard, or testable boolean condition
+
+   Assign IDs starting at `NFR-1`, placed after the last functional AC. Note: "I've generated N NFR criteria — confirm the thresholds are specific and measurable before committing."
+
+   If no quality constraints are identified, skip silently.
+
 8. Determine the folder slug: kebab-case, verb-noun or noun phrase (e.g., `register-account`, `reset-password`, `verify-email-address`). Should be distinct from sibling behaviour slugs.
 
 9. Create the directory `<parent>/<slug>/` and write `usecase.md`.

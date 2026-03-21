@@ -68,7 +68,7 @@ Validates that marker files (`intent.md`, `usecase.md`, `impl.md`) conform to th
 - Every link in those sections resolves to an existing file (detects `STALE_LINK`)
 - `impl.md` `## Behaviour` references point to existing `usecase.md` files
 - Every `usecase.md` with child impl folders has a `## Acceptance Criteria` section (warns `MISSING_ACCEPTANCE_CRITERIA` if absent)
-- Acceptance criterion IDs (`AC-N`) are unique within a file (errors `DUPLICATE_CRITERION_ID` if duplicate)
+- Acceptance criterion IDs (`AC-N` and `NFR-N`) are unique within their respective prefix namespace within a file (errors `DUPLICATE_CRITERION_ID` if duplicate)
 
 Use `--fix` to scaffold missing section headers automatically. This is safe to run repeatedly — it only adds what's missing, never overwrites existing content.
 
@@ -78,7 +78,7 @@ Use `--fix` to scaffold missing section headers automatically. This is safe to r
 taproot acceptance-check [--path taproot/] [--tests <dir>] [--format json]
 ```
 
-Verifies that every acceptance criterion ID (`AC-N`) defined in `## Acceptance Criteria` sections is referenced by at least one test file, and that no test file references a criterion that doesn't exist in any spec.
+Verifies that every acceptance criterion ID (`AC-N` and `NFR-N`) defined in `## Acceptance Criteria` sections is referenced by at least one test or verification file, and that no test file references a criterion that doesn't exist in any spec.
 
 Reports three categories:
 - **Uncovered:** criterion IDs present in specs but not found in any test file (exit 1)
@@ -91,7 +91,7 @@ Reports three categories:
 | `--tests <dir>` | Override test directory (repeatable; defaults to `test/`, `tests/`, `spec/`) |
 | `--format json` | Output a JSON report instead of human-readable text |
 
-Criterion ID matching is grep-based: the string `AC-N` must appear verbatim somewhere in the test file. Common patterns: `it('AC-1: ...')`, `describe('AC-3')`, `// covers AC-2`. Deprecated criteria (lines starting with `~~**AC-N`) are excluded from the check.
+Criterion ID matching is grep-based: the strings `AC-N` and `NFR-N` must appear verbatim somewhere in the test or verification file. Common patterns: `it('AC-1: ...')`, `describe('AC-3')`, `// covers AC-2`, `// NFR-1 verified by load-test/search.k6.js`. NFR-N references may point to load tests, security scan configs, or manual verification artefacts — any file containing the verbatim ID counts. Deprecated criteria (lines starting with `~~**AC-N` or `~~**NFR-N`) are excluded from the check.
 
 ---
 

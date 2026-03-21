@@ -40,6 +40,8 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md documents taproot update cross-link refresh and validate-format link section checks; skills/guide.md lists taproot update and updated validate-format description | resolved: 2026-03-19T19:56:18.230Z
+- condition: document-current | note: no docs changes needed for this story — NFR-N is a spec format concern; cross-linked-specs impl is complete and unaffected | resolved: 2026-03-21T11:05:45.199Z
+
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — cross-linked-specs link management is already described in the usecase.md itself. Not a reusable pattern for docs/patterns.md. | resolved: 2026-03-20T20:03:55.977Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — cross-linked-specs is already the mechanism enforced by taproot update and tr-implement/tr-behaviour as side-effects. No new .taproot/settings.yaml entry needed. | resolved: 2026-03-20T20:03:55.740Z

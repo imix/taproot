@@ -198,11 +198,11 @@ export function checkAcceptanceCriteria(doc, node) {
     if (!criteriaSection)
         return [];
     const violations = [];
-    const idPattern = /^\*\*AC-(\d+):/gm;
+    const idPattern = /^\*\*(AC|NFR)-(\d+):/gm;
     const seen = new Set();
     let m;
     while ((m = idPattern.exec(criteriaSection.rawBody)) !== null) {
-        const id = `AC-${m[1]}`;
+        const id = `${m[1]}-${m[2]}`;
         if (seen.has(id)) {
             const linesBefore = criteriaSection.rawBody.substring(0, m.index).split('\n').length;
             violations.push({
@@ -210,7 +210,7 @@ export function checkAcceptanceCriteria(doc, node) {
                 filePath: doc.filePath,
                 line: criteriaSection.startLine + linesBefore,
                 code: 'DUPLICATE_CRITERION_ID',
-                message: `Duplicate acceptance criterion ID "${id}" — each AC-N must be unique within the file`,
+                message: `Duplicate acceptance criterion ID "${id}" — each AC-N / NFR-N must be unique within the file`,
             });
         }
         seen.add(id);

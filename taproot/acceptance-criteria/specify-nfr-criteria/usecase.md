@@ -124,7 +124,7 @@ flowchart TD
 - [validate-format + behaviour skill + docs](./cli-command/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-21
 - **Last reviewed:** 2026-03-21
 

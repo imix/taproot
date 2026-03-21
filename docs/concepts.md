@@ -21,7 +21,7 @@ An intent contains:
 - **Goal** — one or two sentences on what outcome the feature delivers for the business or user
 - **Stakeholders** — who cares about this and why; their priorities often conflict, and naming them makes trade-offs explicit
 - **Success Criteria** — concrete, checkable statements; these become the acceptance criteria for the entire feature tree below this intent
-- **Constraints** — things this feature must not do, or must be compatible with
+- **Constraints** — scope boundaries: things this feature must not do, or must be compatible with. Constraints are not the same as NFR criteria — they define the intent's boundaries, not quality thresholds on specific behaviours (e.g. "must not reveal whether an email is registered" is a constraint; "all endpoints must respond within 500ms" is a cross-cutting NFR and belongs in `quality-gates/`)
 - **Behaviours** — auto-maintained list of child behaviour specs (managed by `taproot update`)
 - **Status** — lifecycle state: `draft` → `active` → `achieved` → `deprecated`
 
@@ -146,6 +146,22 @@ sequenceDiagram
 - When they submit the form again
 - Then the system returns a 429 response and displays "Try again later"
 
+**NFR-1: Reset email delivery time**
+- Given normal mail service conditions
+- When the system sends a password reset email
+- Then the email is delivered within 60 seconds (p95)
+```
+
+NFR criteria (`**NFR-N:**`) express *how well* the system must perform a behaviour — quality constraints with measurable thresholds. They live in the same `## Acceptance Criteria` section, after the functional ACs. The `NFR-` prefix is distinct from `AC-` so IDs never collide.
+
+A measurable threshold is one of:
+- A number with a unit (`200ms`, `60%`, `500 concurrent users`)
+- A named standard (`WCAG 2.1 AA`, `PCI DSS 4.0`)
+- A testable boolean condition (`account is locked`, `notification email is sent`)
+
+ISO 25010 provides a useful taxonomy for NFR categories: **performance efficiency**, **reliability**, **security**, **maintainability**, **portability**, **compatibility**, **interaction capability**. Teams are not required to use these names — any consistent label works.
+
+```markdown
 ## Implementations <!-- taproot-managed -->
 - [Email Trigger](./email-trigger/impl.md)
 

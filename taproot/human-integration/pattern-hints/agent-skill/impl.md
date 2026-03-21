@@ -31,6 +31,8 @@
 
 ## DoD Resolutions
 - condition: document-current | note: No new CLI commands or configuration options added. docs/patterns.md already exists and is accurate. No README changes needed. | resolved: 2026-03-20T10:28:17.724Z
+- condition: document-current | note: no docs changes needed for this story — NFR-N is a spec format concern; pattern-hints impl is complete and unaffected | resolved: 2026-03-21T11:05:48.588Z
+
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — pattern-hints is a behaviour spec, not a reusable configuration pattern for docs/patterns.md. | resolved: 2026-03-20T20:04:08.203Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — pattern-hints is already enforced via check-if-affected-by: human-integration/pattern-hints in .taproot/settings.yaml. No new entry needed. | resolved: 2026-03-20T20:04:07.970Z

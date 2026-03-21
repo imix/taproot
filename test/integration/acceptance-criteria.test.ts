@@ -100,6 +100,129 @@ flowchart TD
 - **Last reviewed:** 2024-03-01
 `;
 
+const USECASE_WITH_NFR = `# Behaviour: Request Password Reset
+
+## Actor
+Registered user
+
+## Preconditions
+- User has an account
+
+## Main Flow
+1. User submits their email
+
+## Alternate Flows
+
+### Email not registered
+- **Trigger:** Email not found
+- **Steps:**
+  1. System shows same confirmation
+
+## Postconditions
+- Reset token exists or no-op
+
+## Error Conditions
+- **Email service down:** Show inline error
+
+## Flow
+\`\`\`mermaid
+flowchart TD
+    A[User submits email] --> B[System responds]
+\`\`\`
+
+## Related
+- \`../validate-token/usecase.md\` — follows this flow
+
+## Acceptance Criteria
+
+**AC-1: Reset email sent**
+- Given the user has a registered account
+- When they submit their email
+- Then the system sends a reset email
+
+**AC-2: Unregistered email**
+- Given the email is not registered
+- When submitted
+- Then same confirmation shown
+
+**NFR-1: Email delivery time**
+- Given normal mail service conditions
+- When the system sends a password reset email
+- Then the email is delivered within 60 seconds (p95)
+
+**NFR-2: Rate limiting**
+- Given 500 concurrent reset requests
+- When the rate limiter evaluates
+- Then no more than 3 requests per email per hour are processed
+
+## Implementations <!-- taproot-managed -->
+- [Email Trigger](./email-trigger/impl.md)
+
+## Status
+- **State:** implemented
+- **Created:** 2024-01-20
+- **Last reviewed:** 2024-03-01
+`;
+
+const USECASE_DUPLICATE_NFR_IDS = `# Behaviour: Request Password Reset
+
+## Actor
+Registered user
+
+## Preconditions
+- User has an account
+
+## Main Flow
+1. User submits their email
+
+## Alternate Flows
+
+### Email not registered
+- **Trigger:** Email not found
+- **Steps:**
+  1. System shows same confirmation
+
+## Postconditions
+- Reset token exists or no-op
+
+## Error Conditions
+- **Email service down:** Show inline error
+
+## Flow
+\`\`\`mermaid
+flowchart TD
+    A[User submits email] --> B[System responds]
+\`\`\`
+
+## Related
+- \`../validate-token/usecase.md\` — follows this flow
+
+## Acceptance Criteria
+
+**AC-1: Reset email sent**
+- Given the user has a registered account
+- When they submit their email
+- Then the system sends a reset email
+
+**NFR-1: Email delivery time**
+- Given normal mail service conditions
+- When the system sends a password reset email
+- Then the email is delivered within 60 seconds (p95)
+
+**NFR-1: Duplicate NFR**
+- Given something
+- When triggered
+- Then response
+
+## Implementations <!-- taproot-managed -->
+- [Email Trigger](./email-trigger/impl.md)
+
+## Status
+- **State:** implemented
+- **Created:** 2024-01-20
+- **Last reviewed:** 2024-03-01
+`;
+
 const USECASE_DUPLICATE_IDS = `# Behaviour: Request Password Reset
 
 ## Actor
@@ -246,5 +369,28 @@ describe('validate-format — acceptance criteria', () => {
     expect(dups).toHaveLength(1);
     expect(dups[0]!.type).toBe('error');
     expect(dups[0]!.message).toContain('AC-1');
+  });
+
+  it('no error when NFR-N IDs coexist with AC-N IDs (different prefix namespace)', async () => {
+    makeHierarchy(tmpDir, USECASE_WITH_NFR);
+    const violations = await runValidateFormat({ path: tmpDir });
+    const dups = violations.filter(v => v.code === 'DUPLICATE_CRITERION_ID');
+    expect(dups).toHaveLength(0);
+  });
+
+  it('no warning when ## Acceptance Criteria contains both AC-N and NFR-N entries', async () => {
+    makeHierarchy(tmpDir, USECASE_WITH_NFR);
+    const violations = await runValidateFormat({ path: tmpDir });
+    const ac = violations.filter(v => v.code === 'MISSING_ACCEPTANCE_CRITERIA');
+    expect(ac).toHaveLength(0);
+  });
+
+  it('errors DUPLICATE_CRITERION_ID when same NFR-N appears twice', async () => {
+    makeHierarchy(tmpDir, USECASE_DUPLICATE_NFR_IDS);
+    const violations = await runValidateFormat({ path: tmpDir });
+    const dups = violations.filter(v => v.code === 'DUPLICATE_CRITERION_ID');
+    expect(dups).toHaveLength(1);
+    expect(dups[0]!.type).toBe('error');
+    expect(dups[0]!.message).toContain('NFR-1');
   });
 });
