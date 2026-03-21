@@ -88,6 +88,10 @@ flowchart TD
 - When `taproot init --agent <new-agent>` runs
 - Then the system defaults to Tier 3 and logs a warning
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command — agent support tiers](./cli-command/impl.md)
+
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-21
