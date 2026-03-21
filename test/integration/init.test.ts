@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { mkdtempSync, rmSync, existsSync } from 'fs';
+import { mkdtempSync, mkdirSync, rmSync, existsSync, readFileSync } from 'fs';
 import { tmpdir } from 'os';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import { runInit } from '../../src/commands/init.js';
 
 describe('taproot init', () => {
@@ -56,5 +56,35 @@ describe('taproot init', () => {
     runInit({ cwd: tmpDir });
     const messages = runInit({ cwd: tmpDir });
     expect(messages.some(m => m.includes('exists'))).toBe(true);
+  });
+
+  // AC-9: hook prompt safety rationale present in source
+  it('AC-9: hook prompt message describes safety rationale', () => {
+    const src = readFileSync(resolve(__dirname, '../../src/commands/init.ts'), 'utf-8');
+    expect(src).toMatch(/prevents.*traceability|traceability.*prevents/i);
+    expect(src).toMatch(/quality checks/i);
+    expect(src).toMatch(/Strongly recommended/i);
+  });
+
+  // AC-10: declining hook (withHooks: false) skips installation and reports it
+  it('AC-10: withHooks: false skips installation and notes it in output', () => {
+    const messages = runInit({ cwd: tmpDir, withHooks: false });
+    expect(existsSync(join(tmpDir, '.git', 'hooks', 'pre-commit'))).toBe(false);
+    expect(messages.some(m => m.includes('skipped') && m.includes('pre-commit'))).toBe(true);
+  });
+
+  // AC-11: --agent flag (programmatic: agent: 'claude') skips prompt, installs adapter
+  it('AC-11: agent option installs adapter without prompt', () => {
+    runInit({ cwd: tmpDir, agent: 'claude' });
+    expect(existsSync(join(tmpDir, '.taproot', 'skills'))).toBe(true);
+  });
+
+  // AC-12: --with-hooks flag (programmatic: withHooks: true) installs hook without prompt
+  it('AC-12: withHooks: true installs hook without prompt', () => {
+    // Create a .git directory so hook can be installed
+    mkdirSync(join(tmpDir, '.git', 'hooks'), { recursive: true });
+    const messages = runInit({ cwd: tmpDir, withHooks: true });
+    expect(existsSync(join(tmpDir, '.git', 'hooks', 'pre-commit'))).toBe(true);
+    expect(messages.some(m => m.includes('pre-commit'))).toBe(true);
   });
 });

@@ -27,6 +27,8 @@
 
 ## DoD Resolutions
 - condition: sweep-update | note: src/adapters/index.ts updated to add 'sweep' to TREE_MODIFYING_SKILLS; src/commands/init.ts updated to add 'sweep.md' to SKILL_FILES — both changes required for /tr-sweep skill distribution via taproot update | resolved: 2026-03-20T16:00:00.000Z
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: taproot init is a CLI command, not a skill file — commit-awareness constraints govern skills/*.md files that contain git commit steps. Not applicable. | resolved: 2026-03-21T07:47:18.616Z
+
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — skill distribution via SKILL_FILES + taproot update is already the established pattern; no new pattern to document | resolved: 2026-03-20T16:05:55.514Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — taproot init already has all relevant cross-cutting checks; sweep skill distribution is an extension of the existing pattern, not a new concern | resolved: 2026-03-20T16:05:55.280Z

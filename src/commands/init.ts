@@ -7,6 +7,7 @@ import { DEFAULT_CONFIG } from '../core/config.js';
 import { intentTemplate, behaviourTemplate, implTemplate } from '../templates/index.js';
 import { generateAdapters, ALL_AGENTS, type AgentName } from '../adapters/index.js';
 import checkbox from '@inquirer/checkbox';
+import confirm from '@inquirer/confirm';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -66,9 +67,17 @@ export function registerInit(program: Command): void {
         }
       }
 
+      let withHooks = options.withHooks;
+      if (!withHooks) {
+        withHooks = await confirm({
+          message: 'Install the pre-commit hook? (Strongly recommended — prevents implementation commits without traceability and requirement commits without quality checks)',
+          default: true,
+        });
+      }
+
       const created = runInit({
         cwd: options.path,
-        withHooks: options.withHooks,
+        withHooks,
         withCi: options.withCi,
         withSkills: options.withSkills,
         agent,
@@ -158,6 +167,8 @@ export function runInit(options: {
       );
       messages.push('created  .git/hooks/pre-commit');
     }
+  } else if (options.withHooks === false) {
+    messages.push('skipped  .git/hooks/pre-commit — run `taproot init --with-hooks` to add it later');
   }
 
   // Agent adapters

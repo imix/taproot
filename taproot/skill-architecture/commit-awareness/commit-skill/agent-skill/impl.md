@@ -27,6 +27,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-21
+- **Last verified:** 2026-03-21
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: agent skill only — no CLI source code added. No architectural decisions in docs/architecture.md apply to markdown skill files. Not applicable. | resolved: 2026-03-21
