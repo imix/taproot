@@ -22,6 +22,8 @@ Enable any AI coding agent to participate fully in the taproot workflow — thro
 ## Behaviours <!-- taproot-managed -->
 - [Generate Agent Adapter](./generate-agent-adapter/usecase.md)
 - [Update Adapters and Skills](./update-adapters-and-skills/usecase.md)
+- [Agent Support Tiers](./agent-support-tiers/usecase.md)
+- [Agent-Agnostic Language Standard](./agent-agnostic-language/usecase.md)
 
 
 ## Status
