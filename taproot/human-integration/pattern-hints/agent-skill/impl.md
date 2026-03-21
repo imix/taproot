@@ -22,7 +22,7 @@
 - `4de58738cb4dd7b89eb15bf5b3469d00b6ce7921` — (auto-linked by taproot link-commits)
 
 ## Tests
-- None — agent-verifiable at DoD via ACs. Pattern matching is semantic reasoning, not an executable assertion.
+- `test/unit/skills.test.ts` — AC-1: docs/patterns.md scan step present in all four skills; AC-2: [A]/[B] choice present; AC-6: skip silently when patterns.md absent (ineed.md); AC-7: [A] does not add hierarchy entry / write usecase.md / modify usecase.md
 
 ## Status
 - **State:** complete

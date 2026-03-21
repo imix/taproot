@@ -137,3 +137,53 @@ describe('sweep.md — confirmation gate and live progress (AC-1, AC-2, AC-4)', 
     expect(content).toContain('tr-review-all');
   });
 });
+
+// ─── AC-1/AC-2/AC-6/AC-7: pattern-hints step in all four skills ───────────────
+
+describe('pattern-hints — AC-1/AC-2/AC-6/AC-7: pattern check step present in all four skills', () => {
+  const skills = [
+    { name: 'ineed.md',     path: resolve(SKILLS_DIR, 'ineed.md') },
+    { name: 'behaviour.md', path: resolve(SKILLS_DIR, 'behaviour.md') },
+    { name: 'implement.md', path: resolve(SKILLS_DIR, 'implement.md') },
+    { name: 'refine.md',    path: resolve(SKILLS_DIR, 'refine.md') },
+  ];
+
+  for (const skill of skills) {
+    describe(skill.name, () => {
+      const content = readFileSync(skill.path, 'utf-8');
+
+      it('AC-1: contains docs/patterns.md scan step', () => {
+        expect(content).toContain('docs/patterns.md');
+      });
+
+      it('AC-1: check-if-affected-by listed as trigger signal', () => {
+        expect(content).toContain('check-if-affected-by');
+      });
+
+      it('AC-2: [A] and [B] choice offered to user', () => {
+        expect(content).toMatch(/\[A\]/);
+        expect(content).toMatch(/\[B\]/);
+      });
+    });
+  }
+
+  it('AC-6: ineed.md skips gracefully when docs/patterns.md absent', () => {
+    const content = readFileSync(resolve(SKILLS_DIR, 'ineed.md'), 'utf-8');
+    expect(content).toMatch(/absent.*skip silently|skip silently/i);
+  });
+
+  it('AC-7: ineed.md [A] does not add hierarchy entry', () => {
+    const content = readFileSync(resolve(SKILLS_DIR, 'ineed.md'), 'utf-8');
+    expect(content).toMatch(/Do not create a new hierarchy entry/i);
+  });
+
+  it('AC-7: behaviour.md [A] does not write a new usecase.md', () => {
+    const content = readFileSync(resolve(SKILLS_DIR, 'behaviour.md'), 'utf-8');
+    expect(content).toMatch(/Do not write a new.*usecase\.md/i);
+  });
+
+  it('AC-7: refine.md [A] does not modify usecase.md', () => {
+    const content = readFileSync(resolve(SKILLS_DIR, 'refine.md'), 'utf-8');
+    expect(content).toMatch(/Do not modify.*usecase\.md/i);
+  });
+});
