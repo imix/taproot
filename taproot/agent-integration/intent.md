@@ -24,6 +24,8 @@ Enable any AI coding agent to participate fully in the taproot workflow — thro
 - [Update Adapters and Skills](./update-adapters-and-skills/usecase.md)
 - [Agent Support Tiers](./agent-support-tiers/usecase.md)
 - [Agent-Agnostic Language Standard](./agent-agnostic-language/usecase.md)
+- [Parallel Agent Execution](./parallel-agent-execution/usecase.md)
+- [Autonomous Agent Execution](./autonomous-execution/usecase.md)
 
 
 ## Status

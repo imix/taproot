@@ -35,8 +35,10 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [settings-wiring](./agent-integration/agent-agnostic-language/settings-wiring/impl.md) `[complete]` (2 commits ⚠ no tests)
 - **[agent-support-tiers](./agent-integration/agent-support-tiers/usecase.md)** `[specified]` — Actor: Developer selecting an AI coding agent to use with taproot
   - [cli-command](./agent-integration/agent-support-tiers/cli-command/impl.md) `[complete]` (2 commits, 1 test)
+- **[autonomous-execution](./agent-integration/autonomous-execution/usecase.md)** `[specified]` — Actor: Developer (or orchestrator) who delegates a taproot task to an agent and steps away — returning to completed work rather than supervising each step
 - **[generate-agent-adapter](./agent-integration/generate-agent-adapter/usecase.md)** `[implemented]` — Actor: Developer initializing taproot for a specific AI coding agent via `taproot init --agent `
   - [cli-command](./agent-integration/generate-agent-adapter/cli-command/impl.md) `[complete]` (3 commits, 2 tests)
+- **[parallel-agent-execution](./agent-integration/parallel-agent-execution/usecase.md)** `[specified]` — Actor: Agent — one of two or more agents simultaneously implementing different behaviour specs in the same taproot repository
 - **[update-adapters-and-skills](./agent-integration/update-adapters-and-skills/usecase.md)** `[implemented]` — Actor: Developer running `taproot update` after upgrading taproot or modifying skill definitions
   - [cli-command](./agent-integration/update-adapters-and-skills/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
@@ -181,4 +183,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-16 intents · 46 behaviours · 48 implementations · 47/48 complete
+16 intents · 48 behaviours · 48 implementations · 47/48 complete
