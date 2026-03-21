@@ -100,6 +100,9 @@ This spec itself uses "CLAUDE.md" as an example name. Descriptive or exemplary u
 **Migration and scope of enforcement**
 Existing violations in files not recently touched are tracked but not blocking. The DoD check only fires when a file's `impl.md` is touched in a commit. Files untouched since this standard was introduced are exempt until next modified.
 
+## Implementations <!-- taproot-managed -->
+- [Settings Wiring](./settings-wiring/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-21
