@@ -16,22 +16,31 @@ Agent — executing any taproot skill that ends in a commit, or responding to a 
    - **Requirement commit** — staged files include `taproot/` hierarchy files only (`intent.md`, `usecase.md`)
    - **Plain commit** — none of the above → no taproot gate runs
 3. Agent reads `.taproot/settings.yaml` to identify all configured `definitionOfDone` and `definitionOfReady` conditions relevant to the commit type.
-4. If the commit is an **implementation commit**, agent checks how many `impl.md` files require DoD resolution. If N > 3, the Mass Commit alternate flow fires before proceeding.
-5. Agent runs the appropriate gate **proactively** — before staging — and resolves all conditions:
-   - **Implementation:** for each `impl.md` that owns a staged source file:
-     a. Run `taproot dod <impl-path>` and review output
-     b. For each `✗` condition marked "Agent check required": read the referenced spec, reason through compliance, then run `taproot dod <impl-path> --resolve "<exact-condition-name>" --note "<reasoning>"` — **one condition per invocation**
-     c. Re-run `taproot dod <impl-path>` after each resolution to check remaining failures
-     d. Repeat until all conditions pass
-     e. Stage the impl.md alongside its source files
-   - **Declaration:** for each new `impl.md` being declared:
-     a. Verify parent `usecase.md` is in `specified` state
-     b. Read `.taproot/settings.yaml` `definitionOfReady` entries; add resolutions for any `check-if-affected-by` or `check:` conditions to `## DoR Resolutions` in the impl.md
-     c. Stage the impl.md
-   - **Requirement:** run `taproot validate-format --path <path>` and `taproot validate-structure`; fix any errors before proceeding
-   - **Plain:** no gate runs
-6. Agent stages all files: source files + their impl.md owners (for implementation commits).
-7. Agent commits with a concise one-line message.
+4. Agent proceeds with the sub-flow matching the commit type:
+
+### Implementation commit
+1. If N impl.md files require DoD resolution and N > 3, trigger the Mass Commit alternate flow before proceeding.
+2. For each `impl.md` that owns a staged source file:
+   a. Run `taproot dod <impl-path>` and review output
+   b. For each `✗` condition marked "Agent check required": read the referenced spec, reason through compliance, then run `taproot dod <impl-path> --resolve "<exact-condition-name>" --note "<reasoning>"` — **one condition per invocation**
+   c. Re-run `taproot dod <impl-path>` after each resolution to check remaining failures
+   d. Repeat until all conditions pass; if a condition remains `✗` after its `--resolve` invocation, escalate immediately to the "DoD resolution loop stuck" error condition — do not retry the same condition
+3. Stage source files + all matched impl.md files and commit.
+
+### Declaration commit
+1. Verify parent `usecase.md` is in `specified`, `implemented`, or `complete` state (any non-draft state).
+2. Read `.taproot/settings.yaml` `definitionOfReady` entries; for each `check-if-affected-by` or `check:` condition, write an entry directly into `## DoR Resolutions` — there is no `taproot dor` CLI; entries follow the DoD format: `condition: <name> | note: <reasoning> | resolved: <date>`
+3. Stage the new impl.md and commit.
+
+### Requirement commit
+1. Run `taproot validate-format --path <path>` and `taproot validate-structure`; fix any errors before proceeding.
+2. For each staged `intent.md`: verify goal starts with a verb, no implementation technology named, `## Stakeholders` present, `## Success Criteria` present — per `quality-gates/validate-intent-quality/usecase.md`.
+3. For each staged `usecase.md`: verify `## Acceptance Criteria` present with at least one `**AC-N:**` Gherkin entry, `## Actor` does not name an implementation mechanism, `## Postconditions` present and non-empty — per `quality-gates/validate-usecase-quality/usecase.md`.
+4. Fix any violations before staging — the hook enforces these checks and will block the commit if they fail.
+5. Stage the hierarchy files and commit.
+
+### Plain commit
+1. Stage source files and commit — no taproot gate runs.
 
 ## Alternate Flows
 
@@ -41,6 +50,13 @@ Agent — executing any taproot skill that ends in a commit, or responding to a 
   1. Agent skips all gate steps
   2. Stages and commits normally
 
+### No `.taproot/settings.yaml` — no user-configured conditions
+- **Trigger:** `.taproot/settings.yaml` does not exist or has no `definitionOfDone`/`definitionOfReady` sections
+- **Steps:**
+  1. Agent notes: only baseline hook checks will run — no user-configured conditions exist
+  2. Skip step 3 and condition resolution for user-configured conditions — baseline requirements still apply (impl.md staged alongside source files, real diff present)
+  3. Continue from step 6 normally
+
 ### Conversational trigger — nothing staged yet
 - **Trigger:** User says "commit" mid-session but `git status` shows no staged files
 - **Steps:**
@@ -49,7 +65,7 @@ Agent — executing any taproot skill that ends in a commit, or responding to a 
   3. On confirmation, identifies commit type, runs gate, stages, and commits
 
 ### Mass commit — many impl.md files affected
-- **Trigger:** Classification reveals N > 3 impl.md files requiring DoD resolution (e.g. after an intent rename, a sweep change, or modifying a widely-shared source file like `test/unit/skills.test.ts`)
+- **Trigger:** Classification reveals N > 3 impl.md files requiring DoD resolution (e.g. after an intent rename, a sweep change, or modifying a widely-shared source file like `test/unit/skills.test.ts`) — N > 3 is the threshold at which announcing and offering a choice delivers more value than silent grinding
 - **Steps:**
   1. Agent announces: "This commit affects `N` impl.md files — resolving DoD for each will be significant work."
   2. Agent lists all affected impl.md paths
@@ -69,8 +85,8 @@ Agent — executing any taproot skill that ends in a commit, or responding to a 
   2. Agent stops and waits for the user to resolve the blocker
   3. Once resolved, agent re-runs `taproot dod` and continues from step 5
 
-### Declaration commit — parent usecase not specified
-- **Trigger:** The parent `usecase.md` is not in `specified` state
+### Declaration commit — parent usecase in draft or proposed state
+- **Trigger:** The parent `usecase.md` is in `draft` or `proposed` state (not yet `specified`, `implemented`, or `complete`)
 - **Steps:**
   1. Agent reports: "Cannot declare implementation — parent `usecase.md` is in `<state>` state. The spec must reach `specified` before an impl.md can be committed."
   2. Agent offers: "Run `/tr-refine <usecase-path>` to complete the spec first."
@@ -86,7 +102,6 @@ Agent — executing any taproot skill that ends in a commit, or responding to a 
 - All files are committed in a single well-formed commit (or a clean first batch if split)
 - The pre-commit hook passes on the first attempt — no retry loop
 - Every `check:` and `check-if-affected-by` condition is resolved with a written rationale in `## DoD Resolutions` or `## DoR Resolutions`
-- CLAUDE.md contains a rule: when user says "commit", invoke `/tr-commit`
 
 ## Error Conditions
 - **Nothing to commit** (`git status` shows clean working tree): "Nothing to commit — working tree is clean."
@@ -98,24 +113,40 @@ Agent — executing any taproot skill that ends in a commit, or responding to a 
 flowchart TD
     A[/tr-commit invoked] --> B[git status — assess changes]
     B --> C{Classify commit type}
-    C -->|plain| D[Stage + commit — no gate]
-    C -->|requirement| E[validate-format + validate-structure]
-    E --> F{Errors?}
-    F -->|yes| G[Fix errors — stop]
-    F -->|no| H[Stage + commit]
-    C -->|declaration| I[Check parent = specified\nResolve DoR conditions in impl.md]
-    I --> J{Parent specified?}
-    J -->|no| K[Report — offer /tr-refine]
-    J -->|yes| H
-    C -->|implementation| L{N impl.md owners?}
-    L -->|N > 3| M[Mass commit flow\nAnnounce + offer A/B/C]
-    L -->|N ≤ 3| N[taproot dod for each impl.md]
-    M --> N
-    N --> O{All conditions pass?}
-    O -->|yes| H
-    O -->|no — agent check| P[Resolve one condition:\ntaproot dod --resolve name --note reasoning]
-    P --> N
-    O -->|no — unresolvable| Q[Report blocker — stop]
+    C -->|implementation| IMPL
+    C -->|declaration| DECL
+    C -->|requirement| REQ
+    C -->|plain| PLAIN
+
+    subgraph IMPL [Implementation commit]
+        I1{N impl.md owners > 3?}
+        I1 -->|yes| I2[Announce + offer A/B/C\nwait for choice]
+        I1 -->|no| I3[taproot dod for each impl.md]
+        I2 --> I3
+        I3 --> I4{All conditions pass?}
+        I4 -->|no — agent check| I5[Resolve one condition:\ntaproot dod --resolve name --note reasoning]
+        I5 --> I3
+        I4 -->|no — unresolvable| I6[Report blocker — stop]
+        I4 -->|yes| I7[Stage source files + impl.md files → commit]
+    end
+
+    subgraph DECL [Declaration commit]
+        D1{Parent usecase\nnon-draft?}
+        D1 -->|no| D2[Report state — offer /tr-refine — stop]
+        D1 -->|yes| D3[Write DoR Resolutions\nfor each check-if-affected-by/check: condition]
+        D3 --> D4[Stage impl.md → commit]
+    end
+
+    subgraph REQ [Requirement commit]
+        R1[taproot validate-format\n+ validate-structure]
+        R1 --> R2{Errors?}
+        R2 -->|yes| R3[Fix errors — stop]
+        R2 -->|no| R4[Stage hierarchy files → commit]
+    end
+
+    subgraph PLAIN [Plain commit]
+        P1[Stage source files → commit]
+    end
 ```
 
 ## Related
@@ -142,7 +173,7 @@ flowchart TD
 - When the agent cannot fix the failing tests
 - Then the skill reports the blocker with the full correction hint and stops without committing
 
-**AC-4: Declaration commit — parent usecase not specified blocks commit**
+**AC-4: Declaration commit — parent usecase in draft or proposed state blocks commit**
 - Given an agent tries to declare a new impl.md whose parent `usecase.md` is `proposed`
 - When `/tr-commit` runs the declaration gate
 - Then the skill reports the state mismatch and offers `/tr-refine` before proceeding
@@ -162,12 +193,21 @@ flowchart TD
 - When `/tr-commit` runs
 - Then the skill announces the count and affected files, offers [A] proceed / [B] split / [C] preview, and waits for the user's choice before resolving any conditions
 
+**AC-8: Exactly three impl.md owners — mass commit flow does not fire**
+- Given classification reveals exactly 3 impl.md files requiring DoD resolution
+- When `/tr-commit` runs
+- Then the skill proceeds with normal per-impl.md DoD resolution without entering the mass commit flow
+
 ## Implementations <!-- taproot-managed -->
+- [Agent Skill — skills/commit.md + CLAUDE.md](./agent-skill/impl.md)
 
 ## Status
 - **State:** specified
 - **Created:** 2026-03-21
+- **Last reviewed:** 2026-03-21
 
 ## Notes
 - The mass commit scenario (AC-7) is made navigable here but not optimised. A future spec will explore aggregate gate strategies — e.g. bulk "Last verified" update when source files haven't meaningfully changed, or a `taproot dod --batch` mode. This spec makes the problem visible and controllable; it defers the solution.
 - There is no standalone `taproot dor` command — DoR runs automatically via the pre-commit hook. For declaration commits, the agent resolves `definitionOfReady` conditions directly in `## DoR Resolutions` before staging.
+- The implementation of this skill should replace CLAUDE.md's existing ad-hoc pre-commit scan rule with a single trigger: "when user says 'commit', invoke `/tr-commit`." The skill owns the full procedure; the standalone CLAUDE.md scan rule becomes redundant once this skill is live.
+- The CLAUDE.md trigger is a one-time implementation setup — it should be addressed in the impl.md, not re-verified on every skill execution.
