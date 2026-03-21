@@ -41,6 +41,19 @@ The signal must appear *after* the primary output is delivered — never before.
 ### C-6: What's next block at output
 All skills that produce primary output must end with a **What's next?** block presenting the developer's options. This is enforced by `check-if-affected-by: human-integration/contextual-next-steps` — but context-engineering also requires it because a missing next-step block often indicates the skill ends with an implicit "and now read back through everything", which inflates context unnecessarily.
 
+### C-7: Always-loaded files kept minimal
+
+Files loaded automatically at every agent session start — such as `AGENTS.md` and equivalent project-level instruction files — impose a fixed context cost on every task, relevant or not. Any implementation that needs to give persistent guidance to agents must keep its footprint in these files minimal:
+
+- **Trigger lines** — a single line invoking the right skill or command (e.g. "When about to commit, invoke `/tr-commit`")
+- **Context pointers** — a brief reference to where detailed guidance lives (e.g. "See `docs/patterns.md`")
+- **Detailed procedures, multi-step workflows, and inline reference content belong elsewhere** — in a `skills/*.md` file (loaded on demand), a linked reference document, or a CLI command
+
+This is the inverse of C-3: C-3 prevents duplicating AGENTS.md content into skills; C-7 prevents accumulating detailed content in AGENTS.md that should be a skill or reference document.
+
+**Compliant:** `"When about to commit, invoke /tr-commit."` (one line, delegates to skill)
+**Non-compliant:** A `## Before committing` section in AGENTS.md with numbered steps, grep commands, and conditional logic.
+
 ## Alternate Flows
 
 ### Short skill — session hygiene signal omitted
@@ -55,12 +68,18 @@ All skills that produce primary output must end with a **What's next?** block pr
   1. All constraints re-evaluated against the updated content
   2. If a previously-compliant constraint is now violated, the agent corrects it before resolving DoD
 
+### Implementation adds no content to always-loaded files
+- **Trigger:** The implementation does not add any instructions to AGENTS.md or equivalent
+- **Steps:**
+  1. C-7 recorded as "not applicable — implementation adds no content to always-loaded files"
+
 ## Postconditions
 - The skill's `## Description` is ≤ 50 tokens
 - The skill contains no embedded reference docs
-- The skill contains no content duplicated from CLAUDE.md or other skills
+- The skill contains no content duplicated from AGENTS.md or other skills
 - File reads within the skill are step-scoped and named
 - Long skills include a `/compact` signal before the **What's next?** block
+- AGENTS.md and equivalent always-loaded files contain only trigger lines and context pointers — no detailed procedures
 - DoD resolution recorded with findings for each constraint
 
 ## Error Conditions
@@ -124,13 +143,18 @@ flowchart TD
 - When DoD evaluates this spec
 - Then the new step is flagged as violating C-4
 
+**AC-8: Always-loaded file bloat detected and corrected**
+- Given an implementation adds a multi-step procedure block to AGENTS.md or equivalent
+- When DoD evaluates this spec
+- Then the agent flags C-7 as non-compliant, moves the procedure to a skill file or reference document, and replaces the AGENTS.md content with a trigger line or pointer
+
 ## Implementations <!-- taproot-managed -->
 - [Agent Skill Compliance Pass](./agent-skill/impl.md)
 
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-20
-- **Last reviewed:** 2026-03-20
+- **Last reviewed:** 2026-03-21
 
 ## Notes
 - This spec is enforced via `check-if-affected-by: skill-architecture/context-engineering` in `.taproot/settings.yaml`. To add it: `definitionOfDone: - check-if-affected-by: skill-architecture/context-engineering`
