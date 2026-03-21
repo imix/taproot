@@ -79,6 +79,11 @@ describe('taproot init', () => {
     expect(existsSync(join(tmpDir, '.taproot', 'skills'))).toBe(true);
   });
 
+  it('gemini agent installs skills into .taproot/skills/', () => {
+    runInit({ cwd: tmpDir, agent: 'gemini' });
+    expect(existsSync(join(tmpDir, '.taproot', 'skills', 'ineed.md'))).toBe(true);
+  });
+
   // AC-12: --with-hooks flag (programmatic: withHooks: true) installs hook without prompt
   it('AC-12: withHooks: true installs hook without prompt', () => {
     // Create a .git directory so hook can be installed

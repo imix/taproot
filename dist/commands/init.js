@@ -125,7 +125,7 @@ export function runInit(options) {
         writeFileSync(conventionsPath, buildConventionsDoc());
         messages.push(`created  ${DEFAULT_CONFIG.root}CONVENTIONS.md`);
     }
-    // Install skill definitions — always enabled when claude adapter is requested
+    // Install skill definitions — always enabled when an adapter that references .taproot/skills/ is requested
     const agentList = options.agent === 'all'
         ? ALL_AGENTS
         : Array.isArray(options.agent)
@@ -133,7 +133,7 @@ export function runInit(options) {
             : options.agent
                 ? [options.agent]
                 : [];
-    const needsSkills = options.withSkills || agentList.includes('claude');
+    const needsSkills = options.withSkills || agentList.includes('claude') || agentList.includes('gemini');
     if (needsSkills) {
         messages.push(...installSkills(skillsDir));
     }
