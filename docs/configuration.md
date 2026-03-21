@@ -84,14 +84,17 @@ The `definitionOfReady` conditions use the same syntax as `definitionOfDone` —
 
 Use `check-if-affected-by` in `definitionOfReady` to enforce pre-implementation architecture compliance. The agent reads the referenced behaviour spec and determines whether the proposed implementation's design decisions comply before any code is written.
 
-The canonical use case is architecture compliance:
+Two built-in gates ship with taproot's default configuration:
 
 ```yaml
 definitionOfReady:
   - check-if-affected-by: quality-gates/architecture-compliance
+  - check-if-affected-by: quality-gates/nfr-measurability
 ```
 
-This requires every `impl.md` declaration to be checked against `docs/architecture.md` before implementation begins. See `docs/architecture.md` for the project's architectural decisions and constraints.
+**`quality-gates/architecture-compliance`** — requires every `impl.md` declaration to be checked against `docs/architecture.md` before implementation begins. See `docs/architecture.md` for the project's architectural decisions and constraints.
+
+**`quality-gates/nfr-measurability`** — requires every `impl.md` declaration to verify that all `**NFR-N:**` entries in the parent `usecase.md` have measurable `Then` clauses (number+unit, named standard, or testable boolean). Vague qualifiers ("fast", "secure", "reasonable") block the declaration commit. If the `usecase.md` has no `**NFR-N:**` entries, the check passes as not applicable.
 
 ### `check:` at DoR time
 

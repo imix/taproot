@@ -19,9 +19,32 @@
 - (no automated test — agent-driven check; verified by DoR runner's existing check-if-affected-by integration test coverage)
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-21
 - **Last verified:** 2026-03-21
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — implementation writes only .taproot/settings.yaml (a config file); no code design decisions; no architectural constraints apply | resolved: 2026-03-21
+
+## DoD Resolutions
+- condition: document-current | note: docs/configuration.md updated: definitionOfReady section now documents both quality-gates/architecture-compliance and quality-gates/nfr-measurability as built-in DoR gates with descriptions of each | resolved: 2026-03-21T11:49:00.284Z
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — NFR measurability gate is an instance of the existing check-if-affected-by pattern already documented in docs/patterns.md; no new pattern entry needed | resolved: 2026-03-21T11:49:49.665Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: yes — this story IS the cross-cutting concern; check-if-affected-by: quality-gates/nfr-measurability has been added to definitionOfReady in .taproot/settings.yaml | resolved: 2026-03-21T11:49:40.887Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — implementation writes .taproot/settings.yaml (a config file) and docs/configuration.md (a doc); no code design decisions; no architectural constraints apply | resolved: 2026-03-21T11:49:36.289Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — no skill or agent interaction surface added | resolved: 2026-03-21T11:49:32.540Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — implementation writes settings.yaml and docs/configuration.md; neither is a skill file containing git commit steps | resolved: 2026-03-21T11:49:28.856Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — no skill file added or modified by this implementation | resolved: 2026-03-21T11:49:23.173Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — implementation writes two files (settings.yaml and docs/configuration.md) as a single atomic activation step; not a multi-document skill flow requiring developer confirmation between each | resolved: 2026-03-21T11:49:17.953Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — implementation writes only .taproot/settings.yaml and docs/configuration.md; no agent-facing output and no What's next? interaction surface | resolved: 2026-03-21T11:49:13.593Z
+
+- condition: check-if-affected: skills/guide.md | note: not affected — guide.md covers skill commands and CLI usage; the DoR gate is a configuration concern covered in docs/configuration.md | resolved: 2026-03-21T11:49:09.117Z
+
+- condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts propagates skill and adapter files; it does not manage settings.yaml | resolved: 2026-03-21T11:49:04.879Z
+

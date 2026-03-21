@@ -27,6 +27,7 @@ validation:
     - needs-rework
 definitionOfReady:
   - check-if-affected-by: quality-gates/architecture-compliance
+  - check-if-affected-by: quality-gates/nfr-measurability
 
 definitionOfDone:
   - tests-passing

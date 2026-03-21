@@ -31,6 +31,8 @@
 
 ## DoD Resolutions
 - condition: document-current | note: README.md and docs/ do not need updating — commit-awareness is a new check-if-affected-by entry in settings.yaml; docs/configuration.md explains the check-if-affected-by mechanism generically and does not enumerate specific entries; no new CLI commands or configuration options introduced | resolved: 2026-03-20T19:18:02.904Z
+- condition: document-current | note: no docs changes needed for this story — NFR measurability gate is a config-only change; commit-awareness multi-surface impl is complete and unaffected | resolved: 2026-03-21T11:50:11.253Z
+
 - condition: quality-gates-rename | note: .taproot/settings.yaml: check-if-affected-by paths updated from implementation-quality/* to quality-gates/* — no functional change, pure folder rename | resolved: 2026-03-20T21:31:03.092Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — commit-awareness enforcement uses the existing check-if-affected-by pattern already documented in docs/patterns.md; no new pattern to add | resolved: 2026-03-20T19:18:51.800Z
