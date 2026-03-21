@@ -103,7 +103,7 @@ flowchart TD
 - [README Content](./content/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-21
 - **Last reviewed:** 2026-03-21
 

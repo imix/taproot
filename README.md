@@ -1,76 +1,79 @@
 # Taproot
 
-*Requirements as the root system of your codebase.*
+AI coding agents generate code fast — but six months later, nobody knows *why* a module exists, who asked for it, or whether it's still needed.
 
-Every piece of code traces back to a business intent. Every intent traces forward to working, tested code.
+**Taproot keeps requirements as first-class files in your repo.** Business intents, behaviour specs, and implementation records live as plain Markdown alongside the code they describe — git-versioned, agent-readable, and validated on every commit.
 
 ```
 taproot/
-├── password-reset/          ← Intent: why this exists
+├── password-reset/       ← Intent: why this exists and for whom
 │   ├── intent.md
-│   └── request-reset/       ← Behaviour: what it does
+│   └── request-reset/    ← Behaviour: what the system does
 │       ├── usecase.md
-│       └── email-trigger/   ← Implementation: how it's built
+│       └── email-trigger/  ← Implementation: how it's built
 │           └── impl.md
 ```
 
-Stored as plain markdown alongside your code. Git-versioned. No database.
+## Design principles
+
+- **Filesystem is the data model** — no database, no external service, git-versioned with your code
+- **Requirements trace in both directions** — from business intent down to source files, and from code back up to the business goal
+- **Agent-agnostic** — works with Claude Code, Cursor, Copilot, Windsurf, or any file-reading assistant
 
 ## Quick Start
 
-Taproot is not yet published to npm. Install directly from the repo:
+Taproot is not yet published to npm. Install directly:
 
 ```bash
 git clone https://github.com/imix/taproot.git
 cd taproot
-npm install
-npm run build
-npm link
+npm install && npm run build && npm link
 ```
 
 Then in your project:
 
 ```bash
-taproot init --agent claude
+taproot init --agent <agent> --with-hooks
 ```
 
-Add `--with-hooks` to also install a pre-commit gate that validates the hierarchy on every commit.
+| Agent | Tier |
+|-------|------|
+| `claude` | Tier 1 — fully supported |
+| `gemini` | Tier 2 — implemented & tested |
+| `cursor` `copilot` `windsurf` | Tier 3 — community supported |
 
 Then in your agent:
 
 ```
 /tr-guide              ← onboarding walkthrough
 /tr-ineed <idea>       ← route any requirement into the hierarchy
-/tr-discover           ← reverse-engineer an existing project into taproot (source, requirements, or both)
 /tr-status             ← health dashboard: coverage, orphans, stale specs
+/tr-discover           ← reverse-engineer an existing project into taproot
 ```
 
 ## Why
 
-AI-assisted coding generates code fast but loses track of *why* the code exists. Six months later, nobody knows what a module was meant to do, who asked for it, or whether it's still needed.
+**AI-assisted coding loses context.** Code gets generated without a traceable link to the requirement it satisfies. Six months later: no spec, no stakeholder, no idea whether it's safe to change.
 
-Taproot solves this by keeping requirements as first-class files in your repo. When requirements live alongside the code:
+Taproot solves this by making requirements structural:
 
-- **You can ask "why does this code exist?"** and get a structured answer — an intent with stakeholders and success criteria, not a git blame from two years ago
-- **AI agents can generate better code** because they have the business context, not just the technical context
-- **Changes are safer** — before editing a module, you can trace it to its behaviour spec and understand the intended postconditions
-- **Nothing gets lost** — validated by CLI on every commit, updated by AI skills as understanding evolves
-
-Taproot is designed to work with how teams actually develop: requirements emerge, implementations diverge, specs go stale. The workflow accounts for that instead of pretending it doesn't happen.
-
-- **Filesystem is the data model** — no external tool, no database, git-versioned with your code
-- **CLI validates structure and format** — agent skills create content and trace relationships
-- **Agent-agnostic** — works with Claude Code, Cursor, Copilot, Windsurf, or any file-reading assistant
+- **Ask "why does this code exist?"** and get a structured answer — intent, stakeholders, success criteria — not a two-year-old git blame
+- **AI agents generate better code** because they have business context alongside the technical context
+- **Changes are safer** — trace any file to its behaviour spec; understand the postconditions before editing
+- **Vague specs are caught early** — acceptance criteria enforced at commit time; DoD/DoR gates block incomplete work before it merges
+- **Nothing drifts silently** — `taproot sync-check` flags source files modified after their spec was last reviewed
 
 ## Taproot tracks itself
 
-Taproot's own requirements are managed with Taproot. The [`taproot/OVERVIEW.md`](taproot/OVERVIEW.md) shows 12 intents, 24 behaviours, and 24 implementations — all complete — covering everything from validation rules to agent skill design. It's a working example of what a hierarchy looks like in practice.
+Taproot's own requirements are managed with Taproot. [`taproot/OVERVIEW.md`](taproot/OVERVIEW.md) shows 16 intents, 46 behaviours, and 46 implementations — all complete — covering everything from validation rules to agent skill architecture to this README.
+
+It's a working example of what a mature hierarchy looks like in practice.
 
 ## Docs
 
 - [Document types & examples](docs/concepts.md)
 - [CLI reference](docs/cli.md)
-- [Agent setup & skills](docs/agents.md)
+- [Agent setup & tiers](docs/agents.md)
 - [Workflows](docs/workflows.md)
 - [Configuration & CI](docs/configuration.md)
 - [Patterns](docs/patterns.md)
