@@ -31,6 +31,10 @@
 
 ## DoD Resolutions
 - condition: document-current | note: README.md and docs/ do not need updating — commit-awareness is a new check-if-affected-by entry in settings.yaml; docs/configuration.md explains the check-if-affected-by mechanism generically and does not enumerate specific entries; no new CLI commands or configuration options introduced | resolved: 2026-03-20T19:18:02.904Z
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: compliant — skills/commit.md uses no bare Claude/Claude Code references and no @{project-root} syntax; all language is generic ('the agent', 'the skill') | resolved: 2026-03-21T17:22:46.652Z
+
+- condition: document-current | note: no docs changes needed for this story — agent-agnostic-language gate is a config-only change unrelated to commit-awareness | resolved: 2026-03-21T17:22:10.362Z
+
 - condition: document-current | note: no docs changes needed for this story — NFR measurability gate is a config-only change; commit-awareness multi-surface impl is complete and unaffected | resolved: 2026-03-21T11:50:11.253Z
 
 - condition: quality-gates-rename | note: .taproot/settings.yaml: check-if-affected-by paths updated from implementation-quality/* to quality-gates/* — no functional change, pure folder rename | resolved: 2026-03-20T21:31:03.092Z

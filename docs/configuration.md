@@ -70,6 +70,20 @@ DoD runs in two places:
 
 Results are recorded in the `## DoD Resolutions` section of `impl.md`. The section is maintained by `taproot dod` — do not edit it manually.
 
+### Built-in cross-cutting DoD conditions
+
+Taproot's own `.taproot/settings.yaml` ships with several `check-if-affected-by` conditions that enforce project-wide quality rules. These serve as reference examples:
+
+| Condition | What it enforces |
+|-----------|-----------------|
+| `check-if-affected-by: agent-integration/agent-agnostic-language` | Shared skill/spec files use generic agent language — no implicit Claude assumptions, no `@{project-root}` syntax outside adapter files |
+| `check-if-affected-by: human-integration/contextual-next-steps` | Every skill that produces output ends with a **What's next?** block |
+| `check-if-affected-by: human-integration/pause-and-confirm` | Skills that write multiple documents pause for developer confirmation between each |
+| `check-if-affected-by: skill-architecture/context-engineering` | Skill files meet context-efficiency constraints |
+| `check-if-affected-by: skill-architecture/commit-awareness` | Skills with git commit steps load the full commit skill rather than inventing ad-hoc git flows |
+| `check-if-affected-by: human-integration/pattern-hints` | Skills that receive natural language intent check `docs/patterns.md` for pattern matches |
+| `check-if-affected-by: quality-gates/architecture-compliance` | Implementations comply with `docs/architecture.md` constraints |
+
 ---
 
 ## Definition of Ready

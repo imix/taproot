@@ -104,6 +104,6 @@ Existing violations in files not recently touched are tracked but not blocking. 
 - [Settings Wiring](./settings-wiring/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-21
 - **Last reviewed:** 2026-03-21
