@@ -98,7 +98,9 @@ flowchart TD
 - Then all quality checks pass and the commit is not blocked
 
 ## Implementations <!-- taproot-managed -->
+- [Multi-Surface — commithook.ts + CLAUDE.md + tests](./multi-surface/impl.md)
 
 ## Status
 - **State:** specified
 - **Created:** 2026-03-20
+- **Last reviewed:** 2026-03-21
