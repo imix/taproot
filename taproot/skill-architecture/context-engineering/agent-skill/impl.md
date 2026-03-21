@@ -20,12 +20,12 @@
 - `86e173893fefe36da515fa9cc408d02d7c719fc1` — (auto-linked by taproot link-commits)
 
 ## Tests
-- None — this behaviour is enforced via agent reasoning at DoD time (C-1 through C-6 are agent-verifiable conditions, not executable assertions). Acceptance criteria are verified manually at DoD.
+- `test/unit/claude-md.test.ts` — AC-8: CLAUDE.md contains no numbered multi-step procedure sequences (C-7 compliance)
 
 ## Status
 - **State:** complete
 - **Created:** 2026-03-20
-- **Last verified:** 2026-03-20
+- **Last verified:** 2026-03-21
 
 ## DoD Resolutions
 - condition: document-current | note: No new CLI commands, skills, or configuration options added. Changes are internal to skill step content (description trims, step reordering, /compact signal additions). README.md and docs/ remain accurate. | resolved: 2026-03-20T09:51:26.112Z
