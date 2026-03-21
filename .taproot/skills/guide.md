@@ -58,6 +58,7 @@ ineed → intent → behaviour → implement → trace → status
 | `/tr-grill-me` | Interview the user relentlessly to sharpen a plan or design |
 | `/tr-research` | Research a domain or technical subject before speccing — local resources, web search, expert grilling |
 | `/tr-sweep` | Apply a uniform task to a filtered set of hierarchy files — enumerate, confirm, then call `taproot apply` |
+| `/tr-commit` | Execute the full commit procedure: classify type, run proactive gates, resolve DoD/DoR conditions, stage, and commit |
 | `/tr-refine` | Update a behaviour spec based on implementation learnings |
 | `/tr-promote` | Move discoveries from implementation back upstream |
 | `/tr-guide` | Show this guide |

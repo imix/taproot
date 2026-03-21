@@ -50,6 +50,22 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/ describes skill capabilities but not skill-internal patterns like next-step guidance — no doc update needed; the guide.md skill itself was updated as part of this implementation | resolved: 2026-03-20T06:11:51.654Z
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No. Adding /tr-commit to the guide table is a routine maintenance update, not a new reusable pattern. | resolved: 2026-03-21T07:27:10.912Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: No. Adding a row to guide.md's slash commands table does not introduce a new cross-cutting concern. | resolved: 2026-03-21T07:27:10.684Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: Not applicable — skills/guide.md is a markdown documentation file; no CLI source code modified. No architectural constraints apply. | resolved: 2026-03-21T07:27:10.454Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: Not applicable. guide.md does not receive natural language requirement descriptions and does not route to docs/patterns.md. | resolved: 2026-03-21T07:26:31.431Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: guide.md is a read-only skill with no git commit step. Not applicable. | resolved: 2026-03-21T07:26:31.204Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: Compliant. guide.md description unchanged. Added one table row — no new sections embedded. Skill remains within context budget. | resolved: 2026-03-21T07:26:26.443Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: Not applicable — guide.md is a read-only reference skill that presents documentation. No document authoring or destructive actions occur. | resolved: 2026-03-21T07:26:26.208Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: Compliant. guide.md updated to list /tr-commit in the slash commands table. The skill is a procedural execution skill with no primary output, so no What's next? block is required. The update to guide.md ensures the new skill is discoverable. | resolved: 2026-03-21T07:26:25.967Z
+
 - condition: check-if-affected: skills/guide.md | note: guide.md was updated as part of this implementation (step 4 now shows next-step guidance) | resolved: 2026-03-20T06:11:52.117Z
 
 - condition: check-if-affected: src/commands/update.ts | note: update.ts regenerates agent adapters and skill files; skill content changes (not structure) do not affect update.ts logic — no changes needed | resolved: 2026-03-20T06:11:51.890Z

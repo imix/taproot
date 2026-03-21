@@ -202,7 +202,7 @@ flowchart TD
 - [Agent Skill — skills/commit.md + CLAUDE.md](./agent-skill/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-21
 - **Last reviewed:** 2026-03-21
 

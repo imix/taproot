@@ -187,3 +187,55 @@ describe('pattern-hints — AC-1/AC-2/AC-6/AC-7: pattern check step present in a
     expect(content).toMatch(/Do not modify.*usecase\.md/i);
   });
 });
+
+// ─── commit.md ────────────────────────────────────────────────────────────────
+
+describe('commit.md — commit procedure skill', () => {
+  const commitPath = resolve(SKILLS_DIR, 'commit.md');
+  const content = readFileSync(commitPath, 'utf-8');
+
+  it('AC-1: references taproot dod --resolve for one-at-a-time condition resolution', () => {
+    expect(content).toContain('taproot dod');
+    expect(content).toContain('--resolve');
+    expect(content).toMatch(/one condition per invocation|One condition per invocation/);
+  });
+
+  it('AC-2: conversational trigger — announces staged changes and asks for confirmation', () => {
+    expect(content).toMatch(/Nothing staged yet/);
+    expect(content).toMatch(/Should I stage/i);
+  });
+
+  it('AC-4: declaration commit — blocks when parent usecase is draft or proposed', () => {
+    expect(content).toMatch(/draft.*proposed|proposed.*draft/i);
+    expect(content).toMatch(/\/tr-refine/);
+  });
+
+  it('AC-5: plain commit — no taproot gate runs', () => {
+    expect(content).toMatch(/Plain commit/i);
+    expect(content).toMatch(/no taproot gate runs/i);
+  });
+
+  it('AC-7: mass commit — offers [A]/[B]/[C] choice when N > 3', () => {
+    expect(content).toMatch(/N > 3/);
+    expect(content).toMatch(/\[A\]/);
+    expect(content).toMatch(/\[B\]/);
+    expect(content).toMatch(/\[C\]/);
+  });
+
+  it('requirement commit — runs validate-format and validate-structure proactively', () => {
+    expect(content).toContain('validate-format');
+    expect(content).toContain('validate-structure');
+  });
+
+  it('requirement commit — verifies intent.md and usecase.md quality before staging', () => {
+    expect(content).toMatch(/intent\.md/);
+    expect(content).toMatch(/usecase\.md/);
+    expect(content).toMatch(/starts with a verb|start.*verb/i);
+    expect(content).toMatch(/Acceptance Criteria/);
+  });
+
+  it('declaration commit — writes DoR Resolutions without taproot dor CLI', () => {
+    expect(content).toMatch(/DoR Resolutions/);
+    expect(content).toMatch(/no taproot dor CLI|There is no `taproot dor` CLI/i);
+  });
+});

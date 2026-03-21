@@ -10,13 +10,14 @@
 - Same content-proxy test pattern as `commit-awareness/multi-surface` — tests verify instruction phrases are present in CLAUDE.md
 
 ## Source Files
-- `CLAUDE.md` — "Before committing" section: git status, grep scan, announce, taproot dod, stage impl.md files
+- `CLAUDE.md` — "Committing" section: single `/tr-commit` trigger replacing the previous manual scan procedure
+- `skills/commit.md` — the full commit procedure (ownership scan, gate resolution, all commit types) now lives here
 
 ## Commits
 - (run `taproot link-commits` to populate)
 
 ## Tests
-- `test/unit/claude-md.test.ts` — AC-1: grep scan instruction; AC-2: plain commit fallback; AC-3/AC-4: Last verified handling; AC-5: multiple owners
+- `test/unit/claude-md.test.ts` — AC-1: CLAUDE.md contains /tr-commit trigger; AC-2: trigger covers both proactive and conversational commit intent
 
 ## Status
 - **State:** complete
