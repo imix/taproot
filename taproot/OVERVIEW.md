@@ -97,6 +97,13 @@ _No behaviours yet._
 - **[discover-existing-project](./project-discovery/discover-existing-project/usecase.md)** `[implemented]` — Actor: Developer invoking `/tr-discover` on a project that has no taproot hierarchy yet (or a partial one)
   - [agent-skill](./project-discovery/discover-existing-project/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 
+## [project-presentation](./project-presentation/intent.md) `[active]`
+
+**Goal:** Enable any developer who discovers taproot to immediately understand what it is, who it's for, and why it matters — so they feel motivated to try it rather than moving on.
+
+- **[welcoming-readme](./project-presentation/welcoming-readme/usecase.md)** `[implemented]` — Actor: Developer discovering taproot for the first time
+  - [content](./project-presentation/welcoming-readme/content/impl.md) `[complete]` (2 commits ⚠ no tests)
+
 ## [quality-gates](./quality-gates/intent.md) `[active]`
 
 **Goal:** Enforce quality at every level of the hierarchy — from intent and usecase documents through to implementations — so that vague specs, missing acceptance criteria, and incomplete implementations are caught at commit time, not during review.
@@ -173,4 +180,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-15 intents · 45 behaviours · 46 implementations · 45/46 complete
+16 intents · 46 behaviours · 47 implementations · 46/47 complete

@@ -16,6 +16,8 @@
 
 ## Commits
 <!-- taproot-managed -->
+- `8a5de155a441ac8d76ca4b2676a766e3c703b498` — (auto-linked by taproot link-commits)
+- `fa57208f439f49117e3cfc07a7fbe7b10c807e85` — (auto-linked by taproot link-commits)
 
 ## Tests
 - (no automated test — content artefact; ACs verified by human review; NFR-1 verified by GitHub rendering)
