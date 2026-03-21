@@ -38,7 +38,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[autonomous-execution](./agent-integration/autonomous-execution/usecase.md)** `[specified]` — Actor: Developer (or orchestrator) who delegates a taproot task to an agent and steps away — returning to completed work rather than supervising each step
 - **[generate-agent-adapter](./agent-integration/generate-agent-adapter/usecase.md)** `[implemented]` — Actor: Developer initializing taproot for a specific AI coding agent via `taproot init --agent `
   - [cli-command](./agent-integration/generate-agent-adapter/cli-command/impl.md) `[complete]` (3 commits, 2 tests)
-- **[parallel-agent-execution](./agent-integration/parallel-agent-execution/usecase.md)** `[specified]` — Actor: Agent — one of two or more agents simultaneously implementing different behaviour specs in the same taproot repository
+- **[parallel-agent-execution](./agent-integration/parallel-agent-execution/usecase.md)** `[specified]` — Actor: Developer or orchestrator running multiple taproot implementation tasks in parallel across the same codebase
 - **[update-adapters-and-skills](./agent-integration/update-adapters-and-skills/usecase.md)** `[implemented]` — Actor: Developer running `taproot update` after upgrading taproot or modifying skill definitions
   - [cli-command](./agent-integration/update-adapters-and-skills/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
@@ -175,6 +175,12 @@ _No behaviours yet._
 - **[context-engineering](./skill-architecture/context-engineering/usecase.md)** `[implemented]` — Actor: Skill author — a human developer or AI agent writing or updating a taproot skill file (`skills/*.md`).
   - [agent-skill](./skill-architecture/context-engineering/agent-skill/impl.md) `[complete]` (4 commits, 1 test)
 
+## [taproot-distribution](./taproot-distribution/intent.md) `[active]`
+
+**Goal:** Enable the taproot maintainer to publish reliable, tested releases to npm and GitHub through a single repeatable procedure — so that every published version is fully verified, correctly versioned, and accompanied by a changelog and GitHub release.
+
+- **[cut-release](./taproot-distribution/cut-release/usecase.md)** `[specified]` — Actor: Maintainer cutting a new taproot release from the main branch
+
 ## [taproot-lifecycle](./taproot-lifecycle/intent.md) `[active]`
 
 **Goal:** Keep an installed taproot setup current as the tool evolves — refreshing skills, regenerating agent adapters, and removing stale artefacts from older versions.
@@ -183,4 +189,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-16 intents · 48 behaviours · 48 implementations · 47/48 complete
+17 intents · 49 behaviours · 48 implementations · 47/48 complete
