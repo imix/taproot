@@ -15,6 +15,8 @@
 
 ## Commits
 <!-- taproot-managed -->
+- `a1537e028cd293aed2425fbc985cff5c90f021eb` — (auto-linked by taproot link-commits)
+- `97b1b4d13ca0803f41fe16848e2e887b10230c0a` — (auto-linked by taproot link-commits)
 
 ## Tests
 - (no automated test — agent-driven check; verified by DoD runner's existing check-if-affected-by integration test coverage)

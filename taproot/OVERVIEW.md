@@ -31,7 +31,8 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 **Goal:** Enable any AI coding agent to participate fully in the taproot workflow — through skills, commands, adapters, or whatever invocation mechanism the agent supports — without being tied to a specific agent's ecosystem.
 
-- **[agent-agnostic-language](./agent-integration/agent-agnostic-language/usecase.md)** `[specified]` — Actor: Developer writing or reviewing a taproot spec, skill, or documentation file
+- **[agent-agnostic-language](./agent-integration/agent-agnostic-language/usecase.md)** `[implemented]` — Actor: Developer writing or reviewing a taproot spec, skill, or documentation file
+  - [settings-wiring](./agent-integration/agent-agnostic-language/settings-wiring/impl.md) `[complete]` (2 commits ⚠ no tests)
 - **[agent-support-tiers](./agent-integration/agent-support-tiers/usecase.md)** `[specified]` — Actor: Developer selecting an AI coding agent to use with taproot
   - [cli-command](./agent-integration/agent-support-tiers/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 - **[generate-agent-adapter](./agent-integration/generate-agent-adapter/usecase.md)** `[implemented]` — Actor: Developer initializing taproot for a specific AI coding agent via `taproot init --agent `
@@ -180,4 +181,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-16 intents · 46 behaviours · 47 implementations · 46/47 complete
+16 intents · 46 behaviours · 48 implementations · 47/48 complete
