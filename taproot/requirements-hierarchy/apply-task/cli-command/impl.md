@@ -37,6 +37,10 @@
 
 ## DoD Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — stateless CLI command; external I/O (file reads/writes, agent spawn) in src/commands/apply.ts at command boundary; core logic (validation, diff) inline in command handler (no separate core module needed at this size); no global mutable state; error messages are actionable | resolved: 2026-03-20T15:36:07.435Z
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — apply-task is a deferred CLI command; commit-awareness governs skills/*.md files with git commit steps. Not applicable. | resolved: 2026-03-21T09:49:38.215Z
+
+- condition: no-raw-exceptions | note: src/cli.ts updated to use parseAsync().catch() — all CLI errors now printed as clean messages; stack traces never shown to users. Not applicable to apply-task CLI logic itself. | resolved: 2026-03-21T09:49:12.446Z
+
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — finding documented in usecase.md Finding section | resolved: 2026-03-20T17:11:12.225Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — removal introduces no new cross-cutting concern | resolved: 2026-03-20T17:11:11.994Z

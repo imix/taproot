@@ -35,4 +35,8 @@ registerDod(program);
 registerCommithook(program);
 registerAcceptanceCheck(program);
 
-program.parse();
+program.parseAsync().catch((err: unknown) => {
+  const message = err instanceof Error ? err.message : String(err);
+  process.stderr.write(`error: ${message}\n`);
+  process.exitCode = 1;
+});

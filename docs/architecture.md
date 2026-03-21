@@ -30,6 +30,8 @@ Architectural decisions, constraints, and patterns for the taproot codebase. Eve
 
 **Error messages must be actionable** — Every error surface (CLI output, DoD/DoR failures, validate-format output) must include a correction hint, not just a description of what failed.
 
+**No raw exceptions to the user** — The CLI top-level handler catches all thrown errors and prints only the message, never a stack trace or Node.js exception dump. `process.exitCode = 1` is set; the process exits cleanly. Stack traces are for tests and debugging only.
+
 ---
 
 ## Module boundaries
