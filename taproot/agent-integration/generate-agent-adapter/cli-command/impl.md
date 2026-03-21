@@ -16,6 +16,7 @@
 ## Commits
 - (run `taproot link-commits` to populate)
 - `6ee6130ded4bde9ed1bea02302da5d6bc9763495` — (auto-linked by taproot link-commits)
+- `c40231322206822ccdbe991515eb8289dca90da3` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/adapters.test.ts` — covers adapter generation for all five agent types, idempotency, and marker-based injection
