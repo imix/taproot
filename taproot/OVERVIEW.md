@@ -71,7 +71,7 @@ _No behaviours yet._
 - **[human-readable-report](./human-integration/human-readable-report/usecase.md)** `[implemented]` — Actor: Developer or project stakeholder invoking `/tr-status`
   - [agent-skill](./human-integration/human-readable-report/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
 - **[pattern-hints](./human-integration/pattern-hints/usecase.md)** `[implemented]` — Actor: Agent — processing any user-expressed need via any taproot skill (`/tr-ineed`, `/tr-behaviour`, `/tr-implement`, `/tr-refine`, or any skill that receives a natural language description of intent).
-  - [agent-skill](./human-integration/pattern-hints/agent-skill/impl.md) `[complete]` (2 commits ⚠ no tests)
+  - [agent-skill](./human-integration/pattern-hints/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[pause-and-confirm](./human-integration/pause-and-confirm/usecase.md)** `[implemented]` — Actor: Developer using any taproot skill that writes more than one document in sequence (primarily `/tr-discover`, `/tr-decompose`, and any future bulk-authoring skill)
   - [discover-and-decompose](./human-integration/pause-and-confirm/discover-and-decompose/impl.md) `[complete]` (2 commits, 1 test)
 - **[route-requirement](./human-integration/route-requirement/usecase.md)** `[implemented]` — Actor: Human orchestrator / developer stating a requirement in natural language — at any level of clarity, from vague instinct to fully-formed specification
