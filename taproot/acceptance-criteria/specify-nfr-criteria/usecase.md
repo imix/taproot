@@ -120,6 +120,9 @@ flowchart TD
 - When a user submits a search query
 - Then results are returned within 200ms (p95) and CPU utilisation does not exceed 60%
 
+## Implementations <!-- taproot-managed -->
+- [validate-format + behaviour skill + docs](./cli-command/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-21
