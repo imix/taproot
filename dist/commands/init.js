@@ -6,6 +6,7 @@ import { DEFAULT_CONFIG } from '../core/config.js';
 import { intentTemplate, behaviourTemplate, implTemplate } from '../templates/index.js';
 import { generateAdapters, ALL_AGENTS } from '../adapters/index.js';
 import checkbox from '@inquirer/checkbox';
+import confirm from '@inquirer/confirm';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 // Bundled skills directory — two levels up from src/commands/ → package root → skills/
 const BUNDLED_SKILLS_DIR = resolve(__dirname, '..', '..', 'skills');
@@ -60,9 +61,16 @@ export function registerInit(program) {
                 agent = selected;
             }
         }
+        let withHooks = options.withHooks;
+        if (!withHooks) {
+            withHooks = await confirm({
+                message: 'Install the pre-commit hook? (Strongly recommended — prevents implementation commits without traceability and requirement commits without quality checks)',
+                default: true,
+            });
+        }
         const created = runInit({
             cwd: options.path,
-            withHooks: options.withHooks,
+            withHooks,
             withCi: options.withCi,
             withSkills: options.withSkills,
             agent,
@@ -137,6 +145,9 @@ export function runInit(options) {
             writeFileSync(hookPath, '#!/bin/sh\ntaproot commithook\n', { mode: 0o755 });
             messages.push('created  .git/hooks/pre-commit');
         }
+    }
+    else if (options.withHooks === false) {
+        messages.push('skipped  .git/hooks/pre-commit — run `taproot init --with-hooks` to add it later');
     }
     // Agent adapters
     if (options.agent) {
