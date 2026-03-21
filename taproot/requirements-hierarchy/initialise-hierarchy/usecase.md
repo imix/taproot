@@ -5,6 +5,7 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 
 ## Preconditions
 - A project directory exists
+- The project directory is a git repository (`.git/` exists)
 - `taproot` CLI is installed (`npm install -g taproot`)
 
 ## Main Flow
@@ -26,6 +27,7 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 - **Directory already exists**: system reports `exists` instead of `created` and skips creation — idempotent
 
 ## Error Conditions
+- **No git repository**: if `.git/` is not found in the project root, system aborts immediately with `"No git repository found. Run \`git init\` first, then re-run \`taproot init\`."` — no files are created
 - **No write permission**: filesystem error is surfaced; earlier steps that succeeded are not rolled back (no transactional guarantee)
 
 ## Postconditions
@@ -102,6 +104,11 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 - Given an actor runs `taproot init --with-hooks`
 - When init runs
 - Then no hook prompt is shown and the pre-commit hook is installed
+
+**AC-13: Aborts with error if no .git directory exists**
+- Given a project directory with no `.git/` directory
+- When the actor runs `taproot init`
+- Then the command throws an error containing "git init" and no `taproot/` or `.taproot/` files are created
 
 ## Status
 - **State:** implemented
