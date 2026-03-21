@@ -55,4 +55,5 @@
 - condition: check-if-affected: src/commands/update.ts | note: update.ts copies files listed in SKILL_FILES. commit.md was added to SKILL_FILES in init.ts — update.ts will pick it up automatically. No changes to update.ts needed. | resolved: 2026-03-21T07:24:13.054Z
 
 - condition: document-current | note: No new CLI commands added. The skill is installed via taproot init/update (commit.md added to SKILL_FILES). docs/agents.md lists skills — skills/guide.md covers the user-facing listing. No README or docs/ changes needed for a new skill file. | resolved: 2026-03-21T07:24:07.469Z
+- condition: gemini-adapter-addition | note: src/commands/init.ts updated to add gemini: 'Gemini CLI' label to AGENT_LABELS. This is a UI label for the interactive prompt only — no behavioral change to commit.md or the commit skill. Not applicable to this implementation. | resolved: 2026-03-21
 

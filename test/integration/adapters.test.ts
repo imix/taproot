@@ -188,6 +188,49 @@ describe('windsurf adapter', () => {
   });
 });
 
+// ─── Gemini CLI ───────────────────────────────────────────────────────────────
+
+describe('gemini adapter', () => {
+  it('AC-14: creates one .toml file per skill in .gemini/commands/ with tr- prefix', () => {
+    generateAdapters('gemini', tmpDir);
+    for (const filename of SKILL_FILES) {
+      const name = filename.replace('.md', '');
+      const path = join(tmpDir, '.gemini', 'commands', `tr-${name}.toml`);
+      expect(existsSync(path), `Missing: tr-${name}.toml`).toBe(true);
+    }
+  });
+
+  it('each command file references the skill file path', () => {
+    generateAdapters('gemini', tmpDir);
+    const intentPath = join(tmpDir, '.gemini', 'commands', 'tr-intent.toml');
+    const content = readFileSync(intentPath, 'utf-8');
+    expect(content).toContain('.taproot/skills/intent.md');
+  });
+
+  it('each command file has name and description fields', () => {
+    generateAdapters('gemini', tmpDir);
+    const intentPath = join(tmpDir, '.gemini', 'commands', 'tr-intent.toml');
+    const content = readFileSync(intentPath, 'utf-8');
+    expect(content).toContain('name = "tr-intent"');
+    expect(content).toContain('description = "');
+  });
+
+  it('each command file contains imperative execution framing', () => {
+    generateAdapters('gemini', tmpDir);
+    const reviewPath = join(tmpDir, '.gemini', 'commands', 'tr-review.toml');
+    const content = readFileSync(reviewPath, 'utf-8');
+    expect(content).toContain('IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY');
+  });
+
+  it('is idempotent — running twice produces same output', () => {
+    generateAdapters('gemini', tmpDir);
+    const first = readFileSync(join(tmpDir, '.gemini', 'commands', 'tr-intent.toml'), 'utf-8');
+    generateAdapters('gemini', tmpDir);
+    const second = readFileSync(join(tmpDir, '.gemini', 'commands', 'tr-intent.toml'), 'utf-8');
+    expect(first).toBe(second);
+  });
+});
+
 // ─── Generic ──────────────────────────────────────────────────────────────────
 
 describe('generic adapter', () => {
@@ -225,7 +268,7 @@ describe('generic adapter', () => {
 // ─── --agent all ──────────────────────────────────────────────────────────────
 
 describe('--agent all', () => {
-  it('generates all five adapters', () => {
+  it('generates all six adapters', () => {
     const results = generateAdapters('all', tmpDir);
     const agents = results.map(r => r.agent).sort();
     expect(agents).toEqual([...ALL_AGENTS].sort());
@@ -237,6 +280,7 @@ describe('--agent all', () => {
     expect(existsSync(join(tmpDir, '.cursor', 'rules', 'taproot.md'))).toBe(true);
     expect(existsSync(join(tmpDir, '.github', 'copilot-instructions.md'))).toBe(true);
     expect(existsSync(join(tmpDir, '.windsurfrules'))).toBe(true);
+    expect(existsSync(join(tmpDir, '.gemini', 'commands', 'tr-intent.toml'))).toBe(true);
     expect(existsSync(join(tmpDir, 'AGENTS.md'))).toBe(true);
   });
 });

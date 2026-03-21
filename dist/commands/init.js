@@ -48,6 +48,7 @@ export function registerInit(program) {
                 cursor: 'Cursor',
                 copilot: 'GitHub Copilot',
                 windsurf: 'Windsurf',
+                gemini: 'Gemini CLI',
                 generic: 'Generic (any AI agent)',
             };
             const selected = await checkbox({

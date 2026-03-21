@@ -5,7 +5,7 @@
  * skills/ directory and produces agent-specific wrapper files. Adapters
  * are derived — regenerating them is always safe and idempotent.
  */
-export type AgentName = 'claude' | 'cursor' | 'copilot' | 'windsurf' | 'generic';
+export type AgentName = 'claude' | 'cursor' | 'copilot' | 'windsurf' | 'gemini' | 'generic';
 export declare const ALL_AGENTS: AgentName[];
 export interface AdapterResult {
     agent: AgentName;

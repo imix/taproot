@@ -23,7 +23,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-03-19
+- **Last verified:** 2026-03-21
 
 ## DoD Resolutions
 - condition: document-current | note: init.test.ts updated to add AC-9–12 tests for interactive init prompts. agent-adapter impl not affected — adapter generation logic and init.ts adapter path unchanged. | resolved: 2026-03-21T07:50:39.999Z

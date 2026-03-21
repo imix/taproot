@@ -14,7 +14,7 @@ const BUNDLED_SKILLS_DIR = resolve(__dirname, '..', '..', 'skills');
 // Markers for idempotent section injection into existing files
 const TAPROOT_START = '<!-- TAPROOT:START -->';
 const TAPROOT_END = '<!-- TAPROOT:END -->';
-export const ALL_AGENTS = ['claude', 'cursor', 'copilot', 'windsurf', 'generic'];
+export const ALL_AGENTS = ['claude', 'cursor', 'copilot', 'windsurf', 'gemini', 'generic'];
 // ─── Public entry point ───────────────────────────────────────────────────────
 export function generateAdapters(agents, projectRoot) {
     const targets = agents === 'all' ? ALL_AGENTS : Array.isArray(agents) ? agents : [agents];
@@ -27,6 +27,7 @@ function generateAdapter(agent, projectRoot) {
         case 'cursor': return generateCursorAdapter(skills, projectRoot);
         case 'copilot': return generateCopilotAdapter(skills, projectRoot);
         case 'windsurf': return generateWindsurfAdapter(skills, projectRoot);
+        case 'gemini': return generateGeminiAdapter(skills, projectRoot);
         case 'generic': return generateGenericAdapter(skills, projectRoot);
     }
 }
@@ -229,6 +230,39 @@ ${skillIndex}
 
 ${skillSections}
 ${TAPROOT_END}
+`;
+}
+// ─── Gemini CLI adapter ───────────────────────────────────────────────────────
+// One .toml file per skill in .gemini/commands/, prefixed with tr-
+// Invoked as /tr-<name> in Gemini CLI
+function generateGeminiAdapter(skills, projectRoot) {
+    const targetDir = join(projectRoot, '.gemini', 'commands');
+    mkdirSync(targetDir, { recursive: true });
+    const files = [];
+    for (const skill of skills) {
+        const destPath = join(targetDir, `tr-${skill.name}.toml`);
+        const existed = existsSync(destPath);
+        const content = buildGeminiSkillFile(skill);
+        writeFileSync(destPath, content, 'utf-8');
+        files.push({ path: destPath, status: existed ? 'updated' : 'created' });
+    }
+    return { agent: 'gemini', files };
+}
+function buildGeminiSkillFile(skill) {
+    const overviewStep = TREE_MODIFYING_SKILLS.has(skill.name)
+        ? '\n5. Run `taproot overview` to update taproot/OVERVIEW.md with the current project state'
+        : '';
+    return `[command]
+name = "tr-${skill.name}"
+description = "${skill.description.replace(/"/g, '\\"')}"
+prompt = """
+IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
+
+1. LOAD the FULL skill file at .taproot/skills/${skill.filename}
+2. READ its entire contents — this contains the complete skill definition with steps, inputs, and output format
+3. FOLLOW every step in the ## Steps section precisely and in order
+4. Save all outputs to the paths specified in the skill's ## Output section${overviewStep}
+"""
 `;
 }
 // ─── Generic adapter ──────────────────────────────────────────────────────────
