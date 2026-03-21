@@ -9,8 +9,8 @@ Developer or CI pipeline running `taproot acceptance-check`
 
 ## Main Flow
 1. Actor runs `taproot acceptance-check [--path taproot/] [--tests <dir>]`
-2. Command walks the hierarchy and collects all criterion IDs from every `## Acceptance Criteria` section in every `usecase.md` — building a map of `ID → usecase path`
-3. Command scans all test files in the configured test directories, searching each file's content for criterion ID patterns (e.g. `AC-\d+`)
+2. Command walks the hierarchy and collects all criterion IDs — both `AC-N` and `NFR-N` — from every `## Acceptance Criteria` section in every `usecase.md` — building a map of `ID → usecase path`
+3. Command scans all test files in the configured test directories, searching each file's content for criterion ID patterns (e.g. `AC-\d+` and `NFR-\d+`)
 4. Command computes three sets:
    - **Uncovered:** criterion IDs present in specs but not found in any test file
    - **Orphaned:** criterion IDs found in test files but not defined in any `usecase.md`
@@ -20,11 +20,12 @@ Developer or CI pipeline running `taproot acceptance-check`
    ```
    taproot acceptance-check
 
-   ✓ 12 criteria covered across 4 behaviours
+   ✓ 14 criteria covered across 4 behaviours (12 AC, 2 NFR)
 
    ✗ Uncovered criteria (defined in spec, missing from tests):
-     AC-4  taproot/password-reset/request-reset/usecase.md
-     AC-7  taproot/user-onboarding/register-account/usecase.md
+     AC-4   taproot/password-reset/request-reset/usecase.md
+     AC-7   taproot/user-onboarding/register-account/usecase.md
+     NFR-1  taproot/search/full-text-search/usecase.md
 
    ✗ Orphaned references (in tests, not defined in any spec):
      AC-99  test/auth/password-reset.test.ts:47
@@ -32,7 +33,7 @@ Developer or CI pipeline running `taproot acceptance-check`
    ⚠ Missing ## Acceptance Criteria sections:
      taproot/agent-context/trace-hierarchy/usecase.md
 
-   2 uncovered, 1 orphaned, 1 missing section
+   3 uncovered, 1 orphaned, 1 missing section
    ```
 
 ## Alternate Flows
@@ -73,8 +74,8 @@ Developer or CI pipeline running `taproot acceptance-check`
 ## Flow
 ```mermaid
 flowchart TD
-    A[taproot acceptance-check] --> B[Walk hierarchy: collect AC-N → usecase path]
-    B --> C[Scan test files: find AC-N references]
+    A[taproot acceptance-check] --> B[Walk hierarchy: collect AC-N / NFR-N → usecase path]
+    B --> C[Scan test files: find AC-N / NFR-N references]
     C --> D[Compute: uncovered / orphaned / missing]
     D --> E{Any issues?}
     E -- none --> F[✓ All covered — exit 0]
@@ -82,7 +83,8 @@ flowchart TD
 ```
 
 ## Related
-- `taproot/acceptance-criteria/specify-acceptance-criteria/usecase.md` — produces the criterion IDs this behaviour verifies
+- `taproot/acceptance-criteria/specify-acceptance-criteria/usecase.md` — produces the AC-N IDs this behaviour verifies
+- `taproot/acceptance-criteria/specify-nfr-criteria/usecase.md` — produces the NFR-N IDs this behaviour verifies
 - `taproot/requirements-compliance/check-orphans/usecase.md` — sibling check: check-orphans finds missing source files; acceptance-check finds missing test coverage
 - `taproot/hierarchy-integrity/validate-format/usecase.md` — validate-format checks section presence; acceptance-check checks cross-file coverage
 
@@ -153,16 +155,31 @@ flowchart TD
 - When `runAcceptanceCheck` runs
 - Then `uncovered`, `orphaned`, and `covered` are all empty
 
+**AC-14: Collects NFR-N IDs from ## Acceptance Criteria sections**
+- Given a `usecase.md` with `**NFR-1:**` and `**NFR-2:**` in its `## Acceptance Criteria` section
+- When `collectCriteria` runs
+- Then it returns both NFR-N IDs alongside any AC-N IDs in the file
+
+**AC-15: Finds NFR-N references in test/verification files**
+- Given a test file containing `NFR-1` and `NFR-2` references
+- When `scanTestFiles` runs on that directory
+- Then both NFR-N IDs are found, each with the correct file and line info
+
+**AC-16: Reports uncovered NFR-N criteria**
+- Given a `usecase.md` with `**NFR-1:**` and no test file referencing `NFR-1`
+- When `runAcceptanceCheck` runs
+- Then `NFR-1` appears in the uncovered set and the report exits non-zero
+
 ## Implementations <!-- taproot-managed -->
 - [CLI Command](./cli-command/impl.md)
 
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
-- **Last reviewed:** 2026-03-20
+- **Last reviewed:** 2026-03-21
 
 ## Notes
-- Criterion ID matching is grep-based: the string `AC-N` must appear verbatim in the test file content. Common patterns: `it('AC-1: happy path ...')`, `describe('AC-3')`, `// covers AC-2`. Any occurrence counts.
+- Criterion ID matching is grep-based: the strings `AC-N` and `NFR-N` must appear verbatim in the test/verification file content. Common patterns: `it('AC-1: happy path ...')`, `describe('AC-3')`, `// covers AC-2`, `// NFR-1 verified by load-test/search.k6.js`. Any occurrence counts — this includes load test files, security scan configs, or manual verification notes, not just unit tests.
 - The check deliberately does not parse test ASTs or integrate with test frameworks — this keeps it framework-agnostic and fast enough for pre-commit use.
 - Orphaned references are a signal of either a typo (AC-99 instead of AC-9) or a deleted criterion. Both are errors worth surfacing.
 - Missing sections are a warning, not an error, when the `usecase.md` has no child impl folders yet — the spec may still be in `proposed` or `specified` state with no tests written.

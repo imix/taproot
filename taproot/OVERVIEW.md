@@ -11,6 +11,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 - **[specify-acceptance-criteria](./acceptance-criteria/specify-acceptance-criteria/usecase.md)** `[implemented]` — Actor: Developer or agent authoring a `usecase.md` — either via `/tr-behaviour` or by editing directly
   - [multi-surface](./acceptance-criteria/specify-acceptance-criteria/multi-surface/impl.md) `[complete]` (0 commits, 1 test)
+- **[specify-nfr-criteria](./acceptance-criteria/specify-nfr-criteria/usecase.md)** `[specified]` — Actor: Developer or agent authoring a `usecase.md` that has quality constraints — either via `/tr-behaviour` or by editing directly
 - **[verify-coverage](./acceptance-criteria/verify-coverage/usecase.md)** `[implemented]` — Actor: Developer or CI pipeline running `taproot acceptance-check`
   - [cli-command](./acceptance-criteria/verify-coverage/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
@@ -105,6 +106,7 @@ _No behaviours yet._
   - [cli-command](./quality-gates/definition-of-done/cli-command/impl.md) `[complete]` (3 commits, 1 test)
 - **[definition-of-ready](./quality-gates/definition-of-ready/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a contributor commits an `impl.md` file without source code changes (the "I'm starting this implementation" declaration commit).
   - [cli-command](./quality-gates/definition-of-ready/cli-command/impl.md) `[complete]` (2 commits, 1 test)
+- **[nfr-measurability](./quality-gates/nfr-measurability/usecase.md)** `[specified]` — Actor: Developer or agent declaring a new implementation (committing an `impl.md`) — the check runs automatically at Definition of Ready time before any code is written.
 - **[validate-intent-quality](./quality-gates/validate-intent-quality/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when an `intent.md` is committed (requirement commit)
   - [multi-surface](./quality-gates/validate-intent-quality/multi-surface/impl.md) `[complete]` (0 commits, 1 test)
 - **[validate-usecase-quality](./quality-gates/validate-usecase-quality/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a `usecase.md` is committed (requirement commit)
@@ -169,4 +171,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-15 intents · 43 behaviours · 44 implementations · 43/44 complete
+15 intents · 45 behaviours · 44 implementations · 43/44 complete

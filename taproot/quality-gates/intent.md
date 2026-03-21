@@ -27,6 +27,7 @@ Enforce quality at every level of the hierarchy — from intent and usecase docu
 - [Architecture Compliance Check](./architecture-compliance/usecase.md)
 - [Validate UseCase Quality at Commit](./validate-usecase-quality/usecase.md)
 - [Validate Intent Quality at Commit](./validate-intent-quality/usecase.md)
+- [NFR Measurability Check](./nfr-measurability/usecase.md)
 
 
 ## Status

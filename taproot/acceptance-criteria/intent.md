@@ -23,6 +23,7 @@ Make the requirement hierarchy the single source of truth for what the system is
 ## Behaviours <!-- taproot-managed -->
 - [Specify Acceptance Criteria in Behaviour Specs](./specify-acceptance-criteria/usecase.md)
 - [Verify Acceptance Criteria Coverage](./verify-coverage/usecase.md)
+- [Specify NFR Acceptance Criteria in Behaviour Specs](./specify-nfr-criteria/usecase.md)
 
 ## Status
 - **State:** active
