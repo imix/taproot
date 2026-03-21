@@ -142,6 +142,7 @@ flowchart TD
 
 ## Behaviours <!-- taproot-managed -->
 - [Proactive Impl.md Scan Before Ad-Hoc Commits](./ad-hoc-commit-prep/usecase.md)
+- [Commit Procedure Skill](./commit-skill/usecase.md)
 
 ## Implementations <!-- taproot-managed -->
 - [Multi-Surface — settings.yaml + implement.md + tests](./multi-surface/impl.md)

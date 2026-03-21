@@ -153,6 +153,7 @@ _No behaviours yet._
   - [multi-surface](./skill-architecture/commit-awareness/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
   - **[ad-hoc-commit-prep](./skill-architecture/commit-awareness/ad-hoc-commit-prep/usecase.md)** `[implemented]` — Actor: Agent executing an ad-hoc implementation task — modifying source files outside any taproot skill (e.g. a direct bug fix, refactor, or exploratory change not driven by `/tr-implement`)
     - [claude-md](./skill-architecture/commit-awareness/ad-hoc-commit-prep/claude-md/impl.md) `[complete]` (0 commits, 1 test)
+  - **[commit-skill](./skill-architecture/commit-awareness/commit-skill/usecase.md)** `[specified]` — Actor: Agent — executing any taproot skill that ends in a commit, or responding to a user saying "commit", "let's commit", "commit that", or similar natural-language commit intent.
 - **[context-engineering](./skill-architecture/context-engineering/usecase.md)** `[implemented]` — Actor: Skill author — a human developer or AI agent writing or updating a taproot skill file (`skills/*.md`).
   - [agent-skill](./skill-architecture/context-engineering/agent-skill/impl.md) `[complete]` (3 commits ⚠ no tests)
 
@@ -164,4 +165,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-15 intents · 40 behaviours · 42 implementations · 41/42 complete
+15 intents · 41 behaviours · 42 implementations · 41/42 complete
