@@ -19,7 +19,7 @@ Developer configuring taproot for a non-English team — setting `language: de` 
 5. taproot regenerates agent adapter files with the same substitutions applied
    ↳ Steps 1–5 are install-time effects of `taproot update`. Steps 6–8 describe runtime behaviour that takes effect immediately because validators and hooks read the language setting from `settings.yaml` at invocation time — not from any file modified by `taproot update`.
 6. `taproot validate-format` and `taproot commithook` read the configured `language:` value from `settings.yaml` at startup, load the corresponding language pack, and use its section header key list as the set of accepted headers — replacing the hardcoded English set
-7. CLI output messages from taproot's own commands are rendered using the loaded language pack's message strings (third-party dependency output is not translated)
+7. taproot's own CLI output messages remain in English — CLI message translation is out of scope for this behaviour; the language pack covers structural keywords only (section headers, Gherkin keywords, state values)
 8. Developer authors new specs using the German structural keywords — the pre-commit hook accepts them without section-header errors
 
 ## Alternate Flows
@@ -56,13 +56,13 @@ Developer configuring taproot for a non-English team — setting `language: de` 
 - Installed skill files contain the target language's structural keywords, not English tokens
 - Validators accept section headers matching the configured language pack
 - The pre-commit hook enforces the configured language pack's section header names
-- `taproot validate-format` passes on documents authored using the configured language's keywords
 
 ## Error Conditions
 - **Unsupported language code** — `taproot update` aborts with a clear list of supported codes; no files are modified
 - **Malformed language pack JSON** — `taproot update` aborts with a parse error and the offending file path; no files are modified
 - **Partial update failure** — if `taproot update` is interrupted mid-substitution (filesystem error, process killed), skill files may be in a mixed-language state; taproot does not detect or recover from this automatically — the developer must re-run `taproot update` to restore a consistent state
 - **`taproot overview` regeneration overwrites substitutions** — `taproot overview` regenerates `taproot/OVERVIEW.md` using English-language structural vocabulary; running it after a language switch will overwrite any localisation in that file; localised overview generation is a known gap and is deferred
+- **Language pack not found at runtime** — if `language: <code>` is configured but the pack file cannot be resolved (corrupt installation or version mismatch), validators and the commithook fall back to English and emit a warning: "Language pack '<code>' could not be loaded — falling back to English. Check your taproot installation."
 
 ## Related
 - `../../requirements-hierarchy/configure-hierarchy/usecase.md` — `settings.yaml` is the configuration surface; `language:` is a new field in the same file
@@ -95,7 +95,7 @@ Developer configuring taproot for a non-English team — setting `language: de` 
 **AC-5: Five language packs ship with taproot**
 - Given a fresh taproot installation
 - When a developer sets `language:` to any of `de`, `fr`, `es`, `ja`, or `pt`
-- Then `taproot update` succeeds without errors and applies the correct language pack
+- Then `taproot update` succeeds without errors and at least one section header token (e.g. `## Actor`) in an installed skill file is replaced with its target-language equivalent (e.g. `## Akteur` for `de`)
 
 **NFR-1: Language pack load adds no perceptible latency to `taproot update`**
 - Given a language pack JSON file of up to 200 keys
@@ -104,6 +104,10 @@ Developer configuring taproot for a non-English team — setting `language: de` 
 
 ## Language Pack Schema
 A language pack is a flat JSON file at `src/languages/<code>.json`. All keys are required; missing keys fall back to the English default. Additional keys beyond this list are ignored.
+
+Pack files ship as part of the taproot npm package, co-located with the compiled output. Validators resolve them relative to the installed package root — the same mechanism used for bundled skill files. Pack files must be declared in the package's `files` array to be included in the npm publish.
+
+**Scope:** impl.md required sections (`Behaviour`, `Commits`, `Tests`) are intentionally excluded from localisation — they are technical traceability fields always written in English regardless of the configured language pack.
 
 | Key | English default | Example (de) |
 |-----|-----------------|--------------|
