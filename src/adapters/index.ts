@@ -10,6 +10,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { SKILL_FILES } from '../commands/init.js';
+import { loadConfig } from '../core/config.js';
+import { loadLanguagePack, substituteTokens } from '../core/language.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BUNDLED_SKILLS_DIR = resolve(__dirname, '..', '..', 'skills');
@@ -55,7 +57,9 @@ export function generateAdapters(agents: AgentName | AgentName[] | 'all', projec
 }
 
 function generateAdapter(agent: AgentName, projectRoot: string): AdapterResult {
-  const skills = loadSkills();
+  const { config } = loadConfig(projectRoot);
+  const pack = config.language ? loadLanguagePack(config.language) : null;
+  const skills = loadSkills(pack);
   switch (agent) {
     case 'claude':   return generateClaudeAdapter(skills, projectRoot);
     case 'cursor':   return generateCursorAdapter(skills, projectRoot);
@@ -76,11 +80,12 @@ interface SkillDef {
   invocation: string;  // e.g. '/taproot:intent'
 }
 
-function loadSkills(): SkillDef[] {
+function loadSkills(pack?: ReturnType<typeof loadLanguagePack>): SkillDef[] {
   return SKILL_FILES.map(filename => {
     const name = filename.replace('.md', '');
     const path = join(BUNDLED_SKILLS_DIR, filename);
-    const content = existsSync(path) ? readFileSync(path, 'utf-8') : `# Skill: ${name}\n\n(skill file not found)`;
+    let content = existsSync(path) ? readFileSync(path, 'utf-8') : `# Skill: ${name}\n\n(skill file not found)`;
+    if (pack) content = substituteTokens(content, pack);
     const description = extractFirstSentence(content);
     return { filename, name, content, description, invocation: `/taproot:${name}` };
   });

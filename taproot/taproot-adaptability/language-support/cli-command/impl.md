@@ -39,6 +39,31 @@
 - condition: check-if-affected-by: quality-gates/nfr-measurability | note: NFR-1 has measurable threshold "under 500ms" — compliant | resolved: 2026-03-23
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-23
 - **Last verified:** 2026-03-23
+
+## DoD Resolutions
+- condition: document-current | note: Updated docs/configuration.md: added language: field to settings.yaml example, added ## Language section documenting all 5 supported codes, what gets localised, and the unknown-code abort behaviour | resolved: 2026-03-23T12:17:50.488Z
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — the language pack mechanism is specific to taproot's structural vocabulary substitution. It is not a general pattern applicable to other implementations in this codebase. | resolved: 2026-03-23T12:18:51.241Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — language substitution is self-contained and opt-in via settings.yaml language: field. It does not impose new structural requirements on every implementation. No new cross-cutting condition needed. | resolved: 2026-03-23T12:18:45.865Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — language.ts lives in src/core/ as pure logic (no I/O at module level). Pack file reads happen only at command boundaries (validate-format.ts, commithook.ts, update.ts, adapters/index.ts). Satisfies the architecture constraint: External I/O only at command boundaries. | resolved: 2026-03-23T12:18:38.117Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: NOT APPLICABLE — no new skills created. pattern-hints applies to skills that receive natural language intent from the developer. | resolved: 2026-03-23T12:18:32.185Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: NOT APPLICABLE — no skill files created or modified. commit-awareness applies to skills that include git commit steps. | resolved: 2026-03-23T12:18:28.325Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: NOT APPLICABLE — no skill files created or modified. context-engineering applies to skill .md files' size and focus constraints. | resolved: 2026-03-23T12:18:23.694Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: NOT APPLICABLE — no new skills are introduced. The pause-and-confirm behaviour applies to skills that write multiple documents; this implementation modifies CLI commands and core library logic. | resolved: 2026-03-23T12:18:17.468Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: NOT APPLICABLE — this implementation adds a core library (language.ts) and modifies existing command internals. No new skill files are created. The contextual-next-steps behaviour applies to skills that produce output to the developer. | resolved: 2026-03-23T12:18:12.879Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: NOT APPLICABLE — this implementation is source code (core library + command modifications), not a skill file. The agent-agnostic language behaviour applies to skill .md files and spec documents, not to TypeScript source. | resolved: 2026-03-23T12:18:08.432Z
+
+- condition: check-if-affected: skills/guide.md | note: NOT AFFECTED — guide.md describes workflow commands and the three-layer hierarchy. It does not document configuration options or language settings. No update needed. | resolved: 2026-03-23T12:18:03.390Z
+
+- condition: check-if-affected: src/commands/update.ts | note: YES — modified: added language pack validation at start of runUpdate (aborts with error for unknown codes), loads pack and passes to installSkills(). Changes are complete. | resolved: 2026-03-23T12:17:58.425Z
+

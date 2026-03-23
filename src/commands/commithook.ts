@@ -3,6 +3,8 @@ import { existsSync, readFileSync, readdirSync } from 'fs';
 import { resolve, join, relative } from 'path';
 import type { Command } from 'commander';
 import { parseMarkdown } from '../core/markdown-parser.js';
+import { loadConfig } from '../core/config.js';
+import { loadLanguagePack, supportedLanguages, type LanguagePack } from '../core/language.js';
 import { runDorChecks, type DorReport } from '../core/dor-runner.js';
 import { runDod } from './dod.js';
 import { runValidateStructure } from './validate-structure.js';
@@ -106,26 +108,36 @@ function getSection(content: string, name: string): string | null {
   return section.replace(/^## [^\n]*\n/, '');
 }
 
-export function checkUsecaseQuality(filePath: string, content: string): SpecFailure[] {
+/** Resolve the localised heading for a given English key from the pack. */
+function localizedHeading(englishKey: string, pack: LanguagePack | null): string {
+  if (!pack) return englishKey;
+  return pack[englishKey] ?? englishKey;
+}
+
+export function checkUsecaseQuality(filePath: string, content: string, pack: LanguagePack | null = null): SpecFailure[] {
   const failures: SpecFailure[] = [];
+  const acHeading = localizedHeading('Acceptance Criteria', pack);
+  const actorHeading = localizedHeading('Actor', pack);
+  const postHeading = localizedHeading('Postconditions', pack);
 
   // AC section present with AC-N: entry
-  if (!/^## Acceptance Criteria/m.test(content)) {
+  const acPattern = new RegExp(`^## ${acHeading}`, 'm');
+  if (!acPattern.test(content)) {
     failures.push({
       file: filePath,
-      message: 'Missing `## Acceptance Criteria` section',
-      hint: "Add an `## Acceptance Criteria` section with at least one `AC-1:` Gherkin scenario before committing",
+      message: `Missing \`## ${acHeading}\` section`,
+      hint: `Add an \`## ${acHeading}\` section with at least one \`AC-1:\` Gherkin scenario before committing`,
     });
   } else if (!/\*\*AC-\d+:/m.test(content)) {
     failures.push({
       file: filePath,
-      message: '`## Acceptance Criteria` section has no AC-N: entries',
+      message: `\`## ${acHeading}\` section has no AC-N: entries`,
       hint: "Add at least one `**AC-1:**` entry with a Given/When/Then scenario",
     });
   }
 
   // Actor section: must not describe an implementation mechanism
-  const actorBody = getSection(content, 'Actor');
+  const actorBody = getSection(content, actorHeading);
   if (actorBody !== null) {
     const firstLine = actorBody.trim().split('\n')[0] ?? '';
     if (IMPL_MECHANISM_ACTORS.test(firstLine)) {
@@ -138,28 +150,31 @@ export function checkUsecaseQuality(filePath: string, content: string): SpecFail
   }
 
   // Postconditions section present and non-empty
-  const postBody = getSection(content, 'Postconditions');
+  const postBody = getSection(content, postHeading);
   if (postBody === null || postBody.trim().length === 0) {
     failures.push({
       file: filePath,
-      message: 'Missing or empty `## Postconditions` section',
-      hint: "Add a `## Postconditions` section describing what is true after the flow succeeds",
+      message: `Missing or empty \`## ${postHeading}\` section`,
+      hint: `Add a \`## ${postHeading}\` section describing what is true after the flow succeeds`,
     });
   }
 
   return failures;
 }
 
-export function checkIntentQuality(filePath: string, content: string): SpecFailure[] {
+export function checkIntentQuality(filePath: string, content: string, pack: LanguagePack | null = null): SpecFailure[] {
   const failures: SpecFailure[] = [];
+  const goalHeading = localizedHeading('Goal', pack);
+  const stakeHeading = localizedHeading('Stakeholders', pack);
+  const scHeading = localizedHeading('Success Criteria', pack);
 
   // Goal section: present, starts with a verb
-  const goalBody = getSection(content, 'Goal');
+  const goalBody = getSection(content, goalHeading);
   if (goalBody === null || goalBody.trim().length === 0) {
     failures.push({
       file: filePath,
-      message: 'Missing or empty `## Goal` section',
-      hint: "Add a `## Goal` section starting with a verb describing a business outcome — e.g. 'Enable users to...', 'Allow operators to...'",
+      message: `Missing or empty \`## ${goalHeading}\` section`,
+      hint: `Add a \`## ${goalHeading}\` section starting with a verb describing a business outcome — e.g. 'Enable users to...', 'Allow operators to...'`,
     });
   } else {
     const firstLine = goalBody.trim().split('\n')[0]!.trim();
@@ -180,21 +195,21 @@ export function checkIntentQuality(filePath: string, content: string): SpecFailu
   }
 
   // Stakeholders section: present and non-empty
-  const stakeBody = getSection(content, 'Stakeholders');
+  const stakeBody = getSection(content, stakeHeading);
   if (stakeBody === null || stakeBody.trim().length === 0) {
     failures.push({
       file: filePath,
-      message: 'Missing or empty `## Stakeholders` section',
-      hint: "Add a `## Stakeholders` section with at least one stakeholder and their perspective",
+      message: `Missing or empty \`## ${stakeHeading}\` section`,
+      hint: `Add a \`## ${stakeHeading}\` section with at least one stakeholder and their perspective`,
     });
   }
 
   // Success Criteria section: present and non-empty
-  const scBody = getSection(content, 'Success Criteria');
+  const scBody = getSection(content, scHeading);
   if (scBody === null || scBody.trim().length === 0) {
     failures.push({
       file: filePath,
-      message: 'Missing or empty `## Success Criteria` section',
+      message: `Missing or empty \`## ${scHeading}\` section`,
       hint: "Add at least one measurable success criterion that is observable and distinct from the goal statement",
     });
   }
@@ -275,6 +290,19 @@ export async function runCommithook(options: { cwd: string }): Promise<number> {
 
   if (tiers.includes('plain')) return 0;
 
+  // Load language pack if configured
+  const { config } = loadConfig(cwd);
+  let pack: LanguagePack | null = null;
+  if (config.language) {
+    pack = loadLanguagePack(config.language);
+    if (!pack) {
+      process.stderr.write(
+        `Warning: Language pack '${config.language}' could not be loaded — falling back to English. ` +
+        `Supported: ${supportedLanguages().join(', ')}. Check your taproot installation.\n`
+      );
+    }
+  }
+
   let failed = false;
 
   // Requirement tier: validate hierarchy files
@@ -295,9 +323,9 @@ export async function runCommithook(options: { cwd: string }): Promise<number> {
       const content = getStagedContent(f, cwd);
       if (!content) continue;
       if (f.endsWith('usecase.md')) {
-        specFailures.push(...checkUsecaseQuality(f, content));
+        specFailures.push(...checkUsecaseQuality(f, content, pack));
       } else if (f.endsWith('intent.md')) {
-        specFailures.push(...checkIntentQuality(f, content));
+        specFailures.push(...checkIntentQuality(f, content, pack));
       }
     }
     if (specFailures.length > 0) {

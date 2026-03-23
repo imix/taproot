@@ -36,10 +36,12 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-03-19
+- **Last verified:** 2026-03-23
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md documents taproot update cross-link refresh and validate-format link section checks; skills/guide.md lists taproot update and updated validate-format description | resolved: 2026-03-19T19:56:18.230Z
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: NOT APPLICABLE — this implementation is taproot CLI source code (src/validators/format-rules.ts, src/commands/validate-format.ts, src/commands/update.ts). agent-agnostic-language applies to shared skill and spec markdown files. | resolved: 2026-03-23T12:22:36.597Z
+
 - condition: document-current | note: no docs changes needed for this story — NFR-N is a spec format concern; cross-linked-specs impl is complete and unaffected | resolved: 2026-03-21T11:05:45.199Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — cross-linked-specs link management is already described in the usecase.md itself. Not a reusable pattern for docs/patterns.md. | resolved: 2026-03-20T20:03:55.977Z

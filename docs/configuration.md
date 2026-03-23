@@ -8,6 +8,13 @@ Created by `taproot init`. All settings have defaults — you only need to add w
 version: 1
 root: taproot/
 
+# Language pack for localising section headers, Gherkin keywords, and state values.
+# Supported codes: de, fr, es, ja, pt (omit for English).
+# Applied at `taproot update` time — skill files and agent adapters are regenerated
+# with translated structural vocabulary. Validators and the commit hook also accept
+# the localised section names when this is set.
+language: de
+
 # Commit message format for linking commits to impl.md records.
 # The default matches: taproot(path/to/impl): message
 commit_pattern: "taproot\\(([^)]+)\\):"
@@ -160,6 +167,34 @@ taproot link-commits
 taproot coverage --format context
 git add taproot/CONTEXT.md && git commit -m "chore: update taproot context" || true
 ```
+
+---
+
+## Language
+
+### `language`
+
+Set to a BCP-47 language code to localise taproot's structural vocabulary for non-English teams.
+
+```yaml
+language: de   # German
+```
+
+**Supported codes:** `de` (German), `fr` (French), `es` (Spanish), `ja` (Japanese), `pt` (Portuguese). Omit the field entirely for English (default).
+
+**What gets localised:**
+
+| Element | Example (de) |
+|---------|-------------|
+| Section headers in skill files | `## Actor` → `## Akteur` |
+| Gherkin keywords | `Given / When / Then` → `Gegeben / Wenn / Dann` |
+| State values | `specified / complete` → `spezifiziert / vollständig` |
+
+Localisation is applied at **`taproot update`** time — skill files and agent adapter files are regenerated with the translated vocabulary. The `validate-format` command and the pre-commit commit hook also accept the localised section names when `language` is set, so German (or French, etc.) usecase.md files pass validation without needing English headers.
+
+`impl.md` traceability fields (`## Behaviour`, `## Commits`, `## Tests`) are intentionally kept in English — they are structural links, not prose, and must remain machine-readable regardless of language setting.
+
+**Unknown language code:** `taproot update` will abort with an error listing the supported codes and make no file changes.
 
 ---
 

@@ -151,6 +151,6 @@ Pack files ship as part of the taproot npm package, co-located with the compiled
 | `active` | `active` | `aktiv` |
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-23
 - **Last reviewed:** 2026-03-23

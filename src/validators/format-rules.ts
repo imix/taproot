@@ -1,12 +1,8 @@
 import { existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import type { ParsedMarkdown, MarkerType, TaprootConfig, Violation, FolderNode } from './types.js';
-
-const REQUIRED_SECTIONS: Record<MarkerType, string[]> = {
-  intent: ['stakeholders', 'goal', 'success criteria', 'status'],
-  behaviour: ['actor', 'preconditions', 'main flow', 'postconditions', 'status'],
-  impl: ['behaviour', 'commits', 'tests', 'status'],
-};
+import type { LanguagePack } from '../core/language.js';
+import { getLocalizedRequiredSections } from '../core/language.js';
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 const STATE_LINE = /^\s*[-*]?\s*\*\*State:\*\*\s*(.+)$/m;
@@ -14,9 +10,10 @@ const DATE_LINE = /^\s*[-*]?\s*\*\*(?:Created|Last reviewed|Last verified):\*\*\
 
 export function checkRequiredSections(
   doc: ParsedMarkdown,
-  markerType: MarkerType
+  markerType: MarkerType,
+  pack?: LanguagePack | null,
 ): Violation[] {
-  const required = REQUIRED_SECTIONS[markerType];
+  const required = getLocalizedRequiredSections(markerType, pack ?? null);
   return required
     .filter(section => !doc.sections.has(section))
     .map(section => ({
@@ -279,9 +276,10 @@ export function validateFormat(
   markerType: MarkerType,
   config: TaprootConfig,
   node?: FolderNode,
+  pack?: LanguagePack | null,
 ): Violation[] {
   const violations: Violation[] = [];
-  violations.push(...checkRequiredSections(doc, markerType));
+  violations.push(...checkRequiredSections(doc, markerType, pack));
   violations.push(...checkStatusValue(doc, markerType, config));
   violations.push(...checkDateFormat(doc, config));
   if (markerType === 'impl') {

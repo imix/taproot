@@ -3,6 +3,7 @@ import { resolve, join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import yaml from 'js-yaml';
 import { DEFAULT_CONFIG } from '../core/config.js';
+import { substituteTokens } from '../core/language.js';
 import { intentTemplate, behaviourTemplate, implTemplate } from '../templates/index.js';
 import { generateAdapters, ALL_AGENTS, AGENT_TIERS, getTierLabel } from '../adapters/index.js';
 import checkbox from '@inquirer/checkbox';
@@ -207,7 +208,7 @@ export function runInit(options) {
     messages.push('Taproot initialized. Run `taproot validate-structure` to verify.');
     return messages;
 }
-export function installSkills(targetSkillsDir, force = false) {
+export function installSkills(targetSkillsDir, force = false, pack) {
     const messages = [];
     if (!existsSync(BUNDLED_SKILLS_DIR)) {
         messages.push(`warning  Skills directory not found at ${BUNDLED_SKILLS_DIR} — skipping`);
@@ -221,7 +222,10 @@ export function installSkills(targetSkillsDir, force = false) {
             messages.push(`warning  Skill file not found: ${filename}`);
             continue;
         }
-        const content = readFileSync(src, 'utf-8');
+        let content = readFileSync(src, 'utf-8');
+        if (pack) {
+            content = substituteTokens(content, pack);
+        }
         if (!existsSync(dest)) {
             writeFileSync(dest, content);
             messages.push(`created  .taproot/skills/${filename}`);

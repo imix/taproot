@@ -17,6 +17,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `c037b1aaf9971085364fa08ea25ddf9c90937b62` — (auto-linked by taproot link-commits)
+- `925ee88a2169589a520612234cb464c04c027df4` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/init.test.ts` — AC-1 through AC-4, AC-6

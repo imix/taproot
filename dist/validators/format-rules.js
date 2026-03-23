@@ -1,15 +1,11 @@
 import { existsSync } from 'fs';
 import { resolve, dirname } from 'path';
-const REQUIRED_SECTIONS = {
-    intent: ['stakeholders', 'goal', 'success criteria', 'status'],
-    behaviour: ['actor', 'preconditions', 'main flow', 'postconditions', 'status'],
-    impl: ['behaviour', 'commits', 'tests', 'status'],
-};
+import { getLocalizedRequiredSections } from '../core/language.js';
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 const STATE_LINE = /^\s*[-*]?\s*\*\*State:\*\*\s*(.+)$/m;
 const DATE_LINE = /^\s*[-*]?\s*\*\*(?:Created|Last reviewed|Last verified):\*\*\s*(.+)$/gm;
-export function checkRequiredSections(doc, markerType) {
-    const required = REQUIRED_SECTIONS[markerType];
+export function checkRequiredSections(doc, markerType, pack) {
+    const required = getLocalizedRequiredSections(markerType, pack ?? null);
     return required
         .filter(section => !doc.sections.has(section))
         .map(section => ({
@@ -217,9 +213,9 @@ export function checkAcceptanceCriteria(doc, node) {
     }
     return violations;
 }
-export function validateFormat(doc, markerType, config, node) {
+export function validateFormat(doc, markerType, config, node, pack) {
     const violations = [];
-    violations.push(...checkRequiredSections(doc, markerType));
+    violations.push(...checkRequiredSections(doc, markerType, pack));
     violations.push(...checkStatusValue(doc, markerType, config));
     violations.push(...checkDateFormat(doc, config));
     if (markerType === 'impl') {

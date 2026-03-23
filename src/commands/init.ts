@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import yaml from 'js-yaml';
 import type { Command } from 'commander';
 import { DEFAULT_CONFIG } from '../core/config.js';
+import { substituteTokens, type LanguagePack } from '../core/language.js';
 import { intentTemplate, behaviourTemplate, implTemplate } from '../templates/index.js';
 import { generateAdapters, ALL_AGENTS, AGENT_TIERS, getTierLabel, type AgentName } from '../adapters/index.js';
 import checkbox from '@inquirer/checkbox';
@@ -231,7 +232,7 @@ export function runInit(options: {
   return messages;
 }
 
-export function installSkills(targetSkillsDir: string, force = false): string[] {
+export function installSkills(targetSkillsDir: string, force = false, pack?: LanguagePack | null): string[] {
   const messages: string[] = [];
 
   if (!existsSync(BUNDLED_SKILLS_DIR)) {
@@ -248,7 +249,10 @@ export function installSkills(targetSkillsDir: string, force = false): string[] 
       messages.push(`warning  Skill file not found: ${filename}`);
       continue;
     }
-    const content = readFileSync(src, 'utf-8');
+    let content = readFileSync(src, 'utf-8');
+    if (pack) {
+      content = substituteTokens(content, pack);
+    }
     if (!existsSync(dest)) {
       writeFileSync(dest, content);
       messages.push(`created  .taproot/skills/${filename}`);

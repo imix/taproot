@@ -4,7 +4,8 @@ import type { Command } from 'commander';
 import { generateAdapters, type AgentName } from '../adapters/index.js';
 import { installSkills, SKILL_FILES } from './init.js';
 import { runOverview } from './overview.js';
-import { DEFAULT_CONFIG } from '../core/config.js';
+import { DEFAULT_CONFIG, loadConfig } from '../core/config.js';
+import { loadLanguagePack, supportedLanguages } from '../core/language.js';
 import { walkHierarchy, flattenTree } from '../core/fs-walker.js';
 import type { FolderNode } from '../validators/types.js';
 
@@ -226,6 +227,22 @@ export async function runUpdate(options: { cwd?: string; withHooks?: boolean }):
   const cwd = options.cwd ?? process.cwd();
   const messages: string[] = [];
 
+  // Validate language pack before modifying any files (AC-4)
+  const { config } = loadConfig(cwd);
+  let pack = null;
+  if (config.language) {
+    pack = loadLanguagePack(config.language);
+    if (!pack) {
+      messages.push(
+        `error    Unknown language pack '${config.language}'. ` +
+        `Supported: ${supportedLanguages().join(', ')}. ` +
+        `No files modified.`
+      );
+      return messages;
+    }
+    messages.push(`language ${config.language} (${Object.keys(pack).length} tokens)`);
+  }
+
   const agents = detectInstalledAgents(cwd);
 
   if (agents.length === 0) {
@@ -259,7 +276,7 @@ export async function runUpdate(options: { cwd?: string; withHooks?: boolean }):
 
   if (agents.includes('claude') || hasInstalledSkills) {
     messages.push('');
-    messages.push(...installSkills(skillsDir, true));
+    messages.push(...installSkills(skillsDir, true, pack));
   }
 
   // Refresh cross-links (## Behaviours / ## Implementations sections)
