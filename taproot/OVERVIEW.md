@@ -175,6 +175,13 @@ _No behaviours yet._
 - **[context-engineering](./skill-architecture/context-engineering/usecase.md)** `[implemented]` — Actor: Skill author — a human developer or AI agent writing or updating a taproot skill file (`skills/*.md`).
   - [agent-skill](./skill-architecture/context-engineering/agent-skill/impl.md) `[complete]` (4 commits, 1 test)
 
+## [taproot-adaptability](./taproot-adaptability/intent.md) `[active]`
+
+**Goal:** Enable taproot to adapt to any project context — language, domain, or workflow — so that non-English teams and non-development projects can use taproot without hitting hardcoded assumptions.
+
+- **[language-support](./taproot-adaptability/language-support/usecase.md)** `[specified]` — Actor: Developer configuring taproot for a non-English team — setting `language: de` (or another supported locale) in `settings.yaml` to localise structural elements throughout the hierarchy
+- **[domain-vocabulary](./taproot-adaptability/domain-vocabulary/usecase.md)** `[specified]` — Actor: Developer configuring taproot for a non-development project — book authoring, financial reporting, legal review, or any other domain where dev-specific terms don't map to project reality
+
 ## [taproot-distribution](./taproot-distribution/intent.md) `[active]`
 
 **Goal:** Enable the taproot maintainer to publish reliable, tested releases to npm and GitHub through a single repeatable procedure — so that every published version is fully verified, correctly versioned, and accompanied by a changelog and GitHub release.
@@ -189,4 +196,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-17 intents · 49 behaviours · 48 implementations · 47/48 complete
+18 intents · 51 behaviours · 48 implementations · 47/48 complete
