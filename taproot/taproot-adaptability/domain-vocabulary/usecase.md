@@ -22,6 +22,11 @@ Developer configuring taproot for a non-development project — book authoring, 
 5. Developer authors specs using the domain vocabulary — skills produce output using the configured terms
 6. `taproot update` re-applies the vocabulary on each run, so overrides survive skill upgrades
 
+## Substitution Semantics
+- **Single-pass, declaration-order**: keys are processed in the order they appear in `settings.yaml`. Once a token is substituted, the result is not re-scanned — this prevents multi-key collisions (e.g. `tests → manuscript reviews` followed by `reviews → approvals` does NOT produce `manuscript approvals`; the substituted text `manuscript reviews` is not re-matched by the `reviews` key).
+- **Exact string matching, case-sensitive**: `tests` matches the literal string `tests` but not `Tests`, `TESTS`, or `attests`. Use multiple keys if case variants need covering.
+- **Longer keys take precedence**: if two keys could match at the same position (e.g. `source` and `source files`), the longer key is matched first.
+
 ## Alternate Flows
 
 ### Override conflicts with language pack keyword
@@ -50,6 +55,7 @@ Developer configuring taproot for a non-development project — book authoring, 
 
 ## Error Conditions
 - **Override key matches structural keyword** — taproot logs a warning and skips the conflicting override; all other overrides are applied normally
+- **Empty-string vocabulary value** — if any vocabulary key maps to an empty string (e.g. `tests: ""`), `taproot update` reports: "Vocabulary override 'tests' maps to an empty string — this would silently delete the term from skill files. Provide a non-empty replacement or remove the key." No files are modified.
 - **Malformed `vocabulary:` map** — `taproot update` aborts with a YAML parse error and the offending entry; no files are modified
 
 ## Related
@@ -62,7 +68,7 @@ Developer configuring taproot for a non-development project — book authoring, 
 **AC-1: Domain vocabulary applied at `taproot update`**
 - Given `vocabulary: { tests: manuscript reviews, source files: chapters }` in `settings.yaml`
 - When the developer runs `taproot update`
-- Then installed skill files contain "manuscript reviews" and "chapters" wherever "tests" and "source files" appeared in the canonical templates
+- Then in each installed skill file, every exact occurrence of the string `"tests"` is replaced with `"manuscript reviews"` and every exact occurrence of `"source files"` is replaced with `"chapters"` — using single-pass, declaration-order substitution
 
 **AC-2: Vocabulary overrides survive subsequent `taproot update` runs**
 - Given vocabulary overrides are configured and skills have been updated once
@@ -83,6 +89,11 @@ Developer configuring taproot for a non-development project — book authoring, 
 - Given `settings.yaml` has no `vocabulary:` key or an empty `vocabulary:` map
 - When `taproot update` runs
 - Then it completes without errors and applies no vocabulary substitution
+
+**NFR-1: Vocabulary substitution adds no perceptible latency to `taproot update`**
+- Given a `vocabulary:` map of up to 50 keys and 30 installed skill files
+- When `taproot update` applies the vocabulary substitution pass
+- Then the total additional time for the vocabulary pass is under 200ms on a standard developer machine
 
 ## Status
 - **State:** specified

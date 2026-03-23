@@ -6,6 +6,7 @@ Developer configuring taproot for a non-English team — setting `language: de` 
 ## Preconditions
 - taproot is initialised in the project (`taproot/` directory exists, `settings.yaml` present)
 - Developer sets `language: <code>` in `settings.yaml` where `<code>` is one of the shipped language packs (de, fr, es, ja, pt)
+- If `language:` is set in `settings.yaml` **before** `taproot init` is run, `taproot init` applies the language pack during initial skill installation — a subsequent `taproot update` is not required
 
 ## Main Flow
 1. Developer sets `language: de` in `settings.yaml`
@@ -16,9 +17,10 @@ Developer configuring taproot for a non-English team — setting `language: de` 
    - Gherkin keywords (`Given` → `Gegeben`, `When` → `Wenn`, `Then` → `Dann`)
    - State values (`specified` → `spezifiziert`, `implemented` → `implementiert`, `complete` → `vollständig`)
 5. taproot regenerates agent adapter files with the same substitutions applied
-6. Validators (`taproot validate-format`, `taproot commithook`) read accepted section header names from the loaded language pack instead of hardcoded English strings
-7. CLI output messages are rendered using the loaded language pack's message strings
-8. Developer authors new specs using the German structural keywords — the pre-commit hook accepts them
+   ↳ Steps 1–5 are install-time effects of `taproot update`. Steps 6–8 describe runtime behaviour that takes effect immediately because validators and hooks read the language setting from `settings.yaml` at invocation time — not from any file modified by `taproot update`.
+6. `taproot validate-format` and `taproot commithook` read the configured `language:` value from `settings.yaml` at startup, load the corresponding language pack, and use its section header key list as the set of accepted headers — replacing the hardcoded English set
+7. CLI output messages from taproot's own commands are rendered using the loaded language pack's message strings (third-party dependency output is not translated)
+8. Developer authors new specs using the German structural keywords — the pre-commit hook accepts them without section-header errors
 
 ## Alternate Flows
 
@@ -34,6 +36,14 @@ Developer configuring taproot for a non-English team — setting `language: de` 
   1. taproot falls back to the English string for the missing key
   2. taproot logs a warning: "Language pack 'de' missing key 'NFR' — using English fallback"
   3. taproot continues with the remainder of the pack applied
+
+### Language switch on a project with existing English-header documents
+- **Trigger:** Developer sets `language: de` on a project where hierarchy documents already exist with English section headers
+- **Steps:**
+  1. `taproot update` succeeds — skill files are localised to German
+  2. `taproot validate-format` run on any existing document reports: "Section header `## Actor` not recognised under language pack 'de' — expected `## Akteur`. This document was authored in a different language. Run `taproot migrate-language` to convert existing documents (not yet implemented)."
+  3. The developer must either manually update existing document headers or wait for the `taproot migrate-language` command (deferred behaviour)
+  4. New documents created after the switch use the configured language and pass validation immediately
 
 ### Developer switches back to English
 - **Trigger:** Developer removes or unsets `language:` in `settings.yaml`
@@ -51,6 +61,8 @@ Developer configuring taproot for a non-English team — setting `language: de` 
 ## Error Conditions
 - **Unsupported language code** — `taproot update` aborts with a clear list of supported codes; no files are modified
 - **Malformed language pack JSON** — `taproot update` aborts with a parse error and the offending file path; no files are modified
+- **Partial update failure** — if `taproot update` is interrupted mid-substitution (filesystem error, process killed), skill files may be in a mixed-language state; taproot does not detect or recover from this automatically — the developer must re-run `taproot update` to restore a consistent state
+- **`taproot overview` regeneration overwrites substitutions** — `taproot overview` regenerates `taproot/OVERVIEW.md` using English-language structural vocabulary; running it after a language switch will overwrite any localisation in that file; localised overview generation is a known gap and is deferred
 
 ## Related
 - `../../requirements-hierarchy/configure-hierarchy/usecase.md` — `settings.yaml` is the configuration surface; `language:` is a new field in the same file
@@ -63,7 +75,7 @@ Developer configuring taproot for a non-English team — setting `language: de` 
 **AC-1: Language pack applied at `taproot update`**
 - Given `language: de` is set in `settings.yaml`
 - When the developer runs `taproot update`
-- Then installed skill files contain German structural keywords (`## Ziel`, `## Akteur`, `Gegeben`/`Wenn`/`Dann`) and no English equivalents remain in substituted positions
+- Then for every token defined in `src/languages/de.json`, all occurrences of the English original in installed skill files are replaced with the German equivalent — verified by checking that the English token strings do not appear in any position where the German equivalents should be
 
 **AC-2: Validator accepts configured language's section headers**
 - Given `language: de` is configured and a `usecase.md` is authored with `## Akteur` and `## Vorbedingungen`
@@ -89,6 +101,30 @@ Developer configuring taproot for a non-English team — setting `language: de` 
 - Given a language pack JSON file of up to 200 keys
 - When `taproot update` loads and applies the pack
 - Then the total additional time for substitution is under 500ms on a standard developer machine
+
+## Language Pack Schema
+A language pack is a flat JSON file at `src/languages/<code>.json`. All keys are required; missing keys fall back to the English default. Additional keys beyond this list are ignored.
+
+| Key | English default | Example (de) |
+|-----|-----------------|--------------|
+| `Goal` | `Goal` | `Ziel` |
+| `Actor` | `Actor` | `Akteur` |
+| `Preconditions` | `Preconditions` | `Vorbedingungen` |
+| `Main Flow` | `Main Flow` | `Hauptablauf` |
+| `Alternate Flows` | `Alternate Flows` | `Alternative Abläufe` |
+| `Postconditions` | `Postconditions` | `Nachbedingungen` |
+| `Error Conditions` | `Error Conditions` | `Fehlerfälle` |
+| `Acceptance Criteria` | `Acceptance Criteria` | `Akzeptanzkriterien` |
+| `Status` | `Status` | `Status` |
+| `Stakeholders` | `Stakeholders` | `Stakeholder` |
+| `Success Criteria` | `Success Criteria` | `Erfolgskriterien` |
+| `Given` | `Given` | `Gegeben` |
+| `When` | `When` | `Wenn` |
+| `Then` | `Then` | `Dann` |
+| `specified` | `specified` | `spezifiziert` |
+| `implemented` | `implemented` | `implementiert` |
+| `complete` | `complete` | `vollständig` |
+| `active` | `active` | `aktiv` |
 
 ## Status
 - **State:** specified
