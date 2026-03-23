@@ -102,6 +102,26 @@ Developer configuring taproot for a non-English team — setting `language: de` 
 - When `taproot update` loads and applies the pack
 - Then the total additional time for substitution is under 500ms on a standard developer machine
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command](./cli-command/impl.md)
+
+## Flow
+```mermaid
+flowchart TD
+    A[Developer sets language: de\nin settings.yaml] --> B[Developer runs taproot update]
+    B --> C{Language code valid?}
+    C -->|No| D[Report unsupported code\nAbort — no files modified]
+    C -->|Yes| E[Load languages/de.json]
+    E --> F[Substitute tokens in\ninstalled skill files]
+    F --> G[Regenerate agent adapter files]
+    G --> H[Update complete]
+    H --> I[Runtime: validators and commithook\nread language pack from settings.yaml\non each invocation]
+    I --> J[German-header documents\npass validate-format and commithook]
+
+    E2[Language pack missing a key] -->|fallback| F
+    E2 -.->|warning logged| F
+```
+
 ## Language Pack Schema
 A language pack is a flat JSON file at `src/languages/<code>.json`. All keys are required; missing keys fall back to the English default. Additional keys beyond this list are ignored.
 
