@@ -152,8 +152,8 @@ describe('pattern-hints — AC-1/AC-2/AC-6/AC-7: pattern check step present in a
     describe(skill.name, () => {
       const content = readFileSync(skill.path, 'utf-8');
 
-      it('AC-1: contains docs/patterns.md scan step', () => {
-        expect(content).toContain('docs/patterns.md');
+      it('AC-1: contains .taproot/docs/patterns.md scan step', () => {
+        expect(content).toContain('.taproot/docs/patterns.md');
       });
 
       it('AC-1: check-if-affected-by listed as trigger signal', () => {
@@ -167,7 +167,7 @@ describe('pattern-hints — AC-1/AC-2/AC-6/AC-7: pattern check step present in a
     });
   }
 
-  it('AC-6: ineed.md skips gracefully when docs/patterns.md absent', () => {
+  it('AC-6: ineed.md skips gracefully when .taproot/docs/patterns.md absent', () => {
     const content = readFileSync(resolve(SKILLS_DIR, 'ineed.md'), 'utf-8');
     expect(content).toMatch(/absent.*skip silently|skip silently/i);
   });

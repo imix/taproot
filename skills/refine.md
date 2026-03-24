@@ -11,13 +11,13 @@ Update a behaviour spec (`usecase.md`) based on what was learned during or after
 
 ## Steps
 
-0. **Pattern check** — If `docs/patterns.md` exists, scan the `finding` input for semantic matches. Match signals:
+0. **Pattern check** — If `.taproot/docs/patterns.md` exists, scan the `finding` input for semantic matches. Match signals:
    - "applies to all / every implementation should" → `check-if-affected-by`
    - "enforce a rule / architectural constraint" → `check-if-affected-by`
    - "docs should stay current / keep X updated" → `document-current` or `check-if-affected: X`
 
    If a match is found, **interrupt before reading the spec**:
-   > "Before I refine this — that finding sounds like the **`<pattern-name>`** pattern. <one-line description>. See `docs/patterns.md`."
+   > "Before I refine this — that finding sounds like the **`<pattern-name>`** pattern. <one-line description>. See `.taproot/docs/patterns.md`."
    > **[A] Apply the pattern** — configure it in `.taproot/settings.yaml` instead of editing the spec
    > **[B] Continue refining** — the spec change is the right approach
 

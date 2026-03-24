@@ -22,13 +22,13 @@ Implement a behaviour spec: write the code, write the tests, create the `impl.md
 
 3. Walk up the hierarchy: read the parent `intent.md` to understand the broader goal. This context should inform design decisions (e.g., if the intent has a constraint about performance, that should influence implementation choices).
 
-4. **Pattern check + plan mode.** Before proposing the plan: if `docs/patterns.md` exists, scan the behaviour description and any design notes for semantic matches. Match signals:
+4. **Pattern check + plan mode.** Before proposing the plan: if `.taproot/docs/patterns.md` exists, scan the behaviour description and any design notes for semantic matches. Match signals:
    - "applies to all implementations / cross-cutting concern" → `check-if-affected-by`
    - "enforce a rule on all future work" → `check-if-affected-by`
    - "keep a file in sync / update X on every change" → `check-if-affected: X`
 
    If a match is found, surface it before the plan:
-   > "Before the plan — this looks like it could use the **`<pattern-name>`** pattern rather than a custom implementation. See `docs/patterns.md`."
+   > "Before the plan — this looks like it could use the **`<pattern-name>`** pattern rather than a custom implementation. See `.taproot/docs/patterns.md`."
    > **[A] Use the pattern** — apply it via `.taproot/settings.yaml` instead of writing source code
    > **[B] Continue with implementation** — the custom implementation is intentional
 

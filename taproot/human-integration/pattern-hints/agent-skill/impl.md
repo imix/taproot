@@ -27,12 +27,40 @@
 - `test/unit/skills.test.ts` — AC-1: docs/patterns.md scan step present in all four skills; AC-2: [A]/[B] choice present; AC-6: skip silently when patterns.md absent (ineed.md); AC-7: [A] does not add hierarchy entry / write usecase.md / modify usecase.md
 
 ## Status
-- **State:** needs-rework
+- **State:** complete
 - **Created:** 2026-03-20
 - **Last verified:** 2026-03-20
 
 ## DoD Resolutions
 - condition: document-current | note: No new CLI commands or configuration options added. docs/patterns.md already exists and is accurate. No README changes needed. | resolved: 2026-03-20T10:28:17.724Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: Verified. The only change to skills/*.md is the path string docs/patterns.md → .taproot/docs/patterns.md. No shell execution, no credentials, no privilege escalation introduced. | resolved: 2026-03-24T19:57:33.937Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No. Path migration is a mechanical fix, not a reusable pattern. | resolved: 2026-03-24T19:57:32.710Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: No. The path change from docs/patterns.md to .taproot/docs/patterns.md is a one-time migration fix. No new cross-cutting constraint needed. | resolved: 2026-03-24T19:57:31.477Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: Compliant. Change is a path string update in four skill markdown files. No CLI source code, no architectural decisions modified. | resolved: 2026-03-24T19:57:30.210Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: Self-referential: this IS the pattern-hints implementation. The path change to .taproot/docs/patterns.md is consistent with the usecase spec (updated). Skills still scan the file and interrupt before proceeding — behaviour unchanged. | resolved: 2026-03-24T19:57:28.962Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: Not applicable. Pattern check is a read-only pre-step; no commit steps in any of the four affected skills were modified. | resolved: 2026-03-24T19:57:27.604Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: Compliant. C-2: patterns still referenced by name, full content read on demand (path unchanged in mechanism). C-4: .taproot/docs/patterns.md read at step 0 only when match is plausible. All other C constraints unchanged. | resolved: 2026-03-24T19:57:26.362Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: Not affected. Pattern check does not write any documents. Pause-and-confirm governs document-writing steps, which are unchanged. | resolved: 2026-03-24T19:57:25.110Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: Not affected. Pattern check is an interruptive pre-step with no primary output; What's next? blocks in the four skills are unchanged. | resolved: 2026-03-24T19:57:23.849Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: Applicable and compliant. Skills use .taproot/docs/patterns.md which is a relative path convention, not a Claude-specific API. All four skills updated consistently. | resolved: 2026-03-24T19:57:22.614Z
+
+- condition: check-if-affected: docs/ | note: Not affected directly. docs/patterns.md content unchanged. The change is to how skills reference it — via .taproot/docs/ instead of docs/. | resolved: 2026-03-24T19:57:21.412Z
+
+- condition: check-if-affected: skills/guide.md | note: Not affected. No new slash commands added. Pattern check path change is internal to existing skills. | resolved: 2026-03-24T19:57:20.151Z
+
+- condition: check-if-affected: src/commands/update.ts | note: Not affected. update.ts copies skill files by name; path references inside skill content are not parsed or modified by the copy logic. | resolved: 2026-03-24T19:57:18.922Z
+
+- condition: document-current | note: usecase.md updated: all docs/patterns.md references changed to .taproot/docs/patterns.md. No README or CLI docs changes needed — path is internal to skill implementation. | resolved: 2026-03-24T19:57:17.692Z
+
 - condition: document-current | note: no docs changes needed for this story — NFR-N is a spec format concern; pattern-hints impl is complete and unaffected | resolved: 2026-03-21T11:05:48.588Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — pattern-hints is a behaviour spec, not a reusable configuration pattern for docs/patterns.md. | resolved: 2026-03-20T20:04:08.203Z

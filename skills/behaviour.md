@@ -15,14 +15,14 @@ Define a UseCase (observable system behaviour) under an intent or another behavi
    - If `parent` contains `intent.md`: read the intent to understand the goal and success criteria.
    - If `parent` contains `usecase.md`: read the parent behaviour — this new behaviour is a sub-behaviour.
 
-1a. **Pattern check** — If `docs/patterns.md` exists, scan the behaviour description for semantic matches. Match signals:
+1a. **Pattern check** — If `.taproot/docs/patterns.md` exists, scan the behaviour description for semantic matches. Match signals:
    - "apply to all / every implementation / every skill" → `check-if-affected-by`
    - "enforce a rule / architectural constraint / agents should follow" → `check-if-affected-by`
    - "keep docs current / enforce documentation quality" → `document-current`
    - "every new feature must update X" → `check-if-affected: X`
 
    If a match is found, **interrupt before asking clarifying questions**:
-   > "Before I write this spec — that sounds like the **`<pattern-name>`** pattern. <one-line description>. See `docs/patterns.md`."
+   > "Before I write this spec — that sounds like the **`<pattern-name>`** pattern. <one-line description>. See `.taproot/docs/patterns.md`."
    > **[A] Use this pattern now** — I'll guide you through applying it instead of writing a spec
    > **[B] Continue writing the spec** — the spec is distinct from the pattern
 

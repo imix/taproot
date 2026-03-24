@@ -5,18 +5,18 @@ Agent — processing any user-expressed need via any taproot skill (`/tr-ineed`,
 
 ## Preconditions
 - The user has expressed a need (a requirement, a rule, a constraint, a quality concern)
-- `docs/patterns.md` exists and contains at least one pattern entry
+- `.taproot/docs/patterns.md` exists and contains at least one pattern entry
 
 ## Main Flow
 1. User expresses a need through any taproot skill.
-2. Agent scans the stated need against the patterns listed in `docs/patterns.md`, looking for semantic matches. Trigger signals include:
+2. Agent scans the stated need against the patterns listed in `.taproot/docs/patterns.md`, looking for semantic matches. Trigger signals include:
    - "apply to all implementations / every implementation / every skill" → `check-if-affected-by`
    - "guide agents / architecture rules / agents should follow / enforce a rule" → `check-if-affected-by`
    - "enforce documentation quality / docs must stay current" → `document-current`
    - "every new feature must update X / keep X in sync" → `check-if-affected: X`
    - "research before building / check if a library exists" → research-first (`/tr-research`)
 3. Agent interrupts the normal flow and presents the match **before proceeding**:
-   > "Before I route this — that sounds like the **`<pattern-name>`** pattern. [one-line description of what it solves]. Here's how it works: [brief how-to or link to `docs/patterns.md#anchor`]."
+   > "Before I route this — that sounds like the **`<pattern-name>`** pattern. [one-line description of what it solves]. Here's how it works: [brief how-to or link to `.taproot/docs/patterns.md#anchor`]."
    >
    > **[A] Use this pattern now** — I'll guide you through applying it
    > **[B] Continue as a new requirement** — route and spec it normally
@@ -26,7 +26,7 @@ Agent — processing any user-expressed need via any taproot skill (`/tr-ineed`,
 ## Alternate Flows
 
 ### No pattern match
-- **Trigger:** Stated need does not semantically match any pattern in `docs/patterns.md`
+- **Trigger:** Stated need does not semantically match any pattern in `.taproot/docs/patterns.md`
 - **Steps:**
   1. Agent proceeds with the original skill flow without interruption. No hint is shown.
 
@@ -48,8 +48,8 @@ Agent — processing any user-expressed need via any taproot skill (`/tr-ineed`,
   2. **Covered** → link to existing spec; stop.
   3. **Separate** → continue with routing.
 
-### `docs/patterns.md` absent
-- **Trigger:** `docs/patterns.md` does not exist or is empty
+### `.taproot/docs/patterns.md` absent
+- **Trigger:** `.taproot/docs/patterns.md` does not exist or is empty
 - **Steps:**
   1. Agent skips pattern check and proceeds with the original skill flow. No error is raised.
 
@@ -59,12 +59,12 @@ Agent — processing any user-expressed need via any taproot skill (`/tr-ineed`,
 - No hint is shown when no match exists — the flow is not interrupted unnecessarily
 
 ## Error Conditions
-- **`docs/patterns.md` cannot be parsed** (malformed markdown): agent silently skips pattern check and proceeds. No error surfaced to the user — pattern hints are enhancement, not blocker.
+- **`.taproot/docs/patterns.md` cannot be parsed** (malformed markdown): agent silently skips pattern check and proceeds. No error surfaced to the user — pattern hints are enhancement, not blocker.
 
 ## Flow
 ```mermaid
 flowchart TD
-    A[User expresses a need] --> B[Scan docs/patterns.md for match]
+    A[User expresses a need] --> B[Scan .taproot/docs/patterns.md for match]
     B --> C{Match found?}
     C -->|no| D[Proceed with original skill flow]
     C -->|one match| E[Interrupt: present pattern + A/B choice]
@@ -109,8 +109,8 @@ flowchart TD
 - When the agent scans patterns
 - Then it notes the existing usage and asks whether the need is already covered or is a separate concern
 
-**AC-6: docs/patterns.md absent — graceful skip**
-- Given `docs/patterns.md` does not exist
+**AC-6: .taproot/docs/patterns.md absent — graceful skip**
+- Given `.taproot/docs/patterns.md` does not exist
 - When any skill processes a user need
 - Then no error is raised and the skill proceeds normally
 
