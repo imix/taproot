@@ -2,7 +2,7 @@ import { existsSync, rmSync, readdirSync, readFileSync, writeFileSync, unlinkSyn
 import { join, dirname, relative, resolve } from 'path';
 import { buildConfigurationMd } from '../core/configuration.js';
 import { generateAdapters } from '../adapters/index.js';
-import { installSkills, SKILL_FILES } from './init.js';
+import { installSkills, installDocs, SKILL_FILES } from './init.js';
 import { runOverview } from './overview.js';
 import { DEFAULT_CONFIG, loadConfig } from '../core/config.js';
 import { loadLanguagePack, supportedLanguages } from '../core/language.js';
@@ -247,6 +247,7 @@ export async function runUpdate(options) {
     if (agents.includes('claude') || hasInstalledSkills) {
         messages.push('');
         messages.push(...installSkills(skillsDir, true, pack, vocab));
+        messages.push(...installDocs(join(cwd, '.taproot', 'docs'), true));
     }
     // Install or refresh .taproot/CONFIGURATION.md (AC-6/AC-7 of update-adapters-and-skills)
     const taprootConfigDir = join(cwd, '.taproot');

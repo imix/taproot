@@ -23,13 +23,41 @@
 - `test/integration/update.test.ts` — covers stale path removal, idempotency, hook migration from old content, --with-hooks install, --with-hooks exists; docs installation to .taproot/docs/, docs refresh on re-run
 
 ## Status
-- **State:** needs-rework
+- **State:** complete
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-24
 - condition: fix-update-skill-overwrite | note: update.ts now calls installSkills(skillsDir, true) — force=true overwrites existing .taproot/skills/ files so package updates are reflected; init still uses force=false (create-only) | resolved: 2026-03-20
 
 ## DoD Resolutions
 - condition: document-current | note: no docs change needed — force-overwrite of skills on update is an internal implementation detail; README and docs/agents.md describe what taproot update does (refreshes skills), not how it detects changes | resolved: 2026-03-20T20:55:08.050Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: Not applicable. No skills/*.md files were modified. | resolved: 2026-03-24T19:31:23.642Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No. Bundled directory distribution is a standard file copy pattern, not a taproot-specific architectural pattern. | resolved: 2026-03-24T19:31:22.382Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: Yes — added check-if-affected: docs/ to settings.yaml so any future docs/ addition is reviewed for distribution suitability. | resolved: 2026-03-24T19:31:21.127Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: Compliant. installDocs() mirrors installSkills() architecture: BUNDLED_DOCS_DIR resolved from __dirname, no global state, function receives target path as parameter. | resolved: 2026-03-24T19:31:19.896Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: Not applicable. CLI command that copies files; does not route user requirements. | resolved: 2026-03-24T19:31:18.567Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: Not applicable. CLI command; commit-awareness governs skill prompts. | resolved: 2026-03-24T19:31:17.302Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: Not applicable. CLI command implementation, not a skill file. | resolved: 2026-03-24T19:31:16.083Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: Not applicable. Non-interactive CLI command. | resolved: 2026-03-24T19:31:14.774Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: Not applicable. Non-interactive CLI command, no conversational output. | resolved: 2026-03-24T19:31:13.077Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: Not applicable. CLI source code — agent-agnostic-language applies to skill markdown files only. | resolved: 2026-03-24T19:31:11.814Z
+
+- condition: check-if-affected: docs/ | note: docs/cli.md updated — taproot update section mentions .taproot/docs/ refresh. | resolved: 2026-03-24T19:31:10.553Z
+
+- condition: check-if-affected: skills/guide.md | note: Not affected. skills/guide.md documents user-facing /tr-* commands, not taproot CLI internals. | resolved: 2026-03-24T19:31:09.335Z
+
+- condition: check-if-affected: src/commands/update.ts | note: update.ts is a primary source file — now calls installDocs(join(cwd, '.taproot', 'docs'), true) alongside installSkills() in the refresh block. | resolved: 2026-03-24T19:31:08.083Z
+
+- condition: document-current | note: docs/cli.md updated — taproot update section now mentions .taproot/docs/ refresh. No README changes needed. | resolved: 2026-03-24T19:31:06.863Z
+
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: STILL COMPLIANT — vocabulary pass added to update.ts follows same architecture as language pack: config loaded once, passed down, empty-value check at command boundary before any I/O. | resolved: 2026-03-24T13:11:54.451Z
 

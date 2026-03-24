@@ -118,4 +118,31 @@ describe('taproot update', () => {
     const msgs = await runUpdate({ cwd: tmpDir, withHooks: true });
     expect(msgs.some(m => m.includes('exists') && m.includes('pre-commit'))).toBe(true);
   });
+
+  it('installs docs to .taproot/docs/ when claude adapter is present', async () => {
+    generateAdapters('claude', tmpDir);
+    const msgs = await runUpdate({ cwd: tmpDir });
+    const docsDir = join(tmpDir, '.taproot', 'docs');
+    expect(existsSync(docsDir)).toBe(true);
+    expect(existsSync(join(docsDir, 'patterns.md'))).toBe(true);
+    expect(msgs.some(m => m.includes('.taproot/docs/patterns.md'))).toBe(true);
+  });
+
+  it('refreshes docs with updated content on re-run', async () => {
+    generateAdapters('claude', tmpDir);
+    await runUpdate({ cwd: tmpDir });
+
+    const patternsPath = join(tmpDir, '.taproot', 'docs', 'patterns.md');
+    writeFileSync(patternsPath, 'stale content');
+
+    const msgs = await runUpdate({ cwd: tmpDir });
+    expect(readFileSync(patternsPath, 'utf-8')).not.toBe('stale content');
+    expect(msgs.some(m => m.includes('updated') && m.includes('patterns.md'))).toBe(true);
+  });
+
+  it('does not install docs when no claude adapter and no existing docs', async () => {
+    generateAdapters('cursor', tmpDir);
+    await runUpdate({ cwd: tmpDir });
+    expect(existsSync(join(tmpDir, '.taproot', 'docs'))).toBe(false);
+  });
 });

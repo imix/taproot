@@ -34,6 +34,7 @@ Refreshes installed agent adapters and skills to the current version. Run this a
 
 The update command also:
 - Removes stale artefacts from older Taproot layouts (e.g., the pre-v0.1 `taproot/skills/` directory)
+- Refreshes `.taproot/docs/` with the current taproot documentation (patterns, architecture, security, etc.) so agent skills have up-to-date reference material
 - Runs a cross-link refresh: adds missing `## Behaviours <!-- taproot-managed -->` sections to `intent.md` files and `## Implementations <!-- taproot-managed -->` sections to `usecase.md` files, then appends any missing child links and prunes any links to non-existent files
 - Migrates old `taproot validate-structure` / `taproot validate-format` pre-commit hooks to the newer `taproot commithook` format
 

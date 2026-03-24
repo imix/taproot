@@ -10,6 +10,7 @@
     "dist/",
     "skills/",
     "languages/",
+    "docs/",
     "README.md"
   ],
   "keywords": [

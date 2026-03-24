@@ -15,6 +15,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // Bundled skills directory — two levels up from src/commands/ → package root → skills/
 const BUNDLED_SKILLS_DIR = resolve(__dirname, '..', '..', 'skills');
 
+// Bundled docs directory — two levels up from src/commands/ → package root → docs/
+const BUNDLED_DOCS_DIR = resolve(__dirname, '..', '..', 'docs');
+
 export const SKILL_FILES = [
   'analyse-change.md',
   'review.md',
@@ -163,6 +166,7 @@ export function runInit(options: {
   const needsSkills = options.withSkills || agentList.includes('claude') || agentList.includes('gemini');
   if (needsSkills) {
     messages.push(...installSkills(skillsDir));
+    messages.push(...installDocs(join(cwd, '.taproot', 'docs')));
   }
 
   // Git pre-commit hook
@@ -275,6 +279,34 @@ export function installSkills(
       messages.push(`updated  .taproot/skills/${filename}`);
     } else {
       messages.push(`exists   .taproot/skills/${filename}`);
+    }
+  }
+
+  return messages;
+}
+
+export function installDocs(targetDocsDir: string, force = false): string[] {
+  const messages: string[] = [];
+
+  if (!existsSync(BUNDLED_DOCS_DIR)) {
+    messages.push(`warning  Docs directory not found at ${BUNDLED_DOCS_DIR} — skipping`);
+    return messages;
+  }
+
+  mkdirSync(targetDocsDir, { recursive: true });
+
+  for (const filename of readdirSync(BUNDLED_DOCS_DIR).filter(f => f.endsWith('.md'))) {
+    const src = join(BUNDLED_DOCS_DIR, filename);
+    const dest = join(targetDocsDir, filename);
+    const content = readFileSync(src, 'utf-8');
+    if (!existsSync(dest)) {
+      writeFileSync(dest, content);
+      messages.push(`created  .taproot/docs/${filename}`);
+    } else if (force) {
+      writeFileSync(dest, content);
+      messages.push(`updated  .taproot/docs/${filename}`);
+    } else {
+      messages.push(`exists   .taproot/docs/${filename}`);
     }
   }
 
