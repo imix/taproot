@@ -100,6 +100,7 @@ flowchart TD
 - **CONFIGURATION.md content requirement**: CONFIGURATION.md must document which `settings.yaml` changes require `taproot update` to take effect vs. which are read at runtime (validators, commithook) — this is the agent's signal to know when to run `taproot update` before confirming task completion.
 
 ## Implementations <!-- taproot-managed -->
+- [CLI Command — configuration discoverability](./cli-command/impl.md)
 
 ## Status
 - **State:** specified
