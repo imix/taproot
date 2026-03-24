@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mkdtempSync, rmSync, existsSync, readFileSync } from 'fs';
 import { tmpdir } from 'os';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import { spawnSync } from 'child_process';
 import { buildConfigurationMd } from '../../src/core/configuration.js';
 import { generateAdapters } from '../../src/adapters/index.js';
@@ -125,7 +125,8 @@ describe('taproot update — CONFIGURATION.md installation', () => {
 
 describe('taproot --help footer (AC-2)', () => {
   it('AC-2: taproot --help output references .taproot/settings.yaml and CONFIGURATION.md', () => {
-    const result = spawnSync('taproot', ['--help'], { encoding: 'utf-8' });
+    const cliBin = resolve(__dirname, '../../dist/cli.js');
+    const result = spawnSync(process.execPath, [cliBin, '--help'], { encoding: 'utf-8' });
     const output = result.stdout + result.stderr;
     expect(output).toContain('.taproot/settings.yaml');
     expect(output).toContain('.taproot/CONFIGURATION.md');
