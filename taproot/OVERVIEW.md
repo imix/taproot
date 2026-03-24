@@ -118,7 +118,7 @@ _No behaviours yet._
 - **[architecture-compliance](./quality-gates/architecture-compliance/usecase.md)** `[implemented]` — Actor: Developer or agent declaring a new implementation (committing an `impl.md`) — the check runs automatically at Definition of Ready time before any code is written.
   - [multi-surface](./quality-gates/architecture-compliance/multi-surface/impl.md) `[complete]` (3 commits ⚠ no tests)
 - **[definition-of-done](./quality-gates/definition-of-done/usecase.md)** `[implemented]` — Actor: `/tr-implement` — triggered automatically at the end of the implement flow before marking an impl `complete`. Also invoked by `taproot commithook` on implementation commits (staged source files + `impl.md`). Can also be invoked standalone by a developer or CI pipeline.
-  - [cli-command](./quality-gates/definition-of-done/cli-command/impl.md) `[complete]` (3 commits, 1 test)
+  - [cli-command](./quality-gates/definition-of-done/cli-command/impl.md) `[complete]` (5 commits, 1 test)
 - **[definition-of-ready](./quality-gates/definition-of-ready/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a contributor commits an `impl.md` file without source code changes (the "I'm starting this implementation" declaration commit).
   - [cli-command](./quality-gates/definition-of-ready/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 - **[nfr-measurability](./quality-gates/nfr-measurability/usecase.md)** `[implemented]` — Actor: Developer or agent declaring a new implementation (committing an `impl.md`) — the check runs automatically at Definition of Ready time before any code is written.
