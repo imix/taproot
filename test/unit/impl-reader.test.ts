@@ -79,4 +79,27 @@ describe('parseImplData', () => {
     expect(data.commits).not.toContain('not-a-hash');
     expect(data.commits).toContain('abc123');
   });
+
+  it('AC-4: skips function-signature tokens in Source Files — no false path extraction', () => {
+    // First backtick token is a function signature with no '/' or file extension
+    const doc = parse(
+      '## Source Files\n' +
+      '- `applyVocabulary(content, vocab)` — pure logic in core\n' +
+      '- `src/core/language.ts` — actual file path\n'
+    );
+    const data = parseImplData(doc);
+    expect(data.sourceFiles).not.toContain('applyVocabulary(content, vocab)');
+    expect(data.sourceFiles).toContain('src/core/language.ts');
+  });
+
+  it('skips non-path backtick tokens in Tests section', () => {
+    const doc = parse(
+      '## Tests\n' +
+      '- `someIdentifier` — not a path\n' +
+      '- `test/unit/foo.test.ts` — real test file\n'
+    );
+    const data = parseImplData(doc);
+    expect(data.testFiles).not.toContain('someIdentifier');
+    expect(data.testFiles).toContain('test/unit/foo.test.ts');
+  });
 });

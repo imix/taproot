@@ -23,3 +23,28 @@
 - **State:** complete
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-19
+
+## DoD Resolutions
+- condition: document-current | note: NO UPDATE NEEDED — docs/configuration.md and README document user-facing CLI behaviour (commands, flags, output). The path-token recognition fix is an internal parsing detail in impl-reader.ts with no change to CLI interface, flags, or user-visible output format. | resolved: 2026-03-24T13:38:41.663Z
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — the isFilePath heuristic is specific to impl.md parsing. Not a general-purpose pattern. | resolved: 2026-03-24T13:39:26.126Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — path-token recognition is specific to impl-reader.ts parsing. Not a cross-cutting concern affecting other implementations. | resolved: 2026-03-24T13:39:24.820Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — isFilePath() and extractFilePaths() are pure logic in src/core/impl-reader.ts (no I/O). No architectural constraint violated. | resolved: 2026-03-24T13:39:23.576Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: NOT APPLICABLE — no new skills created. pattern-hints applies to skills that receive natural language intent. | resolved: 2026-03-24T13:39:15.560Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: NOT APPLICABLE — no skill files created or modified. | resolved: 2026-03-24T13:39:14.288Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: NOT APPLICABLE — no skill files created or modified. | resolved: 2026-03-24T13:39:13.032Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: NOT APPLICABLE — no new skills created. pause-and-confirm applies to skills that write multiple documents. | resolved: 2026-03-24T13:39:04.192Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: NOT APPLICABLE — no new skills created. contextual-next-steps applies to skills that produce output to the developer. | resolved: 2026-03-24T13:39:02.976Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: NOT APPLICABLE — no skill files or spec documents created. agent-agnostic-language applies to skill .md files and spec documents, not TypeScript source. | resolved: 2026-03-24T13:39:01.776Z
+
+- condition: check-if-affected: skills/guide.md | note: NOT AFFECTED — guide.md documents the taproot workflow and skill commands. Internal impl-reader.ts parsing logic is not surfaced in the guide. | resolved: 2026-03-24T13:38:52.117Z
+
+- condition: check-if-affected: src/commands/update.ts | note: NOT AFFECTED — update.ts handles taproot update (skill installation, language pack, vocabulary). No connection to check-orphans path parsing. | resolved: 2026-03-24T13:38:50.876Z
+
