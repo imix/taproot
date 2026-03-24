@@ -10,7 +10,7 @@ AI coding agent — given a natural-language configuration task ("configure tapr
 ## Main Flow
 1. Agent receives a configuration task from the developer (e.g. "konfiguriere taproot auf deutsch um")
 2. Agent reads its installed adapter file (e.g. `.claude/commands/`, `.cursor/rules/taproot.md`) — the adapter includes a **Configuration Quick Reference** section listing available `settings.yaml` options and their effect
-3. Agent reads `.taproot/CONFIGURATION.md` — installed by `taproot init`, refreshed by `taproot update` — which documents all `settings.yaml` fields with examples, valid values, and the CLI commands needed to apply changes
+3. Agent reads `.taproot/CONFIGURATION.md` — installed and kept current by `taproot update` — which documents all `settings.yaml` fields with examples, valid values, and the CLI commands needed to apply changes
 4. Agent identifies the correct `settings.yaml` field and value for the requested task (e.g. `language: de`)
 5. Agent edits `.taproot/settings.yaml` with the required change
 6. Agent runs `taproot update` to apply the configuration change (language pack substitution, vocabulary overrides, adapter regeneration)
@@ -37,17 +37,9 @@ AI coding agent — given a natural-language configuration task ("configure tapr
   1. Agent reads CONFIGURATION.md and does not find a matching field
   2. Agent reports: "This setting is not available in taproot's `settings.yaml`. Available configuration options are: [lists options from CONFIGURATION.md]"
 
-### `taproot update` required after edit but not run
-- **Trigger:** Agent edits `settings.yaml` but forgets to run `taproot update`
-- **Steps:**
-  1. `settings.yaml` is changed but skill files and adapters still reflect the previous configuration
-  2. CONFIGURATION.md documents which changes require `taproot update` to take effect vs. which are read at runtime (validators, commithook)
-  3. Agent runs `taproot update` before confirming the task complete
-
 ## Postconditions
 - `.taproot/settings.yaml` reflects the requested configuration
 - `taproot update` has been run where required — skill files and adapters reflect the new configuration
-- The developer's agent session used only locally-installed files to complete the task (no external docs consulted)
 
 ## Error Conditions
 - **CONFIGURATION.md missing after `taproot update`**: `taproot update` reports a warning if it cannot write CONFIGURATION.md (permissions error, disk full); configuration changes in `settings.yaml` still take effect at runtime
@@ -92,25 +84,20 @@ flowchart TD
 - When an agent (or developer) runs `taproot --help`
 - Then the output includes a reference to `.taproot/settings.yaml` and `.taproot/CONFIGURATION.md`
 
-**AC-3: CONFIGURATION.md is installed by `taproot init` and refreshed by `taproot update`**
-- Given a fresh project with no `.taproot/CONFIGURATION.md`
-- When the developer runs `taproot init --agent claude` or `taproot update`
-- Then `.taproot/CONFIGURATION.md` is created and documents all `settings.yaml` options with examples
+~~**AC-3: deprecated**~~ — moved to `update-adapters-and-skills/usecase.md` (CONFIGURATION.md installation is taproot update's responsibility)
 
-**AC-4: CONFIGURATION.md survives taproot upgrades**
-- Given taproot is upgraded to a new version
-- When the developer runs `taproot update`
-- Then `.taproot/CONFIGURATION.md` is refreshed to reflect any new or changed configuration options
+~~**AC-4: deprecated**~~ — moved to `update-adapters-and-skills/usecase.md` (CONFIGURATION.md refresh on upgrade is taproot update's responsibility)
 
-**AC-5: Adapter includes Configuration Quick Reference**
-- Given taproot is initialised for any supported agent
-- When the installed adapter file is read
-- Then it contains a Configuration Quick Reference section listing at minimum: `language`, `vocabulary`, and `definitionOfDone` as configurable options with a pointer to CONFIGURATION.md
+~~**AC-5: deprecated**~~ — now AC-15 in `generate-agent-adapter/usecase.md` (adapter content is generate-adapter's responsibility)
 
 **AC-6: Unknown config option produces helpful response**
 - Given an agent reads CONFIGURATION.md
 - When the developer requests a configuration option not present in CONFIGURATION.md
 - Then the agent reports the unavailability and lists the available options sourced from CONFIGURATION.md
+
+## Notes
+- **Design intent**: the entire configuration task must be completable using only locally-installed files. No external URLs or documentation should be needed. This is the driving constraint for the three discovery surfaces (adapter quick reference, CONFIGURATION.md, `--help` footer).
+- **CONFIGURATION.md content requirement**: CONFIGURATION.md must document which `settings.yaml` changes require `taproot update` to take effect vs. which are read at runtime (validators, commithook) — this is the agent's signal to know when to run `taproot update` before confirming task completion.
 
 ## Implementations <!-- taproot-managed -->
 
