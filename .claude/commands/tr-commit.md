@@ -1,15 +1,14 @@
 ---
-name: 'tr-discover'
-description: 'Reverse-engineer an existing project into a taproot hierarchy — from source code, existing requirements artifacts (PRDs, stories, ADRs), or both'
+name: 'tr-commit'
+description: 'Execute the full commit procedure: classify the commit type, run the appropriate gate proactively, resolve all conditions before staging, and commit'
 ---
 
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
 
 <steps CRITICAL="TRUE">
-1. LOAD the FULL skill file at @{project-root}/.taproot/skills/discover.md
+1. LOAD the FULL skill file at @{project-root}/.taproot/skills/commit.md
 2. READ its entire contents — this contains the complete skill definition with steps, inputs, and output format
 3. FOLLOW every step in the ## Steps section precisely and in order
 4. When the skill references other taproot commands (e.g. `/taproot:intent`), use the corresponding `/tr-intent` command instead
 5. Save all outputs to the paths specified in the skill's ## Output section
-6. Run `taproot overview` to update @{project-root}/taproot/OVERVIEW.md with the current project state
 </steps>
