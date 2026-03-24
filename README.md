@@ -13,13 +13,7 @@ Taproot keeps requirements as first-class files in your repo — git-versioned, 
 ## Quick Start
 
 ```bash
-git clone https://github.com/imix/taproot.git
-cd taproot && npm install && npm run build && npm link
-```
-
-In your project:
-
-```bash
+npm install -g @imix-js/taproot
 taproot init
 ```
 
