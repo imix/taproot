@@ -70,6 +70,7 @@ _No behaviours yet._
 
 **Goal:** Keep the human orchestrator in meaningful control of the requirement hierarchy — as its owner, its primary author of intent, and its final decision-maker — while making the current state of the project legible at a glance.
 
+- **[bug-triage](./human-integration/bug-triage/usecase.md)** `[specified]` — Actor: Developer or AI coding agent who has observed a defect — unexpected system behaviour, a failing test, or a user-reported issue
 - **[contextual-next-steps](./human-integration/contextual-next-steps/usecase.md)** `[implemented]` — Actor: Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the moment it produces its primary output
   - [all-skills](./human-integration/contextual-next-steps/all-skills/impl.md) `[complete]` (5 commits, 1 test)
 - **[cross-linked-specs](./human-integration/cross-linked-specs/usecase.md)** `[implemented]` — Actor: `tr-behaviour` skill (when creating a new `usecase.md`) and `tr-implement` skill (when creating a new `impl.md`) — both maintain the link sections in their parent documents as a side-effect of document creation. `taproot update` runs a link-refresh pass across the full tree to backfill existing documents.
@@ -206,4 +207,4 @@ _No behaviours yet._
 _No behaviours yet._
 
 ---
-19 intents · 52 behaviours · 51 implementations · 50/51 complete
+19 intents · 53 behaviours · 51 implementations · 50/51 complete

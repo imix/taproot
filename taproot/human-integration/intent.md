@@ -1,7 +1,7 @@
 # Intent: Human Integration
 
 ## Goal
-Keep the human orchestrator in meaningful control of the requirement hierarchy — as its owner, its primary author of intent, and its final decision-maker — while making the current state of the project legible at a glance.
+Ensure the human orchestrator retains meaningful control of the requirement hierarchy — as its owner, its primary author of intent, and its final decision-maker — while making the current state of the project legible at a glance.
 
 ## Stakeholders
 - **Agentic developer / orchestrator**: needs to own, evolve, and understand the hierarchy without having to read every document or run multiple commands to get orientation
@@ -27,6 +27,7 @@ Keep the human orchestrator in meaningful control of the requirement hierarchy �
 - [Route a Natural Language Requirement](./route-requirement/usecase.md)
 - [Surface Relevant Patterns Before Proceeding](./pattern-hints/usecase.md)
 - [Hierarchy Sweep](./hierarchy-sweep/usecase.md)
+- [Bug Triage and Root Cause Analysis](./bug-triage/usecase.md)
 
 
 ## Status
