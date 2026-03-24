@@ -18,6 +18,7 @@ Developer initializing taproot for a specific AI coding agent via `taproot init 
    - **windsurf**: injects a taproot section into `.windsurfrules` using the same markers
    - **gemini**: creates one `.gemini/commands/tr-<skill>.toml` file per skill — a thin launcher that loads the full skill from `.taproot/skills/`
    - **generic**: generates `AGENTS.md` at the project root with the full skill reference
+   - Each adapter also includes a **Configuration Quick Reference** section listing the primary `settings.yaml` options (`language`, `vocabulary`, `definitionOfDone`) with a pointer to `.taproot/CONFIGURATION.md` for the full reference
 4. System installs skill definitions to `taproot/skills/` so the agent can load them locally
 5. System reports which files were created or updated
 
@@ -110,6 +111,12 @@ Developer initializing taproot for a specific AI coding agent via `taproot init 
 - When the actor runs `taproot init --agent cursor`
 - Then the returned messages include the generated file path
 
+**AC-15: Each adapter includes a Configuration Quick Reference section**
+- Given taproot is initialised for any supported agent
+- When the installed adapter file is read
+- Then it contains a "Configuration Quick Reference" section listing at minimum: `language`, `vocabulary`, and `definitionOfDone` as configurable options, with a pointer to `.taproot/CONFIGURATION.md`
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
+- **Last reviewed:** 2026-03-24
