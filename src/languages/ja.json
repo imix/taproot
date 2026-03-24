@@ -1,0 +1,20 @@
+{
+  "Goal": "目標",
+  "Actor": "アクター",
+  "Preconditions": "前提条件",
+  "Main Flow": "メインフロー",
+  "Alternate Flows": "代替フロー",
+  "Postconditions": "事後条件",
+  "Error Conditions": "エラー条件",
+  "Acceptance Criteria": "受け入れ基準",
+  "Status": "ステータス",
+  "Stakeholders": "ステークホルダー",
+  "Success Criteria": "成功基準",
+  "Given": "前提として",
+  "When": "実行時",
+  "Then": "結果として",
+  "specified": "指定済み",
+  "implemented": "実装済み",
+  "complete": "完了",
+  "active": "アクティブ"
+}

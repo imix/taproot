@@ -25,7 +25,7 @@ Developer configuring taproot for a non-development project — book authoring, 
 ## Substitution Semantics
 - **Single-pass, declaration-order**: keys are processed in the order they appear in `settings.yaml`. Once a token is substituted, the result is not re-scanned — this prevents multi-key collisions (e.g. `tests → manuscript reviews` followed by `reviews → approvals` does NOT produce `manuscript approvals`; the substituted text `manuscript reviews` is not re-matched by the `reviews` key).
 - **Exact string matching, case-sensitive**: `tests` matches the literal string `tests` but not `Tests`, `TESTS`, or `attests`. Use multiple keys if case variants need covering.
-- **Longer keys take precedence**: if two keys could match at the same position (e.g. `source` and `source files`), the longer key is matched first.
+- **Declaration order governs overlap**: if one key is a prefix of another (e.g. `source` and `source files`), whichever appears first in `settings.yaml` is matched first. To ensure the longer key matches, declare it before any of its prefixes — e.g. declare `source files` before `source`. Declaring `source` first causes it to match within `source files`, preventing the longer key from ever matching.
 
 ## Alternate Flows
 
@@ -95,7 +95,32 @@ Developer configuring taproot for a non-development project — book authoring, 
 - When `taproot update` applies the vocabulary substitution pass
 - Then the total additional time for the vocabulary pass is under 200ms on a standard developer machine
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command](./cli-command/impl.md)
+
+## Flow
+```mermaid
+flowchart TD
+    A[Developer adds vocabulary: map to settings.yaml] --> B[taproot update]
+    B --> C{config.language set?}
+    C -- yes --> D[Apply language pack substitution]
+    C -- no --> E[Skip language pack pass]
+    D --> F{vocabulary: entries?}
+    E --> F
+    F -- no/empty --> G[Skip vocabulary pass]
+    F -- yes --> H{Any empty-string values?}
+    H -- yes --> ERR[Abort: empty-string value error\nno files modified]
+    H -- no --> I[applyVocabulary: filter out\nstructural keyword conflicts]
+    I --> J{Any conflicts?}
+    J -- yes --> WARN[Log warning for each\nconflicting key, skip them]
+    J -- no --> K[Apply declaration-order\nsingle-pass substitution]
+    WARN --> K
+    K --> L[Write substituted content\nto .taproot/skills/]
+    G --> M[Skills installed with\ndefault English or pack terms]
+    L --> N[Skills contain domain\nvocabulary overrides]
+```
+
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-23
-- **Last reviewed:** 2026-03-23
+- **Last reviewed:** 2026-03-24

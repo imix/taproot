@@ -9,6 +9,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { SKILL_FILES } from '../commands/init.js';
+import { loadConfig } from '../core/config.js';
+import { loadLanguagePack, substituteTokens, applyVocabulary, getStructuralKeys } from '../core/language.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BUNDLED_SKILLS_DIR = resolve(__dirname, '..', '..', 'skills');
 // Markers for idempotent section injection into existing files
@@ -37,7 +39,10 @@ export function generateAdapters(agents, projectRoot) {
     return targets.map(agent => generateAdapter(agent, projectRoot));
 }
 function generateAdapter(agent, projectRoot) {
-    const skills = loadSkills();
+    const { config } = loadConfig(projectRoot);
+    const pack = config.language ? loadLanguagePack(config.language) : null;
+    const vocab = config.vocabulary ?? null;
+    const skills = loadSkills(pack, vocab);
     switch (agent) {
         case 'claude': return generateClaudeAdapter(skills, projectRoot);
         case 'cursor': return generateCursorAdapter(skills, projectRoot);
@@ -47,11 +52,18 @@ function generateAdapter(agent, projectRoot) {
         case 'generic': return generateGenericAdapter(skills, projectRoot);
     }
 }
-function loadSkills() {
+function loadSkills(pack, vocab) {
     return SKILL_FILES.map(filename => {
         const name = filename.replace('.md', '');
         const path = join(BUNDLED_SKILLS_DIR, filename);
-        const content = existsSync(path) ? readFileSync(path, 'utf-8') : `# Skill: ${name}\n\n(skill file not found)`;
+        let content = existsSync(path) ? readFileSync(path, 'utf-8') : `# Skill: ${name}\n\n(skill file not found)`;
+        if (pack)
+            content = substituteTokens(content, pack);
+        if (vocab && Object.keys(vocab).length > 0) {
+            const structuralKeys = getStructuralKeys(pack ?? null);
+            const { result } = applyVocabulary(content, vocab, structuralKeys);
+            content = result;
+        }
         const description = extractFirstSentence(content);
         return { filename, name, content, description, invocation: `/taproot:${name}` };
     });

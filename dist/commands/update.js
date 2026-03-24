@@ -3,7 +3,8 @@ import { join, dirname, relative, resolve } from 'path';
 import { generateAdapters } from '../adapters/index.js';
 import { installSkills, SKILL_FILES } from './init.js';
 import { runOverview } from './overview.js';
-import { DEFAULT_CONFIG } from '../core/config.js';
+import { DEFAULT_CONFIG, loadConfig } from '../core/config.js';
+import { loadLanguagePack, supportedLanguages } from '../core/language.js';
 import { walkHierarchy, flattenTree } from '../core/fs-walker.js';
 const TAPROOT_START = '<!-- TAPROOT:START -->';
 // Stale paths left behind by older taproot versions
@@ -187,6 +188,36 @@ export function refreshLinks(cwd, taprootDir) {
 export async function runUpdate(options) {
     const cwd = options.cwd ?? process.cwd();
     const messages = [];
+    // Validate language pack before modifying any files (AC-4)
+    const { config } = loadConfig(cwd);
+    let pack = null;
+    if (config.language) {
+        pack = loadLanguagePack(config.language);
+        if (!pack) {
+            messages.push(`error    Unknown language pack '${config.language}'. ` +
+                `Supported: ${supportedLanguages().join(', ')}. ` +
+                `No files modified.`);
+            return messages;
+        }
+        messages.push(`language ${config.language} (${Object.keys(pack).length} tokens)`);
+    }
+    // Validate vocabulary overrides before modifying any files
+    const vocab = config.vocabulary ?? null;
+    if (vocab && Object.keys(vocab).length > 0) {
+        const emptyKeys = Object.entries(vocab)
+            .filter(([, v]) => v === '')
+            .map(([k]) => k);
+        if (emptyKeys.length > 0) {
+            for (const key of emptyKeys) {
+                messages.push(`error    Vocabulary override '${key}' maps to an empty string — ` +
+                    `this would silently delete the term from skill files. ` +
+                    `Provide a non-empty replacement or remove the key.`);
+            }
+            messages.push('No files modified.');
+            return messages;
+        }
+        messages.push(`vocabulary ${Object.keys(vocab).length} overrides`);
+    }
     const agents = detectInstalledAgents(cwd);
     if (agents.length === 0) {
         messages.push('No taproot agent adapters detected — nothing to update.');
@@ -214,7 +245,7 @@ export async function runUpdate(options) {
         SKILL_FILES.some(f => existsSync(join(skillsDir, f)));
     if (agents.includes('claude') || hasInstalledSkills) {
         messages.push('');
-        messages.push(...installSkills(skillsDir, true));
+        messages.push(...installSkills(skillsDir, true, pack, vocab));
     }
     // Refresh cross-links (## Behaviours / ## Implementations sections)
     const taprootDir = join(cwd, DEFAULT_CONFIG.root);

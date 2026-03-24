@@ -2,6 +2,7 @@ import { resolve, join } from 'path';
 import { readFileSync, writeFileSync } from 'fs';
 import type { Command } from 'commander';
 import { loadConfig } from '../core/config.js';
+import { loadLanguagePack, supportedLanguages } from '../core/language.js';
 import { walkHierarchy, flattenTree } from '../core/fs-walker.js';
 import { parseMarkdown } from '../core/markdown-parser.js';
 import { validateFormat } from '../validators/format-rules.js';
@@ -41,6 +42,18 @@ export async function runValidateFormat(options: {
     ? resolve(options.path)
     : config.root.startsWith('/') ? config.root : resolve(configDir, config.root);
 
+  // Load language pack if configured
+  let pack = null;
+  if (config.language) {
+    pack = loadLanguagePack(config.language);
+    if (!pack) {
+      process.stderr.write(
+        `Warning: Language pack '${config.language}' could not be loaded — falling back to English. ` +
+        `Supported: ${supportedLanguages().join(', ')}. Check your taproot installation.\n`
+      );
+    }
+  }
+
   const tree = walkHierarchy(rootPath);
   const nodes = flattenTree(tree).filter((n): n is FolderNode & { marker: MarkerType } => n.marker !== null);
 
@@ -63,7 +76,7 @@ export async function runValidateFormat(options: {
     }
 
     const parsed = parseMarkdown(filePath, content);
-    const nodeViolations = validateFormat(parsed, node.marker, config, node);
+    const nodeViolations = validateFormat(parsed, node.marker, config, node, pack);
 
     if (options.fix && nodeViolations.some(v => v.code === 'MISSING_SECTION')) {
       const fixed = applyFix(content, parsed, node.marker);

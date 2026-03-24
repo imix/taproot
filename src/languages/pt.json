@@ -1,0 +1,20 @@
+{
+  "Goal": "Objetivo",
+  "Actor": "Ator",
+  "Preconditions": "Pré-condições",
+  "Main Flow": "Fluxo Principal",
+  "Alternate Flows": "Fluxos Alternativos",
+  "Postconditions": "Pós-condições",
+  "Error Conditions": "Condições de Erro",
+  "Acceptance Criteria": "Critérios de Aceitação",
+  "Status": "Status",
+  "Stakeholders": "Partes Interessadas",
+  "Success Criteria": "Critérios de Sucesso",
+  "Given": "Dado",
+  "When": "Quando",
+  "Then": "Então",
+  "specified": "especificado",
+  "implemented": "implementado",
+  "complete": "completo",
+  "active": "ativo"
+}
