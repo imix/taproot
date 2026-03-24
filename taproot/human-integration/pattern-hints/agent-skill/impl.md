@@ -6,15 +6,17 @@
 ## Design Decisions
 - Pattern check is inserted as a new **step 0** in skills where the need is expressed at invocation (ineed, refine). In behaviour and implement it fires at the first step that receives the user's description.
 - Signal phrases from the spec are embedded directly in the step text so the agent knows exactly what to match against — no ambiguity about what constitutes a "match".
-- The interruption presents the pattern name, a one-line description, and [A]/[B] choice. It does not dump the full `docs/patterns.md` content into context — it names the pattern and the agent reads the relevant section on demand if the user chooses [A].
+- The interruption presents the pattern name, a one-line description, and [A]/[B] choice. It does not dump the full `.taproot/docs/patterns.md` content into context — it names the pattern and the agent reads the relevant section on demand if the user chooses [A].
 - All four skills (ineed, behaviour, implement, refine) updated. Other skills (tr-plan, tr-decompose, etc.) are less likely to receive raw requirement expressions and are left for future passes when their source implementations are touched.
 - Both `skills/` (package source) and `.taproot/skills/` (installed copy) updated in sync per CLAUDE.md policy.
+- Pattern file path is `.taproot/docs/patterns.md` (not `docs/patterns.md`) — `taproot update` distributes the full `docs/` folder to `.taproot/docs/` so agent skills have consistent access to all taproot reference material under `.taproot/`.
 
 ## Source Files
-- `skills/ineed.md` — step 0 added: scan docs/patterns.md before classifying requirement
-- `skills/behaviour.md` — step 1a added: scan for pattern match on the behaviour description
-- `skills/implement.md` — step 4 updated: check for pattern match before presenting implementation plan
-- `skills/refine.md` — step 0 added: scan for pattern match on the change being described
+- `skills/ineed.md` — step 0: scan `.taproot/docs/patterns.md` before classifying requirement
+- `skills/behaviour.md` — step 1a: scan for pattern match on the behaviour description
+- `skills/implement.md` — step 4: check for pattern match before presenting implementation plan
+- `skills/refine.md` — step 0: scan for pattern match on the change being described
+- `taproot/human-integration/pattern-hints/usecase.md` — updated `docs/patterns.md` path references to `.taproot/docs/patterns.md`
 
 ## Commits
 - placeholder
@@ -25,7 +27,7 @@
 - `test/unit/skills.test.ts` — AC-1: docs/patterns.md scan step present in all four skills; AC-2: [A]/[B] choice present; AC-6: skip silently when patterns.md absent (ineed.md); AC-7: [A] does not add hierarchy entry / write usecase.md / modify usecase.md
 
 ## Status
-- **State:** complete
+- **State:** needs-rework
 - **Created:** 2026-03-20
 - **Last verified:** 2026-03-20
 
