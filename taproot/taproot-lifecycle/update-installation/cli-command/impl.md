@@ -18,6 +18,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `dd611364ccbb767f137428767e640389cf7f3a6e` — (auto-linked by taproot link-commits)
+- `915ae8a7d58c295b38583a0242364edf95f91aea` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/update.test.ts` — covers stale path removal, idempotency, hook migration from old content, --with-hooks install, --with-hooks exists; docs installation to .taproot/docs/, docs refresh on re-run

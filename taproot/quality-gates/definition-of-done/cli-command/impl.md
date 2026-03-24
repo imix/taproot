@@ -30,6 +30,8 @@
 - `2dbb442e0e9cabde63e667083cf9a6e329405f86` — (auto-linked by taproot link-commits)
 - `de140bc4724c29bf9b651c460bcf727a69d09274` — (auto-linked by taproot link-commits)
 - `4e461961391ce791134e3a49a4ee5f0bff510d59` — (auto-linked by taproot link-commits)
+- `d1b969fdcb9dcfc74f60bc07f04c756bdf2fdbac` — (auto-linked by taproot link-commits)
+- `abac6000c07622460d5e4362503fd5309b0d7662` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/dod.test.ts` — covers: no DoD configured, custom shell pass/fail, all-conditions-run, command not found, standalone mode (no impl.md change), impl.md marked complete on pass, not marked on fail, dry-run, document-current agent check, check-if-affected agent check, DoD baseline (usecase missing/state-wrong/format-invalid/all-pass), writeResolution, agent check passing after resolution, stale resolution detection (impl.md mtime > latest resolution timestamp), no-conditions-but-implPath marks complete

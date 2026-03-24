@@ -16,6 +16,8 @@
 
 ## Commits
 <!-- taproot link-commits will fill this -->
+- `e0569f60b6b4be702710578c3f0f20d3b0dad875` — (auto-linked by taproot link-commits)
+- `d7cdfe1079c3cbf4e3e30c7a6be59c64aebbdd21` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/release-skill.test.ts` — verifies skill file structure (heading, required sections, numbered steps, all pre-flight checks referenced); verifies workflow YAML (trigger pattern, two-job structure, environment gate, `--provenance` flag, `NPM_TOKEN` secret, `id-token: write` permission)
