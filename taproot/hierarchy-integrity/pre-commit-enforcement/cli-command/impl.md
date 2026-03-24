@@ -12,6 +12,7 @@
 - If impl.md is new in HEAD (first commit), it's treated as not-yet-declared and the implementation commit is rejected — forces the two-commit discipline (declaration then implementation)
 - DoD is run in `--dry-run` mode from the hook — the hook does not mark impl complete, only gates the commit
 - DoR baseline checks (7 conditions) always run for declaration commits; configured `definitionOfReady` conditions in `.taproot/settings.yaml` run additionally
+- `complete` impl.mds are exempt from co-staging: `getImplState()` reads the impl.md from disk and returns the `**State:**` value; if `complete` and NOT staged, the impl is skipped — a shared source file (e.g. `src/commands/update.ts`) can be modified without re-staging every complete impl.md that mentions it. If the impl.md IS staged alongside source, all checks (Status-only, DoD) still apply regardless of state.
 
 ## Source Files
 - `src/commands/commithook.ts` — `taproot commithook` CLI command; staged file classification, tier dispatch, status-only check
@@ -27,12 +28,12 @@
 - `00e7123aef6b6caab016a0d1237f33b4b8b428be` — (auto-linked by taproot link-commits)
 
 ## Tests
-- `test/integration/commithook.test.ts` — covers: plain commit (tracked/untracked source files), requirement commit valid/invalid, declaration commit specified/not-specified/missing-Flow/missing-Related, implementation commit status-only/beyond-status/missing-impl.md/new-impl, reverse-lookup map unit tests, DoR unit checks, hook installation content
+- `test/integration/commithook.test.ts` — covers: plain commit (tracked/untracked source files), requirement commit valid/invalid, declaration commit specified/not-specified/missing-Flow/missing-Related, implementation commit status-only/beyond-status/missing-impl.md/new-impl, reverse-lookup map unit tests, DoR unit checks, hook installation content, AC-14 complete-impl skip (source staged alone passes), regression (in-progress impl still requires co-staging)
 
 ## Status
-- **State:** complete
+- **State:** needs-rework
 - **Created:** 2026-03-19
-- **Last verified:** 2026-03-19
+- **Last verified:** 2026-03-24
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md commithook section updated: added reverse-lookup explanation and new table row for missing impl.md case | resolved: 2026-03-20T07:33:53.988Z
