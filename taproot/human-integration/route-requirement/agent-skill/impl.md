@@ -28,6 +28,30 @@
 
 ## DoD Resolutions
 - condition: document-current | note: Not affected. ineed.md changes are internal (C-1 trim, C-4 step merge, C-5 /compact signal, C-6 What's next? block added). No new CLI commands or configuration options. | resolved: 2026-03-20T10:03:04.603Z
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — bug-path detection is a routing branch specific to ineed; not generalizable as a reusable pattern. | resolved: 2026-03-24T16:44:43.289Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — bug detection is specific to the ineed routing skill. Not a cross-cutting pattern applicable to other implementations. | resolved: 2026-03-24T16:44:36.548Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — change is markdown-only (skill routing logic in ineed.md). No source code or architectural constraints affected. | resolved: 2026-03-24T16:44:30.356Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: COMPLIANT — pattern check step 0 fires before bug detection (step 1). Existing compliance unaffected. | resolved: 2026-03-24T16:44:26.290Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: NOT APPLICABLE — ineed.md makes no commits; it delegates to other skills. Unchanged from prior resolution. | resolved: 2026-03-24T16:44:22.329Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: COMPLIANT — description unchanged (~20 tokens). Bug detection adds ~50 tokens to step 1 classify block. /compact signal present. What's next? block present. No bulk file pre-loading added. | resolved: 2026-03-24T16:44:18.685Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: NOT APPLICABLE — bug path makes no file writes; it delegates to /tr-bug which owns its own pause-and-confirm behaviour. ineed.md itself never writes documents. | resolved: 2026-03-24T16:44:14.442Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: COMPLIANT — ineed.md already has a What's next? block at step 8. Bug path terminates via handoff to /tr-bug which owns its own next-steps. | resolved: 2026-03-24T16:44:10.540Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: COMPLIANT — ineed.md uses no agent-specific names. /tr-bug reference is the generic skill name, not a Claude-specific invocation. | resolved: 2026-03-24T16:44:06.491Z
+
+- condition: check-if-affected: skills/guide.md | note: NOT AFFECTED — /tr-ineed description in guide.md ('Route a requirement; runs structured discovery for vague ideas') remains accurate; bug detection is an internal routing branch, not a new public capability. | resolved: 2026-03-24T16:44:02.700Z
+
+- condition: check-if-affected: src/commands/update.ts | note: NOT AFFECTED — update.ts copies skill files by name; no change to file names or copy logic. | resolved: 2026-03-24T16:43:58.592Z
+
+- condition: document-current | note: NOT AFFECTED — change is to ineed.md skill routing logic only; no new CLI commands, config options, or public API. guide.md description of /tr-ineed remains accurate. | resolved: 2026-03-24T16:43:51.618Z
+
 - condition: check-if-affected-by: human-integration/pattern-hints | note: Updated in pattern-hints implementation pass. ineed.md received pattern check step 0, which fires before classification. Complies with spec: interruptive before proceeding, [A]/[B] choice, docs/patterns.md read on demand. | resolved: 2026-03-20T10:31:24.882Z
 
 - condition: check-if-affected-by: skill-architecture/context-engineering | note: Updated in compliance pass. C-1: trimmed to ~20 tokens. C-4: OVERVIEW.md read folded into step 1 (classify) where it is first used — no longer a standalone bulk-load step. C-5: /compact signal added. C-6: What's next? block added. All compliant. | resolved: 2026-03-20T10:03:10.838Z

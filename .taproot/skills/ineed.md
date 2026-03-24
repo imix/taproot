@@ -29,6 +29,7 @@ Route a natural language requirement to the right place in the taproot hierarchy
 
 1. **Classify the requirement** — Load `taproot/OVERVIEW.md` if it exists; if not, walk `taproot/` and read each `intent.md`. Use this hierarchy map to decide which path to take:
 
+   - **Bug path** (hand off immediately): Input contains bug-shaped language — "it's broken", "wrong output", "this crashes", "not working", "regression", "it used to work", "unexpected behaviour", or explicit "bug" / "defect" terminology. State: *"That sounds like a bug report rather than a new requirement. I'll hand this off to `/tr-bug` to run root cause analysis."* Call `/tr-bug` with `handoff: true` and the original symptom. Stop — do not route to the hierarchy.
    - **Quick path** (proceed to Step 4): Clear actor, clear goal, unambiguous outcome. The requirement can be matched against the hierarchy without exploration.
    - **Discovery path** (proceed to Step 2): Vague, new domain, significant new capability, or unclear what success looks like. The requirement needs to be understood before it can be placed.
 
