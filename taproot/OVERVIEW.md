@@ -36,7 +36,8 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[agent-support-tiers](./agent-integration/agent-support-tiers/usecase.md)** `[implemented]` — Actor: Developer selecting an AI coding agent to use with taproot
   - [cli-command](./agent-integration/agent-support-tiers/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 - **[autonomous-execution](./agent-integration/autonomous-execution/usecase.md)** `[specified]` — Actor: Developer (or orchestrator) who delegates a taproot task to an agent and steps away — returning to completed work rather than supervising each step
-- **[configuration-discoverability](./agent-integration/configuration-discoverability/usecase.md)** `[specified]` — Actor: AI coding agent — given a natural-language configuration task ("configure taproot for German", "add vocabulary overrides for book authoring") by the developer
+- **[configuration-discoverability](./agent-integration/configuration-discoverability/usecase.md)** `[implemented]` — Actor: AI coding agent — given a natural-language configuration task ("configure taproot for German", "add vocabulary overrides for book authoring") by the developer
+  - [cli-command](./agent-integration/configuration-discoverability/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 - **[generate-agent-adapter](./agent-integration/generate-agent-adapter/usecase.md)** `[implemented]` — Actor: Developer initializing taproot for a specific AI coding agent via `taproot init --agent `
   - [cli-command](./agent-integration/generate-agent-adapter/cli-command/impl.md) `[complete]` (4 commits, 2 tests)
 - **[parallel-agent-execution](./agent-integration/parallel-agent-execution/usecase.md)** `[specified]` — Actor: Developer or orchestrator running multiple taproot implementation tasks in parallel across the same codebase
@@ -205,4 +206,4 @@ _No behaviours yet._
 _No behaviours yet._
 
 ---
-19 intents · 52 behaviours · 50 implementations · 49/50 complete
+19 intents · 52 behaviours · 51 implementations · 50/51 complete

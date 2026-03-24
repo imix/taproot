@@ -17,6 +17,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `c24280dc5473ee636a5fe5c19fb93298f00c5814` — (auto-linked by taproot link-commits)
+- `497bb29339f3f330eb4422ba8cfa1a2a0da4483f` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/configuration.test.ts` — covers: `buildConfigurationMd()` content (language, vocabulary, definitionOfDone, definitionOfReady, update-required annotations, examples); `taproot update` writes CONFIGURATION.md (AC-6); `taproot update` refreshes it on second run (AC-7); `taproot --help` footer contains settings.yaml and CONFIGURATION.md references (AC-2)
