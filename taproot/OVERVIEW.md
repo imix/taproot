@@ -33,12 +33,12 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 - **[agent-agnostic-language](./agent-integration/agent-agnostic-language/usecase.md)** `[implemented]` — Actor: Developer writing or reviewing a taproot spec, skill, or documentation file
   - [settings-wiring](./agent-integration/agent-agnostic-language/settings-wiring/impl.md) `[complete]` (2 commits ⚠ no tests)
-- **[agent-support-tiers](./agent-integration/agent-support-tiers/usecase.md)** `[specified]` — Actor: Developer selecting an AI coding agent to use with taproot
+- **[agent-support-tiers](./agent-integration/agent-support-tiers/usecase.md)** `[implemented]` — Actor: Developer selecting an AI coding agent to use with taproot
   - [cli-command](./agent-integration/agent-support-tiers/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 - **[autonomous-execution](./agent-integration/autonomous-execution/usecase.md)** `[specified]` — Actor: Developer (or orchestrator) who delegates a taproot task to an agent and steps away — returning to completed work rather than supervising each step
 - **[configuration-discoverability](./agent-integration/configuration-discoverability/usecase.md)** `[specified]` — Actor: AI coding agent — given a natural-language configuration task ("configure taproot for German", "add vocabulary overrides for book authoring") by the developer
 - **[generate-agent-adapter](./agent-integration/generate-agent-adapter/usecase.md)** `[implemented]` — Actor: Developer initializing taproot for a specific AI coding agent via `taproot init --agent `
-  - [cli-command](./agent-integration/generate-agent-adapter/cli-command/impl.md) `[complete]` (3 commits, 2 tests)
+  - [cli-command](./agent-integration/generate-agent-adapter/cli-command/impl.md) `[complete]` (4 commits, 2 tests)
 - **[parallel-agent-execution](./agent-integration/parallel-agent-execution/usecase.md)** `[specified]` — Actor: Developer or orchestrator running multiple taproot implementation tasks in parallel across the same codebase
 - **[update-adapters-and-skills](./agent-integration/update-adapters-and-skills/usecase.md)** `[implemented]` — Actor: Developer running `taproot update` after upgrading taproot or modifying skill definitions
   - [cli-command](./agent-integration/update-adapters-and-skills/cli-command/impl.md) `[complete]` (0 commits, 1 test)
