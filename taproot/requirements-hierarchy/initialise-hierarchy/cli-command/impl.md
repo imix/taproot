@@ -29,6 +29,8 @@
 
 ## DoD Resolutions
 - condition: gemini-toml-fix | note: src/adapters/index.ts updated to fix Gemini TOML format — removed invalid [command] section and name field; top-level prompt and description only. | resolved: 2026-03-21
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: COMPLIANT — src/adapters/index.ts changes add buildConfigQuickRef() (generic language only) and per-adapter reference files. Adapter-specific files (.claude/commands/, .gemini/commands/) are explicitly excluded from the agent-agnostic-language standard per its Scope section. | resolved: 2026-03-24T14:50:47.064Z
+
 - condition: gemini-skills-install | note: src/commands/init.ts updated so gemini agent triggers skill installation (needsSkills includes 'gemini'). test/integration/init.test.ts updated with test asserting skills are installed for gemini. | resolved: 2026-03-21
 - condition: no-git-abort | note: AC-13 implemented — runInit throws if .git absent. test/integration/init.test.ts: AC-13 test added. test/integration/adapters.test.ts, phase5.test.ts: beforeEach updated to create .git. | resolved: 2026-03-21
 - condition: sweep-update | note: src/adapters/index.ts updated to add 'sweep' to TREE_MODIFYING_SKILLS; src/commands/init.ts updated to add 'sweep.md' to SKILL_FILES — both changes required for /tr-sweep skill distribution via taproot update | resolved: 2026-03-20T16:00:00.000Z

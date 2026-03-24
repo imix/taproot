@@ -70,4 +70,5 @@
 - condition: check-if-affected: skills/guide.md | note: NOT AFFECTED — guide.md describes workflow commands and the three-layer hierarchy. It does not document configuration options or language settings. No update needed. | resolved: 2026-03-23T12:18:03.390Z
 
 - condition: check-if-affected: src/commands/update.ts | note: YES — modified: added language pack validation at start of runUpdate (aborts with error for unknown codes), loads pack and passes to installSkills(). Changes are complete. | resolved: 2026-03-23T12:17:58.425Z
+- condition: verified-unaffected-by: agent-integration/generate-agent-adapter configuration-quick-ref addition | note: buildConfigQuickRef() addition to src/adapters/index.ts does not affect language substitution logic — language.ts and substituteTokens() are unchanged. Configuration Quick Reference content uses generic language with no pack-substitutable tokens. | resolved: 2026-03-24
 

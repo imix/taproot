@@ -29,6 +29,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-24
+- **Last verified:** 2026-03-24
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — applyVocabulary() is pure logic in src/core/language.ts (no I/O). Empty-value validation and vocabulary loading happen in src/commands/update.ts at the command boundary. Config is loaded once at entry and passed down. Follows exact same pattern as language pack substitution. | resolved: 2026-03-24

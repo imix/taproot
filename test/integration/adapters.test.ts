@@ -266,6 +266,74 @@ describe('generic adapter', () => {
   });
 });
 
+// ─── AC-15: Configuration Quick Reference ─────────────────────────────────────
+
+describe('AC-15: Configuration Quick Reference', () => {
+  it('claude adapter: tr-taproot.md contains Configuration Quick Reference with required keys', () => {
+    generateAdapters('claude', tmpDir);
+    const refPath = join(tmpDir, '.claude', 'commands', 'tr-taproot.md');
+    expect(existsSync(refPath)).toBe(true);
+    const content = readFileSync(refPath, 'utf-8');
+    expect(content).toContain('Configuration Quick Reference');
+    expect(content).toContain('`language`');
+    expect(content).toContain('`vocabulary`');
+    expect(content).toContain('`definitionOfDone`');
+    expect(content).toContain('.taproot/CONFIGURATION.md');
+  });
+
+  it('cursor adapter: taproot.md contains Configuration Quick Reference with required keys', () => {
+    generateAdapters('cursor', tmpDir);
+    const content = readFileSync(join(tmpDir, '.cursor', 'rules', 'taproot.md'), 'utf-8');
+    expect(content).toContain('Configuration Quick Reference');
+    expect(content).toContain('`language`');
+    expect(content).toContain('`vocabulary`');
+    expect(content).toContain('`definitionOfDone`');
+    expect(content).toContain('.taproot/CONFIGURATION.md');
+  });
+
+  it('copilot adapter: copilot-instructions.md contains Configuration Quick Reference with required keys', () => {
+    generateAdapters('copilot', tmpDir);
+    const content = readFileSync(join(tmpDir, '.github', 'copilot-instructions.md'), 'utf-8');
+    expect(content).toContain('Configuration Quick Reference');
+    expect(content).toContain('`language`');
+    expect(content).toContain('`vocabulary`');
+    expect(content).toContain('`definitionOfDone`');
+    expect(content).toContain('.taproot/CONFIGURATION.md');
+  });
+
+  it('windsurf adapter: .windsurfrules contains Configuration Quick Reference with required keys', () => {
+    generateAdapters('windsurf', tmpDir);
+    const content = readFileSync(join(tmpDir, '.windsurfrules'), 'utf-8');
+    expect(content).toContain('Configuration Quick Reference');
+    expect(content).toContain('`language`');
+    expect(content).toContain('`vocabulary`');
+    expect(content).toContain('`definitionOfDone`');
+    expect(content).toContain('.taproot/CONFIGURATION.md');
+  });
+
+  it('gemini adapter: tr-taproot.toml contains Configuration Quick Reference with required keys', () => {
+    generateAdapters('gemini', tmpDir);
+    const refPath = join(tmpDir, '.gemini', 'commands', 'tr-taproot.toml');
+    expect(existsSync(refPath)).toBe(true);
+    const content = readFileSync(refPath, 'utf-8');
+    expect(content).toContain('Configuration Quick Reference');
+    expect(content).toContain('language');
+    expect(content).toContain('vocabulary');
+    expect(content).toContain('definitionOfDone');
+    expect(content).toContain('CONFIGURATION.md');
+  });
+
+  it('generic adapter: AGENTS.md contains Configuration Quick Reference with required keys', () => {
+    generateAdapters('generic', tmpDir);
+    const content = readFileSync(join(tmpDir, 'AGENTS.md'), 'utf-8');
+    expect(content).toContain('Configuration Quick Reference');
+    expect(content).toContain('`language`');
+    expect(content).toContain('`vocabulary`');
+    expect(content).toContain('`definitionOfDone`');
+    expect(content).toContain('.taproot/CONFIGURATION.md');
+  });
+});
+
 // ─── --agent all ──────────────────────────────────────────────────────────────
 
 describe('--agent all', () => {
