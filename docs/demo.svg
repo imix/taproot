@@ -69,7 +69,7 @@
 
     <!-- /tr-ineed -->
     <g class="clip7" transform="translate(0,126)">
-      <text><tspan fill="#7eca5c">claude</tspan><tspan fill="#666"> › </tspan><tspan fill="#e8e8e8">/tr-ineed I need user authentication</tspan></text>
+      <text><tspan fill="#7eca5c">claude</tspan><tspan fill="#666"> › </tspan><tspan fill="#e8e8e8">/tr-ineed user authentication</tspan></text>
     </g>
     <g class="clip8" transform="translate(0,148)">
       <text><tspan fill="#569cd6">Actor:  </tspan><tspan fill="#e8e8e8">Developer signing in for the first time</tspan></text>
