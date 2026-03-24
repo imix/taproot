@@ -1,6 +1,6 @@
 {
   "name": "@imix-js/taproot",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Folder-based requirement hierarchy with CLI validation and AI skills",
   "type": "module",
   "bin": {
