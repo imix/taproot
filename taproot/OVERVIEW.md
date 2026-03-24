@@ -108,7 +108,7 @@ _No behaviours yet._
 
 **Goal:** Enable any developer who discovers taproot to immediately understand what it is, who it's for, and why it matters — so they feel motivated to try it rather than moving on.
 
-- **[welcoming-readme](./project-presentation/welcoming-readme/usecase.md)** `[implemented]` — Actor: Developer discovering taproot for the first time
+- **[welcoming-readme](./project-presentation/welcoming-readme/usecase.md)** `[specified]` — Actor: Developer discovering taproot for the first time
   - [content](./project-presentation/welcoming-readme/content/impl.md) `[complete]` (2 commits ⚠ no tests)
 
 ## [quality-gates](./quality-gates/intent.md) `[active]`

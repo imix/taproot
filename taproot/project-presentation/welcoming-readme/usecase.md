@@ -6,29 +6,38 @@ Developer discovering taproot for the first time
 ## Preconditions
 - `README.md` exists in the taproot repository root
 - The README is rendered on the GitHub repository landing page
+- A terminal animation asset (SVG or GIF) exists showing the end-to-end taproot workflow
 
 ## Main Flow
-1. Visitor lands on the taproot GitHub page and reads the opening — a clear, compelling statement of the pain point taproot solves (AI-assisted coding loses track of *why* code exists)
-2. Visitor reads the one-line value proposition and immediately understands what taproot is
-3. Visitor scans the design principles — filesystem-based, agent-agnostic, CLI-validated — and judges fit for their project
-4. Visitor reads the Quick Start section and runs the three-step install
-5. Visitor runs `taproot init --agent <agent>` in their project and installs their agent adapter
-6. Visitor runs `/tr-guide` in their agent for the onboarding walkthrough
-7. Visitor sees a reference to taproot tracking itself (OVERVIEW.md) and follows it as a live example
+1. Visitor lands on the taproot GitHub page and immediately sees a terminal animation playing the taproot workflow — `npx taproot init`, then `claude`, then `/tr-ineed I need…`, a spec being written, and a commit gated by `taproot dod` — before reading a single line of prose
+2. Visitor reads the punchy headline beneath the animation and immediately understands what taproot does and why it matters
+3. Visitor reads the pain point hook — a concrete statement of the problem AI-assisted coding creates (agents generate code fast, but six months later nobody knows *why* a module exists)
+4. Visitor reads the one-line value proposition and the three design principles — filesystem-based, agent-agnostic, CLI-validated — and judges fit for their project
+5. Visitor reads the Quick Start section and runs the install steps
+6. Visitor runs `taproot init --agent <agent>` in their project and installs their agent adapter
+7. Visitor runs `/tr-guide` in their agent for the onboarding walkthrough
+8. Visitor sees a reference to taproot tracking itself (OVERVIEW.md) and follows it as a live example
 
 ## Alternate Flows
+
+### Visitor is persuaded by the animation before reading prose
+- **Trigger:** The animation communicates the value faster than the written copy
+- **Steps:**
+  1. Visitor watches the animation loop through the workflow
+  2. Visitor understands "this is an AI-native requirements tool" from the animation alone
+  3. Visitor skips directly to Quick Start without reading the Why section
 
 ### Evaluator skips to proof
 - **Trigger:** Visitor is an engineering lead who wants evidence of maturity before reading further
 - **Steps:**
   1. Visitor sees the "Taproot tracks itself" section and follows the OVERVIEW.md link
-  2. Visitor sees 45+ implemented behaviours and recognises the tool is production-ready
+  2. Visitor sees 50+ implemented behaviours and recognises the tool is production-ready
   3. Visitor returns to the README and continues with the Quick Start
 
 ### Visitor wants to understand before installing
 - **Trigger:** Visitor reads the Why section and wants more depth before committing to an install
 - **Steps:**
-  1. Visitor follows a link in the README to `docs/concepts.md` or `docs/workflows.md`
+  1. Visitor follows a link in the README to `docs/guide.md` or `docs/cli.md`
   2. Visitor returns to the README Quick Start when ready
 
 ### Visitor decides taproot is not a fit
@@ -41,25 +50,29 @@ Developer discovering taproot for the first time
 - Visitor can describe what taproot is and who it's for without reading any other document
 - Visitor has either completed `taproot init` or made an informed decision not to
 - The README accurately reflects taproot's actual capability (not just the minimal quick-start)
+- The animation asset is maintained and reflects the current CLI and skill command names
 
 ## Error Conditions
 - **README becomes stale after feature additions:** Mitigated by the `document-current` DoD condition already enforced on all implementations — README accuracy is a resolved cross-cutting concern
 - **Quick Start steps break after a dependency change:** If the install instructions in the README no longer work, a first-time visitor is immediately blocked — this is a critical failure; install steps must be verified with each release
+- **Animation shows outdated commands:** If `taproot init` syntax or skill names change, the animation becomes misleading — animation source must be updated alongside CLI changes
 
 ## Flow
 ```mermaid
 flowchart TD
-    A[Visitor lands on GitHub page] --> B[Reads opening: pain point hook]
-    B --> C[Reads value proposition — understands what taproot is]
-    C --> D{Convinced enough to try?}
-    D -- yes --> E[Reads Quick Start]
-    D -- wants proof first --> F[Follows OVERVIEW.md link]
-    F --> G[Sees 45+ implemented behaviours]
-    G --> E
-    D -- not a fit --> H[Leaves informed — README was accurate]
-    E --> I[Runs taproot init --agent]
-    I --> J[Runs /tr-guide in agent]
-    J --> K[Visitor is onboarded]
+    A[Visitor lands on GitHub page] --> B[Sees terminal animation playing]
+    B --> C{Animation persuasive enough?}
+    C -- yes --> E[Skips to Quick Start]
+    C -- wants more --> D[Reads pain point hook + value proposition]
+    D --> F{Convinced enough to try?}
+    F -- yes --> E
+    F -- wants proof first --> G[Follows OVERVIEW.md link]
+    G --> H[Sees 50+ implemented behaviours]
+    H --> E
+    F -- not a fit --> I[Leaves informed — README was accurate]
+    E --> J[Runs taproot init --agent]
+    J --> K[Runs /tr-guide in agent]
+    K --> L[Visitor is onboarded]
 ```
 
 ## Related
@@ -94,21 +107,38 @@ flowchart TD
 - When a developer attempts to use that feature after install
 - Then the feature exists and behaves as described — no aspirational or placeholder content
 
+**AC-6: Terminal animation present in first viewport**
+- Given a visitor on the GitHub repository landing page
+- When the page loads
+- Then a terminal animation is visible without scrolling, showing the end-to-end taproot workflow: `npx taproot init` → agent launch → `/tr-ineed` → spec written → commit gated by `taproot dod`
+
+**AC-7: Marketing copy conveys emotional benefit, not just capability**
+- Given a visitor who skims rather than reads
+- When they scan the headline and first two sections
+- Then the copy conveys what it *feels like* to use taproot — requirements that survive the conversation, agents that remember why code exists — not just a feature list
+
 **NFR-1: README renders without broken syntax on GitHub**
 - Given the README.md content pushed to the repository
 - When GitHub renders it on the repository landing page
 - Then all Markdown elements (code blocks, headers, lists, links) render correctly with no raw syntax visible
 
+**NFR-2: Animation renders on GitHub without JavaScript**
+- Given the animation asset embedded in README.md
+- When GitHub renders the page
+- Then the animation displays correctly as a native SVG animation or GIF — no iframe, no video tag, no JavaScript required
+
 ## Implementations <!-- taproot-managed -->
 - [README Content](./content/impl.md)
 
 ## Status
-- **State:** implemented
+- **State:** specified
 - **Created:** 2026-03-21
-- **Last reviewed:** 2026-03-21
+- **Last reviewed:** 2026-03-24
 
 ## Notes
 - The README is the only document a first-time visitor reads before deciding whether to install — it carries more weight than any other doc in the project.
 - Inspiration: GSD README (bold problem-first opening, punchy feature bullets with em-dashes, numbered CLI workflow steps) and OpenSpec README (stated design philosophy early, competitive positioning, conversational problem framing).
-- The README should reflect the real maturity of the project: 45 behaviours, agent tiers, DoD/DoR gates, acceptance criteria traceability — not just the minimal "here's a tree" quick-start.
+- The README should reflect the real maturity of the project: 50+ behaviours, agent tiers, DoD/DoR gates, acceptance criteria traceability — not just the minimal "here's a tree" quick-start.
 - The "Taproot tracks itself" section is a key trust signal — it shows that the tool is used in production on its own codebase.
+- Animation tooling options: VHS (generates SVG from a `.tape` script — preferred for maintainability), `svg-term-cli` (converts Asciinema recordings), or a hand-crafted animated SVG. VHS is recommended — the `.tape` source lives in the repo and can be re-rendered when CLI syntax changes.
+- The animation should show the *feeling* of using taproot: fast, structured, AI-native — not a comprehensive feature demo.
