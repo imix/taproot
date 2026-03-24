@@ -9,24 +9,28 @@
 - Skills are always refreshed when a Claude adapter is detected; for other agents, skills are refreshed only if already installed — avoids installing skills that weren't opted into
 - `--with-hooks` installs `.git/hooks/pre-commit` (as `taproot commithook`) if it doesn't already exist; reports `exists` if already present
 - Old hook content (`validate-structure`/`validate-format`) is auto-detected and migrated to `taproot commithook` unconditionally during `removeStale()` — no flag required, treated as a stale artefact
+- Docs are distributed to `.taproot/docs/` (not `docs/`) — keeps taproot-managed content under `.taproot/`, avoids polluting the user project's `docs/` folder; `installDocs()` copies all `.md` files from the bundled `docs/` directory with no allowlist (all docs are relevant agent reference material)
 
 ## Source Files
-- `src/commands/update.ts` — stale removal, adapter regeneration, skill refresh, overview regeneration
+- `src/commands/update.ts` — stale removal, adapter regeneration, skill + docs refresh, overview regeneration
+- `src/commands/init.ts` — `installDocs()` function + `BUNDLED_DOCS_DIR` constant; called from `runInit()` and imported by `update.ts`
+- `package.json` — `"docs/"` added to `files` so docs are included in the published npm package
 
 ## Commits
 - (run `taproot link-commits` to populate)
 
 ## Tests
-- `test/integration/update.test.ts` — covers stale path removal, idempotency, hook migration from old content, --with-hooks install, --with-hooks exists
+- `test/integration/update.test.ts` — covers stale path removal, idempotency, hook migration from old content, --with-hooks install, --with-hooks exists; docs installation to .taproot/docs/, docs refresh on re-run
 
 ## Status
-- **State:** complete
+- **State:** needs-rework
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-24
 - condition: fix-update-skill-overwrite | note: update.ts now calls installSkills(skillsDir, true) — force=true overwrites existing .taproot/skills/ files so package updates are reflected; init still uses force=false (create-only) | resolved: 2026-03-20
 
 ## DoD Resolutions
 - condition: document-current | note: no docs change needed — force-overwrite of skills on update is an internal implementation detail; README and docs/agents.md describe what taproot update does (refreshes skills), not how it detects changes | resolved: 2026-03-20T20:55:08.050Z
+
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: STILL COMPLIANT — vocabulary pass added to update.ts follows same architecture as language pack: config loaded once, passed down, empty-value check at command boundary before any I/O. | resolved: 2026-03-24T13:11:54.451Z
 
 - condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: NOT APPLICABLE — this implementation is taproot CLI source code (src/commands/update.ts). agent-agnostic-language applies to shared skill and spec markdown files. No implicit Claude assumptions or @{project-root} syntax in this implementation. | resolved: 2026-03-23T12:22:35.339Z
