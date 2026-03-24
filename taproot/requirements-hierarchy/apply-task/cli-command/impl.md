@@ -37,6 +37,8 @@
 
 ## DoD Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — stateless CLI command; external I/O (file reads/writes, agent spawn) in src/commands/apply.ts at command boundary; core logic (validation, diff) inline in command handler (no separate core module needed at this size); no global mutable state; error messages are actionable | resolved: 2026-03-20T15:36:07.435Z
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: NOT APPLICABLE — src/cli.ts addHelpText change is a CLI binary modification, not a skill file. The generated --help text uses generic language only. | resolved: 2026-03-24T15:10:05.832Z
+
 - condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — apply-task is a deferred CLI command; commit-awareness governs skills/*.md files with git commit steps. Not applicable. | resolved: 2026-03-21T09:49:38.215Z
 
 - condition: no-raw-exceptions | note: src/cli.ts updated to use parseAsync().catch() — all CLI errors now printed as clean messages; stack traces never shown to users. Not applicable to apply-task CLI logic itself. | resolved: 2026-03-21T09:49:12.446Z

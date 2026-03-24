@@ -1,5 +1,11 @@
 # Configuration
 
+## Quick discovery
+
+- **In your project:** `.taproot/CONFIGURATION.md` — installed and refreshed by `taproot update`, documents all `settings.yaml` options with examples and whether each requires re-running `taproot update`
+- **From the CLI:** `taproot --help` includes a footer pointing to `.taproot/settings.yaml` and `.taproot/CONFIGURATION.md`
+- **Full reference:** this document
+
 ## `.taproot/settings.yaml`
 
 Created by `taproot init`. All settings have defaults — you only need to add what you want to override.

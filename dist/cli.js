@@ -17,7 +17,8 @@ const program = new Command();
 program
     .name('taproot')
     .description('Folder-based requirement hierarchy CLI')
-    .version('0.1.0');
+    .version('0.1.0')
+    .addHelpText('after', '\nConfiguration: edit .taproot/settings.yaml — see .taproot/CONFIGURATION.md for all options');
 registerInit(program);
 registerValidateStructure(program);
 registerValidateFormat(program);

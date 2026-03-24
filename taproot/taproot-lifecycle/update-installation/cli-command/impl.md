@@ -50,4 +50,5 @@
 - condition: check-if-affected: skills/guide.md | note: not affected — guide.md describes what /tr-update does for users, not the internal copy logic | resolved: 2026-03-20T20:55:08.517Z
 
 - condition: check-if-affected: src/commands/update.ts | note: update.ts is the source file changed; now calls installSkills(skillsDir, true) to force-overwrite skills on update | resolved: 2026-03-20T20:55:08.282Z
+- condition: verified-unaffected-by: configuration-discoverability CONFIGURATION.md addition | note: buildConfigurationMd() call added to update.ts is unrelated to stale-path removal, hook migration, and version migration logic owned by this behaviour. Lifecycle behaviour unchanged. | resolved: 2026-03-24
 

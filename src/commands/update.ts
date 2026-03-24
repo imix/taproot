@@ -1,5 +1,6 @@
 import { existsSync, rmSync, readdirSync, readFileSync, writeFileSync, unlinkSync, mkdirSync, renameSync } from 'fs';
 import { join, dirname, relative, resolve } from 'path';
+import { buildConfigurationMd } from '../core/configuration.js';
 import type { Command } from 'commander';
 import { generateAdapters, type AgentName } from '../adapters/index.js';
 import { installSkills, SKILL_FILES } from './init.js';
@@ -297,6 +298,20 @@ export async function runUpdate(options: { cwd?: string; withHooks?: boolean }):
   if (agents.includes('claude') || hasInstalledSkills) {
     messages.push('');
     messages.push(...installSkills(skillsDir, true, pack, vocab));
+  }
+
+  // Install or refresh .taproot/CONFIGURATION.md (AC-6/AC-7 of update-adapters-and-skills)
+  const taprootConfigDir = join(cwd, '.taproot');
+  const configMdPath = join(taprootConfigDir, 'CONFIGURATION.md');
+  try {
+    mkdirSync(taprootConfigDir, { recursive: true });
+    const content = buildConfigurationMd();
+    const existed = existsSync(configMdPath);
+    writeFileSync(configMdPath, content, 'utf-8');
+    messages.push('');
+    messages.push(`${existed ? 'updated' : 'created'}  .taproot/CONFIGURATION.md`);
+  } catch (err) {
+    messages.push(`warning  Could not write .taproot/CONFIGURATION.md: ${(err as Error).message}`);
   }
 
   // Refresh cross-links (## Behaviours / ## Implementations sections)
