@@ -19,10 +19,11 @@
 - `src/adapters/index.ts` — extend `loadSkills(pack, vocab?)` to apply vocabulary after language pack
 
 ## Commits
-- (run `taproot link-commits` to populate)
+- `e41c5ed903fdc2f79ab058ac28059db0820e75f5` — (auto-linked by taproot link-commits)
+- `731738eeb33a0654bc8a51f3dd94045f3867c8e5` — (auto-linked by taproot link-commits)
 
 ## Tests
-- `test/unit/vocabulary.test.ts` — unit tests: applyVocabulary replaces tokens, declaration-order semantics, longer-key-before-shorter not required (spec says declaration-order), conflict detection warns and skips, empty-string value error, empty vocab no-op, null vocab no-op
+- `test/unit/vocabulary.test.ts` — unit tests: applyVocabulary replaces tokens, declaration-order semantics (prefix of longer key wins if declared first), conflict detection warns and skips, empty-string value error, empty vocab no-op, null vocab no-op
 - `test/integration/domain-vocabulary.test.ts` — integration: AC-1 vocab applied at update, AC-2 re-run reapplies, AC-3 structural keyword conflict warning, AC-4 language pack runs before vocab, AC-5 empty/absent vocab no errors
 
 ## Status
