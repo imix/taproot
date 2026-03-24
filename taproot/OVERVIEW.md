@@ -83,7 +83,7 @@ _No behaviours yet._
 - **[human-readable-report](./human-integration/human-readable-report/usecase.md)** `[implemented]` — Actor: Developer or project stakeholder invoking `/tr-status`
   - [agent-skill](./human-integration/human-readable-report/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
 - **[pattern-hints](./human-integration/pattern-hints/usecase.md)** `[implemented]` — Actor: Agent — processing any user-expressed need via any taproot skill (`/tr-ineed`, `/tr-behaviour`, `/tr-implement`, `/tr-refine`, or any skill that receives a natural language description of intent).
-  - [agent-skill](./human-integration/pattern-hints/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
+  - [agent-skill](./human-integration/pattern-hints/agent-skill/impl.md) `[complete]` (4 commits, 1 test)
 - **[pause-and-confirm](./human-integration/pause-and-confirm/usecase.md)** `[implemented]` — Actor: Developer using any taproot skill that writes more than one document in sequence (primarily `/tr-discover`, `/tr-decompose`, and any future bulk-authoring skill)
   - [discover-and-decompose](./human-integration/pause-and-confirm/discover-and-decompose/impl.md) `[complete]` (2 commits, 1 test)
 - **[route-requirement](./human-integration/route-requirement/usecase.md)** `[implemented]` — Actor: Human orchestrator / developer stating a requirement in natural language — at any level of clarity, from vague instinct to fully-formed specification
@@ -186,20 +186,21 @@ _No behaviours yet._
 - **[domain-vocabulary](./taproot-adaptability/domain-vocabulary/usecase.md)** `[implemented]` — Actor: Developer configuring taproot for a non-development project — book authoring, financial reporting, legal review, or any other domain where dev-specific terms ("tests", "source files", "build", "implementation") don't map to project reality
   - [cli-command](./taproot-adaptability/domain-vocabulary/cli-command/impl.md) `[complete]` (2 commits, 2 tests)
 - **[language-support](./taproot-adaptability/language-support/usecase.md)** `[implemented]` — Actor: Developer configuring taproot for a non-English team — setting `language: de` (or another supported locale) in `settings.yaml` to localise structural elements throughout the hierarchy
-  - [cli-command](./taproot-adaptability/language-support/cli-command/impl.md) `[complete]` (4 commits, 2 tests)
+  - [cli-command](./taproot-adaptability/language-support/cli-command/impl.md) `[complete]` (5 commits, 2 tests)
 
 ## [taproot-distribution](./taproot-distribution/intent.md) `[active]`
 
 **Goal:** Enable the taproot maintainer to publish reliable, tested releases to npm and GitHub through a single repeatable procedure — so that every published version is fully verified, correctly versioned, and accompanied by a changelog and GitHub release.
 
-- **[cut-release](./taproot-distribution/cut-release/usecase.md)** `[specified]` — Actor: - **Maintainer** — runs the local phase (pre-flight, changelog, version bump, tag, push)
+- **[cut-release](./taproot-distribution/cut-release/usecase.md)** `[implemented]` — Actor: - **Maintainer** — runs the local phase (pre-flight, changelog, version bump, tag, push)
+  - [multi-surface](./taproot-distribution/cut-release/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 
 ## [taproot-lifecycle](./taproot-lifecycle/intent.md) `[active]`
 
 **Goal:** Keep an installed taproot setup current as the tool evolves — refreshing skills, regenerating agent adapters, and removing stale artefacts from older versions.
 
 - **[update-installation](./taproot-lifecycle/update-installation/usecase.md)** `[implemented]` — Actor: Developer running `taproot update` after upgrading the taproot package
-  - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
+  - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-18 intents · 53 behaviours · 52 implementations · 51/52 complete
+18 intents · 53 behaviours · 53 implementations · 52/53 complete

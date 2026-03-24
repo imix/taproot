@@ -22,6 +22,8 @@
 - placeholder
 - `66143dba2b4236b46dde2a3f1153f6f857c8e8fc` — (auto-linked by taproot link-commits)
 - `4de58738cb4dd7b89eb15bf5b3469d00b6ce7921` — (auto-linked by taproot link-commits)
+- `ada62f433c025c95704a5e2c58a26ade6f809a58` — (auto-linked by taproot link-commits)
+- `306583b90ddb4d5d94ef4e73b6372bd0a0e67a0d` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/skills.test.ts` — AC-1: docs/patterns.md scan step present in all four skills; AC-2: [A]/[B] choice present; AC-6: skip silently when patterns.md absent (ineed.md); AC-7: [A] does not add hierarchy entry / write usecase.md / modify usecase.md
