@@ -55,6 +55,7 @@ The full list is in [docs/workflows.md](docs/workflows.md).
 
 - **Ask "why does this code exist?"** and get a structured answer — intent, actor, acceptance criteria — not a two-year-old git blame
 - **AI agents generate better code** because they have the business goal alongside the technical context
+- **Requirements always show current state** — when a spec changes, it's refined in place. No amendment chains, no "change request #4 layered on top of #3 layered on top of #2". The document is always the truth as it stands today.
 - **Changes are safer** — trace any file back to its behaviour spec and understand what breaks if you touch it
 - **Nothing drifts silently** — `taproot sync-check` flags source files modified after their spec was last reviewed
 - **Vague specs are caught at commit time** — DoD/DoR gates block incomplete implementations before they merge
