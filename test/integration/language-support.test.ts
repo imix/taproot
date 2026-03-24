@@ -6,7 +6,11 @@ import { runUpdate } from '../../src/commands/update.js';
 import { runInit } from '../../src/commands/init.js';
 import { runValidateFormat } from '../../src/commands/validate-format.js';
 import { checkUsecaseQuality, checkIntentQuality } from '../../src/commands/commithook.js';
+import { runDorChecks } from '../../src/core/dor-runner.js';
+import { checkAcceptanceCriteria } from '../../src/validators/format-rules.js';
 import { loadLanguagePack } from '../../src/core/language.js';
+import { parseMarkdown } from '../../src/core/markdown-parser.js';
+import type { FolderNode } from '../../src/validators/types.js';
 
 function writeSettings(dir: string, extra: Record<string, unknown> = {}): void {
   const base = { version: 1, root: 'taproot/', ...extra };
@@ -155,13 +159,48 @@ Entwickler
 - Nutzer: braucht das
 
 ## Ziel
-Enable teams to do the thing.
+Befähige Teams, die Sache zu erledigen.
 
 ## Erfolgskriterien
 - [ ] criterion one
 `;
     const failures = checkIntentQuality('test/intent.md', content, pack);
     expect(failures).toHaveLength(0);
+  });
+
+  it('AC-3: checkIntentQuality skips verb check for non-English goal when pack is active', () => {
+    const pack = loadLanguagePack('de')!;
+    const content = `# Intent: Test
+
+## Stakeholder
+- Nutzer: braucht das
+
+## Ziel
+Begleite Entwickler durch den Prozess.
+
+## Erfolgskriterien
+- [ ] criterion one
+`;
+    // German verb "Begleite" does not match VERB_STARTS — must pass when pack is active
+    const failures = checkIntentQuality('test/intent.md', content, pack);
+    expect(failures.some(f => f.message.includes('does not start with a verb'))).toBe(false);
+  });
+
+  it('AC-3: checkIntentQuality still fails verb check without pack', () => {
+    const content = `# Intent: Test
+
+## Stakeholders
+- Developer: needs it
+
+## Goal
+Begleite teams through the process.
+
+## Success Criteria
+- [ ] criterion one
+`;
+    // Without pack, German verb must fail English VERB_STARTS
+    const failures = checkIntentQuality('test/intent.md', content, null);
+    expect(failures.some(f => f.message.includes('does not start with a verb'))).toBe(true);
   });
 
   // AC-4: unknown language code aborts, no files modified
@@ -212,5 +251,102 @@ Enable teams to do the thing.
         rmSync(freshDir, { recursive: true, force: true });
       }
     }
+  });
+
+  // AC-3 regression: dor-runner accepts German usecase section headers when language: de
+  it('AC-3: runDorChecks passes for German usecase when language: de is configured', () => {
+    writeSettings(tmpDir, { language: 'de' });
+
+    // Set up minimal hierarchy
+    const intentDir = join(tmpDir, 'taproot', 'my-intent');
+    const behaviourDir = join(intentDir, 'my-behaviour');
+    const implDir = join(behaviourDir, 'my-impl');
+    mkdirSync(implDir, { recursive: true });
+
+    writeFileSync(join(behaviourDir, 'usecase.md'), `# Behaviour: Test
+
+## Akteur
+Entwickler
+
+## Vorbedingungen
+- Angemeldet
+
+## Hauptablauf
+1. Schritt
+
+## Nachbedingungen
+- Erledigt
+
+## Akzeptanzkriterien
+
+**AC-1: Test**
+- Gegeben die Bedingung
+- Wenn die Aktion
+- Dann das Ergebnis
+
+## Zugehörige
+
+## Ablauf
+\`\`\`mermaid
+flowchart TD
+    A --> B
+\`\`\`
+
+## Status
+- **State:** specified
+- **Created:** 2026-03-24
+- **Last reviewed:** 2026-03-24
+`);
+
+    writeFileSync(join(implDir, 'impl.md'), `# Implementation: Test
+
+## Behaviour
+../usecase.md
+
+## Status
+- **State:** in-progress
+- **Created:** 2026-03-24
+`);
+
+    const report = runDorChecks('taproot/my-intent/my-behaviour/my-impl/impl.md', tmpDir);
+    const sectionFailures = report.results.filter(r =>
+      r.name.startsWith('section-') && !r.passed
+    );
+    expect(sectionFailures).toHaveLength(0);
+  });
+
+  // AC-3 regression: checkAcceptanceCriteria accepts German AC heading with pack
+  it('AC-3: checkAcceptanceCriteria passes for ## Akzeptanzkriterien when German pack is active', () => {
+    const pack = loadLanguagePack('de')!;
+    const content = `# Behaviour: Test
+
+## Akzeptanzkriterien
+
+**AC-1: Test**
+- Gegeben die Bedingung
+- Wenn die Aktion
+- Dann das Ergebnis
+`;
+    const doc = parseMarkdown('test/usecase.md', content);
+    const implChild = { name: 'my-impl', absolutePath: '/tmp/my-impl', relativePath: 'my-impl', marker: 'impl' as const, markerFiles: ['impl.md'], children: [], parent: null, depth: 3, hasDescendantWithMarker: false };
+    const node = { name: 'my-behaviour', absolutePath: '/tmp/my-behaviour', relativePath: 'my-behaviour', marker: 'behaviour' as const, markerFiles: ['usecase.md'], children: [implChild], parent: null, depth: 2, hasDescendantWithMarker: true };
+    const violations = checkAcceptanceCriteria(doc, node, pack);
+    expect(violations.some(v => v.code === 'MISSING_ACCEPTANCE_CRITERIA')).toBe(false);
+  });
+
+  it('AC-3: checkAcceptanceCriteria reports missing AC for German doc without pack', () => {
+    const content = `# Behaviour: Test
+
+## Akzeptanzkriterien
+
+**AC-1: Test**
+- Gegeben die Bedingung
+`;
+    const doc = parseMarkdown('test/usecase.md', content);
+    const implChild = { name: 'my-impl', absolutePath: '/tmp/my-impl', relativePath: 'my-impl', marker: 'impl' as const, markerFiles: ['impl.md'], children: [], parent: null, depth: 3, hasDescendantWithMarker: false };
+    const node = { name: 'my-behaviour', absolutePath: '/tmp/my-behaviour', relativePath: 'my-behaviour', marker: 'behaviour' as const, markerFiles: ['usecase.md'], children: [implChild], parent: null, depth: 2, hasDescendantWithMarker: true };
+    // Without pack, expects English 'acceptance criteria' key — German heading not found
+    const violations = checkAcceptanceCriteria(doc, node, null);
+    expect(violations.some(v => v.code === 'MISSING_ACCEPTANCE_CRITERIA')).toBe(true);
   });
 });

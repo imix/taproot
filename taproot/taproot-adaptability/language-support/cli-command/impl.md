@@ -47,6 +47,30 @@
 
 ## DoD Resolutions
 - condition: document-current | note: Updated docs/configuration.md: added language: field to settings.yaml example, added ## Language section documenting all 5 supported codes, what gets localised, and the unknown-code abort behaviour | resolved: 2026-03-23T12:17:50.488Z
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — the localizedSectionKey() helper is internal to dor-runner.ts; not a reusable pattern worth extracting. | resolved: 2026-03-24T17:01:14.510Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — bug fixes to three existing surfaces; no new cross-cutting pattern introduced. | resolved: 2026-03-24T17:01:14.271Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — localizedSectionKey() helper added to dor-runner.ts follows the same pure-logic pattern as language.ts. Pack I/O stays at command boundary (loadConfig/loadLanguagePack called inside runDorChecks, which is invoked from commithook.ts). No architectural constraint violated. | resolved: 2026-03-24T17:01:14.028Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: NOT APPLICABLE — no skill files created or modified. | resolved: 2026-03-24T17:01:13.793Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: NOT APPLICABLE — no skill files created or modified. | resolved: 2026-03-24T17:01:13.544Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: NOT APPLICABLE — no skill files created or modified. | resolved: 2026-03-24T17:01:13.307Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: NOT APPLICABLE — no skill files created or modified; no document writes in CLI paths. | resolved: 2026-03-24T17:01:13.069Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: NOT APPLICABLE — no skill files created or modified. | resolved: 2026-03-24T17:01:12.840Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: NOT APPLICABLE — this implementation is source code only, no skill files created or modified. | resolved: 2026-03-24T17:01:12.606Z
+
+- condition: check-if-affected: skills/guide.md | note: NOT AFFECTED — guide.md describes workflow; no new commands or user-facing capabilities added. | resolved: 2026-03-24T17:01:12.365Z
+
+- condition: check-if-affected: src/commands/update.ts | note: NOT AFFECTED — update.ts installs skills with pack substitution; the bug fixes are in quality-check logic only, no change to update flow. | resolved: 2026-03-24T17:01:12.121Z
+
+- condition: document-current | note: NOT AFFECTED — no new CLI commands or config options. The bug fixes are internal to commithook.ts, dor-runner.ts, and format-rules.ts. docs/configuration.md language: section remains accurate. | resolved: 2026-03-24T17:01:11.875Z
+
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: STILL COMPLIANT — domain-vocabulary addition follows the same architecture: applyVocabulary() is pure logic in src/core/language.ts; vocabulary loading and validation at command boundaries in update.ts and adapters/index.ts. | resolved: 2026-03-24T13:11:53.170Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — the language pack mechanism is specific to taproot's structural vocabulary substitution. It is not a general pattern applicable to other implementations in this codebase. | resolved: 2026-03-23T12:18:51.241Z

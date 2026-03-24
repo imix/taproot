@@ -233,9 +233,11 @@ function checkManagedSection(
 export function checkAcceptanceCriteria(
   doc: ParsedMarkdown,
   node: FolderNode,
+  pack?: LanguagePack | null,
 ): Violation[] {
   const hasImplChildren = node.children.some(c => c.marker === 'impl');
-  const criteriaSection = doc.sections.get('acceptance criteria');
+  const acKey = pack ? (pack['Acceptance Criteria']?.toLowerCase() ?? 'acceptance criteria') : 'acceptance criteria';
+  const criteriaSection = doc.sections.get(acKey);
 
   if (hasImplChildren && !criteriaSection) {
     return [{
@@ -287,7 +289,7 @@ export function validateFormat(
   }
   if (markerType === 'behaviour') {
     violations.push(...checkDiagramSection(doc));
-    if (node) violations.push(...checkAcceptanceCriteria(doc, node));
+    if (node) violations.push(...checkAcceptanceCriteria(doc, node, pack));
   }
   if (node) {
     violations.push(...checkLinkSection(doc, node));

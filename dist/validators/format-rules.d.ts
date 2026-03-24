@@ -6,5 +6,5 @@ export declare function checkDateFormat(doc: ParsedMarkdown, config: TaprootConf
 export declare function checkBehaviourReference(doc: ParsedMarkdown, implFilePath: string): Violation[];
 export declare function checkDiagramSection(doc: ParsedMarkdown): Violation[];
 export declare function checkLinkSection(doc: ParsedMarkdown, node: FolderNode): Violation[];
-export declare function checkAcceptanceCriteria(doc: ParsedMarkdown, node: FolderNode): Violation[];
+export declare function checkAcceptanceCriteria(doc: ParsedMarkdown, node: FolderNode, pack?: LanguagePack | null): Violation[];
 export declare function validateFormat(doc: ParsedMarkdown, markerType: MarkerType, config: TaprootConfig, node?: FolderNode, pack?: LanguagePack | null): Violation[];

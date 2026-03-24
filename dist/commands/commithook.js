@@ -158,7 +158,7 @@ export function checkIntentQuality(filePath, content, pack = null) {
     }
     else {
         const firstLine = goalBody.trim().split('\n')[0].trim();
-        if (!VERB_STARTS.test(firstLine)) {
+        if (!pack && !VERB_STARTS.test(firstLine)) {
             failures.push({
                 file: filePath,
                 message: `Goal does not start with a verb: "${firstLine}"`,

@@ -180,9 +180,10 @@ function checkManagedSection(doc, sectionKey, sectionTitle, hasChildren) {
     }
     return violations;
 }
-export function checkAcceptanceCriteria(doc, node) {
+export function checkAcceptanceCriteria(doc, node, pack) {
     const hasImplChildren = node.children.some(c => c.marker === 'impl');
-    const criteriaSection = doc.sections.get('acceptance criteria');
+    const acKey = pack ? (pack['Acceptance Criteria']?.toLowerCase() ?? 'acceptance criteria') : 'acceptance criteria';
+    const criteriaSection = doc.sections.get(acKey);
     if (hasImplChildren && !criteriaSection) {
         return [{
                 type: 'warning',
@@ -224,7 +225,7 @@ export function validateFormat(doc, markerType, config, node, pack) {
     if (markerType === 'behaviour') {
         violations.push(...checkDiagramSection(doc));
         if (node)
-            violations.push(...checkAcceptanceCriteria(doc, node));
+            violations.push(...checkAcceptanceCriteria(doc, node, pack));
     }
     if (node) {
         violations.push(...checkLinkSection(doc, node));

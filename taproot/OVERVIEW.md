@@ -87,7 +87,7 @@ _No behaviours yet._
 - **[pause-and-confirm](./human-integration/pause-and-confirm/usecase.md)** `[implemented]` — Actor: Developer using any taproot skill that writes more than one document in sequence (primarily `/tr-discover`, `/tr-decompose`, and any future bulk-authoring skill)
   - [discover-and-decompose](./human-integration/pause-and-confirm/discover-and-decompose/impl.md) `[complete]` (2 commits, 1 test)
 - **[route-requirement](./human-integration/route-requirement/usecase.md)** `[implemented]` — Actor: Human orchestrator / developer stating a requirement in natural language — at any level of clarity, from vague instinct to fully-formed specification
-  - [agent-skill](./human-integration/route-requirement/agent-skill/impl.md) `[complete]` (1 commit, 1 test)
+  - [agent-skill](./human-integration/route-requirement/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 
 ## [implementation-planning](./implementation-planning/intent.md) `[active]`
 

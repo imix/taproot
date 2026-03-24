@@ -3,7 +3,16 @@ import { join, dirname, resolve } from 'path';
 import { spawnSync } from 'child_process';
 import { parseMarkdown } from './markdown-parser.js';
 import { loadConfig } from './config.js';
+import { loadLanguagePack, type LanguagePack } from './language.js';
 import type { DodConditionEntry } from '../validators/types.js';
+
+/** Resolve an English section key to its localised lowercase equivalent via the pack. */
+function localizedSectionKey(englishKey: string, pack: LanguagePack | null): string {
+  if (!pack) return englishKey;
+  const packKey = Object.keys(pack).find(k => k.toLowerCase() === englishKey);
+  if (!packKey) return englishKey;
+  return pack[packKey]!.toLowerCase();
+}
 
 /** Read agent-check resolutions from impl.md's ## DoR Resolutions section. */
 export function readDorResolutions(implMdPath: string, cwd: string): Set<string> {
@@ -74,14 +83,17 @@ export function runDorChecks(implMdPath: string, cwd: string): DorReport {
     correction: "Bring the spec to 'specified' (run /tr-review then /tr-refine) before starting implementation",
   });
 
-  // 3. Required sections
+  // 3. Required sections (localised via language pack)
+  const { config } = loadConfig(cwd);
+  const pack = config.language ? loadLanguagePack(config.language) : null;
   const required: Array<[string, string]> = [
     ['actor', 'Actor'],
     ['preconditions', 'Preconditions'],
     ['main flow', 'Main Flow'],
     ['postconditions', 'Postconditions'],
   ];
-  for (const [key, label] of required) {
+  for (const [englishKey, label] of required) {
+    const key = localizedSectionKey(englishKey, pack);
     const present = parsed.sections.has(key);
     results.push({
       name: `section-${key.replace(' ', '-')}`,
@@ -110,7 +122,6 @@ export function runDorChecks(implMdPath: string, cwd: string): DorReport {
   });
 
   // 6. Configured definitionOfReady conditions
-  const { config } = loadConfig(cwd);
   const dorConditions = config.definitionOfReady;
   if (dorConditions && dorConditions.length > 0) {
     const resolvedChecks = readDorResolutions(implMdPath, cwd);
