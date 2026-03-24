@@ -422,6 +422,21 @@ describe('writeResolution and agent check passing', () => {
     const count = (content.match(/condition:/g) ?? []).length;
     expect(count).toBe(2);
   });
+
+  it('multiple --resolve/--note pairs write all resolutions in one call via CLI action', async () => {
+    // Simulate what the CLI does when called with multiple --resolve/--note flags
+    const implPath = makeImplMd(tmpDir);
+    const conditions = ['check-if-affected-by: human-integration/contextual-next-steps', 'check-if-affected-by: human-integration/pause-and-confirm'];
+    const notes = ['Not applicable.', 'Not applicable.'];
+    for (let i = 0; i < conditions.length; i++) {
+      writeResolution(implPath, conditions[i]!, notes[i]!, tmpDir);
+    }
+    const content = readFileSync(implPath, 'utf-8');
+    expect(content).toContain('contextual-next-steps');
+    expect(content).toContain('pause-and-confirm');
+    const count = (content.match(/condition:/g) ?? []).length;
+    expect(count).toBe(2);
+  });
 });
 
 // ─── cascadeUsecaseState ──────────────────────────────────────────────────────

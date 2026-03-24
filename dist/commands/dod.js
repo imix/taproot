@@ -8,20 +8,24 @@ export function registerDod(program) {
         .description('Run Definition of Done checks; mark impl complete if all pass')
         .option('--dry-run', 'Run checks but do not update impl.md state')
         .option('--cwd <dir>', 'Working directory for running shell commands')
-        .option('--resolve <condition>', 'Record agent resolution for a named condition')
-        .option('--note <note>', 'Resolution note (used with --resolve)')
+        .option('--resolve <condition>', 'Record agent resolution for a named condition (repeatable)', (v, a) => [...a, v], [])
+        .option('--note <note>', 'Resolution note (used with --resolve, repeatable)', (v, a) => [...a, v], [])
         .action(async (implPath, options) => {
         const cwd = options.cwd ? resolve(options.cwd) : process.cwd();
-        // --resolve mode: write resolution to impl.md
-        if (options.resolve) {
+        // --resolve mode: write one or more resolutions to impl.md
+        if (options.resolve && options.resolve.length > 0) {
             if (!implPath) {
                 process.stderr.write('Error: --resolve requires an impl-path argument\n');
                 process.exitCode = 1;
                 return;
             }
-            const note = options.note ?? '';
-            writeResolution(implPath, options.resolve, note, cwd);
-            process.stdout.write(`Recorded resolution for "${options.resolve}" in ${implPath}\n`);
+            const notes = options.note ?? [];
+            for (let i = 0; i < options.resolve.length; i++) {
+                const condition = options.resolve[i];
+                const note = notes[i] ?? '';
+                writeResolution(implPath, condition, note, cwd);
+                process.stdout.write(`Recorded resolution for "${condition}" in ${implPath}\n`);
+            }
             return;
         }
         const report = await runDod({ implPath, dryRun: options.dryRun ?? false, cwd });

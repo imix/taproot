@@ -167,9 +167,12 @@ Surfaces unimplemented behaviours as work items, ordered by priority (intents wi
 
 ```bash
 taproot dod [impl-path] [--dry-run]
+taproot dod <impl-path> --resolve <condition> --note "<text>" [--resolve <condition> --note "<text>" ...]
 ```
 
 Runs all configured DoD conditions from `.taproot/settings.yaml` against the specified implementation (or all implementations if no path is given). If all conditions pass and an `impl-path` is provided, marks the impl `complete`, records the results in `## DoD Resolutions`, and automatically advances the parent `usecase.md` state from `specified` to `implemented` if it hasn't been already.
+
+Use `--resolve`/`--note` to record agent resolutions for agent-driven conditions (e.g. `document-current`, `check-if-affected`, `check-if-affected-by`). Multiple pairs can be supplied in a single invocation — conditions are paired with notes by position.
 
 See [Configuration](configuration.md) for how to define DoD conditions.
 

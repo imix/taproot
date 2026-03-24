@@ -35,12 +35,40 @@
 - `test/integration/dod.test.ts` — covers: no DoD configured, custom shell pass/fail, all-conditions-run, command not found, standalone mode (no impl.md change), impl.md marked complete on pass, not marked on fail, dry-run, document-current agent check, check-if-affected agent check, DoD baseline (usecase missing/state-wrong/format-invalid/all-pass), writeResolution, agent check passing after resolution, stale resolution detection (impl.md mtime > latest resolution timestamp), no-conditions-but-implPath marks complete
 
 ## Status
-- **State:** needs-rework
+- **State:** complete
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-19
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md documents taproot dod including --dry-run and --resolve; guide.md lists taproot dod | resolved: 2026-03-19T18:34:52.172Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: not applicable — this story modifies src/commands/dod.ts (TypeScript CLI), not any skill file; no skills/*.md were changed | resolved: 2026-03-24T20:05:55.672Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — Commander array accumulator for repeatable options is a standard Commander.js pattern, not a taproot-specific reusable pattern | resolved: 2026-03-24T20:05:55.671Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — batch-resolve is a UX improvement to an existing CLI option; it does not introduce a new architectural rule that applies across implementations | resolved: 2026-03-24T20:05:55.671Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — change is an enhancement to CLI option parsing (Commander array accumulator); no architectural decisions in docs/architecture.md apply to option-parsing internals | resolved: 2026-03-24T20:05:55.671Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — pattern-hints applies to skills that route user requests (ineed, behaviour, implement, refine); taproot dod is invoked by the agent at commit time, not in response to a user expressing a need | resolved: 2026-03-24T20:05:55.670Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — this is a CLI command, not a skill; no commit steps were modified | resolved: 2026-03-24T20:05:55.670Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — this is a CLI command (TypeScript source), not a skill file; context-engineering constraints apply only to skills/*.md | resolved: 2026-03-24T20:05:55.669Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — this is a CLI command (TypeScript); pause-and-confirm governs bulk-authoring skills that write multiple documents in sequence | resolved: 2026-03-24T20:05:55.669Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — this is a CLI command invoked by the agent at commit time, not a skill that produces output; contextual-next-steps applies to skills with What's next? blocks | resolved: 2026-03-24T20:05:55.669Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — this is a CLI command (TypeScript source), not an agent skill file; agent-agnostic-language constraints apply to skills/*.md | resolved: 2026-03-24T20:05:55.668Z
+
+- condition: check-if-affected: docs/ | note: affected and updated — docs/cli.md taproot dod section now documents --resolve/--note as repeatable options with batch usage example | resolved: 2026-03-24T20:05:55.668Z
+
+- condition: check-if-affected: skills/guide.md | note: not affected — guide.md lists taproot dod at line 77; no new command added, only a new option to existing command | resolved: 2026-03-24T20:05:55.668Z
+
+- condition: check-if-affected: src/commands/update.ts | note: not affected — batch-resolve is a change to the dod CLI only; update.ts does not invoke or depend on taproot dod | resolved: 2026-03-24T20:05:55.667Z
+
+- condition: document-current | note: docs/cli.md updated: taproot dod section now documents --resolve/--note batch usage and multiple-pairs-per-invocation | resolved: 2026-03-24T20:05:55.666Z
+
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: yes — added 'Open-ended agent questions (check:)' pattern to docs/patterns.md describing when and how to use check: vs check-if-affected-by | resolved: 2026-03-20T10:57:46.667Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — adding the check: condition type is a capability enhancement to the existing DoD runner; it does not define a new architectural rule that applies to every implementation | resolved: 2026-03-20T10:57:45.455Z
