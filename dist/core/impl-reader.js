@@ -1,3 +1,7 @@
+/** Returns true if a backtick-quoted token looks like a file path (contains '/' or ends with a dotted extension). */
+function isFilePath(token) {
+    return token.includes('/') || /\.\w+$/.test(token);
+}
 /** Extract a backtick-quoted value from a list item line: `- \`value\` — ...` */
 function extractBacktickValues(lines) {
     const result = [];
@@ -7,6 +11,10 @@ function extractBacktickValues(lines) {
             result.push(match[1]);
     }
     return result;
+}
+/** Extract file paths from a list of lines — skips backtick-quoted tokens that are not recognisable as file paths (e.g. function signatures, identifiers). */
+function extractFilePaths(lines) {
+    return extractBacktickValues(lines).filter(isFilePath);
 }
 /** Extract commit hashes — 6-64 hex chars from backtick-quoted items */
 function extractCommitHashes(lines) {
@@ -23,9 +31,9 @@ export function parseImplData(doc) {
         .find(l => l.length > 0) ?? null;
     return {
         behaviourRef,
-        sourceFiles: extractBacktickValues(sourceSection?.bodyLines ?? []),
+        sourceFiles: extractFilePaths(sourceSection?.bodyLines ?? []),
         commits: extractCommitHashes(commitsSection?.bodyLines ?? []),
-        testFiles: extractBacktickValues(testsSection?.bodyLines ?? []),
+        testFiles: extractFilePaths(testsSection?.bodyLines ?? []),
     };
 }
 //# sourceMappingURL=impl-reader.js.map

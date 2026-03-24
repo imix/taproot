@@ -14,7 +14,7 @@
 - `src/core/reporter.ts` — shared violation rendering and exit code logic
 
 ## Commits
-- (run `taproot link-commits` to populate)
+- `328369ca537e3c5ed2692369ca3fe81c56d41c1c` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/check-orphans.test.ts` — covers broken behaviour refs, missing source/test files, invalid commits, and unimplemented behaviour detection
