@@ -26,6 +26,7 @@ Enable any AI coding agent to participate fully in the taproot workflow — thro
 - [Agent-Agnostic Language Standard](./agent-agnostic-language/usecase.md)
 - [Parallel Agent Execution](./parallel-agent-execution/usecase.md)
 - [Autonomous Agent Execution](./autonomous-execution/usecase.md)
+- [Configuration Discoverability](./configuration-discoverability/usecase.md)
 
 
 ## Status

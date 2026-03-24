@@ -36,6 +36,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[agent-support-tiers](./agent-integration/agent-support-tiers/usecase.md)** `[specified]` — Actor: Developer selecting an AI coding agent to use with taproot
   - [cli-command](./agent-integration/agent-support-tiers/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 - **[autonomous-execution](./agent-integration/autonomous-execution/usecase.md)** `[specified]` — Actor: Developer (or orchestrator) who delegates a taproot task to an agent and steps away — returning to completed work rather than supervising each step
+- **[configuration-discoverability](./agent-integration/configuration-discoverability/usecase.md)** `[specified]` — Actor: AI coding agent — given a natural-language configuration task ("configure taproot for German", "add vocabulary overrides for book authoring") by the developer
 - **[generate-agent-adapter](./agent-integration/generate-agent-adapter/usecase.md)** `[implemented]` — Actor: Developer initializing taproot for a specific AI coding agent via `taproot init --agent `
   - [cli-command](./agent-integration/generate-agent-adapter/cli-command/impl.md) `[complete]` (3 commits, 2 tests)
 - **[parallel-agent-execution](./agent-integration/parallel-agent-execution/usecase.md)** `[specified]` — Actor: Developer or orchestrator running multiple taproot implementation tasks in parallel across the same codebase
@@ -112,7 +113,7 @@ _No behaviours yet._
 **Goal:** Enforce quality at every level of the hierarchy — from intent and usecase documents through to implementations — so that vague specs, missing acceptance criteria, and incomplete implementations are caught at commit time, not during review.
 
 - **[architecture-compliance](./quality-gates/architecture-compliance/usecase.md)** `[implemented]` — Actor: Developer or agent declaring a new implementation (committing an `impl.md`) — the check runs automatically at Definition of Ready time before any code is written.
-  - [multi-surface](./quality-gates/architecture-compliance/multi-surface/impl.md) `[complete]` (3 commits, 1 test)
+  - [multi-surface](./quality-gates/architecture-compliance/multi-surface/impl.md) `[complete]` (3 commits ⚠ no tests)
 - **[definition-of-done](./quality-gates/definition-of-done/usecase.md)** `[implemented]` — Actor: `/tr-implement` — triggered automatically at the end of the implement flow before marking an impl `complete`. Also invoked by `taproot commithook` on implementation commits (staged source files + `impl.md`). Can also be invoked standalone by a developer or CI pipeline.
   - [cli-command](./quality-gates/definition-of-done/cli-command/impl.md) `[complete]` (3 commits, 1 test)
 - **[definition-of-ready](./quality-gates/definition-of-ready/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a contributor commits an `impl.md` file without source code changes (the "I'm starting this implementation" declaration commit).
@@ -138,7 +139,7 @@ _No behaviours yet._
 **Goal:** Prove that the software as built actually implements the requirements as specified — establishing an auditable trail from business intent through stakeholder behaviour to working, tested code.
 
 - **[check-orphans](./requirements-compliance/check-orphans/usecase.md)** `[implemented]` — Actor: Developer or CI pipeline running `taproot check-orphans`
-  - [cli-command](./requirements-compliance/check-orphans/cli-command/impl.md) `[complete]` (0 commits, 1 test)
+  - [cli-command](./requirements-compliance/check-orphans/cli-command/impl.md) `[complete]` (1 commit, 1 test)
 - **[link-commits](./requirements-compliance/link-commits/usecase.md)** `[implemented]` — Actor: Developer or CI operator running `taproot link-commits`
   - [cli-command](./requirements-compliance/link-commits/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
@@ -197,5 +198,11 @@ _No behaviours yet._
 - **[update-installation](./taproot-lifecycle/update-installation/usecase.md)** `[implemented]` — Actor: Developer running `taproot update` after upgrading the taproot package
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
+## [taproot-security](./taproot-security/intent.md) `[draft]`
+
+**Goal:** Ensure taproot meets baseline security requirements applicable to a CLI tool by evaluating all OWASP Top 10 categories for relevance, implementing verifiable controls for those that apply, and explicitly documenting reasoning for those that do not — so that maintainers can ship with confidence and adopters can install without risk.
+
+_No behaviours yet._
+
 ---
-18 intents · 51 behaviours · 50 implementations · 49/50 complete
+19 intents · 52 behaviours · 50 implementations · 49/50 complete
