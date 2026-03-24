@@ -136,7 +136,7 @@ flowchart TD
 - [Agent Skill — /tr-bug](./agent-skill/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-24
 - **Last reviewed:** 2026-03-24
 

@@ -22,9 +22,34 @@
 - `test/unit/skills.test.ts` — validates `bug.md` for required sections, heading, numbered steps, and CLI dependencies (auto-covered once added to `SKILL_FILES`)
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-24
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — skill is a markdown file; no I/O or source code. Adding bug.md to SKILL_FILES follows the established pattern. | resolved: 2026-03-24
 - condition: check-if-affected-by: quality-gates/nfr-measurability | note: NOT APPLICABLE — no NFR entries in the parent usecase.md. | resolved: 2026-03-24
+
+## DoD Resolutions
+- condition: document-current | note: UPDATED skills/guide.md: added /tr-bug row to the slash commands table. docs/agents.md does not need updating — it describes agent adapter types, not individual skills. | resolved: 2026-03-24T16:25:20.115Z
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — the 5-Why + delegate pattern is specific to bug triage; not generalizable enough to document as a reusable pattern. | resolved: 2026-03-24T16:25:22.816Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — tr-bug is a standalone skill; no new cross-cutting constraint introduced. | resolved: 2026-03-24T16:25:22.576Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: NOT APPLICABLE — this is a markdown skill file, not source code. No architectural constraints apply to skill content. | resolved: 2026-03-24T16:25:22.340Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: NOT APPLICABLE — tr-bug receives a bug symptom, not a natural language requirement. Pattern hints apply to skills that receive new requirement intent. | resolved: 2026-03-24T16:25:22.102Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: NOT APPLICABLE — tr-bug delegates to tr-implement which owns the commit flow. tr-bug itself makes no commits. | resolved: 2026-03-24T16:25:21.866Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: COMPLIANT — description is ~20 tokens. No files pre-loaded beyond what step 5 explicitly requests (OVERVIEW.md only as fallback). /compact signal present before What's next? block. | resolved: 2026-03-24T16:25:21.629Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: COMPLIANT — step 7 external cause and state transition branches both present proposed changes to the actor before writing, consistent with pause-and-confirm. | resolved: 2026-03-24T16:25:21.394Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: COMPLIANT — bug.md has a 'What's next?' block at the end of step 7 delegation, consistent with other skills. | resolved: 2026-03-24T16:25:21.155Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: COMPLIANT — bug.md uses no agent-specific names (no 'Claude', no '@{project-root}' outside adapter context). All references use generic 'actor', '/tr-bug', and 'skill'. | resolved: 2026-03-24T16:25:20.907Z
+
+- condition: check-if-affected: skills/guide.md | note: YES — updated skills/guide.md: added /tr-bug row alongside /tr-ineed in the slash commands table. | resolved: 2026-03-24T16:25:20.640Z
+
+- condition: check-if-affected: src/commands/update.ts | note: YES — SKILL_FILES in src/commands/init.ts updated to include bug.md. update.ts reads from SKILL_FILES via init.ts import; no direct change to update.ts needed. | resolved: 2026-03-24T16:25:20.358Z
+

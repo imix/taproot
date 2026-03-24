@@ -47,6 +47,7 @@ ineed → intent → behaviour → implement → trace → status
 | Command | Purpose |
 |---|---|
 | `/tr-ineed` | Route a requirement; runs structured discovery for vague ideas |
+| `/tr-bug` | Diagnose a defect through 5-Why root cause analysis and delegate to the right fix skill |
 | `/tr-intent` | Create or refine a business intent document |
 | `/tr-behaviour` | Define use cases under an intent or another behaviour |
 | `/tr-decompose` | Break an intent into multiple behaviours |
