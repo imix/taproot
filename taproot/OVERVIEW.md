@@ -59,7 +59,7 @@ _No behaviours yet._
 - **[cascade-impl-status](./hierarchy-integrity/cascade-impl-status/usecase.md)** `[implemented]` — Actor: `taproot dod` CLI (when marking an `impl.md` complete) and the `tr-implement` skill (step 5a, when adding the implementation link to `usecase.md`)
   - [multi-surface](./hierarchy-integrity/cascade-impl-status/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 - **[pre-commit-enforcement](./hierarchy-integrity/pre-commit-enforcement/usecase.md)** `[implemented]` — Actor: Git — triggered automatically when any contributor (human or agent) runs `git commit`
-  - [cli-command](./hierarchy-integrity/pre-commit-enforcement/cli-command/impl.md) `[complete]` (3 commits, 1 test)
+  - [cli-command](./hierarchy-integrity/pre-commit-enforcement/cli-command/impl.md) `[complete]` (5 commits, 1 test)
   - [git-hook](./hierarchy-integrity/pre-commit-enforcement/git-hook/impl.md) `[complete]` (0 commits, 1 test)
 - **[validate-format](./hierarchy-integrity/validate-format/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying document contents conform to the schema
   - [cli-command](./hierarchy-integrity/validate-format/cli-command/impl.md) `[complete]` (0 commits, 3 tests)
