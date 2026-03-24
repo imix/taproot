@@ -132,6 +132,9 @@ flowchart TD
 - When the skill identifies the nearest impl.md to annotate
 - Then the skill presents the proposed note text and waits for actor confirmation before writing
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — /tr-bug](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-24
