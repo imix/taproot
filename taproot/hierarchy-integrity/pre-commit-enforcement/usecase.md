@@ -14,7 +14,8 @@ Git — triggered automatically when any contributor (human or agent) runs `git 
 4. `taproot commithook` inspects staged files and classifies the commit:
    - **Implementation commit** — one or more staged files appear in the `## Source Files` section of any `impl.md` in the hierarchy (reverse lookup):
      - If the matching `impl.md` is also staged: verify only the Status section changed in `impl.md`, then run DoD (`taproot dod`)
-     - If the matching `impl.md` is NOT staged: FAIL — "Stage `impl.md` alongside your source files. No implementation commit should proceed without its traceability record."
+     - If the matching `impl.md` is NOT staged and the impl.md state is **not** `complete`: FAIL — "Stage `impl.md` alongside your source files. No implementation commit should proceed without its traceability record."
+     - If the matching `impl.md` is NOT staged and the impl.md state is `complete`: skip — treat this source file as a plain commit for that impl.md
    - **Declaration commit** — staged files include `impl.md` but no source files matched by reverse lookup: run DoR checks against the parent `usecase.md`
    - **Requirement commit** — staged files include `taproot/` hierarchy files (`intent.md`, `usecase.md`) but no matched source files and no `impl.md`: run `taproot validate-structure` and `taproot validate-format`
    - **Plain commit** — staged files include none of the above: no taproot checks run, commit proceeds immediately
@@ -47,7 +48,7 @@ Git — triggered automatically when any contributor (human or agent) runs `git 
 - On failure: commit is blocked; contributor has a full list of failures with corrections
 
 ## Error Conditions
-- **Source files committed without impl.md**: `FAIL — Stage impl.md alongside your source files. No implementation commit should proceed without its traceability record.` (triggered when reverse lookup matches source files but impl.md is absent from staging)
+- **Source files committed without impl.md (non-complete)**: `FAIL — Stage impl.md alongside your source files. No implementation commit should proceed without its traceability record.` (triggered when reverse lookup matches source files, the impl.md is absent from staging, and the impl.md state is not `complete`)
 - **`impl.md` changed beyond Status section in implementation commit**: `FAIL — implementation commits may only update the Status section of impl.md. Stage other impl.md changes in a separate declaration commit`
 - **DoR fails**: errors from definition-of-ready (missing usecase, not specified, format violations, missing Mermaid/Related)
 - **DoD fails**: errors from definition-of-done (failing shell conditions, unresolved agent checks)
@@ -80,7 +81,7 @@ flowchart TD
 
 ## Notes
 - **Reverse lookup for source file detection:** `taproot commithook` walks all `impl.md` files in the hierarchy, parses their `## Source Files` sections, and builds a map of `file path → impl.md path`. Any staged file whose path appears in this map is classified as an implementation source file. Files not tracked by any impl.md (e.g. `.gitignore`, CI configs, docs not listed in a `## Source Files` section) are never classified as implementation source files and pass through as plain commits.
-- **Multiple impl.md matches:** if staged source files span multiple impl.md files, each matching impl.md must be staged and its DoD must pass. Partial staging (some impl.md files staged, others not) blocks the commit.
+- **Multiple impl.md matches:** if staged source files span multiple impl.md files, only impl.mds in a non-complete state (`planned`, `in-progress`, `needs-rework`) must be staged and have their DoD pass. `complete` impl.mds are skipped — a source file shared across multiple complete implementations can be modified without re-staging all of them. Partial staging (some non-complete impl.md files staged, others not) still blocks the commit.
 
 ## Acceptance Criteria
 
@@ -144,6 +145,11 @@ flowchart TD
 - When `taproot commithook` runs
 - Then exit code is 1
 
+**AC-14: Skips complete impl.md when its source file is staged alongside an active impl**
+- Given a source file tracked by both a `complete` impl.md and an `in-progress` impl.md is staged, and only the `in-progress` impl.md is staged
+- When `taproot commithook` runs
+- Then exit code is 0 — the complete impl.md is not required
+
 **AC-13: taproot init --with-hooks installs pre-commit hook containing taproot commithook**
 - Given a project with a `.git/hooks/` directory
 - When the actor runs `taproot init --with-hooks`
@@ -162,4 +168,4 @@ flowchart TD
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
-- **Last reviewed:** 2026-03-20
+- **Last reviewed:** 2026-03-24

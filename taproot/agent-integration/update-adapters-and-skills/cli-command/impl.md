@@ -15,6 +15,7 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `315a03dc7cb03b3225d404ceb60551009394a25d` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/update.test.ts` — covers detection of installed agents, stale path removal, adapter regeneration

@@ -42,7 +42,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [cli-command](./agent-integration/generate-agent-adapter/cli-command/impl.md) `[complete]` (4 commits, 2 tests)
 - **[parallel-agent-execution](./agent-integration/parallel-agent-execution/usecase.md)** `[specified]` — Actor: Developer or orchestrator running multiple taproot implementation tasks in parallel across the same codebase
 - **[update-adapters-and-skills](./agent-integration/update-adapters-and-skills/usecase.md)** `[implemented]` — Actor: Developer running `taproot update` after upgrading taproot or modifying skill definitions
-  - [cli-command](./agent-integration/update-adapters-and-skills/cli-command/impl.md) `[complete]` (0 commits, 1 test)
+  - [cli-command](./agent-integration/update-adapters-and-skills/cli-command/impl.md) `[complete]` (1 commit, 2 tests)
 
 ## [documentation](./documentation/intent.md) `[deprecated]`
 
