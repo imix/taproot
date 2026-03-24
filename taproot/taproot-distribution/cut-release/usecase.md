@@ -182,6 +182,6 @@ flowchart TD
 - [Multi-surface — agent skill + CI workflow](./multi-surface/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-21
 - **Last reviewed:** 2026-03-24
