@@ -186,7 +186,7 @@ _No behaviours yet._
 - **[domain-vocabulary](./taproot-adaptability/domain-vocabulary/usecase.md)** `[implemented]` — Actor: Developer configuring taproot for a non-development project — book authoring, financial reporting, legal review, or any other domain where dev-specific terms ("tests", "source files", "build", "implementation") don't map to project reality
   - [cli-command](./taproot-adaptability/domain-vocabulary/cli-command/impl.md) `[complete]` (2 commits, 2 tests)
 - **[language-support](./taproot-adaptability/language-support/usecase.md)** `[implemented]` — Actor: Developer configuring taproot for a non-English team — setting `language: de` (or another supported locale) in `settings.yaml` to localise structural elements throughout the hierarchy
-  - [cli-command](./taproot-adaptability/language-support/cli-command/impl.md) `[complete]` (2 commits, 2 tests)
+  - [cli-command](./taproot-adaptability/language-support/cli-command/impl.md) `[complete]` (4 commits, 2 tests)
 
 ## [taproot-distribution](./taproot-distribution/intent.md) `[active]`
 
@@ -201,11 +201,5 @@ _No behaviours yet._
 - **[update-installation](./taproot-lifecycle/update-installation/usecase.md)** `[implemented]` — Actor: Developer running `taproot update` after upgrading the taproot package
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 
-## [taproot-security](./taproot-security/intent.md) `[draft]`
-
-**Goal:** Ensure taproot meets baseline security requirements applicable to a CLI tool by evaluating all OWASP Top 10 categories for relevance, implementing verifiable controls for those that apply, and explicitly documenting reasoning for those that do not — so that maintainers can ship with confidence and adopters can install without risk.
-
-_No behaviours yet._
-
 ---
-19 intents · 53 behaviours · 52 implementations · 51/52 complete
+18 intents · 53 behaviours · 52 implementations · 51/52 complete

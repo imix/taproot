@@ -18,3 +18,6 @@
 
 * partial usecase implementations?
 * find a better solution than the claude.md for commit hook
+
+* CI template: `buildGithubWorkflow()` should add `npm audit --audit-level=high` as a CI step — needs its own behaviour spec, defer
+* taproot's own CI: no `.github/workflows/` exists — create `taproot.yml` with validate + audit + test steps (separate concern, not part of the security intent)

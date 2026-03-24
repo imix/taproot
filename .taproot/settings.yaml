@@ -43,3 +43,4 @@ definitionOfDone:
   - check-if-affected-by: quality-gates/architecture-compliance
   - check: "does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml?"
   - check: "does this story reveal a reusable pattern worth documenting in docs/patterns.md?"
+  - check: "if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md"
