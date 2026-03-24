@@ -31,12 +31,36 @@
 - `test/integration/commithook.test.ts` — covers: plain commit (tracked/untracked source files), requirement commit valid/invalid, declaration commit specified/not-specified/missing-Flow/missing-Related, implementation commit status-only/beyond-status/missing-impl.md/new-impl, reverse-lookup map unit tests, DoR unit checks, hook installation content, AC-14 complete-impl skip (source staged alone passes), regression (in-progress impl still requires co-staging)
 
 ## Status
-- **State:** needs-rework
+- **State:** complete
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-24
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md commithook section updated: added reverse-lookup explanation and new table row for missing impl.md case | resolved: 2026-03-20T07:33:53.988Z
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — getImplState() is a narrow helper specific to this hook; not a reusable pattern. | resolved: 2026-03-24T15:31:21.048Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — the complete-impl skip is specific to the commithook implementation tier; no new architectural constraint affecting other implementations. | resolved: 2026-03-24T15:31:20.812Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — getImplState() is a pure read function in commithook.ts. The skip logic is a conditional in the implementation tier loop. No new I/O patterns introduced; follows existing architecture. | resolved: 2026-03-24T15:31:20.568Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — commithook is a CLI command, not a skill that receives natural language intent. | resolved: 2026-03-24T15:31:20.327Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — commithook.ts is the pre-commit hook itself; commit-awareness governs skills that contain git commit steps. | resolved: 2026-03-24T15:31:20.058Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — commithook.ts is the enforcement mechanism, not a skill; context-engineering governs skill context loading. | resolved: 2026-03-24T15:31:19.826Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — commithook is a CLI command, not a multi-document authoring skill. | resolved: 2026-03-24T15:31:19.590Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — commithook is a CLI command invoked by git, not a skill; produces no agent guidance output. | resolved: 2026-03-24T15:31:19.355Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — commithook.ts is CLI source code, not a skill file. agent-agnostic-language governs shared skill and spec markdown files. | resolved: 2026-03-24T15:31:19.112Z
+
+- condition: check-if-affected: skills/guide.md | note: not applicable — guide.md describes skill commands for users; commithook classification internals are not documented there. | resolved: 2026-03-24T15:30:30.396Z
+
+- condition: check-if-affected: src/commands/update.ts | note: not applicable — update.ts handles hook migration (old content → taproot commithook). The complete-impl skip logic is inside commithook.ts, not update.ts. | resolved: 2026-03-24T15:30:30.152Z
+
+- condition: document-current | note: docs/cli.md commithook section already documents the reverse-lookup and co-staging requirement. The complete-impl skip is an implementation detail of that rule; no user-facing documentation change needed — the observable behavior (shared source files don't block commits) is self-explanatory. | resolved: 2026-03-24T15:30:29.875Z
+
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: getSection() helper for markdown section extraction is internal to commithook.ts and too narrow to document as a standalone pattern | resolved: 2026-03-21T06:27:33.982Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no new cross-cutting concern — spec quality checks are part of the existing commithook requirement tier, not a new orthogonal concern | resolved: 2026-03-21T06:27:33.753Z

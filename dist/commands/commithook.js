@@ -199,6 +199,18 @@ function getStagedContent(filePath, cwd) {
         return null;
     return result.stdout;
 }
+// ─── Impl state helpers ───────────────────────────────────────────────────────
+/** Read the **State:** value from an impl.md file on disk. Returns empty string if unreadable. */
+function getImplState(implFullPath) {
+    try {
+        const content = readFileSync(implFullPath, 'utf-8');
+        const match = content.match(/\*\*State:\*\*\s*(\S+)/);
+        return match?.[1] ?? '';
+    }
+    catch {
+        return '';
+    }
+}
 // ─── Status-only change check ─────────────────────────────────────────────────
 function checkStatusOnly(implRelPath, cwd) {
     // New file in HEAD?
@@ -328,8 +340,10 @@ export async function runCommithook(options) {
             }
         }
         for (const [implFile] of implToSources) {
-            // FAIL if the matching impl.md is not staged
+            // If impl.md is not staged, only require co-staging for non-complete impls
             if (!staged.includes(implFile)) {
+                if (getImplState(join(cwd, implFile)) === 'complete')
+                    continue;
                 process.stdout.write(`taproot commithook — Implementation commit: Stage \`${implFile}\` alongside your source files. No implementation commit should proceed without its traceability record.\n`);
                 failed = true;
                 continue;

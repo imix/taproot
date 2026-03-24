@@ -266,6 +266,42 @@ describe('runCommithook — implementation commit', () => {
     expect(code).toBe(1);
   });
 
+  it('passes when source file is tracked only by a complete impl.md (AC-14)', async () => {
+    // my-impl/impl.md is already committed with state=in-progress; update it to complete on disk
+    writeFileSync(
+      join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'my-impl', 'impl.md'),
+      IMPL_MD_COMPLETE
+    );
+    git(['add', 'taproot/my-intent/my-behaviour/my-impl/impl.md'], tmpDir);
+    git(['commit', '-m', 'mark complete'], tmpDir);
+
+    // Now stage only the source file — impl.md is complete, so no co-staging required
+    mkdirSync(join(tmpDir, 'src'), { recursive: true });
+    writeFileSync(join(tmpDir, 'src', 'test.ts'), 'export const x = 1;');
+    git(['add', 'src/test.ts'], tmpDir);
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(0);
+  });
+
+  it('still requires staging for in-progress impl.md even when complete impl.md tracks the same file', async () => {
+    // Add a second impl that also tracks src/test.ts, in-progress state
+    const secondImpl = IMPL_MD; // state: in-progress, tracks src/test.ts
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'second-impl'), { recursive: true });
+    writeFileSync(
+      join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'second-impl', 'impl.md'),
+      secondImpl
+    );
+    git(['add', 'taproot/my-intent/my-behaviour/second-impl/impl.md'], tmpDir);
+    git(['commit', '-m', 'declare second-impl'], tmpDir);
+
+    // Stage only the source file — second-impl is in-progress, so co-staging IS required
+    mkdirSync(join(tmpDir, 'src'), { recursive: true });
+    writeFileSync(join(tmpDir, 'src', 'test.ts'), 'export const x = 1;');
+    git(['add', 'src/test.ts'], tmpDir);
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(1);
+  });
+
   it('fails when impl.md is new (not previously declared) and staged with its tracked source', async () => {
     // Write a new impl.md that tracks src/new-feature.ts
     const newImplContent = IMPL_MD.replace('`src/test.ts`', '`src/new-feature.ts`');
