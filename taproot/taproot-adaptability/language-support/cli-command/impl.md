@@ -32,6 +32,8 @@
 <!-- taproot-managed -->
 - `6036170adf707ca0ec1c5e4eff94a47b9a90d8ea` — (auto-linked by taproot link-commits)
 - `53240c89b8fba24f598c6d321359c1e6c3c361e7` — (auto-linked by taproot link-commits)
+- `da5f94d9733b6bd214543a577331795203958c93` — (auto-linked by taproot link-commits)
+- `2bb1026e47f36481418be98f0e017cdea8330cd0` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/language.test.ts` — loadLanguagePack (valid/invalid/missing), substituteTokens (single-pass, longest-key-first, case-sensitive), getLocalizedRequiredSections (all marker types, fallback on missing key)
