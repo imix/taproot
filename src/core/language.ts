@@ -51,6 +51,17 @@ export function supportedLanguages(): string[] {
 }
 
 /**
+ * Return the structural keyword keys for conflict detection.
+ * Uses the provided pack, or falls back to the English pack.
+ * Always returns a non-empty list so structural keywords are always protected.
+ */
+export function getStructuralKeys(pack: LanguagePack | null): string[] {
+  if (pack) return Object.keys(pack);
+  const english = buildEnglishPack();
+  return Object.keys(english);
+}
+
+/**
  * Substitute all language pack tokens in content.
  * Single-pass, sorted by key length descending (longer keys matched first).
  * Case-sensitive exact string replacement.
@@ -79,6 +90,55 @@ export function substituteTokens(content: string, pack: LanguagePack): string {
   }
 
   return result;
+}
+
+/**
+ * Apply domain vocabulary overrides to content.
+ * Runs after the language pack substitution pass.
+ *
+ * - Declaration-order: keys processed in the order they appear in the map
+ * - Single-pass via placeholder trick (same mechanism as substituteTokens)
+ * - Structural keys (those present in the language pack) are excluded with a warning
+ * - Returns the substituted content and any conflict warnings
+ */
+export function applyVocabulary(
+  content: string,
+  vocab: Record<string, string>,
+  structuralKeys: string[],
+): { result: string; warnings: string[] } {
+  const warnings: string[] = [];
+  const structuralLower = new Set(structuralKeys.map(k => k.toLowerCase()));
+
+  // Filter entries: skip structural conflicts
+  const entries: Array<[string, string]> = [];
+  for (const [key, value] of Object.entries(vocab)) {
+    if (structuralLower.has(key.toLowerCase())) {
+      warnings.push(
+        `Vocabulary override '${key}' conflicts with a structural keyword — structural keywords take precedence; override ignored`
+      );
+    } else {
+      entries.push([key, value]);
+    }
+  }
+
+  if (entries.length === 0) return { result: content, warnings };
+
+  // Single-pass substitution in declaration order using placeholders
+  const placeholders: Array<[string, string]> = [];
+  let result = content;
+
+  for (let i = 0; i < entries.length; i++) {
+    const [key, value] = entries[i]!;
+    const placeholder = `\x00TAPROOT_VOCAB_${i}\x00`;
+    placeholders.push([placeholder, value]);
+    result = result.split(key).join(placeholder);
+  }
+
+  for (const [placeholder, value] of placeholders) {
+    result = result.split(placeholder).join(value);
+  }
+
+  return { result, warnings };
 }
 
 /**

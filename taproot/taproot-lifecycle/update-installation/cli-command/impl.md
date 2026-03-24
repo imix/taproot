@@ -22,11 +22,13 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-03-23
+- **Last verified:** 2026-03-24
 - condition: fix-update-skill-overwrite | note: update.ts now calls installSkills(skillsDir, true) — force=true overwrites existing .taproot/skills/ files so package updates are reflected; init still uses force=false (create-only) | resolved: 2026-03-20
 
 ## DoD Resolutions
 - condition: document-current | note: no docs change needed — force-overwrite of skills on update is an internal implementation detail; README and docs/agents.md describe what taproot update does (refreshes skills), not how it detects changes | resolved: 2026-03-20T20:55:08.050Z
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: STILL COMPLIANT — vocabulary pass added to update.ts follows same architecture as language pack: config loaded once, passed down, empty-value check at command boundary before any I/O. | resolved: 2026-03-24T13:11:54.451Z
+
 - condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: NOT APPLICABLE — this implementation is taproot CLI source code (src/commands/update.ts). agent-agnostic-language applies to shared skill and spec markdown files. No implicit Claude assumptions or @{project-root} syntax in this implementation. | resolved: 2026-03-23T12:22:35.339Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — create-only vs force-overwrite is a standard copy pattern; no new reusable pattern | resolved: 2026-03-20T20:55:10.380Z

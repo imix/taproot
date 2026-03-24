@@ -121,6 +121,6 @@ flowchart TD
 ```
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-23
 - **Last reviewed:** 2026-03-24

@@ -41,10 +41,12 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-23
-- **Last verified:** 2026-03-23
+- **Last verified:** 2026-03-24
 
 ## DoD Resolutions
 - condition: document-current | note: Updated docs/configuration.md: added language: field to settings.yaml example, added ## Language section documenting all 5 supported codes, what gets localised, and the unknown-code abort behaviour | resolved: 2026-03-23T12:17:50.488Z
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: STILL COMPLIANT — domain-vocabulary addition follows the same architecture: applyVocabulary() is pure logic in src/core/language.ts; vocabulary loading and validation at command boundaries in update.ts and adapters/index.ts. | resolved: 2026-03-24T13:11:53.170Z
+
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — the language pack mechanism is specific to taproot's structural vocabulary substitution. It is not a general pattern applicable to other implementations in this codebase. | resolved: 2026-03-23T12:18:51.241Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — language substitution is self-contained and opt-in via settings.yaml language: field. It does not impose new structural requirements on every implementation. No new cross-cutting condition needed. | resolved: 2026-03-23T12:18:45.865Z

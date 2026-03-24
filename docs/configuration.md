@@ -15,6 +15,13 @@ root: taproot/
 # the localised section names when this is set.
 language: de
 
+# Domain vocabulary overrides — replace dev-specific terms with domain-appropriate equivalents.
+# Applied as a second pass after the language pack. Re-applied on each `taproot update`.
+vocabulary:
+  tests: manuscript reviews
+  source files: chapters
+  build: compile draft
+
 # Commit message format for linking commits to impl.md records.
 # The default matches: taproot(path/to/impl): message
 commit_pattern: "taproot\\(([^)]+)\\):"
@@ -195,6 +202,35 @@ Localisation is applied at **`taproot update`** time — skill files and agent a
 `impl.md` traceability fields (`## Behaviour`, `## Commits`, `## Tests`) are intentionally kept in English — they are structural links, not prose, and must remain machine-readable regardless of language setting.
 
 **Unknown language code:** `taproot update` will abort with an error listing the supported codes and make no file changes.
+
+---
+
+## Vocabulary
+
+### `vocabulary`
+
+Replace dev-specific terms in installed skill files with domain-appropriate equivalents. Useful for non-development projects (book authoring, financial reporting, legal review) where terms like "tests", "source files", or "build" don't map to project reality.
+
+```yaml
+vocabulary:
+  tests: manuscript reviews
+  source files: chapters
+  build: compile draft
+  implementation: writing
+```
+
+Applied as a second substitution pass after the language pack (if any). Re-applied on each `taproot update` run, so overrides survive skill upgrades.
+
+**Substitution semantics:**
+
+- **Declaration-order**: keys are processed in the order they appear in `settings.yaml`. Once a token is substituted, the result is not re-scanned — this prevents chained substitution.
+- **Case-sensitive**: `tests` matches `tests` but not `Tests` or `TESTS`. Use multiple keys if case variants need covering.
+- **Structural keywords protected**: keys matching section headers, Gherkin keywords, or state values (from the active language pack, or English defaults) are skipped with a warning. This prevents accidentally overriding structural vocabulary that validators depend on.
+
+**Error conditions:**
+
+- If any vocabulary key maps to an empty string, `taproot update` aborts with an error message and makes no file changes.
+- If a vocabulary key conflicts with a structural keyword, `taproot update` logs a warning for that key, skips it, and applies all non-conflicting overrides.
 
 ---
 

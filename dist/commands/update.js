@@ -201,6 +201,23 @@ export async function runUpdate(options) {
         }
         messages.push(`language ${config.language} (${Object.keys(pack).length} tokens)`);
     }
+    // Validate vocabulary overrides before modifying any files
+    const vocab = config.vocabulary ?? null;
+    if (vocab && Object.keys(vocab).length > 0) {
+        const emptyKeys = Object.entries(vocab)
+            .filter(([, v]) => v === '')
+            .map(([k]) => k);
+        if (emptyKeys.length > 0) {
+            for (const key of emptyKeys) {
+                messages.push(`error    Vocabulary override '${key}' maps to an empty string — ` +
+                    `this would silently delete the term from skill files. ` +
+                    `Provide a non-empty replacement or remove the key.`);
+            }
+            messages.push('No files modified.');
+            return messages;
+        }
+        messages.push(`vocabulary ${Object.keys(vocab).length} overrides`);
+    }
     const agents = detectInstalledAgents(cwd);
     if (agents.length === 0) {
         messages.push('No taproot agent adapters detected — nothing to update.');
@@ -228,7 +245,7 @@ export async function runUpdate(options) {
         SKILL_FILES.some(f => existsSync(join(skillsDir, f)));
     if (agents.includes('claude') || hasInstalledSkills) {
         messages.push('');
-        messages.push(...installSkills(skillsDir, true, pack));
+        messages.push(...installSkills(skillsDir, true, pack, vocab));
     }
     // Refresh cross-links (## Behaviours / ## Implementations sections)
     const taprootDir = join(cwd, DEFAULT_CONFIG.root);

@@ -10,4 +10,4 @@ export declare function runInit(options: {
     withSkills?: boolean;
     agent?: AgentName | AgentName[] | 'all';
 }): string[];
-export declare function installSkills(targetSkillsDir: string, force?: boolean, pack?: LanguagePack | null): string[];
+export declare function installSkills(targetSkillsDir: string, force?: boolean, pack?: LanguagePack | null, vocab?: Record<string, string> | null): string[];

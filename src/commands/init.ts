@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 import yaml from 'js-yaml';
 import type { Command } from 'commander';
 import { DEFAULT_CONFIG } from '../core/config.js';
-import { substituteTokens, type LanguagePack } from '../core/language.js';
+import { substituteTokens, applyVocabulary, getStructuralKeys, type LanguagePack } from '../core/language.js';
 import { intentTemplate, behaviourTemplate, implTemplate } from '../templates/index.js';
 import { generateAdapters, ALL_AGENTS, AGENT_TIERS, getTierLabel, type AgentName } from '../adapters/index.js';
 import checkbox from '@inquirer/checkbox';
@@ -232,7 +232,12 @@ export function runInit(options: {
   return messages;
 }
 
-export function installSkills(targetSkillsDir: string, force = false, pack?: LanguagePack | null): string[] {
+export function installSkills(
+  targetSkillsDir: string,
+  force = false,
+  pack?: LanguagePack | null,
+  vocab?: Record<string, string> | null,
+): string[] {
   const messages: string[] = [];
 
   if (!existsSync(BUNDLED_SKILLS_DIR)) {
@@ -252,6 +257,14 @@ export function installSkills(targetSkillsDir: string, force = false, pack?: Lan
     let content = readFileSync(src, 'utf-8');
     if (pack) {
       content = substituteTokens(content, pack);
+    }
+    if (vocab && Object.keys(vocab).length > 0) {
+      const structuralKeys = getStructuralKeys(pack ?? null);
+      const { result, warnings } = applyVocabulary(content, vocab, structuralKeys);
+      content = result;
+      for (const w of warnings) {
+        messages.push(`warning  ${w}`);
+      }
     }
     if (!existsSync(dest)) {
       writeFileSync(dest, content);

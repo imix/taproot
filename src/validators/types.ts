@@ -48,6 +48,7 @@ export interface TaprootConfig {
   commitTrailer: string;
   agents: string[];
   language?: string;
+  vocabulary?: Record<string, string>;
   validation: {
     requireDates: boolean;
     requireStatus: boolean;

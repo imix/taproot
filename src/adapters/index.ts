@@ -11,7 +11,7 @@ import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { SKILL_FILES } from '../commands/init.js';
 import { loadConfig } from '../core/config.js';
-import { loadLanguagePack, substituteTokens } from '../core/language.js';
+import { loadLanguagePack, substituteTokens, applyVocabulary, getStructuralKeys } from '../core/language.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BUNDLED_SKILLS_DIR = resolve(__dirname, '..', '..', 'skills');
@@ -59,7 +59,8 @@ export function generateAdapters(agents: AgentName | AgentName[] | 'all', projec
 function generateAdapter(agent: AgentName, projectRoot: string): AdapterResult {
   const { config } = loadConfig(projectRoot);
   const pack = config.language ? loadLanguagePack(config.language) : null;
-  const skills = loadSkills(pack);
+  const vocab = config.vocabulary ?? null;
+  const skills = loadSkills(pack, vocab);
   switch (agent) {
     case 'claude':   return generateClaudeAdapter(skills, projectRoot);
     case 'cursor':   return generateCursorAdapter(skills, projectRoot);
@@ -80,12 +81,17 @@ interface SkillDef {
   invocation: string;  // e.g. '/taproot:intent'
 }
 
-function loadSkills(pack?: ReturnType<typeof loadLanguagePack>): SkillDef[] {
+function loadSkills(pack?: ReturnType<typeof loadLanguagePack>, vocab?: Record<string, string> | null): SkillDef[] {
   return SKILL_FILES.map(filename => {
     const name = filename.replace('.md', '');
     const path = join(BUNDLED_SKILLS_DIR, filename);
     let content = existsSync(path) ? readFileSync(path, 'utf-8') : `# Skill: ${name}\n\n(skill file not found)`;
     if (pack) content = substituteTokens(content, pack);
+    if (vocab && Object.keys(vocab).length > 0) {
+      const structuralKeys = getStructuralKeys(pack ?? null);
+      const { result } = applyVocabulary(content, vocab, structuralKeys);
+      content = result;
+    }
     const description = extractFirstSentence(content);
     return { filename, name, content, description, invocation: `/taproot:${name}` };
   });
