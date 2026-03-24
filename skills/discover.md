@@ -13,7 +13,7 @@ Reverse-engineer an existing project into a taproot hierarchy — from source co
 
 ### Phase 0 — Check for Existing Session
 
-1. Before doing anything else, check for `taproot/_sessions/discovery-status.md`.
+1. Before doing anything else, check for `.taproot/sessions/discovery-status.md`.
 
    - **If found**: read it and present a resume prompt:
      > "I found an in-progress discovery session (last updated: [date], phase: [phase]).
@@ -133,7 +133,7 @@ Reverse-engineer an existing project into a taproot hierarchy — from source co
       - **[S]**: skip — do not write; note "Skipped `taproot/<slug>/intent.md`" and move on
       - **[Q]**: stop the session immediately and write the session summary (see Phase 0)
 
-   f. Update `taproot/_sessions/discovery-status.md`: mark this intent `[x]` in Phase 2, set Phase to `2`, update Last updated.
+   f. Update `.taproot/sessions/discovery-status.md`: mark this intent `[x]` in Phase 2, set Phase to `2`, update Last updated.
 
 9. After all intents are confirmed and written, show a summary:
    > "Confirmed [N] intents: [list]. Do any of these feel wrong, or is there a significant area of the system we haven't covered?"
@@ -246,7 +246,7 @@ Reverse-engineer an existing project into a taproot hierarchy — from source co
 
 ## Output
 
-- `taproot/_sessions/discovery-status.md` — session state, updated continuously
+- `.taproot/sessions/discovery-status.md` — session state, updated continuously
 - `taproot/<intent-slug>/intent.md` for each confirmed intent
 - `taproot/<intent-slug>/<behaviour-slug>/usecase.md` for each confirmed behaviour
   - Marked `status: specified` when derived from requirements with no source code
