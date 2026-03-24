@@ -24,7 +24,8 @@
 - `src/validators/format-rules.ts` — `checkRequiredSections` uses localised section names
 - `src/commands/init.ts` — `installSkills()` accepts language pack, applies substitution
 - `src/commands/update.ts` — load config + pack, pass to `installSkills()`
-- `src/commands/commithook.ts` — pass language pack to quality checks
+- `src/commands/commithook.ts` — pass language pack to quality checks; skip VERB_STARTS when pack is active
+- `src/core/dor-runner.ts` — load language pack, resolve required section keys via pack before `parsed.sections.has()` lookup
 - `src/adapters/index.ts` — `loadSkills()` applies substitution if language configured
 
 ## Commits
