@@ -178,6 +178,9 @@ flowchart TD
 - When the failure is detected
 - Then zero files in the working tree have been modified — the state is identical to before the release was invoked
 
+## Implementations <!-- taproot-managed -->
+- [Multi-surface — agent skill + CI workflow](./multi-surface/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-21
