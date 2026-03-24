@@ -13,19 +13,21 @@ Developer running `taproot update` after upgrading taproot or modifying skill de
 3. System reports detected adapters
 4. System regenerates adapter files for each detected agent, reflecting any changes to skill definitions in the bundled `skills/` directory
 5. System refreshes installed skills in `taproot/skills/` with the current bundled versions
-6. System regenerates `taproot/OVERVIEW.md`
-7. System reports each file created, updated, or unchanged
+6. System installs or refreshes `.taproot/CONFIGURATION.md` with the current version's configuration reference — all `settings.yaml` fields, valid values, examples, and which changes require `taproot update` to take effect
+7. System regenerates `taproot/OVERVIEW.md`
+8. System reports each file created, updated, or unchanged
 
 ## Alternate Flows
 - **No adapters detected**: System reports nothing to update and suggests running `taproot init --agent <name>` first
 - **Claude adapter present**: Skills are always refreshed; for other agents, skills are refreshed only if a `taproot/skills/` directory already exists
 
 ## Error Conditions
-- None — the update is read-then-write and does not fail on missing optional files
+- **CONFIGURATION.md write failure**: System reports a warning if it cannot write `.taproot/CONFIGURATION.md` (permissions error, disk full); all other update operations (adapter regeneration, skill refresh) still complete normally
 
 ## Postconditions
 - All installed adapters reflect the current version's skill definitions
 - Installed skills in `taproot/skills/` match the bundled versions
+- `.taproot/CONFIGURATION.md` is present and reflects the current version's configuration options
 - The update is idempotent — running it multiple times produces no unintended side effects
 
 ## Implementations <!-- taproot-managed -->
@@ -59,9 +61,20 @@ Developer running `taproot update` after upgrading taproot or modifying skill de
 - When the actor runs `taproot update`
 - Then the last message is "Update complete."
 
+**AC-6: Installs CONFIGURATION.md when absent**
+- Given a project with taproot installed and no `.taproot/CONFIGURATION.md` present
+- When the actor runs `taproot update`
+- Then `.taproot/CONFIGURATION.md` is created and documents all `settings.yaml` options with examples
+
+**AC-7: Refreshes CONFIGURATION.md on taproot upgrade**
+- Given taproot is upgraded to a new version
+- When the actor runs `taproot update`
+- Then `.taproot/CONFIGURATION.md` is refreshed to reflect any new or changed configuration options
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
+- **Last reviewed:** 2026-03-24
 
 ## Notes
 Both this behaviour and `taproot-lifecycle/update-installation` are served by the same `taproot update` command. This behaviour documents the adapter/skill content refresh aspect; `update-installation` documents the version migration and stale-artefact removal aspect.
