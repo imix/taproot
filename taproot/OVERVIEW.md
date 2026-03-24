@@ -68,7 +68,7 @@ _No behaviours yet._
 
 ## [human-integration](./human-integration/intent.md) `[active]`
 
-**Goal:** Keep the human orchestrator in meaningful control of the requirement hierarchy — as its owner, its primary author of intent, and its final decision-maker — while making the current state of the project legible at a glance.
+**Goal:** Ensure the human orchestrator retains meaningful control of the requirement hierarchy — as its owner, its primary author of intent, and its final decision-maker — while making the current state of the project legible at a glance.
 
 - **[bug-triage](./human-integration/bug-triage/usecase.md)** `[specified]` — Actor: Developer or AI coding agent who has observed a defect — unexpected system behaviour, a failing test, or a user-reported issue
 - **[contextual-next-steps](./human-integration/contextual-next-steps/usecase.md)** `[implemented]` — Actor: Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the moment it produces its primary output
