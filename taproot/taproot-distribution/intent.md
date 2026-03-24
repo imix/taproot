@@ -16,9 +16,10 @@ Enable the taproot maintainer to publish reliable, tested releases to npm and Gi
 - [ ] The release procedure is documented well enough for a second maintainer to execute it without assistance
 
 ## Constraints
-- Releases are initiated manually by the maintainer — no automated CI-triggered publishing (for now)
-- npm publish requires maintainer credentials — the process must not embed credentials in the hierarchy or skill files
-- The process must be executable on the maintainer's local machine without additional infrastructure
+- The local phase (pre-flight, changelog, version bump, tag, push) is initiated manually by the maintainer
+- The publish phase runs in GitHub Actions CI, triggered by a tag push and gated by a required maintainer approval
+- The npm token must be stored only as a GitHub Environment secret — never on the maintainer's local machine, in any file, or in any skill output
+- npm publish uses `--provenance` so every published version has a cryptographic attestation linking it to the CI workflow run
 
 ## Behaviours <!-- taproot-managed -->
 - [Cut Release](./cut-release/usecase.md)
@@ -26,7 +27,7 @@ Enable the taproot maintainer to publish reliable, tested releases to npm and Gi
 ## Status
 - **State:** active
 - **Created:** 2026-03-21
-- **Last reviewed:** 2026-03-21
+- **Last reviewed:** 2026-03-24
 
 ## Notes
 - First release target: v0.1.0 — the project is approaching a releaseable state with 46+ implemented behaviours

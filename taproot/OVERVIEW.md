@@ -192,7 +192,7 @@ _No behaviours yet._
 
 **Goal:** Enable the taproot maintainer to publish reliable, tested releases to npm and GitHub through a single repeatable procedure — so that every published version is fully verified, correctly versioned, and accompanied by a changelog and GitHub release.
 
-- **[cut-release](./taproot-distribution/cut-release/usecase.md)** `[specified]` — Actor: Maintainer cutting a new taproot release from the main branch
+- **[cut-release](./taproot-distribution/cut-release/usecase.md)** `[specified]` — Actor: - **Maintainer** — runs the local phase (pre-flight, changelog, version bump, tag, push)
 
 ## [taproot-lifecycle](./taproot-lifecycle/intent.md) `[active]`
 

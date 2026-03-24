@@ -19,5 +19,6 @@
 * partial usecase implementations?
 * find a better solution than the claude.md for commit hook
 
+* `/tr-release` skill for releasing user projects built with taproot — separate concern from `taproot-distribution/cut-release` (which is the taproot maintainer's own release procedure); needs its own intent + behaviour
 * CI template: `buildGithubWorkflow()` should add `npm audit --audit-level=high` as a CI step — needs its own behaviour spec, defer
 * taproot's own CI: no `.github/workflows/` exists — create `taproot.yml` with validate + audit + test steps (separate concern, not part of the security intent)
