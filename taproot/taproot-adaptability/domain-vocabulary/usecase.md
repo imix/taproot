@@ -95,7 +95,32 @@ Developer configuring taproot for a non-development project — book authoring, 
 - When `taproot update` applies the vocabulary substitution pass
 - Then the total additional time for the vocabulary pass is under 200ms on a standard developer machine
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command](./cli-command/impl.md)
+
+## Flow
+```mermaid
+flowchart TD
+    A[Developer adds vocabulary: map to settings.yaml] --> B[taproot update]
+    B --> C{config.language set?}
+    C -- yes --> D[Apply language pack substitution]
+    C -- no --> E[Skip language pack pass]
+    D --> F{vocabulary: entries?}
+    E --> F
+    F -- no/empty --> G[Skip vocabulary pass]
+    F -- yes --> H{Any empty-string values?}
+    H -- yes --> ERR[Abort: empty-string value error\nno files modified]
+    H -- no --> I[applyVocabulary: filter out\nstructural keyword conflicts]
+    I --> J{Any conflicts?}
+    J -- yes --> WARN[Log warning for each\nconflicting key, skip them]
+    J -- no --> K[Apply declaration-order\nsingle-pass substitution]
+    WARN --> K
+    K --> L[Write substituted content\nto .taproot/skills/]
+    G --> M[Skills installed with\ndefault English or pack terms]
+    L --> N[Skills contain domain\nvocabulary overrides]
+```
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-23
-- **Last reviewed:** 2026-03-23
+- **Last reviewed:** 2026-03-24
