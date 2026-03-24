@@ -101,6 +101,13 @@ _(Fast path: requirement is clear, concrete, and immediately placeable)_
   2. Developer names or describes the right parent
   3. Agent confirms and proceeds from Main Flow step 7
 
+### Bug-shaped input detected
+- **Trigger:** Input contains bug-shaped language — phrases indicating a defect rather than a new requirement: "it's broken", "wrong output", "this crashes", "not working", "regression", "it used to work", "unexpected behaviour", or explicit "bug" / "defect" terminology
+- **Steps:**
+  1. Agent recognises the input as a bug report, not a new requirement
+  2. Agent states: "That sounds like a bug report rather than a new requirement. I'll hand this off to `/tr-bug` to run root cause analysis."
+  3. Agent calls `/tr-bug` with `handoff: true` and the original symptom description — does not route to the hierarchy
+
 ### Conversational detection
 - **Trigger:** Developer mentions a requirement casually without invoking `/tr-ineed`
 - **Steps:**
@@ -123,6 +130,7 @@ _(Fast path: requirement is clear, concrete, and immediately placeable)_
 ```mermaid
 flowchart TD
     A[Developer states requirement] --> B{Classify}
+    B -- Bug-shaped language --> BUG[Hand off to /tr-bug\nhandoff: true]
     B -- Quick: clear actor+goal --> C[Search hierarchy for near-duplicates]
     B -- Substantive: vague/new domain --> D[Structured discovery: problem → persona → success criteria → scope]
     D --> E[Synthesise & confirm with developer]
@@ -170,8 +178,14 @@ flowchart TD
 - When the agent searches the hierarchy
 - Then the agent proposes a new intent slug and goal and asks the developer to confirm before calling `/tr-intent`
 
+**AC-7: Bug-shaped input is handed off to /tr-bug**
+- Given the developer states something containing bug-shaped language ("it's broken", "this crashes", "wrong output", "not working", "regression")
+- When the agent classifies the input
+- Then the agent states it is handing off to `/tr-bug` and calls `/tr-bug` with `handoff: true` — it does not route to the requirement hierarchy
+
 ## Related
 - `taproot/human-integration/grill-me/usecase.md` — structured discovery delegates to grill-me for advanced elicitation
+- `taproot/human-integration/bug-triage/usecase.md` — bug-shaped inputs are handed off here with `handoff: true`
 
 ## Implementations <!-- taproot-managed -->
 - [Agent Skill — /tr-ineed](./agent-skill/impl.md)
@@ -180,7 +194,7 @@ flowchart TD
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
-- **Last reviewed:** 2026-03-19
+- **Last reviewed:** 2026-03-24
 
 ## Notes
 - The fast path (Main Flow) is for requirements that are already clear and concrete — skip discovery when the actor, goal, and success criteria are unambiguous
