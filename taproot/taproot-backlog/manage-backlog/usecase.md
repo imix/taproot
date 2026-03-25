@@ -28,9 +28,9 @@ Developer — working mid-session who wants to capture an idea, finding, or defe
    ```
 3. Skill offers: `D <n>` discard · `P <n>` promote · `A <n>` analyze · `done` finish
 4. Developer enters commands one at a time:
-   - **`D <n>`** — item n is removed from the backlog. Skill confirms: *"✓ Discarded #n"*
-   - **`P <n>`** — item n is removed from the backlog. Skill invokes `/tr-ineed` with the item text.
-   - **`A <n>`** — skill presents the item text and asks: *"[P] Promote · [K] Keep · [D] Discard"*
+   - **`D <n>`** — item n is removed from the backlog. Skill confirms: *"✓ Discarded #n"*, then redisplays the updated numbered list.
+   - **`P <n>`** — item n is removed from the backlog. Skill invokes `/tr-ineed` with the item text. On return, skill redisplays the updated numbered list.
+   - **`A <n>`** — skill presents the full text of item n and asks: *"[P] Promote · [K] Keep · [D] Discard"*. After the choice is made, skill redisplays the updated numbered list.
    - **`done`** — triage ends. Items not acted on are kept implicitly.
 5. After `done`: *"Triage complete — X discarded, Y promoted, Z kept."*
 
