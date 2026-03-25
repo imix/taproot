@@ -13,36 +13,27 @@ Taproot keeps requirements as first-class files in your repo. The agent writes t
 ## Quick Start
 
 ```bash
-npx @imix-js/taproot init
+npx @imix-js/taproot init        # installs agent adapter + pre-commit hook
 ```
 
-Taproot will ask which agent adapter to install and whether to set up the pre-commit hook. Then open your agent and run:
+Then in your agent:
 
 ```
-/tr-guide
+/tr-ineed user authentication    # describe a requirement → spec written + placed
+/tr-implement taproot/auth/      # implement it: code + tests + traceability, committed
 ```
 
-That's it. The guide walks you through the rest.
+That's the loop. Spec first, code second, git enforces both.
 
-## The workflow
-
-Once taproot is set up, your AI agent has the full workflow available as slash commands:
+---
 
 ```
-/tr-ineed user authentication    ← route any requirement into the hierarchy
-                                    (discovery, spec writing, placement)
-
-/tr-implement taproot/auth/login/ ← implement a behaviour: code + tests +
-                                    traceability record, committed atomically
-
-/tr-status                        ← health dashboard: coverage, orphans,
-                                    stale specs, parked items
-
-/tr-discover                      ← reverse-engineer an existing codebase
-                                    into a taproot hierarchy
+/tr-guide     ← onboarding walkthrough
+/tr-status    ← health dashboard: coverage, orphans, stale specs
+/tr-discover  ← reverse-engineer an existing codebase into taproot
 ```
 
-The full list is in [docs/workflows.md](docs/workflows.md).
+Full workflow guide: [docs/workflows.md](docs/workflows.md)
 
 ## Why it matters
 
