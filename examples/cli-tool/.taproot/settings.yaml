@@ -1,0 +1,23 @@
+version: 1
+root: taproot/
+
+# Which agent adapters to generate. Remove any you don't use.
+agents:
+  - claude    # Claude Code → .claude/commands/tr-taproot.md
+  - cursor    # Cursor → .cursor/rules/taproot.md
+  - generic   # Any other agent → AGENTS.md
+
+# Adjust run: commands for your language and build tool
+definitionOfDone:
+  - { run: "npm test", name: tests-passing }
+  - { run: "npx tsc --noEmit", name: type-check }
+  - { run: "npm run build", name: build-passes }
+
+  # Agent checks
+  - document-current: README.md accurately documents all commands, flags, and exit codes
+  - check: "does this change add, modify, or remove a CLI command or flag that users depend on?"
+  - check: "does this change affect exit codes or output format in a way that could break scripts?"
+
+# Uncomment to add cross-cutting architecture checks as your tool grows:
+# definitionOfReady:
+#   - check-if-affected-by: your-cli-contract-policy/usecase.md

@@ -28,5 +28,34 @@
 - condition: check-if-affected-by: quality-gates/nfr-measurability | note: NOT APPLICABLE — no performance-sensitive code paths introduced; template copy is a one-time init operation | resolved: 2026-03-25T11:10:00.000Z
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-25
+
+## DoD Resolutions
+- condition: document-current | note: docs/cli.md updated to document --template and --force flags and the interactive template prompt; skills/guide.md updated to mention --template in init row and new-project context note; README.md does not reference init flags in detail — it uses a minimal quick-start example, which is appropriate | resolved: 2026-03-25T11:18:24.806Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: skills/guide.md was updated (table row + context note only); the changes are read-only documentation text, no shell execution, no credentials, no agent instructions | resolved: 2026-03-25T11:19:17.001Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — bundling static data alongside CLI commands is a standard Node.js pattern already in use (BUNDLED_SKILLS_DIR, BUNDLED_DOCS_DIR); not novel enough for patterns.md | resolved: 2026-03-25T11:19:15.778Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — bundled template application is a one-time init concern; not cross-cutting | resolved: 2026-03-25T11:19:05.709Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — applyTemplate() is a stateless pure function following the same pattern as installSkills(); I/O at command boundary only; no global mutable state; throws with actionable error on unknown template name | resolved: 2026-03-25T11:19:04.512Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: NOT APPLICABLE — pattern-hints applies to skills processing user needs; this implementation adds a CLI flag and interactive prompt to the init command | resolved: 2026-03-25T11:18:57.316Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: NOT APPLICABLE — commit-awareness applies to skills that include git commit steps; no skill files were modified | resolved: 2026-03-25T11:18:56.068Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: NOT APPLICABLE — context-engineering applies to skill file authoring; no skill files were created or modified in this implementation | resolved: 2026-03-25T11:18:54.834Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: NOT APPLICABLE — pause-and-confirm applies to bulk-authoring skills that write multiple documents; taproot init applies a single template and is not a bulk-authoring skill | resolved: 2026-03-25T11:18:48.273Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: NOT APPLICABLE — this spec applies to taproot skills; this implementation modifies a CLI init command, not a skill | resolved: 2026-03-25T11:18:47.031Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: NOT APPLICABLE — no skill files or shared hierarchy docs modified; interactive prompt text uses generic language only | resolved: 2026-03-25T11:18:45.443Z
+
+- condition: check-if-affected: docs/ | note: APPLIED — docs/cli.md updated with --template and --force documentation and interactive prompt description | resolved: 2026-03-25T11:18:34.744Z
+
+- condition: check-if-affected: skills/guide.md | note: APPLIED — guide.md updated: init row now mentions --template flag; new-project context note now mentions template option alongside /tr-ineed and /tr-intent | resolved: 2026-03-25T11:18:33.563Z
+
+- condition: check-if-affected: src/commands/update.ts | note: NOT APPLICABLE — taproot update refreshes skills and adapters; templates are a one-time init concern and are not managed by update | resolved: 2026-03-25T11:18:32.284Z
+

@@ -9,10 +9,12 @@ The Taproot CLI handles setup, validation, and reporting. It does not generate c
 ### `taproot init`
 
 ```bash
-taproot init [--with-hooks] [--with-ci github|gitlab] [--with-skills] [--agent claude|cursor|copilot|windsurf|generic|all]
+taproot init [--with-hooks] [--with-ci github|gitlab] [--with-skills] [--agent claude|cursor|copilot|windsurf|generic|all] [--template webapp|book-authoring|cli-tool] [--force]
 ```
 
 Initializes Taproot in the current directory. Creates `taproot/` and `.taproot/settings.yaml` if they don't exist, then installs whichever integrations you request.
+
+When run on an empty project (no `taproot/` directory yet), the command prompts: **"Start from a template? [y/N]"** — entering `y` presents a list of starter hierarchies to choose from.
 
 | Option | Effect |
 |--------|--------|
@@ -21,6 +23,8 @@ Initializes Taproot in the current directory. Creates `taproot/` and `.taproot/s
 | `--with-ci gitlab` | Generates a `taproot-validate` job in `.gitlab-ci.yml` |
 | `--with-skills` | Copies skill definitions to `.taproot/skills/`. Implied by `--agent claude` — only needed if you want skills without a Claude adapter. |
 | `--agent <name>` | Generates agent adapter files (see [Agent Setup](agents.md)) |
+| `--template <type>` | Skip the prompt and apply a starter template directly (`webapp`, `book-authoring`, or `cli-tool`). Copies the starter's `taproot/` hierarchy and `.taproot/settings.yaml` into the project. |
+| `--force` | When used with `--template`, overwrites an existing `.taproot/settings.yaml` with the template's version. |
 
 Running `taproot init` again on an existing project is safe — it skips files that already exist and reports `exists` for each.
 

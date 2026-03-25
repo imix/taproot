@@ -77,7 +77,7 @@ ineed → intent → behaviour → implement → trace → status
 | `taproot dod [impl-path]` | Run Definition of Done checks; mark impl complete if all pass |
 | `taproot commithook` | Pre-commit gate: classifies staged files and runs DoR or DoD as appropriate |
 | `taproot update` | Refresh agent adapters, skills, and cross-link sections across the hierarchy |
-| `taproot init` | Initialize Taproot in a project |
+| `taproot init [--template webapp\|book-authoring\|cli-tool]` | Initialize Taproot in a project; optionally copy a starter hierarchy |
 
 ### Rule of Thumb
 
@@ -92,7 +92,7 @@ ineed → intent → behaviour → implement → trace → status
 
    - **If `taproot/OVERVIEW.md` exists**: "Your project has an overview at `taproot/OVERVIEW.md` — read it for a summary of current intents and their status."
    - **If intents exist but no OVERVIEW.md**: "Your project has existing intents. Run `taproot overview` to generate a summary, or use `/tr-status` for a full health report."
-   - **If no intents exist yet** (empty or missing `taproot/`): "This looks like a new project. A good starting point: describe your problem to `/tr-ineed`, or jump straight to `/tr-intent` if you already know what you want to build."
+   - **If no intents exist yet** (empty or missing `taproot/`): "This looks like a new project. You can start from a template (`taproot init --template webapp|book-authoring|cli-tool`) for a pre-populated hierarchy, or describe your problem to `/tr-ineed`, or jump straight to `/tr-intent` if you already know what you want to build."
 
 4. Close with context-aware guidance:
 
