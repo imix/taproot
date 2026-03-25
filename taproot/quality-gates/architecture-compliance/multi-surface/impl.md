@@ -19,15 +19,21 @@
 - `8dcbc6703ebe3fa8c65e172ca309832ae2ae4089` — (auto-linked by taproot link-commits)
 
 ## Tests
-- (no automated test — activation is verified by the DoR runner's existing `check-if-affected-by` test coverage; the architecture doc's content is human-maintained)
+- `test/integration/architecture-compliance.test.ts` — activation regression (settings.yaml entry present, docs/architecture.md exists); DoR runner behaviour (check pending until agent resolves, check passes once resolution recorded)
 
 ## Status
 - **State:** complete
 - **Created:** 2026-03-20
-- **Last verified:** 2026-03-20
+- **Last verified:** 2026-03-25
 
 ## DoD Resolutions
 - condition: document-current | note: docs/configuration.md updated: added check-if-affected-by to DoR condition syntax and documented architecture compliance use case with reference to docs/architecture.md. docs/architecture.md created as the architecture reference document. README.md and other docs/ files not affected. | resolved: 2026-03-20T13:38:11.010Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: not applicable — this change adds a test file and updates impl.md only; no skill file (skills/*.md) is modified | resolved: 2026-03-25T08:59:38.539Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — adding integration tests introduces no agent-facing output, no new section headers, and no language-dependent content; the test file is TypeScript with English identifiers only | resolved: 2026-03-25T08:59:32.615Z
+
+- condition: check-if-affected: docs/ | note: adding integration tests does not affect any docs/ file — tests cover existing CLI and config behaviour with no new user-facing surface | resolved: 2026-03-25T08:59:27.120Z
+
 - condition: sessions-convention | note: docs/architecture.md updated: added _sessions/ scratch space convention. Architecture doc remains accurate and actionable. | resolved: 2026-03-20T20:13:47.707Z
 - condition: no-raw-exceptions | note: docs/architecture.md updated with "No raw exceptions to the user" constraint. Constraint is self-enforcing via check-if-affected-by: quality-gates/architecture-compliance. | resolved: 2026-03-21
 
