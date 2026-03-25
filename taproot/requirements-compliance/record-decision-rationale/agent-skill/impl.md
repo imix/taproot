@@ -19,6 +19,8 @@
 
 ## Commits
 <!-- taproot-managed -->
+- `f0fde1979b8aae178dfea20566bf16029571ecfe` — (auto-linked by taproot link-commits)
+- `f19c5ced062ce86c02b848ceee0d812ed1d7ed58` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/skills.test.ts` — AC-1: implement.md contains discussion.md step before declaration commit, covers all four sections, stages with impl.md; AC-2: behaviour.md has optional discussion.md step referencing the same template; AC-3: trivial session skip guidance documented

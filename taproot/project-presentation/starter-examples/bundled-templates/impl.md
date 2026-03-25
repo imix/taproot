@@ -21,6 +21,7 @@
 <!-- taproot-managed -->
 - `830437bc57152c13bdacd7efb7f0b29c4b20e77c` — (auto-linked by taproot link-commits)
 - `9be52e3a926821401cd9d821bef7bef50902e85c` — (auto-linked by taproot link-commits)
+- `ddc6702babb79e7929e1ef4d1a0f9286c471ee4d` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/starter-examples.test.ts` — covers all 6 ACs: webapp hierarchy structure, book-authoring vocabulary, cli-tool DoD, unknown template error, settings.yaml force/no-force behaviour, and validate-structure/validate-format for all three templates
