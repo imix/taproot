@@ -52,8 +52,16 @@ Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the 
 ### Nothing obvious follows
 - **Trigger:** The skill succeeded but has no deterministic continuation and the context is terminal — e.g. `/tr-status` run at end of sprint with everything healthy, `/tr-guide` run standalone
 - **Steps:**
-  1. Skill proposes a low-friction fallback: `taproot overview` to orient, or `/tr-ineed` to capture anything new
-  2. Guidance is framed as optional: "Nothing obvious next — whenever you're ready: ..."
+  1. Skill checks whether `.taproot/backlog.md` exists and contains items
+  2. If backlog is non-empty: include `/tr-backlog` (triage) as a lettered option alongside `/tr-plan` and `/tr-status`
+  3. If backlog is empty: propose the existing low-friction fallback — `taproot overview` to orient, or `/tr-ineed` to capture anything new
+  4. Guidance is framed as optional: "Nothing obvious next — whenever you're ready: ..."
+
+### Backlog-eligible output
+- **Trigger:** The skill's output includes open questions, out-of-scope findings, or ideas the developer may want to capture but that are not ready to route into the hierarchy
+- **Steps:**
+  1. Skill includes `/tr-backlog <idea>` as a lettered option, framed as "capture this for later"
+  2. `/tr-backlog` is preferred over `/tr-ineed` when the item is not yet ready to be placed in the hierarchy — use `/tr-ineed` when the item is ready to route
 
 ### Findings-informed guidance
 - **Trigger:** The skill's output includes specific identified actionable items — e.g. `/tr-status` finds an unimplemented behaviour; `/tr-review-all` flags a broken spec at a known path
@@ -73,6 +81,8 @@ Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the 
 - The guidance names a real command with a real path — no generic placeholders
 - The developer can act on the suggestion without any additional orientation turn
 - When the skill identified specific actionable findings, those appear as direct lettered options — not buried in the report with only generic options below
+- When the skill surfaces ideas, findings, or open questions not ready to route, `/tr-backlog` appears as a capture option
+- When the context is terminal and the backlog is non-empty, `/tr-backlog` appears in the fallback menu
 
 ## Error Conditions
 - **Context is genuinely ambiguous and no reasonable options exist:** Skill omits the guidance block entirely — silence is better than a placeholder like "consider what to do next"
@@ -133,6 +143,16 @@ flowchart TD
 - When the skill finishes its output
 - Then the "What's next?" menu contains `/tr-implement taproot/acceptance-criteria/verify-coverage/` as a lettered option — not just generic options like `/tr-plan`
 
+**AC-8: Backlog option appears when ideas or out-of-scope findings surface**
+- Given a skill's output includes open questions, deferred work, or ideas not ready to route into the hierarchy
+- When the skill finishes its output
+- Then the What's next? menu includes `/tr-backlog <idea>` as a lettered option alongside other next steps
+
+**AC-9: /tr-backlog appears in terminal guidance when backlog is non-empty**
+- Given a skill has completed with no deterministic continuation
+- When `.taproot/backlog.md` exists and contains at least one item
+- Then `/tr-backlog` appears as a lettered option in the fallback What's next? menu alongside `/tr-plan` and `/tr-status`
+
 **AC-6: /tr-ineed near-duplicate termination shows refinement option**
 - Given `/tr-ineed` detects an existing behaviour that matches the requirement and stops
 - When the match is confirmed
@@ -144,7 +164,7 @@ flowchart TD
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
-- **Last reviewed:** 2026-03-20
+- **Last reviewed:** 2026-03-25
 
 ## Notes
 - **Router vs leaf:** A skill is a **router** if its primary output is invoking another skill (e.g. `/tr-ineed` routes to `/tr-behaviour`; `/tr-decompose` routes to multiple `/tr-behaviour` calls). A skill is a **leaf** if its primary output is a document, report, or validation result. When in doubt: if the skill ends by writing files or presenting findings directly, it is a leaf and must show guidance.
@@ -153,13 +173,14 @@ flowchart TD
   - `/tr-behaviour` → open-ended: `/tr-implement <path>/` (start building) **or** `/tr-review <usecase.md>` (stress-test first)
   - `/tr-implement` → deterministic: `taproot dod <impl-path>` (run DoD and mark complete)
   - `/tr-refine` → open-ended: commit the change **or** `/tr-implement <path>/` (if spec changes require reimplementing)
-  - `/tr-review` → open-ended: `/tr-refine <path>` (if issues found) **or** `/tr-implement <path>/` (if spec is clean)
+  - `/tr-review` → open-ended: `/tr-refine <path>` (if issues found) **or** `/tr-implement <path>/` (if spec is clean) **or** `/tr-backlog <finding>` (if issues are out of scope for now)
+  - `/tr-review-all` → findings-informed: surface top 1–2 issues as direct options; fallback: `/tr-backlog <finding>` (capture deferred items) **or** `/tr-plan` (next slice)
   - `/tr-plan` → deterministic: `/tr-implement <returned-slice-path>/`
-  - `/tr-status` → findings-informed when specific items found (surface top 1–2 as direct options + one generic fallback); otherwise open-ended: `/tr-plan` (pick next item) **or** `/tr-ineed` (capture a gap)
+  - `/tr-status` → findings-informed when specific items found (surface top 1–2 as direct options + one generic fallback); otherwise open-ended: `/tr-plan` (pick next item) **or** `/tr-ineed` (route a gap) **or** `/tr-backlog` (if backlog is non-empty — triage before moving on)
   - `/tr-discover` → open-ended: `/tr-status` (see coverage), `/tr-plan` (get next slice), or `/tr-ineed` (add missing requirements)
   - `/tr-analyse-change` → open-ended: `/tr-refine <path>` (apply safe changes) **or** `/tr-intent <path>` (if upstream affected)
   - `/tr-promote` → open-ended: `/tr-refine` on each impacted sibling behaviour
-  - `/tr-grill-me` → open-ended: `/tr-ineed "<clarified requirement>"` **or** `/tr-behaviour <path>/`
+  - `/tr-grill-me` → open-ended: `/tr-ineed "<clarified requirement>"` **or** `/tr-behaviour <path>/` **or** `/tr-backlog <deferred question>` (if questions surfaced but not ready to route)
   - `/tr-decompose` → open-ended: `/tr-behaviour <intent-path>/` (define first sub-behaviour) **or** `/tr-status` (see what's now planned)
   - `/tr-trace` → open-ended: navigate to the identified document **or** `/tr-refine <path>` (if drift found between code and spec)
   - `/tr-guide` → nothing obvious: "Whenever you're ready — `/tr-ineed` to capture a requirement, or `/tr-status` for a project overview"
