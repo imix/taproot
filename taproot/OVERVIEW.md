@@ -35,6 +35,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [settings-wiring](./agent-integration/agent-agnostic-language/settings-wiring/impl.md) `[complete]` (2 commits ⚠ no tests)
 - **[agent-support-tiers](./agent-integration/agent-support-tiers/usecase.md)** `[implemented]` — Actor: Developer selecting an AI coding agent to use with taproot
   - [cli-command](./agent-integration/agent-support-tiers/cli-command/impl.md) `[complete]` (2 commits, 1 test)
+- **[aider-adapter](./agent-integration/aider-adapter/usecase.md)** `[specified]` — Actor: Developer using Aider as their primary AI coding agent in a taproot project
 - **[autonomous-execution](./agent-integration/autonomous-execution/usecase.md)** `[specified]` — Actor: Developer (or orchestrator) who delegates a taproot task to an agent and steps away — returning to completed work rather than supervising each step
 - **[cli-invocation](./agent-integration/cli-invocation/usecase.md)** `[implemented]` — Actor: AI coding agent — executing a taproot skill step that includes a CLI command (e.g. `taproot dod`, `taproot link-commits`, `taproot overview`).
   - [multi-surface](./agent-integration/cli-invocation/multi-surface/impl.md) `[complete]` (3 commits, 1 test)
@@ -77,7 +78,7 @@ _No behaviours yet._
 - **[bug-triage](./human-integration/bug-triage/usecase.md)** `[implemented]` — Actor: Developer or AI coding agent who has observed a defect — unexpected system behaviour, a failing test, or a user-reported issue
   - [agent-skill](./human-integration/bug-triage/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[contextual-next-steps](./human-integration/contextual-next-steps/usecase.md)** `[implemented]` — Actor: Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the moment it produces its primary output
-  - [all-skills](./human-integration/contextual-next-steps/all-skills/impl.md) `[complete]` (5 commits, 1 test)
+  - [all-skills](./human-integration/contextual-next-steps/all-skills/impl.md) `[complete]` (6 commits, 1 test)
 - **[cross-linked-specs](./human-integration/cross-linked-specs/usecase.md)** `[implemented]` — Actor: `tr-behaviour` skill (when creating a new `usecase.md`) and `tr-implement` skill (when creating a new `impl.md`) — both maintain the link sections in their parent documents as a side-effect of document creation. `taproot update` runs a link-refresh pass across the full tree to backfill existing documents.
   - [multi-surface](./human-integration/cross-linked-specs/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 - **[grill-me](./human-integration/grill-me/usecase.md)** `[implemented]` — Actor: Developer or orchestrator who wants to stress-test a plan, design decision, or vague idea through relentless structured questioning — invoked directly via `/tr-grill-me`, or called by another skill (`tr-ineed`, `tr-behaviour`) when deeper elicitation is needed before writing a spec.
@@ -203,7 +204,7 @@ _No behaviours yet._
 **Goal:** Enable developers to capture ideas, findings, and deferred work items instantly mid-session — so that nothing is lost to context switches and every captured item can be triaged into the hierarchy when the time is right.
 
 - **[manage-backlog](./taproot-backlog/manage-backlog/usecase.md)** `[implemented]` — Actor: Developer — working mid-session who wants to capture an idea, finding, or deferred item instantly, or who wants to triage previously captured items.
-  - [agent-skill](./taproot-backlog/manage-backlog/agent-skill/impl.md) `[complete]` (9 commits, 1 test)
+  - [agent-skill](./taproot-backlog/manage-backlog/agent-skill/impl.md) `[complete]` (10 commits, 1 test)
 
 ## [taproot-distribution](./taproot-distribution/intent.md) `[active]`
 
@@ -220,4 +221,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-19 intents · 59 behaviours · 59 implementations · 58/59 complete
+19 intents · 60 behaviours · 59 implementations · 58/59 complete

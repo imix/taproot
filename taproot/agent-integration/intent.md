@@ -28,6 +28,7 @@ Enable any AI coding agent to participate fully in the taproot workflow — thro
 - [Autonomous Agent Execution](./autonomous-execution/usecase.md)
 - [Configuration Discoverability](./configuration-discoverability/usecase.md)
 - [CLI Invocation Prefix](./cli-invocation/usecase.md)
+- [Aider Adapter](./aider-adapter/usecase.md)
 
 
 ## Status
