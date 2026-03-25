@@ -348,6 +348,7 @@ describe('backlog.md — capture and triage skill', () => {
 
   it('AC-5: P <n> promotes item and delegates to /tr-ineed', () => {
     expect(content).toContain('/tr-ineed');
+    expect(content).toMatch(/promote to \/tr-ineed/i);
   });
 
   it('AC-6: reports empty backlog message', () => {
@@ -359,7 +360,9 @@ describe('backlog.md — capture and triage skill', () => {
     expect(content).toMatch(/discarded.*promoted.*kept|kept.*promoted.*discarded/i);
   });
 
-  it('AC-8: A <n> shows item detail with P/K/D choices', () => {
-    expect(content).toMatch(/\[P\].*Promote.*\[K\].*Keep.*\[D\].*Discard|\[P\] Promote · \[K\] Keep · \[D\] Discard/i);
+  it('AC-8: A <n> produces structured analysis with complexity, impact, and choices', () => {
+    expect(content).toMatch(/simple.*moderate.*significant|simple\/moderate\/significant/i);
+    expect(content).toMatch(/minor addition.*meaningful improvement.*major capability|minor addition\/meaningful improvement\/major capability/i);
+    expect(content).toMatch(/\[P\].*Promote to \/tr-ineed.*\[K\].*Keep.*\[D\].*Discard/i);
   });
 });
