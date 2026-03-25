@@ -46,6 +46,7 @@ Based on Matt Pocock's `grill-me` skill (MIT licensed, https://github.com/mattpo
    **What's next?**
    [A] `/tr-ineed "<clarified requirement>"` — route the sharpened requirement into the hierarchy
    [B] `/tr-behaviour <path>/` — write the spec now that the design is clear
+   [C] `/tr-backlog <deferred question>` — capture an unresolved question for later without routing it now
 
 ## Output
 

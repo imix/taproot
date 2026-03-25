@@ -60,6 +60,7 @@ Stress-test a single Taproot artifact — an `intent.md`, `usecase.md`, or `impl
    **What's next?**
    [A] `/tr-refine <path>` — apply the findings to the spec
    [B] `/tr-implement <path>/` — spec is clean; proceed to implementation
+   [C] `/tr-backlog <finding>` — capture an out-of-scope issue for later without routing it now
 
 ## Output
 

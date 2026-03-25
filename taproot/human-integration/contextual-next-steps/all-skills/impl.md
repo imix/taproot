@@ -50,6 +50,14 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/ describes skill capabilities but not skill-internal patterns like next-step guidance — no doc update needed; the guide.md skill itself was updated as part of this implementation | resolved: 2026-03-20T06:11:51.654Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: VERIFIED — changes are limited to adding /tr-backlog as a lettered menu option in What's next? blocks. No shell commands, no credentials, no executable instructions beyond presenting a slash command suggestion. Least-privilege maintained. | resolved: 2026-03-25T15:38:21.496Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: COMPLIANT — all five updated skill files (review.md, review-all.md, grill-me.md, status.md, guide.md) use agent-agnostic language: 'the developer', 'the skill'. No Claude-specific syntax introduced. | resolved: 2026-03-25T15:38:13.494Z
+
+- condition: check-if-affected: examples/ | note: NOT APPLICABLE — starter examples demonstrate hierarchy structure; they do not illustrate skill-internal What's next? guidance patterns. | resolved: 2026-03-25T15:38:03.507Z
+
+- condition: check-if-affected: docs/ | note: NOT APPLICABLE — docs/ covers CLI commands and configuration; What's next? guidance changes are skill-internal patterns documented in the skills themselves, not in docs/. No docs/ changes required. | resolved: 2026-03-25T15:38:01.032Z
+
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No. Adding /tr-commit to the guide table is a routine maintenance update, not a new reusable pattern. | resolved: 2026-03-21T07:27:10.912Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: No. Adding a row to guide.md's slash commands table does not introduce a new cross-cutting concern. | resolved: 2026-03-21T07:27:10.684Z
