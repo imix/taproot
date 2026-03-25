@@ -1,4 +1,3 @@
-* need a tr-bug that performs root cause analysis (can be triggered by tr-ineed)
 * extended BDD format? 
 * research is not triggered efficiently
 * add a backlog function to replace these findings (or just use github issues?)
