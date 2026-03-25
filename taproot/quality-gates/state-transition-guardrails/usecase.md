@@ -162,6 +162,9 @@ flowchart TD
 - When `taproot dod --rerun-tests` is run
 - Then the system reports: `"--rerun-tests requires an impl-path argument"` and exits non-zero
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command — test-cache + dod-runner integration](./cli-command/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-25
