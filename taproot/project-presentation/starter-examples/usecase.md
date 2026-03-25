@@ -124,6 +124,7 @@ flowchart TD
 - Then it exits with a non-zero code and lists the available template names
 
 ## Implementations <!-- taproot-managed -->
+- [Bundled Templates](./bundled-templates/impl.md)
 
 ## Status
 - **State:** specified
