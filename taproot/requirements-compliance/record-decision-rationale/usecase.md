@@ -110,6 +110,9 @@ flowchart TD
 - When they stage and commit it alongside `impl.md`
 - Then it is accepted by the hook and treated identically to an agent-generated file
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-25
