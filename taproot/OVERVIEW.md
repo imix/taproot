@@ -73,7 +73,7 @@ _No behaviours yet._
 **Goal:** Ensure the human orchestrator retains meaningful control of the requirement hierarchy — as its owner, its primary author of intent, and its final decision-maker — while making the current state of the project legible at a glance.
 
 - **[browse-hierarchy-item](./human-integration/browse-hierarchy-item/usecase.md)** `[implemented]` — Actor: Developer — in the terminal, wanting to read a hierarchy document (intent.md, usecase.md, or impl.md) section by section without leaving the CLI or opening an external editor.
-  - [agent-skill](./human-integration/browse-hierarchy-item/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
+  - [agent-skill](./human-integration/browse-hierarchy-item/agent-skill/impl.md) `[complete]` (4 commits, 1 test)
 - **[bug-triage](./human-integration/bug-triage/usecase.md)** `[implemented]` — Actor: Developer or AI coding agent who has observed a defect — unexpected system behaviour, a failing test, or a user-reported issue
   - [agent-skill](./human-integration/bug-triage/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[contextual-next-steps](./human-integration/contextual-next-steps/usecase.md)** `[implemented]` — Actor: Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the moment it produces its primary output
@@ -202,8 +202,8 @@ _No behaviours yet._
 
 **Goal:** Enable developers to capture ideas, findings, and deferred work items instantly mid-session — so that nothing is lost to context switches and every captured item can be triaged into the hierarchy when the time is right.
 
-- **[manage-backlog](./taproot-backlog/manage-backlog/usecase.md)** `[specified]` — Actor: Developer — working mid-session who wants to capture an idea, finding, or deferred item instantly, or who wants to triage previously captured items.
-  - [agent-skill](./taproot-backlog/manage-backlog/agent-skill/impl.md) `[in-progress]` (0 commits, 1 test)
+- **[manage-backlog](./taproot-backlog/manage-backlog/usecase.md)** `[implemented]` — Actor: Developer — working mid-session who wants to capture an idea, finding, or deferred item instantly, or who wants to triage previously captured items.
+  - [agent-skill](./taproot-backlog/manage-backlog/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 
 ## [taproot-distribution](./taproot-distribution/intent.md) `[active]`
 
@@ -220,4 +220,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-19 intents · 59 behaviours · 59 implementations · 57/59 complete
+19 intents · 59 behaviours · 59 implementations · 58/59 complete
