@@ -123,6 +123,7 @@ flowchart TD
 - Then the skill reports *"Backlog is empty"* and stops without error
 
 ## Implementations <!-- taproot-managed -->
+- [Agent Skill](./agent-skill/impl.md)
 
 ## Status
 - **State:** specified
