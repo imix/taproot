@@ -145,6 +145,9 @@ flowchart TD
 - When they respond with "never mind" or equivalent
 - Then the agent confirms no changes were made and returns to the section navigation options
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-25
