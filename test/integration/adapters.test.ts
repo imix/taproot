@@ -337,7 +337,7 @@ describe('AC-15: Configuration Quick Reference', () => {
 // ─── --agent all ──────────────────────────────────────────────────────────────
 
 describe('--agent all', () => {
-  it('generates all six adapters', () => {
+  it('generates all adapters', () => {
     const results = generateAdapters('all', tmpDir);
     const agents = results.map(r => r.agent).sort();
     expect(agents).toEqual([...ALL_AGENTS].sort());
@@ -351,6 +351,8 @@ describe('--agent all', () => {
     expect(existsSync(join(tmpDir, '.windsurfrules'))).toBe(true);
     expect(existsSync(join(tmpDir, '.gemini', 'commands', 'tr-intent.toml'))).toBe(true);
     expect(existsSync(join(tmpDir, 'AGENTS.md'))).toBe(true);
+    expect(existsSync(join(tmpDir, '.aider.conf.yml'))).toBe(true);
+    expect(existsSync(join(tmpDir, 'CONVENTIONS.md'))).toBe(true);
   });
 });
 
@@ -378,5 +380,87 @@ describe('taproot init --agent', () => {
     runInit({ cwd: tmpDir, agent: 'claude' });
     expect(existsSync(join(tmpDir, '.taproot', 'skills', 'plan.md'))).toBe(true);
     expect(existsSync(join(tmpDir, '.taproot', 'skills', 'intent.md'))).toBe(true);
+  });
+});
+
+// ─── Aider ────────────────────────────────────────────────────────────────────
+
+describe('aider adapter', () => {
+  it('AC-1: creates .aider.conf.yml and CONVENTIONS.md', () => {
+    generateAdapters('aider', tmpDir);
+    expect(existsSync(join(tmpDir, '.aider.conf.yml'))).toBe(true);
+    expect(existsSync(join(tmpDir, 'CONVENTIONS.md'))).toBe(true);
+  });
+
+  it('AC-1: .aider.conf.yml has read: entries for skill files and CONVENTIONS.md', () => {
+    generateAdapters('aider', tmpDir);
+    const content = readFileSync(join(tmpDir, '.aider.conf.yml'), 'utf-8');
+    expect(content).toContain('read:');
+    expect(content).toContain('.taproot/skills/intent.md');
+    expect(content).toContain('CONVENTIONS.md');
+    for (const filename of SKILL_FILES) {
+      expect(content).toContain(`.taproot/skills/${filename}`);
+    }
+  });
+
+  it('AC-1: CONVENTIONS.md contains taproot workflow instructions', () => {
+    generateAdapters('aider', tmpDir);
+    const content = readFileSync(join(tmpDir, 'CONVENTIONS.md'), 'utf-8');
+    expect(content).toContain('Taproot');
+    expect(content).toContain('taproot/');
+    expect(content).toContain('taproot validate-structure');
+    expect(content).toContain('intent.md');
+    expect(content).toContain('usecase.md');
+    expect(content).toContain('impl.md');
+  });
+
+  it('CONVENTIONS.md lists all skills with descriptions', () => {
+    generateAdapters('aider', tmpDir);
+    const content = readFileSync(join(tmpDir, 'CONVENTIONS.md'), 'utf-8');
+    for (const filename of SKILL_FILES) {
+      const name = filename.replace('.md', '');
+      expect(content).toContain(name);
+    }
+  });
+
+  it('AC-4: merges read: entries into existing .aider.conf.yml without destroying settings', () => {
+    const existing = 'model: gpt-4\napi-key: my-key\nread:\n  - docs/notes.md\n';
+    writeFileSync(join(tmpDir, '.aider.conf.yml'), existing);
+
+    generateAdapters('aider', tmpDir);
+    const content = readFileSync(join(tmpDir, '.aider.conf.yml'), 'utf-8');
+
+    // Developer settings preserved
+    expect(content).toContain('gpt-4');
+    expect(content).toContain('my-key');
+    // Existing read entry preserved
+    expect(content).toContain('docs/notes.md');
+    // Taproot entries added
+    expect(content).toContain('.taproot/skills/intent.md');
+    expect(content).toContain('CONVENTIONS.md');
+  });
+
+  it('AC-4: merge is idempotent — no duplicate read: entries on second run', () => {
+    generateAdapters('aider', tmpDir);
+    generateAdapters('aider', tmpDir);
+    const content = readFileSync(join(tmpDir, '.aider.conf.yml'), 'utf-8');
+    const matches = (content.match(/\.taproot\/skills\/intent\.md/g) ?? []).length;
+    expect(matches).toBe(1);
+  });
+
+  it('AC-6: returns error for invalid YAML without modifying file', () => {
+    const badYaml = 'read: [unclosed\nmodel: gpt-4\n  bad indent\n';
+    writeFileSync(join(tmpDir, '.aider.conf.yml'), badYaml);
+
+    const results = generateAdapters('aider', tmpDir);
+    expect(results[0]?.error).toContain('not valid YAML');
+    // File unchanged
+    expect(readFileSync(join(tmpDir, '.aider.conf.yml'), 'utf-8')).toBe(badYaml);
+  });
+
+  it('is included in --agent all', () => {
+    const results = generateAdapters('all', tmpDir);
+    const agents = results.map(r => r.agent);
+    expect(agents).toContain('aider');
   });
 });

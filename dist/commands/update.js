@@ -50,6 +50,13 @@ function detectInstalledAgents(cwd) {
     if (existsSync(agentsPath) && readFileSync(agentsPath, 'utf-8').includes(TAPROOT_START)) {
         installed.push('generic');
     }
+    // aider: .aider.conf.yml with taproot read: entries, or CONVENTIONS.md with taproot header
+    const aiderConfPath = join(cwd, '.aider.conf.yml');
+    const conventionsPath = join(cwd, 'CONVENTIONS.md');
+    if ((existsSync(aiderConfPath) && readFileSync(aiderConfPath, 'utf-8').includes('.taproot/skills/')) ||
+        (existsSync(conventionsPath) && readFileSync(conventionsPath, 'utf-8').includes('taproot init --agent aider'))) {
+        installed.push('aider');
+    }
     return installed;
 }
 function removeStale(cwd) {
@@ -239,6 +246,10 @@ export async function runUpdate(options) {
     for (const agent of agents) {
         const results = generateAdapters(agent, cwd);
         for (const result of results) {
+            if (result.error) {
+                messages.push(`error    ${result.error}`);
+                continue;
+            }
             for (const file of result.files) {
                 const rel = file.path.replace(cwd + '/', '').replace(cwd + '\\', '');
                 const verb = file.status === 'created' ? 'created' : file.status === 'updated' ? 'updated' : 'exists  ';

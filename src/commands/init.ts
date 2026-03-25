@@ -134,6 +134,7 @@ export function registerInit(program: Command): void {
           copilot: 'GitHub Copilot',
           windsurf: 'Windsurf',
           gemini: 'Gemini CLI',
+          aider: 'Aider',
           generic: 'Generic (any AI agent)',
         };
         const selected = await checkbox({
@@ -264,6 +265,10 @@ export function runInit(options: {
   if (options.agent) {
     const results = generateAdapters(options.agent, cwd);
     for (const result of results) {
+      if (result.error) {
+        messages.push(`error    ${result.error}`);
+        continue;
+      }
       for (const file of result.files) {
         const rel = file.path.replace(cwd + '/', '').replace(cwd + '\\', '');
         const verb = file.status === 'created' ? 'created' : file.status === 'updated' ? 'updated' : 'exists ';

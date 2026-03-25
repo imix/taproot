@@ -8,6 +8,7 @@ Taproot works with any AI assistant that can read files. Run `taproot init --age
 |-------|-------------|---------|---------------------|
 | Claude Code | **Tier 1** — fully supported | `taproot init --agent claude` | `.claude/commands/tr-*.md` — one file per slash command |
 | Gemini CLI | **Tier 2** — implemented & tested | `taproot init --agent gemini` | `.gemini/commands/tr-*.toml` — one file per command |
+| Aider | **Tier 2** — implemented & tested | `taproot init --agent aider` | `.aider.conf.yml` with `read:` entries + `CONVENTIONS.md` |
 | Cursor | **Tier 3** — community supported | `taproot init --agent cursor` | `.cursor/rules/taproot.md` — project-wide rules |
 | GitHub Copilot | **Tier 3** — community supported | `taproot init --agent copilot` | `.github/copilot-instructions.md` |
 | Windsurf | **Tier 3** — community supported | `taproot init --agent windsurf` | `.windsurfrules` |
@@ -66,6 +67,16 @@ taproot update
 ```
 
 This refreshes all adapter files and skill definitions to the current version. Run it after upgrading the `taproot` package.
+
+---
+
+## Aider
+
+The Aider adapter installs `.aider.conf.yml` with `read:` entries so every Aider session automatically loads all taproot skill definitions and `CONVENTIONS.md` as context. No extra flags needed — run `aider` in the project directory and it picks up taproot context immediately.
+
+Skills are invoked by natural language: *"implement the behaviour at taproot/my-intent/my-feature/"* rather than a slash command.
+
+If `.aider.conf.yml` already exists, `taproot init` merges the `read:` entries without removing your existing settings (model, API key, etc.). If the file contains invalid YAML, the command stops with an error rather than overwriting it.
 
 ---
 
