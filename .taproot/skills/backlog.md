@@ -36,9 +36,9 @@ Capture ideas, findings, and deferred work mid-session with a single command —
 3. Offer: `D <n>` discard · `P <n>` promote · `A <n>` analyze · `done` finish
 
 4. Accept commands one at a time:
-   - **`D <n>`** — remove item n from `.taproot/backlog.md`. Confirm: *"✓ Discarded #n"*
-   - **`P <n>`** — remove item n from `.taproot/backlog.md`. Invoke `/tr-ineed` with the item text.
-   - **`A <n>`** — display the full text of item n and ask: *"[P] Promote · [K] Keep · [D] Discard"*
+   - **`D <n>`** — remove item n from `.taproot/backlog.md`. Confirm: *"✓ Discarded #n"*. Redisplay the updated numbered list.
+   - **`P <n>`** — remove item n from `.taproot/backlog.md`. Invoke `/tr-ineed` with the item text. On return, redisplay the updated numbered list.
+   - **`A <n>`** — display the full text of item n and ask: *"[P] Promote · [K] Keep · [D] Discard"*. After the choice, redisplay the updated numbered list.
    - **`done`** — end triage. Items not acted on are kept implicitly.
 
 5. After `done`: *"Triage complete — X discarded, Y promoted, Z kept."*
