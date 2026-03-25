@@ -20,6 +20,5 @@
 - [2026-03-25] test-to-requirement mapping: verify tests in impl.md cover ACs in usecase.md via LLM
 - [2026-03-25] cross-repo traceability: link intents/behaviours across microservice repo boundaries
 - [2026-03-25] commit message auto-tagging: suggest taproot(intent/behaviour/impl): tags based on staged files
-- [2026-03-25] state transition guardrails: cannot move to complete if npm test hasn't run recently
 - [2026-03-25] reference architectures / standard packs for common domains (e.g. authentication intent pack)
 - [2026-03-25] /tr-tour command: interactive onboarding walking developers through a live example requirement loop

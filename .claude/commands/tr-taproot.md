@@ -20,6 +20,6 @@ Edit `.taproot/settings.yaml` to configure taproot. Run `taproot update` after c
 
 See `.taproot/CONFIGURATION.md` for the full reference and examples.
 
-<!-- taproot:cli-invocation: npx @imix-js/taproot -->
-When running taproot commands in this project, replace bare `taproot` with: `npx @imix-js/taproot`
-Example: `npx @imix-js/taproot dod taproot/some-intent/some-behaviour/impl-name/impl.md`
+<!-- taproot:cli-invocation: node dist/cli.js -->
+When running taproot commands in this project, replace bare `taproot` with: `node dist/cli.js`
+Example: `node dist/cli.js dod taproot/some-intent/some-behaviour/impl-name/impl.md`

@@ -1,5 +1,6 @@
 version: 1
 root: taproot/
+cli: node dist/cli.js
 commit_pattern: 'taproot\(([^)]+)\):'
 commit_trailer: Taproot
 agents:
