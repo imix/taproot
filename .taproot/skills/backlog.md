@@ -33,12 +33,16 @@ Capture ideas, findings, and deferred work mid-session with a single command —
    ```
    Non-standard lines (not matching `- [YYYY-MM-DD] <text>`) are silently skipped in the display but preserved in the file.
 
-3. Offer: `D <n>` discard · `P <n>` promote · `A <n>` analyze · `done` finish
+3. Offer: `D <n>` discard · `P <n>` promote to /tr-ineed · `A <n>` analyze · `done` finish
 
 4. Accept commands one at a time:
    - **`D <n>`** — remove item n from `.taproot/backlog.md`. Confirm: *"✓ Discarded #n"*. Redisplay the updated numbered list.
-   - **`P <n>`** — remove item n from `.taproot/backlog.md`. Invoke `/tr-ineed` with the item text. On return, redisplay the updated numbered list.
-   - **`A <n>`** — display the full text of item n and ask: *"[P] Promote · [K] Keep · [D] Discard"*. After the choice, redisplay the updated numbered list.
+   - **`P <n>` promote to /tr-ineed** — remove item n from `.taproot/backlog.md`. Invoke `/tr-ineed` with the item text. On return, redisplay the updated numbered list.
+   - **`A <n>` analyze** — produce a structured analysis of the item:
+     - A short description of what the item is or could be (2–4 sentences)
+     - A complexity signal: **simple** / **moderate** / **significant**
+     - An impact assessment: **minor addition** / **meaningful improvement** / **major capability**
+     Then ask: *"[P] Promote to /tr-ineed · [K] Keep · [D] Discard"*. After the choice, redisplay the updated numbered list.
    - **`done`** — end triage. Items not acted on are kept implicitly.
 
 5. After `done`: *"Triage complete — X discarded, Y promoted, Z kept."*

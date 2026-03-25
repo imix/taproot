@@ -26,11 +26,15 @@ Developer — working mid-session who wants to capture an idea, finding, or defe
     2. [YYYY-MM-DD] item text
    ...
    ```
-3. Skill offers: `D <n>` discard · `P <n>` promote · `A <n>` analyze · `done` finish
+3. Skill offers: `D <n>` discard · `P <n>` promote to /tr-ineed · `A <n>` analyze · `done` finish
 4. Developer enters commands one at a time:
    - **`D <n>`** — item n is removed from the backlog. Skill confirms: *"✓ Discarded #n"*, then redisplays the updated numbered list.
-   - **`P <n>`** — item n is removed from the backlog. Skill invokes `/tr-ineed` with the item text. On return, skill redisplays the updated numbered list.
-   - **`A <n>`** — skill presents the full text of item n and asks: *"[P] Promote · [K] Keep · [D] Discard"*. After the choice is made, skill redisplays the updated numbered list.
+   - **`P <n>` promote to /tr-ineed** — item n is removed from the backlog. Skill invokes `/tr-ineed` with the item text. On return, skill redisplays the updated numbered list.
+   - **`A <n>` analyze** — skill produces a structured analysis of the item:
+     - A short description of what the item is or could be (2–4 sentences)
+     - A complexity signal: **simple** / **moderate** / **significant**
+     - An impact assessment: **minor addition** / **meaningful improvement** / **major capability**
+     Then asks: *"[P] Promote to /tr-ineed · [K] Keep · [D] Discard"*. After the choice is made, skill redisplays the updated numbered list.
    - **`done`** — triage ends. Items not acted on are kept implicitly.
 5. After `done`: *"Triage complete — X discarded, Y promoted, Z kept."*
 
@@ -82,7 +86,7 @@ flowchart TD
     G --> H{Command}
     H -->|D n| I[Remove item n\nConfirm ✓ Discarded] --> G
     H -->|P n| L[Remove item n\nInvoke /tr-ineed] --> G
-    H -->|A n| N[Show item detail\nP Keep D Discard] --> G
+    H -->|A n| N[Analyze: description + complexity + impact\nP Promote to /tr-ineed / K Keep / D Discard] --> G
     H -->|done| M[Triage complete summary]
 ```
 
@@ -112,7 +116,7 @@ flowchart TD
 
 **AC-5: P <n> promotes item by index**
 - Given triage is in progress and a numbered list is shown
-- When the developer enters `P <n>`
+- When the developer enters `P <n>` (labelled "promote to /tr-ineed")
 - Then item n is removed from `.taproot/backlog.md` and `/tr-ineed` is invoked with its text
 
 **AC-7: Triage completion summary on done**
@@ -120,10 +124,10 @@ flowchart TD
 - When the developer enters `done`
 - Then the skill reports the count of discarded, promoted, and kept items
 
-**AC-8: A <n> presents item detail with choices**
+**AC-8: A <n> presents structured analysis with choices**
 - Given triage is in progress and a numbered list is shown
 - When the developer enters `A <n>`
-- Then the skill presents the full text of item n and offers `[P] Promote · [K] Keep · [D] Discard`
+- Then the skill presents a structured analysis: a description of what the item is or could be (2–4 sentences), a complexity signal (simple / moderate / significant), and an impact assessment (minor addition / meaningful improvement / major capability), followed by `[P] Promote to /tr-ineed · [K] Keep · [D] Discard`
 
 **AC-6: Empty backlog**
 - Given `.taproot/backlog.md` is absent or contains no items
