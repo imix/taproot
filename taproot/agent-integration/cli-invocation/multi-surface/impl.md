@@ -20,6 +20,7 @@
 - (run `taproot link-commits` to populate)
 - `814237a4891bb9e3e34fdb9fea4a2e40a3ae5f1c` — (auto-linked by taproot link-commits)
 - `00228db094186c02dec097b2940be9f565907cfb` — (auto-linked by taproot link-commits)
+- `e63dfd1ff2159fad4f0b6ced5e7e8c3492c1bff5` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/cli-invocation.test.ts` — AC-1: adapter contains invocation block with default npx prefix after init; AC-2: custom cli: override is reflected in adapter; AC-3: taproot update is idempotent; AC-5: update rewrites block after cli: change; CONFIGURATION.md includes cli section

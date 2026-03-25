@@ -1,3 +1,5 @@
+* add backlog (currently done in findings.md)
+* add aider support
 * extended BDD format? 
 * research is not triggered efficiently
 * add a backlog function to replace these findings (or just use github issues?)
