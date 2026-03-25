@@ -25,6 +25,7 @@
 - `28194c69ae273b9ac5948aae4dcff5f8e186249d` — (auto-linked by taproot link-commits)
 - `51441bdc305596ffc6c51f8af43dccda33db643e` — (auto-linked by taproot link-commits)
 - `43615125f80d29c7ee7f15e91bcba3909c54992f` — (auto-linked by taproot link-commits)
+- `11de94ec68d0cd1e81dda5690fdef298e999e654` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/skills.test.ts` — AC-1: capture confirms with no follow-up; AC-2: D/K/P options present; AC-5: promote delegates to /tr-ineed; AC-6: empty backlog message; AC-7: triage completion summary format
