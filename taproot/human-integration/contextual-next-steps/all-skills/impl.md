@@ -39,6 +39,7 @@
 - `fe208c0cf8be1dacaa6eb11150ee8af5bb3774d8` — (auto-linked by taproot link-commits)
 - `b2a271e011f217b13817671ac87d4cb8bd83888a` — (auto-linked by taproot link-commits)
 - `faf7624472cfef86e57c46ddb5642eb26724ee65` — (auto-linked by taproot link-commits)
+- `baf32e1909d2778ab7131523f664e3b7430aba4d` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/contextual-next-steps.test.ts` — verifies each skill file contains `**Next:**` or `**What's next?**` in its steps section
