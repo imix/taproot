@@ -28,6 +28,7 @@ Ensure the human orchestrator retains meaningful control of the requirement hier
 - [Surface Relevant Patterns Before Proceeding](./pattern-hints/usecase.md)
 - [Hierarchy Sweep](./hierarchy-sweep/usecase.md)
 - [Bug Triage and Root Cause Analysis](./bug-triage/usecase.md)
+- [Browse Hierarchy Item](./browse-hierarchy-item/usecase.md)
 
 
 ## Status
