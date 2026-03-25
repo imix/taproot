@@ -113,7 +113,7 @@ flowchart TD
 - When `taproot init --agent aider` is run
 - Then the system reports a clear error and stops without modifying the file
 
-## Implementations
+## Implementations <!-- taproot-managed -->
 
 - [cli-command](./cli-command/impl.md)
 

@@ -17,7 +17,7 @@ AI coding agent — executing a taproot skill step that includes a CLI command (
    When running taproot commands in this project, replace bare `taproot` with: `npx @imix-js/taproot`
    Example: `npx @imix-js/taproot dod taproot/some-intent/some-behaviour/impl-name/impl.md`
    ```
-4. Agent reads the adapter file at the start of any taproot workflow and notes the invocation prefix
+4. Agent reads the invocation prefix before executing any taproot CLI command. **For Claude Code:** the prefix lives in `.claude/commands/tr-taproot.md` (loaded by `/tr-taproot`), not in `CLAUDE.md` — so it is not automatically in context at session start. The agent must load `/tr-taproot` or consult the block before running CLI steps. Other adapters (Cursor, Copilot, AGENTS.md) embed the block in always-loaded files.
 5. Agent uses the documented prefix for every CLI step in a skill — wherever a skill step reads `taproot <subcommand>`, the agent substitutes `<prefix> <subcommand>`
 6. `taproot update` re-reads `settings.yaml` and rewrites the invocation block in the adapter with the current `cli:` value (idempotent via the `<!-- taproot:cli-invocation -->` marker)
 
@@ -37,6 +37,14 @@ AI coding agent — executing a taproot skill step that includes a CLI command (
   1. Developer sets the key and runs `taproot update`
   2. Adapter is rewritten; agent uses `./node_modules/.bin/taproot <subcommand>`
 
+### Taproot source repo / local build
+- **Trigger:** Developer is working on the taproot source code itself, not a consumer project. The global bin symlink may not exist in the local dev environment.
+- **Steps:**
+  1. Developer adds `cli: node dist/cli.js` to `.taproot/settings.yaml`
+  2. Developer runs `node dist/cli.js update` to bootstrap (since global `taproot` may not yet be available)
+  3. Adapter is rewritten; agent uses `node dist/cli.js <subcommand>` for all CLI steps
+- **Note:** This is the "eat your own dog food" bootstrap case. `npm run build` must have run first to produce `dist/cli.js`.
+
 ## Postconditions
 - The agent adapter contains a machine-readable `<!-- taproot:cli-invocation: <prefix> -->` block documenting the correct invocation prefix
 - Agents reading the adapter have an unambiguous, project-specific instruction for how to invoke the taproot CLI
@@ -46,6 +54,7 @@ AI coding agent — executing a taproot skill step that includes a CLI command (
 ## Error Conditions
 - **Adapter missing invocation block** (old adapter, pre-dating this behaviour): Agent has no explicit instruction. Safe fallback: agent uses `npx @imix-js/taproot <subcommand>`. Agent also advises the developer to run `taproot update` to install the block.
 - **`cli:` value points to an unavailable command**: The system writes whatever is configured — it performs no availability check. If the agent later runs the command and it fails, the developer must correct the `cli:` value in `settings.yaml` and re-run `taproot update`.
+- **Agent executes CLI without reading invocation block (Claude Code):** For Claude Code, the invocation block is in `.claude/commands/tr-taproot.md`, which is only loaded when `/tr-taproot` is invoked — not at session start. If an agent runs a taproot skill without first loading the prefix, it may default to `npx @imix-js/taproot`, which fails when the global bin symlink is absent. Mitigation: add a static note to `CLAUDE.md` with the correct invocation, or invoke `/tr-taproot` at the start of any taproot session.
 
 ## Flow
 ```mermaid
@@ -103,6 +112,11 @@ sequenceDiagram
 - Given the adapter has `<!-- taproot:cli-invocation: npx @imix-js/taproot -->` and the developer has since set `cli: taproot` in settings.yaml
 - When `taproot update` runs
 - Then the block is rewritten to `<!-- taproot:cli-invocation: taproot -->` and the instruction is updated accordingly
+
+**AC-6: Taproot source repo uses `node dist/cli.js`**
+- Given a developer has set `cli: node dist/cli.js` in `.taproot/settings.yaml` and run `node dist/cli.js update`
+- When the agent reads `.claude/commands/tr-taproot.md`
+- Then it contains `<!-- taproot:cli-invocation: node dist/cli.js -->` and all CLI steps use `node dist/cli.js <subcommand>`
 
 ## Implementations <!-- taproot-managed -->
 - [Multi-surface — config type + adapter injection + CONFIGURATION.md](./multi-surface/impl.md)
