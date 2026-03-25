@@ -1,0 +1,20 @@
+version: 1
+root: taproot/
+
+# Which agent adapters to generate. Remove any you don't use.
+agents:
+  - claude    # Claude Code → .claude/commands/tr-taproot.md
+  - cursor    # Cursor → .cursor/rules/taproot.md
+  - generic   # Any agent → AGENTS.md
+
+# Adjust run: commands for your stack (npm test, vitest, jest, etc.)
+definitionOfDone:
+  - tests-passing:
+      run: npm test
+  - { run: "npm run lint", name: lint-clean }
+  - document-current: README.md reflects the current feature set and setup instructions
+  - check: "does this change affect the sign-up or login flow in a way that requires updating user-facing docs?"
+
+# Optional: add checks that run before each new impl.md is declared
+# definitionOfReady:
+#   - check-if-affected-by: your-cross-cutting-concern/usecase.md

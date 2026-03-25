@@ -1,0 +1,27 @@
+# Taproot settings template — Microservice / API
+#
+# Suitable for: REST or GraphQL APIs, background workers, event consumers.
+# Copy to .taproot/settings.yaml in your project and adjust run: commands.
+
+version: 1
+root: taproot/
+
+agents:
+  - claude
+  - cursor
+  - generic
+
+definitionOfDone:
+  # Automated checks
+  - { run: "npm test", name: tests-passing }
+  - { run: "npm run lint", name: lint-clean }
+  - { run: "docker build -t app:ci .", name: docker-build }
+
+  # Agent checks
+  - document-current: docs/api.md (or OpenAPI spec) reflects all current endpoints and their contracts
+  - check: "does this change add, modify, or remove an API endpoint or event schema that downstream consumers depend on?"
+  - check: "does this change affect data persistence in a way that requires a database migration?"
+  - check: "does this change introduce a new environment variable or configuration value that must be added to deployment docs?"
+
+# definitionOfReady:
+#   - check-if-affected-by: your-api-contract-policy/usecase.md

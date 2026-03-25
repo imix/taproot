@@ -1,0 +1,27 @@
+# Taproot settings template — Web Application
+#
+# Suitable for: Next.js, React + Express, SvelteKit, or any full-stack web app.
+# Copy to .taproot/settings.yaml in your project and adjust run: commands for your stack.
+
+version: 1
+root: taproot/
+
+agents:
+  - claude    # Claude Code → .claude/commands/tr-taproot.md
+  - cursor    # Cursor → .cursor/rules/taproot.md
+  - generic   # Any other agent → AGENTS.md
+
+definitionOfDone:
+  # Automated checks — adjust commands for your test runner and linter
+  - { run: "npm test", name: tests-passing }
+  - { run: "npm run lint", name: lint-clean }
+  - { run: "npm run build", name: build-passes }
+
+  # Agent checks — the agent reads the spec and reasons through compliance
+  - document-current: README.md and any docs/ pages reflect the current feature set
+  - check: "does this change add or modify a user-facing route that should be listed in docs/?"
+  - check: "does this change affect authentication or session handling in a way that warrants a security review?"
+
+# Uncomment and add cross-cutting specs as your project grows:
+# definitionOfReady:
+#   - check-if-affected-by: your-architecture-rule/usecase.md

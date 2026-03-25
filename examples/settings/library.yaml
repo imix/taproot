@@ -1,0 +1,26 @@
+# Taproot settings template — npm Library / SDK
+#
+# Suitable for: TypeScript/JavaScript libraries published to npm.
+# Copy to .taproot/settings.yaml in your project and adjust run: commands.
+
+version: 1
+root: taproot/
+
+agents:
+  - claude
+  - cursor
+  - generic
+
+definitionOfDone:
+  # Automated checks
+  - { run: "npm test", name: tests-passing }
+  - { run: "npx tsc --noEmit", name: type-check }
+  - { run: "npm run build", name: build-passes }
+
+  # Agent checks
+  - document-current: README.md API docs reflect all exported functions, classes, and types
+  - check: "does this change add, remove, or modify a public API surface that requires a changelog entry and a semver decision (patch / minor / major)?"
+  - check: "does this change introduce a breaking change that requires a migration guide?"
+
+# definitionOfReady:
+#   - check-if-affected-by: your-api-stability-policy/usecase.md
