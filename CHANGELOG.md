@@ -4,6 +4,29 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.3.0] - 2026-03-25
+
+### Taproot
+
+**New skills**
+- `/tr-browse` — read any hierarchy document section by section in the terminal, with inline editing via [M] Modify and discussion.md context surfaced at the relevant anchor (133b270, 9e44e0b)
+- `/tr-backlog` — capture ideas and findings mid-session instantly; triage with numbered list and D/P/A <n> commands (f405a27, 6a124d4, f767269, 51441bd)
+
+**Quality gates**
+- `require-discussion-log` DoR condition — opt-in check that enforces `discussion.md` exists at declaration commit time (777f396)
+
+**Starter examples**
+- `taproot init --template book-authoring` and `--template cli-tool` added; webapp template expanded with deployment intent (830437b)
+
+**Agent integration**
+- CLI invocation prefix injected into all generated agent adapters so agents know to use `taproot` CLI commands directly (814237a)
+
+**Requirements compliance**
+- `record-decision-rationale` — `/tr-implement` and `/tr-behaviour` now write `discussion.md` capturing design deliberations at impl/behaviour time (f0fde19)
+
+**Bug fixes**
+- backlog triage: redisplay numbered list after each D/P/A action (51441bd)
+
 ## [0.2.1] - 2026-03-25
 
 ### Taproot
