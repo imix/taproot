@@ -198,6 +198,12 @@ _No behaviours yet._
 - **[language-support](./taproot-adaptability/language-support/usecase.md)** `[implemented]` — Actor: Developer configuring taproot for a non-English team — setting `language: de` (or another supported locale) in `settings.yaml` to localise structural elements throughout the hierarchy
   - [cli-command](./taproot-adaptability/language-support/cli-command/impl.md) `[complete]` (5 commits, 2 tests)
 
+## [taproot-backlog](./taproot-backlog/intent.md) `[active]`
+
+**Goal:** Enable developers to capture ideas, findings, and deferred work items instantly mid-session — so that nothing is lost to context switches and every captured item can be triaged into the hierarchy when the time is right.
+
+- **[manage-backlog](./taproot-backlog/manage-backlog/usecase.md)** `[specified]` — Actor: Developer — working mid-session who wants to capture an idea, finding, or deferred item instantly, or who wants to triage previously captured items.
+
 ## [taproot-distribution](./taproot-distribution/intent.md) `[active]`
 
 **Goal:** Enable the taproot maintainer to publish reliable, tested releases to npm and GitHub through a single repeatable procedure — so that every published version is fully verified, correctly versioned, and accompanied by a changelog and GitHub release.
@@ -213,4 +219,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-18 intents · 58 behaviours · 58 implementations · 57/58 complete
+19 intents · 59 behaviours · 58 implementations · 57/58 complete
