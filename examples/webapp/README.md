@@ -8,6 +8,7 @@ A ready-to-use taproot hierarchy for a standard SaaS web application. Copy this 
 |--------|-----------|
 | `user-auth` — users can identify themselves | sign-up, login, password-reset |
 | `user-profile` — users can manage their identity | view-profile, edit-profile |
+| `deployment` — changes reach users reliably | deploy-to-environment |
 
 All specs are in `specified` state — ready to implement.
 
