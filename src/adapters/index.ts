@@ -60,14 +60,15 @@ function generateAdapter(agent: AgentName, projectRoot: string): AdapterResult {
   const { config } = loadConfig(projectRoot);
   const pack = config.language ? loadLanguagePack(config.language) : null;
   const vocab = config.vocabulary ?? null;
+  const cli = config.cli;
   const skills = loadSkills(pack, vocab);
   switch (agent) {
-    case 'claude':   return generateClaudeAdapter(skills, projectRoot);
-    case 'cursor':   return generateCursorAdapter(skills, projectRoot);
-    case 'copilot':  return generateCopilotAdapter(skills, projectRoot);
-    case 'windsurf': return generateWindsurfAdapter(skills, projectRoot);
-    case 'gemini':   return generateGeminiAdapter(skills, projectRoot);
-    case 'generic':  return generateGenericAdapter(skills, projectRoot);
+    case 'claude':   return generateClaudeAdapter(skills, projectRoot, cli);
+    case 'cursor':   return generateCursorAdapter(skills, projectRoot, cli);
+    case 'copilot':  return generateCopilotAdapter(skills, projectRoot, cli);
+    case 'windsurf': return generateWindsurfAdapter(skills, projectRoot, cli);
+    case 'gemini':   return generateGeminiAdapter(skills, projectRoot, cli);
+    case 'generic':  return generateGenericAdapter(skills, projectRoot, cli);
   }
 }
 
@@ -115,7 +116,7 @@ const TREE_MODIFYING_SKILLS = new Set([
   'intent', 'behaviour', 'implement', 'refine', 'promote', 'decompose', 'trace', 'discover', 'sweep',
 ]);
 
-function generateClaudeAdapter(skills: SkillDef[], projectRoot: string): AdapterResult {
+function generateClaudeAdapter(skills: SkillDef[], projectRoot: string, cli?: string): AdapterResult {
   const targetDir = join(projectRoot, '.claude', 'commands');
   mkdirSync(targetDir, { recursive: true });
 
@@ -132,13 +133,13 @@ function generateClaudeAdapter(skills: SkillDef[], projectRoot: string): Adapter
   // Configuration Quick Reference — a standalone reference file (not a skill launcher)
   const refPath = join(targetDir, 'tr-taproot.md');
   const refExisted = existsSync(refPath);
-  writeFileSync(refPath, buildClaudeConfigRefFile(), 'utf-8');
+  writeFileSync(refPath, buildClaudeConfigRefFile(cli), 'utf-8');
   files.push({ path: refPath, status: refExisted ? 'updated' : 'created' });
 
   return { agent: 'claude', files };
 }
 
-function buildClaudeConfigRefFile(): string {
+function buildClaudeConfigRefFile(cli?: string): string {
   return `---
 name: 'tr-taproot'
 description: 'Taproot configuration quick reference — settings.yaml options and how to apply them'
@@ -148,7 +149,7 @@ description: 'Taproot configuration quick reference — settings.yaml options an
 
 This file is a quick reference for configuring taproot. Read it when asked to change taproot settings (language, vocabulary, definition of done, etc.).
 
-${buildConfigQuickRef()}
+${buildConfigQuickRef(cli)}
 `;
 }
 
@@ -177,13 +178,13 @@ IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
 // ─── Cursor adapter ───────────────────────────────────────────────────────────
 // .cursor/rules/taproot.md — one combined rules file
 
-function generateCursorAdapter(skills: SkillDef[], projectRoot: string): AdapterResult {
+function generateCursorAdapter(skills: SkillDef[], projectRoot: string, cli?: string): AdapterResult {
   const targetDir = join(projectRoot, '.cursor', 'rules');
   mkdirSync(targetDir, { recursive: true });
 
   const destPath = join(targetDir, 'taproot.md');
   const existed = existsSync(destPath);
-  const content = buildCursorRulesFile(skills);
+  const content = buildCursorRulesFile(skills, cli);
   writeFileSync(destPath, content, 'utf-8');
 
   return {
@@ -192,7 +193,7 @@ function generateCursorAdapter(skills: SkillDef[], projectRoot: string): Adapter
   };
 }
 
-function buildCursorRulesFile(skills: SkillDef[]): string {
+function buildCursorRulesFile(skills: SkillDef[], cli?: string): string {
   const skillIndex = skills.map(s =>
     `- \`@taproot ${s.name}\` — ${s.description}`
   ).join('\n');
@@ -227,7 +228,7 @@ ${skillIndex}
 - Validate with: \`taproot validate-structure\` and \`taproot validate-format\`
 - See coverage: \`taproot coverage\`
 
-${buildConfigQuickRef()}
+${buildConfigQuickRef(cli)}
 
 ${skillSections}
 `.trimStart();
@@ -236,14 +237,14 @@ ${skillSections}
 // ─── GitHub Copilot adapter ───────────────────────────────────────────────────
 // .github/copilot-instructions.md — appends/replaces a marked section
 
-function generateCopilotAdapter(skills: SkillDef[], projectRoot: string): AdapterResult {
+function generateCopilotAdapter(skills: SkillDef[], projectRoot: string, cli?: string): AdapterResult {
   const targetDir = join(projectRoot, '.github');
   mkdirSync(targetDir, { recursive: true });
 
   const destPath = join(targetDir, 'copilot-instructions.md');
   const existed = existsSync(destPath);
 
-  const taprootSection = buildCopilotSection(skills);
+  const taprootSection = buildCopilotSection(skills, cli);
   let finalContent: string;
 
   if (existed) {
@@ -260,7 +261,7 @@ function generateCopilotAdapter(skills: SkillDef[], projectRoot: string): Adapte
   };
 }
 
-function buildCopilotSection(skills: SkillDef[]): string {
+function buildCopilotSection(skills: SkillDef[], cli?: string): string {
   const skillSummary = skills.map(s =>
     `- **\`/taproot:${s.name}\`** — ${s.description}. Full definition: \`.taproot/skills/${s.filename}\``
   ).join('\n');
@@ -292,7 +293,7 @@ Run these to validate and inspect the hierarchy:
 - Commits that implement a behaviour: \`taproot(<intent>/<behaviour>/<impl>): <message>\`
 - Full conventions: \`taproot/CONVENTIONS.md\`
 
-${buildConfigQuickRef()}
+${buildConfigQuickRef(cli)}
 ${TAPROOT_END}
 `;
 }
@@ -300,11 +301,11 @@ ${TAPROOT_END}
 // ─── Windsurf adapter ─────────────────────────────────────────────────────────
 // .windsurfrules — appends/replaces a marked section
 
-function generateWindsurfAdapter(skills: SkillDef[], projectRoot: string): AdapterResult {
+function generateWindsurfAdapter(skills: SkillDef[], projectRoot: string, cli?: string): AdapterResult {
   const destPath = join(projectRoot, '.windsurfrules');
   const existed = existsSync(destPath);
 
-  const taprootSection = buildWindsurfSection(skills);
+  const taprootSection = buildWindsurfSection(skills, cli);
   let finalContent: string;
 
   if (existed) {
@@ -321,7 +322,7 @@ function generateWindsurfAdapter(skills: SkillDef[], projectRoot: string): Adapt
   };
 }
 
-function buildWindsurfSection(skills: SkillDef[]): string {
+function buildWindsurfSection(skills: SkillDef[], cli?: string): string {
   const skillIndex = skills.map(s =>
     `- \`/taproot:${s.name}\` — ${s.description}`
   ).join('\n');
@@ -341,7 +342,7 @@ This project uses Taproot to maintain traceability from business intent to code.
 
 ${skillIndex}
 
-${buildConfigQuickRef()}
+${buildConfigQuickRef(cli)}
 
 ## Skill Definitions
 
@@ -354,7 +355,7 @@ ${TAPROOT_END}
 // One .toml file per skill in .gemini/commands/, prefixed with tr-
 // Invoked as /tr-<name> in Gemini CLI
 
-function generateGeminiAdapter(skills: SkillDef[], projectRoot: string): AdapterResult {
+function generateGeminiAdapter(skills: SkillDef[], projectRoot: string, cli?: string): AdapterResult {
   const targetDir = join(projectRoot, '.gemini', 'commands');
   mkdirSync(targetDir, { recursive: true });
 
@@ -371,13 +372,14 @@ function generateGeminiAdapter(skills: SkillDef[], projectRoot: string): Adapter
   // Configuration Quick Reference reference file
   const refPath = join(targetDir, 'tr-taproot.toml');
   const refExisted = existsSync(refPath);
-  writeFileSync(refPath, buildGeminiConfigRefFile(), 'utf-8');
+  writeFileSync(refPath, buildGeminiConfigRefFile(cli), 'utf-8');
   files.push({ path: refPath, status: refExisted ? 'updated' : 'created' });
 
   return { agent: 'gemini', files };
 }
 
-function buildGeminiConfigRefFile(): string {
+function buildGeminiConfigRefFile(cli?: string): string {
+  const prefix = cli ?? DEFAULT_CLI_PREFIX;
   return `description = "Taproot configuration quick reference — settings.yaml options and how to apply them"
 
 prompt = """
@@ -393,6 +395,11 @@ Options:
 - language: Language pack for section headers and keywords (e.g. de, fr, es). Default: English.
 - vocabulary: Domain-specific term substitutions in skill output (e.g. feature: story).
 - definitionOfDone: Shell commands run as gates before implementation commits.
+- cli: CLI invocation prefix. Default: ${DEFAULT_CLI_PREFIX}. Override: cli: taproot (global install).
+
+<!-- taproot:cli-invocation: ${prefix} -->
+When running taproot commands in this project, replace bare \`taproot\` with: ${prefix}
+Example: ${prefix} dod taproot/some-intent/some-behaviour/impl-name/impl.md
 
 See .taproot/CONFIGURATION.md for the full reference and examples.
 """
@@ -419,11 +426,11 @@ IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
 // ─── Generic adapter ──────────────────────────────────────────────────────────
 // AGENTS.md at project root — readable by any AI agent on startup
 
-function generateGenericAdapter(skills: SkillDef[], projectRoot: string): AdapterResult {
+function generateGenericAdapter(skills: SkillDef[], projectRoot: string, cli?: string): AdapterResult {
   const destPath = join(projectRoot, 'AGENTS.md');
   const existed = existsSync(destPath);
 
-  const taprootSection = buildGenericAgentsFile(skills);
+  const taprootSection = buildGenericAgentsFile(skills, cli);
   let finalContent: string;
 
   if (existed) {
@@ -440,7 +447,7 @@ function generateGenericAdapter(skills: SkillDef[], projectRoot: string): Adapte
   };
 }
 
-function buildGenericAgentsFile(skills: SkillDef[]): string {
+function buildGenericAgentsFile(skills: SkillDef[], cli?: string): string {
   const skillIndex = skills.map(s =>
     `- **\`/taproot:${s.name}\`** — ${s.description}`
   ).join('\n');
@@ -486,7 +493,7 @@ taproot sync-check           # detect stale specs
 taproot link-commits         # auto-link git commits to impl.md
 \`\`\`
 
-${buildConfigQuickRef()}
+${buildConfigQuickRef(cli)}
 
 ## Commit Convention
 
@@ -502,9 +509,22 @@ ${TAPROOT_END}
 `;
 }
 
+// ─── CLI Invocation Block ─────────────────────────────────────────────────────
+
+const DEFAULT_CLI_PREFIX = 'npx @imix-js/taproot';
+const CLI_INVOCATION_MARKER_PREFIX = '<!-- taproot:cli-invocation:';
+
+export function buildInvocationBlock(cli?: string): string {
+  const prefix = cli ?? DEFAULT_CLI_PREFIX;
+  return `${CLI_INVOCATION_MARKER_PREFIX} ${prefix} -->
+When running taproot commands in this project, replace bare \`taproot\` with: \`${prefix}\`
+Example: \`${prefix} dod taproot/some-intent/some-behaviour/impl-name/impl.md\``;
+}
+
 // ─── Configuration Quick Reference ───────────────────────────────────────────
 
-function buildConfigQuickRef(): string {
+function buildConfigQuickRef(cli?: string): string {
+  const prefix = cli ?? DEFAULT_CLI_PREFIX;
   return `## Configuration Quick Reference
 
 Edit \`.taproot/settings.yaml\` to configure taproot. Run \`taproot update\` after changes.
@@ -514,8 +534,11 @@ Edit \`.taproot/settings.yaml\` to configure taproot. Run \`taproot update\` aft
 | \`language\` | string | Language pack for section headers and keywords (e.g. \`de\`, \`fr\`, \`es\`). Default: English. |
 | \`vocabulary\` | map | Domain-specific term substitutions in skill output (e.g. \`feature: story\`). |
 | \`definitionOfDone\` | list | Shell commands run as gates before implementation commits. |
+| \`cli\` | string | CLI invocation prefix. Default: \`${DEFAULT_CLI_PREFIX}\`. Override: \`cli: taproot\` (global install). |
 
-See \`.taproot/CONFIGURATION.md\` for the full reference and examples.`;
+See \`.taproot/CONFIGURATION.md\` for the full reference and examples.
+
+${buildInvocationBlock(prefix)}`;
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────

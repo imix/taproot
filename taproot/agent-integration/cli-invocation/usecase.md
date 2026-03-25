@@ -108,7 +108,7 @@ sequenceDiagram
 - [Multi-surface — config type + adapter injection + CONFIGURATION.md](./multi-surface/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-25
 - **Last reviewed:** 2026-03-25
 

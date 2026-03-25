@@ -240,6 +240,26 @@ Applied as a second substitution pass after the language pack (if any). Re-appli
 
 ---
 
+## CLI invocation
+
+### `cli`
+
+Controls which command agents use when executing taproot CLI steps (e.g. `taproot dod`, `taproot link-commits`). The value is injected into agent adapter files as a machine-readable block — agents read it at session start and substitute it wherever a skill step says `taproot <subcommand>`.
+
+```yaml
+cli: taproot
+```
+
+**Default:** `npx @imix-js/taproot` — works in any environment, whether or not taproot is globally installed.
+
+**Common overrides:**
+- `cli: taproot` — globally installed (`npm install -g @imix-js/taproot`)
+- `cli: ./node_modules/.bin/taproot` — local `devDependency`
+
+**Requires `taproot update`:** yes — the invocation block in agent adapter files is regenerated.
+
+---
+
 ## Validation settings
 
 ### `require_dates`

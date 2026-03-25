@@ -92,6 +92,24 @@ definitionOfReady:
 
 ---
 
+## cli
+
+CLI invocation prefix. Controls which command agents use when executing taproot CLI steps (e.g. in skill files that reference \`taproot dod\`, \`taproot link-commits\`, etc.).
+
+\`\`\`yaml
+cli: taproot
+\`\`\`
+
+**Default:** \`npx @imix-js/taproot\` (safe in any environment — works whether or not taproot is globally installed)
+
+**Common overrides:**
+- \`cli: taproot\` — use if taproot is globally installed (\`npm install -g @imix-js/taproot\`)
+- \`cli: ./node_modules/.bin/taproot\` — use if taproot is a project \`devDependency\`
+
+**Requires \`taproot update\`:** yes — the invocation block in agent adapter files is regenerated.
+
+---
+
 ## Full example
 
 \`\`\`yaml

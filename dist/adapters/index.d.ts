@@ -18,3 +18,4 @@ export interface AdapterResult {
     }>;
 }
 export declare function generateAdapters(agents: AgentName | AgentName[] | 'all', projectRoot: string): AdapterResult[];
+export declare function buildInvocationBlock(cli?: string): string;

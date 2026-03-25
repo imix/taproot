@@ -65,4 +65,5 @@ export interface TaprootConfig {
   };
   definitionOfDone?: DodConditionEntry[];
   definitionOfReady?: DodConditionEntry[];
+  cli?: string;
 }
