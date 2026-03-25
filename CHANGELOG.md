@@ -4,6 +4,18 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.2.1] - 2026-03-25
+
+### Taproot
+- taproot(quality-gates/architecture-compliance/multi-surface): add integration tests (d8c8257)
+- taproot(quality-gates/nfr-measurability/settings-wiring): add integration tests (4381e4b)
+
+### Maintenance
+- docs: update tagline — AI-driven specs, enforced at commit time (22d581d)
+- docs: use npx instead of global install in quick start (3d35ebd)
+- docs: condense quick start — init to implement in half a page (ec4ea57)
+- docs(demo.svg): update animation — npx init → /tr-ineed → /tr-implement → dod (a1f921e)
+
 ## [0.2.0] - 2026-03-24
 
 ### Highlights
