@@ -1,7 +1,7 @@
 {
   "name": "@imix-js/taproot",
   "version": "0.2.0",
-  "description": "Folder-based requirement hierarchy with CLI validation and AI skills",
+  "description": "AI-driven specs, enforced at commit time. Code without traceability doesn't merge.",
   "type": "module",
   "bin": {
     "taproot": "./dist/cli.js"

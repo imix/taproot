@@ -4,11 +4,11 @@
   <img src="docs/demo.svg" alt="Taproot demo — npx taproot init, /tr-ineed, taproot dod" width="700"/>
 </p>
 
-**Your AI coding agent finally knows why.**
+**AI-driven specs, enforced at commit time. Code without traceability doesn't merge.**
 
 AI coding agents generate code fast — but six months later, nobody knows *why* a module exists, who asked for it, or whether it's still needed. The requirement lived in a chat window. The chat window is gone.
 
-Taproot keeps requirements as first-class files in your repo — git-versioned, agent-readable, and validated on every commit.
+Taproot keeps requirements as first-class files in your repo. The agent writes the spec, writes the code, and git refuses to accept one without the other.
 
 ## Quick Start
 
