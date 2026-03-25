@@ -20,6 +20,8 @@
 
 ## Commits
 <!-- taproot-managed -->
+- `777f396dab0025ab4ef12366f387526f57412327` — (auto-linked by taproot link-commits)
+- `feeb6bcbfc6a7336adfd712231e157a191acdc55` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/commithook.test.ts` — AC-1: passes with discussion.md present; AC-2: fails with message when absent; AC-3: check skipped when not configured
