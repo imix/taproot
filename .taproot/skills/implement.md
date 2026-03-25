@@ -56,7 +56,34 @@ Implement a behaviour spec: write the code, write the tests, create the `impl.md
     - If the behaviour `**State:**` is `specified`, advance it to `implemented` and update `**Last reviewed:**` to today.
     - Write the updated `usecase.md`. Stage it together with `impl.md` for the declaration commit.
 
-6. **Declaration commit** — commit `impl.md` and any `usecase.md` link-section update together (no source files):
+5b. **Write `discussion.md`** — draft a `discussion.md` in the implementation folder capturing the deliberation behind the design decisions. This complements `impl.md` (which records conclusions) with the reasoning process:
+
+   ```markdown
+   # Discussion: <title matching impl.md>
+
+   ## Session
+   - **Date:** YYYY-MM-DD
+   - **Skill:** tr-implement
+
+   ## Pivotal Questions
+   <The 1–3 questions or exchanges that most shaped the design>
+
+   ## Alternatives Considered
+   - **<Option A>** — rejected because <reason>
+   - **<Option B>** — rejected because <reason>
+
+   ## Decision
+   <One paragraph: the chosen approach and why — the deliberation behind impl.md's Design Decisions>
+
+   ## Open Questions
+   - <Unresolved items deferred to a future session, or "None">
+   ```
+
+   **When to skip:** If the session involved only trivial edits (typo fix, formatting, minor wording change) with no design choices or alternatives explored, omit `discussion.md`. A file with no substantive content is worse than no file.
+
+   Stage `discussion.md` alongside `impl.md` in the declaration commit.
+
+6. **Declaration commit** — commit `impl.md`, `discussion.md` (if written), and any `usecase.md` link-section update together (no source files):
 
    Before committing:
    - Read `.taproot/settings.yaml` and note the `definitionOfReady` conditions — these are the checks the hook will run. If the file has no `definitionOfReady` section, only baseline DoR checks run.

@@ -239,3 +239,48 @@ describe('commit.md — commit procedure skill', () => {
     expect(content).toMatch(/no taproot dor CLI|There is no `taproot dor` CLI/i);
   });
 });
+
+// ─── AC-1/AC-2/AC-3: record-decision-rationale — discussion.md in skills ──────
+
+describe('record-decision-rationale — discussion.md in implement.md and behaviour.md', () => {
+  const implementPath = resolve(SKILLS_DIR, 'implement.md');
+  const behaviourPath = resolve(SKILLS_DIR, 'behaviour.md');
+  const implementContent = readFileSync(implementPath, 'utf-8');
+  const behaviourContent = readFileSync(behaviourPath, 'utf-8');
+
+  // AC-1: implement.md writes discussion.md before declaration commit
+  it('AC-1: implement.md contains discussion.md step before declaration commit', () => {
+    // Step 5b must appear before the declaration commit step (step 6)
+    const step5bIdx = implementContent.indexOf('discussion.md');
+    const declarationIdx = implementContent.indexOf('Declaration commit');
+    expect(step5bIdx).toBeGreaterThan(0);
+    expect(step5bIdx).toBeLessThan(declarationIdx);
+  });
+
+  it('AC-1: implement.md discussion.md step includes all four required sections', () => {
+    expect(implementContent).toContain('Pivotal Questions');
+    expect(implementContent).toContain('Alternatives Considered');
+    expect(implementContent).toContain('Decision');
+    expect(implementContent).toContain('Open Questions');
+  });
+
+  it('AC-1: implement.md stages discussion.md alongside impl.md in declaration commit', () => {
+    expect(implementContent).toMatch(/Stage.*discussion\.md.*alongside.*impl\.md|discussion\.md.*alongside.*impl\.md/i);
+  });
+
+  // AC-2: behaviour.md has optional discussion.md step
+  it('AC-2: behaviour.md contains optional discussion.md step after writing usecase.md', () => {
+    expect(behaviourContent).toContain('discussion.md');
+    expect(behaviourContent).toMatch(/Optionally write.*discussion\.md|optional.*discussion\.md/i);
+  });
+
+  it('AC-2: behaviour.md discussion.md step references the same four-section template', () => {
+    expect(behaviourContent).toMatch(/Pivotal Questions|four-section template/i);
+  });
+
+  // AC-3: trivial session exemption documented in implement.md
+  it('AC-3: implement.md documents when to skip discussion.md for trivial sessions', () => {
+    expect(implementContent).toMatch(/When to skip|trivial/i);
+    expect(implementContent).toMatch(/typo|minor|no design choices|no.*alternatives/i);
+  });
+});

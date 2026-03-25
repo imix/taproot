@@ -82,6 +82,8 @@ Define a UseCase (observable system behaviour) under an intent or another behavi
 
 9. Create the directory `<parent>/<slug>/` and write `usecase.md`.
 
+9b. **Optionally write `discussion.md`** — if the session involved meaningful discovery dialogue (scope decisions, alternate flows surfaced, pivotal questions that changed the spec), draft a brief `discussion.md` in the behaviour folder alongside `usecase.md`. Use the same four-section template as `tr-implement` (Pivotal Questions, Alternatives Considered, Decision, Open Questions) but set `Skill: tr-behaviour`. Skip if the spec authoring was straightforward with no significant exploration.
+
 10. Update the parent document's `## Behaviours <!-- taproot-managed -->` section:
     - Read the parent `intent.md` (or parent `usecase.md` for sub-behaviours).
     - If the `## Behaviours` section does not exist, insert it immediately before `## Status` (or append at end of file if `## Status` is absent), with the heading `## Behaviours <!-- taproot-managed -->`.
