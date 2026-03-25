@@ -113,6 +113,10 @@ flowchart TD
 - When `taproot init --agent aider` is run
 - Then the system reports a clear error and stops without modifying the file
 
+## Implementations
+
+- [cli-command](./cli-command/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-25
