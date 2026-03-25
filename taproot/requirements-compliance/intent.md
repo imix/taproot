@@ -1,7 +1,7 @@
 # Intent: Requirements Compliance
 
 ## Goal
-Prove that the software as built actually implements the requirements as specified — establishing an auditable trail from business intent through stakeholder behaviour to working, tested code.
+Provide an auditable trail from business intent through stakeholder behaviour to working, tested code — so that the software as built can be shown to implement the requirements as specified.
 
 ## Stakeholders
 - **External auditors / certifiers**: need evidence that the system was built against defined requirements (relevant for regulated industries)
@@ -21,6 +21,8 @@ Prove that the software as built actually implements the requirements as specifi
 ## Behaviours <!-- taproot-managed -->
 - [Check for Orphaned or Broken References](./check-orphans/usecase.md)
 - [Link Commits to Implementation Records](./link-commits/usecase.md)
+- [Record Decision Rationale](./record-decision-rationale/usecase.md)
+- [Verify Discussion Coverage](./verify-discussion-coverage/usecase.md)
 
 
 ## Status

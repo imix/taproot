@@ -149,6 +149,8 @@ _No behaviours yet._
   - [cli-command](./requirements-compliance/check-orphans/cli-command/impl.md) `[complete]` (1 commit, 1 test)
 - **[link-commits](./requirements-compliance/link-commits/usecase.md)** `[implemented]` — Actor: Developer or CI operator running `taproot link-commits`
   - [cli-command](./requirements-compliance/link-commits/cli-command/impl.md) `[complete]` (0 commits, 1 test)
+- **[record-decision-rationale](./requirements-compliance/record-decision-rationale/usecase.md)** `[specified]` — Actor: Agent — executing a taproot skill that involves substantive discussion: primarily `/tr-implement` at declaration commit time, optionally `/tr-behaviour` after spec authoring. Can also be written by a developer working without an agent.
+- **[verify-discussion-coverage](./requirements-compliance/verify-discussion-coverage/usecase.md)** `[specified]` — Actor: Pre-commit hook — triggered automatically when a contributor commits an `impl.md` without source code (declaration commit), if `require-discussion-log` is configured in `definitionOfReady`.
 
 ## [requirements-hierarchy](./requirements-hierarchy/intent.md) `[active]`
 
@@ -207,4 +209,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-18 intents · 55 behaviours · 55 implementations · 54/55 complete
+18 intents · 57 behaviours · 55 implementations · 54/55 complete
