@@ -72,7 +72,8 @@ _No behaviours yet._
 
 **Goal:** Ensure the human orchestrator retains meaningful control of the requirement hierarchy — as its owner, its primary author of intent, and its final decision-maker — while making the current state of the project legible at a glance.
 
-- **[browse-hierarchy-item](./human-integration/browse-hierarchy-item/usecase.md)** `[specified]` — Actor: Developer — in the terminal, wanting to read a hierarchy document (intent.md, usecase.md, or impl.md) section by section without leaving the CLI or opening an external editor.
+- **[browse-hierarchy-item](./human-integration/browse-hierarchy-item/usecase.md)** `[implemented]` — Actor: Developer — in the terminal, wanting to read a hierarchy document (intent.md, usecase.md, or impl.md) section by section without leaving the CLI or opening an external editor.
+  - [agent-skill](./human-integration/browse-hierarchy-item/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
 - **[bug-triage](./human-integration/bug-triage/usecase.md)** `[implemented]` — Actor: Developer or AI coding agent who has observed a defect — unexpected system behaviour, a failing test, or a user-reported issue
   - [agent-skill](./human-integration/bug-triage/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[contextual-next-steps](./human-integration/contextual-next-steps/usecase.md)** `[implemented]` — Actor: Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the moment it produces its primary output
@@ -212,4 +213,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-18 intents · 58 behaviours · 57 implementations · 56/57 complete
+18 intents · 58 behaviours · 58 implementations · 57/58 complete
