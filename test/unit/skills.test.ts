@@ -284,3 +284,42 @@ describe('record-decision-rationale — discussion.md in implement.md and behavi
     expect(implementContent).toMatch(/typo|minor|no design choices|no.*alternatives/i);
   });
 });
+
+// ─── AC-1/AC-2/AC-3/AC-4/AC-5/AC-8: browse.md ────────────────────────────────
+
+describe('browse.md — section-by-section navigation skill', () => {
+  const browsePath = resolve(SKILLS_DIR, 'browse.md');
+  const content = readFileSync(browsePath, 'utf-8');
+
+  it('AC-1: presents [C] Continue option at each section', () => {
+    expect(content).toMatch(/\[C\].*Continue/);
+  });
+
+  it('AC-1: presents [M] Modify option at each section', () => {
+    expect(content).toMatch(/\[M\].*Modify/);
+  });
+
+  it('AC-1: presents [S] Skip to children option', () => {
+    expect(content).toMatch(/\[S\].*Skip/i);
+  });
+
+  it('AC-3: lists children at end of browse session', () => {
+    expect(content).toMatch(/child|children|implementations|behaviours/i);
+    expect(content).toMatch(/leaf|no children/i);
+  });
+
+  it('AC-4/AC-7: includes discussion.md context with anchor rules', () => {
+    expect(content).toContain('discussion.md');
+    expect(content).toMatch(/How we got here/i);
+    expect(content).toMatch(/Main Flow|Design Decisions|Goal/);
+  });
+
+  it('AC-5: handles path not found with error message', () => {
+    expect(content).toMatch(/No file found|does not exist|not found/i);
+    expect(content).toMatch(/No intent\.md.*usecase\.md.*impl\.md|No.*hierarchy document/i);
+  });
+
+  it('AC-8: handles [M] change-of-mind gracefully', () => {
+    expect(content).toMatch(/never mind|No changes/i);
+  });
+});

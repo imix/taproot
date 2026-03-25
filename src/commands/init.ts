@@ -46,6 +46,7 @@ export const SKILL_FILES = [
   'sweep.md',
   'commit.md',
   'bug.md',
+  'browse.md',
 ];
 
 export function applyTemplate(templateName: string, cwd: string, force = false): string[] {
