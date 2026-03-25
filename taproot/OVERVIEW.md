@@ -37,7 +37,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [cli-command](./agent-integration/agent-support-tiers/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 - **[autonomous-execution](./agent-integration/autonomous-execution/usecase.md)** `[specified]` — Actor: Developer (or orchestrator) who delegates a taproot task to an agent and steps away — returning to completed work rather than supervising each step
 - **[cli-invocation](./agent-integration/cli-invocation/usecase.md)** `[implemented]` — Actor: AI coding agent — executing a taproot skill step that includes a CLI command (e.g. `taproot dod`, `taproot link-commits`, `taproot overview`).
-  - [multi-surface](./agent-integration/cli-invocation/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
+  - [multi-surface](./agent-integration/cli-invocation/multi-surface/impl.md) `[complete]` (3 commits, 1 test)
 - **[configuration-discoverability](./agent-integration/configuration-discoverability/usecase.md)** `[implemented]` — Actor: AI coding agent — given a natural-language configuration task ("configure taproot for German", "add vocabulary overrides for book authoring") by the developer
   - [cli-command](./agent-integration/configuration-discoverability/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 - **[generate-agent-adapter](./agent-integration/generate-agent-adapter/usecase.md)** `[implemented]` — Actor: Developer initializing taproot for a specific AI coding agent via `taproot init --agent `
@@ -110,7 +110,8 @@ _No behaviours yet._
 
 **Goal:** Enable any developer who discovers taproot to immediately understand what it is, who it's for, and why it matters — so they feel motivated to try it rather than moving on.
 
-- **[starter-examples](./project-presentation/starter-examples/usecase.md)** `[specified]` — Actor: Developer starting a new project with taproot — who has decided to use taproot but is facing a blank hierarchy and does not know what intents or behaviours to create.
+- **[starter-examples](./project-presentation/starter-examples/usecase.md)** `[implemented]` — Actor: Developer starting a new project with taproot — who has decided to use taproot but is facing a blank hierarchy and does not know what intents or behaviours to create.
+  - [bundled-templates](./project-presentation/starter-examples/bundled-templates/impl.md) `[complete]` (2 commits, 1 test)
 - **[welcoming-readme](./project-presentation/welcoming-readme/usecase.md)** `[implemented]` — Actor: Developer discovering taproot for the first time
   - [content](./project-presentation/welcoming-readme/content/impl.md) `[complete]` (4 commits ⚠ no tests)
 
@@ -206,4 +207,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-18 intents · 55 behaviours · 54 implementations · 53/54 complete
+18 intents · 55 behaviours · 55 implementations · 54/55 complete
