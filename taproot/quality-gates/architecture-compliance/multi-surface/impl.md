@@ -17,6 +17,7 @@
 - `1d869f7b3e68613f7bc481cb9a909301ca7752a4` — (auto-linked by taproot link-commits)
 - `0b4b1eb3dea6f7ee3b513d576c8d71d0bef4ca25` — (auto-linked by taproot link-commits)
 - `8dcbc6703ebe3fa8c65e172ca309832ae2ae4089` — (auto-linked by taproot link-commits)
+- `d8c82575e7c43dfba2552afd9c29224af63d2ae5` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/architecture-compliance.test.ts` — activation regression (settings.yaml entry present, docs/architecture.md exists); DoR runner behaviour (check pending until agent resolves, check passes once resolution recorded)
