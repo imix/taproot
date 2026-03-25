@@ -24,20 +24,27 @@ Capture ideas, findings, and deferred work mid-session with a single command —
 1. Read `.taproot/backlog.md`.
    - If absent or contains no standard items: report *"Backlog is empty. Use `/tr-backlog <idea>` to capture something."* and stop.
 
-2. Present items in FIFO order (oldest first). For each line matching `- [YYYY-MM-DD] <text>`, show the date and text, then offer:
+2. Present all standard items as a numbered list (FIFO order, oldest first):
+   ```
+   Backlog — N items
+    1. [YYYY-MM-DD] item text
+    2. [YYYY-MM-DD] item text
+   ...
+   ```
+   Non-standard lines (not matching `- [YYYY-MM-DD] <text>`) are silently skipped in the display but preserved in the file.
 
-   > `[D] Discard   [K] Keep   [P] Promote to /tr-ineed`
+3. Offer: `D <n>` discard · `P <n>` promote · `A <n>` analyze · `done` finish
 
-3. Handle the choice:
-   - **[D] Discard** — remove the item from `.taproot/backlog.md`. Move to the next item.
-   - **[K] Keep** — leave the item unchanged. Move to the next item.
-   - **[P] Promote** — remove the item from `.taproot/backlog.md`, then invoke `/tr-ineed` with the item text.
+4. Accept commands one at a time:
+   - **`D <n>`** — remove item n from `.taproot/backlog.md`. Confirm: *"✓ Discarded #n"*
+   - **`P <n>`** — remove item n from `.taproot/backlog.md`. Invoke `/tr-ineed` with the item text.
+   - **`A <n>`** — display the full text of item n and ask: *"[P] Promote · [K] Keep · [D] Discard"*
+   - **`done`** — end triage. Items not acted on are kept implicitly.
 
-4. Non-standard lines (not matching the `- [YYYY-MM-DD] <text>` format): preserve them in the file and skip them during triage. After triage completes, note: *"Skipped N non-standard line(s) — they remain in `.taproot/backlog.md`."* (omit if N = 0).
+5. After `done`: *"Triage complete — X discarded, Y promoted, Z kept."*
+   If any non-standard lines were skipped: *"Skipped N non-standard line(s) — they remain in `.taproot/backlog.md`."*
 
-5. After all items are processed: *"Triage complete — X kept, Y promoted, Z discarded."*
-
-   If the developer exits early: unprocessed items remain in `.taproot/backlog.md` unchanged — no summary shown.
+   If the developer exits without `done`: unprocessed items remain unchanged. If any actions were taken, show the summary; otherwise continue naturally.
 
 6. Present next steps (triage mode only — skip for capture mode):
 

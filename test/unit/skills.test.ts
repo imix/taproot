@@ -335,13 +335,18 @@ describe('backlog.md — capture and triage skill', () => {
     expect(content).toMatch(/no follow-up|no prompts|No follow-up/i);
   });
 
-  it('AC-2: triage presents D/K/P options per item', () => {
-    expect(content).toMatch(/\[D\].*Discard/i);
-    expect(content).toMatch(/\[K\].*Keep/i);
-    expect(content).toMatch(/\[P\].*Promote/i);
+  it('AC-2: triage shows numbered list with indexed commands', () => {
+    expect(content).toMatch(/D <n>|D \d/i);
+    expect(content).toMatch(/P <n>|P \d/i);
+    expect(content).toMatch(/A <n>|A \d/i);
+    expect(content).toMatch(/done/i);
   });
 
-  it('AC-5: promote delegates to /tr-ineed', () => {
+  it('AC-3: D <n> discards item by index with confirmation', () => {
+    expect(content).toMatch(/Discarded #/i);
+  });
+
+  it('AC-5: P <n> promotes item and delegates to /tr-ineed', () => {
     expect(content).toContain('/tr-ineed');
   });
 
@@ -349,8 +354,12 @@ describe('backlog.md — capture and triage skill', () => {
     expect(content).toMatch(/Backlog is empty/i);
   });
 
-  it('AC-7: shows triage completion summary', () => {
+  it('AC-7: shows triage completion summary on done', () => {
     expect(content).toMatch(/Triage complete/i);
-    expect(content).toMatch(/kept.*promoted.*discarded|discarded.*kept.*promoted/i);
+    expect(content).toMatch(/discarded.*promoted.*kept|kept.*promoted.*discarded/i);
+  });
+
+  it('AC-8: A <n> shows item detail with P/K/D choices', () => {
+    expect(content).toMatch(/\[P\].*Promote.*\[K\].*Keep.*\[D\].*Discard|\[P\] Promote · \[K\] Keep · \[D\] Discard/i);
   });
 });
