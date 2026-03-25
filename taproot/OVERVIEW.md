@@ -110,6 +110,7 @@ _No behaviours yet._
 
 **Goal:** Enable any developer who discovers taproot to immediately understand what it is, who it's for, and why it matters — so they feel motivated to try it rather than moving on.
 
+- **[starter-examples](./project-presentation/starter-examples/usecase.md)** `[specified]` — Actor: Developer starting a new project with taproot — who has decided to use taproot but is facing a blank hierarchy and does not know what intents or behaviours to create.
 - **[welcoming-readme](./project-presentation/welcoming-readme/usecase.md)** `[implemented]` — Actor: Developer discovering taproot for the first time
   - [content](./project-presentation/welcoming-readme/content/impl.md) `[complete]` (4 commits ⚠ no tests)
 
@@ -205,4 +206,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-18 intents · 54 behaviours · 54 implementations · 53/54 complete
+18 intents · 55 behaviours · 54 implementations · 53/54 complete
