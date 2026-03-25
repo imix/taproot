@@ -13,8 +13,7 @@ Taproot keeps requirements as first-class files in your repo. The agent writes t
 ## Quick Start
 
 ```bash
-npm install -g @imix-js/taproot
-taproot init
+npx @imix-js/taproot init
 ```
 
 Taproot will ask which agent adapter to install and whether to set up the pre-commit hook. Then open your agent and run:
