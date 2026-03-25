@@ -104,6 +104,9 @@ sequenceDiagram
 - When `taproot update` runs
 - Then the block is rewritten to `<!-- taproot:cli-invocation: taproot -->` and the instruction is updated accordingly
 
+## Implementations <!-- taproot-managed -->
+- [Multi-surface — config type + adapter injection + CONFIGURATION.md](./multi-surface/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-25
