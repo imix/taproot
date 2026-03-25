@@ -19,13 +19,20 @@ Developer — working mid-session who wants to capture an idea, finding, or defe
 ### Triage mode — invoked with no argument
 
 1. Developer invokes `/tr-backlog` with no arguments.
-2. Skill reads `.taproot/backlog.md` and presents each item one at a time, showing the date and text.
-3. For each item, skill offers: `[D] Discard   [K] Keep   [P] Promote to /tr-ineed`
-4. Developer selects an action:
-   - **[D] Discard** — item is removed from the backlog. Skill moves to the next item.
-   - **[K] Keep** — item remains in the backlog unchanged. Skill moves to the next item.
-   - **[P] Promote** — skill invokes `/tr-ineed` with the item text. Item is removed from the backlog after promotion is initiated.
-5. After all items are processed: *"Triage complete — X kept, Y promoted, Z discarded."*
+2. Skill reads `.taproot/backlog.md` and presents all standard items as a numbered list:
+   ```
+   Backlog — N items
+    1. [YYYY-MM-DD] item text
+    2. [YYYY-MM-DD] item text
+   ...
+   ```
+3. Skill offers: `D <n>` discard · `P <n>` promote · `A <n>` analyze · `done` finish
+4. Developer enters commands one at a time:
+   - **`D <n>`** — item n is removed from the backlog. Skill confirms: *"✓ Discarded #n"*
+   - **`P <n>`** — item n is removed from the backlog. Skill invokes `/tr-ineed` with the item text.
+   - **`A <n>`** — skill presents the item text and asks: *"[P] Promote · [K] Keep · [D] Discard"*
+   - **`done`** — triage ends. Items not acted on are kept implicitly.
+5. After `done`: *"Triage complete — X discarded, Y promoted, Z kept."*
 
 ## Alternate Flows
 
@@ -36,11 +43,11 @@ Developer — working mid-session who wants to capture an idea, finding, or defe
   2. Skill stops — no triage loop.
 
 ### Developer exits triage early
-- **Trigger:** Developer stops responding mid-triage or types something unrelated to the current item.
+- **Trigger:** Developer types `done` or something unrelated to the command prompt.
 - **Steps:**
-  1. Triage ends at the current item.
-  2. All unprocessed items remain in `.taproot/backlog.md` unchanged.
-  3. No summary is shown — the session continues naturally.
+  1. Triage ends immediately.
+  2. All items not explicitly acted on remain in `.taproot/backlog.md` unchanged.
+  3. If any actions were taken, the triage summary is shown; otherwise the session continues naturally.
 
 ### Backlog contains non-standard lines
 - **Trigger:** `.taproot/backlog.md` contains lines that do not match the `- [YYYY-MM-DD] <text>` format (headers, blank lines, free text added by hand).
@@ -57,7 +64,7 @@ Developer — working mid-session who wants to capture an idea, finding, or defe
 
 ## Postconditions
 - **Capture mode:** The item appears in `.taproot/backlog.md` and is confirmed in the terminal.
-- **Triage mode:** All processed items are either removed or remain in `.taproot/backlog.md`; promoted items have been handed to `/tr-ineed`.
+- **Triage mode:** Items acted on via `D <n>` or `P <n>` are removed from `.taproot/backlog.md`; all others remain. Promoted items have been handed to `/tr-ineed`.
 
 ## Error Conditions
 - **Invoked with no args and backlog file missing:** Treated as empty backlog — reports *"Backlog is empty"* and stops. No error.
@@ -71,13 +78,12 @@ flowchart TD
     C --> D[Confirm: ✓ Captured: idea]
     B -->|No args| E{Backlog empty?}
     E -->|Yes| F[Report: Backlog is empty]
-    E -->|No| G[Present next item\nD Discard / K Keep / P Promote]
-    G --> H{Choice}
-    H -->|D| I[Remove item] --> J{More items?}
-    H -->|K| K[Keep item] --> J
-    H -->|P| L[Invoke /tr-ineed with item text\nRemove item from backlog] --> J
-    J -->|Yes| G
-    J -->|No| M[Triage complete summary]
+    E -->|No| G[Show numbered list of all items\nD n / P n / A n / done]
+    G --> H{Command}
+    H -->|D n| I[Remove item n\nConfirm ✓ Discarded] --> G
+    H -->|P n| L[Remove item n\nInvoke /tr-ineed] --> G
+    H -->|A n| N[Show item detail\nP Keep D Discard] --> G
+    H -->|done| M[Triage complete summary]
 ```
 
 ## Related
@@ -92,30 +98,32 @@ flowchart TD
 - When they invoke `/tr-backlog <idea>` with a one-liner
 - Then the item is captured and confirmed in one line — no follow-up response is required from the developer
 
-**AC-2: Triage loop**
+**AC-2: Triage shows numbered list**
 - Given `.taproot/backlog.md` contains at least one item
 - When the developer invokes `/tr-backlog` with no arguments
-- Then each item is presented one at a time with `[D] Discard`, `[K] Keep`, and `[P] Promote` options
+- Then all items are presented as a numbered list with `D <n>`, `P <n>`, `A <n>`, and `done` options
 
-**AC-3: Discard removes item**
-- Given triage is in progress and an item is displayed
-- When the developer selects `[D]`
-- Then the item is removed from `.taproot/backlog.md` and the next item is presented
+**AC-3: D <n> discards item by index**
+- Given triage is in progress and a numbered list is shown
+- When the developer enters `D <n>`
+- Then item n is removed from `.taproot/backlog.md` and the skill confirms *"✓ Discarded #n"*
 
-**AC-4: Keep preserves item**
-- Given triage is in progress and an item is displayed
-- When the developer selects `[K]`
-- Then the item remains in `.taproot/backlog.md` unchanged and the next item is presented
+~~**AC-4: Keep preserves item**~~ — deprecated; keeping is now implicit (no action = kept)
 
-**AC-5: Promote hands off to /tr-ineed**
-- Given triage is in progress and an item is displayed
-- When the developer selects `[P]`
-- Then `/tr-ineed` is invoked with the item text and the item is removed from `.taproot/backlog.md`
+**AC-5: P <n> promotes item by index**
+- Given triage is in progress and a numbered list is shown
+- When the developer enters `P <n>`
+- Then item n is removed from `.taproot/backlog.md` and `/tr-ineed` is invoked with its text
 
-**AC-7: Triage completion summary**
-- Given all items in the backlog have been processed
-- When the last item is actioned
-- Then the skill reports the count of kept, promoted, and discarded items
+**AC-7: Triage completion summary on done**
+- Given triage is in progress
+- When the developer enters `done`
+- Then the skill reports the count of discarded, promoted, and kept items
+
+**AC-8: A <n> presents item detail with choices**
+- Given triage is in progress and a numbered list is shown
+- When the developer enters `A <n>`
+- Then the skill presents the full text of item n and offers `[P] Promote · [K] Keep · [D] Discard`
 
 **AC-6: Empty backlog**
 - Given `.taproot/backlog.md` is absent or contains no items
