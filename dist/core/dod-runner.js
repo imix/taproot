@@ -56,6 +56,14 @@ function resolveCondition(entry) {
             correction: question,
         };
     }
+    if (typeof entry === 'object' && 'require-discussion-log' in entry) {
+        return {
+            name: 'require-discussion-log',
+            agentCheck: true,
+            description: 'discussion.md required at declaration commit time (enforced by DoR hook, not DoD)',
+            correction: 'This condition is enforced at declaration commit time, not DoD time.',
+        };
+    }
     if (typeof entry === 'string') {
         const builtin = BUILTINS[entry];
         if (!builtin) {

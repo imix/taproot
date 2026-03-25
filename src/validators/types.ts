@@ -39,7 +39,8 @@ export type DodConditionEntry =
   | { 'document-current': string }
   | { 'check-if-affected': string }
   | { 'check-if-affected-by': string }
-  | { 'check': string };
+  | { 'check': string }
+  | { 'require-discussion-log': boolean };
 
 export interface TaprootConfig {
   version: number;

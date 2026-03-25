@@ -1,5 +1,5 @@
 import { existsSync, readFileSync } from 'fs';
-import { join, dirname, resolve } from 'path';
+import { join, dirname, resolve, relative } from 'path';
 import { spawnSync } from 'child_process';
 import { parseMarkdown } from './markdown-parser.js';
 import { loadConfig } from './config.js';
@@ -147,6 +147,16 @@ export function runDorChecks(implMdPath: string, cwd: string): DorReport {
           passed: isResolved,
           output: isResolved ? '' : `Agent check required: ${value}`,
           correction: `Resolve this agent check and record it in impl.md under ## DoR Resolutions.`,
+        });
+      } else if (typeof entry === 'object' && 'require-discussion-log' in entry && entry['require-discussion-log'] === true) {
+        const implDir = dirname(resolve(cwd, implMdPath));
+        const discussionPath = join(implDir, 'discussion.md');
+        const exists = existsSync(discussionPath);
+        results.push({
+          name: 'require-discussion-log',
+          passed: exists,
+          output: exists ? '' : `discussion.md missing in ${relative(cwd, implDir)}/`,
+          correction: 'Record the session rationale before declaring this implementation. See skills/implement.md step 5b.',
         });
       } else if (typeof entry === 'string') {
         const r = spawnSync(entry, { shell: true, cwd, encoding: 'utf-8', timeout: 30_000 });

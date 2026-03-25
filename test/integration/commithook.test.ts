@@ -404,6 +404,51 @@ describe('runDorChecks', () => {
     expect(result!.passed).toBe(true);
     expect(report.allPassed).toBe(true);
   });
+
+  // ─── AC-1/AC-2/AC-3: require-discussion-log ───────────────────────────────
+
+  it('AC-1: passes when require-discussion-log: true and discussion.md is present', () => {
+    writeFileSync(join(tmpDir, '.taproot', 'settings.yaml'), [
+      'version: 1',
+      'root: taproot/',
+      'definitionOfReady:',
+      '  - require-discussion-log: true',
+    ].join('\n'));
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'usecase.md'), VALID_USECASE);
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'my-impl', 'impl.md'), IMPL_MD);
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'my-impl', 'discussion.md'), '# Discussion: Test\n\n## Pivotal Questions\nShould we do X?\n');
+    const report = runDorChecks('taproot/my-intent/my-behaviour/my-impl/impl.md', tmpDir);
+    const result = report.results.find(r => r.name === 'require-discussion-log');
+    expect(result).toBeDefined();
+    expect(result!.passed).toBe(true);
+    expect(report.allPassed).toBe(true);
+  });
+
+  it('AC-2: fails when require-discussion-log: true and discussion.md is absent', () => {
+    writeFileSync(join(tmpDir, '.taproot', 'settings.yaml'), [
+      'version: 1',
+      'root: taproot/',
+      'definitionOfReady:',
+      '  - require-discussion-log: true',
+    ].join('\n'));
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'usecase.md'), VALID_USECASE);
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'my-impl', 'impl.md'), IMPL_MD);
+    const report = runDorChecks('taproot/my-intent/my-behaviour/my-impl/impl.md', tmpDir);
+    const result = report.results.find(r => r.name === 'require-discussion-log');
+    expect(result).toBeDefined();
+    expect(result!.passed).toBe(false);
+    expect(result!.output).toContain('discussion.md missing');
+    expect(report.allPassed).toBe(false);
+  });
+
+  it('AC-3: skipped when require-discussion-log is not configured', () => {
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'usecase.md'), VALID_USECASE);
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'my-impl', 'impl.md'), IMPL_MD);
+    // No discussion.md — should still pass
+    const report = runDorChecks('taproot/my-intent/my-behaviour/my-impl/impl.md', tmpDir);
+    expect(report.results.find(r => r.name === 'require-discussion-log')).toBeUndefined();
+    expect(report.allPassed).toBe(true);
+  });
 });
 
 describe('buildSourceToImplMap', () => {

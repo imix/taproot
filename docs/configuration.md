@@ -139,6 +139,19 @@ When a `check:` condition is present in `definitionOfReady`, the agent reasons a
 - condition: check: is this spec complete enough? | note: yes, all flows are specified | resolved: 2026-03-20T10:00:00.000Z
 ```
 
+### `require-discussion-log`
+
+Require a `discussion.md` alongside every `impl.md` at declaration commit time. Off by default — enable for teams that want to enforce the record-decision-rationale habit:
+
+```yaml
+definitionOfReady:
+  - require-discussion-log: true
+```
+
+When enabled, the pre-commit hook checks whether `discussion.md` exists in the impl folder before accepting the declaration commit. If missing, the commit is rejected with the expected file path. The check is existence-only — content quality is not verified by the hook.
+
+See `taproot/requirements-compliance/record-decision-rationale/` for what `discussion.md` should contain and how the agent writes it.
+
 ### When DoR runs
 
 DoR runs once: when the declaration commit is made (committing `impl.md` alone, before any source code). It is enforced by the pre-commit hook's declaration tier.

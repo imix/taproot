@@ -35,6 +35,7 @@ definitionOfDone:
   - check-if-affected: src/commands/update.ts
   - check-if-affected: skills/guide.md
   - check-if-affected: docs/
+  - check-if-affected: examples/
   - check-if-affected-by: agent-integration/agent-agnostic-language
   - check-if-affected-by: human-integration/contextual-next-steps
   - check-if-affected-by: human-integration/pause-and-confirm
