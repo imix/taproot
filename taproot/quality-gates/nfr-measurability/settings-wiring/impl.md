@@ -18,18 +18,24 @@
 - `55bee91cfa4bdb392e81d6950429eaf6901442ba` — (auto-linked by taproot link-commits)
 
 ## Tests
-- (no automated test — agent-driven check; verified by DoR runner's existing check-if-affected-by integration test coverage)
+- `test/integration/nfr-measurability.test.ts` — activation regression (settings.yaml entry present); DoR runner behaviour (check pending until agent resolves, check passes once resolution recorded)
 
 ## Status
 - **State:** complete
 - **Created:** 2026-03-21
-- **Last verified:** 2026-03-21
+- **Last verified:** 2026-03-25
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — implementation writes only .taproot/settings.yaml (a config file); no code design decisions; no architectural constraints apply | resolved: 2026-03-21
 
 ## DoD Resolutions
 - condition: document-current | note: docs/configuration.md updated: definitionOfReady section now documents both quality-gates/architecture-compliance and quality-gates/nfr-measurability as built-in DoR gates with descriptions of each | resolved: 2026-03-21T11:49:00.284Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: not applicable — this change adds a test file and updates impl.md only; no skill file modified | resolved: 2026-03-25T09:14:47.977Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — adding integration tests introduces no agent-facing output, no new section headers, and no language-dependent content | resolved: 2026-03-25T09:14:47.495Z
+
+- condition: check-if-affected: docs/ | note: adding integration tests does not affect any docs/ file — tests verify existing config behaviour with no new user-facing surface | resolved: 2026-03-25T09:14:47.010Z
+
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — NFR measurability gate is an instance of the existing check-if-affected-by pattern already documented in docs/patterns.md; no new pattern entry needed | resolved: 2026-03-21T11:49:49.665Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: yes — this story IS the cross-cutting concern; check-if-affected-by: quality-gates/nfr-measurability has been added to definitionOfReady in .taproot/settings.yaml | resolved: 2026-03-21T11:49:40.887Z
