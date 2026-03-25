@@ -36,7 +36,8 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[agent-support-tiers](./agent-integration/agent-support-tiers/usecase.md)** `[implemented]` — Actor: Developer selecting an AI coding agent to use with taproot
   - [cli-command](./agent-integration/agent-support-tiers/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 - **[autonomous-execution](./agent-integration/autonomous-execution/usecase.md)** `[specified]` — Actor: Developer (or orchestrator) who delegates a taproot task to an agent and steps away — returning to completed work rather than supervising each step
-- **[cli-invocation](./agent-integration/cli-invocation/usecase.md)** `[specified]` — Actor: AI coding agent — executing a taproot skill step that includes a CLI command (e.g. `taproot dod`, `taproot link-commits`, `taproot overview`).
+- **[cli-invocation](./agent-integration/cli-invocation/usecase.md)** `[implemented]` — Actor: AI coding agent — executing a taproot skill step that includes a CLI command (e.g. `taproot dod`, `taproot link-commits`, `taproot overview`).
+  - [multi-surface](./agent-integration/cli-invocation/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 - **[configuration-discoverability](./agent-integration/configuration-discoverability/usecase.md)** `[implemented]` — Actor: AI coding agent — given a natural-language configuration task ("configure taproot for German", "add vocabulary overrides for book authoring") by the developer
   - [cli-command](./agent-integration/configuration-discoverability/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 - **[generate-agent-adapter](./agent-integration/generate-agent-adapter/usecase.md)** `[implemented]` — Actor: Developer initializing taproot for a specific AI coding agent via `taproot init --agent `
@@ -204,4 +205,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-18 intents · 54 behaviours · 53 implementations · 52/53 complete
+18 intents · 54 behaviours · 54 implementations · 53/54 complete
