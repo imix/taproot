@@ -24,6 +24,7 @@
 - `9e44e0bfd79172467fa0d1c949cd07e2c7c14ba8` — (auto-linked by taproot link-commits)
 - `712bff6273a37badaf369cca4f2a6b1bd4a99c55` — (auto-linked by taproot link-commits)
 - `379557502909be7b8cee6f7f09c3a2d433b1ea09` — (auto-linked by taproot link-commits)
+- `503cb47a0165fe387fbbf68190b768ed6f20c7c8` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/skills.test.ts` — AC-1: [C]/[M]/[S] options present; AC-3: children listing and leaf message; AC-4/AC-7: discussion.md anchors; AC-5: path error messages; AC-8: change-of-mind handling

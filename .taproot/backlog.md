@@ -1,0 +1,25 @@
+- [2026-03-25] add aider support
+- [2026-03-25] extended BDD format?
+- [2026-03-25] research is not triggered efficiently
+- [2026-03-25] we need to ensure that agents can run autonomously without user interaction
+- [2026-03-25] add writing styles — clear concise short sentences for BA; friendly but not too long for doc
+- [2026-03-25] add shell script option to DoD and DoR
+- [2026-03-25] make taproot robust so that multiple agents can work in parallel
+- [2026-03-25] multi agents with defined roles?
+- [2026-03-25] in gates like DoD/DoR we want to check if other uncommitted stuff is there — how to force commit?
+- [2026-03-25] partial usecase implementations?
+- [2026-03-25] find a better solution than CLAUDE.md for commit hook
+- [2026-03-25] CI template: buildGithubWorkflow() should add npm audit --audit-level=high
+- [2026-03-25] taproot's own CI: create .github/workflows/taproot.yml with validate + audit + test
+- [2026-03-25] VS Code / JetBrains extension: in-editor linting, spec navigation, status indicators, integrated slash commands
+- [2026-03-25] boilerplate scaffolding: scaffold impl.md and stub source/test files from a usecase.md
+- [2026-03-25] GitHub Action / PR bot: impact reports on PRs ("this PR modifies files linked to behaviour X, spec stale since...")
+- [2026-03-25] static site generation: taproot docs --serve to convert hierarchy into searchable stakeholder portal
+- [2026-03-25] conflict resolution for AI: tooling for merging requirement conflicts during parallel agent execution
+- [2026-03-25] automated traceability mapping: LLM suggests which impl record a code change belongs to
+- [2026-03-25] test-to-requirement mapping: verify tests in impl.md cover ACs in usecase.md via LLM
+- [2026-03-25] cross-repo traceability: link intents/behaviours across microservice repo boundaries
+- [2026-03-25] commit message auto-tagging: suggest taproot(intent/behaviour/impl): tags based on staged files
+- [2026-03-25] state transition guardrails: cannot move to complete if npm test hasn't run recently
+- [2026-03-25] reference architectures / standard packs for common domains (e.g. authentication intent pack)
+- [2026-03-25] /tr-tour command: interactive onboarding walking developers through a live example requirement loop
