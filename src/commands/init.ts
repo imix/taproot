@@ -249,8 +249,9 @@ export function runInit(options: {
     const hookPath = join(hookDir, 'pre-commit');
     if (existsSync(join(cwd, '.git')) && !existsSync(hookPath)) {
       mkdirSync(hookDir, { recursive: true });
+      const pkgVersion = JSON.parse(readFileSync(resolve(__dirname, '..', '..', 'package.json'), 'utf-8')).version as string;
       writeFileSync(hookPath,
-        '#!/bin/sh\nnpx --no taproot commithook\n',
+        `#!/bin/sh\nnpx @imix-js/taproot@${pkgVersion} commithook\n`,
         { mode: 0o755 }
       );
       messages.push('created  .git/hooks/pre-commit');

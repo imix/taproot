@@ -1,5 +1,8 @@
 import { existsSync, rmSync, readdirSync, readFileSync, writeFileSync, unlinkSync, mkdirSync, renameSync } from 'fs';
 import { join, dirname, relative, resolve } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 import { buildConfigurationMd } from '../core/configuration.js';
 import type { Command } from 'commander';
 import { generateAdapters, type AgentName } from '../adapters/index.js';
@@ -18,6 +21,11 @@ const STALE_PATHS = [
   // tr- files that lived in skills/ before moving to commands/
   // resolved dynamically for globbing — see removeStale()
 ];
+
+function hookScript(): string {
+  const pkg = JSON.parse(readFileSync(resolve(__dirname, '..', '..', 'package.json'), 'utf-8'));
+  return `#!/bin/sh\nnpx @imix-js/taproot@${pkg.version as string} commithook\n`;
+}
 
 function detectInstalledAgents(cwd: string): AgentName[] {
   const installed: AgentName[] = [];
@@ -100,13 +108,13 @@ function removeStale(cwd: string): string[] {
     messages.push(`removed  taproot/_brainstorms/`);
   }
 
-  // Migrate old pre-commit hook content to taproot commithook
+  // Migrate old pre-commit hook content to versioned npx hook
   const hookPath = join(cwd, '.git', 'hooks', 'pre-commit');
   if (existsSync(hookPath)) {
     const hookContent = readFileSync(hookPath, 'utf-8');
-    if (hookContent.includes('validate-structure') || hookContent.includes('validate-format')) {
-      writeFileSync(hookPath, '#!/bin/sh\nnpx --no taproot commithook\n', { mode: 0o755 });
-      messages.push(`migrated .git/hooks/pre-commit → npx --no taproot commithook`);
+    if (hookContent.includes('validate-structure') || hookContent.includes('validate-format') || hookContent.includes('taproot commithook') || hookContent.includes('@imix-js/taproot')) {
+      writeFileSync(hookPath, hookScript(), { mode: 0o755 });
+      messages.push(`migrated .git/hooks/pre-commit → versioned npx hook`);
     }
   }
 
@@ -336,7 +344,7 @@ export async function runUpdate(options: { cwd?: string; withHooks?: boolean }):
     const hookPath = join(hookDir, 'pre-commit');
     if (existsSync(join(cwd, '.git')) && !existsSync(hookPath)) {
       mkdirSync(hookDir, { recursive: true });
-      writeFileSync(hookPath, '#!/bin/sh\nnpx --no taproot commithook\n', { mode: 0o755 });
+      writeFileSync(hookPath, hookScript(), { mode: 0o755 });
       messages.push(`created  .git/hooks/pre-commit`);
     } else if (existsSync(hookPath)) {
       messages.push(`exists   .git/hooks/pre-commit`);

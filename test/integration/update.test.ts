@@ -97,7 +97,9 @@ describe('taproot update', () => {
 
     const msgs = await runUpdate({ cwd: tmpDir });
     expect(msgs.some(m => m.includes('migrated') && m.includes('pre-commit'))).toBe(true);
-    expect(readFileSync(join(hookDir, 'pre-commit'), 'utf-8')).toContain('taproot commithook');
+    const migratedHook = readFileSync(join(hookDir, 'pre-commit'), 'utf-8');
+    expect(migratedHook).toContain('@imix-js/taproot');
+    expect(migratedHook).toContain('commithook');
   });
 
   it('installs hook with --with-hooks when none exists', async () => {

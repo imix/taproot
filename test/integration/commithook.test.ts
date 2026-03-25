@@ -615,7 +615,8 @@ describe('taproot init --with-hooks', () => {
     runInit({ cwd: tmpDir, withHooks: true });
     expect(existsSync(hookPath)).toBe(true);
     const content = readFileSync(hookPath, 'utf-8');
-    expect(content).toContain('taproot commithook');
+    expect(content).toContain('@imix-js/taproot');
+    expect(content).toContain('commithook');
     expect(content).not.toContain('validate-structure');
   });
 });
