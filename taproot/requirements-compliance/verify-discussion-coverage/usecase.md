@@ -83,6 +83,9 @@ flowchart TD
 - When a declaration commit is attempted
 - Then the hook logs a warning and allows the commit — configuration errors never block work
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command (DoR hook check)](./cli-command/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-25
