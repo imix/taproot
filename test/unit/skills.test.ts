@@ -323,3 +323,34 @@ describe('browse.md — section-by-section navigation skill', () => {
     expect(content).toMatch(/never mind|No changes/i);
   });
 });
+
+// ─── AC-1/AC-2/AC-5/AC-6/AC-7: backlog.md ────────────────────────────────────
+
+describe('backlog.md — capture and triage skill', () => {
+  const backlogPath = resolve(SKILLS_DIR, 'backlog.md');
+  const content = readFileSync(backlogPath, 'utf-8');
+
+  it('AC-1: capture confirms in one line with no follow-up', () => {
+    expect(content).toMatch(/✓ Captured/);
+    expect(content).toMatch(/no follow-up|no prompts|No follow-up/i);
+  });
+
+  it('AC-2: triage presents D/K/P options per item', () => {
+    expect(content).toMatch(/\[D\].*Discard/i);
+    expect(content).toMatch(/\[K\].*Keep/i);
+    expect(content).toMatch(/\[P\].*Promote/i);
+  });
+
+  it('AC-5: promote delegates to /tr-ineed', () => {
+    expect(content).toContain('/tr-ineed');
+  });
+
+  it('AC-6: reports empty backlog message', () => {
+    expect(content).toMatch(/Backlog is empty/i);
+  });
+
+  it('AC-7: shows triage completion summary', () => {
+    expect(content).toMatch(/Triage complete/i);
+    expect(content).toMatch(/kept.*promoted.*discarded|discarded.*kept.*promoted/i);
+  });
+});

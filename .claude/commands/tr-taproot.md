@@ -16,5 +16,10 @@ Edit `.taproot/settings.yaml` to configure taproot. Run `taproot update` after c
 | `language` | string | Language pack for section headers and keywords (e.g. `de`, `fr`, `es`). Default: English. |
 | `vocabulary` | map | Domain-specific term substitutions in skill output (e.g. `feature: story`). |
 | `definitionOfDone` | list | Shell commands run as gates before implementation commits. |
+| `cli` | string | CLI invocation prefix. Default: `npx @imix-js/taproot`. Override: `cli: taproot` (global install). |
 
 See `.taproot/CONFIGURATION.md` for the full reference and examples.
+
+<!-- taproot:cli-invocation: npx @imix-js/taproot -->
+When running taproot commands in this project, replace bare `taproot` with: `npx @imix-js/taproot`
+Example: `npx @imix-js/taproot dod taproot/some-intent/some-behaviour/impl-name/impl.md`

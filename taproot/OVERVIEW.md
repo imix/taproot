@@ -203,6 +203,7 @@ _No behaviours yet._
 **Goal:** Enable developers to capture ideas, findings, and deferred work items instantly mid-session — so that nothing is lost to context switches and every captured item can be triaged into the hierarchy when the time is right.
 
 - **[manage-backlog](./taproot-backlog/manage-backlog/usecase.md)** `[specified]` — Actor: Developer — working mid-session who wants to capture an idea, finding, or deferred item instantly, or who wants to triage previously captured items.
+  - [agent-skill](./taproot-backlog/manage-backlog/agent-skill/impl.md) `[in-progress]` (0 commits, 1 test)
 
 ## [taproot-distribution](./taproot-distribution/intent.md) `[active]`
 
@@ -219,4 +220,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-19 intents · 59 behaviours · 58 implementations · 57/58 complete
+19 intents · 59 behaviours · 59 implementations · 57/59 complete
