@@ -250,7 +250,7 @@ export function runInit(options: {
     if (existsSync(join(cwd, '.git')) && !existsSync(hookPath)) {
       mkdirSync(hookDir, { recursive: true });
       writeFileSync(hookPath,
-        '#!/bin/sh\ntaproot commithook\n',
+        '#!/bin/sh\nnpx --no taproot commithook\n',
         { mode: 0o755 }
       );
       messages.push('created  .git/hooks/pre-commit');

@@ -105,8 +105,8 @@ function removeStale(cwd: string): string[] {
   if (existsSync(hookPath)) {
     const hookContent = readFileSync(hookPath, 'utf-8');
     if (hookContent.includes('validate-structure') || hookContent.includes('validate-format')) {
-      writeFileSync(hookPath, '#!/bin/sh\ntaproot commithook\n', { mode: 0o755 });
-      messages.push(`migrated .git/hooks/pre-commit → taproot commithook`);
+      writeFileSync(hookPath, '#!/bin/sh\nnpx --no taproot commithook\n', { mode: 0o755 });
+      messages.push(`migrated .git/hooks/pre-commit → npx --no taproot commithook`);
     }
   }
 
@@ -336,7 +336,7 @@ export async function runUpdate(options: { cwd?: string; withHooks?: boolean }):
     const hookPath = join(hookDir, 'pre-commit');
     if (existsSync(join(cwd, '.git')) && !existsSync(hookPath)) {
       mkdirSync(hookDir, { recursive: true });
-      writeFileSync(hookPath, '#!/bin/sh\ntaproot commithook\n', { mode: 0o755 });
+      writeFileSync(hookPath, '#!/bin/sh\nnpx --no taproot commithook\n', { mode: 0o755 });
       messages.push(`created  .git/hooks/pre-commit`);
     } else if (existsSync(hookPath)) {
       messages.push(`exists   .git/hooks/pre-commit`);
