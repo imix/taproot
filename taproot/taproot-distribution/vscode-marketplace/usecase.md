@@ -130,6 +130,9 @@ flowchart TD
 - When the extension manifest is inspected
 - Then it contains at least one walkthrough definition with a step describing taproot initialization
 
+## Implementations <!-- taproot-managed -->
+- [VS Code Extension and CI Publish](./multi-surface/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-26
