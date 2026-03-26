@@ -97,6 +97,9 @@ flowchart TD
 - When they read the example
 - Then the example communicates that the truth is enforced at commit time — not just a note in a file
 
+## Implementations <!-- taproot-managed -->
+- [Concepts Section](./concepts-section/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-26
