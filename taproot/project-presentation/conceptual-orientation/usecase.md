@@ -15,6 +15,7 @@ Developer reading the README for the first time — either evaluating taproot or
 4. Developer reads the explanation of **implementation** — the code that fulfils a behaviour, with a traceable link back to the spec — and sees that it maps to actual source files
 5. Developer reads the explanation of **global truth** — a project-wide fact (glossary term, business rule, entity definition) stored in `taproot/global-truths/` and enforced at commit time — and sees an example (`prices are always exclusive of VAT`)
 6. Developer reads the explanation of **backlog** — a lightweight scratchpad for ideas and deferred work captured mid-session, separate from the requirement hierarchy — and sees that it lives in `.taproot/backlog.md`
+7. Developer reads the explanation of **how taproot enforces integrity** — the pre-commit hook automatically runs DoD and DoR gates, truth-checks, and spec quality checks on every commit — and understands this happens without any manual invocation
 
 ## Alternate Flows
 
@@ -41,6 +42,7 @@ Developer reading the README for the first time — either evaluating taproot or
 - Developer understands that the hierarchy is structured as intent → behaviour → implementation and can navigate `taproot/OVERVIEW.md` accordingly
 - Developer knows that global truths are enforced at commit time (not just advisory)
 - Developer knows the backlog is a separate lightweight capture tool, not part of the requirement hierarchy
+- Developer understands that taproot's integrity checks run automatically on every commit via the pre-commit hook — no manual invocation required
 
 ## Error Conditions
 - **Concepts section becomes stale (a core term renamed or removed):** The section drifts from actual CLI/skill output and misleads new users — mitigated by the `document-current` DoD condition enforced on all implementations that rename or remove terminology
@@ -59,7 +61,8 @@ flowchart TD
     F --> G[Reads implementation explanation + example]
     G --> H[Reads global truth explanation + example]
     H --> I[Reads backlog explanation + example]
-    I --> J{Wants more depth?}
+    I --> I2[Reads enforcement explanation]
+    I2 --> J{Wants more depth?}
     J -->|Yes| K[Follows link to docs/concepts.md]
     K --> L[Returns to README]
     J -->|No| L
@@ -97,10 +100,15 @@ flowchart TD
 - When they read the example
 - Then the example communicates that the truth is enforced at commit time — not just a note in a file
 
+**AC-6: Enforcement model explained without requiring knowledge of internals**
+- Given a developer reading the Concepts section for the first time
+- When they reach the enforcement explanation
+- Then they understand that: (a) taproot runs integrity checks automatically on every commit, (b) code without a valid spec is rejected by git, and (c) no manual check invocation is required — in plain language, without requiring prior knowledge of DoD, DoR, or hook internals
+
 ## Implementations <!-- taproot-managed -->
 - [Concepts Section](./concepts-section/impl.md)
 
 ## Status
-- **State:** implemented
+- **State:** specified
 - **Created:** 2026-03-26
 - **Last reviewed:** 2026-03-26
