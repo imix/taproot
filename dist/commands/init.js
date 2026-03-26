@@ -34,6 +34,7 @@ export const SKILL_FILES = [
     'guide.md',
     'discover.md',
     'discover-truths.md',
+    'define-truth.md',
     'ineed.md',
     'research.md',
     'sweep.md',

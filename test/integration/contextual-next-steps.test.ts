@@ -14,6 +14,7 @@ const LEAF_SKILLS = [
   'status.md',
   'discover.md',
   'discover-truths.md',
+  'define-truth.md',
   'analyse-change.md',
   'promote.md',
   'grill-me.md',

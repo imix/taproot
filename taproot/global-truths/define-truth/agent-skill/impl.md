@@ -27,6 +27,37 @@
 - condition: check-if-affected-by: quality-gates/nfr-measurability | note: no new NFRs introduced; the skill is interactive agent prose with no performance constraints. | resolved: 2026-03-26
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-26
 - **Last verified:** 2026-03-26
+
+## DoD Resolutions
+- condition: document-current | note: skills/guide.md updated: /tr-define-truth added to slash commands table. docs/workflows.md already covers global truths workflow via /tr-discover-truths — no separate entry needed for define-truth (it is an internal routing target, not a primary workflow entry point). README.md does not list individual skills. | resolved: 2026-03-26T15:06:45.358Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: skills/define-truth.md (new) and skills/guide.md (modified). Security review: no shell command execution in either skill. No credentials or tokens hardcoded. define-truth writes only to taproot/global-truths/<name>.md — minimal, scoped write. guide.md change is a table row addition. Compliant. | resolved: 2026-03-26T15:08:04.621Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No new reusable pattern. The pre-populated candidate argument is a simple input convention, not a pattern worth documenting. | resolved: 2026-03-26T15:08:04.357Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: No. define-truth is a standalone authoring skill — not an architectural rule that applies to every implementation. | resolved: 2026-03-26T15:08:04.099Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: Applies: implementation adds define-truth.md (skill file), init.ts (SKILL_FILES update), and test file. Architecture review: skill follows filesystem-as-data-model (writes to taproot/global-truths/), stateless, agent-agnostic output, SKILL_FILES update at command boundary. No deviations. | resolved: 2026-03-26T15:07:52.711Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: Not applicable: define-truth.md does not add any new patterns to docs/patterns.md. The skill implements a well-scoped behaviour with no reusable pattern to extract. | resolved: 2026-03-26T15:07:52.452Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: Not applicable: define-truth.md contains no git commit step. It writes a truth file and stops. Commit is a separate step offered in the What's next? menu. | resolved: 2026-03-26T15:07:52.195Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: Applies: define-truth.md is a new skill. (C-1) Description ~30 tokens — compliant. (C-2) No embedded reference docs — compliant. (C-3) No cross-skill repetition — compliant. (C-4) Files read on demand: existing truth file read only when it already exists (step 6) — compliant. (C-5) Skill has 9 steps across 4 phases — long workflow; /compact signal present before What's next? — compliant. (C-6) What's next? block present — compliant. (C-7) No changes to always-loaded files — not applicable. | resolved: 2026-03-26T15:07:51.941Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: Not applicable: define-truth writes exactly one file per invocation. The pause-and-confirm spec explicitly states single-document skills are not subject to this behaviour (Alternate Flow: Single-document skills — not applicable). | resolved: 2026-03-26T15:07:36.015Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: Applies: define-truth.md produces primary output (a truth file). Ends with a What's next? block offering [A] /tr-discover-truths, [B] /tr-commit, [C] run again. Compliant. | resolved: 2026-03-26T15:07:35.748Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: Applies: define-truth.md is a skills/*.md file. No bare 'Claude' or 'Claude Code' references. No @{project-root} syntax. All language is generic. Compliant. | resolved: 2026-03-26T15:07:35.413Z
+
+- condition: check-if-affected: examples/ | note: Starter examples contain no truth files and do not reference /tr-define-truth. Not affected. | resolved: 2026-03-26T15:06:56.839Z
+
+- condition: check-if-affected: docs/ | note: docs/cli.md lists CLI commands only — /tr-define-truth is a skill. docs/workflows.md covers the global truths workflow already. No other docs/ files reference individual skills. Not affected. | resolved: 2026-03-26T15:06:56.580Z
+
+- condition: check-if-affected: skills/guide.md | note: Added /tr-define-truth to the slash commands table in skills/guide.md and synced to .taproot/skills/guide.md. | resolved: 2026-03-26T15:06:56.312Z
+
+- condition: check-if-affected: src/commands/update.ts | note: Added 'define-truth.md' to SKILL_FILES in init.ts so taproot update includes it. update.ts itself does not need further changes. | resolved: 2026-03-26T15:06:56.053Z
+
