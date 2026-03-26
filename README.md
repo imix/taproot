@@ -29,6 +29,8 @@ Example: *prices are always exclusive of VAT* — a spec that contradicts this i
 **Backlog** — a lightweight scratchpad for ideas and deferred work captured mid-session, stored in `.taproot/backlog.md` — separate from the requirement hierarchy.
 Example: `/tr-backlog "consider a caching layer"` captures the thought without interrupting flow
 
+**Enforcement** — taproot installs a pre-commit hook when you run `taproot init`. On every `git commit`, it automatically checks that your code has a traceable spec, the spec meets completion gates, and any project-wide truths are respected. Code that fails these checks doesn't reach the repo. Nothing to invoke — it runs in the background.
+
 <details>
 <summary>Further reading</summary>
 
