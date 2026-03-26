@@ -200,6 +200,16 @@ export function runInit(options) {
         writeFileSync(conventionsPath, buildConventionsDoc());
         messages.push(`created  ${DEFAULT_CONFIG.root}CONVENTIONS.md`);
     }
+    // Create global-truths/ with a hint README
+    const globalTruthsDir = join(taprootDir, 'global-truths');
+    const globalTruthsReadme = join(globalTruthsDir, 'README.md');
+    if (!existsSync(globalTruthsDir)) {
+        mkdirSync(globalTruthsDir, { recursive: true });
+        writeFileSync(globalTruthsReadme, buildGlobalTruthsReadme());
+        messages.push(`created  ${DEFAULT_CONFIG.root}global-truths/`);
+        messages.push(`         Add shared truths here — domain terms, business rules, project conventions.`);
+        messages.push(`         Scope by filename: glossary_intent.md · rules_behaviour.md · choices_impl.md`);
+    }
     // Install skill definitions — always enabled when an adapter that references .taproot/skills/ is requested
     const agentList = options.agent === 'all'
         ? ALL_AGENTS
@@ -346,6 +356,33 @@ export function installDocs(targetDocsDir, force = false) {
         }
     }
     return messages;
+}
+function buildGlobalTruthsReadme() {
+    return `# Global Truths
+
+Shared facts that apply across the \`taproot/\` hierarchy — domain concepts, business rules,
+entity definitions, and project conventions.
+
+## How to add a truth
+
+Create a \`.md\` file and name it to signal its scope:
+
+| Scope | Applies to | Convention |
+|-------|------------|------------|
+| intent | All levels | \`name_intent.md\` or \`intent/name.md\` |
+| behaviour | Behaviour + implementation | \`name_behaviour.md\` or \`behaviour/name.md\` |
+| impl | Implementation only | \`name_impl.md\` or \`impl/name.md\` |
+
+Files without a scope suffix default to intent scope (broadest).
+
+## Examples
+
+- \`glossary_intent.md\` — term definitions used across all specs
+- \`business-rules_behaviour.md\` — rules that acceptance criteria must respect
+- \`tech-choices_impl.md\` — conventions that apply only to implementation code
+
+Truth content is free-form markdown — prose, tables, bullet lists, and headings are all valid.
+`;
 }
 function buildConventionsDoc() {
     const date = new Date().toISOString().slice(0, 10);
