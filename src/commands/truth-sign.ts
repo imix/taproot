@@ -34,7 +34,7 @@ export function runTruthSign(options: { cwd: string }): number {
   const staged = getStagedFiles(cwd);
   const hierarchyDocs = staged.filter(f =>
     f.startsWith('taproot/') &&
-    (f.endsWith('/intent.md') || f.endsWith('/usecase.md') || f.endsWith('/impl.md') ||
+    (f.endsWith('/intent.md') || f.endsWith('/usecase.md') ||
      f === 'taproot/intent.md' || f === 'taproot/usecase.md')
   );
 

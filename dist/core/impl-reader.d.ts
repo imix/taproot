@@ -4,5 +4,6 @@ export interface ImplData {
     sourceFiles: string[];
     commits: string[];
     testFiles: string[];
+    dependsOn: string[];
 }
 export declare function parseImplData(doc: ParsedMarkdown): ImplData;

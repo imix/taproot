@@ -22,7 +22,7 @@ export function runTruthSign(options) {
     }
     const staged = getStagedFiles(cwd);
     const hierarchyDocs = staged.filter(f => f.startsWith('taproot/') &&
-        (f.endsWith('/intent.md') || f.endsWith('/usecase.md') || f.endsWith('/impl.md') ||
+        (f.endsWith('/intent.md') || f.endsWith('/usecase.md') ||
             f === 'taproot/intent.md' || f === 'taproot/usecase.md'));
     if (hierarchyDocs.length === 0) {
         process.stdout.write('No staged hierarchy documents — truth sign is a no-op.\n');

@@ -28,3 +28,4 @@
 - [2026-03-26] check-if-affected: examples/ resolution guidance is too narrow — agent resolved "no" for global-truths because truths are user content, missing that starters should scaffold the directory so the feature is discoverable; consider adding guidance to the check: "does this feature introduce a new taproot/ directory or convention that starters should demonstrate?"
 - [2026-03-26] README: guarantees/gates/checks section not visible — did we implement it? if not, add a section covering the enforcement model (hook, DoR, DoD, truth-check session)
 - [2026-03-26] README structure: quick start should appear before the Concepts section — first-time readers want to run a command, not read theory
+- [2026-03-26] global-truths as a pattern: document in docs/patterns.md with a concrete list of example truth types (glossary, domain model, architecture decisions, naming conventions, business rules) so developers know what to capture
