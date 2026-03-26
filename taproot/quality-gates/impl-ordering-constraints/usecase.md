@@ -137,8 +137,11 @@ sequenceDiagram
 - When DoR runs
 - Then DoR blocks with `FAIL — depends-on: <path> has state: deferred`
 
+## Implementations <!-- taproot-managed -->
+- [Hook Extension — depends-on ordering check in DoR](./hook-extension/impl.md)
+
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-26
 - **Last reviewed:** 2026-03-26
 
