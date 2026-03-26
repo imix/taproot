@@ -166,9 +166,9 @@ flowchart TD
 - [CLI Command — test-cache + dod-runner integration](./cli-command/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-25
-- **Last reviewed:** 2026-03-25
+- **Last reviewed:** 2026-03-26
 
 ## Notes
 - **Cache key uniqueness:** `.taproot/.test-results/<intent>/<behaviour>/<impl>.json` mirrors the `taproot/` hierarchy, ensuring uniqueness even when multiple implementations share the same folder name (e.g. many `cli-command` impls across different intents).

@@ -1,10 +1,11 @@
 import { existsSync, readFileSync, statSync } from 'fs';
 import { join, dirname, resolve } from 'path';
 import { spawnSync } from 'child_process';
-import type { DodConditionEntry } from '../validators/types.js';
+import type { DodConditionEntry, TaprootConfig } from '../validators/types.js';
 import { parseMarkdown } from './markdown-parser.js';
 import { validateFormat } from '../validators/format-rules.js';
 import { loadConfig } from './config.js';
+import { runTestsPassingWithCache } from './test-cache.js';
 
 export interface DodResult {
   name: string;
@@ -242,11 +243,11 @@ export function readResolutions(implPath: string, cwd: string): Set<string> {
   return new Set(entries.map(e => e.condition));
 }
 
-export function runDodChecks(
+export async function runDodChecks(
   conditions: DodConditionEntry[] | undefined,
   cwd: string,
-  options?: { implPath?: string }
-): DodReport {
+  options?: { implPath?: string; config?: TaprootConfig; rerunTests?: boolean }
+): Promise<DodReport> {
   const results: DodResult[] = [];
 
   // Always run baseline when implPath is provided
@@ -264,8 +265,39 @@ export function runDodChecks(
     ? readResolutions(options.implPath, cwd)
     : new Set<string>();
 
+  const cfg = options?.config;
+
   for (const entry of conditions) {
     const resolved = resolveCondition(entry);
+
+    // Evidence-backed tests-passing: intercept when testsCommand is configured
+    if (resolved.name === 'tests-passing' && cfg?.testsCommand) {
+      if (!options?.implPath) {
+        // No implPath — fall back to builtin shell run (standalone mode)
+        results.push(runCondition(resolved.name, cfg.testsCommand, cwd, resolved.correction));
+        continue;
+      }
+      const testResult = await runTestsPassingWithCache({
+        implPath: options.implPath,
+        cwd,
+        testsCommand: cfg.testsCommand,
+        testResultMaxAgeMs: cfg.testResultMaxAge !== undefined
+          ? cfg.testResultMaxAge * 60 * 1000
+          : undefined,
+        testTimeoutMs: cfg.testTimeout !== undefined
+          ? cfg.testTimeout * 1000
+          : undefined,
+        rerunTests: options?.rerunTests,
+      });
+      results.push({
+        name: resolved.name,
+        passed: testResult.passed,
+        output: testResult.output,
+        correction: testResult.correction,
+      });
+      continue;
+    }
+
     if (resolved.agentCheck) {
       const isResolved = resolvedChecks.has(resolved.name);
       results.push({

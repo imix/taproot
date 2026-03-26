@@ -64,7 +64,7 @@ The `definitionOfDone` list controls what `taproot dod` checks and what the pre-
 
 | Form | What it does |
 |------|-------------|
-| `tests-passing` | Built-in: runs `npm test` (or `yarn test`). Passes if exit code is 0. |
+| `tests-passing` | Built-in: runs `npm test`. When `testsCommand` is configured in `settings.yaml`, uses evidence-backed execution with a cache file — see [State Transition Guardrails](#state-transition-guardrails). |
 | `linter-clean` | Built-in: runs `npm run lint`. Passes if exit code is 0. |
 | `commit-conventions` | Built-in: runs `npm run check:commits`. Passes if exit code is 0. |
 | `document-current: <description>` | Agent-verified: the agent checks whether the described documentation is current and applies updates if needed. |
@@ -103,6 +103,27 @@ Taproot's own `.taproot/settings.yaml` ships with several `check-if-affected-by`
 | `check-if-affected-by: skill-architecture/commit-awareness` | Skills with git commit steps load the full commit skill rather than inventing ad-hoc git flows |
 | `check-if-affected-by: human-integration/pattern-hints` | Skills that receive natural language intent check `docs/patterns.md` for pattern matches |
 | `check-if-affected-by: quality-gates/architecture-compliance` | Implementations comply with `docs/architecture.md` constraints |
+
+---
+
+## State Transition Guardrails
+
+When `testsCommand` is set in `settings.yaml`, the `tests-passing` condition uses evidence-backed execution: it runs the command, caches the result in `.taproot/.test-results/`, and enforces freshness at commit time.
+
+```yaml
+testsCommand: npm test        # command to run for evidence-backed tests-passing
+testResultMaxAge: 60          # minutes before a no-source-file cache is stale (default: 60)
+testTimeout: 300              # seconds before testsCommand is killed (default: 300)
+```
+
+**How it works:**
+- `taproot dod <impl-path>` runs `testsCommand`, streams output live, and writes `.taproot/.test-results/<intent>/<behaviour>/<impl>.json`
+- On subsequent runs, the cached result is used if it is not stale (no tracked source files changed since the last run)
+- `taproot dod <impl-path> --rerun-tests` forces re-execution regardless of cache
+- `--resolve "tests-passing"` is rejected when `testsCommand` is configured — evidence is required, not agent assertion
+- The pre-commit hook verifies a fresh passing result exists before allowing an implementation commit with a `complete` impl
+
+**Add `.taproot/.test-results/` to `.gitignore`** — the cache is a local execution artifact, not a committed record.
 
 ---
 

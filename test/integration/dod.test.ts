@@ -78,49 +78,49 @@ function makeImplMd(dir: string, state = 'in-progress'): string {
 // ─── dod-runner unit tests ────────────────────────────────────────────────────
 
 describe('runDodChecks — no DoD configured', () => {
-  it('returns configured: false and allPassed: true when conditions is undefined', () => {
-    const report = runDodChecks(undefined, process.cwd());
+  it('\1', async () => {
+    const report = await runDodChecks(undefined, process.cwd());
     expect(report.configured).toBe(false);
     expect(report.allPassed).toBe(true);
     expect(report.results).toHaveLength(0);
   });
 
-  it('returns configured: false when conditions is empty array', () => {
-    const report = runDodChecks([], process.cwd());
+  it('\1', async () => {
+    const report = await runDodChecks([], process.cwd());
     expect(report.configured).toBe(false);
     expect(report.allPassed).toBe(true);
   });
 });
 
 describe('runDodChecks — custom shell conditions', () => {
-  it('passes when shell command exits 0', () => {
-    const report = runDodChecks([{ run: 'true', name: 'always-pass' }], process.cwd());
+  it('\1', async () => {
+    const report = await runDodChecks([{ run: 'true', name: 'always-pass' }], process.cwd());
     expect(report.configured).toBe(true);
     expect(report.results[0]!.passed).toBe(true);
     expect(report.allPassed).toBe(true);
   });
 
-  it('fails when shell command exits non-zero', () => {
-    const report = runDodChecks([{ run: 'false', name: 'always-fail' }], process.cwd());
+  it('\1', async () => {
+    const report = await runDodChecks([{ run: 'false', name: 'always-fail' }], process.cwd());
     expect(report.results[0]!.passed).toBe(false);
     expect(report.allPassed).toBe(false);
   });
 
-  it('uses provided correction on failure', () => {
-    const report = runDodChecks(
+  it('\1', async () => {
+    const report = await runDodChecks(
       [{ run: 'false', name: 'my-check', correction: 'Run the fix script' }],
       process.cwd()
     );
     expect(report.results[0]!.correction).toBe('Run the fix script');
   });
 
-  it('falls back to default correction when none provided', () => {
-    const report = runDodChecks([{ run: 'false', name: 'my-check' }], process.cwd());
+  it('\1', async () => {
+    const report = await runDodChecks([{ run: 'false', name: 'my-check' }], process.cwd());
     expect(report.results[0]!.correction).toContain('re-run');
   });
 
-  it('captures stdout/stderr output on failure', () => {
-    const report = runDodChecks(
+  it('\1', async () => {
+    const report = await runDodChecks(
       [{ run: 'echo "check failed"; exit 1', name: 'noisy-check' }],
       process.cwd()
     );
@@ -128,8 +128,8 @@ describe('runDodChecks — custom shell conditions', () => {
     expect(report.results[0]!.output).toContain('check failed');
   });
 
-  it('runs ALL conditions even when an earlier one fails', () => {
-    const report = runDodChecks(
+  it('\1', async () => {
+    const report = await runDodChecks(
       [
         { run: 'false', name: 'first-fails' },
         { run: 'true', name: 'second-runs' },
@@ -144,15 +144,15 @@ describe('runDodChecks — custom shell conditions', () => {
     expect(report.allPassed).toBe(false);
   });
 
-  it('uses condition name from run when name not specified', () => {
-    const report = runDodChecks([{ run: 'true' }], process.cwd());
+  it('\1', async () => {
+    const report = await runDodChecks([{ run: 'true' }], process.cwd());
     expect(report.results[0]!.name).toBe('true');
   });
 });
 
 describe('runDodChecks — document-current condition', () => {
-  it('reports as agent check (not passed) with description as correction', () => {
-    const report = runDodChecks(
+  it('\1', async () => {
+    const report = await runDodChecks(
       [{ 'document-current': 'ensure all sections in readme.md are up to date' }],
       process.cwd()
     );
@@ -164,8 +164,8 @@ describe('runDodChecks — document-current condition', () => {
     expect(report.allPassed).toBe(false);
   });
 
-  it('runs subsequent conditions after document-current', () => {
-    const report = runDodChecks(
+  it('\1', async () => {
+    const report = await runDodChecks(
       [
         { 'document-current': 'check readme' },
         { run: 'true', name: 'after' },
@@ -178,8 +178,8 @@ describe('runDodChecks — document-current condition', () => {
 });
 
 describe('runDodChecks — check-if-affected condition', () => {
-  it('reports as agent check (not passed) with target as description', () => {
-    const report = runDodChecks(
+  it('\1', async () => {
+    const report = await runDodChecks(
       [{ 'check-if-affected': 'src/commands/update.ts' }],
       process.cwd()
     );
@@ -193,8 +193,8 @@ describe('runDodChecks — check-if-affected condition', () => {
 });
 
 describe('runDodChecks — check-if-affected-by condition', () => {
-  it('reports as agent check (not passed) with behaviour path as description', () => {
-    const report = runDodChecks(
+  it('\1', async () => {
+    const report = await runDodChecks(
       [{ 'check-if-affected-by': 'human-integration/contextual-next-steps' }],
       process.cwd()
     );
@@ -208,9 +208,9 @@ describe('runDodChecks — check-if-affected-by condition', () => {
 });
 
 describe('runDodChecks — check: condition', () => {
-  it('reports as agent check (not passed) with question as description', () => {
+  it('\1', async () => {
     const question = 'does this story introduce a cross-cutting concern?';
-    const report = runDodChecks([{ check: question }], process.cwd());
+    const report = await runDodChecks([{ check: question }], process.cwd());
     expect(report.configured).toBe(true);
     expect(report.results[0]!.name).toBe(`check: ${question}`);
     expect(report.results[0]!.passed).toBe(false);
@@ -219,7 +219,7 @@ describe('runDodChecks — check: condition', () => {
     expect(report.allPassed).toBe(false);
   });
 
-  it('passes when a resolution is recorded in impl.md', () => {
+  it('\1', async () => {
     const tmpDir = mkdtempSync(join(tmpdir(), 'taproot-check-'));
     const question = 'does this story introduce a cross-cutting concern?';
     const conditionName = `check: ${question}`;
@@ -247,7 +247,7 @@ describe('runDodChecks — check: condition', () => {
       `- condition: ${conditionName} | agent | resolved: ${now}`,
     ].join('\n'));
 
-    const report = runDodChecks(
+    const report = await runDodChecks(
       [{ check: question }],
       tmpDir,
       { implPath: join('taproot', 'my-behaviour', 'cli-command', 'impl.md') }
@@ -262,8 +262,8 @@ describe('runDodChecks — check: condition', () => {
 });
 
 describe('runDodChecks — command not found', () => {
-  it('reports failure with correction for missing command', () => {
-    const report = runDodChecks(
+  it('\1', async () => {
+    const report = await runDodChecks(
       [{ run: 'this-command-definitely-does-not-exist-xyz', name: 'missing' }],
       process.cwd()
     );
@@ -280,41 +280,41 @@ describe('runDodChecks — DoD baseline (implPath provided)', () => {
   beforeEach(() => { tmpDir = makeTempDir(); });
   afterEach(() => { rmSync(tmpDir, { recursive: true, force: true }); });
 
-  it('runs baseline checks and reports configured: true even with no conditions', () => {
+  it('\1', async () => {
     makeUsecaseMd(tmpDir);
     const implPath = join(tmpDir, 'taproot', 'some-intent', 'some-behaviour', 'cli-command', 'impl.md');
     mkdirSync(join(tmpDir, 'taproot', 'some-intent', 'some-behaviour', 'cli-command'), { recursive: true });
     writeFileSync(implPath, '# Impl\n\n## Status\n- **State:** in-progress\n- **Created:** 2026-03-19\n- **Last verified:** 2026-03-19\n');
-    const report = runDodChecks(undefined, tmpDir, { implPath });
+    const report = await runDodChecks(undefined, tmpDir, { implPath });
     expect(report.configured).toBe(true);
     expect(report.results.some(r => r.name.startsWith('baseline-'))).toBe(true);
     expect(report.allPassed).toBe(true);
   });
 
-  it('fails baseline when usecase.md is missing', () => {
+  it('\1', async () => {
     const implDir = join(tmpDir, 'taproot', 'some-intent', 'some-behaviour', 'cli-command');
     mkdirSync(implDir, { recursive: true });
     const implPath = join(implDir, 'impl.md');
     writeFileSync(implPath, '# Impl\n\n## Status\n- **State:** in-progress\n- **Created:** 2026-03-19\n- **Last verified:** 2026-03-19\n');
-    const report = runDodChecks(undefined, tmpDir, { implPath });
+    const report = await runDodChecks(undefined, tmpDir, { implPath });
     expect(report.allPassed).toBe(false);
     expect(report.results[0]!.name).toBe('baseline-usecase-exists');
     expect(report.results[0]!.passed).toBe(false);
   });
 
-  it('fails baseline when usecase.md state is not specified', () => {
+  it('\1', async () => {
     makeUsecaseMd(tmpDir, { state: 'proposed' });
     const implDir = join(tmpDir, 'taproot', 'some-intent', 'some-behaviour', 'cli-command');
     mkdirSync(implDir, { recursive: true });
     const implPath = join(implDir, 'impl.md');
     writeFileSync(implPath, '# Impl\n\n## Status\n- **State:** in-progress\n- **Created:** 2026-03-19\n- **Last verified:** 2026-03-19\n');
-    const report = runDodChecks(undefined, tmpDir, { implPath });
+    const report = await runDodChecks(undefined, tmpDir, { implPath });
     const baselineState = report.results.find(r => r.name === 'baseline-state-specified');
     expect(baselineState?.passed).toBe(false);
     expect(baselineState?.output).toContain('proposed');
   });
 
-  it('fails baseline when usecase.md is missing a required section (e.g. ## Preconditions)', () => {
+  it('\1', async () => {
     const behaviourDir = join(tmpDir, 'taproot', 'some-intent', 'some-behaviour');
     mkdirSync(behaviourDir, { recursive: true });
     // Write a usecase missing ## Preconditions (required by validate-format)
@@ -340,19 +340,19 @@ describe('runDodChecks — DoD baseline (implPath provided)', () => {
     mkdirSync(implDir, { recursive: true });
     const implPath = join(implDir, 'impl.md');
     writeFileSync(implPath, '# Impl\n\n## Status\n- **State:** in-progress\n- **Created:** 2026-03-19\n- **Last verified:** 2026-03-19\n');
-    const report = runDodChecks(undefined, tmpDir, { implPath });
+    const report = await runDodChecks(undefined, tmpDir, { implPath });
     const baselineFormat = report.results.find(r => r.name === 'baseline-validate-format');
     expect(baselineFormat?.passed).toBe(false);
     expect(baselineFormat?.output).toContain('Preconditions');
   });
 
-  it('passes all baseline checks with a valid usecase.md', () => {
+  it('\1', async () => {
     makeUsecaseMd(tmpDir);
     const implDir = join(tmpDir, 'taproot', 'some-intent', 'some-behaviour', 'cli-command');
     mkdirSync(implDir, { recursive: true });
     const implPath = join(implDir, 'impl.md');
     writeFileSync(implPath, '# Impl\n\n## Status\n- **State:** in-progress\n- **Created:** 2026-03-19\n- **Last verified:** 2026-03-19\n');
-    const report = runDodChecks(undefined, tmpDir, { implPath });
+    const report = await runDodChecks(undefined, tmpDir, { implPath });
     const baselineResults = report.results.filter(r => r.name.startsWith('baseline-'));
     expect(baselineResults.every(r => r.passed)).toBe(true);
   });
@@ -366,7 +366,7 @@ describe('writeResolution and agent check passing', () => {
   beforeEach(() => { tmpDir = makeTempDir(); });
   afterEach(() => { rmSync(tmpDir, { recursive: true, force: true }); });
 
-  it('writeResolution appends ## DoD Resolutions section to impl.md', () => {
+  it('\1', async () => {
     const implPath = makeImplMd(tmpDir);
     writeResolution(implPath, 'check-if-affected: src/commands/update.ts', 'No changes needed', tmpDir);
     const content = readFileSync(implPath, 'utf-8');
@@ -375,10 +375,10 @@ describe('writeResolution and agent check passing', () => {
     expect(content).toContain('No changes needed');
   });
 
-  it('agent check passes when resolution exists in impl.md', () => {
+  it('\1', async () => {
     const implPath = makeImplMd(tmpDir);
     writeResolution(implPath, 'check-if-affected: src/commands/update.ts', 'Not affected', tmpDir);
-    const report = runDodChecks(
+    const report = await runDodChecks(
       [{ 'check-if-affected': 'src/commands/update.ts' }],
       tmpDir,
       { implPath }
@@ -387,9 +387,9 @@ describe('writeResolution and agent check passing', () => {
     expect(result?.passed).toBe(true);
   });
 
-  it('agent check fails when no resolution recorded', () => {
+  it('\1', async () => {
     const implPath = makeImplMd(tmpDir);
-    const report = runDodChecks(
+    const report = await runDodChecks(
       [{ 'check-if-affected': 'src/commands/update.ts' }],
       tmpDir,
       { implPath }
@@ -398,13 +398,13 @@ describe('writeResolution and agent check passing', () => {
     expect(result?.passed).toBe(false);
   });
 
-  it('agent check fails when resolution is stale (impl.md modified after resolution)', () => {
+  it('\1', async () => {
     const implPath = makeImplMd(tmpDir);
     writeResolution(implPath, 'check-if-affected: src/commands/update.ts', 'Not affected', tmpDir);
     // Simulate impl.md being modified 10 seconds after the resolution was recorded
     const future = new Date(Date.now() + 10_000);
     utimesSync(implPath, future, future);
-    const report = runDodChecks(
+    const report = await runDodChecks(
       [{ 'check-if-affected': 'src/commands/update.ts' }],
       tmpDir,
       { implPath }
@@ -414,7 +414,7 @@ describe('writeResolution and agent check passing', () => {
     expect(result?.output).toContain('Agent check required');
   });
 
-  it('writeResolution appends to existing ## DoD Resolutions section', () => {
+  it('\1', async () => {
     const implPath = makeImplMd(tmpDir);
     writeResolution(implPath, 'document-current', 'Docs updated', tmpDir);
     writeResolution(implPath, 'check-if-affected: src/commands/update.ts', 'Not affected', tmpDir);
@@ -447,7 +447,7 @@ describe('cascadeUsecaseState', () => {
   beforeEach(() => { tmpDir = makeTempDir(); });
   afterEach(() => { rmSync(tmpDir, { recursive: true, force: true }); });
 
-  it('advances usecase state from specified to implemented', () => {
+  it('\1', async () => {
     const implPath = makeImplMd(tmpDir); // creates usecase.md with state: specified
     const result = cascadeUsecaseState(implPath);
     expect(result).toBe('specified → implemented');
@@ -455,7 +455,7 @@ describe('cascadeUsecaseState', () => {
     expect(content).toContain('**State:** implemented');
   });
 
-  it('returns null and does not modify usecase already in implemented state', () => {
+  it('\1', async () => {
     makeImplMd(tmpDir); // creates usecase with state: specified
     const usecasePath = join(tmpDir, 'taproot', 'some-intent', 'some-behaviour', 'usecase.md');
     const original = readFileSync(usecasePath, 'utf-8').replace('**State:** specified', '**State:** implemented');
@@ -466,7 +466,7 @@ describe('cascadeUsecaseState', () => {
     expect(readFileSync(usecasePath, 'utf-8')).toContain('**State:** implemented');
   });
 
-  it('returns null gracefully when usecase.md does not exist', () => {
+  it('\1', async () => {
     const implDir = join(tmpDir, 'taproot', 'some-intent', 'some-behaviour', 'cli-command');
     mkdirSync(implDir, { recursive: true });
     const implPath = join(implDir, 'impl.md');
