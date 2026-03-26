@@ -116,3 +116,46 @@ The agent reads the question text, reasons whether the answer is yes, no, or not
 |---|---|
 | `does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml?` | Agent adds the entry to `.taproot/settings.yaml` |
 | `does this story reveal a reusable pattern worth documenting in docs/patterns.md?` | Agent adds a pattern entry to `docs/patterns.md` |
+
+---
+
+## Autonomous mode preamble (`## Autonomous mode` section in skills)
+
+**Problem:** A skill has one or more confirmation prompts (plan approval, staging confirmation, DoD resolution prompts). You want the same skill to work in both interactive and non-interactive (CI, headless agent) contexts without maintaining two versions.
+
+**Pattern:** Add an `## Autonomous mode` section at the top of the skill file (before `## Steps`) that tells the agent to check for autonomous mode activation and apply autonomous notes throughout the steps.
+
+```markdown
+## Autonomous mode
+
+Before following any steps, check whether autonomous mode is active:
+- `TAPROOT_AUTONOMOUS=1` is set in the environment, **or**
+- `--autonomous` was passed as an argument to this skill invocation, **or**
+- `.taproot/settings.yaml` contains `autonomous: true`
+
+If any of these is true, **autonomous mode is active** — apply the autonomous notes at each step where they appear. If none is true, autonomous mode is **inactive** — show confirmation prompts as normal.
+```
+
+Then at each confirmation step, add a conditional note:
+
+```markdown
+**Interactive mode:** ask "Should I proceed?" and wait for confirmation.
+
+**Autonomous mode:** proceed directly without waiting for confirmation.
+```
+
+**When to use it:**
+- The skill has at least one confirmation prompt that would block unattended execution
+- You want CI agents, headless runners, or `TAPROOT_AUTONOMOUS=1` users to be able to run the skill without interaction
+- The skill already exists and works correctly in interactive mode — this is an additive change
+
+**When NOT to use it:**
+- The confirmation prompt exists to prevent destructive irreversible actions (e.g. deleting data, force-pushing) — in these cases, autonomous bypass is unsafe
+- The skill is already fully automated (no prompts) — the preamble adds noise without value
+
+**Taproot's built-in uses:**
+
+| Skill | Prompt bypassed in autonomous mode |
+|---|---|
+| `skills/implement.md` | Plan approval in step 4 |
+| `skills/commit.md` | Staging confirmation in step 3 |

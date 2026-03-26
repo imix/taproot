@@ -6,6 +6,7 @@ export declare function runDod(options: {
     implPath?: string;
     dryRun?: boolean;
     cwd?: string;
+    rerunTests?: boolean;
 }): Promise<DodReport>;
 /** Advance parent usecase.md state from 'specified' → 'implemented' when impl is marked complete. */
 export declare function cascadeUsecaseState(absImplPath: string): string | null;

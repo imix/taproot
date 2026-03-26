@@ -4,6 +4,7 @@ import { spawnSync } from 'child_process';
 import { parseMarkdown } from './markdown-parser.js';
 import { validateFormat } from '../validators/format-rules.js';
 import { loadConfig } from './config.js';
+import { runTestsPassingWithCache } from './test-cache.js';
 const BUILTINS = {
     'tests-passing': {
         run: 'npm test',
@@ -203,7 +204,7 @@ export function readResolutions(implPath, cwd) {
     }
     return new Set(entries.map(e => e.condition));
 }
-export function runDodChecks(conditions, cwd, options) {
+export async function runDodChecks(conditions, cwd, options) {
     const results = [];
     // Always run baseline when implPath is provided
     if (options?.implPath) {
@@ -217,8 +218,36 @@ export function runDodChecks(conditions, cwd, options) {
     const resolvedChecks = options?.implPath
         ? readResolutions(options.implPath, cwd)
         : new Set();
+    const cfg = options?.config;
     for (const entry of conditions) {
         const resolved = resolveCondition(entry);
+        // Evidence-backed tests-passing: intercept when testsCommand is configured
+        if (resolved.name === 'tests-passing' && cfg?.testsCommand) {
+            if (!options?.implPath) {
+                // No implPath — fall back to builtin shell run (standalone mode)
+                results.push(runCondition(resolved.name, cfg.testsCommand, cwd, resolved.correction));
+                continue;
+            }
+            const testResult = await runTestsPassingWithCache({
+                implPath: options.implPath,
+                cwd,
+                testsCommand: cfg.testsCommand,
+                testResultMaxAgeMs: cfg.testResultMaxAge !== undefined
+                    ? cfg.testResultMaxAge * 60 * 1000
+                    : undefined,
+                testTimeoutMs: cfg.testTimeout !== undefined
+                    ? cfg.testTimeout * 1000
+                    : undefined,
+                rerunTests: options?.rerunTests,
+            });
+            results.push({
+                name: resolved.name,
+                passed: testResult.passed,
+                output: testResult.output,
+                correction: testResult.correction,
+            });
+            continue;
+        }
         if (resolved.agentCheck) {
             const isResolved = resolvedChecks.has(resolved.name);
             results.push({

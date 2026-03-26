@@ -10,14 +10,32 @@ export function registerDod(program) {
         .option('--cwd <dir>', 'Working directory for running shell commands')
         .option('--resolve <condition>', 'Record agent resolution for a named condition (repeatable)', (v, a) => [...a, v], [])
         .option('--note <note>', 'Resolution note (used with --resolve, repeatable)', (v, a) => [...a, v], [])
+        .option('--rerun-tests', 'Ignore cached test result and re-execute testsCommand')
         .action(async (implPath, options) => {
         const cwd = options.cwd ? resolve(options.cwd) : process.cwd();
+        // --rerun-tests requires impl-path
+        if (options.rerunTests && !implPath) {
+            process.stderr.write('Error: --rerun-tests requires an impl-path argument\n');
+            process.exitCode = 1;
+            return;
+        }
         // --resolve mode: write one or more resolutions to impl.md
         if (options.resolve && options.resolve.length > 0) {
             if (!implPath) {
                 process.stderr.write('Error: --resolve requires an impl-path argument\n');
                 process.exitCode = 1;
                 return;
+            }
+            // Reject --resolve "tests-passing" when testsCommand is configured
+            const { config } = loadConfig(cwd);
+            if (config.testsCommand) {
+                const testsPassingAttempt = options.resolve.find(r => r === 'tests-passing');
+                if (testsPassingAttempt) {
+                    process.stderr.write('Error: tests-passing cannot be resolved by assertion when testsCommand is configured. ' +
+                        `Run taproot dod ${implPath} to execute tests and record evidence.\n`);
+                    process.exitCode = 1;
+                    return;
+                }
             }
             const notes = options.note ?? [];
             for (let i = 0; i < options.resolve.length; i++) {
@@ -28,7 +46,7 @@ export function registerDod(program) {
             }
             return;
         }
-        const report = await runDod({ implPath, dryRun: options.dryRun ?? false, cwd });
+        const report = await runDod({ implPath, dryRun: options.dryRun ?? false, cwd, rerunTests: options.rerunTests });
         if (!report.configured) {
             process.stdout.write('No Definition of Done configured — skipping checks.\n');
             if (implPath && !options.dryRun) {
@@ -65,7 +83,11 @@ export function registerDod(program) {
 export async function runDod(options) {
     const cwd = options.cwd ?? process.cwd();
     const { config } = loadConfig(cwd);
-    const report = runDodChecks(config.definitionOfDone, cwd, { implPath: options.implPath });
+    const report = await runDodChecks(config.definitionOfDone, cwd, {
+        implPath: options.implPath,
+        config,
+        rerunTests: options.rerunTests,
+    });
     if (options.implPath && !options.dryRun && report.allPassed) {
         const absPath = resolve(cwd, options.implPath);
         markImplComplete(absPath);

@@ -1,4 +1,4 @@
-import type { DodConditionEntry } from '../validators/types.js';
+import type { DodConditionEntry, TaprootConfig } from '../validators/types.js';
 export interface DodResult {
     name: string;
     passed: boolean;
@@ -17,4 +17,6 @@ export interface DodReport {
 export declare function readResolutions(implPath: string, cwd: string): Set<string>;
 export declare function runDodChecks(conditions: DodConditionEntry[] | undefined, cwd: string, options?: {
     implPath?: string;
-}): DodReport;
+    config?: TaprootConfig;
+    rerunTests?: boolean;
+}): Promise<DodReport>;

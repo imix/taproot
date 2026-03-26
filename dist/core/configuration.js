@@ -89,6 +89,31 @@ definitionOfReady:
 
 ---
 
+## autonomous
+
+Enable autonomous mode — agent proceeds through skill steps without mid-flow confirmation prompts.
+
+\`\`\`yaml
+autonomous: true
+\`\`\`
+
+**Activation:** Any of three mechanisms activates autonomous mode:
+1. \`autonomous: true\` in \`.taproot/settings.yaml\` (all sessions in this repo)
+2. \`TAPROOT_AUTONOMOUS=1\` environment variable (per-invocation)
+3. \`--autonomous\` flag on a skill invocation (per-skill)
+
+**What changes in autonomous mode:**
+- Plan approval in \`/tr-implement\` is skipped — the agent proceeds directly to writing code after forming the plan internally
+- Staging confirmation in \`/tr-commit\` is skipped when nothing is staged yet
+- DoD conditions are self-evaluated: resolvable conditions are recorded directly; unresolvable \`check:\` questions are marked \`<!-- autonomous: pending-review -->\` in \`impl.md\`
+- Test failures and hook rejections are recorded in \`impl.md\` (impl marked \`needs-rework\`) and the agent stops without committing
+
+**Default:** \`false\` (interactive mode — confirmation prompts shown as normal)
+
+**Requires \`taproot update\`:** no — read at skill runtime.
+
+---
+
 ## cli
 
 CLI invocation prefix. Controls which command agents use when executing taproot CLI steps (e.g. in skill files that reference \`taproot dod\`, \`taproot link-commits\`, etc.).
