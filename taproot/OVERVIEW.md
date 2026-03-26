@@ -78,7 +78,7 @@ _No behaviours yet._
 - **[browse-hierarchy-item](./human-integration/browse-hierarchy-item/usecase.md)** `[implemented]` — Actor: Developer — in the terminal, wanting to read a hierarchy document (intent.md, usecase.md, or impl.md) section by section without leaving the CLI or opening an external editor.
   - [agent-skill](./human-integration/browse-hierarchy-item/agent-skill/impl.md) `[complete]` (4 commits, 1 test)
 - **[bug-triage](./human-integration/bug-triage/usecase.md)** `[implemented]` — Actor: Developer or AI coding agent who has observed a defect — unexpected system behaviour, a failing test, or a user-reported issue
-  - [agent-skill](./human-integration/bug-triage/agent-skill/impl.md) `[in-progress]` (2 commits, 1 test)
+  - [agent-skill](./human-integration/bug-triage/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
 - **[contextual-next-steps](./human-integration/contextual-next-steps/usecase.md)** `[implemented]` — Actor: Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the moment it produces its primary output
   - [all-skills](./human-integration/contextual-next-steps/all-skills/impl.md) `[complete]` (7 commits, 1 test)
 - **[cross-linked-specs](./human-integration/cross-linked-specs/usecase.md)** `[implemented]` — Actor: `tr-behaviour` skill (when creating a new `usecase.md`) and `tr-implement` skill (when creating a new `impl.md`) — both maintain the link sections in their parent documents as a side-effect of document creation. `taproot update` runs a link-refresh pass across the full tree to backfill existing documents.
@@ -216,6 +216,7 @@ _No behaviours yet._
 
 - **[cut-release](./taproot-distribution/cut-release/usecase.md)** `[implemented]` — Actor: - **Maintainer** — runs the local phase (pre-flight, changelog, version bump, tag, push)
   - [multi-surface](./taproot-distribution/cut-release/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
+- **[vscode-marketplace](./taproot-distribution/vscode-marketplace/usecase.md)** `[specified]` — Actor: Maintainer — the VS Code extension publish step runs automatically in CI as part of the `cut-release` flow, after npm publish succeeds
 
 ## [taproot-lifecycle](./taproot-lifecycle/intent.md) `[active]`
 
@@ -225,4 +226,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-19 intents · 61 behaviours · 62 implementations · 60/62 complete
+19 intents · 62 behaviours · 62 implementations · 61/62 complete

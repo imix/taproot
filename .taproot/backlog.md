@@ -12,7 +12,6 @@
 - [2026-03-25] find a better solution than CLAUDE.md for commit hook
 - [2026-03-25] CI template: buildGithubWorkflow() should add npm audit --audit-level=high
 - [2026-03-25] taproot's own CI: create .github/workflows/taproot.yml with validate + audit + test
-- [2026-03-25] VS Code / JetBrains extension: in-editor linting, spec navigation, status indicators, integrated slash commands
 - [2026-03-25] boilerplate scaffolding: scaffold impl.md and stub source/test files from a usecase.md
 - [2026-03-25] GitHub Action / PR bot: impact reports on PRs ("this PR modifies files linked to behaviour X, spec stale since...")
 - [2026-03-25] static site generation: taproot docs --serve to convert hierarchy into searchable stakeholder portal

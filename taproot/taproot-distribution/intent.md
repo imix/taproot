@@ -23,6 +23,7 @@ Enable the taproot maintainer to publish reliable, tested releases to npm and Gi
 
 ## Behaviours <!-- taproot-managed -->
 - [Cut Release](./cut-release/usecase.md)
+- [Publish VS Code Extension](./vscode-marketplace/usecase.md)
 
 ## Status
 - **State:** active
