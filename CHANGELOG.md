@@ -4,6 +4,47 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.5.0] - 2026-03-26
+
+### Taproot
+- taproot(global-truths/apply-truths-when-authoring/agent-skill): inject truth-loading step into authoring skills (cc7e387)
+- taproot(global-truths/apply-truths-when-authoring/agent-skill): declare implementation (3484e44)
+- taproot(global-truths/define-truth/agent-skill): implement define-truth as agent skill (d40f952)
+- taproot(global-truths/define-truth/agent-skill): declare implementation (abc4cf9)
+- taproot(global-truths): advance intent state to active, annotate SC-4 (92b10b5)
+- taproot(global-truths/discover-truths/skill): link commits and update overview (0182f20)
+- taproot(global-truths/discover-truths/skill): implement discover-truths as agent skill (afc95a5)
+- taproot(global-truths/discover-truths/skill): declare implementation (34efd95)
+- taproot(global-truths/discover-truths): add discover-truths behaviour spec (4d35125)
+- taproot(project-presentation/conceptual-orientation): advance state to implemented (3dc1db7)
+- taproot(project-presentation/conceptual-orientation/concepts-section): add enforcement explanation to README (70cbe29)
+- taproot(project-presentation/conceptual-orientation): extend spec with enforcement model (AC-6) (f8f52e9)
+- taproot(project-presentation/conceptual-orientation): advance state to implemented (0e305d3)
+- taproot(project-presentation/conceptual-orientation/concepts-section): add Concepts section to README (cc83e62)
+- taproot(project-presentation/conceptual-orientation/concepts-section): declare implementation (1c29d95)
+- taproot(project-presentation/conceptual-orientation): link concepts-section impl (07a3df2)
+- taproot(project-presentation/conceptual-orientation): refine usecase spec from review findings (4fa183e)
+- taproot(global-truths/enforce-truths-at-commit/hook-extension): implement truth-check session hash and pre-commit enforcement (a091b9d)
+- taproot(global-truths/enforce-truths-at-commit/hook-extension): declare implementation (43576af)
+- taproot(global-truths): rename GlobalTruths/ to global-truths/ in all specs (d668c04)
+- taproot(global-truths): specify define-truth, apply-truths-when-authoring, enforce-truths-at-commit (c21c246)
+- taproot(taproot-distribution/vscode-marketplace/multi-surface): add VS Code extension and CI publish job (1b43978)
+- taproot(taproot-distribution/vscode-marketplace/multi-surface): declare implementation (0ca60a2)
+- taproot(taproot-distribution/vscode-marketplace): specify VS Code Marketplace publish behaviour (15f0573)
+
+### Features
+- feat(init): create taproot/global-truths/ with README hint; exclude from structure validation (ef23f6b)
+
+### Maintenance
+- chore: defer vscode-marketplace impl ahead of release (9d27d8c)
+- chore: link commits for concepts-section impl (0b7f798)
+- chore: add global-truths/ scaffold to all starter templates (e694213)
+- chore: update OVERVIEW.md (3071ba8)
+- chore: link commits in hook-extension impl.md (6c1bfa9)
+- chore: mark vscode-marketplace impl in-progress; document remaining gaps (b941bfc)
+- chore: set VS Code publisher to imix-ai (a60b1a8)
+- chore: link commits for vscode-marketplace impl (8dec707)
+
 ## [0.4.0] - 2026-03-26
 
 ### Taproot
