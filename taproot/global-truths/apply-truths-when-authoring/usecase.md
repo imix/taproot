@@ -4,13 +4,13 @@
 Agent — authoring or reviewing a spec (intent.md, usecase.md, or impl.md) via any taproot skill (`/tr-intent`, `/tr-behaviour`, `/tr-implement`, `/tr-refine`, `/tr-ineed`)
 
 ## Preconditions
-- `taproot/GlobalTruths/` exists and contains at least one truth file
+- `taproot/global-truths/` exists and contains at least one truth file
 - A taproot skill is in the process of drafting or reviewing a hierarchy document
 - The target document level (intent, behaviour, or implementation) is known
 
 ## Main Flow
 
-1. Before drafting the spec, agent reads `taproot/GlobalTruths/` and collects all truth files applicable to the target document level:
+1. Before drafting the spec, agent reads `taproot/global-truths/` and collects all truth files applicable to the target document level:
    - **Intent-scoped truths** (`_intent` suffix or `intent/` sub-folder): apply to intent, behaviour, and impl
    - **Behaviour-scoped truths** (`_behaviour` suffix or `behaviour/` sub-folder): apply to behaviour and impl
    - **Impl-scoped truths** (`_impl` suffix or `impl/` sub-folder): apply to impl only
@@ -21,28 +21,28 @@ Agent — authoring or reviewing a spec (intent.md, usecase.md, or impl.md) via 
    - Applies stated business rules to the acceptance criteria and main flow
    - Respects entity definitions and project conventions in design decisions
 4. If the draft spec contradicts an applicable truth, agent surfaces the conflict before saving:
-   > "This spec uses `<term>` in a way that conflicts with the truth in `GlobalTruths/<file>`: `<truth excerpt>`. Do you want to [A] update the spec to align, [B] update the truth, or [C] proceed with the conflict noted?"
+   > "This spec uses `<term>` in a way that conflicts with the truth in `global-truths/<file>`: `<truth excerpt>`. Do you want to [A] update the spec to align, [B] update the truth, or [C] proceed with the conflict noted?"
 5. Agent completes the spec with truths applied
 
 ## Alternate Flows
 
 ### No applicable truths for this level
-- **Trigger:** `GlobalTruths/` exists but contains no files scoped to the target document level
+- **Trigger:** `global-truths/` exists but contains no files scoped to the target document level
 - **Steps:**
   1. Agent proceeds with authoring without loading any truths
   2. No warning or interruption — this is a normal state
 
-### GlobalTruths/ does not exist
-- **Trigger:** The project has no `taproot/GlobalTruths/` folder
+### global-truths/ does not exist
+- **Trigger:** The project has no `taproot/global-truths/` folder
 - **Steps:**
   1. Agent proceeds with authoring normally
   2. No warning — truths are optional
 
 ### Truth file is ambiguously scoped (no scope signal)
-- **Trigger:** A file like `glossary.md` exists directly in `GlobalTruths/` without a scope suffix
+- **Trigger:** A file like `glossary.md` exists directly in `global-truths/` without a scope suffix
 - **Steps:**
   1. Agent treats it as intent-scoped (broadest scope)
-  2. Agent notes the ambiguity inline: "Applied `GlobalTruths/glossary.md` as intent-scoped (no explicit scope signal)"
+  2. Agent notes the ambiguity inline: "Applied `global-truths/glossary.md` as intent-scoped (no explicit scope signal)"
 
 ### Contradiction detected — developer chooses to update the truth
 - **Trigger:** Agent surfaces a conflict and developer chooses [B] update the truth
@@ -57,13 +57,13 @@ Agent — authoring or reviewing a spec (intent.md, usecase.md, or impl.md) via 
 - No truth is silently ignored
 
 ## Error Conditions
-- **Truth file is malformed or unreadable**: agent notes the file path and skips it; proceeds with other truths; surfaces: "`GlobalTruths/<file>` could not be read — skipping. Fix the file to apply this truth."
+- **Truth file is malformed or unreadable**: agent notes the file path and skips it; proceeds with other truths; surfaces: "`global-truths/<file>` could not be read — skipping. Fix the file to apply this truth."
 
 ## Flow
 
 ```mermaid
 flowchart TD
-    A[Skill begins drafting a spec\nat level: intent / behaviour / impl] --> B{GlobalTruths/ exists?}
+    A[Skill begins drafting a spec\nat level: intent / behaviour / impl] --> B{global-truths/ exists?}
     B -->|No| C[Proceed without truths]
     B -->|Yes| D[Collect applicable truth files\nby scope and level]
     D --> E{Any applicable truths?}
@@ -87,27 +87,27 @@ flowchart TD
 ## Acceptance Criteria
 
 **AC-1: Agent applies intent-scoped truth when authoring a behaviour spec**
-- Given `taproot/GlobalTruths/glossary_intent.md` defines "booking" with a specific meaning
+- Given `taproot/global-truths/glossary_intent.md` defines "booking" with a specific meaning
 - When an agent authors a `usecase.md` that references "booking"
 - Then the spec uses the term consistent with the definition in `glossary_intent.md`
 
 **AC-2: Agent applies only applicable truths for the target level**
-- Given `taproot/GlobalTruths/` contains `glossary_intent.md` and `tech-choices_impl.md`
+- Given `taproot/global-truths/` contains `glossary_intent.md` and `tech-choices_impl.md`
 - When an agent authors a `usecase.md` (behaviour level)
 - Then `glossary_intent.md` is applied and `tech-choices_impl.md` is not
 
 **AC-3: Agent surfaces contradiction before saving**
-- Given `taproot/GlobalTruths/business-rules_behaviour.md` states "prices are always exclusive of VAT"
+- Given `taproot/global-truths/business-rules_behaviour.md` states "prices are always exclusive of VAT"
 - When an agent drafts a spec that includes a price as VAT-inclusive
 - Then the agent surfaces the conflict and offers options before saving the spec
 
 **AC-4: No truths — authoring proceeds normally**
-- Given `taproot/GlobalTruths/` does not exist or contains no applicable truths
+- Given `taproot/global-truths/` does not exist or contains no applicable truths
 - When an agent authors any spec
 - Then authoring proceeds without interruption
 
 **AC-5: Unscoped truth file treated as intent-scoped with note**
-- Given `taproot/GlobalTruths/glossary.md` exists with no scope signal
+- Given `taproot/global-truths/glossary.md` exists with no scope signal
 - When an agent collects applicable truths for any level
 - Then `glossary.md` is included and the agent notes it was treated as intent-scoped
 

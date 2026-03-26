@@ -4,7 +4,7 @@
 Pre-commit hook — triggered automatically when a contributor commits any hierarchy document (`intent.md`, `usecase.md`, or `impl.md`)
 
 ## Preconditions
-- `taproot/GlobalTruths/` exists and contains at least one truth file
+- `taproot/global-truths/` exists and contains at least one truth file
 - A commit includes one or more staged hierarchy documents
 - The pre-commit hook is installed (`taproot init --with-hooks`)
 
@@ -27,13 +27,13 @@ Pre-commit hook — triggered automatically when a contributor commits any hiera
 ## Alternate Flows
 
 ### No applicable truths for staged documents
-- **Trigger:** `GlobalTruths/` exists but contains no truths applicable to the staged document levels
+- **Trigger:** `global-truths/` exists but contains no truths applicable to the staged document levels
 - **Steps:**
   1. Hook skips truth checks for those documents
   2. Commit proceeds normally
 
-### GlobalTruths/ does not exist
-- **Trigger:** Project has no `taproot/GlobalTruths/` folder
+### global-truths/ does not exist
+- **Trigger:** Project has no `taproot/global-truths/` folder
 - **Steps:**
   1. Hook skips all truth enforcement
   2. Commit proceeds normally
@@ -48,7 +48,7 @@ Pre-commit hook — triggered automatically when a contributor commits any hiera
 ### Developer disagrees with the truth (truth is wrong)
 - **Trigger:** Hook blocks a commit because of a truth conflict, but the developer believes the truth is outdated
 - **Steps:**
-  1. Developer updates the truth file in `GlobalTruths/`
+  1. Developer updates the truth file in `global-truths/`
   2. Developer stages the updated truth file alongside the hierarchy document
   3. Hook re-runs; with the updated truth, the document now passes
   4. Commit proceeds
@@ -59,14 +59,14 @@ Pre-commit hook — triggered automatically when a contributor commits any hiera
 - Truth violations are reported with enough detail to locate and fix them
 
 ## Error Conditions
-- **Truth file unreadable**: hook skips that truth file, logs a warning in commit output: "`GlobalTruths/<file>` could not be read — truth check skipped for this file." Commit is not blocked by an unreadable truth file.
+- **Truth file unreadable**: hook skips that truth file, logs a warning in commit output: "`global-truths/<file>` could not be read — truth check skipped for this file." Commit is not blocked by an unreadable truth file.
 - **Hook times out during agent check**: hook aborts the truth check and allows the commit with a warning: "Truth consistency check timed out — commit allowed. Run `/tr-ineed` to review truths manually."
 
 ## Flow
 
 ```mermaid
 flowchart TD
-    A[git commit triggered\nstaged files include hierarchy docs] --> B{GlobalTruths/ exists?}
+    A[git commit triggered\nstaged files include hierarchy docs] --> B{global-truths/ exists?}
     B -->|No| C[Skip truth checks\ncommit proceeds]
     B -->|Yes| D[For each staged doc:\ncollect applicable truths by level]
     D --> E{Applicable truths found?}
@@ -87,7 +87,7 @@ flowchart TD
 ## Acceptance Criteria
 
 **AC-1: Commit blocked when spec contradicts an applicable truth**
-- Given `taproot/GlobalTruths/business-rules_behaviour.md` states "prices are always exclusive of VAT"
+- Given `taproot/global-truths/business-rules_behaviour.md` states "prices are always exclusive of VAT"
 - When a developer commits a `usecase.md` that specifies a VAT-inclusive price
 - Then the commit is blocked with a message identifying the truth file and the conflicting excerpt
 
@@ -96,8 +96,8 @@ flowchart TD
 - When the developer commits
 - Then the hook passes and the commit succeeds
 
-**AC-3: No GlobalTruths/ — commit always proceeds**
-- Given `taproot/GlobalTruths/` does not exist
+**AC-3: No global-truths/ — commit always proceeds**
+- Given `taproot/global-truths/` does not exist
 - When a developer commits any hierarchy document
 - Then truth checks are skipped and the commit proceeds normally
 
@@ -107,12 +107,12 @@ flowchart TD
 - Then the hook re-runs with the updated truth and the commit proceeds if consistent
 
 **AC-5: Only applicable truths checked per document level**
-- Given `taproot/GlobalTruths/` contains both `glossary_intent.md` and `tech-choices_impl.md`
+- Given `taproot/global-truths/` contains both `glossary_intent.md` and `tech-choices_impl.md`
 - When a `usecase.md` is committed
 - Then only `glossary_intent.md` is checked; `tech-choices_impl.md` is not
 
 **AC-6: Unreadable truth file produces warning but does not block commit**
-- Given a truth file in `GlobalTruths/` is malformed or unreadable
+- Given a truth file in `global-truths/` is malformed or unreadable
 - When a commit triggers truth checks
 - Then the unreadable file is skipped with a warning and the commit is not blocked by it
 
