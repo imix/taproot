@@ -5,6 +5,7 @@
 - [2026-03-25] add writing styles — clear concise short sentences for BA; friendly but not too long for doc
 - [2026-03-25] add shell script option to DoD and DoR
 - [2026-03-25] make taproot robust so that multiple agents can work in parallel
+- [2026-03-26] parallel-agent-execution: HOLD — spec was written for shared-filesystem model (advisory locks) but worktree model (Claude Code -w, Cursor) is now the default and makes most locking unnecessary. Research saved at research/parallel-agent-execution.md. Needs spec refinement before implementing: (1) acknowledge worktree as primary path, (2) narrow advisory lock work to shared-fs edge case or defer it, (3) drop race-condition-sensitive tests that can't be verified reliably. Remaining real work: same-behaviour collision detection (cheap) + post-merge skill guidance.
 - [2026-03-25] multi agents with defined roles?
 - [2026-03-25] in gates like DoD/DoR we want to check if other uncommitted stuff is there — how to force commit?
 - [2026-03-25] partial usecase implementations?

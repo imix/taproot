@@ -110,6 +110,9 @@ sequenceDiagram
 
 ## Notes
 
+**⚠ Spec needs refinement before implementation — see backlog**
+Research (2026-03-26, `research/parallel-agent-execution.md`) found that this spec was written for the *shared-filesystem* model (Claude Code sub-agents without worktrees) but the *worktree* model (Claude Code `-w`, Cursor, Codex) is now the default for parallel work. In the worktree model, in-flight file conflicts don't arise — the concern shifts to post-merge regeneration of derived files (OVERVIEW.md, CONTEXT.md). The spec needs a refinement pass to acknowledge both models before the advisory-lock implementation is scoped.
+
 **Locking mechanism is an implementation decision**
 This spec defines the locking *contract* (acquire before write, release immediately after, read current state after acquiring, TTL for orphaned locks) but not the mechanism. Valid implementations include: advisory lock files, git-based coordination, or OS-level file locks. The implementation must honour the contract regardless of mechanism.
 

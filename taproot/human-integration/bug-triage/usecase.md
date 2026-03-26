@@ -20,6 +20,14 @@ Developer or AI coding agent who has observed a defect — unexpected system beh
    - **Missing test** — behaviour exists and works but has no test catching this regression
    - **External cause** — dependency, environment, or configuration outside the hierarchy
    - If categories overlap, use this priority: **Spec gap > Implementation gap > Missing test**
+4a. Skill checks for systemic recurrence: *"Could this class of bug happen again — is there a missing gate or outdated guideline that would prevent it?"*
+   - If **no** (clearly one-off — typo, isolated misconfiguration, external incident): skill notes this and continues to step 5
+   - If **yes**: skill proposes prevention across one or more surfaces:
+     - A new DoR or DoD condition to add to `.taproot/settings.yaml`
+     - An update to `docs/architecture.md`, `docs/security.md`, or `docs/patterns.md`
+   - If a satisfactory measure is identified: skill presents it for actor confirmation; on confirm, applies the change before continuing to step 5
+   - If no satisfactory measure can be identified: skill invokes `/tr-grill-me` seeded with *"How do we prevent `<root-cause>` from recurring?"* — incorporates the answer and applies it before continuing to step 5
+
 5. Skill locates the implicated artifact using reverse lookup: scan all `impl.md` files in the hierarchy for `## Source Files` entries matching the files involved in the root cause. If a match is found, that impl.md is implicated. If no match is found, skill reads `taproot/OVERVIEW.md` to identify the closest matching behaviour and asks the actor to confirm: "Is `<path>` the right impl to target?"
 6. Skill proposes a fix approach matching the root cause type and presents it to the actor for confirmation
 7. Skill delegates to the appropriate next step:
@@ -42,6 +50,14 @@ Developer or AI coding agent who has observed a defect — unexpected system beh
   2. Skips reproduction confirmation prompt — tr-ineed has already confirmed the intent; proceed directly to 5-Why dialogue (step 3)
 - **Note:** tr-ineed must be updated to recognise bug-shaped language patterns and route to `/tr-bug`. Until that update lands, this flow is manually triggered by the actor invoking `/tr-bug` directly.
 
+### Root cause reveals systemic process gap
+- **Trigger:** Step 4a determines the bug could recur and a prevention measure is proposed
+- **Steps:**
+  1. Skill presents the specific proposed measure (e.g. `"Add to definitionOfReady: check-if-affected-by: quality-gates/security-review"` or `"Add to docs/security.md: <constraint>"`)
+  2. Actor confirms → skill applies the change (updates `.taproot/settings.yaml` or relevant `docs/` file)
+  3. Actor rejects → skill records the recurrence concern in the implicated impl.md `## Notes` and continues to step 5
+  4. No satisfactory measure found → skill invokes `/tr-grill-me` seeded with *"How do we prevent `<root-cause>` from recurring?"*; incorporates the answer and applies it before continuing to step 5
+
 ### Multiple root causes
 - **Trigger:** 5-Why analysis surfaces two independent causes
 - **Steps:**
@@ -59,6 +75,7 @@ Developer or AI coding agent who has observed a defect — unexpected system beh
 - Implicated artifact (impl.md or usecase.md) is named
 - Fix approach is proposed and confirmed by actor
 - Delegated to tr-implement or tr-refine; or external cause documented with actor confirmation
+- If a systemic gap was identified: a prevention measure is applied (DoR/DoD entry added, guideline updated) or recorded as a grilled-out decision in impl.md Notes
 
 ## Error Conditions
 - **Cannot locate implicated impl.md after OVERVIEW scan**: skill produces a hypothesis ("this looks like it lives in `<path>`") and asks the actor to confirm before proceeding
@@ -71,16 +88,21 @@ flowchart TD
     B -->|No| C[Ask for repro context]
     C --> B
     B -->|Yes| D[5-Why dialogue\nstop at category]
-    D --> E{Root cause type}
-    E -->|Implementation gap| F[Locate impl.md\nPropose code fix]
-    E -->|Spec gap| G[Locate usecase.md\nPropose spec correction]
-    E -->|Missing test| H[Locate impl.md\nPropose regression test]
-    E -->|External cause| I[Present note for confirmation\nWrite to Notes on confirm]
+    D --> E{Root cause type\nclassified}
+    E --> RC{Step 4a: Could this recur?}
+    RC -->|No / one-off| LOC[Locate implicated artifact]
+    RC -->|Yes — measure found| M[Present prevention measure\nApply on confirm]
+    RC -->|Yes — no measure| GR[/tr-grill-me\nrecurrence concern]
+    M --> LOC
+    GR --> LOC
+    LOC -->|Implementation gap| F[Propose code fix]
+    LOC -->|Spec gap| G[/tr-refine/]
+    LOC -->|Missing test| H[Propose regression test]
+    LOC -->|External cause| I[Present note for confirmation\nWrite to Notes on confirm]
     F --> F2{impl complete?}
     F2 -->|Yes| F3[Mark needs-rework\nConfirm with actor]
     F2 -->|No| J
     F3 --> J[/tr-implement/]
-    G --> K[/tr-refine/]
     H --> F2
     L([/tr-ineed entry point]) --> D
 ```
@@ -88,7 +110,9 @@ flowchart TD
 ## Related
 - `../route-requirement/usecase.md` — tr-ineed detects bug-shaped inputs and hands off here; tr-ineed must be updated to recognise bug patterns
 - `../../hierarchy-integrity/pre-commit-enforcement/usecase.md` — failing pre-commit hook is a common bug trigger
-- `../../quality-gates/definition-of-done/usecase.md` — missing test root cause leads to a DoD gap
+- `../../quality-gates/definition-of-done/usecase.md` — missing test root cause leads to a DoD gap; step 4a may add new DoD conditions
+- `../../quality-gates/definition-of-ready/usecase.md` — step 4a may propose new DoR conditions to catch a class of bug before implementation begins
+- `../../quality-gates/architecture-compliance/usecase.md` — step 4a may identify gaps in `docs/architecture.md` or `docs/security.md` that need updating
 
 ## Acceptance Criteria
 
@@ -131,6 +155,16 @@ flowchart TD
 - Given root cause is classified as external cause
 - When the skill identifies the nearest impl.md to annotate
 - Then the skill presents the proposed note text and waits for actor confirmation before writing
+
+**AC-9: Systemic process gap identified — prevention measure proposed and applied**
+- Given a bug whose root cause could recur (missing gate or outdated guideline)
+- When the skill completes step 4a
+- Then the skill proposes at least one prevention measure (DoR/DoD condition or guideline update), presents it for actor confirmation, and applies it on confirm
+
+**AC-10: No satisfactory prevention found — /tr-grill-me invoked**
+- Given a recurrent root cause with no obvious DoR/DoD or guideline fix
+- When the skill exhausts obvious prevention options in step 4a
+- Then the skill invokes `/tr-grill-me` seeded with the recurrence concern before continuing to step 5
 
 ## Implementations <!-- taproot-managed -->
 - [Agent Skill — /tr-bug](./agent-skill/impl.md)
