@@ -12,32 +12,22 @@ Run the taproot maintainer's local release phase: pre-flight checks, changelog g
 
 1. Confirm `bump` is one of `patch`, `minor`, `major`. If missing or invalid, report: "Usage: `/tr-release patch|minor|major`" and stop.
 
-2. **Pre-flight checks** — run each check in order. Abort on the first failure, reporting the check name and what to fix. Do not modify any files during this phase.
+2. **Pre-flight checks** — run `npm run preflight -- <bump>`. This script runs all checks in order and stops on the first failure:
+   - Branch is up to date with origin/main
+   - Tests pass (`npm test`)
+   - No high-severity audit vulnerabilities
+   - Build succeeds (`npm run build`)
+   - `taproot validate-structure` clean
+   - `taproot sync-check` clean (errors only; warnings are acceptable)
+   - All implementations complete or deferred (`taproot coverage`)
+   - Working tree clean
+   - Next version computed (v\<current\> → v\<next\>) and tag v\<next\> available
 
-   a. Run `git fetch origin` then `git status -sb`. If the output contains `behind`, report: "Local branch is behind origin/main. Run `git pull` before releasing." and stop.
+   If the script exits non-zero, it prints the failing check and what to fix. Do not proceed until it exits 0.
 
-   b. Run `npm test`. If exit code is non-zero, report the failing test output and stop.
+   Extract v\<next\> from the final line of the script output.
 
-   c. Run `npm audit --audit-level=high`. If exit code is non-zero, report the vulnerable packages and stop.
-
-   d. Run `npm run build`. If exit code is non-zero, report the build error and stop.
-
-   e. Run `npx taproot validate-structure --path taproot/`. If any errors are reported, stop.
-
-   f. Run `npx taproot sync-check --path taproot/`. If exit code is non-zero (errors, not warnings alone), stop.
-
-   g. Run `npx taproot coverage --path taproot/ --format json` and parse the output. If `totals.completeImpls < totals.implementations`, report: "Not all implementations are complete — [list paths where state is not complete]" and stop.
-
-   h. Run `git status --porcelain`. If any output, report: "Working tree is dirty — commit or stash before releasing: [list files]" and stop.
-
-   i. Read `package.json` and extract the current `version`. Compute the next version by applying `bump`:
-      - `patch`: increment the third digit (e.g. `0.1.0` → `0.1.1`)
-      - `minor`: increment the second digit, reset third to 0 (e.g. `0.1.3` → `0.2.0`)
-      - `major`: increment the first digit, reset second and third to 0 (e.g. `0.2.1` → `1.0.0`)
-
-      Run `git tag -l "v<next>"`. If output is non-empty, report: "Tag v<next> already exists. Choose a different bump type or delete the existing tag first." and stop.
-
-   Report: "✓ All pre-flight checks passed. Releasing v<next>."
+   Report: "✓ All pre-flight checks passed. Releasing v\<next\>."
 
 3. **Changelog generation** — run `git describe --tags --abbrev=0 2>/dev/null` to find the most recent tag. If no tags exist (first release), use the full history.
 
