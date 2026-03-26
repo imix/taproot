@@ -26,3 +26,4 @@
 - [2026-03-26] cross-repo traceability for global truths — intents/behaviours implemented in other repos, shared domain model across repo boundaries
 - [2026-03-26] rename npm package from @imix-js/taproot — @imix-js is JS-specific but taproot works with any language/stack; consider @imix-ai/taproot or unscoped taproot
 - [2026-03-26] no way to express that one implementation depends on another being complete before it can start — DoR can't catch ordering violations across features (idea: depends-on-impl field)
+- [2026-03-26] extend conceptual-orientation with a section on how we enforce requirement and code integrity (all in the background!)

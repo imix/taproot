@@ -10,6 +10,34 @@ AI coding agents generate code fast — but six months later, nobody knows *why*
 
 Taproot keeps requirements as first-class files in your repo. The agent writes the spec, writes the code, and git refuses to accept one without the other.
 
+## Concepts
+
+> New to taproot? Five terms unlock the whole system. [Skip to Quick Start ↓](#quick-start) if you already know them.
+
+**Intent** — the business goal behind a feature, written from a user perspective.
+Example: `password-reset` — *Allow users to recover access to their account*
+
+**Behaviour** — one observable, testable thing the system does for a specific actor.
+Example: `request-reset` — *User submits their email; system sends a reset link*
+
+**Implementation** — the code that satisfies a behaviour, with a traceable link back to the spec.
+Example: `email-trigger/impl.md` lists the source files and the commit that built them
+
+**Global truth** — a project-wide fact enforced at every commit (business rule, entity definition, project convention), stored in `taproot/global-truths/`.
+Example: *prices are always exclusive of VAT* — a spec that contradicts this is blocked before it merges
+
+**Backlog** — a lightweight scratchpad for ideas and deferred work captured mid-session, stored in `.taproot/backlog.md` — separate from the requirement hierarchy.
+Example: `/tr-backlog "consider a caching layer"` captures the thought without interrupting flow
+
+<details>
+<summary>Further reading</summary>
+
+- **Intent, Behaviour, Implementation** — [docs/concepts.md](docs/concepts.md)
+- **Global truths** — [`taproot/global-truths/`](taproot/global-truths/)
+- **Backlog, DoR, DoD, sync-check** — [docs/workflows.md](docs/workflows.md)
+
+</details>
+
 ## Quick Start
 
 ```bash
