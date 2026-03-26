@@ -35,6 +35,11 @@ Update a behaviour spec (`usecase.md`) based on what was learned during or after
    - **Actor change**: the actor is different from what was specified, or multiple actors are involved
    - **State machine issue**: the preconditions or postconditions interact with other behaviours in ways not reflected
 
+2a. **Load applicable truths.** If `taproot/global-truths/` exists, collect truth files applicable at behaviour level:
+   - Include files with `_intent` or `_behaviour` suffix, in an `intent/` or `behaviour/` sub-folder, or with no scope signal (treat as intent-scoped; note inline: "Applied `global-truths/<file>` as intent-scoped (no explicit scope signal)")
+   - Read each applicable file; ensure the refined spec aligns with applicable truths
+   - If a proposed refinement contradicts an applicable truth, surface the conflict before writing: "This refinement uses `<term>` in a way that conflicts with `global-truths/<file>`: `<excerpt>`. [A] update spec to align, [B] update the truth, [C] proceed with the conflict noted."
+
 3. Draft the changes to `usecase.md`. Show the diff to the user: "Here's what I'm changing: [before/after for each section]." Ask for confirmation before writing.
 
 4. Update the `usecase.md`:

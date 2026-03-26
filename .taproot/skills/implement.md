@@ -31,6 +31,11 @@ If any of these is true, **autonomous mode is active** — apply the autonomous 
 
 3. Walk up the hierarchy: read the parent `intent.md` to understand the broader goal. This context should inform design decisions (e.g., if the intent has a constraint about performance, that should influence implementation choices).
 
+3a. **Load applicable truths.** If `taproot/global-truths/` exists, collect truth files applicable at impl level:
+   - Include files with `_intent`, `_behaviour`, or `_impl` suffix, in an `intent/`, `behaviour/`, or `impl/` sub-folder, or with no scope signal (treat as intent-scoped; note inline: "Applied `global-truths/<file>` as intent-scoped (no explicit scope signal)")
+   - Read each applicable file; apply defined terms and conventions when choosing the implementation approach, naming, and design decisions
+   - If the implementation plan contradicts an applicable truth, surface the conflict before proceeding: "This implementation contradicts `global-truths/<file>`: `<excerpt>`. [A] update plan to align, [B] update the truth, [C] proceed with the conflict noted."
+
 4. **Pattern check + plan mode.** Before proposing the plan: if `.taproot/docs/patterns.md` exists, scan the behaviour description and any design notes for semantic matches. Match signals:
    - "applies to all implementations / cross-cutting concern" → `check-if-affected-by`
    - "enforce a rule on all future work" → `check-if-affected-by`

@@ -20,6 +20,11 @@ Create a new business intent or refine an existing one. An intent captures the "
 
 2. Search existing intents under `taproot/` for overlap. Read each `intent.md` found. If a closely related intent exists, show it to the user and ask: "This looks related to existing intent at `<path>`. Should I refine that one, or create a separate intent for a genuinely different goal?"
 
+2a. **Load applicable truths.** If `taproot/global-truths/` exists, collect truth files applicable at intent level:
+   - Include files with `_intent` suffix, in an `intent/` sub-folder, or with no scope signal (treat as intent-scoped; note inline: "Applied `global-truths/<file>` as intent-scoped (no explicit scope signal)")
+   - Read each applicable file; note any defined terms, business rules, or conventions
+   - If the draft contradicts an applicable truth, surface the conflict before writing: "This draft uses `<term>` in a way that conflicts with `global-truths/<file>`: `<excerpt>`. [A] update spec to align, [B] update the truth, [C] proceed with the conflict noted."
+
 3. Draft the `intent.md` content:
    - Title: noun phrase capturing the desired outcome (e.g., "Password Reset Without Support", not "Password Reset Feature")
    - Stakeholders: at minimum the direct user/actor and the business/product owner; consider: ops, security, compliance, support, third-party integrators

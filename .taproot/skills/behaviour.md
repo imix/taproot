@@ -27,7 +27,13 @@ Define a UseCase (observable system behaviour) under an intent or another behavi
    > **[B] Continue writing the spec** — the spec is distinct from the pattern
 
    - **[A]**: guide the user through applying the pattern. Do not write a new `usecase.md`.
-   - **[B]** or no match: proceed to step 2.
+   - **[B]** or no match: proceed to step 1b.
+
+1b. **Load applicable truths.** If `taproot/global-truths/` exists, collect truth files applicable at behaviour level:
+   - Include files with `_intent` or `_behaviour` suffix, in an `intent/` or `behaviour/` sub-folder, or with no scope signal (treat as intent-scoped; note inline: "Applied `global-truths/<file>` as intent-scoped (no explicit scope signal)")
+   - Do not include files scoped to `_impl` / `impl/` only
+   - Read each applicable file; note defined terms, business rules, and conventions
+   - If the draft spec contradicts an applicable truth, surface the conflict before saving: "This spec uses `<term>` in a way that conflicts with `global-truths/<file>`: `<excerpt>`. [A] update spec to align, [B] update the truth, [C] proceed with the conflict noted."
 
 2. Read all sibling `usecase.md` files (other behaviours already under the same parent). Identify any overlap with the described behaviour and flag it: "There's an existing behaviour `<slug>` that covers X — should this new behaviour focus on Y specifically?"
 
