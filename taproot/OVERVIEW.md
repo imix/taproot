@@ -132,6 +132,7 @@ _No behaviours yet._
   - [cli-command](./quality-gates/definition-of-done/cli-command/impl.md) `[complete]` (5 commits, 1 test)
 - **[definition-of-ready](./quality-gates/definition-of-ready/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a contributor commits an `impl.md` file without source code changes (the "I'm starting this implementation" declaration commit).
   - [cli-command](./quality-gates/definition-of-ready/cli-command/impl.md) `[complete]` (2 commits, 1 test)
+- **[impl-ordering-constraints](./quality-gates/impl-ordering-constraints/usecase.md)** `[specified]` — Actor: Developer or agent — making a declaration commit (`impl.md` only, no source files) for a new implementation that depends on another implementation being complete before work can begin.
 - **[nfr-measurability](./quality-gates/nfr-measurability/usecase.md)** `[implemented]` — Actor: Developer or agent declaring a new implementation (committing an `impl.md`) — the check runs automatically at Definition of Ready time before any code is written.
   - [settings-wiring](./quality-gates/nfr-measurability/settings-wiring/impl.md) `[complete]` (3 commits, 1 test)
 - **[state-transition-guardrails](./quality-gates/state-transition-guardrails/usecase.md)** `[implemented]` — Actor: `taproot dod` CLI — when processing the `tests-passing` condition for an `impl.md` about to be marked `complete`. Also enforced by `taproot commithook` when an implementation commit includes an `impl.md` whose state is `complete`.
@@ -219,7 +220,7 @@ _No behaviours yet._
 - **[cut-release](./taproot-distribution/cut-release/usecase.md)** `[implemented]` — Actor: - **Maintainer** — runs the local phase (pre-flight, changelog, version bump, tag, push)
   - [multi-surface](./taproot-distribution/cut-release/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 - **[vscode-marketplace](./taproot-distribution/vscode-marketplace/usecase.md)** `[specified]` — Actor: Maintainer — the VS Code extension publish step runs automatically in CI as part of the `cut-release` flow, after npm publish succeeds
-  - [multi-surface](./taproot-distribution/vscode-marketplace/multi-surface/impl.md) `[in-progress]` (2 commits, 1 test)
+  - [multi-surface](./taproot-distribution/vscode-marketplace/multi-surface/impl.md) `[deferred]` (2 commits, 1 test)
 
 ## [taproot-lifecycle](./taproot-lifecycle/intent.md) `[active]`
 
@@ -229,4 +230,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-19 intents · 63 behaviours · 64 implementations · 62/64 complete
+19 intents · 64 behaviours · 64 implementations · 62/64 complete

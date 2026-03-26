@@ -29,6 +29,7 @@ Enforce quality at every level of the hierarchy — from intent and usecase docu
 - [Validate Intent Quality at Commit](./validate-intent-quality/usecase.md)
 - [NFR Measurability Check](./nfr-measurability/usecase.md)
 - [State Transition Guardrails](./state-transition-guardrails/usecase.md)
+- [Implementation Ordering Constraints](./impl-ordering-constraints/usecase.md)
 
 
 ## Status

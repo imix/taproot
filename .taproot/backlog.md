@@ -25,5 +25,6 @@
 - [2026-03-26] tr-commit should offer some options after finishing committing
 - [2026-03-26] cross-repo traceability for global truths — intents/behaviours implemented in other repos, shared domain model across repo boundaries
 - [2026-03-26] rename npm package from @imix-js/taproot — @imix-js is JS-specific but taproot works with any language/stack; consider @imix-ai/taproot or unscoped taproot
-- [2026-03-26] no way to express that one implementation depends on another being complete before it can start — DoR can't catch ordering violations across features (idea: depends-on-impl field)
 - [2026-03-26] check-if-affected: examples/ resolution guidance is too narrow — agent resolved "no" for global-truths because truths are user content, missing that starters should scaffold the directory so the feature is discoverable; consider adding guidance to the check: "does this feature introduce a new taproot/ directory or convention that starters should demonstrate?"
+- [2026-03-26] README: guarantees/gates/checks section not visible — did we implement it? if not, add a section covering the enforcement model (hook, DoR, DoD, truth-check session)
+- [2026-03-26] README structure: quick start should appear before the Concepts section — first-time readers want to run a command, not read theory
