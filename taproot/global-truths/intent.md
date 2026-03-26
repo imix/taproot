@@ -22,6 +22,7 @@ Enable developers and agents to capture facts that are true across the project â
 - [Define Truth](./define-truth/usecase.md)
 - [Apply Truths When Authoring](./apply-truths-when-authoring/usecase.md)
 - [Enforce Truths at Commit](./enforce-truths-at-commit/usecase.md)
+- [Discover Truths](./discover-truths/usecase.md)
 
 ## Status
 - **State:** draft
