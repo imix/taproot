@@ -144,3 +144,16 @@ describe('cli-invocation — CONFIGURATION.md documents cli key', () => {
     }
   });
 });
+
+// ─── Version matches package.json ─────────────────────────────────────────────
+
+describe('cli version matches package.json', () => {
+  it('taproot -V reports the version from package.json', async () => {
+    const { execSync } = await import('child_process');
+    const reported = execSync('node dist/cli.js -V', { encoding: 'utf-8' }).trim();
+    const { createRequire } = await import('module');
+    const req = createRequire(import.meta.url);
+    const { version } = req('../../package.json') as { version: string };
+    expect(reported).toBe(version);
+  });
+});

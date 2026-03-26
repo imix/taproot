@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 import { Command } from 'commander';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const { version } = require('../package.json') as { version: string };
 import { registerInit } from './commands/init.js';
 import { registerValidateStructure } from './commands/validate-structure.js';
 import { registerValidateFormat } from './commands/validate-format.js';
@@ -20,7 +23,7 @@ const program = new Command();
 program
   .name('taproot')
   .description('Folder-based requirement hierarchy CLI')
-  .version('0.1.0')
+  .version(version)
   .addHelpText('after', '\nConfiguration: edit .taproot/settings.yaml — see .taproot/CONFIGURATION.md for all options');
 
 registerInit(program);
