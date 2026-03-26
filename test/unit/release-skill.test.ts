@@ -6,17 +6,19 @@ import { parseMarkdown } from '../../src/core/markdown-parser.js';
 const ROOT = resolve(__dirname, '../..');
 const SKILL_PATH = resolve(ROOT, '.taproot/skills/release.md');
 const WORKFLOW_PATH = resolve(ROOT, '.github/workflows/release.yml');
+const PREFLIGHT_PATH = resolve(ROOT, 'scripts/preflight.sh');
 
 const REQUIRED_SKILL_SECTIONS = ['description', 'inputs', 'steps', 'output', 'cli dependencies', 'notes'];
 
-const REQUIRED_PREFLIGHT_CHECKS = [
+// Individual checks live in scripts/preflight.sh — not required to be repeated verbatim in the skill
+const REQUIRED_PREFLIGHT_CHECKS_IN_SCRIPT = [
   'git fetch origin',
   'npm test',
   'npm audit --audit-level=high',
   'npm run build',
-  'taproot validate-structure',
-  'taproot sync-check',
-  'taproot coverage',
+  'validate-structure',
+  'sync-check',
+  'show-incomplete',
   'git status --porcelain',
   'git tag -l',
 ];
@@ -56,10 +58,15 @@ describe('release skill (.taproot/skills/release.md)', () => {
     expect(hasNumberedItem, 'Steps section has no numbered list items').toBe(true);
   });
 
-  it('references all required pre-flight checks', () => {
+  it('delegates pre-flight to npm run preflight', () => {
     const content = readFileSync(SKILL_PATH, 'utf-8');
-    for (const check of REQUIRED_PREFLIGHT_CHECKS) {
-      expect(content, `release.md does not reference pre-flight check: ${check}`).toContain(check);
+    expect(content).toContain('npm run preflight');
+  });
+
+  it('scripts/preflight.sh contains all required pre-flight checks', () => {
+    const content = readFileSync(PREFLIGHT_PATH, 'utf-8');
+    for (const check of REQUIRED_PREFLIGHT_CHECKS_IN_SCRIPT) {
+      expect(content, `preflight.sh does not include check: ${check}`).toContain(check);
     }
   });
 
