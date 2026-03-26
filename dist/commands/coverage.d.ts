@@ -39,3 +39,7 @@ export declare function runCoverage(options: {
 }): Promise<CoverageReport>;
 export declare function formatReport(report: CoverageReport, format: CoverageFormat): string;
 export declare function formatContext(report: CoverageReport, outputPath: string): string;
+export declare function collectIncomplete(report: CoverageReport): {
+    path: string;
+    state: string;
+}[];
