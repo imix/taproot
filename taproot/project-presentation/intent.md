@@ -21,6 +21,7 @@ Enable any developer who discovers taproot to immediately understand what it is,
 ## Behaviours <!-- taproot-managed -->
 - [Welcoming README](./welcoming-readme/usecase.md)
 - [Starter Examples](./starter-examples/usecase.md)
+- [Conceptual Orientation](./conceptual-orientation/usecase.md)
 
 ## Status
 - **State:** active
