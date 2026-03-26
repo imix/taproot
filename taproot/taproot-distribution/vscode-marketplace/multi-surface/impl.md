@@ -33,8 +33,16 @@
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: Not affected. The implementation adds a standalone `vscode-extension/` directory and a new CI job in `release.yml`. Neither touches the taproot CLI architecture (src/commands/, src/core/, module boundaries, or filesystem-as-data-model constraints). The extension is a separate artifact with its own toolchain. | resolved: 2026-03-26
 - condition: check-if-affected-by: quality-gates/nfr-measurability | note: Not applicable — the parent usecase.md contains no NFR-N entries. | resolved: 2026-03-26
 
+## Notes
+Remaining before DoD can pass:
+- **Icon** — add `icon.png` (128×128px) and `icon` field to `vscode-extension/package.json`
+- **Lockfile** — run `npm install` in `vscode-extension/` to generate `package-lock.json`; CI uses `npm ci`
+- **Release skill** — update `skills/release.md` to bump `vscode-extension/package.json` version alongside root `package.json`
+- **GitHub secrets** — `VSCE_PAT` and `OVSX_PAT` must be added to the `release` environment
+- **Publisher account** — create `imix-ai` publisher at marketplace.visualstudio.com/manage
+
 ## Status
-- **State:** complete
+- **State:** in-progress
 - **Created:** 2026-03-26
 - **Last verified:** 2026-03-26
 
