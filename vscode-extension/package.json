@@ -1,0 +1,58 @@
+{
+  "name": "taproot",
+  "displayName": "Taproot",
+  "description": "AI-driven specs, enforced at commit time. Code without traceability doesn't merge.",
+  "version": "0.4.0",
+  "publisher": "taproot-dev",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "taproot",
+    "AI",
+    "requirements",
+    "BDD",
+    "spec",
+    "traceability",
+    "acceptance criteria",
+    "agentic"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "taproot.init",
+        "title": "Taproot: Initialize project"
+      }
+    ],
+    "walkthroughs": [
+      {
+        "id": "gettingStarted",
+        "title": "Get Started with Taproot",
+        "description": "Set up requirements-driven development in your AI-assisted project.",
+        "steps": [
+          {
+            "id": "initialize",
+            "title": "Initialize taproot in your project",
+            "description": "Add the taproot requirement hierarchy to your project. This creates the `taproot/` folder and configures your AI coding agent.\n\n[Initialize Project](command:taproot.init)",
+            "completionEvents": [
+              "onCommand:taproot.init"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "typescript": "^5.0.0"
+  }
+}

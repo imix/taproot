@@ -125,6 +125,7 @@ flowchart TD
 - `../../project-presentation/welcoming-readme/usecase.md` — README must accurately reflect the released version; a release is when the "currently implemented" state becomes public
 - `../../requirements-completeness/coverage-report/usecase.md` — `taproot coverage` is a pre-flight check in this flow
 - `../../hierarchy-integrity/validate-structure/usecase.md` — `taproot validate-structure` is a pre-flight check in this flow
+- `../vscode-marketplace/usecase.md` — extends this flow: adds a `publish-vscode-extension` CI job that runs after npm publish, and a version-match pre-flight check for `vscode-extension/package.json`
 
 ## Acceptance Criteria
 

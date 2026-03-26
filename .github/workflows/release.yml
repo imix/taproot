@@ -67,3 +67,52 @@ jobs:
           gh release create "$VERSION" \
             --title "taproot $VERSION" \
             --notes "${BODY:-Release $VERSION}"
+
+  publish-vscode-extension:
+    name: Publish VS Code Extension
+    needs: publish
+    runs-on: ubuntu-latest
+    environment: release
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check extension version matches release version
+        run: |
+          RELEASE_VERSION="${GITHUB_REF_NAME#v}"
+          EXT_VERSION=$(node -p "require('./vscode-extension/package.json').version")
+          if [ "$EXT_VERSION" != "$RELEASE_VERSION" ]; then
+            echo "::error::vscode-extension/package.json version ($EXT_VERSION) does not match release version ($RELEASE_VERSION). Update vscode-extension/package.json before releasing."
+            exit 1
+          fi
+
+      - name: Install extension dependencies
+        run: npm ci
+        working-directory: vscode-extension
+
+      - name: Compile extension
+        run: npx tsc -p ./
+        working-directory: vscode-extension
+
+      - name: Package extension
+        run: npx @vscode/vsce package --no-dependencies
+        working-directory: vscode-extension
+
+      - name: Publish to VS Code Marketplace
+        run: npx @vscode/vsce publish --no-dependencies --pat ${{ secrets.VSCE_PAT }}
+        working-directory: vscode-extension
+
+      - name: Publish to Open VSX
+        continue-on-error: true
+        run: |
+          VSIX_FILE=$(ls *.vsix | head -1)
+          if [ -z "$VSIX_FILE" ]; then
+            echo "No .vsix file found — skipping Open VSX publish"
+            exit 0
+          fi
+          npx ovsx publish "$VSIX_FILE" --pat ${{ secrets.OVSX_PAT }} || \
+            echo "::warning::Open VSX publish failed. Retry manually: npx ovsx publish $VSIX_FILE --pat \$OVSX_PAT"
+        working-directory: vscode-extension

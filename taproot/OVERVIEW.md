@@ -216,7 +216,8 @@ _No behaviours yet._
 
 - **[cut-release](./taproot-distribution/cut-release/usecase.md)** `[implemented]` — Actor: - **Maintainer** — runs the local phase (pre-flight, changelog, version bump, tag, push)
   - [multi-surface](./taproot-distribution/cut-release/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
-- **[vscode-marketplace](./taproot-distribution/vscode-marketplace/usecase.md)** `[specified]` — Actor: Maintainer — the VS Code extension publish step runs automatically in CI as part of the `cut-release` flow, after npm publish succeeds
+- **[vscode-marketplace](./taproot-distribution/vscode-marketplace/usecase.md)** `[implemented]` — Actor: Maintainer — the VS Code extension publish step runs automatically in CI as part of the `cut-release` flow, after npm publish succeeds
+  - [multi-surface](./taproot-distribution/vscode-marketplace/multi-surface/impl.md) `[complete]` (0 commits, 1 test)
 
 ## [taproot-lifecycle](./taproot-lifecycle/intent.md) `[active]`
 
@@ -226,4 +227,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-19 intents · 62 behaviours · 62 implementations · 61/62 complete
+19 intents · 62 behaviours · 63 implementations · 62/63 complete
