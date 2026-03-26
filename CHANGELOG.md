@@ -4,6 +4,42 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.4.0] - 2026-03-26
+
+### Taproot
+
+- taproot(human-integration/bug-triage/agent-skill): add step 4a recurrence check with DoR/DoD/guideline prevention and grill-me fallback (ce8113e)
+- taproot(human-integration/bug-triage): extend spec with recurrence check and process gap prevention (step 4a, AC-9, AC-10) (06699a8)
+- taproot(agent-integration/autonomous-execution/skill-and-config): implement autonomous mode via skill preambles + config (926b008)
+- taproot(agent-integration/autonomous-execution/skill-and-config): declare implementation (5f8ce14)
+- taproot(quality-gates/state-transition-guardrails/cli-command): link commits (85bc021)
+- taproot(quality-gates/state-transition-guardrails/cli-command): implement evidence-backed tests-passing via test-cache + dod-runner integration (efd34fc)
+- taproot(quality-gates/state-transition-guardrails/cli-command): declare implementation (048e36a)
+- taproot(quality-gates/state-transition-guardrails): refine spec — fix AC-1, backward compat, commithook flow, streaming constraint (7b3384a)
+- taproot(quality-gates/state-transition-guardrails,agent-integration/cli-invocation): add state-transition-guardrails spec; refine cli-invocation with dev-repo bootstrap flow (6abc39b)
+- taproot(agent-integration/aider-adapter/cli-command): link commits (d34ee3e)
+- taproot(agent-integration/aider-adapter/cli-command): add Aider as Tier 2 supported agent (dd21bb5)
+- taproot(agent-integration/aider-adapter/cli-command): declare implementation (4ecb1aa)
+- taproot(human-integration/contextual-next-steps/all-skills): link commits (a4fa534)
+- taproot(human-integration/contextual-next-steps/all-skills): add /tr-backlog to What's next blocks — AC-8 and AC-9 (baf32e1)
+- taproot(human-integration/contextual-next-steps): add /tr-backlog to What's next guidance (923c9bf)
+- taproot(taproot-backlog/manage-backlog/agent-skill): link commits (fc97ef4)
+- taproot(taproot-backlog/manage-backlog/agent-skill): strengthen AC-5 and AC-8 tests for refined triage UX (66e9565)
+- taproot(taproot-backlog/manage-backlog/agent-skill): link commits (db89891)
+- taproot(taproot-backlog/manage-backlog): clarify promote label and enrich analyze output (c51e3e2)
+
+### Bug Fixes
+
+- fix: set cli: node dist/cli.js in settings.yaml; run taproot update to propagate invocation block (da5b4c8)
+- fix: pre-commit hook pins taproot version via npx @imix-js/taproot@x.y.z commithook (67984a3)
+- fix: pre-commit hook uses npx --no taproot instead of bare taproot (08d53a5)
+
+### Maintenance
+
+- build: compile autonomous-execution changes; fix picomatch audit vulnerability; add parallel-agent research (02c8247)
+- build: compile hook fix; link commits (8e24a93)
+- chore: link commits across impl.md files (d595d61)
+
 ## [0.3.0] - 2026-03-25
 
 ### Taproot
