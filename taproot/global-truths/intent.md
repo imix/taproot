@@ -12,7 +12,7 @@ Enable developers and agents to capture facts that are true across the project �
 - [ ] A developer can define a global truth at any hierarchy level (intent, behaviour, or implementation) without being constrained to a particular format or schema
 - [ ] An agent authoring a spec automatically applies applicable truths — using the defined term, rule, or convention — rather than inventing its own interpretation
 - [ ] Semantic drift between specs is detected and flagged: two specs that define or use the same concept differently are surfaced at write time or commit time
-- [ ] Truths cascade correctly through the hierarchy: intent-level truths apply to all behaviours and implementations under that intent; behaviour-level truths apply to implementations; implementation-level truths are local
+- [ ] Truths cascade correctly through the hierarchy: intent-level truths apply to all behaviours and implementations under that intent; behaviour-level truths apply to implementations; implementation-level truths are local *(enforced by `enforce-truths-at-commit` and `apply-truths-when-authoring` — no separate behaviour needed)*
 
 ## Constraints
 - Truth content is free-form — no enforced schema; glossary, prose, tables, and bullet lists are all valid
@@ -25,7 +25,7 @@ Enable developers and agents to capture facts that are true across the project �
 - [Discover Truths](./discover-truths/usecase.md)
 
 ## Status
-- **State:** draft
+- **State:** active
 - **Created:** 2026-03-26
 - **Last reviewed:** 2026-03-26
 
