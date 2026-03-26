@@ -22,7 +22,8 @@
 - `.taproot/skills/commit.md` — synced from skills/commit.md
 
 ## Commits
-- (to be filled)
+- `43576af` — declare implementation
+- `a091b9d` — implement truth-check session hash and pre-commit enforcement
 
 ## Tests
 - `test/integration/truth-checker.test.ts` — unit tests for resolveTruthScope, scopeAppliesTo, docLevelFromFilename, collectApplicableTruths, session hash round-trip; integration tests for all 6 ACs
