@@ -116,6 +116,9 @@ flowchart TD
 - When a commit triggers truth checks
 - Then the unreadable file is skipped with a warning and the commit is not blocked by it
 
+## Implementations <!-- taproot-managed -->
+- [Hook Extension](./hook-extension/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-26

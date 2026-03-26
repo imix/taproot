@@ -55,14 +55,6 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 _No behaviours yet._
 
-## [global-truths](./global-truths/intent.md) `[draft]`
-
-**Goal:** Enable developers and agents to capture facts that are true across the project — domain concepts, business rules, entity definitions, project conventions — scoped to the hierarchy level they originate from, so that all specs share a consistent foundation and semantic drift is detected at write time and commit time.
-
-- **[apply-truths-when-authoring](./global-truths/apply-truths-when-authoring/usecase.md)** `[specified]` — Actor: Agent — authoring or reviewing a spec (intent.md, usecase.md, or impl.md) via any taproot skill (`/tr-intent`, `/tr-behaviour`, `/tr-implement`, `/tr-refine`, `/tr-ineed`)
-- **[define-truth](./global-truths/define-truth/usecase.md)** `[specified]` — Actor: Developer — creating, editing, or removing a truth entry in the project's shared knowledge base
-- **[enforce-truths-at-commit](./global-truths/enforce-truths-at-commit/usecase.md)** `[specified]` — Actor: Pre-commit hook — triggered automatically when a contributor commits any hierarchy document (`intent.md`, `usecase.md`, or `impl.md`)
-
 ## [hierarchy-integrity](./hierarchy-integrity/intent.md) `[active]`
 
 **Goal:** Ensure the requirement hierarchy remains structurally valid and formally complete as it evolves — whether authored by humans, AI agents, or both.
@@ -235,4 +227,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-20 intents · 65 behaviours · 63 implementations · 61/63 complete
+19 intents · 62 behaviours · 63 implementations · 61/63 complete
