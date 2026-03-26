@@ -18,6 +18,9 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `70cbe29a1310dd94e62096fc92b174e8d633c84c` — (auto-linked by taproot link-commits)
+- `cc83e6289f2d31e937872bae8c357fd629c6aceb` — (auto-linked by taproot link-commits)
+- `1c29d9582814334499e5965962fdb43d854a1582` — (auto-linked by taproot link-commits)
 
 ## Tests
 - (no automated test — content artefact; ACs verified by human review)
