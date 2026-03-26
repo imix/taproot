@@ -111,6 +111,9 @@ flowchart TD
 - When an agent collects applicable truths for any level
 - Then `glossary.md` is included and the agent notes it was treated as intent-scoped
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-26
