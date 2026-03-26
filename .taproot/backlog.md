@@ -23,4 +23,6 @@
 - [2026-03-25] reference architectures / standard packs for common domains (e.g. authentication intent pack)
 - [2026-03-25] /tr-tour command: interactive onboarding walking developers through a live example requirement loop
 - [2026-03-26] tr-commit should offer some options after finishing committing
+- [2026-03-26] cross-repo traceability for global truths — intents/behaviours implemented in other repos, shared domain model across repo boundaries
 - [2026-03-26] rename npm package from @imix-js/taproot — @imix-js is JS-specific but taproot works with any language/stack; consider @imix-ai/taproot or unscoped taproot
+- [2026-03-26] readme concepts section — explain intent, behaviour, implementation, global truth, backlog with examples so new users can build a mental model quickly
