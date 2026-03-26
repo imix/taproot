@@ -377,14 +377,18 @@ export async function runCommithook(options) {
             }
         }
         for (const [implFile] of implToSources) {
-            // If impl.md is not staged, only require co-staging for non-complete impls
+            // If impl.md is not staged, only require co-staging for non-complete, non-deferred impls
             if (!staged.includes(implFile)) {
-                if (getImplState(join(cwd, implFile)) === 'complete')
+                const implState = getImplState(join(cwd, implFile));
+                if (implState === 'complete' || implState === 'deferred')
                     continue;
                 process.stdout.write(`taproot commithook — Implementation commit: Stage \`${implFile}\` alongside your source files. No implementation commit should proceed without its traceability record.\n`);
                 failed = true;
                 continue;
             }
+            // Deferred impls: skip DoD — they are intentionally punted
+            if (getImplState(join(cwd, implFile)) === 'deferred')
+                continue;
             const statusCheck = checkStatusOnly(implFile, cwd);
             if (!statusCheck.passed) {
                 process.stdout.write(`taproot commithook — Implementation commit: ${statusCheck.message}\n`);
