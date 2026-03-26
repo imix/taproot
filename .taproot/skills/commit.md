@@ -90,7 +90,19 @@ Execute the full commit procedure: classify the commit type, run the appropriate
 
 4. Fix any violations before staging — the hook enforces these checks and will block the commit if they fail.
 
-5. Stage the hierarchy files and commit.
+5. **Truth consistency check** — if `taproot/global-truths/` exists:
+   a. For each staged hierarchy document, determine its level (intent, behaviour, impl) and collect applicable truth files using scope rules (intent-scoped truths apply to all levels; behaviour-scoped to behaviour+impl; impl-scoped to impl only; unscoped defaults to intent-scoped).
+   b. Read each applicable truth file. If a file is unreadable, note it and skip.
+   c. Check each staged document for semantic consistency with applicable truths:
+      - Are defined terms used consistently with their definitions?
+      - Are stated business rules respected in acceptance criteria and main flow?
+      - Are project conventions followed?
+   d. If a conflict is found, surface it before proceeding:
+      > "Truth conflict in `<file>`: `<excerpt>` conflicts with `<truth file>`: `<truth excerpt>`. [A] Fix the spec | [B] Update the truth | [C] Proceed with conflict noted"
+      Wait for the developer's choice. Do not proceed to step 6 until resolved.
+   e. If no conflicts (or all resolved): run `taproot truth-sign` to record the session marker the hook validates.
+
+6. Stage the hierarchy files and commit.
 
 ### Plain commit
 

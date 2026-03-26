@@ -1,6 +1,6 @@
 import { spawnSync } from 'child_process';
 import { existsSync, readFileSync, readdirSync } from 'fs';
-import { resolve, join, relative } from 'path';
+import { resolve, join, relative, basename } from 'path';
 import { parseMarkdown } from '../core/markdown-parser.js';
 import { loadConfig } from '../core/config.js';
 import { loadLanguagePack, supportedLanguages } from '../core/language.js';
@@ -9,9 +9,13 @@ import { runDod } from './dod.js';
 import { runValidateStructure } from './validate-structure.js';
 import { runValidateFormat } from './validate-format.js';
 import { renderViolations } from '../core/reporter.js';
+import { globalTruthsDir, collectApplicableTruths, docLevelFromFilename, validateTruthSession, } from '../core/truth-checker.js';
 // ─── File classification ───────────────────────────────────────────────────────
 function isImplMd(f) {
     return /^taproot[/\\].+[/\\]impl\.md$/.test(f);
+}
+function isGlobalTruth(f) {
+    return f.startsWith('taproot/global-truths/') || f.startsWith('taproot\\global-truths\\');
 }
 function isHierarchyFile(f) {
     return f.startsWith('taproot/') || f.startsWith('taproot\\');
@@ -291,7 +295,7 @@ export async function runCommithook(options) {
         // Spec quality checks for usecase.md and intent.md files
         const specFailures = [];
         for (const f of staged) {
-            if (!isHierarchyFile(f))
+            if (!isHierarchyFile(f) || isGlobalTruth(f))
                 continue;
             const content = getStagedContent(f, cwd);
             if (!content)
@@ -310,6 +314,39 @@ export async function runCommithook(options) {
                 process.stdout.write(`    → ${failure.hint}\n`);
             }
             failed = true;
+        }
+        // Truth consistency check
+        if (globalTruthsDir(cwd)) {
+            const allTruths = new Map();
+            const stagedDocContents = [];
+            const unreadableWarnings = [];
+            for (const f of staged) {
+                if (!isHierarchyFile(f) || isImplMd(f) || isGlobalTruth(f))
+                    continue;
+                const level = docLevelFromFilename(basename(f));
+                if (!level)
+                    continue;
+                const content = getStagedContent(f, cwd) ?? '';
+                stagedDocContents.push({ path: f, content });
+                for (const t of collectApplicableTruths(cwd, level)) {
+                    if (t.unreadable) {
+                        unreadableWarnings.push(t.relPath);
+                    }
+                    else {
+                        allTruths.set(t.relPath, t);
+                    }
+                }
+            }
+            for (const relPath of unreadableWarnings) {
+                process.stdout.write(`  ⚠ ${relPath} could not be read — truth check skipped for this file.\n`);
+            }
+            if (stagedDocContents.length > 0 && allTruths.size > 0) {
+                const validation = validateTruthSession(cwd, stagedDocContents, [...allTruths.values()]);
+                if (!validation.valid) {
+                    process.stdout.write(`taproot commithook — Truth check: ${validation.reason}\n`);
+                    failed = true;
+                }
+            }
         }
     }
     // Declaration tier: DoR check on the behaviour spec

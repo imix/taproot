@@ -32,6 +32,37 @@
 - condition: check-if-affected-by: quality-gates/nfr-measurability | note: no new NFRs introduced; the session hash check is deterministic and synchronous. Timeout behaviour is deferred to the tr-commit skill (hook times out → allow with warning is documented in the spec as a future improvement). | resolved: 2026-03-26
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-26
 - **Last verified:** 2026-03-26
+
+## DoD Resolutions
+- condition: document-current | note: docs/cli.md updated: added truth-sign command documentation and updated commithook table to mention truth consistency check. docs/patterns.md updated with new session-hash pattern. README.md does not list individual CLI commands and does not need updating. | resolved: 2026-03-26T12:23:54.070Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: skills/commit.md modified. Step 5e instructs the agent to run taproot truth-sign — a safe read/write CLI command with no credentials. No shell execution without validation. No hardcoded tokens. Instructions are minimal and scoped to the truth-check signing operation. Compliant. | resolved: 2026-03-26T12:24:58.194Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: yes. Added the session-hash / agent-verified pre-commit check pattern to docs/patterns.md: agent writes a SHA-256 hash of checked content before commit; hook validates the hash. Documented with when-to-use, limitation, and built-in taproot use cases. | resolved: 2026-03-26T12:24:56.868Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no. Truth checking is enforced at requirement-commit time by the hook — it is not a DoD condition for implementations. No new settings.yaml entry is warranted. | resolved: 2026-03-26T12:24:55.610Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: implementation follows existing patterns: new core module (truth-checker.ts) + new command (truth-sign.ts) + registered in cli.ts + hook extension in commithook.ts. No deviations from established module/command patterns. | resolved: 2026-03-26T12:24:42.778Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: applies: a new pattern was added to docs/patterns.md (session-hash pattern for agent-verified pre-commit checks). The pattern-hints spec requires patterns.md to be kept current — done. | resolved: 2026-03-26T12:24:41.486Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: applies: commit.md is the commit skill itself. (C-1) Pre-commit context step (step 4 reads settings.yaml and runs the appropriate gate). (C-2) Commit classification awareness — all four types covered. (C-3) impl.md staging rule documented in implementation commit sub-flow. My new step 5 does not break any of these constraints. Compliant. | resolved: 2026-03-26T12:24:40.195Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: applies: commit.md was modified. (C-1) Description is concise (~15 tokens). (C-2) No embedded reference docs — step 5 is instructional, not documentation. (C-3) No cross-skill repetition. (C-4) Step 5 reads truth files on demand, step-scoped. commit.md is 124 lines total — compact signal not required (typically 200+ lines). Compliant. | resolved: 2026-03-26T12:24:38.927Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: applies: step 5d waits for developer choice ([A]/[B]/[C]) before proceeding when a truth conflict is found — explicit pause for confirmation. Compliant. | resolved: 2026-03-26T12:24:24.962Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: applies: commit.md produces output. Step 5d offers [A]/[B]/[C] options when a truth conflict is found — this is a contextual choice menu. The skill already has What's next? in step 6. The new step 5 is an intermediate step with a conflict-resolution menu, not the final output step. Compliant. | resolved: 2026-03-26T12:24:23.666Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: applies: commit.md was modified. Step 5 uses plain English with no agent-specific language (no Claude/Cursor-specific commands). Uses generic markdown formatting consistent with all other skill steps. Compliant. | resolved: 2026-03-26T12:24:22.366Z
+
+- condition: check-if-affected: examples/ | note: example templates (webapp, book-authoring, cli-tool) are starter scaffolding; they contain no truth files. Global truths are user content, not template content. Examples do not need updating. | resolved: 2026-03-26T12:24:08.701Z
+
+- condition: check-if-affected: docs/ | note: docs/cli.md and docs/patterns.md updated (see document-current resolution). docs/concepts.md, docs/configuration.md, and docs/workflows.md do not reference the commithook in detail and do not need updating for this change. | resolved: 2026-03-26T12:24:07.447Z
+
+- condition: check-if-affected: skills/guide.md | note: guide.md is the onboarding guide for new users. taproot truth-sign is an internal command called by tr-commit — not a user-facing command. Not included in the guide. | resolved: 2026-03-26T12:24:06.186Z
+
+- condition: check-if-affected: src/commands/update.ts | note: update.ts handles skill file migration and hook script upgrades. truth-sign is a new CLI command, not a skill file. update.ts does not enumerate CLI commands and does not need updating. | resolved: 2026-03-26T12:24:04.913Z
+

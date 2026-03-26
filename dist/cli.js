@@ -13,6 +13,7 @@ import { registerPlan } from './commands/plan.js';
 import { registerDod } from './commands/dod.js';
 import { registerCommithook } from './commands/commithook.js';
 import { registerAcceptanceCheck } from './commands/acceptance-check.js';
+import { registerTruthSign } from './commands/truth-sign.js';
 const program = new Command();
 program
     .name('taproot')
@@ -32,6 +33,7 @@ registerPlan(program);
 registerDod(program);
 registerCommithook(program);
 registerAcceptanceCheck(program);
+registerTruthSign(program);
 program.parseAsync().catch((err) => {
     const message = err instanceof Error ? err.message : String(err);
     process.stderr.write(`error: ${message}\n`);

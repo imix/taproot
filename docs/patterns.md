@@ -159,3 +159,35 @@ Then at each confirmation step, add a conditional note:
 |---|---|
 | `skills/implement.md` | Plan approval in step 4 |
 | `skills/commit.md` | Staging confirmation in step 3 |
+
+---
+
+## Agent-verified pre-commit check (`taproot truth-sign`)
+
+**Problem:** A pre-commit hook needs to enforce a quality rule that requires semantic reasoning — something a shell command cannot evaluate alone (e.g. "does this spec contradict any active global truths?"). Running an LLM inside a hook is too slow and requires credentials.
+
+**Pattern:** Separate the reasoning from the enforcement:
+1. The skill performs the semantic check (via the agent) before `git commit` is called
+2. If the check passes, the skill runs `taproot truth-sign` to write a session marker (`.taproot/.truth-check-session`) containing a SHA-256 hash of the checked content
+3. The hook validates the marker exists and matches the current staged state — a fast, deterministic check
+
+```bash
+# In the skill (after agent approves):
+taproot truth-sign
+
+# In the hook (synchronous, no LLM needed):
+# validateTruthSession(cwd, stagedDocs, truths)
+```
+
+**When to use it:**
+- The quality rule requires reasoning the CLI cannot perform alone
+- The agent is always in the loop (via a skill) before the commit reaches the hook
+- Content-hash binding is sufficient — the hook does not need to know *why* the check passed, only that it did for this exact content
+
+**Limitation:** If the developer bypasses the skill and runs `git commit` directly, the hook blocks. This is intentional — the pattern enforces use of the skill as the authoritative commit path.
+
+**Taproot's built-in uses:**
+
+| Hook check | Written by | Validates |
+|---|---|---|
+| Truth consistency | `taproot truth-sign` (called by `/tr-commit`) | Staged hierarchy docs are consistent with `taproot/global-truths/` |
