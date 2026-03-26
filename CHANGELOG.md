@@ -4,6 +4,22 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.5.1] - 2026-03-26
+
+### Features
+- feat(coverage): add --show-incomplete flag; simplify preflight script (4b804b7)
+
+### Bug Fixes
+- fix: read version from package.json instead of hardcoded string (8880931)
+- fix(test): update release-skill test to match preflight.sh delegation (6f0422a)
+
+### Maintenance
+- chore: add npm run preflight script for release pre-flight checks (729431b)
+- chore: update release skill to use npm run preflight (5bef103)
+- chore: make --show-incomplete discoverable in release skill (3e3e28d)
+- chore: disable vscode-extension CI job until extension is ready (3f362e7)
+- chore: rebuild dist (cf5dae8)
+
 ## [0.5.0] - 2026-03-26
 
 ### Taproot
