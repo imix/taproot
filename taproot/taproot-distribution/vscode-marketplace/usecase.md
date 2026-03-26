@@ -56,7 +56,7 @@ Maintainer — the VS Code extension publish step runs automatically in CI as pa
   2. CI continues to the Open VSX publish step without error
 
 ## Postconditions
-- The extension is listed on VS Code Marketplace at `marketplace.visualstudio.com/items?itemName=<publisher>.taproot` with the correct version
+- The extension is listed on VS Code Marketplace at `marketplace.visualstudio.com/items?itemName=imix-ai.taproot` with the correct version
 - The extension is listed on Open VSX at `open-vsx.org/extension/<publisher>/taproot` (unless Open VSX publish failed)
 - The extension manifest contains keywords: taproot, AI, requirements, BDD, spec, traceability — making it discoverable via VS Code Extensions panel search
 - The built `.vsix` manifest declares a walkthrough and a "Taproot: Initialize project" command (verified at build time — runtime behaviour depends on extension source; see Notes)
@@ -142,4 +142,4 @@ flowchart TD
 - **Marketplace propagation delay:** VS Marketplace typically takes 5–15 minutes to propagate a newly published version. The release summary URL may return 404 immediately after publish — this is not a failure.
 - **Implementation requires modifying `cut-release`:** this behaviour adds (a) a pre-flight version-match check and (b) a `publish-vscode-extension` CI job to `cut-release`. Both are in scope for implementing this behaviour. See `cut-release`'s Related section after implementation.
 - **Extension runtime behaviour** (what happens after install: walkthrough UX, command terminal integration) is verified by AC-6 and AC-7 at build time via manifest inspection. End-to-end runtime testing (install in VS Code, run command) is deferred to manual smoke test.
-- **Publisher name:** must be resolved before first publish — it determines the permanent Marketplace URL (`marketplace.visualstudio.com/items?itemName=<publisher>.taproot`).
+- **Publisher name:** `imix-ai` — permanent Marketplace URL: `marketplace.visualstudio.com/items?itemName=imix-ai.taproot`.
