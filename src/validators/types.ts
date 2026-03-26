@@ -67,6 +67,7 @@ export interface TaprootConfig {
   definitionOfDone?: DodConditionEntry[];
   definitionOfReady?: DodConditionEntry[];
   cli?: string;
+  autonomous?: boolean;
   testsCommand?: string;
   testResultMaxAge?: number;
   testTimeout?: number;

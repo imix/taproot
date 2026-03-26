@@ -106,6 +106,29 @@ Taproot's own `.taproot/settings.yaml` ships with several `check-if-affected-by`
 
 ---
 
+## Autonomous Execution
+
+Setting `autonomous: true` in `settings.yaml` (or `TAPROOT_AUTONOMOUS=1` / `--autonomous` per invocation) puts all agent skills into non-interactive mode.
+
+```yaml
+autonomous: true   # all sessions in this repo run without confirmation prompts
+```
+
+**What autonomous mode changes:**
+- `/tr-implement` proceeds from plan to code without pausing for plan approval
+- `/tr-commit` stages and commits without asking for confirmation when nothing is pre-staged
+- DoD conditions are self-evaluated: resolvable conditions are recorded directly; unresolvable `check:` questions are marked `<!-- autonomous: pending-review -->` in `impl.md`
+- Test failures or hook rejections are recorded in `impl.md` (impl marked `needs-rework`) and the agent stops — the developer returns to a clear failure report
+
+**Three activation mechanisms (in order of scope):**
+1. `autonomous: true` in `.taproot/settings.yaml` — repo-wide, all sessions
+2. `TAPROOT_AUTONOMOUS=1` environment variable — per process invocation
+3. `--autonomous` flag on a skill invocation (e.g. `/tr-implement path/ --autonomous`) — per skill
+
+When none of these is set, confirmation prompts are shown as normal. Autonomous mode is never inferred from context.
+
+---
+
 ## State Transition Guardrails
 
 When `testsCommand` is set in `settings.yaml`, the `tests-passing` condition uses evidence-backed execution: it runs the command, caches the result in `.taproot/.test-results/`, and enforces freshness at commit time.

@@ -9,6 +9,15 @@ Implement a behaviour spec: write the code, write the tests, create the `impl.md
 - `path` (required): Path to the behaviour folder containing `usecase.md` to implement.
 - `name` (optional): Slug for the implementation folder (e.g., `rest-api`, `background-job`). If omitted, derive from the implementation approach chosen.
 
+## Autonomous mode
+
+Before following any steps, check whether autonomous mode is active:
+- `TAPROOT_AUTONOMOUS=1` is set in the environment, **or**
+- `--autonomous` was passed as an argument to this skill invocation, **or**
+- `.taproot/settings.yaml` contains `autonomous: true`
+
+If any of these is true, **autonomous mode is active** — apply the autonomous notes at each step where they appear. If none is true, autonomous mode is **inactive** — show confirmation prompts as normal.
+
 ## Steps
 
 1. Read `<path>/usecase.md` thoroughly. Understand:
@@ -38,7 +47,9 @@ Implement a behaviour spec: write the code, write the tests, create the `impl.md
    - Any design decisions that need to be made (with options and recommendation)
    - The implementation folder slug and path
 
-   Present the plan. Do not proceed to writing code until the user approves.
+   **Autonomous mode:** form the plan internally, record it in the `impl.md` Design Decisions section, and proceed directly to step 5 without pausing for approval.
+
+   **Interactive mode:** present the plan. Do not proceed to writing code until the user approves.
 
 5. Create the implementation folder `<path>/<impl-slug>/` and write `impl.md`:
    - **Behaviour**: relative path to `../usecase.md`
@@ -99,7 +110,14 @@ Implement a behaviour spec: write the code, write the tests, create the `impl.md
    b. Write the tests — each test should be traceable to a specific UseCase step, postcondition, error condition, or alternate flow trigger. Name tests descriptively.
    c. Verify the tests pass
 
+   **Autonomous mode — if tests fail:** record the full test output in `impl.md` under a `## Notes` entry headed `Autonomous execution — test failure`, set `**State:** needs-rework`, and stop. Do not attempt to fix tests autonomously without context from the developer.
+
 8. Run `taproot dod <impl-path>` to evaluate the Definition of Done. For agent-driven conditions (`check-if-affected`, `document-current`): reason about each, apply any needed changes, then record your resolution with `taproot dod <impl-path> --resolve "<condition>" --note "<reasoning>"`. Re-run until all conditions pass. `taproot dod` marks `impl.md` state `complete` when all pass.
+
+   **Autonomous mode — DoD self-resolution:**
+   - For every `check-if-affected-by`, `check-if-affected`, `check:`, and `document-current` condition: reason through it by reading the spec and source, then record the resolution with `--resolve` and `--note` without prompting.
+   - For any `check:` condition where the answer cannot be determined from the code and spec alone: write a `<!-- autonomous: pending-review -->` comment in `## DoD Resolutions` alongside the unresolved condition entry, with the question text. Continue evaluating remaining conditions. After all conditions are processed, if any remain marked pending-review, set `**State:** in-progress` and commit — the developer will complete them on return.
+   - For `run:` conditions that exit non-zero: record the output in `impl.md`, mark `needs-rework`, and stop.
 
 9. **Implementation commit** — commit source files and `impl.md` together:
 

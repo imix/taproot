@@ -1,5 +1,14 @@
 # Skill: commit
 
+## Autonomous mode
+
+Before following any steps, check whether autonomous mode is active:
+- `TAPROOT_AUTONOMOUS=1` is set in the environment, **or**
+- `--autonomous` was passed as an argument to this skill invocation, **or**
+- `.taproot/settings.yaml` contains `autonomous: true`
+
+If any of these is true, **autonomous mode is active** — apply autonomous notes where they appear. If none is true, show confirmation prompts as normal.
+
 ## Description
 
 Execute the full commit procedure: classify the commit type, run the appropriate gate proactively, resolve all conditions before staging, and commit. Handles implementation, declaration, requirement, and plain commits. Invoke this skill whenever you are about to commit, or when the user says "commit", "let's commit", "commit that", or similar.
@@ -20,7 +29,11 @@ Execute the full commit procedure: classify the commit type, run the appropriate
 
    To identify impl.md ownership, run `grep -rl "<filename>" taproot/` for each candidate source file.
 
-3. If nothing is staged yet, announce: "Nothing staged yet. Here's what's changed: [list]. Should I stage these and proceed with the commit?" Wait for confirmation before proceeding.
+3. If nothing is staged yet, announce: "Nothing staged yet. Here's what's changed: [list]."
+
+   **Interactive mode:** ask "Should I stage these and proceed with the commit?" and wait for confirmation before proceeding.
+
+   **Autonomous mode:** stage all relevant files and proceed directly without waiting for confirmation.
 
 4. Read `.taproot/settings.yaml` to identify all configured `definitionOfDone` and `definitionOfReady` conditions. If the file does not exist or has no `definitionOfDone`/`definitionOfReady` sections, note: "No user-configured conditions — baseline hook checks only." and proceed to the appropriate sub-flow below.
 

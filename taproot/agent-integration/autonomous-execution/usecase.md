@@ -135,6 +135,6 @@ Setting `autonomous: true` in `.taproot/settings.yaml` applies to all invocation
 - [Skill Files + Config Support](./skill-and-config/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-21
-- **Last reviewed:** 2026-03-21
+- **Last reviewed:** 2026-03-26

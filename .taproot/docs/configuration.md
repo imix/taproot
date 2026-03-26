@@ -64,7 +64,7 @@ The `definitionOfDone` list controls what `taproot dod` checks and what the pre-
 
 | Form | What it does |
 |------|-------------|
-| `tests-passing` | Built-in: runs `npm test` (or `yarn test`). Passes if exit code is 0. |
+| `tests-passing` | Built-in: runs `npm test`. When `testsCommand` is configured in `settings.yaml`, uses evidence-backed execution with a cache file — see [State Transition Guardrails](#state-transition-guardrails). |
 | `linter-clean` | Built-in: runs `npm run lint`. Passes if exit code is 0. |
 | `commit-conventions` | Built-in: runs `npm run check:commits`. Passes if exit code is 0. |
 | `document-current: <description>` | Agent-verified: the agent checks whether the described documentation is current and applies updates if needed. |
@@ -103,6 +103,50 @@ Taproot's own `.taproot/settings.yaml` ships with several `check-if-affected-by`
 | `check-if-affected-by: skill-architecture/commit-awareness` | Skills with git commit steps load the full commit skill rather than inventing ad-hoc git flows |
 | `check-if-affected-by: human-integration/pattern-hints` | Skills that receive natural language intent check `docs/patterns.md` for pattern matches |
 | `check-if-affected-by: quality-gates/architecture-compliance` | Implementations comply with `docs/architecture.md` constraints |
+
+---
+
+## Autonomous Execution
+
+Setting `autonomous: true` in `settings.yaml` (or `TAPROOT_AUTONOMOUS=1` / `--autonomous` per invocation) puts all agent skills into non-interactive mode.
+
+```yaml
+autonomous: true   # all sessions in this repo run without confirmation prompts
+```
+
+**What autonomous mode changes:**
+- `/tr-implement` proceeds from plan to code without pausing for plan approval
+- `/tr-commit` stages and commits without asking for confirmation when nothing is pre-staged
+- DoD conditions are self-evaluated: resolvable conditions are recorded directly; unresolvable `check:` questions are marked `<!-- autonomous: pending-review -->` in `impl.md`
+- Test failures or hook rejections are recorded in `impl.md` (impl marked `needs-rework`) and the agent stops — the developer returns to a clear failure report
+
+**Three activation mechanisms (in order of scope):**
+1. `autonomous: true` in `.taproot/settings.yaml` — repo-wide, all sessions
+2. `TAPROOT_AUTONOMOUS=1` environment variable — per process invocation
+3. `--autonomous` flag on a skill invocation (e.g. `/tr-implement path/ --autonomous`) — per skill
+
+When none of these is set, confirmation prompts are shown as normal. Autonomous mode is never inferred from context.
+
+---
+
+## State Transition Guardrails
+
+When `testsCommand` is set in `settings.yaml`, the `tests-passing` condition uses evidence-backed execution: it runs the command, caches the result in `.taproot/.test-results/`, and enforces freshness at commit time.
+
+```yaml
+testsCommand: npm test        # command to run for evidence-backed tests-passing
+testResultMaxAge: 60          # minutes before a no-source-file cache is stale (default: 60)
+testTimeout: 300              # seconds before testsCommand is killed (default: 300)
+```
+
+**How it works:**
+- `taproot dod <impl-path>` runs `testsCommand`, streams output live, and writes `.taproot/.test-results/<intent>/<behaviour>/<impl>.json`
+- On subsequent runs, the cached result is used if it is not stale (no tracked source files changed since the last run)
+- `taproot dod <impl-path> --rerun-tests` forces re-execution regardless of cache
+- `--resolve "tests-passing"` is rejected when `testsCommand` is configured — evidence is required, not agent assertion
+- The pre-commit hook verifies a fresh passing result exists before allowing an implementation commit with a `complete` impl
+
+**Add `.taproot/.test-results/` to `.gitignore`** — the cache is a local execution artifact, not a committed record.
 
 ---
 
