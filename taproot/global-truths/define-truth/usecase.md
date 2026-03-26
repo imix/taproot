@@ -125,6 +125,9 @@ flowchart TD
 - When developer creates the first truth file inside it
 - Then `taproot/global-truths/` is created and the truth file is stored correctly
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-26
