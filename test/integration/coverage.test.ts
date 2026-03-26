@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { resolve } from 'path';
-import { runCoverage, formatReport } from '../../src/commands/coverage.js';
+import { runCoverage, formatReport, collectIncomplete } from '../../src/commands/coverage.js';
 
 const fixture = (name: string) => resolve(__dirname, '../fixtures', name);
 
@@ -70,5 +70,43 @@ describe('coverage — format output', () => {
     const md = formatReport(report, 'markdown');
     expect(md).toContain('# Taproot Coverage Report');
     expect(md).toContain('user-onboarding');
+  });
+});
+
+describe('coverage — collectIncomplete', () => {
+  it('returns empty array when all impls are complete', async () => {
+    const report = await runCoverage({ path: fixture('valid-hierarchy') });
+    expect(collectIncomplete(report)).toHaveLength(0);
+  });
+
+  it('returns incomplete impl when state is in-progress', async () => {
+    const report = await runCoverage({ path: fixture('valid-hierarchy') });
+    // Mutate one impl to in-progress to test detection
+    const impl = report.intents[0]!.behaviours[0]!.implementations[0]!;
+    const originalState = impl.state;
+    impl.state = 'in-progress';
+    const result = collectIncomplete(report);
+    expect(result).toHaveLength(1);
+    expect(result[0]!.state).toBe('in-progress');
+    expect(result[0]!.path).toBe(impl.path);
+    impl.state = originalState;
+  });
+
+  it('returns incomplete impl when state is needs-rework', async () => {
+    const report = await runCoverage({ path: fixture('valid-hierarchy') });
+    const impl = report.intents[0]!.behaviours[0]!.implementations[0]!;
+    impl.state = 'needs-rework';
+    const result = collectIncomplete(report);
+    expect(result).toHaveLength(1);
+    expect(result[0]!.state).toBe('needs-rework');
+    impl.state = 'complete';
+  });
+
+  it('excludes deferred impls', async () => {
+    const report = await runCoverage({ path: fixture('valid-hierarchy') });
+    const impl = report.intents[0]!.behaviours[0]!.implementations[0]!;
+    impl.state = 'deferred';
+    expect(collectIncomplete(report)).toHaveLength(0);
+    impl.state = 'complete';
   });
 });

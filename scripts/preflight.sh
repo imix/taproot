@@ -70,45 +70,14 @@ pass "Sync-check clean (warnings are acceptable)"
 
 # ─── g. Coverage completeness ─────────────────────────────────────────────────
 section "Checking implementation coverage..."
-COVERAGE_JSON=$(node dist/cli.js coverage --path taproot/ --format json 2>&1)
-TOTAL=$(echo "$COVERAGE_JSON" | node -e "
-const chunks = [];
-process.stdin.on('data', c => chunks.push(c));
-process.stdin.on('end', () => {
-  const data = JSON.parse(chunks.join(''));
-  process.stdout.write(String(data.totals.implementations));
-});
-")
-COMPLETE=$(echo "$COVERAGE_JSON" | node -e "
-const chunks = [];
-process.stdin.on('data', c => chunks.push(c));
-process.stdin.on('end', () => {
-  const data = JSON.parse(chunks.join(''));
-  process.stdout.write(String(data.totals.completeImpls));
-});
-")
-
-if [ "$COMPLETE" -lt "$TOTAL" ]; then
+INCOMPLETE=$(node dist/cli.js coverage --path taproot/ --show-incomplete 2>&1)
+COVERAGE_EXIT=$?
+if [ $COVERAGE_EXIT -ne 0 ]; then
   echo -e "${YELLOW}Incomplete implementations:${RESET}"
-  echo "$COVERAGE_JSON" | node -e "
-const chunks = [];
-process.stdin.on('data', c => chunks.push(c));
-process.stdin.on('end', () => {
-  const data = JSON.parse(chunks.join(''));
-  for (const intent of data.intents || []) {
-    for (const beh of intent.behaviours || []) {
-      for (const impl of beh.implementations || []) {
-        if (impl.state !== 'complete' && impl.state !== 'deferred') {
-          console.log('  ' + impl.path + '  (' + impl.state + ')');
-        }
-      }
-    }
-  }
-});
-"
-  fail "${COMPLETE}/${TOTAL} implementations complete — resolve or defer before releasing."
+  echo "$INCOMPLETE" | sed 's/^/  /'
+  fail "Incomplete implementations found — resolve or defer before releasing."
 fi
-pass "${COMPLETE}/${TOTAL} implementations complete"
+pass "$INCOMPLETE"
 
 # ─── h. Working tree ──────────────────────────────────────────────────────────
 section "Checking working tree..."

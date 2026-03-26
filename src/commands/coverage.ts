@@ -51,10 +51,26 @@ export function registerCoverage(program: Command): void {
     .description('Generate a completeness summary of the hierarchy')
     .option('--path <path>', 'Root path (overrides config)')
     .option('--format <format>', 'Output format: tree, json, markdown, context', 'tree')
-    .action(async (options: { path?: string; format?: string }) => {
+    .option('--show-incomplete', 'List implementations that are not complete or deferred; exits non-zero if any found')
+    .action(async (options: { path?: string; format?: string; showIncomplete?: boolean }) => {
       const { config, configDir } = loadConfig();
       const rootPath = options.path ? resolve(options.path) : config.root;
       const report = await runCoverage({ path: rootPath });
+
+      if (options.showIncomplete) {
+        const incomplete = collectIncomplete(report);
+        if (incomplete.length === 0) {
+          process.stdout.write(`${report.totals.completeImpls}/${report.totals.implementations} implementations complete\n`);
+          process.exitCode = 0;
+        } else {
+          for (const { path, state } of incomplete) {
+            process.stdout.write(`${path}  (${state})\n`);
+          }
+          process.exitCode = 1;
+        }
+        return;
+      }
+
       const format = (options.format ?? 'tree') as CoverageFormat;
 
       if (format === 'context') {
@@ -428,6 +444,22 @@ function renderBehaviourContext(
       `${childPrefix}  ${isLast ? '  ' : '│ '}`
     );
   }
+}
+
+export function collectIncomplete(report: CoverageReport): { path: string; state: string }[] {
+  const items: { path: string; state: string }[] = [];
+  function walk(b: BehaviourSummary): void {
+    for (const impl of b.implementations) {
+      if (impl.state !== 'complete' && impl.state !== 'deferred') {
+        items.push({ path: impl.path, state: impl.state });
+      }
+    }
+    for (const sub of b.subBehaviours) walk(sub);
+  }
+  for (const intent of report.intents) {
+    for (const b of intent.behaviours) walk(b);
+  }
+  return items;
 }
 
 function collectUnimplemented(report: CoverageReport): string[] {

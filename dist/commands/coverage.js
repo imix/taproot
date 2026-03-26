@@ -10,10 +10,25 @@ export function registerCoverage(program) {
         .description('Generate a completeness summary of the hierarchy')
         .option('--path <path>', 'Root path (overrides config)')
         .option('--format <format>', 'Output format: tree, json, markdown, context', 'tree')
+        .option('--show-incomplete', 'List implementations that are not complete or deferred; exits non-zero if any found')
         .action(async (options) => {
         const { config, configDir } = loadConfig();
         const rootPath = options.path ? resolve(options.path) : config.root;
         const report = await runCoverage({ path: rootPath });
+        if (options.showIncomplete) {
+            const incomplete = collectIncomplete(report);
+            if (incomplete.length === 0) {
+                process.stdout.write(`${report.totals.completeImpls}/${report.totals.implementations} implementations complete\n`);
+                process.exitCode = 0;
+            }
+            else {
+                for (const { path, state } of incomplete) {
+                    process.stdout.write(`${path}  (${state})\n`);
+                }
+                process.exitCode = 1;
+            }
+            return;
+        }
         const format = (options.format ?? 'tree');
         if (format === 'context') {
             const contextPath = join(rootPath, 'CONTEXT.md');
@@ -325,6 +340,23 @@ function renderBehaviourContext(b, lines, prefix, childPrefix) {
         const isLast = offset + i === allChildren.length - 1;
         renderBehaviourContext(sub, lines, `${childPrefix}  ${isLast ? '└─' : '├─'}`, `${childPrefix}  ${isLast ? '  ' : '│ '}`);
     }
+}
+export function collectIncomplete(report) {
+    const items = [];
+    function walk(b) {
+        for (const impl of b.implementations) {
+            if (impl.state !== 'complete' && impl.state !== 'deferred') {
+                items.push({ path: impl.path, state: impl.state });
+            }
+        }
+        for (const sub of b.subBehaviours)
+            walk(sub);
+    }
+    for (const intent of report.intents) {
+        for (const b of intent.behaviours)
+            walk(b);
+    }
+    return items;
 }
 function collectUnimplemented(report) {
     const paths = [];
