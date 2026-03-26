@@ -131,6 +131,9 @@ The `<!-- autonomous: pending-review -->` marker is written inside the `## DoD R
 **Autonomous mode and interactive mode must coexist**
 Setting `autonomous: true` in `.taproot/settings.yaml` applies to all invocations in that repository. For per-invocation control, the `--autonomous` flag or `TAPROOT_AUTONOMOUS=1` env var is preferred. Two developers using the same repo — one interactive, one headless CI agent — must be able to operate simultaneously without one's mode affecting the other's session.
 
+## Implementations <!-- taproot-managed -->
+- [Skill Files + Config Support](./skill-and-config/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-21
