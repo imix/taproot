@@ -181,6 +181,9 @@ flowchart TD
 - When discovery resumes
 - Then no truth file was created, the candidate is treated as skipped for this session, and it reappears on the next discovery run
 
+## Implementations <!-- taproot-managed -->
+- [Skill](./skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-26
