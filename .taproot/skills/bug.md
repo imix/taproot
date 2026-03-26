@@ -31,6 +31,19 @@ Diagnose a defect through structured root cause analysis (5-Why) and delegate to
    - **External cause** — dependency, environment, or configuration outside the hierarchy
    - If categories overlap, use this priority: **Spec gap > Implementation gap > Missing test**
 
+4a. **Recurrence check.** Ask: *"Could this class of bug happen again — is there a missing gate or outdated guideline that would prevent it?"*
+
+   - **No (clearly one-off** — typo, isolated misconfiguration, external incident): note this and continue to step 5.
+   - **Yes**: propose prevention across one or more of:
+     - A new DoR or DoD condition to add to `.taproot/settings.yaml`
+     - An update to `docs/architecture.md`, `docs/security.md`, or `docs/patterns.md`
+
+   If a satisfactory measure is found: present it — e.g. *"I'll add `check-if-affected-by: <gate>` to `.taproot/settings.yaml`"* or *"I'll add to `docs/security.md`: `<constraint>`"* — and wait for actor confirmation.
+   - On **confirm**: apply the change, then continue to step 5.
+   - On **reject**: record the recurrence concern in the implicated impl.md `## Notes` and continue to step 5.
+
+   If no satisfactory measure can be identified: invoke `/tr-grill-me` seeded with *"How do we prevent `<root-cause>` from recurring?"* — incorporate the answer and apply it before continuing to step 5.
+
 5. **Locate the implicated artifact.** Use reverse lookup:
    - Scan all `impl.md` files in `taproot/` for `## Source Files` entries matching the files involved in the root cause
    - If a match is found: that impl.md is implicated

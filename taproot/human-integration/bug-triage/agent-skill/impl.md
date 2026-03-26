@@ -33,6 +33,36 @@
 
 ## DoD Resolutions
 - condition: document-current | note: UPDATED skills/guide.md: added /tr-bug row to the slash commands table. docs/agents.md does not need updating — it describes agent adapter types, not individual skills. | resolved: 2026-03-24T16:25:20.115Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: COMPLIANT — step 4a only proposes edits to settings.yaml and docs/ markdown files. No shell execution introduced. No credentials or tokens. Least-privilege: changes require actor confirmation before writing. | resolved: 2026-03-26T07:19:45.041Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — recurrence check after root cause is specific to bug triage flow; not generalizable as a standalone pattern. | resolved: 2026-03-26T07:19:43.898Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — step 4a is bug-triage-specific recurrence logic; no new cross-cutting constraint introduced. | resolved: 2026-03-26T07:19:42.759Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: NOT APPLICABLE — markdown skill file; no source code. No architectural constraints apply. | resolved: 2026-03-26T07:19:32.317Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: NOT APPLICABLE — tr-bug receives a bug symptom, not a new requirement. Pattern hints apply to skills that receive new requirement intent. | resolved: 2026-03-26T07:19:31.131Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: NOT APPLICABLE — tr-bug makes no commits; it delegates to tr-implement which owns the commit flow. Unchanged. | resolved: 2026-03-26T07:19:30.008Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: COMPLIANT — step 4a adds ~15 lines. No new files pre-loaded beyond what already existed. /compact signal still present before What's next? block. | resolved: 2026-03-26T07:19:23.128Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: COMPLIANT — step 4a presents proposed prevention measure and waits for actor confirmation before applying. On reject, records note without writing. Fully consistent with pause-and-confirm. | resolved: 2026-03-26T07:19:21.934Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: COMPLIANT — 'What's next?' block still present at end of step 7 delegation. Step 4a is an intermediate step, not a terminal point. | resolved: 2026-03-26T07:18:22.052Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: COMPLIANT — step 4a uses no agent-specific names. References generic 'actor', '/tr-grill-me', and file paths. No Claude-specific language. | resolved: 2026-03-26T07:18:20.840Z
+
+- condition: check-if-affected: examples/ | note: NOT AFFECTED — no examples/ files reference tr-bug or bug skill behaviour. | resolved: 2026-03-26T07:16:35.768Z
+
+- condition: check-if-affected: docs/ | note: NOT AFFECTED — no docs/ files reference bug skill steps. docs/workflows.md describes the high-level flow but not individual skill steps. | resolved: 2026-03-26T07:16:34.581Z
+
+- condition: check-if-affected: skills/guide.md | note: NOT AFFECTED — guide.md description for /tr-bug remains accurate. Step 4a is internal dialogue logic, not a user-facing API change. | resolved: 2026-03-26T07:16:29.602Z
+
+- condition: check-if-affected: src/commands/update.ts | note: NOT AFFECTED — only updated content of existing bug.md skill; no new skill registration or SKILL_FILES change needed. | resolved: 2026-03-26T07:16:28.381Z
+
+- condition: document-current | note: NO CHANGE NEEDED — skills/guide.md description ('5-Why root cause analysis and delegate to the right fix skill') remains accurate. docs/ has no step-level references to bug.md. Step 4a is internal skill logic, not a user-facing CLI command. | resolved: 2026-03-26T07:16:22.619Z
+
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — the 5-Why + delegate pattern is specific to bug triage; not generalizable enough to document as a reusable pattern. | resolved: 2026-03-24T16:25:22.816Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — tr-bug is a standalone skill; no new cross-cutting constraint introduced. | resolved: 2026-03-24T16:25:22.576Z
