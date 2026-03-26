@@ -5,6 +5,7 @@ export interface ImplData {
   sourceFiles: string[];   // file paths extracted from Source Files section
   commits: string[];       // commit hashes extracted from Commits section
   testFiles: string[];     // file paths extracted from Tests section
+  dependsOn: string[];     // project-root-relative impl.md paths from Depends On section
 }
 
 /** Returns true if a backtick-quoted token looks like a file path (contains '/' or ends with a dotted extension). */
@@ -37,16 +38,25 @@ export function parseImplData(doc: ParsedMarkdown): ImplData {
   const sourceSection = doc.sections.get('source files');
   const commitsSection = doc.sections.get('commits');
   const testsSection = doc.sections.get('tests');
+  const dependsOnSection = doc.sections.get('depends on');
 
   // Behaviour ref: first non-empty line of the Behaviour section
   const behaviourRef = behaviourSection?.bodyLines
     .map(l => l.trim())
     .find(l => l.length > 0) ?? null;
 
+  // Depends On: list items or plain lines, stripped of leading "- "
+  const dependsOn = (dependsOnSection?.bodyLines ?? [])
+    .map(l => l.trim())
+    .filter(l => l.length > 0)
+    .map(l => (l.startsWith('- ') ? l.slice(2).trim() : l))
+    .filter(l => l.length > 0);
+
   return {
     behaviourRef,
     sourceFiles: extractFilePaths(sourceSection?.bodyLines ?? []),
     commits: extractCommitHashes(commitsSection?.bodyLines ?? []),
     testFiles: extractFilePaths(testsSection?.bodyLines ?? []),
+    dependsOn,
   };
 }

@@ -1,5 +1,5 @@
 import { existsSync, readFileSync } from 'fs';
-import { join, dirname, resolve, relative } from 'path';
+import { join, dirname, resolve, relative, normalize } from 'path';
 import { spawnSync } from 'child_process';
 import { parseMarkdown } from './markdown-parser.js';
 import { loadConfig } from './config.js';
@@ -51,6 +51,134 @@ export function resolveUsecasePath(implMdPath: string, cwd: string): string {
   const implDir = dirname(absImpl);       // <impl>/
   const behaviourDir = dirname(implDir);  // <behaviour>/
   return join(behaviourDir, 'usecase.md');
+}
+
+// ─── Impl ordering check (depends-on) ────────────────────────────────────────
+
+function readImplDependsOn(
+  implMdPath: string,
+  cwd: string,
+): { paths: string[] } | { error: string } {
+  const absPath = resolve(cwd, implMdPath);
+  if (!existsSync(absPath)) return { paths: [] };
+  let content: string;
+  try {
+    content = readFileSync(absPath, 'utf-8');
+  } catch {
+    return { paths: [] };
+  }
+  const parsed = parseMarkdown(absPath, content);
+  const section = parsed.sections.get('depends on');
+  if (!section) return { paths: [] };
+
+  const rawPaths = section.bodyLines
+    .map(l => l.trim())
+    .filter(l => l.length > 0)
+    .map(l => (l.startsWith('- ') ? l.slice(2).trim() : l))
+    .filter(l => l.length > 0);
+
+  if (rawPaths.length === 0) return { paths: [] };
+
+  const invalid = rawPaths.filter(p => !p.includes('/') && !p.endsWith('.md'));
+  if (invalid.length > 0) {
+    return {
+      error: `depends-on must be a string path or list of string paths — got: ${invalid.join(', ')}`,
+    };
+  }
+
+  return { paths: rawPaths.map(p => normalize(p)) };
+}
+
+function detectDependsOnCycle(startImplPath: string, cwd: string): string | null {
+  const normStart = normalize(startImplPath);
+  const stack: Array<[string, string[]]> = [[normStart, [normStart]]];
+
+  while (stack.length > 0) {
+    const [current, trace] = stack.pop()!;
+    const depsResult = readImplDependsOn(current, cwd);
+    if ('error' in depsResult || depsResult.paths.length === 0) continue;
+
+    for (const dep of depsResult.paths) {
+      if (trace.includes(dep)) {
+        const cycleStart = trace.indexOf(dep);
+        const cycle = [...trace.slice(cycleStart), dep];
+        return `circular dependency: ${cycle.join(' → ')}`;
+      }
+      stack.push([dep, [...trace, dep]]);
+    }
+  }
+
+  return null;
+}
+
+function checkImplOrdering(implMdPath: string, cwd: string): DorResult[] {
+  const depsResult = readImplDependsOn(implMdPath, cwd);
+
+  if ('error' in depsResult) {
+    return [{
+      name: 'ordering-depends-on',
+      passed: false,
+      output: depsResult.error,
+      correction: 'Fix the depends-on field: use a valid project-root-relative path (e.g. taproot/intent/behaviour/impl/impl.md)',
+    }];
+  }
+
+  if (depsResult.paths.length === 0) return [];
+
+  const cycleError = detectDependsOnCycle(implMdPath, cwd);
+  if (cycleError) {
+    return [{
+      name: 'ordering-depends-on',
+      passed: false,
+      output: cycleError,
+      correction: 'Remove the circular dependency before declaring this implementation',
+    }];
+  }
+
+  const failures: string[] = [];
+  for (const depPath of depsResult.paths) {
+    const absDepPath = resolve(cwd, depPath);
+
+    if (!existsSync(absDepPath)) {
+      failures.push(`depends-on: ${depPath} does not exist. Check the path relative to the project root`);
+      continue;
+    }
+
+    let depContent: string;
+    try {
+      depContent = readFileSync(absDepPath, 'utf-8');
+    } catch {
+      failures.push(`depends-on: ${depPath} could not be read`);
+      continue;
+    }
+
+    const stateMatch = depContent.match(/\*\*State:\*\*\s*(\S+)/);
+    if (!stateMatch) {
+      failures.push(`depends-on: ${depPath} has no state field. The referenced impl.md is incomplete — add a state: field before declaring this dependency`);
+      continue;
+    }
+
+    const depState = stateMatch[1]!;
+    if (depState !== 'complete') {
+      failures.push(`depends-on: ${depPath} has state: ${depState}. That implementation must be complete before this one can be declared`);
+    }
+  }
+
+  if (failures.length === 0) {
+    return [{
+      name: 'ordering-depends-on',
+      passed: true,
+      output: '',
+      correction: '',
+    }];
+  }
+
+  return [{
+    name: 'ordering-depends-on',
+    passed: false,
+    output: failures.join('\n'),
+    correction: 'Complete all declared dependencies before making this declaration commit',
+  }];
 }
 
 export function runDorChecks(implMdPath: string, cwd: string): DorReport {
@@ -121,7 +249,11 @@ export function runDorChecks(implMdPath: string, cwd: string): DorReport {
     correction: 'Add a ## Related section documenting related behaviours to usecase.md',
   });
 
-  // 6. Configured definitionOfReady conditions
+  // 6. Impl ordering constraints (depends-on)
+  const orderingResults = checkImplOrdering(implMdPath, cwd);
+  results.push(...orderingResults);
+
+  // 7. Configured definitionOfReady conditions
   const dorConditions = config.definitionOfReady;
   if (dorConditions && dorConditions.length > 0) {
     const resolvedChecks = readDorResolutions(implMdPath, cwd);
