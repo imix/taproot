@@ -17,7 +17,8 @@
 - `.taproot/skills/review-all.md` — synced copy for agent use
 
 ## Commits
-- (run `taproot link-commits` to populate)
+- `34efd95` — declare implementation
+- `afc95a5` — implement discover-truths as agent skill
 
 ## Tests
 - `test/integration/discover-truths.test.ts` — covers AC-1 (candidates surfaced from recurring terms), AC-2 (filtering of already-defined truths), AC-4 (backlogged candidate recorded in backlog.md), AC-5 (skipped candidate leaves no record), AC-6 (too-small hierarchy exits cleanly), AC-8 (dismissed candidate suppressed from future runs)

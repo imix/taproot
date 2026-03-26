@@ -116,7 +116,7 @@ _No behaviours yet._
 **Goal:** Enable any developer who discovers taproot to immediately understand what it is, who it's for, and why it matters — so they feel motivated to try it rather than moving on.
 
 - **[conceptual-orientation](./project-presentation/conceptual-orientation/usecase.md)** `[implemented]` — Actor: Developer reading the README for the first time — either evaluating taproot or having just installed it and wanting to understand the vocabulary before running any commands
-  - [concepts-section](./project-presentation/conceptual-orientation/concepts-section/impl.md) `[complete]` (0 commits ⚠ no tests)
+  - [concepts-section](./project-presentation/conceptual-orientation/concepts-section/impl.md) `[complete]` (3 commits ⚠ no tests)
 - **[starter-examples](./project-presentation/starter-examples/usecase.md)** `[implemented]` — Actor: Developer starting a new project with taproot — who has decided to use taproot but is facing a blank hierarchy and does not know what intents or behaviours to create.
   - [bundled-templates](./project-presentation/starter-examples/bundled-templates/impl.md) `[complete]` (3 commits, 1 test)
 - **[welcoming-readme](./project-presentation/welcoming-readme/usecase.md)** `[implemented]` — Actor: Developer discovering taproot for the first time
