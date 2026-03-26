@@ -132,7 +132,8 @@ _No behaviours yet._
   - [cli-command](./quality-gates/definition-of-done/cli-command/impl.md) `[complete]` (5 commits, 1 test)
 - **[definition-of-ready](./quality-gates/definition-of-ready/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a contributor commits an `impl.md` file without source code changes (the "I'm starting this implementation" declaration commit).
   - [cli-command](./quality-gates/definition-of-ready/cli-command/impl.md) `[complete]` (2 commits, 1 test)
-- **[impl-ordering-constraints](./quality-gates/impl-ordering-constraints/usecase.md)** `[specified]` — Actor: Developer or agent — making a declaration commit (`impl.md` only, no source files) for a new implementation that depends on another implementation being complete before work can begin.
+- **[impl-ordering-constraints](./quality-gates/impl-ordering-constraints/usecase.md)** `[implemented]` — Actor: Developer or agent — making a declaration commit (`impl.md` only, no source files) for a new implementation that depends on another implementation being complete before work can begin.
+  - [hook-extension](./quality-gates/impl-ordering-constraints/hook-extension/impl.md) `[complete]` (1 commit, 1 test)
 - **[nfr-measurability](./quality-gates/nfr-measurability/usecase.md)** `[implemented]` — Actor: Developer or agent declaring a new implementation (committing an `impl.md`) — the check runs automatically at Definition of Ready time before any code is written.
   - [settings-wiring](./quality-gates/nfr-measurability/settings-wiring/impl.md) `[complete]` (3 commits, 1 test)
 - **[state-transition-guardrails](./quality-gates/state-transition-guardrails/usecase.md)** `[implemented]` — Actor: `taproot dod` CLI — when processing the `tests-passing` condition for an `impl.md` about to be marked `complete`. Also enforced by `taproot commithook` when an implementation commit includes an `impl.md` whose state is `complete`.
@@ -230,4 +231,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-19 intents · 64 behaviours · 64 implementations · 62/64 complete
+19 intents · 64 behaviours · 65 implementations · 63/65 complete

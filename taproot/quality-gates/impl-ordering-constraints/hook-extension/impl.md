@@ -18,6 +18,7 @@
 
 ## Commits
 <!-- taproot-managed -->
+- `f3442f78051fedf0c2ba6b0fdecf255098458109` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/impl-ordering-constraints.test.ts` — covers all 10 ACs: happy path, blocked dep, no field, path not found, multiple deps partial failure, transitive cycle, scalar syntax, malformed value, no state field, deferred dep
