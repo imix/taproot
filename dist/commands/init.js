@@ -33,6 +33,7 @@ export const SKILL_FILES = [
     'plan.md',
     'guide.md',
     'discover.md',
+    'discover-truths.md',
     'ineed.md',
     'research.md',
     'sweep.md',

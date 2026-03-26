@@ -13,6 +13,7 @@ const LEAF_SKILLS = [
   'review-all.md',
   'status.md',
   'discover.md',
+  'discover-truths.md',
   'analyse-change.md',
   'promote.md',
   'grill-me.md',

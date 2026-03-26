@@ -66,7 +66,35 @@ Run a comprehensive review of an entire subtree — an intent and all its descen
 
 7. Close with a prioritized action list: "Recommended next steps: (1) resolve structural issues, (2) address blockers in [artifact], (3) fill coverage gaps for [criterion]."
 
-8. Present next steps:
+8. **Truth discovery pass** — if `taproot/global-truths/` exists and the hierarchy has 3 or more readable `intent.md`/`usecase.md` files (excluding `global-truths/`):
+
+   Run the same scan as `/tr-discover-truths` (Phase 2–3 of that skill): collect candidates not already defined in `global-truths/` and not suppressed by `.taproot/backlog.md` dismissed entries.
+
+   If candidates are found, append to the report:
+
+   ```
+   ## Truth Candidates
+
+   The following implicit facts were detected in the hierarchy but are not yet captured as global truths:
+
+   - `<term>` (scope: <intent|behaviour|impl>) — found in: <spec-path>, <spec-path>
+   ...
+   ```
+
+   Then offer:
+   > "[P] Process candidates now via `/tr-discover-truths`  [D] Defer — append all to backlog"
+
+   **If [P]:** invoke `/tr-discover-truths` inline; return here when it completes.
+
+   **If [D]:** append each candidate to `.taproot/backlog.md` as `- [YYYY-MM-DD] truth candidate: <term>`.
+
+   If no candidates found (hierarchy consistent with existing truths), append to report:
+   ```
+   ## Truth Candidates
+   No new candidates — hierarchy is consistent with existing global truths.
+   ```
+
+9. Present next steps:
 
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 

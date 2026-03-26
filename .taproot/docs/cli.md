@@ -198,13 +198,27 @@ The hook uses a three-tier classification, where the implementation tier is dete
 
 | Staged files | Gate applied |
 |---|---|
-| Only hierarchy files (`intent.md`, `usecase.md`) | `validate-structure` + `validate-format` — hierarchy must be valid before the commit lands |
+| Only hierarchy files (`intent.md`, `usecase.md`) | `validate-structure` + `validate-format` + truth consistency check (if `taproot/global-truths/` contains applicable truths) |
 | Only `impl.md` (no source files in map) | Definition of Ready — the parent `usecase.md` must be in `specified` state and have `## Flow` and `## Related` sections |
 | Source files found in map + `impl.md` staged | Verify only `## Status` (and `## DoD Resolutions`) changed in `impl.md`; then run DoD |
 | Source files found in map but `impl.md` NOT staged | **Blocked** — "Stage `impl.md` alongside your source files. No implementation commit should proceed without its traceability record." |
 | No tracked source files, no hierarchy or impl files | No checks; commit proceeds |
 
 The DoR gate prevents committing an implementation record before the behaviour is fully specified. The DoD gate prevents marking an implementation complete without passing the quality checks defined in `.taproot/settings.yaml`.
+
+**Truth consistency check:** when hierarchy files are staged and `taproot/global-truths/` exists, the hook validates that a truth-check session marker (`.taproot/.truth-check-session`) is present and matches the current staged content. This marker is written by `taproot truth-sign`, which `/tr-commit` calls after the agent approves the truth check. Committing hierarchy files directly with `git commit` (bypassing `/tr-commit`) will be blocked if applicable truths exist.
+
+---
+
+### `taproot truth-sign`
+
+```bash
+taproot truth-sign
+```
+
+Records a truth-check session marker after the agent has verified that staged hierarchy documents are consistent with applicable truths in `taproot/global-truths/`. Called automatically by the `/tr-commit` skill — you do not need to invoke this directly unless scripting a custom commit workflow.
+
+The session marker is a SHA-256 hash of the staged document contents combined with all applicable truth file contents. If the staged files or truths change after signing, the marker is invalidated and the pre-commit hook will require re-signing.
 
 ---
 
