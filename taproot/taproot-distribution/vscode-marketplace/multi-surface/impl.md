@@ -42,7 +42,7 @@ Remaining before DoD can pass:
 - **Publisher account** — create `imix-ai` publisher at marketplace.visualstudio.com/manage
 
 ## Status
-- **State:** in-progress
+- **State:** deferred
 - **Created:** 2026-03-26
 - **Last verified:** 2026-03-26
 
