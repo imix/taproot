@@ -45,6 +45,7 @@ All 645 tests pass.
 ## Commits
 - `dd21bb528e9b7e9dd9ef03fad2212a14ab7ba384` — (auto-linked by taproot link-commits)
 - `4ecb1aa51c6b2a4c566ffb35526edf3d3a9d09fe` — (auto-linked by taproot link-commits)
+- `d34ee3e3ff102a7b8dad87df5aa16998275f6563` — (auto-linked by taproot link-commits)
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: Compliant. Implementation lives in src/adapters/ per module boundary rules. Uses filesystem I/O only at command boundary (generateAiderAdapter called from init/update commands). No global mutable state. Error messages are actionable (invalid YAML error includes correction hint). No architectural constraints violated. | resolved: 2026-03-25

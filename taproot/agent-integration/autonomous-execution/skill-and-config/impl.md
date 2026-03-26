@@ -20,6 +20,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `926b0081587e68b801d22f96ac1d8b775c1ca9b4` — (auto-linked by taproot link-commits)
+- `5f8ce144e19b605c1c1f9320f5a547ebf00ad5a7` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/autonomous-execution.test.ts` — AC-6: `autonomous: true` in settings.yaml parsed correctly; settings without `autonomous` leave it undefined (no implicit activation); CONFIGURATION.md generator includes `autonomous` entry

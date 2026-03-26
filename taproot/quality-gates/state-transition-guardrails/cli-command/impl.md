@@ -23,6 +23,7 @@
 - (run `taproot link-commits` to populate)
 - `efd34fcc2700aa262977d41f1d7261c3996f2fbf` — (auto-linked by taproot link-commits)
 - `048e36a737896990dff894de46ceadad52f647e9` — (auto-linked by taproot link-commits)
+- `85bc0215f05eda1b6a6c75beb37f881efe359cbe` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/state-transition-guardrails.test.ts` — AC-1 through AC-11: test executes and passes, test fails blocks transition, fresh cache skips re-execution, stale cache triggers re-execution, no testsCommand falls back to BUILTINS, commithook enforcement via DoD dry-run, --rerun-tests forces re-execution, commithook blocks when cache absent, --resolve rejected when testsCommand configured, malformed cache treated as absent, --rerun-tests without impl-path errors
