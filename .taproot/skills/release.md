@@ -19,11 +19,13 @@ Run the taproot maintainer's local release phase: pre-flight checks, changelog g
    - Build succeeds (`npm run build`)
    - `taproot validate-structure` clean
    - `taproot sync-check` clean (errors only; warnings are acceptable)
-   - All implementations complete or deferred (`taproot coverage`)
+   - All implementations complete or deferred (`taproot coverage --show-incomplete` to diagnose)
    - Working tree clean
    - Next version computed (v\<current\> → v\<next\>) and tag v\<next\> available
 
    If the script exits non-zero, it prints the failing check and what to fix. Do not proceed until it exits 0.
+
+   **If the coverage check fails:** run `taproot coverage --show-incomplete` to list the impls. Either complete them or set their `**State:**` to `deferred` in their `impl.md` if the work is intentionally punted. Commit the state change, then re-run preflight.
 
    Extract v\<next\> from the final line of the script output.
 
