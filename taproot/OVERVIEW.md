@@ -190,7 +190,7 @@ _No behaviours yet._
   - [yaml-config](./requirements-hierarchy/configure-hierarchy/yaml-config/impl.md) `[complete]` (2 commits ⚠ no tests)
 - **[init-domain-presets](./requirements-hierarchy/init-domain-presets/usecase.md)** `[implemented]` — Actor: Developer running `taproot init` for the first time on a new project — including non-coding projects (blogging, book authoring, technical writing) who would not know that vocabulary and language settings exist
   - [cli-command](./requirements-hierarchy/init-domain-presets/cli-command/impl.md) `[complete]` (1 commit, 1 test)
-- **[initialise-hierarchy](./requirements-hierarchy/initialise-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator setting up taproot in a new or existing project
+- **[initialise-hierarchy](./requirements-hierarchy/initialise-hierarchy/usecase.md)** `[specified]` — Actor: Agentic developer / orchestrator setting up taproot in a new or existing project
   - [cli-command](./requirements-hierarchy/initialise-hierarchy/cli-command/impl.md) `[complete]` (3 commits, 1 test)
 - **[park-hierarchy-item](./requirements-hierarchy/park-hierarchy-item/usecase.md)** `[implemented]` — Actor: Developer — who has decided that a behaviour or implementation is not being pursued for the foreseeable future and wants to formally record that decision in the hierarchy.
   - [multi-surface](./requirements-hierarchy/park-hierarchy-item/multi-surface/impl.md) `[complete]` (2 commits, 1 test)

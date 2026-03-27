@@ -14,12 +14,14 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 3. System prompts: "Which agent adapter would you like to install?" — presents a selection list (claude, cursor, none)
 4. System prompts: "Install the pre-commit hook? (Strongly recommended — prevents implementation commits without traceability and requirement commits without quality checks) [Y/n]"
 5. System creates the `taproot/` root directory
-6. System creates `taproot/skills/` for skill definitions
-7. System writes `.taproot/settings.yaml` with default configuration
-8. System writes `taproot/CONVENTIONS.md` with document format reference and commit conventions
-9. System installs the selected agent adapter (if any)
-10. System installs the pre-commit hook (if confirmed)
-11. System reports each created path
+6. System creates `taproot/specs/` for the requirements hierarchy
+7. System creates `taproot/global-truths/` with README
+8. System creates `taproot/agent/` for skills and configuration
+9. System writes `taproot/settings.yaml` with default configuration
+10. System writes `taproot/CONVENTIONS.md` with document format reference and commit conventions
+11. System installs the selected agent adapter (if any) — skills into `taproot/agent/skills/`, docs into `taproot/agent/docs/`
+12. System installs the pre-commit hook (if confirmed)
+13. System reports each created path
 
 ## Alternate Flows
 - **Non-interactive mode**: if `--agent <name>` is passed, skip the agent selection prompt and use the provided value; if `--with-hooks` is passed, skip the hook prompt and install the hook
@@ -28,13 +30,14 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 - **Directory already exists**: system reports `exists` instead of `created` and skips creation — idempotent
 
 ## Postconditions
-- `taproot/` directory exists with `skills/` subdirectory
-- `.taproot/settings.yaml` exists with default configuration (can be customised after init)
+- `taproot/` directory exists with `specs/`, `global-truths/`, and `agent/` subdirectories
+- `taproot/settings.yaml` exists with default configuration (can be customised after init)
 - `taproot/CONVENTIONS.md` exists as a human-readable format reference
-- `taproot/skills/` is populated with canonical skill definitions
+- `taproot/agent/skills/` is populated with canonical skill definitions
 - Selected agent adapter is installed (or none if declined)
 - Pre-commit hook is installed at `.git/hooks/pre-commit` if confirmed, absent otherwise
-- The project is ready to receive intent, behaviour, and implementation documents
+- `.taproot/` is not created by init — it exists only as a gitignored runtime scratch directory (created on first use by the CLI)
+- The project is ready to receive intent, behaviour, and implementation documents under `taproot/specs/`
 
 ## Error Conditions
 - **No git repository**: if `.git/` is not found in the project root, system aborts immediately with `"No git repository found. Run \`git init\` first, then re-run \`taproot init\`."` — no prompts are shown and no files are created
@@ -51,15 +54,15 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 - When the actor runs `taproot init`
 - Then a `taproot/` directory is created
 
-**AC-2: Creates .taproot/settings.yaml**
+**AC-2: Creates taproot/settings.yaml**
 - Given a new empty project directory
 - When the actor runs `taproot init`
-- Then `.taproot/settings.yaml` is created
+- Then `taproot/settings.yaml` is created
 
 **AC-3: Agent selection prompt installs selected adapter**
 - Given a new project directory
 - When the actor runs `taproot init` and selects "claude" from the agent prompt
-- Then the `.taproot/skills/` directory is created and skill files are installed
+- Then the `taproot/agent/skills/` directory is created and skill files are installed
 
 **AC-4: Does not create taproot/_brainstorms/ directory**
 - Given a new empty project directory
@@ -74,7 +77,7 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 **AC-6: Returns messages describing what was created**
 - Given a new empty project directory
 - When the actor runs `taproot init`
-- Then the returned messages include references to `taproot/` and `.taproot/settings.yaml`
+- Then the returned messages include references to `taproot/` and `taproot/settings.yaml`
 
 **AC-7: Is idempotent — running twice does not fail**
 - Given a project where `taproot init` has already been run
@@ -109,9 +112,19 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 **AC-13: Aborts with error before any prompts if no .git directory exists**
 - Given a project directory with no `.git/` directory
 - When the actor runs `taproot init`
-- Then the command throws an error containing "git init" before showing any prompts, and no `taproot/` or `.taproot/` files are created
+- Then the command throws an error containing "git init" before showing any prompts, and no `taproot/` files are created
+
+**AC-14: Creates taproot/specs/ subdirectory**
+- Given a new empty project directory
+- When the actor runs `taproot init`
+- Then `taproot/specs/` is created as the root for the requirements hierarchy
+
+**AC-15: Creates taproot/agent/ subdirectory**
+- Given a new empty project directory
+- When the actor runs `taproot init`
+- Then `taproot/agent/` is created for skills and configuration files
 
 ## Status
-- **State:** implemented
+- **State:** specified
 - **Created:** 2026-03-19
 - **Last reviewed:** 2026-03-27
