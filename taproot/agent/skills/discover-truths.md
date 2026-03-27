@@ -19,6 +19,13 @@ If any of these is true, **autonomous mode is active** — skip interactive prom
 
 ## Steps
 
+### Phase 0 — Resume Check
+
+1a. Check for `.taproot/sessions/discover-truths-status.md`. If found, present:
+   > "A previous session exists (N processed, M remaining). [A] Resume  [R] Restart"
+   - **[A] Resume**: load the status file, skip already-processed candidates, and continue from the first unprocessed `[ ]` entry. Proceed directly to Phase 4 using the stored candidate list.
+   - **[R] Restart**: overwrite the status file from scratch and run the full flow from Phase 1.
+
 ### Phase 1 — Pre-flight
 
 1. Verify `taproot/global-truths/` exists. If not, stop:
@@ -59,9 +66,7 @@ If any of these is true, **autonomous mode is active** — skip interactive prom
 
 ### Phase 4 — Present Candidates
 
-7. Group remaining candidates by category. If more than 10 total, present in batches of 5. After each batch, ask: "[C] Continue to next batch  [D] Done — stop here".
-
-   For each candidate, present:
+7. Present candidates **one at a time**. For each candidate:
    ```
    Candidate: `<term or rule>`
    Category: <recurring term | business rule | implicit convention>
@@ -76,9 +81,10 @@ If any of these is true, **autonomous mode is active** — skip interactive prom
 
    **Autonomous mode:** defer all candidates to backlog as "truth candidate: `<term>`" and skip to Phase 5.
 
-8. Handle each developer choice:
+8. Handle each developer choice. **After each response**, write progress to `.taproot/sessions/discover-truths-status.md` before moving to the next candidate (format: checklist of all candidates with `[x]`/`[ ]` markers, counts of promoted/skipped/backlogged/dismissed so far):
 
    **Promote [P]:**
+   - Mark candidate `[x promoted]` in the status file
    - Invoke `/tr-ineed` with the candidate term, proposed scope, and evidence pre-populated as context
    - If `/tr-ineed` routes to a location other than `define-truth`, surface the routing decision:
      > "This candidate was routed to `<location>`. [A] Accept routing  [B] Override — invoke define-truth directly"
@@ -86,22 +92,30 @@ If any of these is true, **autonomous mode is active** — skip interactive prom
    - After `/tr-ineed` completes (or is abandoned), return to the candidate list
 
    **Skip [S]:**
-   - No record written; candidate reappears on next discovery run
+   - Mark candidate `[x skipped]` in the status file
+   - No record written to backlog; candidate reappears on next discovery run
 
    **Backlog [B]:**
+   - Mark candidate `[x backlogged]` in the status file
    - Append to `taproot/backlog.md`: `- [YYYY-MM-DD] truth candidate: <term>`
    - Move to next candidate
 
    **Dismiss [D]:**
+   - Mark candidate `[x dismissed]` in the status file
    - Append to `taproot/backlog.md`: `- [YYYY-MM-DD] reviewed — not a truth: <term>`
    - This entry suppresses the candidate on all future discovery runs
    - Move to next candidate
+
+   **Developer ends session early:**
+   - Current state is already persisted in `.taproot/sessions/discover-truths-status.md`
+   - Developer can resume by re-invoking `/tr-discover-truths` and selecting [A] Resume
 
 ### Phase 5 — Wrap Up
 
 9. Report:
    > "Discovery complete — N promoted, N skipped, N backlogged, N dismissed[, N remaining]."
    > (Include "N remaining" only if the developer ended the session early.)
+   Delete `.taproot/sessions/discover-truths-status.md` (clean completion — no resume needed).
 
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
