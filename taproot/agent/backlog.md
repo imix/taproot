@@ -30,4 +30,5 @@
 - [2026-03-27] extended plan mode: persistent implementation plan file enabling longer multi-step plans; enabler for fully-automatic agent execution; to be located in ./taproot once directory merge is done
 - [2026-03-27] taproot init should add .taproot to .gitignore
 - [2026-03-27] global truth (implementation level): all skills that run in steps or batches (e.g. discover-truths) write their progress in a state file in .taproot so they survive a compression/context refresh
+- [2026-03-27] agents complain "this hierarchy is significant" even in small projects like a calculator — taproot needs to justify its overhead relative to project scale; consider lighter-weight entry paths or a "starter" mode
 - [2026-03-27] tr-research: the skill asks "are you an expert?" but the questions asked are closer to design help (architecture, trade-offs, approach) — valid use of tr-research but the framing is misleading; consider rewording the preamble to cover both expert knowledge and design assistance
