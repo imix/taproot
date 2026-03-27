@@ -5,7 +5,7 @@
 Before following any steps, check whether autonomous mode is active:
 - `TAPROOT_AUTONOMOUS=1` is set in the environment, **or**
 - `--autonomous` was passed as an argument to this skill invocation, **or**
-- `.taproot/settings.yaml` contains `autonomous: true`
+- `taproot/settings.yaml` contains `autonomous: true`
 
 If any of these is true, **autonomous mode is active** — apply autonomous notes where they appear. If none is true, show confirmation prompts as normal.
 
@@ -35,7 +35,7 @@ Execute the full commit procedure: classify the commit type, run the appropriate
 
    **Autonomous mode:** stage all relevant files and proceed directly without waiting for confirmation.
 
-4. Read `.taproot/settings.yaml` to identify all configured `definitionOfDone` and `definitionOfReady` conditions. If the file does not exist or has no `definitionOfDone`/`definitionOfReady` sections, note: "No user-configured conditions — baseline hook checks only." and proceed to the appropriate sub-flow below.
+4. Read `taproot/settings.yaml` to identify all configured `definitionOfDone` and `definitionOfReady` conditions. If the file does not exist or has no `definitionOfDone`/`definitionOfReady` sections, note: "No user-configured conditions — baseline hook checks only." and proceed to the appropriate sub-flow below.
 
 5. Execute the sub-flow matching the commit type:
 
@@ -78,7 +78,7 @@ Execute the full commit procedure: classify the commit type, run the appropriate
 
 1. Verify parent `usecase.md` is in `specified`, `implemented`, or `complete` state. If it is in `draft` or `proposed` state, report: "Cannot declare implementation — parent `usecase.md` is in `<state>` state. Run `/tr-refine <usecase-path>` to complete the spec first." Stop.
 
-2. Read `.taproot/settings.yaml` `definitionOfReady` entries. For each `check-if-affected-by` or `check:` condition, write an entry directly into `## DoR Resolutions` in the impl.md. There is no `taproot dor` CLI — write entries by hand:
+2. Read `taproot/settings.yaml` `definitionOfReady` entries. For each `check-if-affected-by` or `check:` condition, write an entry directly into `## DoR Resolutions` in the impl.md. There is no `taproot dor` CLI — write entries by hand:
    ```
    condition: <name> | note: <reasoning> | resolved: <date>
    ```

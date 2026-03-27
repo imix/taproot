@@ -87,7 +87,7 @@ export function checkGlobalTruthsIntent(root) {
             code: 'GLOBAL_TRUTHS_INTENT_CONFLICT',
             message: '`global-truths/` is a taproot-managed truth store — `intent.md` does not belong here. ' +
                 'Remove `global-truths/intent.md` (and any behaviours beneath it) and use truth files + ' +
-                '`check-if-affected-by` entries in `.taproot/settings.yaml` to enforce them instead.',
+                '`check-if-affected-by` entries in `taproot/settings.yaml` to enforce them instead.',
         }];
 }
 export function validateStructure(root, options) {

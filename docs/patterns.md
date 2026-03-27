@@ -11,7 +11,7 @@ Reusable patterns for extending and enforcing the taproot hierarchy. Each patter
 **Pattern:** Define the rule as a behaviour spec (`usecase.md`), then add a `check-if-affected-by` entry to `taproot/settings.yaml`.
 
 ```yaml
-# .taproot/settings.yaml
+# taproot/settings.yaml
 definitionOfDone:
   - check-if-affected-by: skill-architecture/context-engineering
 ```
@@ -99,7 +99,7 @@ The agent is asked: "Does this implementation require changes to `<file>`?" If y
 
 ```yaml
 definitionOfDone:
-  - check: "does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml?"
+  - check: "does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml?"
   - check: "does this story reveal a reusable pattern worth documenting in docs/patterns.md?"
 ```
 
@@ -114,7 +114,7 @@ The agent reads the question text, reasons whether the answer is yes, no, or not
 
 | Question | Action if yes |
 |---|---|
-| `does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml?` | Agent adds the entry to `taproot/settings.yaml` |
+| `does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml?` | Agent adds the entry to `taproot/settings.yaml` |
 | `does this story reveal a reusable pattern worth documenting in docs/patterns.md?` | Agent adds a pattern entry to `docs/patterns.md` |
 
 ---

@@ -13,9 +13,9 @@ Scan the taproot hierarchy for implicit facts — recurring terms, business rule
 Before following any steps, check whether autonomous mode is active:
 - `TAPROOT_AUTONOMOUS=1` is set in the environment, **or**
 - `--autonomous` was passed as an argument to this skill invocation, **or**
-- `.taproot/settings.yaml` contains `autonomous: true`
+- `taproot/settings.yaml` contains `autonomous: true`
 
-If any of these is true, **autonomous mode is active** — skip interactive prompts and defer all candidates to `.taproot/backlog.md` as "truth candidate: `<term>`" entries, then report the summary.
+If any of these is true, **autonomous mode is active** — skip interactive prompts and defer all candidates to `taproot/agent/backlog.md` as "truth candidate: `<term>`" entries, then report the summary.
 
 ## Steps
 
@@ -31,7 +31,7 @@ If any of these is true, **autonomous mode is active** — skip interactive prom
 
 3. Read all files in `taproot/global-truths/` (excluding `intent.md` and subdirectory `usecase.md` files — truth files are files that are NOT named `intent.md` or `usecase.md`). Collect defined terms and rules from them.
 
-4. Read `.taproot/backlog.md` if it exists. Extract all lines matching `reviewed — not a truth: <term>` — these are permanently dismissed candidates. Build a suppression list from them.
+4. Read `taproot/agent/backlog.md` if it exists. Extract all lines matching `reviewed — not a truth: <term>` — these are permanently dismissed candidates. Build a suppression list from them.
 
 ### Phase 3 — Identify Candidates
 
@@ -89,11 +89,11 @@ If any of these is true, **autonomous mode is active** — skip interactive prom
    - No record written; candidate reappears on next discovery run
 
    **Backlog [B]:**
-   - Append to `.taproot/backlog.md`: `- [YYYY-MM-DD] truth candidate: <term>`
+   - Append to `taproot/agent/backlog.md`: `- [YYYY-MM-DD] truth candidate: <term>`
    - Move to next candidate
 
    **Dismiss [D]:**
-   - Append to `.taproot/backlog.md`: `- [YYYY-MM-DD] reviewed — not a truth: <term>`
+   - Append to `taproot/agent/backlog.md`: `- [YYYY-MM-DD] reviewed — not a truth: <term>`
    - This entry suppresses the candidate on all future discovery runs
    - Move to next candidate
 
@@ -113,7 +113,7 @@ If any of these is true, **autonomous mode is active** — skip interactive prom
 ## Output
 
 - Zero or more truth files created in `taproot/global-truths/` (via `/tr-ineed` → define-truth)
-- `.taproot/backlog.md` updated with any backlogged or dismissed candidates
+- `taproot/agent/backlog.md` updated with any backlogged or dismissed candidates
 - Summary report: N promoted, N skipped, N backlogged, N dismissed
 
 ## CLI Dependencies
@@ -125,5 +125,5 @@ None.
 - Truth files in `taproot/global-truths/` are any files that are NOT named `intent.md` or `usecase.md`. They may have any name (e.g. `glossary.md`, `pricing-rules.md`, `entity-model.md`).
 - "Recurring" means 2 or more specs — not just repeated within a single spec.
 - Skip generic language-level words ("the", "a", "is", "not") and taproot structural terms ("intent", "behaviour", "usecase", "implementation") — these are not domain truths.
-- Dismissed entries in `.taproot/backlog.md` are matched by the literal string "reviewed — not a truth: `<term>`" — the suppression logic is substring-match on the candidate term.
+- Dismissed entries in `taproot/agent/backlog.md` are matched by the literal string "reviewed — not a truth: `<term>`" — the suppression logic is substring-match on the candidate term.
 - This skill is read-only on the hierarchy — it never modifies `intent.md` or `usecase.md` files directly.

@@ -63,7 +63,7 @@ Example: `email-trigger/impl.md` lists the source files and the commit that buil
 **Global truth** — a project-wide fact enforced at every commit (business rule, entity definition, project convention), stored in `taproot/global-truths/`.
 Example: *prices are always exclusive of VAT* — a spec that contradicts this is blocked before it merges
 
-**Backlog** — a lightweight scratchpad for ideas and deferred work captured mid-session, stored in `.taproot/backlog.md` — separate from the requirement hierarchy.
+**Backlog** — a lightweight scratchpad for ideas and deferred work captured mid-session, stored in `taproot/agent/backlog.md` — separate from the requirement hierarchy.
 Example: `/tr-backlog "consider a caching layer"` captures the thought without interrupting flow
 
 <details>

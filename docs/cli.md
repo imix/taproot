@@ -174,7 +174,7 @@ taproot dod [impl-path] [--dry-run] [--rerun-tests]
 taproot dod <impl-path> --resolve <condition> --note "<text>" [--resolve <condition> --note "<text>" ...]
 ```
 
-Runs all configured DoD conditions from `.taproot/settings.yaml` against the specified implementation (or all implementations if no path is given). If all conditions pass and an `impl-path` is provided, marks the impl `complete`, records the results in `## DoD Resolutions`, and automatically advances the parent `usecase.md` state from `specified` to `implemented` if it hasn't been already.
+Runs all configured DoD conditions from `taproot/settings.yaml` against the specified implementation (or all implementations if no path is given). If all conditions pass and an `impl-path` is provided, marks the impl `complete`, records the results in `## DoD Resolutions`, and automatically advances the parent `usecase.md` state from `specified` to `implemented` if it hasn't been already.
 
 Use `--resolve`/`--note` to record agent resolutions for agent-driven conditions (e.g. `document-current`, `check-if-affected`, `check-if-affected-by`). Multiple pairs can be supplied in a single invocation — conditions are paired with notes by position.
 
@@ -204,7 +204,7 @@ The hook uses a three-tier classification, where the implementation tier is dete
 | Source files found in map but `impl.md` NOT staged | **Blocked** — "Stage `impl.md` alongside your source files. No implementation commit should proceed without its traceability record." |
 | No tracked source files, no hierarchy or impl files | No checks; commit proceeds |
 
-The DoR gate prevents committing an implementation record before the behaviour is fully specified. The DoD gate prevents marking an implementation complete without passing the quality checks defined in `.taproot/settings.yaml`.
+The DoR gate prevents committing an implementation record before the behaviour is fully specified. The DoD gate prevents marking an implementation complete without passing the quality checks defined in `taproot/settings.yaml`.
 
 **Truth consistency check:** when hierarchy files are staged and `taproot/global-truths/` exists, the hook validates that a truth-check session marker (`.taproot/.truth-check-session`) is present and matches the current staged content. This marker is written by `taproot truth-sign`, which `/tr-commit` calls after the agent approves the truth check. Committing hierarchy files directly with `git commit` (bypassing `/tr-commit`) will be blocked if applicable truths exist.
 

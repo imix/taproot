@@ -35,10 +35,10 @@ Diagnose a defect through structured root cause analysis (5-Why) and delegate to
 
    - **No (clearly one-off** — typo, isolated misconfiguration, external incident): note this and continue to step 5.
    - **Yes**: propose prevention across one or more of:
-     - A new DoR or DoD condition to add to `.taproot/settings.yaml`
+     - A new DoR or DoD condition to add to `taproot/settings.yaml`
      - An update to `docs/architecture.md`, `docs/security.md`, or `docs/patterns.md`
 
-   If a satisfactory measure is found: present it — e.g. *"I'll add `check-if-affected-by: <gate>` to `.taproot/settings.yaml`"* or *"I'll add to `docs/security.md`: `<constraint>`"* — and wait for actor confirmation.
+   If a satisfactory measure is found: present it — e.g. *"I'll add `check-if-affected-by: <gate>` to `taproot/settings.yaml`"* or *"I'll add to `docs/security.md`: `<constraint>`"* — and wait for actor confirmation.
    - On **confirm**: apply the change, then continue to step 5.
    - On **reject**: record the recurrence concern in the implicated impl.md `## Notes` and continue to step 5.
 

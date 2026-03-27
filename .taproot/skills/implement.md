@@ -14,7 +14,7 @@ Implement a behaviour spec: write the code, write the tests, create the `impl.md
 Before following any steps, check whether autonomous mode is active:
 - `TAPROOT_AUTONOMOUS=1` is set in the environment, **or**
 - `--autonomous` was passed as an argument to this skill invocation, **or**
-- `.taproot/settings.yaml` contains `autonomous: true`
+- `taproot/settings.yaml` contains `autonomous: true`
 
 If any of these is true, **autonomous mode is active** — apply the autonomous notes at each step where they appear. If none is true, autonomous mode is **inactive** — show confirmation prompts as normal.
 
@@ -36,14 +36,14 @@ If any of these is true, **autonomous mode is active** — apply the autonomous 
    - Read each applicable file; apply defined terms and conventions when choosing the implementation approach, naming, and design decisions
    - If the implementation plan contradicts an applicable truth, surface the conflict before proceeding: "This implementation contradicts `global-truths/<file>`: `<excerpt>`. [A] update plan to align, [B] update the truth, [C] proceed with the conflict noted."
 
-4. **Pattern check + plan mode.** Before proposing the plan: if `.taproot/docs/patterns.md` exists, scan the behaviour description and any design notes for semantic matches. Match signals:
+4. **Pattern check + plan mode.** Before proposing the plan: if `taproot/agent/docs/patterns.md` exists, scan the behaviour description and any design notes for semantic matches. Match signals:
    - "applies to all implementations / cross-cutting concern" → `check-if-affected-by`
    - "enforce a rule on all future work" → `check-if-affected-by`
    - "keep a file in sync / update X on every change" → `check-if-affected: X`
 
    If a match is found, surface it before the plan:
-   > "Before the plan — this looks like it could use the **`<pattern-name>`** pattern rather than a custom implementation. See `.taproot/docs/patterns.md`."
-   > **[A] Use the pattern** — apply it via `.taproot/settings.yaml` instead of writing source code
+   > "Before the plan — this looks like it could use the **`<pattern-name>`** pattern rather than a custom implementation. See `taproot/agent/docs/patterns.md`."
+   > **[A] Use the pattern** — apply it via `taproot/settings.yaml` instead of writing source code
    > **[B] Continue with implementation** — the custom implementation is intentional
 
    Then **propose the implementation plan:**
@@ -102,7 +102,7 @@ If any of these is true, **autonomous mode is active** — apply the autonomous 
 6. **Declaration commit** — commit `impl.md`, `discussion.md` (if written), and any `usecase.md` link-section update together (no source files):
 
    Before committing:
-   - Read `.taproot/settings.yaml` and note the `definitionOfReady` conditions — these are the checks the hook will run. If the file has no `definitionOfReady` section, only baseline DoR checks run.
+   - Read `taproot/settings.yaml` and note the `definitionOfReady` conditions — these are the checks the hook will run. If the file has no `definitionOfReady` section, only baseline DoR checks run.
    - There is no standalone `taproot dor` command — DoR runs automatically via the pre-commit hook when impl.md is staged without source files (this is a **declaration commit**). Resolve any agent-driven DoR conditions (e.g. `check-if-affected-by`) in impl.md under `## DoR Resolutions` before staging.
 
    ```

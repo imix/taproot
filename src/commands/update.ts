@@ -375,14 +375,14 @@ export async function runUpdate(options: { cwd?: string; withHooks?: boolean }):
   const configMdPath = join(taprootConfigDir, 'CONFIGURATION.md');
   try {
     mkdirSync(taprootConfigDir, { recursive: true });
-    const content = buildConfigurationMd();
+    const content = buildConfigurationMd(isNewLayout);
     const existed = existsSync(configMdPath);
     writeFileSync(configMdPath, content, 'utf-8');
     messages.push('');
     const configMdRel = isNewLayout ? 'taproot/agent/CONFIGURATION.md' : '.taproot/CONFIGURATION.md';
     messages.push(`${existed ? 'updated' : 'created'}  ${configMdRel}`);
   } catch (err) {
-    messages.push(`warning  Could not write .taproot/CONFIGURATION.md: ${(err as Error).message}`);
+    messages.push(`warning  Could not write CONFIGURATION.md: ${(err as Error).message}`);
   }
 
   // Refresh cross-links (## Behaviours / ## Implementations sections)

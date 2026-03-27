@@ -27,7 +27,7 @@ Route a natural language requirement to the right place in the taproot hierarchy
    - **[B]**: proceed to pattern check below.
    - **[C]** or no global truth signal: proceed to pattern check below.
 
-0a. **Pattern check** — If `.taproot/docs/patterns.md` exists, scan the stated requirement for semantic matches against the patterns listed there. Match signals:
+0a. **Pattern check** — If `taproot/agent/docs/patterns.md` exists, scan the stated requirement for semantic matches against the patterns listed there. Match signals:
    - "apply to all / every implementation / every skill / everywhere" → `check-if-affected-by`
    - "guide agents / architecture rules / agents should follow / enforce a rule" → `check-if-affected-by`
    - "enforce documentation / docs must stay current / keep docs accurate" → `document-current`
@@ -35,14 +35,14 @@ Route a natural language requirement to the right place in the taproot hierarchy
    - "research before building / check if a library exists / look up how to implement" → research-first (`/tr-research`)
 
    If a match is found, **interrupt before proceeding**:
-   > "Before I route this — that sounds like the **`<pattern-name>`** pattern. <one-line description>. See `.taproot/docs/patterns.md` for how to use it."
+   > "Before I route this — that sounds like the **`<pattern-name>`** pattern. <one-line description>. See `taproot/agent/docs/patterns.md` for how to use it."
    > **[A] Use this pattern now** — I'll guide you through applying it
    > **[B] Continue as a new requirement** — route and spec it normally
 
-   - **[A]**: read the relevant section of `.taproot/docs/patterns.md` and guide the user through applying the pattern directly. Do not create a new hierarchy entry.
+   - **[A]**: read the relevant section of `taproot/agent/docs/patterns.md` and guide the user through applying the pattern directly. Do not create a new hierarchy entry.
    - **[B]** or no match: proceed to step 1.
 
-   If multiple patterns match, list all before asking. If `.taproot/docs/patterns.md` is absent, skip silently.
+   If multiple patterns match, list all before asking. If `taproot/agent/docs/patterns.md` is absent, skip silently.
 
 1. **Classify the requirement** — Load `taproot/OVERVIEW.md` if it exists; if not, walk `taproot/` and read each `intent.md`. Use this hierarchy map to decide which path to take:
 

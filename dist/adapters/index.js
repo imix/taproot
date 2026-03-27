@@ -109,11 +109,11 @@ function generateClaudeAdapter(skills, projectRoot, cli) {
     // Configuration Quick Reference — a standalone reference file (not a skill launcher)
     const refPath = join(targetDir, 'tr-taproot.md');
     const refExisted = existsSync(refPath);
-    writeFileSync(refPath, buildClaudeConfigRefFile(cli), 'utf-8');
+    writeFileSync(refPath, buildClaudeConfigRefFile(cli, projectRoot), 'utf-8');
     files.push({ path: refPath, status: refExisted ? 'updated' : 'created' });
     return { agent: 'claude', files };
 }
-function buildClaudeConfigRefFile(cli) {
+function buildClaudeConfigRefFile(cli, projectRoot) {
     return `---
 name: 'tr-taproot'
 description: 'Taproot configuration quick reference — settings.yaml options and how to apply them'
@@ -123,7 +123,7 @@ description: 'Taproot configuration quick reference — settings.yaml options an
 
 This file is a quick reference for configuring taproot. Read it when asked to change taproot settings (language, vocabulary, definition of done, etc.).
 
-${buildConfigQuickRef(cli)}
+${buildConfigQuickRef(cli, projectRoot)}
 `;
 }
 function buildClaudeSkillFile(skill, projectRoot) {
@@ -154,14 +154,14 @@ function generateCursorAdapter(skills, projectRoot, cli) {
     mkdirSync(targetDir, { recursive: true });
     const destPath = join(targetDir, 'taproot.md');
     const existed = existsSync(destPath);
-    const content = buildCursorRulesFile(skills, cli);
+    const content = buildCursorRulesFile(skills, cli, projectRoot);
     writeFileSync(destPath, content, 'utf-8');
     return {
         agent: 'cursor',
         files: [{ path: destPath, status: existed ? 'updated' : 'created' }],
     };
 }
-function buildCursorRulesFile(skills, cli) {
+function buildCursorRulesFile(skills, cli, projectRoot) {
     const skillIndex = skills.map(s => `- \`@taproot ${s.name}\` — ${s.description}`).join('\n');
     const skillSections = skills.map(s => `
 ---
@@ -170,9 +170,11 @@ function buildCursorRulesFile(skills, cli) {
 
 ${s.content}
 `.trimStart()).join('\n');
+    const newLayout = projectRoot != null && resolveAgentDir(projectRoot) === join(projectRoot, 'taproot', 'agent');
+    const globs = newLayout ? '["taproot/**"]' : '["taproot/**", ".taproot/settings.yaml"]';
     return `---
 description: Taproot requirement hierarchy — skill definitions and document conventions
-globs: ["taproot/**", ".taproot/settings.yaml"]
+globs: ${globs}
 alwaysApply: false
 ---
 
@@ -192,7 +194,7 @@ ${skillIndex}
 - Validate with: \`taproot validate-structure\` and \`taproot validate-format\`
 - See coverage: \`taproot coverage\`
 
-${buildConfigQuickRef(cli)}
+${buildConfigQuickRef(cli, projectRoot)}
 
 ${skillSections}
 `.trimStart();
@@ -313,12 +315,15 @@ function generateGeminiAdapter(skills, projectRoot, cli) {
     // Configuration Quick Reference reference file
     const refPath = join(targetDir, 'tr-taproot.toml');
     const refExisted = existsSync(refPath);
-    writeFileSync(refPath, buildGeminiConfigRefFile(cli), 'utf-8');
+    writeFileSync(refPath, buildGeminiConfigRefFile(cli, projectRoot), 'utf-8');
     files.push({ path: refPath, status: refExisted ? 'updated' : 'created' });
     return { agent: 'gemini', files };
 }
-function buildGeminiConfigRefFile(cli) {
+function buildGeminiConfigRefFile(cli, projectRoot) {
     const prefix = cli ?? DEFAULT_CLI_PREFIX;
+    const newLayout = projectRoot != null && resolveAgentDir(projectRoot) === join(projectRoot, 'taproot', 'agent');
+    const settingsPath = newLayout ? 'taproot/settings.yaml' : '.taproot/settings.yaml';
+    const configDoc = newLayout ? 'taproot/agent/CONFIGURATION.md' : '.taproot/CONFIGURATION.md';
     return `description = "Taproot configuration quick reference — settings.yaml options and how to apply them"
 
 prompt = """
@@ -328,7 +333,7 @@ Read this when asked to change taproot settings (language, vocabulary, definitio
 
 ## Configuration Quick Reference
 
-Edit .taproot/settings.yaml to configure taproot. Run taproot update after changes.
+Edit ${settingsPath} to configure taproot. Run taproot update after changes.
 
 Options:
 - language: Language pack for section headers and keywords (e.g. de, fr, es). Default: English.
@@ -340,7 +345,7 @@ Options:
 When running taproot commands in this project, replace bare \`taproot\` with: ${prefix}
 Example: ${prefix} dod taproot/some-intent/some-behaviour/impl-name/impl.md
 
-See .taproot/CONFIGURATION.md for the full reference and examples.
+See ${configDoc} for the full reference and examples.
 """
 `;
 }
@@ -557,11 +562,14 @@ When running taproot commands in this project, replace bare \`taproot\` with: \`
 Example: \`${prefix} dod taproot/some-intent/some-behaviour/impl-name/impl.md\``;
 }
 // ─── Configuration Quick Reference ───────────────────────────────────────────
-function buildConfigQuickRef(cli) {
+function buildConfigQuickRef(cli, projectRoot) {
     const prefix = cli ?? DEFAULT_CLI_PREFIX;
+    const newLayout = projectRoot != null && resolveAgentDir(projectRoot) === join(projectRoot, 'taproot', 'agent');
+    const settingsPath = newLayout ? 'taproot/settings.yaml' : '.taproot/settings.yaml';
+    const configDoc = newLayout ? 'taproot/agent/CONFIGURATION.md' : '.taproot/CONFIGURATION.md';
     return `## Configuration Quick Reference
 
-Edit \`.taproot/settings.yaml\` to configure taproot. Run \`taproot update\` after changes.
+Edit \`${settingsPath}\` to configure taproot. Run \`taproot update\` after changes.
 
 | Option | Type | Description |
 |--------|------|-------------|
@@ -570,7 +578,7 @@ Edit \`.taproot/settings.yaml\` to configure taproot. Run \`taproot update\` aft
 | \`definitionOfDone\` | list | Shell commands run as gates before implementation commits. |
 | \`cli\` | string | CLI invocation prefix. Default: \`${DEFAULT_CLI_PREFIX}\`. Override: \`cli: taproot\` (global install). |
 
-See \`.taproot/CONFIGURATION.md\` for the full reference and examples.
+See \`${configDoc}\` for the full reference and examples.
 
 ${buildInvocationBlock(prefix)}`;
 }

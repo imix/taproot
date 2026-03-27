@@ -9,7 +9,7 @@ This document describes taproot's security model, applicable threat categories, 
 Taproot has two security boundaries that must be explicitly trusted:
 
 **`settings.yaml` — Executable Configuration**
-The `definitionOfDone` and `definitionOfReady` check entries are executed as shell commands via `spawnSync(..., { shell: true })` in `dod-runner.ts` / `dor-runner.ts`. This is an intentional design — equivalent to `package.json` scripts. The trust boundary is: whoever controls `.taproot/settings.yaml` controls what shell commands run during gate evaluation.
+The `definitionOfDone` and `definitionOfReady` check entries are executed as shell commands via `spawnSync(..., { shell: true })` in `dod-runner.ts` / `dor-runner.ts`. This is an intentional design — equivalent to `package.json` scripts. The trust boundary is: whoever controls `taproot/settings.yaml` controls what shell commands run during gate evaluation.
 
 **`taproot/agent/skills/` — Agent Instructions**
 Skill files (`.md`) are loaded and delivered as instructions to AI agents. Whoever controls skill content controls agent behaviour. A compromised skill file is a direct agent instruction injection vector.
@@ -74,7 +74,7 @@ All skill files (`taproot/agent/skills/*.md`, `skills/*.md`) must follow these r
 3. **Least-privilege for agent instructions** — request only the permissions and actions the skill genuinely needs; avoid open-ended "do whatever is needed" patterns
 4. **No sensitive data in output** — do not instruct agents to echo or log content from `settings.yaml` commands (raw command strings, exit output)
 
-Every change to a skill file triggers the DoD skill review condition (see `.taproot/settings.yaml`).
+Every change to a skill file triggers the DoD skill review condition (see `taproot/settings.yaml`).
 
 ---
 

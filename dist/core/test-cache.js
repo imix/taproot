@@ -173,7 +173,7 @@ export async function runTestsPassingWithCache(options) {
         return {
             passed: false,
             output: result.summary,
-            correction: `tests-passing blocked: test command timed out after ${timeoutSecs}s. Increase testTimeout in .taproot/settings.yaml if needed.`,
+            correction: `tests-passing blocked: test command timed out after ${timeoutSecs}s. Increase testTimeout in taproot/settings.yaml if needed.`,
         };
     }
     return {

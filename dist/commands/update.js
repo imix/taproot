@@ -314,7 +314,7 @@ export async function runUpdate(options) {
     const configMdPath = join(taprootConfigDir, 'CONFIGURATION.md');
     try {
         mkdirSync(taprootConfigDir, { recursive: true });
-        const content = buildConfigurationMd();
+        const content = buildConfigurationMd(isNewLayout);
         const existed = existsSync(configMdPath);
         writeFileSync(configMdPath, content, 'utf-8');
         messages.push('');
@@ -322,7 +322,7 @@ export async function runUpdate(options) {
         messages.push(`${existed ? 'updated' : 'created'}  ${configMdRel}`);
     }
     catch (err) {
-        messages.push(`warning  Could not write .taproot/CONFIGURATION.md: ${err.message}`);
+        messages.push(`warning  Could not write CONFIGURATION.md: ${err.message}`);
     }
     // Refresh cross-links (## Behaviours / ## Implementations sections)
     const taprootDir = join(cwd, DEFAULT_CONFIG.root);

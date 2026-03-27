@@ -68,7 +68,7 @@ Run a comprehensive review of an entire subtree — an intent and all its descen
 
 8. **Truth discovery pass** — if `taproot/global-truths/` exists and the hierarchy has 3 or more readable `intent.md`/`usecase.md` files (excluding `global-truths/`):
 
-   Run the same scan as `/tr-discover-truths` (Phase 2–3 of that skill): collect candidates not already defined in `global-truths/` and not suppressed by `.taproot/backlog.md` dismissed entries.
+   Run the same scan as `/tr-discover-truths` (Phase 2–3 of that skill): collect candidates not already defined in `global-truths/` and not suppressed by `taproot/agent/backlog.md` dismissed entries.
 
    If candidates are found, append to the report:
 
@@ -86,7 +86,7 @@ Run a comprehensive review of an entire subtree — an intent and all its descen
 
    **If [P]:** invoke `/tr-discover-truths` inline; return here when it completes.
 
-   **If [D]:** append each candidate to `.taproot/backlog.md` as `- [YYYY-MM-DD] truth candidate: <term>`.
+   **If [D]:** append each candidate to `taproot/agent/backlog.md` as `- [YYYY-MM-DD] truth candidate: <term>`.
 
    If no candidates found (hierarchy consistent with existing truths), append to report:
    ```

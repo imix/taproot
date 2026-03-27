@@ -1,18 +1,20 @@
 /**
  * CONFIGURATION.md generator.
  *
- * Produces the content installed at .taproot/CONFIGURATION.md — the primary
- * discoverability surface for agents completing configuration tasks.
+ * Produces the content installed at taproot/agent/CONFIGURATION.md (new layout)
+ * or .taproot/CONFIGURATION.md (old layout) — the primary discoverability
+ * surface for agents completing configuration tasks.
  */
 
 import { supportedLanguages } from './language.js';
 
-export function buildConfigurationMd(): string {
+export function buildConfigurationMd(isNewLayout = false): string {
   const langs = supportedLanguages().join(', ');
+  const settingsPath = isNewLayout ? 'taproot/settings.yaml' : '.taproot/settings.yaml';
 
   return `# Taproot Configuration Reference
 
-Edit \`.taproot/settings.yaml\` to configure taproot.
+Edit \`${settingsPath}\` to configure taproot.
 
 **After changing \`language\` or \`vocabulary\`:** run \`taproot update\` to regenerate skill files and adapters.
 **After changing \`definitionOfDone\` or \`definitionOfReady\`:** no \`taproot update\` needed — these are read at runtime.
@@ -101,7 +103,7 @@ autonomous: true
 \`\`\`
 
 **Activation:** Any of three mechanisms activates autonomous mode:
-1. \`autonomous: true\` in \`.taproot/settings.yaml\` (all sessions in this repo)
+1. \`autonomous: true\` in \`${settingsPath}\` (all sessions in this repo)
 2. \`TAPROOT_AUTONOMOUS=1\` environment variable (per-invocation)
 3. \`--autonomous\` flag on a skill invocation (per-skill)
 
