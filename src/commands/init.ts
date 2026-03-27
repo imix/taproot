@@ -98,6 +98,11 @@ export function registerInit(program: Command): void {
     .option('--force', 'Overwrite existing files when applying a template')
     .option('--path <path>', 'Directory to initialize in', process.cwd())
     .action(async (options: { withHooks?: boolean; withCi?: string; withSkills?: boolean; agent?: string; template?: string; force?: boolean; path: string }) => {
+      // Fail early: check git repository before any user interaction (AC-13)
+      if (!existsSync(join(options.path, '.git'))) {
+        throw new Error('No git repository found. Run `git init` first, then re-run `taproot init`.');
+      }
+
       // Template prompt — only when taproot/ doesn't exist yet (fresh init)
       let template: string | undefined = options.template;
       if (!template) {

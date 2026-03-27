@@ -80,12 +80,27 @@ describe('taproot init', () => {
     expect(existsSync(join(tmpDir, '.taproot', 'skills'))).toBe(true);
   });
 
-  // AC-13: no .git directory → abort with error
+  // AC-13: no .git directory → abort with error before any prompts
   it('AC-13: throws if no .git directory exists', () => {
     rmSync(join(tmpDir, '.git'), { recursive: true, force: true });
     expect(() => runInit({ cwd: tmpDir })).toThrow(/git init/i);
     expect(existsSync(join(tmpDir, 'taproot'))).toBe(false);
     expect(existsSync(join(tmpDir, '.taproot'))).toBe(false);
+  });
+
+  it('AC-13: git check in action handler precedes all prompts (source inspection)', () => {
+    const src = readFileSync(resolve(__dirname, '../../src/commands/init.ts'), 'utf-8');
+    const actionStart = src.indexOf('.action(async (options');
+    expect(actionStart).toBeGreaterThan(-1);
+    const gitCheckPos = src.indexOf("options.path, '.git'", actionStart);
+    const promptPositions = [
+      src.indexOf('await confirm(', actionStart),
+      src.indexOf('await checkbox(', actionStart),
+      src.indexOf('await select(', actionStart),
+    ].filter(p => p !== -1);
+    const firstPrompt = Math.min(...promptPositions);
+    expect(gitCheckPos).toBeGreaterThan(-1); // git check exists in action handler
+    expect(gitCheckPos).toBeLessThan(firstPrompt); // git check precedes all prompts
   });
 
   it('gemini agent installs skills into .taproot/skills/', () => {

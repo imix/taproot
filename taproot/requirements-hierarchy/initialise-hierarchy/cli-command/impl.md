@@ -29,6 +29,12 @@
 
 ## DoD Resolutions
 - condition: gemini-toml-fix | note: src/adapters/index.ts updated to fix Gemini TOML format — removed invalid [command] section and name field; top-level prompt and description only. | resolved: 2026-03-21
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: this change modifies src/commands/init.ts and test/integration/init.test.ts — neither is a skill file; not applicable | resolved: 2026-03-27T09:38:12.283Z
+
+- condition: check-if-affected: examples/ | note: examples demonstrate hierarchy structure and init output — internal validation ordering is not user-visible; not affected | resolved: 2026-03-27T09:38:10.962Z
+
+- condition: check-if-affected: docs/ | note: docs/ does not document internal validation ordering — no new CLI options or user-visible output changes; not affected | resolved: 2026-03-27T09:38:05.153Z
+
 - condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: COMPLIANT — src/adapters/index.ts changes add buildConfigQuickRef() (generic language only) and per-adapter reference files. Adapter-specific files (.claude/commands/, .gemini/commands/) are explicitly excluded from the agent-agnostic-language standard per its Scope section. | resolved: 2026-03-24T14:50:47.064Z
 
 - condition: gemini-skills-install | note: src/commands/init.ts updated so gemini agent triggers skill installation (needsSkills includes 'gemini'). test/integration/init.test.ts updated with test asserting skills are installed for gemini. | resolved: 2026-03-21
