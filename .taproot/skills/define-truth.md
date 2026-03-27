@@ -38,9 +38,25 @@ Create or update a truth entry in `taproot/global-truths/` — a fact, business 
 
    Wait for the developer's choice.
 
-### Phase 3 — Choose Convention
+### Phase 3 — Name the File
 
-4. Ask which storage convention to use:
+4. Propose a category-level name for the file — one that can hold multiple related truths, not the specific term being captured now:
+
+   > "What should the file be called? Pick a category name so related truths can live together:
+   >
+   > Suggested names by scope:
+   > - **intent**: `glossary` · `principles` · `ux-principles` · `domain-model` · `system-context`
+   > - **behaviour**: `principles` · `guarantees` · `rules`
+   > - **impl**: `architecture` · `tech-choices` · `patterns`
+   >
+   > (Or enter your own name — keep it generic enough to hold future truths of the same kind.)"
+
+   If a file with that name already exists at the target path, note it:
+   > "A file `<name>_<scope>.md` already exists — I'll append to it rather than create a new one."
+
+### Phase 4 — Choose Convention
+
+5. Ask which storage convention to use:
    > "Which convention do you prefer?
    > - **[S] Suffix** — `<name>_<scope>.md` in `taproot/global-truths/` (e.g. `glossary_intent.md`)
    > - **[F] Sub-folder** — `<scope>/<name>.md` in `taproot/global-truths/` (e.g. `intent/glossary.md`)
@@ -50,25 +66,25 @@ Create or update a truth entry in `taproot/global-truths/` — a fact, business 
    If the project already has truth files using one convention, note it:
    > "Your project currently uses the <suffix|sub-folder> convention — using it here keeps things consistent."
 
-### Phase 4 — Write the File
+### Phase 5 — Write the File
 
-5. Determine the file path:
+6. Determine the file path:
    - **Suffix**: `taproot/global-truths/<name>_<scope>.md`
    - **Sub-folder**: `taproot/global-truths/<scope>/<name>.md`
 
    Create `taproot/global-truths/` if it does not exist.
 
-6. If the file already exists, read it and present:
+7. If the file already exists, read it and present:
    > "A truth file already exists at `<path>`. Here's the current content: [excerpt]. Do you want to [A] append to it, [B] replace it, or [C] cancel?"
    Wait for the developer's choice.
 
-7. Write the truth file with the confirmed content. Report:
+8. Write the truth file with the confirmed content. Report:
    > "✓ Written: `<path>` (scope: <scope>)"
 
-8. **Scope ambiguity check** — if the file was placed directly in `taproot/global-truths/` with no `_<scope>` suffix and not inside a scoped sub-folder, warn:
+9. **Scope ambiguity check** — if the file was placed directly in `taproot/global-truths/` with no `_<scope>` suffix and not inside a scoped sub-folder, warn:
    > "`<filename>` has no scope signal — it defaults to intent scope (applies everywhere). Add a `_intent`, `_behaviour`, or `_impl` suffix, or move it to a scoped sub-folder, to make the scope explicit."
 
-9. **Conflicting scope signals check** — if the file has both a suffix and is inside a scoped sub-folder that disagree, warn:
+10. **Conflicting scope signals check** — if the file has both a suffix and is inside a scoped sub-folder that disagree, warn:
    > "`<path>` has conflicting scope signals — sub-folder (`<folder-scope>`) is more restrictive than suffix (`<suffix-scope>`). The restrictive scope (`<folder-scope>`) applies. Rename or move the file to resolve."
 
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
