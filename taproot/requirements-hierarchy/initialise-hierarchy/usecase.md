@@ -5,30 +5,27 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 
 ## Preconditions
 - A project directory exists
-- The project directory is a git repository (`.git/` exists)
+- The project directory is a git repository (`.git/` exists) — checked at the start of init before any user interaction
 - `taproot` CLI is installed (`npm install -g taproot`)
 
 ## Main Flow
 1. Actor runs `taproot init` in the project root
-2. System prompts: "Which agent adapter would you like to install?" — presents a selection list (claude, cursor, none)
-3. System prompts: "Install the pre-commit hook? (Strongly recommended — prevents implementation commits without traceability and requirement commits without quality checks) [Y/n]"
-4. System creates the `taproot/` root directory
-5. System creates `taproot/skills/` for skill definitions
-6. System writes `.taproot/settings.yaml` with default configuration
-7. System writes `taproot/CONVENTIONS.md` with document format reference and commit conventions
-8. System installs the selected agent adapter (if any)
-9. System installs the pre-commit hook (if confirmed)
-10. System reports each created path
+2. System checks that `.git/` exists in the project root — if absent, aborts immediately (see Error Conditions); no prompts are shown
+3. System prompts: "Which agent adapter would you like to install?" — presents a selection list (claude, cursor, none)
+4. System prompts: "Install the pre-commit hook? (Strongly recommended — prevents implementation commits without traceability and requirement commits without quality checks) [Y/n]"
+5. System creates the `taproot/` root directory
+6. System creates `taproot/skills/` for skill definitions
+7. System writes `.taproot/settings.yaml` with default configuration
+8. System writes `taproot/CONVENTIONS.md` with document format reference and commit conventions
+9. System installs the selected agent adapter (if any)
+10. System installs the pre-commit hook (if confirmed)
+11. System reports each created path
 
 ## Alternate Flows
 - **Non-interactive mode**: if `--agent <name>` is passed, skip the agent selection prompt and use the provided value; if `--with-hooks` is passed, skip the hook prompt and install the hook
 - **No agent selected**: actor selects "none" at the agent prompt — adapter installation is skipped, all other steps proceed normally
 - **Hook declined**: actor answers "n" at the hook prompt — hook installation is skipped; system notes "Pre-commit hook not installed — run `taproot init --with-hooks` to add it later"
 - **Directory already exists**: system reports `exists` instead of `created` and skips creation — idempotent
-
-## Error Conditions
-- **No git repository**: if `.git/` is not found in the project root, system aborts immediately with `"No git repository found. Run \`git init\` first, then re-run \`taproot init\`."` — no files are created
-- **No write permission**: filesystem error is surfaced; earlier steps that succeeded are not rolled back (no transactional guarantee)
 
 ## Postconditions
 - `taproot/` directory exists with `skills/` subdirectory
@@ -38,6 +35,10 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 - Selected agent adapter is installed (or none if declined)
 - Pre-commit hook is installed at `.git/hooks/pre-commit` if confirmed, absent otherwise
 - The project is ready to receive intent, behaviour, and implementation documents
+
+## Error Conditions
+- **No git repository**: if `.git/` is not found in the project root, system aborts immediately with `"No git repository found. Run \`git init\` first, then re-run \`taproot init\`."` — no prompts are shown and no files are created
+- **No write permission**: filesystem error is surfaced; earlier steps that succeeded are not rolled back (no transactional guarantee)
 
 ## Implementations <!-- taproot-managed -->
 - [CLI Command — taproot init](./cli-command/impl.md)
@@ -105,12 +106,12 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 - When init runs
 - Then no hook prompt is shown and the pre-commit hook is installed
 
-**AC-13: Aborts with error if no .git directory exists**
+**AC-13: Aborts with error before any prompts if no .git directory exists**
 - Given a project directory with no `.git/` directory
 - When the actor runs `taproot init`
-- Then the command throws an error containing "git init" and no `taproot/` or `.taproot/` files are created
+- Then the command throws an error containing "git init" before showing any prompts, and no `taproot/` or `.taproot/` files are created
 
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
-- **Last reviewed:** 2026-03-21
+- **Last reviewed:** 2026-03-27
