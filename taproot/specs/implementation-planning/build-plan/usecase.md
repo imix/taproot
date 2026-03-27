@@ -31,7 +31,8 @@ Developer — building a multi-item implementation roadmap with agent assistance
    ```
 7. Developer confirms.
 8. Agent writes `taproot/plan.md`, creating it if absent or replacing it if it already exists (after confirming replacement — see Alternate Flows).
-9. Agent confirms: *"Plan saved — N items in `taproot/plan.md`."*
+9. If any plan items were sourced from backlog items, agent removes those items from `taproot/backlog.md` and reports: *"Removed N item(s) from `taproot/backlog.md`."*
+10. Agent confirms: *"Plan saved — N items in `taproot/plan.md`."*
 
 ## Alternate Flows
 
@@ -68,6 +69,7 @@ Developer — building a multi-item implementation roadmap with agent assistance
 ## Postconditions
 - `taproot/plan.md` exists with an ordered list of typed action items (spec / implement / refine), each with a path or description.
 - Items that are prerequisites for others appear earlier in the list.
+- Backlog items that were added to the plan are removed from `taproot/backlog.md`.
 
 ## Error Conditions
 - **`taproot/backlog.md` absent when backlog source requested:** Treat as empty backlog — note *"backlog.md not found, treating as empty"* and continue with other sources.
@@ -106,7 +108,7 @@ flowchart TD
 **AC-1: Plan built from backlog**
 - Given `taproot/backlog.md` contains at least one actionable item
 - When the developer requests "add all pending items to plan"
-- Then the agent presents a proposed ordered plan including those items, and on confirmation writes `taproot/plan.md`
+- Then the agent presents a proposed ordered plan including those items, and on confirmation writes `taproot/plan.md` and removes the consumed items from `taproot/backlog.md`
 
 **AC-2: Plan built from hierarchy gaps**
 - Given the hierarchy contains at least one unimplemented behaviour
@@ -138,6 +140,11 @@ flowchart TD
 - When the developer selects Q (abort)
 - Then `taproot/plan.md` is not created or modified
 
+**AC-8: Backlog items consumed into the plan are removed**
+- Given `taproot/backlog.md` contains items that were added to the plan
+- When the developer confirms and the plan is written
+- Then those items are removed from `taproot/backlog.md` and the agent reports how many were removed
+
 ## Implementations <!-- taproot-managed -->
 - [Agent Skill — plan-build](./agent-skill/impl.md)
 
@@ -145,8 +152,10 @@ flowchart TD
 - **State:** implemented
 - **Created:** 2026-03-27
 - **Last reviewed:** 2026-03-27
+- **Last refined:** 2026-03-27
 
 ## Notes
 - The plan file format (`taproot/plan.md`) is an implementation concern — the spec only constrains observable behaviour (ordered typed items, path or description per item).
 - Dependency ordering is inferred by the agent (spec-before-implement for the same behaviour), not formally declared in the plan file.
 - Autonomous execution of plan items (agent works without confirmation at each step) is explicitly out of scope — see `execute-plan` for confirmed step-by-step execution.
+- Backlog removal only applies to items sourced from `taproot/backlog.md` — explicit items and hierarchy items have no backlog entry to remove.
