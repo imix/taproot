@@ -128,6 +128,9 @@ flowchart TD
 - When the developer invokes "analyse plan"
 - Then the agent reports no plan found and suggests `/tr-plan build`
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — plan-analyse](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-27
