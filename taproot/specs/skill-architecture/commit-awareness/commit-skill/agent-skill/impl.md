@@ -34,6 +34,16 @@
 
 ## DoD Resolutions
 - condition: tests-passing | note: All 441 tests pass. New tests in test/unit/skills.test.ts cover AC-1 (one-at-a-time resolution), AC-2 (conversational trigger), AC-4 (declaration parent state), AC-5 (plain commit), AC-7 (mass commit A/B/C), requirement commit quality checks, and DoR resolution format. Updated test/unit/claude-md.test.ts covers the new /tr-commit CLAUDE.md trigger. | resolved: 2026-03-21T07:24:01.121Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: Compliant — What's next block adds lettered option prompts only; no shell commands, no credentials, no tokens introduced. | resolved: 2026-03-27T20:52:12.168Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — What's next block is a UX addition to an existing skill; no new cross-cutting constraint. | resolved: 2026-03-27T20:52:11.912Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: Compliant — commit.md uses no agent-specific syntax; options [A]-[E] are generic lettered choices; no Claude/Cursor references. | resolved: 2026-03-27T20:52:11.655Z
+
+- condition: check-if-affected: examples/ | note: Not affected — example starters do not reference commit.md behaviour internals. | resolved: 2026-03-27T20:52:11.397Z
+
+- condition: check-if-affected: docs/ | note: Not affected — no new CLI commands or user-visible config; What's next block is internal skill behaviour. | resolved: 2026-03-27T20:52:11.116Z
+
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No. The commit skill is a specific procedural execution skill — not a configuration pattern. The commit-awareness check-if-affected-by pattern already exists and governs what skills must know about commits. | resolved: 2026-03-21T07:25:19.220Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: No. The commit skill unifies existing commit procedure knowledge — it does not introduce a new cross-cutting constraint. The existing check-if-affected-by: skill-architecture/commit-awareness already covers commit procedure requirements for skills. | resolved: 2026-03-21T07:25:15.173Z
