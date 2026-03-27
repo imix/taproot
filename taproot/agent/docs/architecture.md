@@ -22,9 +22,9 @@ Architectural decisions, constraints, and patterns for the taproot codebase. Eve
 
 **No global mutable state** — No module-level variables that accumulate state across calls. Functions that need shared state receive it as parameters.
 
-**`taproot/` contains only requirement documents** — Skills, config, and framework files live in `.taproot/`. Never mix framework files into the requirements hierarchy.
+**Unified `taproot/` directory layout** — All taproot content lives under `taproot/`: requirement documents in `taproot/specs/` (or directly under `taproot/` with a custom `root:` setting), agent skills and docs in `taproot/agent/`, and global truths in `taproot/global-truths/`. Settings live at `taproot/settings.yaml`. The `.taproot/` directory is reserved for gitignored runtime scratch only (session state, test result cache, truth-check sessions).
 
-**`taproot/_sessions/` is the scratch space for agent session state** — Skills that persist resumable session data (phase progress, confirmed items, open questions) write to `taproot/_sessions/<skill-name>-status.md`. This folder is not a formal hierarchy document and is excluded from `taproot validate-structure`. Use `_sessions/`, not `_brainstorms/` — the latter implies ideation rather than structured state.
+**`.taproot/` is runtime scratch, not content** — Files written by CLI invocations that should not be committed (session state, `.truth-check-session`, `.test-results/`) go in `.taproot/`. Add `.taproot/` to `.gitignore`. Never place spec documents, skill files, or configuration there.
 
 **Markdown is the schema** — All hierarchy documents (intent.md, usecase.md, impl.md) must be valid CommonMark. No proprietary extensions.
 
@@ -50,4 +50,4 @@ Core modules must not import from commands. Commands may import from core, valid
 
 ## Testing
 
-Integration tests use real temporary directories (`mkdtempSync`) — no mocking the filesystem. Config in tests must be written to `.taproot/settings.yaml` (not `.taproot/settings.yaml`).
+Integration tests use real temporary directories (`mkdtempSync`) — no mocking the filesystem. Config in tests must be written to `taproot/settings.yaml` (matching the layout that `taproot init` now creates).

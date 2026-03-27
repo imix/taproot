@@ -9,9 +9,9 @@ This document describes taproot's security model, applicable threat categories, 
 Taproot has two security boundaries that must be explicitly trusted:
 
 **`settings.yaml` — Executable Configuration**
-The `definitionOfDone` and `definitionOfReady` check entries are executed as shell commands via `spawnSync(..., { shell: true })` in `dod-runner.ts` / `dor-runner.ts`. This is an intentional design — equivalent to `package.json` scripts. The trust boundary is: whoever controls `.taproot/settings.yaml` controls what shell commands run during gate evaluation.
+The `definitionOfDone` and `definitionOfReady` check entries are executed as shell commands via `spawnSync(..., { shell: true })` in `dod-runner.ts` / `dor-runner.ts`. This is an intentional design — equivalent to `package.json` scripts. The trust boundary is: whoever controls `taproot/settings.yaml` controls what shell commands run during gate evaluation.
 
-**`.taproot/skills/` — Agent Instructions**
+**`taproot/agent/skills/` — Agent Instructions**
 Skill files (`.md`) are loaded and delivered as instructions to AI agents. Whoever controls skill content controls agent behaviour. A compromised skill file is a direct agent instruction injection vector.
 
 Both boundaries are intentional; neither should be changed. Both must be consciously managed.
@@ -67,14 +67,14 @@ Recommended controls for taproot's own CI and for projects using taproot:
 
 ## Skill Security Guidelines
 
-All skill files (`.taproot/skills/*.md`, `skills/*.md`) must follow these rules:
+All skill files (`taproot/agent/skills/*.md`, `skills/*.md`) must follow these rules:
 
 1. **No shell execution without validation** — do not instruct agents to run shell commands unless the input is validated or the command is fully static
 2. **No hardcoded credentials or tokens** — skill files are committed to version control and distributed via npm; credentials in skills are a public disclosure
 3. **Least-privilege for agent instructions** — request only the permissions and actions the skill genuinely needs; avoid open-ended "do whatever is needed" patterns
 4. **No sensitive data in output** — do not instruct agents to echo or log content from `settings.yaml` commands (raw command strings, exit output)
 
-Every change to a skill file triggers the DoD skill review condition (see `.taproot/settings.yaml`).
+Every change to a skill file triggers the DoD skill review condition (see `taproot/settings.yaml`).
 
 ---
 

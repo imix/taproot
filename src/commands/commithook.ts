@@ -29,6 +29,7 @@ function isGlobalTruth(f: string): boolean {
 }
 
 function isHierarchyFile(f: string): boolean {
+  if (f.startsWith('taproot/agent/') || f.startsWith('taproot\\agent\\')) return false;
   return f.startsWith('taproot/') || f.startsWith('taproot\\');
 }
 

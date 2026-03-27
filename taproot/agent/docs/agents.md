@@ -52,12 +52,12 @@ After `taproot init --agent claude --with-skills`, skills are available as `/tr-
 
 ### How skills work
 
-Skills are portable markdown files installed to `.taproot/skills/`. They are not IDE plugins or extensions — any agent that can read files can follow a skill. The Claude Code adapter generates `.claude/commands/tr-*.md` files that reference the skills; invoking `/tr-intent` tells Claude to load and follow `skills/intent.md`.
+Skills are portable markdown files installed to `taproot/agent/skills/`. They are not IDE plugins or extensions — any agent that can read files can follow a skill. The Claude Code adapter generates `.claude/commands/tr-*.md` files that reference the skills; invoking `/tr-intent` tells Claude to load and follow `taproot/agent/skills/intent.md`.
 
 This means:
 - Skills work even if the Claude Code extension is updated or changed
 - You can read any skill file to understand exactly what the agent will do
-- You can customise a skill by editing its file in `.taproot/skills/`
+- You can customise a skill by editing its file in `taproot/agent/skills/`
 - Skills stay in sync with Taproot via `taproot update`
 
 ### Updating skills

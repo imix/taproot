@@ -18,6 +18,8 @@ function isGlobalTruth(f) {
     return f.startsWith('taproot/global-truths/') || f.startsWith('taproot\\global-truths\\');
 }
 function isHierarchyFile(f) {
+    if (f.startsWith('taproot/agent/') || f.startsWith('taproot\\agent\\'))
+        return false;
     return f.startsWith('taproot/') || f.startsWith('taproot\\');
 }
 function getStagedFiles(cwd) {

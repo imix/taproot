@@ -24,11 +24,13 @@ export function runTruthSign(options) {
     // Hierarchy docs: intent.md, usecase.md (not global-truths)
     const hierarchyDocs = staged.filter(f => f.startsWith('taproot/') &&
         !f.startsWith('taproot/global-truths/') &&
+        !f.startsWith('taproot/agent/') &&
         (f.endsWith('/intent.md') || f.endsWith('/usecase.md') ||
             f === 'taproot/intent.md' || f === 'taproot/usecase.md'));
-    // Impl.md files (not global-truths)
+    // Impl.md files (not global-truths, not taproot/agent/)
     const implMdFiles = staged.filter(f => f.startsWith('taproot/') &&
         !f.startsWith('taproot/global-truths/') &&
+        !f.startsWith('taproot/agent/') &&
         (f.endsWith('/impl.md') || f === 'taproot/impl.md'));
     // Source files: non-taproot, non-.taproot
     const sourceFiles = staged.filter(f => !f.startsWith('taproot/') && !f.startsWith('.taproot/'));

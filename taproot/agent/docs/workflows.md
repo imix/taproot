@@ -144,7 +144,7 @@ After building up several specs, some domain terms and business rules will recur
 /tr-discover-truths
 ```
 
-The skill scans all `intent.md` and `usecase.md` files, identifies recurring terms, business rules, and conventions not yet defined in `taproot/global-truths/`, and presents them as candidates. For each candidate you choose: **promote** (routes to `/tr-ineed` → define-truth), **backlog** (saves to `.taproot/backlog.md` for later), **skip** (reappears next run), or **dismiss** (permanently suppressed).
+The skill scans all `intent.md` and `usecase.md` files, identifies recurring terms, business rules, and conventions not yet defined in `taproot/global-truths/`, and presents them as candidates. For each candidate you choose: **promote** (routes to `/tr-ineed` → define-truth), **backlog** (saves to `taproot/agent/backlog.md` for later), **skip** (reappears next run), or **dismiss** (permanently suppressed).
 
 Truth discovery also runs as a final pass inside `/tr-review-all`, appending a `## Truth Candidates` section to the review report.
 
