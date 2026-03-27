@@ -171,7 +171,7 @@ flowchart TD
 - Then the vocabulary block is preserved and the preset prompt is skipped
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-27
 - **Last reviewed:** 2026-03-27
 

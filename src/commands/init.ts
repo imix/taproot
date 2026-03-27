@@ -25,6 +25,32 @@ const BUNDLED_EXAMPLES_DIR = resolve(__dirname, '..', '..', 'examples');
 export const AVAILABLE_TEMPLATES = ['webapp', 'book-authoring', 'cli-tool'] as const;
 export type TemplateName = typeof AVAILABLE_TEMPLATES[number];
 
+export const DOMAIN_PRESETS: Record<string, { label: string; vocabulary: Record<string, string> }> = {
+  coding: { label: 'Coding / software', vocabulary: {} },
+  blogging: {
+    label: 'Blogging',
+    vocabulary: { 'source files': 'posts', tests: 'editorial reviews', implementation: 'writing', build: 'publish' },
+  },
+  'book-authoring': {
+    label: 'Book authoring',
+    vocabulary: { 'source files': 'chapters', tests: 'manuscript reviews', implementation: 'writing', build: 'compile draft' },
+  },
+  'technical-writing': {
+    label: 'Technical writing',
+    vocabulary: { 'source files': 'documents', tests: 'reviews', implementation: 'writing', build: 'publish' },
+  },
+};
+export const AVAILABLE_PRESETS = Object.keys(DOMAIN_PRESETS);
+
+const AVAILABLE_LANGUAGES: Array<{ name: string; value: string }> = [
+  { name: 'No — English only', value: '' },
+  { name: 'German', value: 'de' },
+  { name: 'French', value: 'fr' },
+  { name: 'Spanish', value: 'es' },
+  { name: 'Japanese', value: 'ja' },
+  { name: 'Portuguese', value: 'pt' },
+];
+
 export const SKILL_FILES = [
   'analyse-change.md',
   'review.md',
@@ -95,9 +121,10 @@ export function registerInit(program: Command): void {
     .option('--with-skills', 'Install canonical skill definitions into taproot/skills/')
     .option('--agent <name>', `Generate agent adapter (${[...ALL_AGENTS, 'all'].join('|')})`)
     .option('--template <type>', `Start from a template (${AVAILABLE_TEMPLATES.join('|')})`)
+    .option('--preset <name>', `Apply a domain preset (${AVAILABLE_PRESETS.join('|')})`)
     .option('--force', 'Overwrite existing files when applying a template')
     .option('--path <path>', 'Directory to initialize in', process.cwd())
-    .action(async (options: { withHooks?: boolean; withCi?: string; withSkills?: boolean; agent?: string; template?: string; force?: boolean; path: string }) => {
+    .action(async (options: { withHooks?: boolean; withCi?: string; withSkills?: boolean; agent?: string; template?: string; preset?: string; force?: boolean; path: string }) => {
       // Fail early: check git repository before any user interaction (AC-13)
       if (!existsSync(join(options.path, '.git'))) {
         throw new Error('No git repository found. Run `git init` first, then re-run `taproot init`.');
@@ -158,6 +185,70 @@ export function registerInit(program: Command): void {
         }
       }
 
+      // Domain preset prompt — skip if --preset flag given or vocabulary already exists
+      let resolvedVocabulary: Record<string, string> | undefined;
+      let resolvedLanguage: string | undefined;
+
+      if (options.preset !== undefined) {
+        // Non-interactive: validate and apply
+        if (!AVAILABLE_PRESETS.includes(options.preset)) {
+          throw new Error(`Unknown preset: '${options.preset}'. Available: ${AVAILABLE_PRESETS.join(', ')}`);
+        }
+        const presetDef = DOMAIN_PRESETS[options.preset];
+        resolvedVocabulary = presetDef != null ? presetDef.vocabulary : {};
+      } else {
+        // Check if vocabulary already exists in settings.yaml (idempotent re-run)
+        const configPath = join(options.path, '.taproot', 'settings.yaml');
+        const alreadyHasVocab = existsSync(configPath) && (() => {
+          try {
+            const existing = yaml.load(readFileSync(configPath, 'utf-8')) as Record<string, unknown>;
+            return existing && typeof existing === 'object' && 'vocabulary' in existing;
+          } catch { return false; }
+        })();
+
+        if (alreadyHasVocab) {
+          process.stdout.write('exists   vocabulary settings (kept — not overwritten)\n');
+        } else {
+          // Interactive preset selection
+          const presetChoice = await select({
+            message: 'What kind of project is this? (Determines how taproot labels things like \'tests\' and \'source files\')',
+            choices: [
+              { name: 'Coding / software (default — no changes)', value: 'coding' },
+              { name: 'Blogging — source files → posts, tests → editorial reviews', value: 'blogging' },
+              { name: 'Book authoring — source files → chapters, tests → manuscript reviews', value: 'book-authoring' },
+              { name: 'Technical writing — source files → documents, tests → reviews', value: 'technical-writing' },
+              { name: 'Skip — I\'ll configure manually later', value: 'skip' },
+            ],
+          });
+
+          if (presetChoice !== 'coding' && presetChoice !== 'skip') {
+            const preset = DOMAIN_PRESETS[presetChoice]!;
+            const pairs = Object.entries(preset.vocabulary).map(([k, v]) => `${k}: ${v}`).join(' · ');
+            process.stdout.write(`\nThis will add to .taproot/settings.yaml:\n  ${pairs}\n\n`);
+            const confirmed = await confirm({ message: 'Apply this vocabulary preset?', default: true });
+            if (confirmed) {
+              resolvedVocabulary = preset.vocabulary;
+            } else {
+              // Return to selection — simplest UX: just note it was skipped
+              process.stdout.write('Vocabulary preset not applied. You can configure it manually in .taproot/settings.yaml\n');
+            }
+          } else if (presetChoice === 'skip') {
+            process.stdout.write('Vocabulary and language can be configured in .taproot/settings.yaml — see .taproot/docs/configuration.md\n');
+          }
+        }
+
+        // Language prompt (always shown unless vocabulary already existed)
+        if (!alreadyHasVocab) {
+          const langChoice = await select({
+            message: 'Non-English project?',
+            choices: AVAILABLE_LANGUAGES,
+          });
+          if (langChoice) {
+            resolvedLanguage = langChoice;
+          }
+        }
+      }
+
       let withHooks = options.withHooks;
       if (!withHooks) {
         withHooks = await confirm({
@@ -172,6 +263,8 @@ export function registerInit(program: Command): void {
         withCi: options.withCi,
         withSkills: options.withSkills,
         agent,
+        vocabulary: resolvedVocabulary,
+        language: resolvedLanguage,
       });
       for (const msg of created) {
         process.stdout.write(msg + '\n');
@@ -185,12 +278,26 @@ export function runInit(options: {
   withCi?: string;
   withSkills?: boolean;
   agent?: AgentName | AgentName[] | 'all';
+  vocabulary?: Record<string, string>;
+  language?: string;
+  preset?: string;
 }): string[] {
   const cwd = options.cwd ?? process.cwd();
   const messages: string[] = [];
 
   if (!existsSync(join(cwd, '.git'))) {
     throw new Error('No git repository found. Run `git init` first, then re-run `taproot init`.');
+  }
+
+  // Resolve preset → vocabulary (programmatic/non-interactive path)
+  let resolvedVocabulary = options.vocabulary;
+  const resolvedLanguage = options.language;
+  if (options.preset !== undefined) {
+    if (!AVAILABLE_PRESETS.includes(options.preset)) {
+      throw new Error(`Unknown preset: '${options.preset}'. Available: ${AVAILABLE_PRESETS.join(', ')}`);
+    }
+    const presetDef = DOMAIN_PRESETS[options.preset];
+    resolvedVocabulary = presetDef != null ? presetDef.vocabulary : {};
   }
 
   const configPath = join(cwd, '.taproot', 'settings.yaml');
@@ -210,7 +317,7 @@ export function runInit(options: {
 
   // Write .taproot/settings.yaml
   if (!existsSync(configPath)) {
-    const configForYaml = {
+    const configForYaml: Record<string, unknown> = {
       version: DEFAULT_CONFIG.version,
       root: DEFAULT_CONFIG.root,
       commit_pattern: DEFAULT_CONFIG.commitPattern,
@@ -224,11 +331,41 @@ export function runInit(options: {
         allowed_impl_states: DEFAULT_CONFIG.validation.allowedImplStates,
       },
     };
+    if (resolvedVocabulary && Object.keys(resolvedVocabulary).length > 0) {
+      configForYaml.vocabulary = resolvedVocabulary;
+    }
+    if (resolvedLanguage) {
+      configForYaml.language = resolvedLanguage;
+    }
     writeFileSync(configPath, yaml.dump(configForYaml));
     messages.push('created  .taproot/settings.yaml');
   } else {
-    messages.push('exists   .taproot/settings.yaml');
+    // Append vocabulary/language to existing settings.yaml if not already present
+    let existingConfig: Record<string, unknown> = {};
+    try {
+      existingConfig = (yaml.load(readFileSync(configPath, 'utf-8')) as Record<string, unknown>) ?? {};
+    } catch { /* use empty object */ }
+
+    let updated = false;
+    if (resolvedVocabulary && Object.keys(resolvedVocabulary).length > 0 && !('vocabulary' in existingConfig)) {
+      existingConfig.vocabulary = resolvedVocabulary;
+      updated = true;
+    }
+    if (resolvedLanguage && !('language' in existingConfig)) {
+      existingConfig.language = resolvedLanguage;
+      updated = true;
+    }
+    if (updated) {
+      writeFileSync(configPath, yaml.dump(existingConfig));
+      messages.push('updated  .taproot/settings.yaml (vocabulary/language added)');
+    } else {
+      messages.push('exists   .taproot/settings.yaml');
+    }
   }
+
+  // Remind to run taproot update if vocabulary or language was applied
+  const appliedPreset = resolvedVocabulary && Object.keys(resolvedVocabulary).length > 0;
+  const appliedLanguage = !!resolvedLanguage;
 
   // Write CONVENTIONS.md
   const conventionsPath = join(taprootDir, 'CONVENTIONS.md');
@@ -332,6 +469,9 @@ export function runInit(options: {
 
   messages.push('');
   messages.push('Taproot initialized. Run `taproot validate-structure` to verify.');
+  if (appliedPreset || appliedLanguage) {
+    messages.push('         Run `taproot update` to apply vocabulary/language substitutions to skill files.');
+  }
   return messages;
 }
 

@@ -146,4 +146,82 @@ describe('taproot init', () => {
     expect(AGENT_TIERS['windsurf']).toBe(3);
     expect(AGENT_TIERS['generic']).toBe(3);
   });
+
+  // --- Domain preset ACs ---
+
+  // AC-2: Coding / default writes no vocabulary
+  it('AC-2 (preset): coding preset writes no vocabulary key', () => {
+    runInit({ cwd: tmpDir, preset: 'coding' });
+    const config = readFileSync(join(tmpDir, '.taproot', 'settings.yaml'), 'utf-8');
+    expect(config).not.toContain('vocabulary');
+  });
+
+  // AC-3: Blogging preset writes correct vocabulary
+  it('AC-3 (preset): blogging preset writes source files: posts and tests: editorial reviews', () => {
+    runInit({ cwd: tmpDir, preset: 'blogging' });
+    const config = readFileSync(join(tmpDir, '.taproot', 'settings.yaml'), 'utf-8');
+    expect(config).toContain('posts');
+    expect(config).toContain('editorial reviews');
+  });
+
+  // AC-4: Book-authoring preset writes correct vocabulary
+  it('AC-4 (preset): book-authoring preset writes source files: chapters and tests: manuscript reviews', () => {
+    runInit({ cwd: tmpDir, preset: 'book-authoring' });
+    const config = readFileSync(join(tmpDir, '.taproot', 'settings.yaml'), 'utf-8');
+    expect(config).toContain('chapters');
+    expect(config).toContain('manuscript reviews');
+  });
+
+  // AC-5: Technical-writing preset writes correct vocabulary
+  it('AC-5 (preset): technical-writing preset writes source files: documents and tests: reviews', () => {
+    runInit({ cwd: tmpDir, preset: 'technical-writing' });
+    const config = readFileSync(join(tmpDir, '.taproot', 'settings.yaml'), 'utf-8');
+    expect(config).toContain('documents');
+  });
+
+  // AC-7: Language selection writes language field
+  it('AC-7 (preset): language option writes language field to settings.yaml', () => {
+    runInit({ cwd: tmpDir, language: 'de' });
+    const config = readFileSync(join(tmpDir, '.taproot', 'settings.yaml'), 'utf-8');
+    expect(config).toContain('language: de');
+  });
+
+  // AC-8: taproot update reminder shown after non-default preset
+  it('AC-8 (preset): non-default preset includes taproot update reminder in output', () => {
+    const messages = runInit({ cwd: tmpDir, preset: 'blogging' });
+    expect(messages.some(m => m.includes('taproot update'))).toBe(true);
+  });
+
+  // AC-10: --preset flag applies preset non-interactively (programmatic: preset option)
+  it('AC-10 (preset): preset option applies preset without prompts', () => {
+    runInit({ cwd: tmpDir, preset: 'blogging' });
+    const config = readFileSync(join(tmpDir, '.taproot', 'settings.yaml'), 'utf-8');
+    expect(config).toContain('posts');
+  });
+
+  // AC-11: Unknown --preset value throws with error listing valid names
+  it('AC-11 (preset): unknown preset throws with list of valid presets', () => {
+    expect(() => runInit({ cwd: tmpDir, preset: 'unknown-type' })).toThrow(/Unknown preset/);
+    expect(() => runInit({ cwd: tmpDir, preset: 'unknown-type' })).toThrow(/blogging/);
+  });
+
+  // AC-12: Existing vocabulary block not overwritten on re-run
+  it('AC-12 (preset): existing vocabulary block preserved on re-run', () => {
+    runInit({ cwd: tmpDir, preset: 'blogging' });
+    runInit({ cwd: tmpDir, preset: 'technical-writing' });
+    // blogging vocabulary should still be there (not overwritten)
+    const config = readFileSync(join(tmpDir, '.taproot', 'settings.yaml'), 'utf-8');
+    expect(config).toContain('posts');
+    expect(config).not.toContain('documents');
+  });
+
+  // AVAILABLE_PRESETS exports correctly
+  it('DOMAIN_PRESETS exports all four presets', async () => {
+    const { DOMAIN_PRESETS, AVAILABLE_PRESETS } = await import('../../src/commands/init.js');
+    expect(AVAILABLE_PRESETS).toContain('coding');
+    expect(AVAILABLE_PRESETS).toContain('blogging');
+    expect(AVAILABLE_PRESETS).toContain('book-authoring');
+    expect(AVAILABLE_PRESETS).toContain('technical-writing');
+    expect(Object.keys(DOMAIN_PRESETS.blogging.vocabulary)).toContain('source files');
+  });
 });
