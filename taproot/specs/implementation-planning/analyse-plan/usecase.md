@@ -132,7 +132,7 @@ flowchart TD
 - [Agent Skill — plan-analyse](./agent-skill/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-27
 - **Last reviewed:** 2026-03-27
 

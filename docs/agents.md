@@ -47,6 +47,7 @@ After `taproot init --agent claude --with-skills`, skills are available as `/tr-
 | `/tr-plan` | Surface the next independently-implementable work item from the hierarchy |
 | `/tr-plan-build` | Build a persistent implementation plan (`taproot/plan.md`) from backlog items, hierarchy gaps, or explicit items |
 | `/tr-plan-execute` | Execute items from `taproot/plan.md` — step-by-step, batch, specify (spec+refine only), or implement (implement only) mode |
+| `/tr-plan-analyse` | Analyse `taproot/plan.md` before execution — check readiness, flag ambiguous specs, unresolved dependencies, and missing prerequisites |
 | `/tr-discover` | Reverse-engineer an existing codebase into a taproot hierarchy through structured, interactive discovery |
 | `/tr-grill-me` | Interview you relentlessly about a plan or design — one decision branch at a time, recommended answer first |
 | `/tr-research` | Research a domain or technical subject before speccing — scans local resources, searches the web, optionally grills domain experts |
