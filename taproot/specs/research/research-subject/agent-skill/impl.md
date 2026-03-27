@@ -32,6 +32,16 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/agents.md and skills/guide.md updated with /tr-research entry; no other docs reference the full skill list | resolved: 2026-03-20T08:11:13.230Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: Compliant — step 6 adds [A]/[B]/[C] mode options only; no shell commands, credentials, or tokens introduced. | resolved: 2026-03-27T20:54:24.540Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — mode selection is a UX refinement to an existing skill; no new architectural constraint. | resolved: 2026-03-27T20:54:24.287Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: Compliant — [A]/[B]/[C] options use generic lettered choices; no agent-specific syntax or Claude/Cursor references. | resolved: 2026-03-27T20:54:24.038Z
+
+- condition: check-if-affected: examples/ | note: Not affected — starters do not reference research.md step 6 behaviour. | resolved: 2026-03-27T20:54:23.783Z
+
+- condition: check-if-affected: docs/ | note: Not affected — no new CLI commands; the mode selection is internal skill behaviour. docs/workflows.md research section remains accurate. | resolved: 2026-03-27T20:54:23.524Z
+
 - condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — this impl.md tracks init.ts solely for the SKILL_FILES entry; force-parameter change does not affect research skill installation or commit patterns | resolved: 2026-03-20T20:54:47.729Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — /tr-research is an existing documented skill; no new pattern revealed | resolved: 2026-03-20T16:07:23.049Z

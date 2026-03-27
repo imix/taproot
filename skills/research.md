@@ -55,9 +55,10 @@ Research any domain or technical subject before writing a behaviour spec — by 
    - <insight 2>
    ```
 
-6. **Expert check** — ask: `"Are you an expert on this subject?"`
-   - **Yes** → delegate to `/tr-grill-me` seeded with the preliminary synthesis as grilling material. The grill session should ask questions that reference specific findings — library names, paper conclusions, known trade-offs — not generic questions. Terminate when the developer says `[Done]` or after ≤3 rounds where no new information is surfacing. Incorporate the expert answers into the synthesis.
-   - **No** → proceed with the gathered synthesis.
+6. **Mode selection** — ask: `"How should I use what I've found?"`
+   - **[A] Extract my knowledge** → delegate to `/tr-grill-me` seeded with the preliminary synthesis as grilling material. Questions should reference specific findings — library names, paper conclusions, known trade-offs — not generic topic questions. Terminate when the developer says `[Done]` or after ≤3 rounds where no new information is surfacing. Incorporate the developer's answers into the synthesis.
+   - **[B] Help me think through the design** → present the key trade-offs, open questions, and competing options surfaced by the research; engage the developer in a structured design discussion; capture agreed choices and rationale in a `## Design Decisions` section appended to the synthesis.
+   - **[C] The synthesis is enough** → proceed with the gathered synthesis as-is.
 
 7. **Present the final structured research summary:**
    ```
@@ -118,5 +119,6 @@ None — pure agent skill. Uses agent tools: file reading (local scan), web sear
 - **Graceful degradation:** if both local resources and web search produce nothing, and no expert is available, announce: `"No research sources available."` Ask whether to proceed with the spec based on the stated requirement alone, or abort. Never silently produce an empty synthesis.
 - **Slug derivation:** kebab-case the topic words, drop stop words, keep max 4 words. `"satellite tracking algorithm"` → `satellite-tracking-algorithm`. Confirm with the developer before writing.
 - **Refresh merges, not overwrites:** when `[R]efresh` is chosen, append new citations to the References section, update Key conclusions, and add a `Last refreshed:` date — do not discard prior expert insights.
-- **Expert grilling is domain-aware:** the grill session is seeded with what was actually found, not generic questions. If the synthesis found `satellite.js`, ask about its limitations, alternatives, and when it breaks — not `"what do you know about satellite tracking?"`
+- **Knowledge extraction ([A]) is domain-aware:** the grill session is seeded with what was actually found, not generic questions. If the synthesis found `satellite.js`, ask about its limitations, alternatives, and when it breaks — not `"what do you know about satellite tracking?"`. Either an expert or a well-informed practitioner can choose [A] — it is about contributing knowledge, not claiming expertise.
+- **Design assistance ([B]) uses the research as grounding:** trade-offs, competing options, and open questions come from the actual findings — not hypothetical concerns. The `## Design Decisions` section captures what was agreed and why.
 - `/tr-research` is the Claude Code adapter command name for this skill.
