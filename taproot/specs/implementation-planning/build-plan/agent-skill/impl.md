@@ -7,7 +7,7 @@
 - **Agent skill, not CLI command**: build-plan requires agent reasoning (classify backlog items, infer dependencies, present and await confirmation) — these are not deterministic CLI operations. The implementation is a skill file.
 - **plan.md format**: numbered list with inline `pending|done|skipped|blocked|stale` status, item type in brackets (`[spec]|[implement]|[refine]`), then path or description. Human-readable and regex-parseable by execute-plan and analyse-plan skills.
 - **Skill slug `plan-build`**: groups build/execute/analyse under the `plan-` namespace, distinct from the existing `plan.md` skill (extract-next-slice). Adapter: `/tr-plan-build`.
-- **Backlog items not removed**: after being added to the plan, items stay in `taproot/backlog.md` — the backlog is a record, the plan is an execution list. Avoids destructive mid-session edits.
+- **Backlog items removed after plan write**: after `taproot/plan.md` is written, consumed backlog items are deleted from `taproot/backlog.md` and the count is reported. Removal is scoped to backlog-sourced items only — explicit and hierarchy items have no backlog entry. The removal is reported inline so the developer is never surprised (aligns with UX "No Surprises" truth).
 - **Existing plan check at write time**: the agent checks for `taproot/plan.md` only after the developer confirms the proposed plan (step 7), not before collection and classification. Avoids interrupting the discovery phase.
 
 ## Source Files
@@ -31,6 +31,36 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/workflows.md updated with new '## Planning a sprint or batch of work' section documenting /tr-plan-build usage. skills/guide.md updated to include /tr-plan-build in the slash commands table. docs/cli.md already covers taproot plan CLI; no CLI command added. | resolved: 2026-03-27T19:08:32.698Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: compliant — new step 9 instructs the agent to edit taproot/backlog.md (file write only); no shell execution, no credentials, no tokens; least-privilege maintained | resolved: 2026-03-27T21:19:43.179Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — backlog cleanup on plan write is specific to plan-build; not a reusable cross-skill pattern | resolved: 2026-03-27T21:19:42.917Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — this is a behaviour fix to an existing skill; no new cross-cutting concern introduced | resolved: 2026-03-27T21:19:42.658Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — pure agent skill file; no TypeScript source; follows existing skill architecture pattern | resolved: 2026-03-27T21:19:42.398Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — plan-build is an orchestration skill; it does not process user-expressed requirements | resolved: 2026-03-27T21:19:42.139Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — plan-build does not commit anything; commit step remains developer's responsibility | resolved: 2026-03-27T21:19:41.884Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: compliant — step count increased by 1 (to 10); still within /compact signal threshold; no embedded reference docs added; on-demand file reads unchanged | resolved: 2026-03-27T21:19:41.623Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: compliant — backlog removal happens after plan.md is written and developer has already confirmed; no additional destructive action requires a second confirmation | resolved: 2026-03-27T21:19:41.357Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: compliant — What's next? block unchanged; /tr-plan-analyse and /tr-plan-execute still offered as next steps | resolved: 2026-03-27T21:19:41.099Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: compliant — updated skill uses generic language: 'the agent', 'taproot/backlog.md'; no Claude-specific names or @{project-root} syntax | resolved: 2026-03-27T21:19:40.844Z
+
+- condition: check-if-affected: examples/ | note: not affected — examples scaffold hierarchy structure; plan-build skill behaviour change does not affect example content | resolved: 2026-03-27T21:19:11.668Z
+
+- condition: check-if-affected: docs/ | note: not affected — docs/agents.md describes the skill at command level; the backlog removal is an internal step detail not surfaced in docs | resolved: 2026-03-27T21:19:11.414Z
+
+- condition: check-if-affected: skills/guide.md | note: not affected — /tr-plan-build entry already present in guide.md; no new command or changed signature | resolved: 2026-03-27T21:19:11.159Z
+
+- condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts copies skill files verbatim; the skill content change is picked up automatically on taproot update | resolved: 2026-03-27T21:19:10.904Z
+
+- condition: document-current | note: docs/agents.md already lists /tr-plan-build with correct description; no CLI or config change — skill behaviour update only; no docs update needed | resolved: 2026-03-27T21:19:10.656Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: compliant — plan-build.md instructs the agent to run 'node dist/cli.js coverage' (read-only CLI command) and write taproot/plan.md; no shell execution beyond the controlled CLI call, no credentials or tokens, no excessive filesystem access beyond the plan file | resolved: 2026-03-27T19:10:06.555Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — the plan.md format and workflow are specific to implementation planning; the skill itself follows the existing agent-skill pattern already documented in patterns.md | resolved: 2026-03-27T19:09:58.444Z
