@@ -118,6 +118,7 @@ flowchart TD
 - Then a specific Node.js version (not `latest`) is specified in the setup-node step
 
 ## Implementations <!-- taproot-managed -->
+- [GitHub Actions Workflow](./github-workflow/impl.md)
 
 ## Status
 - **State:** specified
