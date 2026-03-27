@@ -500,8 +500,13 @@ export function installDocs(targetDocsDir, force = false) {
 function buildGlobalTruthsReadme() {
     return `# Global Truths
 
+> **Taproot-managed directory.** Do not add \`intent.md\`, \`usecase.md\`, or \`impl.md\` files here.
+> This directory is provided by taproot as a truth store — it is not a hierarchy node.
+> To enforce truths at commit time, use \`check-if-affected-by\` entries in \`.taproot/settings.yaml\`.
+
 Shared facts that apply across the \`taproot/\` hierarchy — domain concepts, business rules,
-entity definitions, and project conventions.
+entity definitions, and project conventions. Add truth files here directly; no intent or behaviour
+spec is needed.
 
 ## How to add a truth
 
@@ -518,10 +523,22 @@ Files without a scope suffix default to intent scope (broadest).
 ## Examples
 
 - \`glossary_intent.md\` — term definitions used across all specs
+- \`ux-principles_intent.md\` — design principles that every feature must respect
 - \`business-rules_behaviour.md\` — rules that acceptance criteria must respect
-- \`tech-choices_impl.md\` — conventions that apply only to implementation code
+- \`architecture_impl.md\` — conventions that apply only to implementation code
 
 Truth content is free-form markdown — prose, tables, bullet lists, and headings are all valid.
+
+## Enforcing truths at commit time
+
+To require every implementation to be checked against a truth, add to \`.taproot/settings.yaml\`:
+
+\`\`\`yaml
+definitionOfDone:
+  - check-if-affected-by: global-truths/<your-truth-file>
+\`\`\`
+
+Run \`/tr-define-truth\` to capture a new truth interactively.
 `;
 }
 function buildConventionsDoc() {

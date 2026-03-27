@@ -1,4 +1,5 @@
 import { join } from 'path';
+import { existsSync } from 'fs';
 import { flattenTree } from '../core/fs-walker.js';
 const KEBAB_CASE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 export function checkDuplicateMarkers(node) {
@@ -76,9 +77,23 @@ export function checkEmptyFolder(node) {
             message: `${node.marker} folder "${node.name}" has no child folders`,
         }];
 }
+export function checkGlobalTruthsIntent(root) {
+    const globalTruthsIntentPath = join(root.absolutePath, 'global-truths', 'intent.md');
+    if (!existsSync(globalTruthsIntentPath))
+        return [];
+    return [{
+            type: 'warning',
+            filePath: globalTruthsIntentPath,
+            code: 'GLOBAL_TRUTHS_INTENT_CONFLICT',
+            message: '`global-truths/` is a taproot-managed truth store — `intent.md` does not belong here. ' +
+                'Remove `global-truths/intent.md` (and any behaviours beneath it) and use truth files + ' +
+                '`check-if-affected-by` entries in `.taproot/settings.yaml` to enforce them instead.',
+        }];
+}
 export function validateStructure(root, options) {
     const violations = [];
     const nodes = flattenTree(root);
+    violations.push(...checkGlobalTruthsIntent(root));
     for (const node of nodes) {
         violations.push(...checkDuplicateMarkers(node));
         if (node !== root)

@@ -1,4 +1,5 @@
 import { join } from 'path';
+import { existsSync } from 'fs';
 import type { FolderNode, Violation } from './types.js';
 import { flattenTree } from '../core/fs-walker.js';
 
@@ -73,12 +74,27 @@ export function checkEmptyFolder(node: FolderNode): Violation[] {
   }];
 }
 
+export function checkGlobalTruthsIntent(root: FolderNode): Violation[] {
+  const globalTruthsIntentPath = join(root.absolutePath, 'global-truths', 'intent.md');
+  if (!existsSync(globalTruthsIntentPath)) return [];
+  return [{
+    type: 'warning',
+    filePath: globalTruthsIntentPath,
+    code: 'GLOBAL_TRUTHS_INTENT_CONFLICT',
+    message: '`global-truths/` is a taproot-managed truth store — `intent.md` does not belong here. ' +
+      'Remove `global-truths/intent.md` (and any behaviours beneath it) and use truth files + ' +
+      '`check-if-affected-by` entries in `.taproot/settings.yaml` to enforce them instead.',
+  }];
+}
+
 export function validateStructure(
   root: FolderNode,
   options: { strict: boolean }
 ): Violation[] {
   const violations: Violation[] = [];
   const nodes = flattenTree(root);
+
+  violations.push(...checkGlobalTruthsIntent(root));
 
   for (const node of nodes) {
     violations.push(...checkDuplicateMarkers(node));
