@@ -135,19 +135,17 @@ export function registerInit(program: Command): void {
       if (!template) {
         const taprootDir = resolve(options.path, DEFAULT_CONFIG.root);
         if (!existsSync(taprootDir)) {
-          const wantsTemplate = await confirm({
+          const chosen = await select<string>({
             message: 'Start from a template?',
-            default: false,
+            choices: [
+              { name: 'No template — start with an empty hierarchy', value: '' },
+              { name: 'webapp        — SaaS web application (user auth, profiles)', value: 'webapp' },
+              { name: 'book-authoring — Book or content project (manuscript, research, publishing)', value: 'book-authoring' },
+              { name: 'cli-tool      — Command-line tool or developer utility', value: 'cli-tool' },
+            ],
           });
-          if (wantsTemplate) {
-            template = await select({
-              message: 'Choose a template:',
-              choices: [
-                { name: 'webapp        — User auth, profiles, common web app patterns', value: 'webapp' },
-                { name: 'book-authoring — Manuscript, chapters, editorial review', value: 'book-authoring' },
-                { name: 'cli-tool      — Command dispatch, help output, configuration', value: 'cli-tool' },
-              ],
-            });
+          if (chosen) {
+            template = chosen;
           }
         }
       }

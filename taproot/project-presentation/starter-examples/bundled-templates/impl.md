@@ -36,6 +36,8 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md updated to document --template and --force flags and the interactive template prompt; skills/guide.md updated to mention --template in init row and new-project context note; README.md does not reference init flags in detail — it uses a minimal quick-start example, which is appropriate | resolved: 2026-03-25T11:18:24.806Z
+- condition: check-if-affected: examples/ | note: Change is to the interactive prompt UI only (confirm→select). Template content in examples/ is unchanged — no template files need updating. | resolved: 2026-03-27T10:50:33.353Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: skills/guide.md was updated (table row + context note only); the changes are read-only documentation text, no shell execution, no credentials, no agent instructions | resolved: 2026-03-25T11:19:17.001Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — bundling static data alongside CLI commands is a standard Node.js pattern already in use (BUNDLED_SKILLS_DIR, BUNDLED_DOCS_DIR); not novel enough for patterns.md | resolved: 2026-03-25T11:19:15.778Z

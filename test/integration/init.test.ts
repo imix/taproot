@@ -88,6 +88,22 @@ describe('taproot init', () => {
     expect(existsSync(join(tmpDir, '.taproot'))).toBe(false);
   });
 
+  // AC-7: single select shows all templates + No template before any choice is made
+  it('AC-7: template prompt uses single select with No template as first option (source inspection)', () => {
+    const src = readFileSync(resolve(__dirname, '../../src/commands/init.ts'), 'utf-8');
+    // Single select must include 'No template' option with empty value
+    expect(src).toMatch(/No template.*empty hierarchy/);
+    // All three templates must appear in the same select block
+    expect(src).toMatch(/webapp.*SaaS web application/);
+    expect(src).toMatch(/book-authoring.*Book or content project/);
+    expect(src).toMatch(/cli-tool.*Command-line tool/);
+    // Must NOT use a confirm() gating question before the template select
+    const actionStart = src.indexOf('.action(async (options');
+    const confirmPos = src.indexOf("message: 'Start from a template?'", actionStart);
+    // The old confirm() with boolean is gone — only the select remains
+    expect(src).not.toContain("default: false,\n          });");
+  });
+
   it('AC-13: git check in action handler precedes all prompts (source inspection)', () => {
     const src = readFileSync(resolve(__dirname, '../../src/commands/init.ts'), 'utf-8');
     const actionStart = src.indexOf('.action(async (options');
