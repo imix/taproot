@@ -4,6 +4,37 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.7.0] - 2026-03-27
+
+### Taproot
+- taproot(hierarchy-integrity/pre-commit-enforcement/cli-command): exclude taproot/agent/ from isHierarchyFile — add regression tests (ee12b1f)
+- taproot(requirements-hierarchy/initialise-hierarchy/unified-layout): implement unified taproot/ directory layout (c8d6cfd)
+- taproot(requirements-hierarchy/initialise-hierarchy/unified-layout): declare implementation (34cf803)
+
+### Features
+- feat: agents use ./taproot/agent/bin/taproot — close cli wrapper gap (0f4dc31)
+- feat: migrate specs hierarchy to taproot/specs/ via taproot update (0e46fe4)
+- feat: add taproot/agent/bin/taproot wrapper for local-link and version-pinned hook resolution (8422be3)
+
+### Bug Fixes
+- fix: resolve DoD for needs-rework impls and verify release readiness (e422d2f)
+- fix: update stale .taproot/ source paths and bump Last verified dates in specs (a387ddc)
+- fix: remove stale .taproot/settings.yaml after migration in taproot update (0f7f0da)
+- fix: migrate settings.yaml unconditionally in taproot update, detect taproot project by settings presence (7d5b9c0)
+- fix: make adapter config refs and error messages layout-aware (8de747f)
+- fix: backlog migration, examples paths, intent constraint, workflows.md (4ecf4cf)
+- fix: post-review corrections for unified-layout — stale impl paths, broken link, open question (aa5d5f1)
+
+### Maintenance
+- chore: update truth-check session and backlog (d7392bf)
+- chore: move OVERVIEW.md to taproot/specs/ and refresh (6282ef6)
+- chore: migrate to unified taproot/ layout via taproot update (c6a6abb)
+- chore: link commits and update overview for isHierarchyFile fix (2c72f36)
+- chore: link commits and update overview for unified-layout impl (f898adf)
+
+### Other
+- refine: unify taproot/ directory layout — specs/, agent/, settings.yaml top-level (48ead5b)
+
 ## [0.6.0] - 2026-03-27
 
 ### Taproot
