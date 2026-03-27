@@ -35,6 +35,9 @@ Developer initializing taproot for a specific AI coding agent via `taproot init 
 - Skill definitions are installed locally so agents can load full specifications without internet access
 - The adapter is a thin delivery layer — all workflow logic remains in the canonical `taproot/skills/` definitions
 
+## Notes
+- The `examples/` directory contains starter projects demonstrating taproot's canonical layout. When generate-agent-adapter introduces or changes canonical `taproot/` subdirectories (e.g. `taproot/specs/`, `taproot/global-truths/`, `taproot/agent/`), the `check-if-affected: examples/` DoD condition should verify: do the example starters reflect the current full `taproot/` layout? Starters that omit newly-canonical directories mislead developers bootstrapping from them.
+
 ## Implementations <!-- taproot-managed -->
 - [CLI Command — taproot init --agent](./cli-command/impl.md)
 
@@ -116,7 +119,13 @@ Developer initializing taproot for a specific AI coding agent via `taproot init 
 - When the installed adapter file is read
 - Then it contains a "Configuration Quick Reference" section listing at minimum: `language`, `vocabulary`, and `definitionOfDone` as configurable options, with a pointer to `.taproot/CONFIGURATION.md`
 
+**AC-16: New taproot/ directories reflected in examples/**
+- Given a change to generate-agent-adapter that introduces a new canonical `taproot/` subdirectory
+- When the `check-if-affected: examples/` DoD condition fires
+- Then the agent verifies the example starter projects include the new directory and updates them if absent — starters must reflect the full current `taproot/` layout
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
-- **Last reviewed:** 2026-03-24
+- **Last reviewed:** 2026-03-27
+- **Refined:** 2026-03-27 — Notes + AC-16: examples/ starter projects must reflect new canonical taproot/ directories; check-if-affected: examples/ guidance

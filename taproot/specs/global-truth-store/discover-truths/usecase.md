@@ -9,6 +9,7 @@ Developer with an existing `taproot/` hierarchy who wants to identify what proje
 
 ## Main Flow
 1. Developer invokes truth discovery — either directly via `/tr-review-all` (as a final pass) or standalone
+1a. System checks for `.taproot/sessions/discover-truths-status.md`. If found: *"A previous session exists (N processed, M remaining). [A] Resume  [R] Restart"*. On **[R]**: overwrite status file from scratch. On **[A]**: skip already-processed candidates and resume from the first unprocessed one.
 2. System scans all `intent.md` and `usecase.md` files in `taproot/`, excluding `taproot/global-truths/` itself; unreadable files are skipped with a warning
 3. System identifies candidate truths across three categories:
    - **Recurring terms** — domain-specific nouns used in 2+ specs without a canonical definition
@@ -16,14 +17,15 @@ Developer with an existing `taproot/` hierarchy who wants to identify what proje
    - **Implicit conventions** — patterns using "always", "never", "must not", or similar that recur across specs without being declared
    - Proposed scope: `intent` if the term appears in any `intent.md`; `behaviour` if it appears only in `usecase.md` files; `impl` if it appears only in implementation-adjacent contexts; defaults to `intent` when mixed
 4. System filters out terms and rules already defined in `taproot/global-truths/`
-5. System presents candidates grouped by category (in batches of 5 if more than 10 found, with option to stop after each batch), with:
+5. System presents candidates **one at a time**, each with:
    - Proposed scope and the heuristic that produced it
    - Evidence: which specs reference the candidate and how
-6. Developer reviews each candidate and chooses: **promote**, **skip**, **backlog**, or **dismiss**
+6. Developer reviews the candidate and chooses: **promote**, **skip**, **backlog**, or **dismiss**
    - **dismiss** — permanently resolved; recorded as "reviewed — not a truth: `<term>`" in `.taproot/backlog.md` and will not resurface on the next run
+   After each response, system writes progress to `.taproot/sessions/discover-truths-status.md` before moving to the next candidate.
 7. For each **promoted** candidate, system invokes `/tr-ineed` with the candidate as input — developer completes the `/tr-ineed` flow, which routes to `define-truth` to create the truth file; if `/tr-ineed` routes elsewhere, developer is offered the option to redirect to `define-truth` directly
-8. System returns to the candidate list after each `/tr-ineed` flow completes (or after an abandoned flow, treating it as skipped) and presents the next unprocessed candidate
-9. After all candidates are processed (or the developer ends the session), system reports: N promoted, N skipped, N backlogged, N dismissed, N remaining
+8. System returns to the next unprocessed candidate after each `/tr-ineed` flow completes (or after an abandoned flow, treating it as skipped)
+9. After all candidates are processed, system reports: N promoted, N skipped, N backlogged, N dismissed — and deletes `.taproot/sessions/discover-truths-status.md`
 
 ## Alternate Flows
 
@@ -65,9 +67,9 @@ Developer with an existing `taproot/` hierarchy who wants to identify what proje
 ### Developer ends session before all candidates are processed
 - **Trigger:** Developer selects "done" or closes the agent mid-session
 - **Steps:**
-  1. System summarises progress: N promoted, N skipped, N backlogged, N dismissed, N remaining
-  2. Unprocessed candidates have no persistent record — they reappear on the next discovery run
-  3. Developer can resume by re-invoking discovery
+  1. System saves progress to `.taproot/sessions/discover-truths-status.md` before exiting
+  2. System summarises progress: N promoted, N skipped, N backlogged, N dismissed, N remaining
+  3. Developer can resume by re-invoking discovery and selecting **[A] Resume** at the startup prompt
 
 ### Candidate already partially defined
 - **Trigger:** A truth file exists in `global-truths/` for the term, but: (a) it contains fewer than 2 substantive statements, or (b) at least one spec uses the term in a way that contradicts or extends the current definition
@@ -94,6 +96,7 @@ Developer with an existing `taproot/` hierarchy who wants to identify what proje
 - Dismissed candidates are recorded in `.taproot/backlog.md` as "reviewed — not a truth: `<term>`" and will not resurface on the next discovery run
 - Skipped candidates have no persistent record (will resurface on next run)
 - The system does not modify any `intent.md` or `usecase.md` files — discovery is read-only on the hierarchy
+- `.taproot/sessions/discover-truths-status.md` is absent after a clean completed session; present (with remaining candidates noted) if the session was interrupted mid-run
 
 ## Error Conditions
 - **Hierarchy too small (fewer than 3 specs):** Insufficient signal — system warns "Too few specs to surface patterns reliably (found N). Run discovery again after adding more specs." and exits without scanning.
@@ -181,10 +184,26 @@ flowchart TD
 - When discovery resumes
 - Then no truth file was created, the candidate is treated as skipped for this session, and it reappears on the next discovery run
 
+**AC-10: Progress written to status file after each candidate action**
+- Given a discovery session is in progress
+- When the developer responds to any candidate (promote, skip, backlog, or dismiss)
+- Then `.taproot/sessions/discover-truths-status.md` is updated before the next candidate is presented
+
+**AC-11: Resume offered when status file exists on startup**
+- Given `.taproot/sessions/discover-truths-status.md` exists from a previous interrupted session
+- When the developer invokes discovery
+- Then the system offers [A] Resume or [R] Restart before scanning
+
+**AC-12: Status file deleted on clean completion**
+- Given a discovery session processes all candidates
+- When the final summary is reported
+- Then `.taproot/sessions/discover-truths-status.md` no longer exists
+
 ## Implementations <!-- taproot-managed -->
 - [Skill](./skill/impl.md)
 
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-26
-- **Last reviewed:** 2026-03-26
+- **Last reviewed:** 2026-03-27
+- **Refined:** 2026-03-27 — one-at-a-time candidate presentation; progress persistence via .taproot/sessions/discover-truths-status.md; AC-10/11/12

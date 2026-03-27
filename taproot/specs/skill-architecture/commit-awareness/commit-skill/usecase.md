@@ -42,6 +42,14 @@ Agent — executing any taproot skill that ends in a commit, or responding to a 
 ### Plain commit
 1. Stage source files and commit — no taproot gate runs.
 
+5. After a successful commit of any type, skill offers contextual What's next options:
+   - **[A] Continue plan** — if `taproot/plan.md` exists with `pending` items: invokes `/tr-plan-execute`
+   - **[B] Implement next** — if the commit was a requirement or declaration commit: prompts `Which behaviour should I implement next?` and invokes `/tr-implement <path>`
+   - **[C] Check coverage** — `/tr-status` to review hierarchy health
+   - **[D] Check backlog** — opens `.taproot/backlog.md` to review deferred ideas and captured findings
+   - **[E] Done** — no further action; developer continues at their own pace
+   Options are filtered by context: [A] omitted if no plan exists or no pending items; [B] omitted after implementation and plain commits. Developer may ignore the prompt silently.
+
 ## Alternate Flows
 
 ### Plain commit — no taproot involvement
@@ -102,6 +110,7 @@ Agent — executing any taproot skill that ends in a commit, or responding to a 
 - All files are committed in a single well-formed commit (or a clean first batch if split)
 - The pre-commit hook passes on the first attempt — no retry loop
 - Every `check:` and `check-if-affected-by` condition is resolved with a written rationale in `## DoD Resolutions` or `## DoR Resolutions`
+- Developer is offered contextual What's next options (continue plan, implement next, check coverage, check backlog, or done) appropriate to the commit type
 
 ## Error Conditions
 - **Nothing to commit** (`git status` shows clean working tree): "Nothing to commit — working tree is clean."
@@ -198,13 +207,19 @@ flowchart TD
 - When `/tr-commit` runs
 - Then the skill proceeds with normal per-impl.md DoD resolution without entering the mass commit flow
 
+**AC-9: What's next options offered after every successful commit**
+- Given a successful commit of any type
+- When the commit completes and the hook passes
+- Then the skill offers contextual next steps: [A] Continue plan (only if taproot/plan.md has pending items), [B] Implement next (only for requirement/declaration commits), [C] Check coverage, [D] Check backlog, [E] Done
+
 ## Implementations <!-- taproot-managed -->
 - [Agent Skill — skills/commit.md + CLAUDE.md](./agent-skill/impl.md)
 
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-21
-- **Last reviewed:** 2026-03-21
+- **Last reviewed:** 2026-03-27
+- **Refined:** 2026-03-27 — step 5 + postcondition + AC-9: contextual What's next options after every successful commit
 
 ## Notes
 - The mass commit scenario (AC-7) is made navigable here but not optimised. A future spec will explore aggregate gate strategies — e.g. bulk "Last verified" update when source files haven't meaningfully changed, or a `taproot dod --batch` mode. This spec makes the problem visible and controllable; it defers the solution.

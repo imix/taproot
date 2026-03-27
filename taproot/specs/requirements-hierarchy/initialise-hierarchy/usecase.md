@@ -21,13 +21,17 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 10. System writes `taproot/CONVENTIONS.md` with document format reference and commit conventions
 11. System installs the selected agent adapter (if any) — skills into `taproot/agent/skills/`, docs into `taproot/agent/docs/`
 12. System installs the pre-commit hook (if confirmed)
-13. System reports each created path
+13. System appends `.taproot/` to `.gitignore` in the project root — creates the file if absent; skips if the entry is already present
+14. System reports each created path
 
 ## Alternate Flows
 - **Non-interactive mode**: if `--agent <name>` is passed, skip the agent selection prompt and use the provided value; if `--with-hooks` is passed, skip the hook prompt and install the hook
 - **No agent selected**: actor selects "none" at the agent prompt — adapter installation is skipped, all other steps proceed normally
 - **Hook declined**: actor answers "n" at the hook prompt — hook installation is skipped; system notes "Pre-commit hook not installed — run `taproot init --with-hooks` to add it later"
 - **Directory already exists**: system reports `exists` instead of `created` and skips creation — idempotent
+- **`.gitignore` already contains `.taproot/`**: system skips the append and reports `exists   .gitignore (.taproot/ already ignored)`
+- **CI template (`--with-ci github`)**: system generates `.github/workflows/taproot.yml` containing checkout, setup-node, `npm install -g taproot`, `taproot validate-structure`, `taproot validate-format`, `taproot check-orphans`, and `npm audit --audit-level=high`; if the file already exists, reports `exists` and skips
+- **CI template (`--with-ci gitlab`)**: system appends a `taproot-validate` job to `.gitlab-ci.yml`; if the file already exists and the job is present, reports `exists` and skips
 
 ## Postconditions
 - `taproot/` directory exists with `specs/`, `global-truths/`, and `agent/` subdirectories
@@ -36,7 +40,7 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 - `taproot/agent/skills/` is populated with canonical skill definitions
 - Selected agent adapter is installed (or none if declined)
 - Pre-commit hook is installed at `.git/hooks/pre-commit` if confirmed, absent otherwise
-- `.taproot/` is not created by init — it exists only as a gitignored runtime scratch directory (created on first use by the CLI)
+- `.taproot/` is listed in `.gitignore` (entry added by init if not already present); the directory itself is created on first use by the CLI, not during init
 - The project is ready to receive intent, behaviour, and implementation documents under `taproot/specs/`
 
 ## Error Conditions
@@ -64,6 +68,7 @@ sequenceDiagram
     CLI->>FS: write taproot/CONVENTIONS.md
     CLI->>FS: install adapter skills → taproot/agent/skills/
     CLI->>FS: install pre-commit hook (if confirmed)
+    CLI->>FS: append .taproot/ to .gitignore (if not present)
     CLI-->>Actor: report each created path
 ```
 
@@ -153,7 +158,26 @@ sequenceDiagram
 - When the actor runs `taproot init`
 - Then `taproot/agent/` is created for skills and configuration files
 
+**AC-16: Appends .taproot/ to .gitignore**
+- Given a project directory with no `.taproot/` entry in `.gitignore`
+- When the actor runs `taproot init`
+- Then `.gitignore` in the project root contains a `.taproot/` entry after init completes
+
+**AC-17: Does not re-add .taproot/ to .gitignore if already present**
+- Given a project where `.gitignore` already contains `.taproot/`
+- When the actor runs `taproot init`
+- Then `.gitignore` is not modified and the output reports the entry already exists
+
+**AC-18: --with-ci github generates workflow including npm audit**
+- Given an actor runs `taproot init --with-ci github`
+- When init completes
+- Then `.github/workflows/taproot.yml` exists and includes an `npm audit --audit-level=high` step
+
+## Notes
+- `taproot update` does not modify `.gitignore`. The `.taproot/` entry is written once at init time; if the developer later removes it, that is treated as an intentional choice and is not restored on update.
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
 - **Last reviewed:** 2026-03-27
+- **Refined:** 2026-03-27 — added .gitignore step, CI template alternate flows, AC-16/17/18, Notes on taproot update
