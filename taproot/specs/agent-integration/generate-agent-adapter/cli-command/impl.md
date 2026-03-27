@@ -25,12 +25,48 @@
 - `test/integration/init.test.ts` — covers adapter generation as part of full init flow
 
 ## Status
-- **State:** complete
+- **State:** needs-rework
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-21
 
 ## DoD Resolutions
 - condition: no-git-abort | note: test/integration/adapters.test.ts beforeEach updated to create .git — required by AC-13 (runInit throws without git). Not applicable to adapter generation logic. | resolved: 2026-03-21
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: NO skill files modified. | resolved: 2026-03-27T16:58:32.113Z
+
+- condition: check-if-affected: examples/ | note: not affected — examples pick up cli: on next init. | resolved: 2026-03-27T16:58:31.857Z
+
+- condition: check-if-affected: docs/ | note: not affected — docs already document cli:. | resolved: 2026-03-27T16:58:31.596Z
+
+- condition: check | note:  if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md:NO skill files modified. | resolved: 2026-03-27T16:52:23.221Z
+
+- condition: check | note:  does this story reveal a reusable pattern worth documenting in docs/patterns.md?:NO — variant of existing invocation-block pattern. | resolved: 2026-03-27T16:52:22.967Z
+
+- condition: check | note:  does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml?:NO — migration concern, not ongoing. | resolved: 2026-03-27T16:52:22.712Z
+
+- condition: check-if-affected-by | note:  quality-gates/architecture-compliance:COMPLIANT — follows pure-function adapter pattern; cli param flows from config. | resolved: 2026-03-27T16:52:22.456Z
+
+- condition: check-if-affected-by | note:  human-integration/pattern-hints:not applicable — source code. | resolved: 2026-03-27T16:52:22.196Z
+
+- condition: check-if-affected-by | note:  skill-architecture/commit-awareness:not applicable — no skill files modified. | resolved: 2026-03-27T16:52:21.941Z
+
+- condition: check-if-affected-by | note:  skill-architecture/context-engineering:not applicable — no skill files modified. | resolved: 2026-03-27T16:52:21.684Z
+
+- condition: check-if-affected-by | note:  human-integration/pause-and-confirm:not applicable — source code. | resolved: 2026-03-27T16:52:21.426Z
+
+- condition: check-if-affected-by | note:  human-integration/contextual-next-steps:not applicable — source code, not a skill. | resolved: 2026-03-27T16:52:21.165Z
+
+- condition: check-if-affected-by | note:  agent-integration/agent-agnostic-language:COMPLIANT — invocation note text uses neutral phrasing. | resolved: 2026-03-27T16:52:20.910Z
+
+- condition: check-if-affected | note:  examples/:not affected — examples will pick up cli: on next init. | resolved: 2026-03-27T16:52:20.634Z
+
+- condition: check-if-affected | note:  docs/:not affected — docs already document cli:. | resolved: 2026-03-27T16:52:20.378Z
+
+- condition: check-if-affected | note:  skills/guide.md:not affected — guide.md not modified. | resolved: 2026-03-27T16:52:20.119Z
+
+- condition: check-if-affected | note:  src/commands/update.ts:REWORK: update.ts gains setCliWrapper() — adds cli: ./taproot/agent/bin/taproot when absent. Adapters regenerated on taproot update will now carry the invocation note. | resolved: 2026-03-27T16:52:19.861Z
+
+- condition: document-current | note: REWORK: buildClaudeSkillFile and buildGeminiSkillFile now accept cli? param and embed invocation note; overview step uses taprootBin. Callers in generateClaudeAdapter and generateGeminiAdapter pass cli. | resolved: 2026-03-27T16:52:19.591Z
+
 - condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: COMPLIANT — buildConfigQuickRef() uses fully generic language (language, vocabulary, definitionOfDone options). Agent-specific reference files (buildClaudeConfigRefFile, buildGeminiConfigRefFile) generate content for adapter files (.claude/commands/, .gemini/commands/) which are explicitly excluded from the agent-agnostic-language standard per its Scope section. | resolved: 2026-03-24T14:49:06.224Z
 
 - condition: gemini-toml-format-fix | note: Gemini CLI command TOML schema uses top-level `prompt` and `description` fields only — no `[command]` section, no `name` field (name derived from filename). Fixed buildGeminiSkillFile to match the actual schema. | resolved: 2026-03-21

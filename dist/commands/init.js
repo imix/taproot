@@ -328,6 +328,7 @@ export function runInit(options) {
         const configForYaml = {
             version: DEFAULT_CONFIG.version,
             root: 'taproot/specs/',
+            cli: './taproot/agent/bin/taproot',
             commit_pattern: DEFAULT_CONFIG.commitPattern,
             commit_trailer: DEFAULT_CONFIG.commitTrailer,
             agents: DEFAULT_CONFIG.agents,

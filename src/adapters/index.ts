@@ -137,7 +137,7 @@ function generateClaudeAdapter(skills: SkillDef[], projectRoot: string, cli?: st
   for (const skill of skills) {
     const destPath = join(targetDir, `tr-${skill.filename}`);
     const existed = existsSync(destPath);
-    const content = buildClaudeSkillFile(skill, projectRoot);
+    const content = buildClaudeSkillFile(skill, projectRoot, cli);
     writeFileSync(destPath, content, 'utf-8');
     files.push({ path: destPath, status: existed ? 'updated' : 'created' });
   }
@@ -165,16 +165,20 @@ ${buildConfigQuickRef(cli, projectRoot)}
 `;
 }
 
-function buildClaudeSkillFile(skill: SkillDef, projectRoot: string): string {
+function buildClaudeSkillFile(skill: SkillDef, projectRoot: string, cli?: string): string {
+  const taprootBin = cli ?? 'taproot';
   const overviewStep = TREE_MODIFYING_SKILLS.has(skill.name)
-    ? '\n6. Run `taproot overview` to update @{project-root}/taproot/OVERVIEW.md with the current project state'
+    ? `\n7. Run \`${taprootBin} overview\` to update @{project-root}/taproot/OVERVIEW.md with the current project state`
     : '';
   const skillPath = resolveSkillsRelPath(projectRoot, skill.filename);
+  const invocationNote = cli
+    ? `\n<!-- taproot:cli-invocation: ${cli} -->\n**CLI:** All taproot commands in this skill must use \`${cli}\` instead of bare \`taproot\`.\n`
+    : '';
   return `---
 name: 'tr-${skill.name}'
 description: '${skill.description.replace(/'/g, "\\'")}'
 ---
-
+${invocationNote}
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
 
 <steps CRITICAL="TRUE">
@@ -182,7 +186,8 @@ IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
 2. READ its entire contents — this contains the complete skill definition with steps, inputs, and output format
 3. FOLLOW every step in the ## Steps section precisely and in order
 4. When the skill references other taproot commands (e.g. \`/taproot:intent\`), use the corresponding \`/tr-intent\` command instead
-5. Save all outputs to the paths specified in the skill's ## Output section${overviewStep}
+5. Save all outputs to the paths specified in the skill's ## Output section
+6. When the skill says to run \`taproot <cmd>\`, run \`${taprootBin} <cmd>\` instead${overviewStep}
 </steps>
 `;
 }
@@ -379,7 +384,7 @@ function generateGeminiAdapter(skills: SkillDef[], projectRoot: string, cli?: st
   for (const skill of skills) {
     const destPath = join(targetDir, `tr-${skill.name}.toml`);
     const existed = existsSync(destPath);
-    const content = buildGeminiSkillFile(skill, projectRoot);
+    const content = buildGeminiSkillFile(skill, projectRoot, cli);
     writeFileSync(destPath, content, 'utf-8');
     files.push({ path: destPath, status: existed ? 'updated' : 'created' });
   }
@@ -424,20 +429,25 @@ See ${configDoc} for the full reference and examples.
 `;
 }
 
-function buildGeminiSkillFile(skill: SkillDef, projectRoot: string): string {
+function buildGeminiSkillFile(skill: SkillDef, projectRoot: string, cli?: string): string {
+  const taprootBin = cli ?? 'taproot';
   const overviewStep = TREE_MODIFYING_SKILLS.has(skill.name)
-    ? '\n5. Run `taproot overview` to update taproot/OVERVIEW.md with the current project state'
+    ? `\n6. Run \`${taprootBin} overview\` to update taproot/OVERVIEW.md with the current project state`
     : '';
   const skillPath = resolveSkillsRelPath(projectRoot, skill.filename);
+  const invocationNote = cli
+    ? `\n# CLI: all taproot commands in this skill must use \`${cli}\` instead of bare \`taproot\`\n`
+    : '';
   return `description = "${skill.description.replace(/"/g, '\\"')}"
 
-prompt = """
+prompt = """${invocationNote}
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
 
 1. LOAD the FULL skill file at ${skillPath}
 2. READ its entire contents — this contains the complete skill definition with steps, inputs, and output format
 3. FOLLOW every step in the ## Steps section precisely and in order
-4. Save all outputs to the paths specified in the skill's ## Output section${overviewStep}
+4. Save all outputs to the paths specified in the skill's ## Output section
+5. When the skill says to run \`taproot <cmd>\`, run \`${taprootBin} <cmd>\` instead${overviewStep}
 """
 `;
 }

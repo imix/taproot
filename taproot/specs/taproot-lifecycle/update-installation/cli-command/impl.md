@@ -32,6 +32,36 @@
 
 ## DoD Resolutions
 - condition: document-current | note: no docs change needed — force-overwrite of skills on update is an internal implementation detail; README and docs/agents.md describe what taproot update does (refreshes skills), not how it detects changes | resolved: 2026-03-20T20:55:08.050Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: NO skill files modified. | resolved: 2026-03-27T16:53:31.086Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO. | resolved: 2026-03-27T16:53:30.824Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — one-shot migration, not an ongoing concern. | resolved: 2026-03-27T16:53:30.565Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — setCliWrapper is stateless, reads settings, writes one field, no side effects. | resolved: 2026-03-27T16:53:30.303Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable. | resolved: 2026-03-27T16:53:30.043Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — no skill files. | resolved: 2026-03-27T16:53:29.769Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — no skill files. | resolved: 2026-03-27T16:53:29.510Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable. | resolved: 2026-03-27T16:53:29.253Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — source code. | resolved: 2026-03-27T16:53:28.977Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — source code only. | resolved: 2026-03-27T16:53:28.719Z
+
+- condition: check-if-affected: examples/ | note: not affected. | resolved: 2026-03-27T16:53:28.458Z
+
+- condition: check-if-affected: docs/ | note: not affected — cli: already documented. | resolved: 2026-03-27T16:53:28.197Z
+
+- condition: check-if-affected: skills/guide.md | note: not affected. | resolved: 2026-03-27T16:53:27.932Z
+
+- condition: check-if-affected: src/commands/update.ts | note: PRIMARY file — setCliWrapper() added. | resolved: 2026-03-27T16:53:27.674Z
+
+- condition: document-current | note: REWORK: update.ts gains setCliWrapper() — adds cli: ./taproot/agent/bin/taproot to settings.yaml on new-layout projects where cli: is absent. Runs after bumpTaprootVersion. | resolved: 2026-03-27T16:53:27.411Z
+
 - condition: check-if-affected: examples/ | note: not affected — examples/ was reviewed in prior implementations. This rework makes no changes requiring example updates. | resolved: 2026-03-27T16:30:31.869Z
 
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: Not applicable. No skills/*.md files were modified. | resolved: 2026-03-24T19:31:23.642Z

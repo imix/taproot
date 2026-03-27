@@ -68,6 +68,18 @@ function migrateHierarchyToSpecs(cwd: string): string[] {
   return msgs;
 }
 
+function setCliWrapper(cwd: string): string[] {
+  const msgs: string[] = [];
+  const settingsPath = join(cwd, 'taproot', 'settings.yaml');
+  if (!existsSync(settingsPath)) return msgs;
+  const content = readFileSync(settingsPath, 'utf-8');
+  if (/^cli:/m.test(content)) return msgs; // already set — don't overwrite
+  const updated = content.trimEnd() + `\ncli: './taproot/agent/bin/taproot'\n`;
+  writeFileSync(settingsPath, updated, 'utf-8');
+  msgs.push(`updated  taproot/settings.yaml (cli: ./taproot/agent/bin/taproot)`);
+  return msgs;
+}
+
 function bumpTaprootVersion(cwd: string): string[] {
   const msgs: string[] = [];
   const settingsPath = join(cwd, 'taproot', 'settings.yaml');
@@ -397,6 +409,7 @@ export async function runUpdate(options: { cwd?: string; withHooks?: boolean }):
   }
   if (isTaprootProject) {
     messages.push(...bumpTaprootVersion(cwd));
+    messages.push(...setCliWrapper(cwd));
   }
 
   const agents = detectInstalledAgents(cwd);
