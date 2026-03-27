@@ -27,7 +27,6 @@
 - [2026-03-26] rename npm package from @imix-js/taproot — @imix-js is JS-specific but taproot works with any language/stack; consider @imix-ai/taproot or unscoped taproot
 - [2026-03-26] check-if-affected: examples/ resolution guidance is too narrow — agent resolved "no" for global-truths because truths are user content, missing that starters should scaffold the directory so the feature is discoverable; consider adding guidance to the check: "does this feature introduce a new taproot/ directory or convention that starters should demonstrate?"
 - [2026-03-27] tr-discover-truths lists all discoveries without giving the user a chance to respond to the options for each one
-- [2026-03-27] extended plan mode: persistent implementation plan file enabling longer multi-step plans; enabler for fully-automatic agent execution; to be located in ./taproot once directory merge is done
 - [2026-03-27] taproot init should add .taproot to .gitignore
 - [2026-03-27] global truth (implementation level): all skills that run in steps or batches (e.g. discover-truths) write their progress in a state file in .taproot so they survive a compression/context refresh
 - [2026-03-27] agents complain "this hierarchy is significant" even in small projects like a calculator — taproot needs to justify its overhead relative to project scale; consider lighter-weight entry paths or a "starter" mode

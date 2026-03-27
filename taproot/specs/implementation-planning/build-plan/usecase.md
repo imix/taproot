@@ -1,0 +1,149 @@
+# Behaviour: Build Release Plan
+
+## Actor
+Developer — building a multi-item implementation roadmap with agent assistance, to be executed in a future session or delegated to an agent.
+
+## Preconditions
+- A taproot project exists
+- At least one of: `taproot/backlog.md` contains items, the hierarchy contains unimplemented behaviours, or the developer supplies explicit items
+
+## Main Flow
+
+1. Developer requests plan building with a natural-language prompt — e.g. "add all pending items to plan for next release", "add X to plan", or "analyze backlog, what can we add?"
+2. Agent determines which sources to scan based on the request:
+   - **backlog** — reads `taproot/backlog.md`; filters items that describe actionable work
+   - **hierarchy** — runs `taproot coverage` to find unimplemented or in-progress behaviours
+   - **explicit** — uses developer-supplied item(s) directly without scanning
+3. Agent collects candidate items from the identified sources.
+4. Agent classifies each candidate:
+   - **`spec`** — a new or vague item that needs a `usecase.md` written first
+   - **`implement`** — a specified behaviour ready for coding
+   - **`refine`** — an existing spec that needs updating before it can be implemented
+5. Agent sequences the candidates: `spec` items that are prerequisites for `implement` items are ordered first; otherwise, items follow source order.
+6. Agent presents the proposed plan for developer review:
+   ```
+   Proposed plan — N items:
+    1. [spec]      <path or description>
+    2. [implement] taproot/<intent>/<behaviour>/
+    3. [refine]    taproot/<intent>/<behaviour>/usecase.md
+   ...
+   [A] Confirm  [E] Edit directly then reply A  [Q] Abort
+   ```
+7. Developer confirms.
+8. Agent writes `taproot/plan.md`, creating it if absent or replacing it if it already exists (after confirming replacement — see Alternate Flows).
+9. Agent confirms: *"Plan saved — N items in `taproot/plan.md`."*
+
+## Alternate Flows
+
+### Plan already exists
+- **Trigger:** `taproot/plan.md` is present before step 8.
+- **Steps:**
+  1. Agent reports: *"A plan already exists with N items."* and presents: `[A] Append new items · [R] Replace · [Q] Abort`
+  2. Developer chooses.
+  3. On **[A]**: agent appends only items not already present in the plan.
+  4. On **[R]**: agent replaces the file with the newly proposed plan.
+  5. On **[Q]**: agent aborts — no files modified.
+
+### Developer supplies explicit items
+- **Trigger:** Developer names specific items directly (e.g. "add login flow and password reset to plan").
+- **Steps:**
+  1. Agent skips scanning (steps 2–3); uses the named items as candidates.
+  2. Agent resolves each item to a hierarchy path if one exists, or marks it as `spec` if it doesn't.
+  3. Resumes from step 4 (classify and sequence).
+
+### No items found from any source
+- **Trigger:** After scanning, zero candidates remain (backlog empty, all behaviours implemented, no explicit items).
+- **Steps:**
+  1. Agent reports: *"No actionable items found — backlog is empty and all behaviours are implemented."*
+  2. Agent suggests: *"Add ideas with `/tr-backlog <idea>` or define new behaviours with `/tr-behaviour`."*
+  3. No file is written.
+
+### Developer edits the plan before confirming
+- **Trigger:** Developer selects `[E]` at step 6.
+- **Steps:**
+  1. Agent waits for the developer to edit the proposed plan in the conversation.
+  2. Developer replies `A` when done.
+  3. Agent uses the edited plan as input to step 8.
+
+## Postconditions
+- `taproot/plan.md` exists with an ordered list of typed action items (spec / implement / refine), each with a path or description.
+- Items that are prerequisites for others appear earlier in the list.
+
+## Error Conditions
+- **`taproot/backlog.md` absent when backlog source requested:** Treat as empty backlog — note *"backlog.md not found, treating as empty"* and continue with other sources.
+- **`taproot coverage` fails:** Report the error verbatim and stop — do not produce a partial plan.
+
+## Flow
+
+```mermaid
+flowchart TD
+    A[Developer requests plan build] --> B{Source?}
+    B -->|backlog| C[Read taproot/backlog.md]
+    B -->|hierarchy| D[Run taproot coverage]
+    B -->|explicit| E[Use named items]
+    C & D & E --> F[Classify: spec / implement / refine]
+    F --> G[Sequence by dependency]
+    G --> H[Present proposed plan]
+    H --> I{Developer choice}
+    I -->|A confirm| J{plan.md exists?}
+    I -->|E edit| K[Wait for edits] --> I
+    I -->|Q abort| L[Abort — no files modified]
+    J -->|No| M[Write taproot/plan.md]
+    J -->|Yes| N[Ask: Append / Replace / Abort]
+    N -->|Append| O[Merge new items] --> M
+    N -->|Replace| M
+    N -->|Abort| L
+    M --> P[Confirm: Plan saved — N items]
+```
+
+## Related
+- `../extract-next-slice/usecase.md` — surfaces a single next item; build-plan creates the multi-item roadmap that execute-plan works through
+- `../../taproot-backlog/manage-backlog/usecase.md` — backlog is a primary source for plan items; items promoted from backlog via `/tr-ineed` become candidates here
+- `../execute-plan/usecase.md` — the downstream behaviour that consumes the plan file this behaviour produces
+
+## Acceptance Criteria
+
+**AC-1: Plan built from backlog**
+- Given `taproot/backlog.md` contains at least one actionable item
+- When the developer requests "add all pending items to plan"
+- Then the agent presents a proposed ordered plan including those items, and on confirmation writes `taproot/plan.md`
+
+**AC-2: Plan built from hierarchy gaps**
+- Given the hierarchy contains at least one unimplemented behaviour
+- When the developer requests "what can we add to the plan?"
+- Then the agent includes those behaviours as `implement` candidates in the proposed plan
+
+**AC-3: Spec items ordered before their implement items**
+- Given the proposed plan includes a new item needing a spec and a subsequent implement item that depends on it
+- When the developer confirms
+- Then the `spec` item appears before the `implement` item in `taproot/plan.md`
+
+**AC-4: Existing plan triggers append/replace prompt**
+- Given `taproot/plan.md` already exists with N items
+- When the developer requests plan building with new items
+- Then the agent reports the existing item count and offers Append, Replace, or Abort before writing
+
+**AC-5: No items found exits cleanly**
+- Given the backlog is empty and all behaviours are implemented
+- When the developer requests plan building
+- Then the agent reports no actionable items found and no file is written
+
+**AC-6: Explicit items bypass scanning**
+- Given the developer names specific items directly
+- When the agent builds the plan
+- Then scanning of backlog and hierarchy is skipped and only the named items appear in the proposed plan
+
+**AC-7: Abort leaves no files modified**
+- Given the agent has presented a proposed plan
+- When the developer selects Q (abort)
+- Then `taproot/plan.md` is not created or modified
+
+## Status
+- **State:** proposed
+- **Created:** 2026-03-27
+- **Last reviewed:** 2026-03-27
+
+## Notes
+- The plan file format (`taproot/plan.md`) is an implementation concern — the spec only constrains observable behaviour (ordered typed items, path or description per item).
+- Dependency ordering is inferred by the agent (spec-before-implement for the same behaviour), not formally declared in the plan file.
+- Autonomous execution of plan items (agent works without confirmation at each step) is explicitly out of scope — see `execute-plan` for confirmed step-by-step execution.
