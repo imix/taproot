@@ -8,7 +8,7 @@ Reusable patterns for extending and enforcing the taproot hierarchy. Each patter
 
 **Problem:** You have an architectural rule that should apply to every implementation — not just a one-time concern, but a standing requirement. Examples: every skill must include a session hygiene signal; every skill that produces output must present a **What's next?** block; every implementation must satisfy a security review checklist. Writing this rule in a README or CLAUDE.md makes it aspirational. You want it enforced automatically, at commit time, for every new implementation.
 
-**Pattern:** Define the rule as a behaviour spec (`usecase.md`), then add a `check-if-affected-by` entry to `.taproot/settings.yaml`.
+**Pattern:** Define the rule as a behaviour spec (`usecase.md`), then add a `check-if-affected-by` entry to `taproot/settings.yaml`.
 
 ```yaml
 # .taproot/settings.yaml
@@ -37,7 +37,7 @@ When the DoD runner encounters this condition, it instructs the agent to:
 **How to add a new cross-cutting constraint:**
 
 1. Write the spec — `/tr-behaviour taproot/<your-intent>/ "<rule>"` — define what compliance looks like, what non-compliance looks like, and how to resolve it
-2. Add to `.taproot/settings.yaml`:
+2. Add to `taproot/settings.yaml`:
    ```yaml
    definitionOfDone:
      - check-if-affected-by: <intent-slug>/<behaviour-slug>
@@ -95,7 +95,7 @@ The agent is asked: "Does this implementation require changes to `<file>`?" If y
 
 **Problem:** You have a one-off question the agent should reason about at DoD (or DoR) time — something too project-specific to warrant a full behaviour spec, but important enough to enforce at every commit. Examples: "should this story be split?", "does this change affect the public API contract?", "is there a simpler approach we haven't considered?".
 
-**Pattern:** Add a `check:` entry to `definitionOfDone` (or `definitionOfReady`) in `.taproot/settings.yaml`.
+**Pattern:** Add a `check:` entry to `definitionOfDone` (or `definitionOfReady`) in `taproot/settings.yaml`.
 
 ```yaml
 definitionOfDone:
@@ -114,7 +114,7 @@ The agent reads the question text, reasons whether the answer is yes, no, or not
 
 | Question | Action if yes |
 |---|---|
-| `does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml?` | Agent adds the entry to `.taproot/settings.yaml` |
+| `does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml?` | Agent adds the entry to `taproot/settings.yaml` |
 | `does this story reveal a reusable pattern worth documenting in docs/patterns.md?` | Agent adds a pattern entry to `docs/patterns.md` |
 
 ---
@@ -131,7 +131,7 @@ The agent reads the question text, reasons whether the answer is yes, no, or not
 Before following any steps, check whether autonomous mode is active:
 - `TAPROOT_AUTONOMOUS=1` is set in the environment, **or**
 - `--autonomous` was passed as an argument to this skill invocation, **or**
-- `.taproot/settings.yaml` contains `autonomous: true`
+- `taproot/settings.yaml` contains `autonomous: true`
 
 If any of these is true, **autonomous mode is active** — apply the autonomous notes at each step where they appear. If none is true, autonomous mode is **inactive** — show confirmation prompts as normal.
 ```

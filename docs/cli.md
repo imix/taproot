@@ -12,7 +12,7 @@ The Taproot CLI handles setup, validation, and reporting. It does not generate c
 taproot init [--with-hooks] [--with-ci github|gitlab] [--with-skills] [--agent claude|cursor|copilot|windsurf|generic|all] [--template webapp|book-authoring|cli-tool] [--force]
 ```
 
-Initializes Taproot in the current directory. Creates `taproot/` and `.taproot/settings.yaml` if they don't exist, then installs whichever integrations you request.
+Initializes Taproot in the current directory. Creates `taproot/` with `specs/`, `global-truths/`, and `agent/` subdirectories; writes `taproot/settings.yaml`. Then installs whichever integrations you request.
 
 When run on an empty project (no `taproot/` directory yet), the command prompts: **"Start from a template? [y/N]"** — entering `y` presents a list of starter hierarchies to choose from.
 
@@ -21,10 +21,10 @@ When run on an empty project (no `taproot/` directory yet), the command prompts:
 | `--with-hooks` | Installs `.git/hooks/pre-commit` running `taproot commithook` |
 | `--with-ci github` | Generates `.github/workflows/taproot.yml` with validate-structure, validate-format, and check-orphans |
 | `--with-ci gitlab` | Generates a `taproot-validate` job in `.gitlab-ci.yml` |
-| `--with-skills` | Copies skill definitions to `.taproot/skills/`. Implied by `--agent claude` — only needed if you want skills without a Claude adapter. |
+| `--with-skills` | Copies skill definitions to `taproot/agent/skills/`. Implied by `--agent claude` — only needed if you want skills without a Claude adapter. |
 | `--agent <name>` | Generates agent adapter files (see [Agent Setup](agents.md)) |
-| `--template <type>` | Skip the prompt and apply a starter template directly (`webapp`, `book-authoring`, or `cli-tool`). Copies the starter's `taproot/` hierarchy and `.taproot/settings.yaml` into the project. |
-| `--force` | When used with `--template`, overwrites an existing `.taproot/settings.yaml` with the template's version. |
+| `--template <type>` | Skip the prompt and apply a starter template directly (`webapp`, `book-authoring`, or `cli-tool`). Copies the starter's `taproot/` hierarchy and `taproot/settings.yaml` into the project. |
+| `--force` | When used with `--template`, overwrites an existing `taproot/settings.yaml` with the template's version. |
 
 Running `taproot init` again on an existing project is safe — it skips files that already exist and reports `exists` for each.
 
@@ -38,7 +38,7 @@ Refreshes installed agent adapters and skills to the current version. Run this a
 
 The update command also:
 - Removes stale artefacts from older Taproot layouts (e.g., the pre-v0.1 `taproot/skills/` directory)
-- Refreshes `.taproot/docs/` with the current taproot documentation (patterns, architecture, security, etc.) so agent skills have up-to-date reference material
+- Refreshes `taproot/agent/docs/` with the current taproot documentation (patterns, architecture, security, etc.) so agent skills have up-to-date reference material
 - Runs a cross-link refresh: adds missing `## Behaviours <!-- taproot-managed -->` sections to `intent.md` files and `## Implementations <!-- taproot-managed -->` sections to `usecase.md` files, then appends any missing child links and prunes any links to non-existent files
 - Migrates old `taproot validate-structure` / `taproot validate-format` pre-commit hooks to the newer `taproot commithook` format
 

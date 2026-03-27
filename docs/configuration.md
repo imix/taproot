@@ -2,11 +2,11 @@
 
 ## Quick discovery
 
-- **In your project:** `.taproot/CONFIGURATION.md` — installed and refreshed by `taproot update`, documents all `settings.yaml` options with examples and whether each requires re-running `taproot update`
-- **From the CLI:** `taproot --help` includes a footer pointing to `.taproot/settings.yaml` and `.taproot/CONFIGURATION.md`
+- **In your project:** `taproot/agent/CONFIGURATION.md` — installed and refreshed by `taproot update`, documents all `settings.yaml` options with examples and whether each requires re-running `taproot update`
+- **From the CLI:** `taproot --help` includes a footer pointing to `taproot/settings.yaml` and `taproot/agent/CONFIGURATION.md`
 - **Full reference:** this document
 
-## `.taproot/settings.yaml`
+## `taproot/settings.yaml`
 
 Created by `taproot init`. All settings have defaults — you only need to add what you want to override.
 
@@ -70,7 +70,7 @@ The `definitionOfDone` list controls what `taproot dod` checks and what the pre-
 | `document-current: <description>` | Agent-verified: the agent checks whether the described documentation is current and applies updates if needed. |
 | `check-if-affected: <file>` | Agent-verified: the agent reviews whether the given file needed updating as a result of this implementation and applies changes if needed. |
 | `check-if-affected-by: <behaviour-path>` | Agent-verified: the agent reads the referenced behaviour spec and determines whether it applies to this implementation — verifying compliance if it does, recording "not applicable" if it does not. Use for cross-cutting requirements that every implementation of a given type must satisfy (e.g. every new skill must satisfy `human-integration/contextual-next-steps`). |
-| `check: <free-form question>` | Agent-verified: the agent reads the question, reasons whether the answer is yes, no, or not applicable for this specific implementation, and takes any indicated action (e.g. adds an entry to `.taproot/settings.yaml`, documents a new pattern). The two default entries in `.taproot/settings.yaml` cover the most common meta-questions. |
+| `check: <free-form question>` | Agent-verified: the agent reads the question, reasons whether the answer is yes, no, or not applicable for this specific implementation, and takes any indicated action (e.g. adds an entry to `taproot/settings.yaml`, documents a new pattern). The two default entries in `taproot/settings.yaml` cover the most common meta-questions. |
 | `run: <command>` | Custom shell command. Exit 0 = pass, any other exit code = fail. |
 
 You can give any condition a custom name with `name: <label>`, which is used in DoD reports:
@@ -92,7 +92,7 @@ Results are recorded in the `## DoD Resolutions` section of `impl.md`. The secti
 
 ### Built-in cross-cutting DoD conditions
 
-Taproot's own `.taproot/settings.yaml` ships with several `check-if-affected-by` conditions that enforce project-wide quality rules. These serve as reference examples:
+Taproot's own `taproot/settings.yaml` ships with several `check-if-affected-by` conditions that enforce project-wide quality rules. These serve as reference examples:
 
 | Condition | What it enforces |
 |-----------|-----------------|
@@ -121,7 +121,7 @@ autonomous: true   # all sessions in this repo run without confirmation prompts
 - Test failures or hook rejections are recorded in `impl.md` (impl marked `needs-rework`) and the agent stops — the developer returns to a clear failure report
 
 **Three activation mechanisms (in order of scope):**
-1. `autonomous: true` in `.taproot/settings.yaml` — repo-wide, all sessions
+1. `autonomous: true` in `taproot/settings.yaml` — repo-wide, all sessions
 2. `TAPROOT_AUTONOMOUS=1` environment variable — per process invocation
 3. `--autonomous` flag on a skill invocation (e.g. `/tr-implement path/ --autonomous`) — per skill
 

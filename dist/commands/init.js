@@ -176,7 +176,11 @@ export function registerInit(program) {
         }
         else {
             // Check if vocabulary already exists in settings.yaml (idempotent re-run)
-            const configPath = join(options.path, '.taproot', 'settings.yaml');
+            // Support both new layout (taproot/settings.yaml) and old layout (.taproot/settings.yaml)
+            const newSettingsPath = join(options.path, 'taproot', 'settings.yaml');
+            const configPath = existsSync(newSettingsPath)
+                ? newSettingsPath
+                : join(options.path, '.taproot', 'settings.yaml');
             const alreadyHasVocab = existsSync(configPath) && (() => {
                 try {
                     const existing = yaml.load(readFileSync(configPath, 'utf-8'));
@@ -204,18 +208,18 @@ export function registerInit(program) {
                 if (presetChoice !== 'coding' && presetChoice !== 'skip') {
                     const preset = DOMAIN_PRESETS[presetChoice];
                     const pairs = Object.entries(preset.vocabulary).map(([k, v]) => `${k}: ${v}`).join(' · ');
-                    process.stdout.write(`\nThis will add to .taproot/settings.yaml:\n  ${pairs}\n\n`);
+                    process.stdout.write(`\nThis will add to taproot/settings.yaml:\n  ${pairs}\n\n`);
                     const confirmed = await confirm({ message: 'Apply this vocabulary preset?', default: true });
                     if (confirmed) {
                         resolvedVocabulary = preset.vocabulary;
                     }
                     else {
                         // Return to selection — simplest UX: just note it was skipped
-                        process.stdout.write('Vocabulary preset not applied. You can configure it manually in .taproot/settings.yaml\n');
+                        process.stdout.write('Vocabulary preset not applied. You can configure it manually in taproot/settings.yaml\n');
                     }
                 }
                 else if (presetChoice === 'skip') {
-                    process.stdout.write('Vocabulary and language can be configured in .taproot/settings.yaml — see .taproot/docs/configuration.md\n');
+                    process.stdout.write('Vocabulary and language can be configured in taproot/settings.yaml — see taproot/agent/docs/configuration.md\n');
                 }
             }
             // Language prompt (always shown unless vocabulary already existed)
@@ -266,24 +270,40 @@ export function runInit(options) {
         const presetDef = DOMAIN_PRESETS[options.preset];
         resolvedVocabulary = presetDef != null ? presetDef.vocabulary : {};
     }
-    const configPath = join(cwd, '.taproot', 'settings.yaml');
-    const taprootDir = resolve(cwd, DEFAULT_CONFIG.root);
-    const skillsDir = join(cwd, '.taproot', 'skills');
+    const taprootDir = resolve(cwd, 'taproot');
+    const specsDir = join(taprootDir, 'specs');
+    const agentDir = join(taprootDir, 'agent');
+    const configPath = join(taprootDir, 'settings.yaml');
+    const skillsDir = join(agentDir, 'skills');
     // Create taproot/ directory
     if (!existsSync(taprootDir)) {
         mkdirSync(taprootDir, { recursive: true });
-        messages.push(`created  ${DEFAULT_CONFIG.root}`);
+        messages.push('created  taproot/');
     }
     else {
-        messages.push(`exists   ${DEFAULT_CONFIG.root}`);
+        messages.push('exists   taproot/');
     }
-    // Ensure .taproot/ directory exists
-    mkdirSync(join(cwd, '.taproot'), { recursive: true });
-    // Write .taproot/settings.yaml
+    // Create taproot/specs/ for the requirements hierarchy
+    if (!existsSync(specsDir)) {
+        mkdirSync(specsDir, { recursive: true });
+        messages.push('created  taproot/specs/');
+    }
+    else {
+        messages.push('exists   taproot/specs/');
+    }
+    // Create taproot/agent/ for skills and configuration
+    if (!existsSync(agentDir)) {
+        mkdirSync(agentDir, { recursive: true });
+        messages.push('created  taproot/agent/');
+    }
+    else {
+        messages.push('exists   taproot/agent/');
+    }
+    // Write taproot/settings.yaml
     if (!existsSync(configPath)) {
         const configForYaml = {
             version: DEFAULT_CONFIG.version,
-            root: DEFAULT_CONFIG.root,
+            root: 'taproot/specs/',
             commit_pattern: DEFAULT_CONFIG.commitPattern,
             commit_trailer: DEFAULT_CONFIG.commitTrailer,
             agents: DEFAULT_CONFIG.agents,
@@ -302,7 +322,7 @@ export function runInit(options) {
             configForYaml.language = resolvedLanguage;
         }
         writeFileSync(configPath, yaml.dump(configForYaml));
-        messages.push('created  .taproot/settings.yaml');
+        messages.push('created  taproot/settings.yaml');
     }
     else {
         // Append vocabulary/language to existing settings.yaml if not already present
@@ -322,10 +342,10 @@ export function runInit(options) {
         }
         if (updated) {
             writeFileSync(configPath, yaml.dump(existingConfig));
-            messages.push('updated  .taproot/settings.yaml (vocabulary/language added)');
+            messages.push('updated  taproot/settings.yaml (vocabulary/language added)');
         }
         else {
-            messages.push('exists   .taproot/settings.yaml');
+            messages.push('exists   taproot/settings.yaml');
         }
     }
     // Remind to run taproot update if vocabulary or language was applied
@@ -335,7 +355,7 @@ export function runInit(options) {
     const conventionsPath = join(taprootDir, 'CONVENTIONS.md');
     if (!existsSync(conventionsPath)) {
         writeFileSync(conventionsPath, buildConventionsDoc());
-        messages.push(`created  ${DEFAULT_CONFIG.root}CONVENTIONS.md`);
+        messages.push('created  taproot/CONVENTIONS.md');
     }
     // Create global-truths/ with a hint README
     const globalTruthsDir = join(taprootDir, 'global-truths');
@@ -343,11 +363,11 @@ export function runInit(options) {
     if (!existsSync(globalTruthsDir)) {
         mkdirSync(globalTruthsDir, { recursive: true });
         writeFileSync(globalTruthsReadme, buildGlobalTruthsReadme());
-        messages.push(`created  ${DEFAULT_CONFIG.root}global-truths/`);
-        messages.push(`         Add shared truths here — domain terms, business rules, project conventions.`);
-        messages.push(`         Scope by filename: glossary_intent.md · rules_behaviour.md · choices_impl.md`);
+        messages.push('created  taproot/global-truths/');
+        messages.push('         Add shared truths here — domain terms, business rules, project conventions.');
+        messages.push('         Scope by filename: glossary_intent.md · rules_behaviour.md · choices_impl.md');
     }
-    // Install skill definitions — always enabled when an adapter that references .taproot/skills/ is requested
+    // Install skill definitions — always enabled when an adapter that references taproot/agent/skills/ is requested
     const agentList = options.agent === 'all'
         ? ALL_AGENTS
         : Array.isArray(options.agent)
@@ -357,8 +377,8 @@ export function runInit(options) {
                 : [];
     const needsSkills = options.withSkills || agentList.includes('claude') || agentList.includes('gemini');
     if (needsSkills) {
-        messages.push(...installSkills(skillsDir));
-        messages.push(...installDocs(join(cwd, '.taproot', 'docs')));
+        messages.push(...installSkills(skillsDir, false, null, null, 'taproot/agent/skills'));
+        messages.push(...installDocs(join(agentDir, 'docs'), false, 'taproot/agent/docs'));
     }
     // Git pre-commit hook
     if (options.withHooks) {
@@ -432,8 +452,9 @@ export function runInit(options) {
     }
     return messages;
 }
-export function installSkills(targetSkillsDir, force = false, pack, vocab) {
+export function installSkills(targetSkillsDir, force = false, pack, vocab, displayDir) {
     const messages = [];
+    const prefix = displayDir ?? '.taproot/skills';
     if (!existsSync(BUNDLED_SKILLS_DIR)) {
         messages.push(`warning  Skills directory not found at ${BUNDLED_SKILLS_DIR} — skipping`);
         return messages;
@@ -460,20 +481,21 @@ export function installSkills(targetSkillsDir, force = false, pack, vocab) {
         }
         if (!existsSync(dest)) {
             writeFileSync(dest, content);
-            messages.push(`created  .taproot/skills/${filename}`);
+            messages.push(`created  ${prefix}/${filename}`);
         }
         else if (force) {
             writeFileSync(dest, content);
-            messages.push(`updated  .taproot/skills/${filename}`);
+            messages.push(`updated  ${prefix}/${filename}`);
         }
         else {
-            messages.push(`exists   .taproot/skills/${filename}`);
+            messages.push(`exists   ${prefix}/${filename}`);
         }
     }
     return messages;
 }
-export function installDocs(targetDocsDir, force = false) {
+export function installDocs(targetDocsDir, force = false, displayDir) {
     const messages = [];
+    const prefix = displayDir ?? '.taproot/docs';
     if (!existsSync(BUNDLED_DOCS_DIR)) {
         messages.push(`warning  Docs directory not found at ${BUNDLED_DOCS_DIR} — skipping`);
         return messages;
@@ -485,14 +507,14 @@ export function installDocs(targetDocsDir, force = false) {
         const content = readFileSync(src, 'utf-8');
         if (!existsSync(dest)) {
             writeFileSync(dest, content);
-            messages.push(`created  .taproot/docs/${filename}`);
+            messages.push(`created  ${prefix}/${filename}`);
         }
         else if (force) {
             writeFileSync(dest, content);
-            messages.push(`updated  .taproot/docs/${filename}`);
+            messages.push(`updated  ${prefix}/${filename}`);
         }
         else {
-            messages.push(`exists   .taproot/docs/${filename}`);
+            messages.push(`exists   ${prefix}/${filename}`);
         }
     }
     return messages;

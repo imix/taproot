@@ -432,7 +432,7 @@ describe('runCommithook — truth checks', () => {
 
 /** Helpers for impl commit tests. */
 function makeMinimalSettings(dir: string): void {
-  writeFileSync(join(dir, '.taproot', 'settings.yaml'), 'version: 1\nroot: taproot/\n');
+  writeFileSync(join(dir, 'taproot', 'settings.yaml'), 'version: 1\nroot: taproot/\n');
 }
 
 const IMPL_MD_IN_PROGRESS = `# Implementation: My Impl

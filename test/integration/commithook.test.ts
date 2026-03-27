@@ -365,7 +365,7 @@ describe('runDorChecks', () => {
   });
 
   it('fails when check: condition is unresolved (no DoR Resolutions in impl.md)', () => {
-    writeFileSync(join(tmpDir, '.taproot', 'settings.yaml'), [
+    writeFileSync(join(tmpDir, 'taproot', 'settings.yaml'), [
       'version: 1',
       'root: taproot/',
       'definitionOfReady:',
@@ -385,7 +385,7 @@ describe('runDorChecks', () => {
     const question = 'is this spec complete enough to implement?';
     const conditionName = `check: ${question}`;
     const now = new Date().toISOString();
-    writeFileSync(join(tmpDir, '.taproot', 'settings.yaml'), [
+    writeFileSync(join(tmpDir, 'taproot', 'settings.yaml'), [
       'version: 1',
       'root: taproot/',
       'definitionOfReady:',
@@ -408,7 +408,7 @@ describe('runDorChecks', () => {
   // ─── AC-1/AC-2/AC-3: require-discussion-log ───────────────────────────────
 
   it('AC-1: passes when require-discussion-log: true and discussion.md is present', () => {
-    writeFileSync(join(tmpDir, '.taproot', 'settings.yaml'), [
+    writeFileSync(join(tmpDir, 'taproot', 'settings.yaml'), [
       'version: 1',
       'root: taproot/',
       'definitionOfReady:',
@@ -425,7 +425,7 @@ describe('runDorChecks', () => {
   });
 
   it('AC-2: fails when require-discussion-log: true and discussion.md is absent', () => {
-    writeFileSync(join(tmpDir, '.taproot', 'settings.yaml'), [
+    writeFileSync(join(tmpDir, 'taproot', 'settings.yaml'), [
       'version: 1',
       'root: taproot/',
       'definitionOfReady:',

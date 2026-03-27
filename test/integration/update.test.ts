@@ -132,9 +132,10 @@ describe('taproot update', () => {
 
   it('refreshes docs with updated content on re-run', async () => {
     generateAdapters('claude', tmpDir);
+    mkdirSync(join(tmpDir, 'taproot', 'agent'), { recursive: true }); // use new layout
     await runUpdate({ cwd: tmpDir });
 
-    const patternsPath = join(tmpDir, '.taproot', 'docs', 'patterns.md');
+    const patternsPath = join(tmpDir, 'taproot', 'agent', 'docs', 'patterns.md');
     writeFileSync(patternsPath, 'stale content');
 
     const msgs = await runUpdate({ cwd: tmpDir });

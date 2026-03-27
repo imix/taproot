@@ -7,6 +7,7 @@ import { buildConfigurationMd } from '../core/configuration.js';
 import type { Command } from 'commander';
 import { generateAdapters, type AgentName } from '../adapters/index.js';
 import { installSkills, installDocs, SKILL_FILES } from './init.js';
+import { resolveAgentDir } from '../core/paths.js';
 import { runOverview } from './overview.js';
 import { DEFAULT_CONFIG, loadConfig } from '../core/config.js';
 import { loadLanguagePack, supportedLanguages } from '../core/language.js';
@@ -69,7 +70,10 @@ function detectInstalledAgents(cwd: string): AgentName[] {
   const aiderConfPath = join(cwd, '.aider.conf.yml');
   const conventionsPath = join(cwd, 'CONVENTIONS.md');
   if (
-    (existsSync(aiderConfPath) && readFileSync(aiderConfPath, 'utf-8').includes('.taproot/skills/')) ||
+    (existsSync(aiderConfPath) && (
+      readFileSync(aiderConfPath, 'utf-8').includes('.taproot/skills/') ||
+      readFileSync(aiderConfPath, 'utf-8').includes('taproot/agent/skills/')
+    )) ||
     (existsSync(conventionsPath) && readFileSync(conventionsPath, 'utf-8').includes('taproot init --agent aider'))
   ) {
     installed.push('aider');
@@ -109,6 +113,38 @@ function removeStale(cwd: string): string[] {
   } else if (existsSync(oldSkillsDir)) {
     rmSync(oldSkillsDir, { recursive: true, force: true });
     messages.push(`removed  taproot/skills/ (already migrated to .taproot/skills/)`);
+  }
+
+  // Migrate old layout (.taproot/) → new layout (taproot/agent/, taproot/settings.yaml)
+  const oldSettings = join(cwd, '.taproot', 'settings.yaml');
+  const newSettings = join(cwd, 'taproot', 'settings.yaml');
+  const oldDotTaprootSkills = join(cwd, '.taproot', 'skills');
+  const newAgentSkills = join(cwd, 'taproot', 'agent', 'skills');
+  const oldDotTaprootDocs = join(cwd, '.taproot', 'docs');
+  const newAgentDocs = join(cwd, 'taproot', 'agent', 'docs');
+
+  if (existsSync(oldSettings) && !existsSync(newSettings)) {
+    mkdirSync(join(cwd, 'taproot', 'agent'), { recursive: true });
+    // Copy settings (not move) to preserve old layout until migration is complete
+    const settingsContent = readFileSync(oldSettings, 'utf-8');
+    writeFileSync(newSettings, settingsContent);
+    messages.push(`migrated .taproot/settings.yaml → taproot/settings.yaml`);
+  }
+  if (existsSync(oldDotTaprootSkills) && !existsSync(newAgentSkills)) {
+    mkdirSync(join(cwd, 'taproot', 'agent'), { recursive: true });
+    renameSync(oldDotTaprootSkills, newAgentSkills);
+    messages.push(`migrated .taproot/skills/ → taproot/agent/skills/`);
+  }
+  if (existsSync(oldDotTaprootDocs) && !existsSync(newAgentDocs)) {
+    mkdirSync(join(cwd, 'taproot', 'agent'), { recursive: true });
+    renameSync(oldDotTaprootDocs, newAgentDocs);
+    messages.push(`migrated .taproot/docs/ → taproot/agent/docs/`);
+  }
+  const oldConfigMd = join(cwd, '.taproot', 'CONFIGURATION.md');
+  const newConfigMd = join(cwd, 'taproot', 'agent', 'CONFIGURATION.md');
+  if (existsSync(oldConfigMd) && !existsSync(newConfigMd) && existsSync(join(cwd, 'taproot', 'agent'))) {
+    renameSync(oldConfigMd, newConfigMd);
+    messages.push(`migrated .taproot/CONFIGURATION.md → taproot/agent/CONFIGURATION.md`);
   }
 
   // Remove taproot/_brainstorms/
@@ -313,18 +349,23 @@ export async function runUpdate(options: { cwd?: string; withHooks?: boolean }):
   }
 
   // Refresh/install skills — always when claude adapter is present, otherwise only if already installed
-  const skillsDir = join(cwd, '.taproot', 'skills');
+  const agentDir = resolveAgentDir(cwd);
+  const skillsDir = join(agentDir, 'skills');
+  const docsDir = join(agentDir, 'docs');
+  const isNewLayout = agentDir === join(cwd, 'taproot', 'agent');
+  const skillsDisplayDir = isNewLayout ? 'taproot/agent/skills' : '.taproot/skills';
+  const docsDisplayDir = isNewLayout ? 'taproot/agent/docs' : '.taproot/docs';
   const hasInstalledSkills = existsSync(skillsDir) &&
     SKILL_FILES.some(f => existsSync(join(skillsDir, f)));
 
   if (agents.includes('claude') || hasInstalledSkills) {
     messages.push('');
-    messages.push(...installSkills(skillsDir, true, pack, vocab));
-    messages.push(...installDocs(join(cwd, '.taproot', 'docs'), true));
+    messages.push(...installSkills(skillsDir, true, pack, vocab, skillsDisplayDir));
+    messages.push(...installDocs(docsDir, true, docsDisplayDir));
   }
 
-  // Install or refresh .taproot/CONFIGURATION.md (AC-6/AC-7 of update-adapters-and-skills)
-  const taprootConfigDir = join(cwd, '.taproot');
+  // Install or refresh CONFIGURATION.md in the agent dir
+  const taprootConfigDir = agentDir;
   const configMdPath = join(taprootConfigDir, 'CONFIGURATION.md');
   try {
     mkdirSync(taprootConfigDir, { recursive: true });
@@ -332,7 +373,8 @@ export async function runUpdate(options: { cwd?: string; withHooks?: boolean }):
     const existed = existsSync(configMdPath);
     writeFileSync(configMdPath, content, 'utf-8');
     messages.push('');
-    messages.push(`${existed ? 'updated' : 'created'}  .taproot/CONFIGURATION.md`);
+    const configMdRel = isNewLayout ? 'taproot/agent/CONFIGURATION.md' : '.taproot/CONFIGURATION.md';
+    messages.push(`${existed ? 'updated' : 'created'}  ${configMdRel}`);
   } catch (err) {
     messages.push(`warning  Could not write .taproot/CONFIGURATION.md: ${(err as Error).message}`);
   }

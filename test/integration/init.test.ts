@@ -21,15 +21,17 @@ describe('taproot init', () => {
     expect(existsSync(join(tmpDir, 'taproot'))).toBe(true);
   });
 
-  it('creates .taproot/settings.yaml', () => {
+  // AC-2: Creates taproot/settings.yaml (new layout)
+  it('AC-2: creates taproot/settings.yaml', () => {
     runInit({ cwd: tmpDir });
-    expect(existsSync(join(tmpDir, '.taproot', 'settings.yaml'))).toBe(true);
+    expect(existsSync(join(tmpDir, 'taproot', 'settings.yaml'))).toBe(true);
   });
 
-  it('creates .taproot/skills/ directory when claude agent is selected', async () => {
+  // AC-3: Agent selection prompt installs skills into taproot/agent/skills/
+  it('AC-3: creates taproot/agent/skills/ directory when claude agent is selected', async () => {
     const { runInit: ri } = await import('../../src/commands/init.js');
     ri({ cwd: tmpDir, agent: 'claude' });
-    expect(existsSync(join(tmpDir, '.taproot', 'skills'))).toBe(true);
+    expect(existsSync(join(tmpDir, 'taproot', 'agent', 'skills'))).toBe(true);
   });
 
   it('does not create taproot/_brainstorms/ directory', () => {
@@ -42,10 +44,11 @@ describe('taproot init', () => {
     expect(existsSync(join(tmpDir, 'taproot', 'CONVENTIONS.md'))).toBe(true);
   });
 
-  it('returns messages describing what was created', () => {
+  // AC-6: Returns messages referencing taproot/ and taproot/settings.yaml
+  it('AC-6: returns messages describing what was created', () => {
     const messages = runInit({ cwd: tmpDir });
     expect(messages.some(m => m.includes('taproot/'))).toBe(true);
-    expect(messages.some(m => m.includes('.taproot/settings.yaml'))).toBe(true);
+    expect(messages.some(m => m.includes('taproot/settings.yaml'))).toBe(true);
   });
 
   it('is idempotent — running twice does not fail', () => {
@@ -74,10 +77,10 @@ describe('taproot init', () => {
     expect(messages.some(m => m.includes('skipped') && m.includes('pre-commit'))).toBe(true);
   });
 
-  // AC-11: --agent flag (programmatic: agent: 'claude') skips prompt, installs adapter
+  // AC-11: --agent flag (programmatic: agent: 'claude') installs adapter
   it('AC-11: agent option installs adapter without prompt', () => {
     runInit({ cwd: tmpDir, agent: 'claude' });
-    expect(existsSync(join(tmpDir, '.taproot', 'skills'))).toBe(true);
+    expect(existsSync(join(tmpDir, 'taproot', 'agent', 'skills'))).toBe(true);
   });
 
   // AC-13: no .git directory → abort with error before any prompts
@@ -85,7 +88,18 @@ describe('taproot init', () => {
     rmSync(join(tmpDir, '.git'), { recursive: true, force: true });
     expect(() => runInit({ cwd: tmpDir })).toThrow(/git init/i);
     expect(existsSync(join(tmpDir, 'taproot'))).toBe(false);
-    expect(existsSync(join(tmpDir, '.taproot'))).toBe(false);
+  });
+
+  // AC-14: Creates taproot/specs/ subdirectory
+  it('AC-14: creates taproot/specs/ as the hierarchy root', () => {
+    runInit({ cwd: tmpDir });
+    expect(existsSync(join(tmpDir, 'taproot', 'specs'))).toBe(true);
+  });
+
+  // AC-15: Creates taproot/agent/ subdirectory
+  it('AC-15: creates taproot/agent/ for skills and configuration', () => {
+    runInit({ cwd: tmpDir });
+    expect(existsSync(join(tmpDir, 'taproot', 'agent'))).toBe(true);
   });
 
   // AC-7: single select shows all templates + No template before any choice is made
@@ -119,9 +133,9 @@ describe('taproot init', () => {
     expect(gitCheckPos).toBeLessThan(firstPrompt); // git check precedes all prompts
   });
 
-  it('gemini agent installs skills into .taproot/skills/', () => {
+  it('gemini agent installs skills into taproot/agent/skills/', () => {
     runInit({ cwd: tmpDir, agent: 'gemini' });
-    expect(existsSync(join(tmpDir, '.taproot', 'skills', 'ineed.md'))).toBe(true);
+    expect(existsSync(join(tmpDir, 'taproot', 'agent', 'skills', 'ineed.md'))).toBe(true);
   });
 
   // AC-12: --with-hooks flag (programmatic: withHooks: true) installs hook without prompt
@@ -168,14 +182,14 @@ describe('taproot init', () => {
   // AC-2: Coding / default writes no vocabulary
   it('AC-2 (preset): coding preset writes no vocabulary key', () => {
     runInit({ cwd: tmpDir, preset: 'coding' });
-    const config = readFileSync(join(tmpDir, '.taproot', 'settings.yaml'), 'utf-8');
+    const config = readFileSync(join(tmpDir, 'taproot', 'settings.yaml'), 'utf-8');
     expect(config).not.toContain('vocabulary');
   });
 
   // AC-3: Blogging preset writes correct vocabulary
   it('AC-3 (preset): blogging preset writes source files: posts and tests: editorial reviews', () => {
     runInit({ cwd: tmpDir, preset: 'blogging' });
-    const config = readFileSync(join(tmpDir, '.taproot', 'settings.yaml'), 'utf-8');
+    const config = readFileSync(join(tmpDir, 'taproot', 'settings.yaml'), 'utf-8');
     expect(config).toContain('posts');
     expect(config).toContain('editorial reviews');
   });
@@ -183,7 +197,7 @@ describe('taproot init', () => {
   // AC-4: Book-authoring preset writes correct vocabulary
   it('AC-4 (preset): book-authoring preset writes source files: chapters and tests: manuscript reviews', () => {
     runInit({ cwd: tmpDir, preset: 'book-authoring' });
-    const config = readFileSync(join(tmpDir, '.taproot', 'settings.yaml'), 'utf-8');
+    const config = readFileSync(join(tmpDir, 'taproot', 'settings.yaml'), 'utf-8');
     expect(config).toContain('chapters');
     expect(config).toContain('manuscript reviews');
   });
@@ -191,14 +205,14 @@ describe('taproot init', () => {
   // AC-5: Technical-writing preset writes correct vocabulary
   it('AC-5 (preset): technical-writing preset writes source files: documents and tests: reviews', () => {
     runInit({ cwd: tmpDir, preset: 'technical-writing' });
-    const config = readFileSync(join(tmpDir, '.taproot', 'settings.yaml'), 'utf-8');
+    const config = readFileSync(join(tmpDir, 'taproot', 'settings.yaml'), 'utf-8');
     expect(config).toContain('documents');
   });
 
   // AC-7: Language selection writes language field
   it('AC-7 (preset): language option writes language field to settings.yaml', () => {
     runInit({ cwd: tmpDir, language: 'de' });
-    const config = readFileSync(join(tmpDir, '.taproot', 'settings.yaml'), 'utf-8');
+    const config = readFileSync(join(tmpDir, 'taproot', 'settings.yaml'), 'utf-8');
     expect(config).toContain('language: de');
   });
 
@@ -211,7 +225,7 @@ describe('taproot init', () => {
   // AC-10: --preset flag applies preset non-interactively (programmatic: preset option)
   it('AC-10 (preset): preset option applies preset without prompts', () => {
     runInit({ cwd: tmpDir, preset: 'blogging' });
-    const config = readFileSync(join(tmpDir, '.taproot', 'settings.yaml'), 'utf-8');
+    const config = readFileSync(join(tmpDir, 'taproot', 'settings.yaml'), 'utf-8');
     expect(config).toContain('posts');
   });
 
@@ -226,7 +240,7 @@ describe('taproot init', () => {
     runInit({ cwd: tmpDir, preset: 'blogging' });
     runInit({ cwd: tmpDir, preset: 'technical-writing' });
     // blogging vocabulary should still be there (not overwritten)
-    const config = readFileSync(join(tmpDir, '.taproot', 'settings.yaml'), 'utf-8');
+    const config = readFileSync(join(tmpDir, 'taproot', 'settings.yaml'), 'utf-8');
     expect(config).toContain('posts');
     expect(config).not.toContain('documents');
   });

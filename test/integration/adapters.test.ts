@@ -378,8 +378,8 @@ describe('taproot init --agent', () => {
   it('runInit with claude agent auto-installs skills into taproot/skills/', async () => {
     const { runInit } = await import('../../src/commands/init.js');
     runInit({ cwd: tmpDir, agent: 'claude' });
-    expect(existsSync(join(tmpDir, '.taproot', 'skills', 'plan.md'))).toBe(true);
-    expect(existsSync(join(tmpDir, '.taproot', 'skills', 'intent.md'))).toBe(true);
+    expect(existsSync(join(tmpDir, 'taproot', 'agent', 'skills', 'plan.md'))).toBe(true);
+    expect(existsSync(join(tmpDir, 'taproot', 'agent', 'skills', 'intent.md'))).toBe(true);
   });
 });
 

@@ -153,7 +153,7 @@ describe('pattern-hints — AC-1/AC-2/AC-6/AC-7: pattern check step present in a
       const content = readFileSync(skill.path, 'utf-8');
 
       it('AC-1: contains .taproot/docs/patterns.md scan step', () => {
-        expect(content).toContain('.taproot/docs/patterns.md');
+        expect(content).toContain('taproot/agent/docs/patterns.md');
       });
 
       it('AC-1: check-if-affected-by listed as trigger signal', () => {

@@ -37,8 +37,12 @@ export const DEFAULT_CONFIG: TaprootConfig = {
 function findConfigFile(startDir: string): { configFile: string; projectRoot: string } | null {
   let current = resolve(startDir);
   while (true) {
-    const candidate = join(current, '.taproot', 'settings.yaml');
-    if (existsSync(candidate)) return { configFile: candidate, projectRoot: current };
+    // New layout: taproot/settings.yaml
+    const newCandidate = join(current, 'taproot', 'settings.yaml');
+    if (existsSync(newCandidate)) return { configFile: newCandidate, projectRoot: current };
+    // Old layout: .taproot/settings.yaml
+    const oldCandidate = join(current, '.taproot', 'settings.yaml');
+    if (existsSync(oldCandidate)) return { configFile: oldCandidate, projectRoot: current };
     const parent = dirname(current);
     if (parent === current) return null;
     current = parent;

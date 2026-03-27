@@ -33,7 +33,7 @@
 - `test/integration/truth-checker.test.ts` — `makeMinimalSettings` helper updated; AC-8 test fixed with `intent.md` creation
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-27
 - **Last verified:** 2026-03-27
 
@@ -41,3 +41,34 @@
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: INTENTIONAL SUPERSESSION — `docs/architecture.md` contains constraint "Skills, config, and framework files live in `.taproot/`." This implementation is the authoritative change to that constraint: agent files now live in `taproot/agent/`, `.taproot/` is runtime scratch only. `docs/architecture.md` must be updated as part of DoD to reflect the new layout. All other architecture principles (stateless CLI, immutable config, filesystem as data model, no global mutable state) are fully honoured. | resolved: 2026-03-27
 
 - condition: check-if-affected-by: quality-gates/nfr-measurability | note: not applicable — no **NFR-N:** entries in usecase.md | resolved: 2026-03-27
+
+## DoD Resolutions
+- condition: document-current | note: docs/architecture.md updated: replaced outdated .taproot/ constraint with new unified layout description; updated Testing section. docs/cli.md updated: taproot init description, --with-skills path, --template settings path, taproot update docs path. docs/agents.md updated: skills path from .taproot/skills/ to taproot/agent/skills/. docs/security.md updated: skill security section paths. docs/configuration.md updated: all .taproot/settings.yaml → taproot/settings.yaml, CONFIGURATION.md path updated. docs/patterns.md updated: settings.yaml references. README.md accurately reflects the CLI commands and workflow (no layout references to update). | resolved: 2026-03-27T13:57:26.376Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: VERIFIED — 11 skill files were updated (backlog, commit, implement, guide, behaviour, refine, status, review-all, ineed, bug, discover-truths). All changes are path updates only (from .taproot/ prefix to taproot/agent/ or taproot/). No shell command execution was added or removed. No credentials or tokens introduced. No least-privilege changes — existing agent instructions unchanged except file paths. | resolved: 2026-03-27T14:00:32.751Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — dual-path fallback (resolveAgentDir) is an internal migration strategy, not a pattern that taproot users apply. The migration-via-update pattern (removeStale) is an implementation detail, not a user-facing architectural pattern. No new entry in docs/patterns.md warranted. | resolved: 2026-03-27T14:00:32.497Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: YES — this implementation changes where taproot/settings.yaml lives (from .taproot/ to taproot/). Any implementation that reads settings.yaml or writes to the agent directory should be verified against the new paths. However, no new check-if-affected-by entry is warranted — this is a migration, not a new ongoing concern. The resolveAgentDir() function in src/core/paths.ts handles both layouts. No addition to settings.yaml required. | resolved: 2026-03-27T14:00:32.248Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — docs/architecture.md updated to reflect the new unified layout. All other architectural principles honoured: stateless CLI commands, immutable config after load, external I/O at command boundaries, no global mutable state, filesystem as data model, agent-agnostic output. New src/core/paths.ts follows module boundary rules (core module, pure logic). Error messages remain actionable. | resolved: 2026-03-27T14:00:31.993Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — pattern-hints governs skills that process user needs and should surface relevant patterns. taproot init and taproot update are CLI setup commands, not user-need processing skills. | resolved: 2026-03-27T13:59:56.597Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — commit-awareness constrains skill files that contain git commit steps. This implementation modifies CLI source code, not skill files. No skill file changes introduce new git commit steps. | resolved: 2026-03-27T13:59:56.346Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — context-engineering governs skill files (skills/*.md). This implementation modifies CLI commands and core TypeScript files. The skill file updates made (backlog, commit, implement, etc.) are path updates, not structural changes to how skills load or present context. | resolved: 2026-03-27T13:59:56.095Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — pause-and-confirm governs bulk-authoring agent skills (e.g. tr-sweep). taproot init and taproot update are CLI setup commands; they prompt at the start of execution, not at each step. | resolved: 2026-03-27T13:58:29.422Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — contextual-next-steps governs agent skills that produce primary output and must present a What's next? block. This implementation modifies CLI setup commands (taproot init, taproot update), not agent skills. | resolved: 2026-03-27T13:58:29.169Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — this implementation modifies CLI source files (src/commands/init.ts, src/commands/update.ts, src/core/paths.ts, src/core/config.ts, src/core/fs-walker.ts, src/adapters/index.ts). None of these are skill files or shared hierarchy docs. Adapter files (.claude/commands/, .gemini/commands/) are explicitly excluded from the agent-agnostic-language standard per its Scope section. | resolved: 2026-03-27T13:58:28.908Z
+
+- condition: check-if-affected: examples/ | note: AFFECTED (noted, not updated) — examples/ README files and settings/ templates reference .taproot/settings.yaml. These remain accurate as examples of the old layout that taproot update will migrate. Updating example READMEs to reflect new layout is tracked as a follow-up (the examples/ templates will regenerate correctly after taproot update is run on any example project). | resolved: 2026-03-27T13:58:12.631Z
+
+- condition: check-if-affected: docs/ | note: AFFECTED AND UPDATED — see document-current resolution above. docs/architecture.md, docs/cli.md, docs/agents.md, docs/security.md, docs/configuration.md, docs/patterns.md all updated to reflect new layout paths. | resolved: 2026-03-27T13:58:12.376Z
+
+- condition: check-if-affected: skills/guide.md | note: AFFECTED AND UPDATED — skills/guide.md updated: backlog.md reference changed from .taproot/backlog.md to taproot/agent/backlog.md. Also updated 10 other skill files (backlog, commit, implement, behaviour, refine, status, review-all, ineed, bug, discover-truths) to reference new layout paths. Copied to .taproot/skills/ for the taproot project itself. | resolved: 2026-03-27T13:57:52.776Z
+
+- condition: check-if-affected: src/commands/update.ts | note: AFFECTED AND IMPLEMENTED — update.ts is a primary source file in this implementation. removeStale() was extended to migrate .taproot/skills/ → taproot/agent/skills/, .taproot/docs/ → taproot/agent/docs/, and .taproot/CONFIGURATION.md → taproot/agent/CONFIGURATION.md. resolveAgentDir() is used throughout update.ts for all agent-dir writes. | resolved: 2026-03-27T13:57:52.524Z
+

@@ -12,7 +12,15 @@ import { fileURLToPath } from 'url';
 import yaml from 'js-yaml';
 import { SKILL_FILES } from '../commands/init.js';
 import { loadConfig } from '../core/config.js';
+import { resolveAgentDir } from '../core/paths.js';
 import { loadLanguagePack, substituteTokens, applyVocabulary, getStructuralKeys } from '../core/language.js';
+
+/** Returns the relative skills path for use in generated adapter content. */
+function resolveSkillsRelPath(projectRoot: string, filename: string): string {
+  const agentDir = resolveAgentDir(projectRoot);
+  const isNewLayout = agentDir === join(projectRoot, 'taproot', 'agent');
+  return isNewLayout ? `taproot/agent/skills/${filename}` : `.taproot/skills/${filename}`;
+}
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BUNDLED_SKILLS_DIR = resolve(__dirname, '..', '..', 'skills');
@@ -129,7 +137,7 @@ function generateClaudeAdapter(skills: SkillDef[], projectRoot: string, cli?: st
   for (const skill of skills) {
     const destPath = join(targetDir, `tr-${skill.filename}`);
     const existed = existsSync(destPath);
-    const content = buildClaudeSkillFile(skill);
+    const content = buildClaudeSkillFile(skill, projectRoot);
     writeFileSync(destPath, content, 'utf-8');
     files.push({ path: destPath, status: existed ? 'updated' : 'created' });
   }
@@ -157,10 +165,11 @@ ${buildConfigQuickRef(cli)}
 `;
 }
 
-function buildClaudeSkillFile(skill: SkillDef): string {
+function buildClaudeSkillFile(skill: SkillDef, projectRoot: string): string {
   const overviewStep = TREE_MODIFYING_SKILLS.has(skill.name)
     ? '\n6. Run `taproot overview` to update @{project-root}/taproot/OVERVIEW.md with the current project state'
     : '';
+  const skillPath = resolveSkillsRelPath(projectRoot, skill.filename);
   return `---
 name: 'tr-${skill.name}'
 description: '${skill.description.replace(/'/g, "\\'")}'
@@ -169,7 +178,7 @@ description: '${skill.description.replace(/'/g, "\\'")}'
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
 
 <steps CRITICAL="TRUE">
-1. LOAD the FULL skill file at @{project-root}/.taproot/skills/${skill.filename}
+1. LOAD the FULL skill file at @{project-root}/${skillPath}
 2. READ its entire contents — this contains the complete skill definition with steps, inputs, and output format
 3. FOLLOW every step in the ## Steps section precisely and in order
 4. When the skill references other taproot commands (e.g. \`/taproot:intent\`), use the corresponding \`/tr-intent\` command instead
@@ -248,7 +257,7 @@ function generateCopilotAdapter(skills: SkillDef[], projectRoot: string, cli?: s
   const destPath = join(targetDir, 'copilot-instructions.md');
   const existed = existsSync(destPath);
 
-  const taprootSection = buildCopilotSection(skills, cli);
+  const taprootSection = buildCopilotSection(skills, cli, projectRoot);
   let finalContent: string;
 
   if (existed) {
@@ -265,9 +274,9 @@ function generateCopilotAdapter(skills: SkillDef[], projectRoot: string, cli?: s
   };
 }
 
-function buildCopilotSection(skills: SkillDef[], cli?: string): string {
+function buildCopilotSection(skills: SkillDef[], cli?: string, projectRoot?: string): string {
   const skillSummary = skills.map(s =>
-    `- **\`/taproot:${s.name}\`** — ${s.description}. Full definition: \`.taproot/skills/${s.filename}\``
+    `- **\`/taproot:${s.name}\`** — ${s.description}. Full definition: \`${resolveSkillsRelPath(projectRoot ?? '', s.filename)}\``
   ).join('\n');
 
   return `${TAPROOT_START}
@@ -368,7 +377,7 @@ function generateGeminiAdapter(skills: SkillDef[], projectRoot: string, cli?: st
   for (const skill of skills) {
     const destPath = join(targetDir, `tr-${skill.name}.toml`);
     const existed = existsSync(destPath);
-    const content = buildGeminiSkillFile(skill);
+    const content = buildGeminiSkillFile(skill, projectRoot);
     writeFileSync(destPath, content, 'utf-8');
     files.push({ path: destPath, status: existed ? 'updated' : 'created' });
   }
@@ -410,16 +419,17 @@ See .taproot/CONFIGURATION.md for the full reference and examples.
 `;
 }
 
-function buildGeminiSkillFile(skill: SkillDef): string {
+function buildGeminiSkillFile(skill: SkillDef, projectRoot: string): string {
   const overviewStep = TREE_MODIFYING_SKILLS.has(skill.name)
     ? '\n5. Run `taproot overview` to update taproot/OVERVIEW.md with the current project state'
     : '';
+  const skillPath = resolveSkillsRelPath(projectRoot, skill.filename);
   return `description = "${skill.description.replace(/"/g, '\\"')}"
 
 prompt = """
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
 
-1. LOAD the FULL skill file at .taproot/skills/${skill.filename}
+1. LOAD the FULL skill file at ${skillPath}
 2. READ its entire contents — this contains the complete skill definition with steps, inputs, and output format
 3. FOLLOW every step in the ## Steps section precisely and in order
 4. Save all outputs to the paths specified in the skill's ## Output section${overviewStep}
@@ -518,9 +528,9 @@ ${TAPROOT_END}
 // CONVENTIONS.md — taproot workflow instructions for Aider sessions
 
 // Taproot read paths injected into .aider.conf.yml
-function aiderReadPaths(skills: SkillDef[]): string[] {
+function aiderReadPaths(skills: SkillDef[], projectRoot: string): string[] {
   return [
-    ...skills.map(s => `.taproot/skills/${s.filename}`),
+    ...skills.map(s => resolveSkillsRelPath(projectRoot, s.filename)),
     'CONVENTIONS.md',
   ];
 }
@@ -531,7 +541,7 @@ export function generateAiderAdapter(skills: SkillDef[], projectRoot: string): A
   // Handle .aider.conf.yml
   const confPath = join(projectRoot, '.aider.conf.yml');
   const confExisted = existsSync(confPath);
-  const readPaths = aiderReadPaths(skills);
+  const readPaths = aiderReadPaths(skills, projectRoot);
 
   if (confExisted) {
     const raw = readFileSync(confPath, 'utf-8');
@@ -565,7 +575,7 @@ export function generateAiderAdapter(skills: SkillDef[], projectRoot: string): A
   // Write CONVENTIONS.md
   const conventionsPath = join(projectRoot, 'CONVENTIONS.md');
   const conventionsExisted = existsSync(conventionsPath);
-  writeFileSync(conventionsPath, buildAiderConventionsMd(skills), 'utf-8');
+  writeFileSync(conventionsPath, buildAiderConventionsMd(skills, projectRoot), 'utf-8');
   files.push({ path: conventionsPath, status: conventionsExisted ? 'updated' : 'created' });
 
   return { agent: 'aider', files };
@@ -580,9 +590,9 @@ ${readList}
 `;
 }
 
-function buildAiderConventionsMd(skills: SkillDef[]): string {
+function buildAiderConventionsMd(skills: SkillDef[], projectRoot: string): string {
   const skillList = skills.map(s =>
-    `- **${s.name}** — ${s.description}. Full definition: \`.taproot/skills/${s.filename}\``
+    `- **${s.name}** — ${s.description}. Full definition: \`${resolveSkillsRelPath(projectRoot, s.filename)}\``
   ).join('\n');
 
   return `# Taproot Conventions for Aider

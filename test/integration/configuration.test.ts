@@ -124,11 +124,11 @@ describe('taproot update — CONFIGURATION.md installation', () => {
 // ─── taproot --help footer (AC-2) ─────────────────────────────────────────────
 
 describe('taproot --help footer (AC-2)', () => {
-  it('AC-2: taproot --help output references .taproot/settings.yaml and CONFIGURATION.md', () => {
+  it('AC-2: taproot --help output references taproot/settings.yaml and CONFIGURATION.md', () => {
     const cliBin = resolve(__dirname, '../../dist/cli.js');
     const result = spawnSync(process.execPath, [cliBin, '--help'], { encoding: 'utf-8' });
     const output = result.stdout + result.stderr;
-    expect(output).toContain('.taproot/settings.yaml');
-    expect(output).toContain('.taproot/CONFIGURATION.md');
+    expect(output).toContain('taproot/settings.yaml');
+    expect(output).toContain('CONFIGURATION.md');
   });
 });

@@ -14,8 +14,8 @@ import type { FolderNode } from '../../src/validators/types.js';
 
 function writeSettings(dir: string, extra: Record<string, unknown> = {}): void {
   const base = { version: 1, root: 'taproot/', ...extra };
-  mkdirSync(join(dir, '.taproot'), { recursive: true });
-  writeFileSync(join(dir, '.taproot', 'settings.yaml'),
+  mkdirSync(join(dir, 'taproot'), { recursive: true });
+  writeFileSync(join(dir, 'taproot', 'settings.yaml'),
     Object.entries(base).map(([k, v]) => `${k}: ${JSON.stringify(v)}`).join('\n')
   );
 }
@@ -72,7 +72,7 @@ describe('language-support integration', () => {
     expect(messages.some(m => m.includes('de ('))).toBe(true); // language pack message
 
     // Check a skill file has German tokens
-    const skillPath = join(tmpDir, '.taproot', 'skills', 'implement.md');
+    const skillPath = join(tmpDir, 'taproot', 'agent', 'skills', 'implement.md');
     if (existsSync(skillPath)) {
       const content = readFileSync(skillPath, 'utf-8');
       // 'Actor' should be replaced with 'Akteur' somewhere
@@ -209,7 +209,7 @@ Begleite teams through the process.
     writeSettings(tmpDir, { language: 'xx' });
 
     // Note the skill timestamps before
-    const skillPath = join(tmpDir, '.taproot', 'skills', 'implement.md');
+    const skillPath = join(tmpDir, 'taproot', 'agent', 'skills', 'implement.md');
     const beforeContent = existsSync(skillPath) ? readFileSync(skillPath, 'utf-8') : null;
 
     const messages = await runUpdate({ cwd: tmpDir });
@@ -236,7 +236,7 @@ Begleite teams through the process.
         const messages = await runUpdate({ cwd: freshDir });
         expect(messages.some(m => m.startsWith('error')), `${code}: should not error`).toBe(false);
 
-        const skillPath = join(freshDir, '.taproot', 'skills', 'implement.md');
+        const skillPath = join(freshDir, 'taproot', 'agent', 'skills', 'implement.md');
         if (existsSync(skillPath)) {
           const content = readFileSync(skillPath, 'utf-8');
           // At minimum, 'Actor' should be replaced (it appears in all skill files)

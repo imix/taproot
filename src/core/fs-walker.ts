@@ -8,7 +8,7 @@ const MARKER_FILES: Record<string, MarkerType> = {
   'impl.md': 'impl',
 };
 
-const DEFAULT_EXCLUDE = new Set(['_brainstorms', 'skills', '.git', 'node_modules', 'dist', 'global-truths']);
+const DEFAULT_EXCLUDE = new Set(['_brainstorms', 'skills', '.git', 'node_modules', 'dist', 'global-truths', 'agent', 'specs']);
 
 export function walkHierarchy(
   rootPath: string,

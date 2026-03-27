@@ -22,7 +22,7 @@ program
     .name('taproot')
     .description('Folder-based requirement hierarchy CLI')
     .version(version)
-    .addHelpText('after', '\nConfiguration: edit .taproot/settings.yaml — see .taproot/CONFIGURATION.md for all options');
+    .addHelpText('after', '\nConfiguration: edit taproot/settings.yaml — see taproot/agent/CONFIGURATION.md for all options');
 registerInit(program);
 registerValidateStructure(program);
 registerValidateFormat(program);

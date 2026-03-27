@@ -7,7 +7,7 @@ import { runInit } from '../../src/commands/init.js';
 
 function writeSettings(dir: string, extra: Record<string, unknown> = {}): void {
   const base = { version: 1, root: 'taproot/', ...extra };
-  mkdirSync(join(dir, '.taproot'), { recursive: true });
+  mkdirSync(join(dir, 'taproot'), { recursive: true });
   // Write YAML manually to preserve vocabulary: as a map
   const lines: string[] = [];
   for (const [k, v] of Object.entries(base)) {
@@ -20,7 +20,7 @@ function writeSettings(dir: string, extra: Record<string, unknown> = {}): void {
       lines.push(`${k}: ${JSON.stringify(v)}`);
     }
   }
-  writeFileSync(join(dir, '.taproot', 'settings.yaml'), lines.join('\n'));
+  writeFileSync(join(dir, 'taproot', 'settings.yaml'), lines.join('\n'));
 }
 
 describe('domain-vocabulary integration', () => {
@@ -46,7 +46,7 @@ describe('domain-vocabulary integration', () => {
     expect(messages.some(m => m.startsWith('error'))).toBe(false);
     expect(messages.some(m => m.includes('vocabulary'))).toBe(true);
 
-    const skillPath = join(tmpDir, '.taproot', 'skills', 'implement.md');
+    const skillPath = join(tmpDir, 'taproot', 'agent', 'skills', 'implement.md');
     if (existsSync(skillPath)) {
       const content = readFileSync(skillPath, 'utf-8');
       // 'source files' should be replaced with 'chapters'
@@ -63,7 +63,7 @@ describe('domain-vocabulary integration', () => {
     const messages2 = await runUpdate({ cwd: tmpDir });
     expect(messages2.some(m => m.startsWith('error'))).toBe(false);
 
-    const skillPath = join(tmpDir, '.taproot', 'skills', 'implement.md');
+    const skillPath = join(tmpDir, 'taproot', 'agent', 'skills', 'implement.md');
     if (existsSync(skillPath)) {
       const content = readFileSync(skillPath, 'utf-8');
       expect(content).not.toContain('\x00'); // no leaked placeholders
@@ -96,7 +96,7 @@ describe('domain-vocabulary integration', () => {
     expect(messages.some(m => m.includes('de ('))).toBe(true); // language applied
     expect(messages.some(m => m.includes('vocabulary'))).toBe(true); // vocab applied
 
-    const skillPath = join(tmpDir, '.taproot', 'skills', 'implement.md');
+    const skillPath = join(tmpDir, 'taproot', 'agent', 'skills', 'implement.md');
     if (existsSync(skillPath)) {
       const content = readFileSync(skillPath, 'utf-8');
       // German structural keywords should be present (language pack ran)
@@ -130,7 +130,7 @@ describe('domain-vocabulary integration', () => {
   it('empty-string vocabulary value aborts with error, no files modified', async () => {
     runInit({ cwd: tmpDir, agent: 'claude' });
 
-    const skillPath = join(tmpDir, '.taproot', 'skills', 'implement.md');
+    const skillPath = join(tmpDir, 'taproot', 'agent', 'skills', 'implement.md');
     const beforeContent = existsSync(skillPath) ? readFileSync(skillPath, 'utf-8') : null;
 
     writeSettings(tmpDir, { vocabulary: { tests: '' } });

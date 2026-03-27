@@ -21,5 +21,5 @@ export declare function runInit(options: {
     language?: string;
     preset?: string;
 }): string[];
-export declare function installSkills(targetSkillsDir: string, force?: boolean, pack?: LanguagePack | null, vocab?: Record<string, string> | null): string[];
-export declare function installDocs(targetDocsDir: string, force?: boolean): string[];
+export declare function installSkills(targetSkillsDir: string, force?: boolean, pack?: LanguagePack | null, vocab?: Record<string, string> | null, displayDir?: string): string[];
+export declare function installDocs(targetDocsDir: string, force?: boolean, displayDir?: string): string[];

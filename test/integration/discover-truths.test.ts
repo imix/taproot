@@ -37,7 +37,7 @@ describe('AC-2 — skill filters already-defined truths', () => {
 
 describe('AC-4 — backlogged candidate written to backlog.md', () => {
   it('skill appends truth candidate entry to backlog.md', () => {
-    expect(skill).toContain('.taproot/backlog.md');
+    expect(skill).toContain('taproot/agent/backlog.md');
     expect(skill).toMatch(/truth candidate: ?<term>/);
   });
 
@@ -78,7 +78,7 @@ describe('AC-7 — review-all includes truth discovery pass', () => {
   });
 
   it('review-all.md offers defer option that writes to backlog.md', () => {
-    expect(reviewAll).toContain('.taproot/backlog.md');
+    expect(reviewAll).toContain('taproot/agent/backlog.md');
     expect(reviewAll).toMatch(/[Dd]efer/);
   });
 });
@@ -88,7 +88,7 @@ describe('AC-7 — review-all includes truth discovery pass', () => {
 describe('AC-8 — dismissed candidate suppressed in future runs', () => {
   it('skill writes "reviewed — not a truth" to backlog.md on dismiss', () => {
     expect(skill).toContain('reviewed — not a truth:');
-    expect(skill).toContain('.taproot/backlog.md');
+    expect(skill).toContain('taproot/agent/backlog.md');
   });
 
   it('skill reads backlog.md dismissed entries to build suppression list', () => {
