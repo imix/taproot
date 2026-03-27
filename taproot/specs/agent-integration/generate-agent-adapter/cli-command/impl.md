@@ -25,12 +25,38 @@
 - `test/integration/init.test.ts` — covers adapter generation as part of full init flow
 
 ## Status
-- **State:** needs-rework
+- **State:** complete
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-21
 
 ## DoD Resolutions
 - condition: no-git-abort | note: test/integration/adapters.test.ts beforeEach updated to create .git — required by AC-13 (runInit throws without git). Not applicable to adapter generation logic. | resolved: 2026-03-21
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: NO skill files modified. | resolved: 2026-03-27T17:08:19.818Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — variant of existing invocation-block pattern. | resolved: 2026-03-27T17:08:19.559Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — migration concern only. | resolved: 2026-03-27T17:08:19.296Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — follows pure-function adapter pattern. | resolved: 2026-03-27T17:08:19.037Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable. | resolved: 2026-03-27T17:08:18.781Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable. | resolved: 2026-03-27T17:08:18.525Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — no skill files. | resolved: 2026-03-27T17:08:18.266Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable. | resolved: 2026-03-27T17:08:18.004Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — source code. | resolved: 2026-03-27T17:08:17.741Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: COMPLIANT — invocation note uses neutral phrasing. | resolved: 2026-03-27T17:08:17.461Z
+
+- condition: check-if-affected: skills/guide.md | note: not affected — guide.md not modified. | resolved: 2026-03-27T17:08:17.201Z
+
+- condition: check-if-affected: src/commands/update.ts | note: REWORK: update.ts gains setCliWrapper() — adds cli: ./taproot/agent/bin/taproot when absent. | resolved: 2026-03-27T17:08:16.942Z
+
+- condition: document-current | note: REWORK: buildClaudeSkillFile and buildGeminiSkillFile now accept cli? param and embed invocation note in each skill launcher. Callers pass cli from config. | resolved: 2026-03-27T17:08:16.681Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: NO skill files modified. | resolved: 2026-03-27T16:58:32.113Z
 
 - condition: check-if-affected: examples/ | note: not affected — examples pick up cli: on next init. | resolved: 2026-03-27T16:58:31.857Z

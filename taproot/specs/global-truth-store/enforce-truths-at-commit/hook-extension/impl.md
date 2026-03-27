@@ -33,12 +33,42 @@
 - condition: check-if-affected-by: quality-gates/nfr-measurability | note: no new NFRs introduced; the session hash check is deterministic and synchronous. Timeout behaviour is deferred to the tr-commit skill (hook times out → allow with warning is documented in the spec as a future improvement). | resolved: 2026-03-26
 
 ## Status
-- **State:** needs-rework
+- **State:** complete
 - **Created:** 2026-03-26
 - **Last verified:** 2026-03-27
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md updated: added truth-sign command documentation and updated commithook table to mention truth consistency check. docs/patterns.md updated with new session-hash pattern. README.md does not list individual CLI commands and does not need updating. | resolved: 2026-03-26T12:23:54.070Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: NO skill files modified. | resolved: 2026-03-27T17:09:55.280Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — narrow correctness fix. | resolved: 2026-03-27T17:09:55.018Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO. | resolved: 2026-03-27T17:09:54.751Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — truth-sign exclusion and rename detection follow stateless CLI patterns. | resolved: 2026-03-27T17:09:54.468Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable. | resolved: 2026-03-27T17:09:54.196Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable. | resolved: 2026-03-27T17:09:53.937Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — no skill files. | resolved: 2026-03-27T17:09:53.671Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable. | resolved: 2026-03-27T17:09:53.384Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable. | resolved: 2026-03-27T17:09:53.120Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — source code. | resolved: 2026-03-27T17:09:52.852Z
+
+- condition: check-if-affected: examples/ | note: not affected. | resolved: 2026-03-27T17:09:52.570Z
+
+- condition: check-if-affected: docs/ | note: not affected — docs already cover truth-sign and commithook. | resolved: 2026-03-27T17:09:52.297Z
+
+- condition: check-if-affected: skills/guide.md | note: not affected. | resolved: 2026-03-27T17:09:52.022Z
+
+- condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts changes are unrelated to truth-check logic. | resolved: 2026-03-27T17:09:51.749Z
+
+- condition: document-current | note: REWORK: truth-sign.ts updated to exclude taproot/agent/ files from signing; src/commands/commithook.ts updated for rename detection. docs already up to date. | resolved: 2026-03-27T17:09:51.480Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: NO skill files modified — only truth-sign.ts and test files. | resolved: 2026-03-27T15:05:20.628Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — narrow correctness fix, not a reusable pattern. | resolved: 2026-03-27T15:05:19.364Z
