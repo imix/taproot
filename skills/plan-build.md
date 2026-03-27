@@ -65,7 +65,9 @@ Build a persistent implementation plan (`taproot/plan.md`) from backlog items, u
 
    Status values: `pending` · `done` · `skipped` · `blocked` · `stale`
 
-9. Confirm: *"Plan saved — N items in `taproot/plan.md`."*
+9. **Remove consumed backlog items.** If any plan items were sourced from `taproot/backlog.md`, remove those lines from the file and report: *"Removed N item(s) from `taproot/backlog.md`."* Skip this step if no backlog items were used or if `taproot/backlog.md` is absent.
+
+10. Confirm: *"Plan saved — N items in `taproot/plan.md`."*
 
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
@@ -83,6 +85,6 @@ Build a persistent implementation plan (`taproot/plan.md`) from backlog items, u
 
 ## Notes
 
-- Backlog items stay in `taproot/backlog.md` after being added to the plan — the backlog is a record, the plan is an execution list.
+- Backlog removal applies only to items sourced from `taproot/backlog.md` — explicit items and hierarchy items have no backlog entry to remove.
 - Dependency ordering is inferred by the agent, not formally declared in the plan file.
 - Autonomous execution of plan items is out of scope — see `/tr-plan-execute` for confirmed step-by-step execution.

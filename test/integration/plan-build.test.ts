@@ -73,6 +73,20 @@ describe('plan-build skill — plan.md format', () => {
   });
 });
 
+describe('plan-build skill — backlog removal (AC-8)', () => {
+  it('removes consumed backlog items from taproot/backlog.md', () => {
+    expect(skill).toMatch(/[Rr]emov.*backlog|backlog.*[Rr]emov/);
+  });
+
+  it('reports how many backlog items were removed', () => {
+    expect(skill).toMatch(/Removed.*item.*backlog/i);
+  });
+
+  it('skips removal when no backlog items were used', () => {
+    expect(skill).toMatch(/[Ss]kip.*step|no backlog items/i);
+  });
+});
+
 describe('plan-build skill — confirmation flows (AC-4, AC-5, AC-6, AC-7)', () => {
   it('presents plan before writing (pause-and-confirm)', () => {
     expect(skill).toMatch(/\[A\].*Confirm|\[A\].*Append/i);
