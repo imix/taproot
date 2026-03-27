@@ -141,6 +141,17 @@ Proposed plan — 3 items:
 [A] Confirm  [E] Edit  [Q] Abort
 ```
 
+Once the plan is built, use `/tr-plan-execute` to work through it:
+
+```
+/tr-plan-execute             # step-by-step: present and confirm each item
+/tr-plan-execute "run all"   # batch: confirm the full list up-front, then execute sequentially
+/tr-plan-execute "bring all to specified"   # specify mode: run spec+refine items only
+/tr-plan-execute "implement all specified"  # implement mode: run implement items only
+```
+
+A typical two-pass workflow: run specify mode first (all specs written and refined), then implement mode (all code written).
+
 To find a single next item without building a full plan, use `/tr-plan` — it surfaces the top AFK (agent-can-implement) candidate and delegates directly to `/tr-implement`.
 
 ---

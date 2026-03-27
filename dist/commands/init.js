@@ -76,6 +76,7 @@ export const SKILL_FILES = [
     'decompose.md',
     'plan.md',
     'plan-build.md',
+    'plan-execute.md',
     'guide.md',
     'discover.md',
     'discover-truths.md',
