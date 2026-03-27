@@ -67,7 +67,7 @@ _No behaviours yet._
   - [skill](./global-truth-store/discover-truths/skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[enforce-truths-at-commit](./global-truth-store/enforce-truths-at-commit/usecase.md)** `[implemented]` — Actor: Pre-commit hook — triggered automatically when a contributor commits; fires for hierarchy documents (`intent.md`, `usecase.md`, or `impl.md`) and for implementation commits (source files staged alongside or without `impl.md`)
   - [all-levels](./global-truth-store/enforce-truths-at-commit/all-levels/impl.md) `[complete]` (0 commits, 1 test)
-  - [hook-extension](./global-truth-store/enforce-truths-at-commit/hook-extension/impl.md) `[needs-rework]` (2 commits, 1 test)
+  - [hook-extension](./global-truth-store/enforce-truths-at-commit/hook-extension/impl.md) `[complete]` (2 commits, 1 test)
 - **[guide-truth-capture](./global-truth-store/guide-truth-capture/usecase.md)** `[proposed]` — Actor: Developer — setting up `taproot/global-truths/` for the first time, or adding truths to an existing project and unsure what facts are worth formalising
 
 ## [hierarchy-integrity](./hierarchy-integrity/intent.md) `[active]`
@@ -230,7 +230,7 @@ _No behaviours yet._
 **Goal:** Enable developers to capture ideas, findings, and deferred work items instantly mid-session — so that nothing is lost to context switches and every captured item can be triaged into the hierarchy when the time is right.
 
 - **[manage-backlog](./taproot-backlog/manage-backlog/usecase.md)** `[implemented]` — Actor: Developer — working mid-session who wants to capture an idea, finding, or deferred item instantly, or who wants to triage previously captured items.
-  - [agent-skill](./taproot-backlog/manage-backlog/agent-skill/impl.md) `[complete]` (10 commits, 1 test)
+  - [agent-skill](./taproot-backlog/manage-backlog/agent-skill/impl.md) `[complete]` (11 commits, 1 test)
 
 ## [taproot-distribution](./taproot-distribution/intent.md) `[active]`
 
@@ -249,4 +249,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-20 intents · 70 behaviours · 72 implementations · 69/72 complete
+20 intents · 70 behaviours · 72 implementations · 70/72 complete
