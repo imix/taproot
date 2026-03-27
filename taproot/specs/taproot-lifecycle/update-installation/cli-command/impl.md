@@ -32,6 +32,8 @@
 
 ## DoD Resolutions
 - condition: document-current | note: no docs change needed — force-overwrite of skills on update is an internal implementation detail; README and docs/agents.md describe what taproot update does (refreshes skills), not how it detects changes | resolved: 2026-03-20T20:55:08.050Z
+- condition: check-if-affected: examples/ | note: not affected — examples/ was reviewed in prior implementations. This rework makes no changes requiring example updates. | resolved: 2026-03-27T16:30:31.869Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: Not applicable. No skills/*.md files were modified. | resolved: 2026-03-24T19:31:23.642Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No. Bundled directory distribution is a standard file copy pattern, not a taproot-specific architectural pattern. | resolved: 2026-03-24T19:31:22.382Z

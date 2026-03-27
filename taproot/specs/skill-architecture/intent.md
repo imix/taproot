@@ -6,7 +6,7 @@
 - Taproot maintainer: needs architectural guardrails enforced automatically on every new skill, not just documented and hoped-for
 
 ## Goal
-Define and enforce the architectural constraints that govern how taproot skills are built — so that every skill is context-efficient, consistent in how it loads resources, and explicit about its effect on the developer's session. These constraints are enforced via the `check-if-affected-by` DoD gate, making compliance automatic rather than aspirational.
+Enforce the architectural constraints that govern how taproot skills are built — so that every skill is context-efficient, consistent in how it loads resources, and explicit about its effect on the developer's session. These constraints are enforced via the `check-if-affected-by` DoD gate, making compliance automatic rather than aspirational.
 
 ## Success Criteria
 - [ ] Every skill implementation is automatically checked against each architecture constraint at DoD time via `check-if-affected-by`

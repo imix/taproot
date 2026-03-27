@@ -6,7 +6,7 @@
 - Integrator: Team embedding taproot into a pipeline or toolchain — needs stable, trustworthy reference material
 
 ## Goal
-Keep all taproot documentation accurate and current so that users, contributors, and integrators always have reliable information about what the tool does and how to use it. Documentation should be generated or validated automatically wherever possible, so it cannot drift silently from the actual implementation.
+Ensure taproot documentation stays accurate and current so that users, contributors, and integrators always have reliable information about what the tool does and how to use it. Documentation should be generated or validated automatically wherever possible, so it cannot drift silently from the actual implementation.
 
 ## Success Criteria
 - [ ] The taproot README accurately reflects all implemented CLI commands, skills, and configuration options

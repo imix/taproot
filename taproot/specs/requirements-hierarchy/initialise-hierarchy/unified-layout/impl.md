@@ -11,13 +11,15 @@
 - **`DEFAULT_EXCLUDE` in `fs-walker.ts` extended with `agent` and `specs`**: prevents `validate-structure` from flagging `taproot/agent/` and `taproot/specs/` as orphan folders when `root: taproot/` is configured in settings.
 - **`removeStale()` migration in `update.ts`**: `taproot update` detects and migrates `.taproot/skills/` → `taproot/agent/skills/`, `.taproot/docs/` → `taproot/agent/docs/`, `.taproot/CONFIGURATION.md` → `taproot/agent/CONFIGURATION.md`. Projects are silently upgraded on next update run.
 - **`resolveSkillsRelPath()` in `src/adapters/index.ts`**: adapter generation uses the correct relative path (`taproot/agent/skills/` or `.taproot/skills/`) so generated adapter files always point to the real skill location regardless of layout.
+- **`migrateHierarchyToSpecs()` in `update.ts`** (rework): `taproot update` detects projects where `root: taproot/` (flat layout) and moves all non-infrastructure directories (`agent`, `global-truths`, `specs`, `node_modules`) into `taproot/specs/`, then rewrites `root:` to `taproot/specs/` in settings.yaml. Config is reloaded after migration so subsequent refreshLinks/overview steps use the correct path. Migration is unconditional (runs before adapter detection).
+- **`DEFAULT_CONFIG.root` changed to `taproot/specs/`**: new projects created with `taproot init` use `taproot/specs/` as the default hierarchy root. Existing projects on `root: taproot/` are migrated by `taproot update`.
 
 ## Source Files
 - `src/core/paths.ts` — new file; exports `resolveAgentDir(cwd)` for layout-aware agent directory resolution
 - `src/core/config.ts` — updated `findConfigFile()` to check `taproot/settings.yaml` before `.taproot/settings.yaml`
 - `src/core/fs-walker.ts` — added `agent` and `specs` to `DEFAULT_EXCLUDE` set
 - `src/commands/init.ts` — creates new layout: `taproot/specs/`, `taproot/agent/`, `taproot/settings.yaml`; settings written to `taproot/settings.yaml`
-- `src/commands/update.ts` — uses `resolveAgentDir()` throughout; `removeStale()` migrates `.taproot/skills/`, `.taproot/docs/`, `.taproot/CONFIGURATION.md` to new paths
+- `src/commands/update.ts` — uses `resolveAgentDir()` throughout; `removeStale()` migrates `.taproot/skills/`, `.taproot/docs/`, `.taproot/CONFIGURATION.md` to new paths; `migrateHierarchyToSpecs()` migrates flat `taproot/` hierarchy to `taproot/specs/` subfolder; config reloaded after migration
 - `src/adapters/index.ts` — added `resolveSkillsRelPath()` for layout-aware skill path in generated adapter files
 
 ## Commits
@@ -46,6 +48,36 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/architecture.md updated: replaced outdated .taproot/ constraint with new unified layout description; updated Testing section. docs/cli.md updated: taproot init description, --with-skills path, --template settings path, taproot update docs path. docs/agents.md updated: skills path from .taproot/skills/ to taproot/agent/skills/. docs/security.md updated: skill security section paths. docs/configuration.md updated: all .taproot/settings.yaml → taproot/settings.yaml, CONFIGURATION.md path updated. docs/patterns.md updated: settings.yaml references. README.md accurately reflects the CLI commands and workflow (no layout references to update). | resolved: 2026-03-27T13:57:26.376Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: NO skill files modified in this rework — only src/commands/update.ts, src/core/config.ts, and two test files. | resolved: 2026-03-27T16:14:19.218Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — directory migration with exclusion list and settings rewrite is a one-time upgrade utility, not a reusable pattern for taproot users. | resolved: 2026-03-27T16:14:18.953Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO new concern — migrateHierarchyToSpecs() is an internal migration step in taproot update. No new cross-cutting contract introduced. | resolved: 2026-03-27T16:14:18.670Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — migrateHierarchyToSpecs() follows all architecture principles: stateless CLI function, immutable config after load (config reloaded between migration phases as designed), external I/O at command boundary, no global mutable state, filesystem as data model. Fits the existing migration pattern in removeStale(). | resolved: 2026-03-27T16:13:36.939Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — pattern-hints governs skills that process user needs. taproot update is a CLI setup command. | resolved: 2026-03-27T16:13:36.680Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — commit-awareness constrains skill files containing git commit steps. No skill files modified in this rework. | resolved: 2026-03-27T16:13:36.422Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — context-engineering governs skill files. This rework modifies CLI TypeScript source files only. | resolved: 2026-03-27T16:13:36.164Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — pause-and-confirm governs bulk-authoring agent skills. taproot update is a CLI migration command. | resolved: 2026-03-27T16:13:25.004Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — contextual-next-steps governs agent skills producing primary output. This rework modifies CLI commands (taproot update), not skills. | resolved: 2026-03-27T16:13:24.703Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — this rework modifies CLI source files (src/commands/update.ts, src/core/config.ts) and test files. None are skill files or shared hierarchy docs subject to agent-agnostic-language. | resolved: 2026-03-27T16:13:24.449Z
+
+- condition: check-if-affected: examples/ | note: REWORK: not affected — examples/ was reviewed in the initial implementation. No new behaviour in this rework requires example updates. | resolved: 2026-03-27T16:12:46.167Z
+
+- condition: check-if-affected: docs/ | note: REWORK: not affected — docs/ was updated in the initial implementation. This rework adds update.ts migration logic only; no new CLI commands, flags, or configuration options introduced that require doc changes. | resolved: 2026-03-27T16:12:45.909Z
+
+- condition: check-if-affected: skills/guide.md | note: REWORK: not affected — skills/guide.md was updated in the initial implementation for path changes. This rework adds a CLI-side migration step only; no skill content changes. | resolved: 2026-03-27T16:12:45.651Z
+
+- condition: check-if-affected: src/commands/update.ts | note: REWORK: PRIMARY source file — migrateHierarchyToSpecs() added to move flat taproot/ hierarchy dirs into taproot/specs/, update root: in settings.yaml, and reload config. Settings migration (old .taproot/settings.yaml) also made unconditional. Both changes run before adapter detection. | resolved: 2026-03-27T16:11:09.164Z
+
+- condition: document-current | note: REWORK: Design Decisions updated with migrateHierarchyToSpecs() and DEFAULT_CONFIG.root change. Source Files updated to reflect new update.ts behaviour. Two regression test files (architecture-compliance.test.ts, nfr-measurability.test.ts) updated from .taproot/settings.yaml to taproot/settings.yaml. No doc changes needed beyond what was already done in the initial implementation — this rework adds a migration step in update.ts only. | resolved: 2026-03-27T16:11:03.935Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: VERIFIED — 11 skill files were updated (backlog, commit, implement, guide, behaviour, refine, status, review-all, ineed, bug, discover-truths). All changes are path updates only (from .taproot/ prefix to taproot/agent/ or taproot/). No shell command execution was added or removed. No credentials or tokens introduced. No least-privilege changes — existing agent instructions unchanged except file paths. | resolved: 2026-03-27T14:00:32.751Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — dual-path fallback (resolveAgentDir) is an internal migration strategy, not a pattern that taproot users apply. The migration-via-update pattern (removeStale) is an implementation detail, not a user-facing architectural pattern. No new entry in docs/patterns.md warranted. | resolved: 2026-03-27T14:00:32.497Z

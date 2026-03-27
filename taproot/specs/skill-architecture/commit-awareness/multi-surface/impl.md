@@ -31,6 +31,12 @@
 
 ## DoD Resolutions
 - condition: document-current | note: README.md and docs/ do not need updating — commit-awareness is a new check-if-affected-by entry in settings.yaml; docs/configuration.md explains the check-if-affected-by mechanism generically and does not enumerate specific entries; no new CLI commands or configuration options introduced | resolved: 2026-03-20T19:18:02.904Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: NO skill files modified — only src/commands/commithook.ts (rename detection fix). | resolved: 2026-03-27T16:30:30.828Z
+
+- condition: check-if-affected: examples/ | note: not affected — examples/ was reviewed in prior implementations. This rework makes no changes that require example updates. | resolved: 2026-03-27T16:30:30.567Z
+
+- condition: check-if-affected: docs/ | note: not affected — this rework adds a commithook fix for rename detection only. No new CLI commands, flags, or configuration options requiring doc updates. | resolved: 2026-03-27T16:30:30.302Z
+
 - condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: compliant — skills/commit.md uses no bare Claude/Claude Code references and no @{project-root} syntax; all language is generic ('the agent', 'the skill') | resolved: 2026-03-21T17:22:46.652Z
 
 - condition: document-current | note: no docs changes needed for this story — agent-agnostic-language gate is a config-only change unrelated to commit-awareness | resolved: 2026-03-21T17:22:10.362Z

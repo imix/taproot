@@ -1,7 +1,7 @@
 # Intent: Taproot Lifecycle
 
 ## Goal
-Keep an installed taproot setup current as the tool evolves — refreshing skills, regenerating agent adapters, and removing stale artefacts from older versions.
+Ensure an installed taproot setup stays current as the tool evolves — refreshing skills, regenerating agent adapters, and removing stale artefacts from older versions.
 
 ## Stakeholders
 - **Agentic developer / orchestrator**: needs installed skills and adapters to stay in sync with the installed taproot version without manual file management

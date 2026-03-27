@@ -51,6 +51,12 @@
 
 ## DoD Resolutions
 - condition: document-current | note: Updated docs/configuration.md: added language: field to settings.yaml example, added ## Language section documenting all 5 supported codes, what gets localised, and the unknown-code abort behaviour | resolved: 2026-03-23T12:17:50.488Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: NO skill files modified — only src/commands/commithook.ts (rename detection fix). | resolved: 2026-03-27T16:30:31.604Z
+
+- condition: check-if-affected: examples/ | note: not affected — examples/ was reviewed in prior implementations. This rework makes no changes that require example updates. | resolved: 2026-03-27T16:30:31.349Z
+
+- condition: check-if-affected: docs/ | note: not affected — this rework adds a commithook fix for rename detection only. No new CLI commands, flags, or configuration options requiring doc updates. | resolved: 2026-03-27T16:30:31.089Z
+
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — the localizedSectionKey() helper is internal to dor-runner.ts; not a reusable pattern worth extracting. | resolved: 2026-03-24T17:01:14.510Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — bug fixes to three existing surfaces; no new cross-cutting pattern introduced. | resolved: 2026-03-24T17:01:14.271Z

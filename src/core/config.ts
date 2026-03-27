@@ -5,7 +5,7 @@ import type { TaprootConfig } from '../validators/types.js';
 
 export const DEFAULT_CONFIG: TaprootConfig = {
   version: 1,
-  root: 'taproot/',
+  root: 'taproot/specs/',
   commitPattern: 'taproot\\(([^)]+)\\):',
   commitTrailer: 'Taproot',
   agents: ['claude', 'cursor', 'generic'],

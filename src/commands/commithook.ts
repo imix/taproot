@@ -254,9 +254,12 @@ function checkStatusOnly(
   implRelPath: string,
   cwd: string
 ): { passed: boolean; message: string } {
-  // New file in HEAD?
+  // New file in HEAD? (skip check if it's a rename — R status in diff)
   const head = spawnSync('git', ['show', `HEAD:${implRelPath}`], { cwd, encoding: 'utf-8' });
   if (head.status !== 0) {
+    const diffStatus = spawnSync('git', ['diff', '--cached', '--name-status'], { cwd, encoding: 'utf-8' });
+    const isRename = diffStatus.stdout.split('\n').some(line => /^R\d*\t.*\t/.test(line) && line.endsWith(`\t${implRelPath}`));
+    if (isRename) return { passed: true, message: '' };
     return {
       passed: false,
       message: `${implRelPath} is new — commit impl.md alone first (declaration commit) before committing source code`,

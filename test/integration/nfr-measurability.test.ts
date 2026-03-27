@@ -9,7 +9,7 @@ import { runDorChecks } from '../../src/core/dor-runner.js';
 
 describe('nfr-measurability activation (regression)', () => {
   it('taproot settings.yaml has check-if-affected-by: quality-gates/nfr-measurability in definitionOfReady', () => {
-    const content = readFileSync('.taproot/settings.yaml', 'utf-8');
+    const content = readFileSync('taproot/settings.yaml', 'utf-8');
     const dorIdx = content.indexOf('definitionOfReady:');
     const dodIdx = content.indexOf('definitionOfDone:');
     expect(dorIdx).toBeGreaterThanOrEqual(0);

@@ -37,6 +37,37 @@ function installWrapper(cwd: string): string[] {
   return msgs;
 }
 
+function migrateHierarchyToSpecs(cwd: string): string[] {
+  const msgs: string[] = [];
+  const settingsPath = join(cwd, 'taproot', 'settings.yaml');
+  if (!existsSync(settingsPath)) return msgs;
+
+  const content = readFileSync(settingsPath, 'utf-8');
+  if (!/^root:\s*['"]?taproot\/?['"]?\s*$/m.test(content)) return msgs;
+
+  const taprootDir = join(cwd, 'taproot');
+  const specsDir = join(taprootDir, 'specs');
+  if (existsSync(specsDir)) return msgs; // already migrated
+
+  const EXCLUDE = new Set(['agent', 'global-truths', 'node_modules', 'specs', '.git']);
+  const dirsToMove = readdirSync(taprootDir, { withFileTypes: true })
+    .filter(e => e.isDirectory() && !EXCLUDE.has(e.name));
+
+  if (dirsToMove.length === 0) return msgs;
+
+  mkdirSync(specsDir, { recursive: true });
+  for (const dir of dirsToMove) {
+    renameSync(join(taprootDir, dir.name), join(specsDir, dir.name));
+    msgs.push(`migrated taproot/${dir.name}/ → taproot/specs/${dir.name}/`);
+  }
+
+  const updated = content.replace(/^(root:\s*)['"]?taproot\/?['"]?(\s*)$/m, 'root: taproot/specs/');
+  writeFileSync(settingsPath, updated, 'utf-8');
+  msgs.push(`updated  taproot/settings.yaml (root: taproot/specs/)`);
+
+  return msgs;
+}
+
 function bumpTaprootVersion(cwd: string): string[] {
   const msgs: string[] = [];
   const settingsPath = join(cwd, 'taproot', 'settings.yaml');
@@ -131,7 +162,7 @@ function removeStale(cwd: string): string[] {
   }
 
   // Migrate taproot/skills/ → .taproot/skills/
-  const oldSkillsDir = join(cwd, DEFAULT_CONFIG.root, 'skills');
+  const oldSkillsDir = join(cwd, 'taproot', 'skills');
   const newSkillsDir = join(cwd, '.taproot', 'skills');
   if (existsSync(oldSkillsDir) && !existsSync(newSkillsDir)) {
     mkdirSync(join(cwd, '.taproot'), { recursive: true });
@@ -175,7 +206,7 @@ function removeStale(cwd: string): string[] {
   }
 
   // Remove taproot/_brainstorms/
-  const brainsDir = join(cwd, DEFAULT_CONFIG.root, '_brainstorms');
+  const brainsDir = join(cwd, 'taproot', '_brainstorms');
   if (existsSync(brainsDir)) {
     rmSync(brainsDir, { recursive: true, force: true });
     messages.push(`removed  taproot/_brainstorms/`);
@@ -348,6 +379,9 @@ export async function runUpdate(options: { cwd?: string; withHooks?: boolean }):
     messages.push(`removed  .taproot/settings.yaml`);
   }
 
+  // Always: migrate flat taproot/ hierarchy → taproot/specs/ subfolder
+  messages.push(...migrateHierarchyToSpecs(cwd));
+
   // Always (when taproot project present): install/refresh wrapper, migrate old hooks, bump version
   const isTaprootProject = existsSync(newSettingsPath) || existsSync(join(cwd, 'taproot', 'agent'));
   if (isTaprootProject) {
@@ -427,7 +461,9 @@ export async function runUpdate(options: { cwd?: string; withHooks?: boolean }):
   }
 
   // Refresh cross-links (## Behaviours / ## Implementations sections)
-  const taprootDir = join(cwd, DEFAULT_CONFIG.root);
+  // Reload config here — migrations above may have updated root in settings.yaml
+  const { config: currentConfig } = loadConfig(cwd);
+  const taprootDir = join(cwd, currentConfig.root);
   const linkMsgs = refreshLinks(cwd, taprootDir);
   if (linkMsgs.length > 0) {
     messages.push('');

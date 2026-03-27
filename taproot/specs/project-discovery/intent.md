@@ -1,7 +1,7 @@
 # Intent: Project Discovery
 
 ## Goal
-A project with an existing codebase, existing requirements, or both can be fully represented as a taproot requirement hierarchy — so that teams using another tool or workflow can adopt taproot without losing prior work or starting from scratch.
+Allow any project with an existing codebase or requirements to be fully represented as a taproot requirement hierarchy — so that teams using another tool or workflow can adopt taproot without losing prior work or starting from scratch.
 
 ## Stakeholders
 - **Agentic developer / orchestrator**: needs to bootstrap a taproot hierarchy for a project that was built before taproot was introduced, without manually reading every file

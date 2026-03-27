@@ -3,7 +3,7 @@ import { resolve, dirname, join } from 'path';
 import yaml from 'js-yaml';
 export const DEFAULT_CONFIG = {
     version: 1,
-    root: 'taproot/',
+    root: 'taproot/specs/',
     commitPattern: 'taproot\\(([^)]+)\\):',
     commitTrailer: 'Taproot',
     agents: ['claude', 'cursor', 'generic'],

@@ -1,7 +1,7 @@
 # Intent: Requirements Completeness
 
 ## Goal
-Verify that no requirement has been left without coverage at the level below it — every business intent has behaviours and every behaviour has implementations.
+Ensure no requirement is left without coverage at the level below it — every business intent has behaviours and every behaviour has implementations.
 
 ## Stakeholders
 - **Agentic developer / orchestrator**: needs assurance that AI agents haven't silently skipped edge cases, error conditions, or entire requirements
