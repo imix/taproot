@@ -78,6 +78,20 @@ Developer — working through a previously built plan, delegating each item to t
   2. Remaining items stay `pending` in `taproot/plan.md`.
   3. Agent reports: *"Stopped after N items — M items remaining."*
 
+### Specify mode (spec + refine items only)
+- **Trigger:** Developer invokes "bring all to specified", "run spec and refine only", or similar.
+- **Steps:**
+  1. Agent filters pending items to `spec` and `refine` types only. `implement` items are not presented and remain `pending`.
+  2. Agent presents the filtered list and proceeds with step-by-step or batch flow as requested.
+  3. When filtered items are exhausted, agent reports: *"Specify pass complete — N items done. M implement items remain pending."*
+
+### Implement mode (implement items only)
+- **Trigger:** Developer invokes "implement all specified items", "run implement only", or similar.
+- **Steps:**
+  1. Agent filters pending items to `implement` type only. `spec` and `refine` items are not presented and remain `pending`.
+  2. Agent presents the filtered list and proceeds with step-by-step or batch flow as requested.
+  3. When filtered items are exhausted, agent reports: *"Implement pass complete — N items done. M spec/refine items remain pending."*
+
 ## Postconditions
 - Each executed item is marked `done` in `taproot/plan.md`.
 - Skipped items are marked `skipped`; blocked items are marked `blocked` with a note.
@@ -153,6 +167,19 @@ flowchart TD
 - When execute-plan runs
 - Then the agent reports the plan is complete with no pending items
 
+**AC-8: Specify mode processes only spec and refine items**
+- Given `taproot/plan.md` contains a mix of `spec`, `refine`, and `implement` items
+- When the developer invokes "bring all to specified"
+- Then only `spec` and `refine` items are presented and executed; `implement` items remain `pending` and are reported as remaining at the end
+
+**AC-9: Implement mode processes only implement items**
+- Given `taproot/plan.md` contains a mix of `spec`, `refine`, and `implement` items
+- When the developer invokes "implement all specified items"
+- Then only `implement` items are presented and executed; `spec` and `refine` items remain `pending` and are reported as remaining at the end
+
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — plan-execute](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-27
@@ -162,3 +189,5 @@ flowchart TD
 - Autonomous execution (agent works through all items without any human confirmation) is explicitly out of scope for this behaviour.
 - The plan file format (how `done`/`skipped`/`blocked`/`pending` are encoded) is an implementation concern.
 - In batch mode, the agent still presents each item before invoking its skill — the batch confirmation at the start grants permission to proceed through the list, but each item is still shown as it executes.
+- Specify and implement modes are filters, not separate modes — they compose with step-by-step or batch. Filtered-out items stay `pending` (not `skipped`) so they can be processed in a subsequent pass with a different filter.
+- A typical two-pass workflow: run specify mode first to bring all specs to `specified`, then run implement mode to code them all.
