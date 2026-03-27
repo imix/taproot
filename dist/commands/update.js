@@ -1,10 +1,10 @@
-import { existsSync, rmSync, readdirSync, readFileSync, writeFileSync, unlinkSync, mkdirSync, renameSync } from 'fs';
+import { existsSync, rmSync, readdirSync, readFileSync, writeFileSync, unlinkSync, mkdirSync, renameSync, chmodSync } from 'fs';
 import { join, dirname, relative, resolve } from 'path';
 import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 import { buildConfigurationMd } from '../core/configuration.js';
 import { generateAdapters } from '../adapters/index.js';
-import { installSkills, installDocs, SKILL_FILES } from './init.js';
+import { installSkills, installDocs, SKILL_FILES, wrapperScript, hookScriptContent } from './init.js';
 import { resolveAgentDir } from '../core/paths.js';
 import { runOverview } from './overview.js';
 import { DEFAULT_CONFIG, loadConfig } from '../core/config.js';
@@ -17,9 +17,36 @@ const STALE_PATHS = [
     // tr- files that lived in skills/ before moving to commands/
     // resolved dynamically for globbing — see removeStale()
 ];
-function hookScript() {
+function installWrapper(cwd) {
+    const msgs = [];
+    const binDir = join(cwd, 'taproot', 'agent', 'bin');
+    const wrapperPath = join(binDir, 'taproot');
+    mkdirSync(binDir, { recursive: true });
+    const existed = existsSync(wrapperPath);
+    writeFileSync(wrapperPath, wrapperScript(), { mode: 0o755 });
+    // Ensure executable bit (writeFileSync mode is masked by umask on some systems)
+    chmodSync(wrapperPath, 0o755);
+    msgs.push(`${existed ? 'updated' : 'created'}  taproot/agent/bin/taproot`);
+    return msgs;
+}
+function bumpTaprootVersion(cwd) {
+    const msgs = [];
+    const settingsPath = join(cwd, 'taproot', 'settings.yaml');
+    if (!existsSync(settingsPath))
+        return msgs;
     const pkg = JSON.parse(readFileSync(resolve(__dirname, '..', '..', 'package.json'), 'utf-8'));
-    return `#!/bin/sh\nnpx @imix-js/taproot@${pkg.version} commithook\n`;
+    const newVersion = pkg.version;
+    let content = readFileSync(settingsPath, 'utf-8');
+    if (/^taproot_version:/m.test(content)) {
+        content = content.replace(/^taproot_version:.*$/m, `taproot_version: '${newVersion}'`);
+    }
+    else {
+        // Append before first blank line after last key, or at end
+        content = content.trimEnd() + `\ntaproot_version: '${newVersion}'\n`;
+    }
+    writeFileSync(settingsPath, content, 'utf-8');
+    msgs.push(`updated  taproot/settings.yaml (taproot_version: ${newVersion})`);
+    return msgs;
 }
 function detectInstalledAgents(cwd) {
     const installed = [];
@@ -132,15 +159,6 @@ function removeStale(cwd) {
     if (existsSync(brainsDir)) {
         rmSync(brainsDir, { recursive: true, force: true });
         messages.push(`removed  taproot/_brainstorms/`);
-    }
-    // Migrate old pre-commit hook content to versioned npx hook
-    const hookPath = join(cwd, '.git', 'hooks', 'pre-commit');
-    if (existsSync(hookPath)) {
-        const hookContent = readFileSync(hookPath, 'utf-8');
-        if (hookContent.includes('validate-structure') || hookContent.includes('validate-format') || hookContent.includes('taproot commithook') || hookContent.includes('@imix-js/taproot')) {
-            writeFileSync(hookPath, hookScript(), { mode: 0o755 });
-            messages.push(`migrated .git/hooks/pre-commit → versioned npx hook`);
-        }
     }
     return messages;
 }
@@ -270,6 +288,22 @@ export async function runUpdate(options) {
         }
         messages.push(`vocabulary ${Object.keys(vocab).length} overrides`);
     }
+    // Always (when taproot project present): install/refresh wrapper, migrate old hooks, bump version
+    const isTaprootProject = existsSync(join(cwd, 'taproot', 'agent'));
+    if (isTaprootProject) {
+        messages.push(...installWrapper(cwd));
+    }
+    const hookPath = join(cwd, '.git', 'hooks', 'pre-commit');
+    if (existsSync(hookPath)) {
+        const hookContent = readFileSync(hookPath, 'utf-8');
+        if (hookContent.includes('validate-structure') || hookContent.includes('validate-format') || hookContent.includes('taproot commithook') || hookContent.includes('@imix-js/taproot') || hookContent.includes('npx')) {
+            writeFileSync(hookPath, hookScriptContent(), { mode: 0o755 });
+            messages.push(`migrated .git/hooks/pre-commit → wrapper-based hook`);
+        }
+    }
+    if (isTaprootProject) {
+        messages.push(...bumpTaprootVersion(cwd));
+    }
     const agents = detectInstalledAgents(cwd);
     if (agents.length === 0) {
         messages.push('No taproot agent adapters detected — nothing to update.');
@@ -343,7 +377,7 @@ export async function runUpdate(options) {
         const hookPath = join(hookDir, 'pre-commit');
         if (existsSync(join(cwd, '.git')) && !existsSync(hookPath)) {
             mkdirSync(hookDir, { recursive: true });
-            writeFileSync(hookPath, hookScript(), { mode: 0o755 });
+            writeFileSync(hookPath, hookScriptContent(), { mode: 0o755 });
             messages.push(`created  .git/hooks/pre-commit`);
         }
         else if (existsSync(hookPath)) {

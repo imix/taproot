@@ -1,6 +1,8 @@
 import type { Command } from 'commander';
 import { type LanguagePack } from '../core/language.js';
 import { type AgentName } from '../adapters/index.js';
+export declare function wrapperScript(): string;
+export declare function hookScriptContent(): string;
 export declare const AVAILABLE_TEMPLATES: readonly ["webapp", "book-authoring", "cli-tool"];
 export type TemplateName = typeof AVAILABLE_TEMPLATES[number];
 export declare const DOMAIN_PRESETS: Record<string, {

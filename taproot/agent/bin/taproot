@@ -1,0 +1,12 @@
+#!/bin/sh
+# taproot binary resolver — maintained by taproot init/update, do not edit manually
+# Prefers globally installed/linked taproot binary; falls back to project-pinned version via npx.
+TAPROOT_SETTINGS="$(dirname "$0")/../../settings.yaml"
+TAPROOT_VERSION=$(grep '^taproot_version:' "$TAPROOT_SETTINGS" 2>/dev/null | awk '{print $2}' | tr -d "'\"")
+if command -v taproot >/dev/null 2>&1; then
+  exec taproot "$@"
+elif [ -n "$TAPROOT_VERSION" ]; then
+  exec npx --yes "@imix-js/taproot@$TAPROOT_VERSION" "$@"
+else
+  exec npx --yes "@imix-js/taproot" "$@"
+fi

@@ -17,6 +17,14 @@ import { registerDod } from './commands/dod.js';
 import { registerCommithook } from './commands/commithook.js';
 import { registerAcceptanceCheck } from './commands/acceptance-check.js';
 import { registerTruthSign } from './commands/truth-sign.js';
+import { checkProjectVersion } from './core/version-check.js';
+
+// Version compatibility check — warn if installed version diverges from project's pinned version.
+// Skipped for commithook (runs inside git pre-commit; noise-free is critical there).
+const invokedCommand = process.argv[2];
+if (invokedCommand !== 'commithook') {
+  checkProjectVersion(process.cwd());
+}
 
 const program = new Command();
 

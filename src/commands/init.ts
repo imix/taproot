@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, writeFileSync, readdirSync, readFileSync, cpSync } from 'fs';
+import { existsSync, mkdirSync, writeFileSync, readdirSync, readFileSync, cpSync, chmodSync } from 'fs';
 import { resolve, join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import yaml from 'js-yaml';
@@ -12,6 +12,28 @@ import confirm from '@inquirer/confirm';
 import select from '@inquirer/select';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+export function wrapperScript(): string {
+  return [
+    '#!/bin/sh',
+    '# taproot binary resolver — maintained by taproot init/update, do not edit manually',
+    '# Prefers globally installed/linked taproot binary; falls back to project-pinned version via npx.',
+    'TAPROOT_SETTINGS="$(dirname "$0")/../../settings.yaml"',
+    "TAPROOT_VERSION=$(grep '^taproot_version:' \"$TAPROOT_SETTINGS\" 2>/dev/null | awk '{print $2}' | tr -d \"'\\\"\")",
+    'if command -v taproot >/dev/null 2>&1; then',
+    '  exec taproot "$@"',
+    'elif [ -n "$TAPROOT_VERSION" ]; then',
+    '  exec npx --yes "@imix-js/taproot@$TAPROOT_VERSION" "$@"',
+    'else',
+    '  exec npx --yes "@imix-js/taproot" "$@"',
+    'fi',
+    '',
+  ].join('\n');
+}
+
+export function hookScriptContent(): string {
+  return `#!/bin/sh\nexec ./taproot/agent/bin/taproot commithook\n`;
+}
 
 // Bundled skills directory — two levels up from src/commands/ → package root → skills/
 const BUNDLED_SKILLS_DIR = resolve(__dirname, '..', '..', 'skills');
@@ -336,6 +358,7 @@ export function runInit(options: {
   }
 
   // Write taproot/settings.yaml
+  const pkgVersion = (JSON.parse(readFileSync(resolve(__dirname, '..', '..', 'package.json'), 'utf-8')) as { version: string }).version;
   if (!existsSync(configPath)) {
     const configForYaml: Record<string, unknown> = {
       version: DEFAULT_CONFIG.version,
@@ -350,6 +373,7 @@ export function runInit(options: {
         allowed_behaviour_states: DEFAULT_CONFIG.validation.allowedBehaviourStates,
         allowed_impl_states: DEFAULT_CONFIG.validation.allowedImplStates,
       },
+      taproot_version: pkgVersion,
     };
     if (resolvedVocabulary && Object.keys(resolvedVocabulary).length > 0) {
       configForYaml.vocabulary = resolvedVocabulary;
@@ -419,17 +443,22 @@ export function runInit(options: {
     messages.push(...installDocs(join(agentDir, 'docs'), false, 'taproot/agent/docs'));
   }
 
+  // taproot/agent/bin/taproot wrapper script (always installed — hook and local dev depend on it)
+  const binDir = join(agentDir, 'bin');
+  const wrapperPath = join(binDir, 'taproot');
+  if (!existsSync(binDir)) mkdirSync(binDir, { recursive: true });
+  if (!existsSync(wrapperPath)) {
+    writeFileSync(wrapperPath, wrapperScript(), { mode: 0o755 });
+    messages.push('created  taproot/agent/bin/taproot');
+  }
+
   // Git pre-commit hook
   if (options.withHooks) {
     const hookDir = join(cwd, '.git', 'hooks');
     const hookPath = join(hookDir, 'pre-commit');
     if (existsSync(join(cwd, '.git')) && !existsSync(hookPath)) {
       mkdirSync(hookDir, { recursive: true });
-      const pkgVersion = JSON.parse(readFileSync(resolve(__dirname, '..', '..', 'package.json'), 'utf-8')).version as string;
-      writeFileSync(hookPath,
-        `#!/bin/sh\nnpx @imix-js/taproot@${pkgVersion} commithook\n`,
-        { mode: 0o755 }
-      );
+      writeFileSync(hookPath, hookScriptContent(), { mode: 0o755 });
       messages.push('created  .git/hooks/pre-commit');
     }
   } else if (options.withHooks === false) {

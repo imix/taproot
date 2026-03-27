@@ -32,8 +32,6 @@ Architectural decisions, constraints, and patterns for the taproot codebase. Eve
 
 **No raw exceptions to the user** — The CLI top-level handler catches all thrown errors and prints only the message, never a stack trace or Node.js exception dump. `process.exitCode = 1` is set; the process exits cleanly. Stack traces are for tests and debugging only.
 
-**Keep exclusion lists in sync** — The `DEFAULT_EXCLUDE` set in `src/core/fs-walker.ts` and the `isHierarchyFile` guards in `src/commands/commithook.ts` and `src/commands/truth-sign.ts` must be kept in sync. When adding a new excluded directory (e.g. `taproot/agent/`, `taproot/global-truths/`), update all three locations.
-
 ---
 
 ## Module boundaries

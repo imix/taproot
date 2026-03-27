@@ -18,20 +18,20 @@ afterEach(() => {
 describe('taproot update', () => {
   it('reports nothing to update when no adapters are installed', async () => {
     const msgs = await runUpdate({ cwd: tmpDir });
-    expect(msgs[0]).toContain('No taproot agent adapters detected');
+    expect(msgs.some(m => m.includes('No taproot agent adapters detected'))).toBe(true);
   });
 
   it('detects and regenerates claude adapter', async () => {
     generateAdapters('claude', tmpDir);
     const msgs = await runUpdate({ cwd: tmpDir });
-    expect(msgs[0]).toContain('claude');
+    expect(msgs.some(m => m.includes('claude'))).toBe(true);
     expect(msgs.some(m => m.includes('tr-intent.md'))).toBe(true);
   });
 
   it('detects and regenerates cursor adapter', async () => {
     generateAdapters('cursor', tmpDir);
     const msgs = await runUpdate({ cwd: tmpDir });
-    expect(msgs[0]).toContain('cursor');
+    expect(msgs.some(m => m.includes('cursor'))).toBe(true);
     expect(msgs.some(m => m.includes('taproot.md'))).toBe(true);
   });
 
@@ -67,7 +67,7 @@ describe('taproot update', () => {
     writeFileSync(join(staleDir, 'intent.md'), 'old content');
 
     const msgs = await runUpdate({ cwd: tmpDir });
-    expect(msgs[0]).toContain('claude');
+    expect(msgs.some(m => m.includes('claude'))).toBe(true);
     expect(existsSync(staleDir)).toBe(false);
     expect(existsSync(join(tmpDir, '.claude', 'commands', 'tr-intent.md'))).toBe(true);
   });
@@ -98,7 +98,7 @@ describe('taproot update', () => {
     const msgs = await runUpdate({ cwd: tmpDir });
     expect(msgs.some(m => m.includes('migrated') && m.includes('pre-commit'))).toBe(true);
     const migratedHook = readFileSync(join(hookDir, 'pre-commit'), 'utf-8');
-    expect(migratedHook).toContain('@imix-js/taproot');
+    expect(migratedHook).toContain('taproot/agent/bin/taproot');
     expect(migratedHook).toContain('commithook');
   });
 
