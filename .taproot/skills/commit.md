@@ -60,7 +60,19 @@ Execute the full commit procedure: classify the commit type, run the appropriate
 
 3. If a `check:` condition requires action you cannot take (e.g. failing tests), report: "Cannot commit — `<condition>` is unresolved and requires: `<correction hint>`." Stop and wait.
 
-4. Stage source files + all matched impl.md files and commit with a concise one-line message.
+4. **Truth consistency check** — if `taproot/global-truths/` exists:
+   a. Collect all truth files applicable at impl level: intent-scoped truths (always), behaviour-scoped truths, and impl-scoped truths.
+   b. Read each applicable truth file. If a file is unreadable, note it and skip.
+   c. Check the staged impl.md and source changes for consistency with applicable truths:
+      - Are defined architectural patterns and project conventions being followed?
+      - Are implementation-level rules respected?
+      - Are domain terms used consistently with their definitions?
+   d. If a conflict is found, surface it before proceeding:
+      > "Truth conflict: `<excerpt>` in staged changes conflicts with `global-truths/<file>`: `<truth excerpt>`. [A] Fix the implementation | [B] Update the truth | [C] Proceed with conflict noted"
+      Wait for the developer's choice. Do not proceed to step 5 until resolved.
+   e. If no conflicts (or all resolved): run `taproot truth-sign` to record the session marker the hook validates.
+
+5. Stage source files + all matched impl.md files and commit with a concise one-line message.
 
 ### Declaration commit
 

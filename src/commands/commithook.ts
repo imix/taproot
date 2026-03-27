@@ -361,39 +361,6 @@ export async function runCommithook(options: { cwd: string }): Promise<number> {
       failed = true;
     }
 
-    // Truth consistency check
-    if (globalTruthsDir(cwd)) {
-      const allTruths = new Map<string, TruthFile>();
-      const stagedDocContents: Array<{ path: string; content: string }> = [];
-      const unreadableWarnings: string[] = [];
-
-      for (const f of staged) {
-        if (!isHierarchyFile(f) || isImplMd(f) || isGlobalTruth(f)) continue;
-        const level = docLevelFromFilename(basename(f));
-        if (!level) continue;
-        const content = getStagedContent(f, cwd) ?? '';
-        stagedDocContents.push({ path: f, content });
-        for (const t of collectApplicableTruths(cwd, level)) {
-          if (t.unreadable) {
-            unreadableWarnings.push(t.relPath);
-          } else {
-            allTruths.set(t.relPath, t);
-          }
-        }
-      }
-
-      for (const relPath of unreadableWarnings) {
-        process.stdout.write(`  ⚠ ${relPath} could not be read — truth check skipped for this file.\n`);
-      }
-
-      if (stagedDocContents.length > 0 && allTruths.size > 0) {
-        const validation = validateTruthSession(cwd, stagedDocContents, [...allTruths.values()]);
-        if (!validation.valid) {
-          process.stdout.write(`taproot commithook — Truth check: ${validation.reason}\n`);
-          failed = true;
-        }
-      }
-    }
   }
 
   // Declaration tier: DoR check on the behaviour spec
@@ -458,6 +425,68 @@ export async function runCommithook(options: { cwd: string }): Promise<number> {
             process.stdout.write(`    → ${r.correction}\n`);
           }
         }
+        failed = true;
+      }
+    }
+  }
+
+  // ─── Unified truth session check (all commit levels) ───────────────────────
+  // Runs once after all tier checks, covering hierarchy docs AND impl-level files.
+  // truth-sign produces one session hash for the same set — this validation matches it.
+  if (globalTruthsDir(cwd)) {
+    const allTruths = new Map<string, TruthFile>();
+    const allDocContents: Array<{ path: string; content: string }> = [];
+    const unreadableWarnings: string[] = [];
+
+    // Hierarchy docs: intent.md, usecase.md — collect truths by their level
+    for (const f of staged) {
+      if (!isHierarchyFile(f) || isImplMd(f) || isGlobalTruth(f)) continue;
+      const level = docLevelFromFilename(basename(f));
+      if (!level) continue;
+      const content = getStagedContent(f, cwd) ?? '';
+      allDocContents.push({ path: f, content });
+      for (const t of collectApplicableTruths(cwd, level)) {
+        if (t.unreadable) {
+          if (!unreadableWarnings.includes(t.relPath)) unreadableWarnings.push(t.relPath);
+        } else {
+          allTruths.set(t.relPath, t);
+        }
+      }
+    }
+
+    // Impl-level: staged impl.md files + staged source files (non-taproot)
+    const stagedImplMds = staged.filter(f => isHierarchyFile(f) && isImplMd(f) && !isGlobalTruth(f));
+    const stagedSourceFiles = staged.filter(f => !f.startsWith('taproot/') && !f.startsWith('.taproot/'));
+
+    if (stagedImplMds.length > 0 || stagedSourceFiles.length > 0) {
+      for (const f of stagedImplMds) {
+        const content = getStagedContent(f, cwd) ?? '';
+        allDocContents.push({ path: f, content });
+      }
+      if (stagedSourceFiles.length > 0) {
+        // Use sorted path list as identity anchor — content changes don't retrigger signing
+        allDocContents.push({
+          path: '__impl_sources__',
+          content: [...stagedSourceFiles].sort().join('\n'),
+        });
+      }
+      for (const t of collectApplicableTruths(cwd, 'impl')) {
+        if (t.unreadable) {
+          if (!unreadableWarnings.includes(t.relPath)) unreadableWarnings.push(t.relPath);
+        } else {
+          allTruths.set(t.relPath, t);
+        }
+      }
+    }
+
+    for (const relPath of unreadableWarnings) {
+      process.stdout.write(`  ⚠ ${relPath} could not be read — truth check skipped for this file.\n`);
+    }
+
+    if (allDocContents.length > 0 && allTruths.size > 0) {
+      const validation = validateTruthSession(cwd, allDocContents, [...allTruths.values()]);
+      if (!validation.valid) {
+        process.stdout.write(`taproot commithook — Truth check: ${validation.reason}\n`);
         failed = true;
       }
     }

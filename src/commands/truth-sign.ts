@@ -32,21 +32,36 @@ export function runTruthSign(options: { cwd: string }): number {
   }
 
   const staged = getStagedFiles(cwd);
+
+  // Hierarchy docs: intent.md, usecase.md (not global-truths)
   const hierarchyDocs = staged.filter(f =>
     f.startsWith('taproot/') &&
+    !f.startsWith('taproot/global-truths/') &&
     (f.endsWith('/intent.md') || f.endsWith('/usecase.md') ||
      f === 'taproot/intent.md' || f === 'taproot/usecase.md')
   );
 
-  if (hierarchyDocs.length === 0) {
-    process.stdout.write('No staged hierarchy documents — truth sign is a no-op.\n');
+  // Impl.md files (not global-truths)
+  const implMdFiles = staged.filter(f =>
+    f.startsWith('taproot/') &&
+    !f.startsWith('taproot/global-truths/') &&
+    (f.endsWith('/impl.md') || f === 'taproot/impl.md')
+  );
+
+  // Source files: non-taproot, non-.taproot
+  const sourceFiles = staged.filter(f =>
+    !f.startsWith('taproot/') && !f.startsWith('.taproot/')
+  );
+
+  if (hierarchyDocs.length === 0 && implMdFiles.length === 0 && sourceFiles.length === 0) {
+    process.stdout.write('No staged hierarchy documents or implementation files — truth sign is a no-op.\n');
     return 0;
   }
 
-  // Collect applicable truths across all staged doc levels (union)
   const allTruths = new Map<string, TruthFile>();
   const stagedDocContents: Array<{ path: string; content: string }> = [];
 
+  // Hierarchy docs: include content, collect truths by level
   for (const doc of hierarchyDocs) {
     const level = docLevelFromFilename(basename(doc));
     if (!level) continue;
@@ -57,9 +72,27 @@ export function runTruthSign(options: { cwd: string }): number {
     }
   }
 
+  // Impl-level: impl.md content + source file path list as identity anchor
+  if (implMdFiles.length > 0 || sourceFiles.length > 0) {
+    for (const doc of implMdFiles) {
+      const content = getStagedContent(doc, cwd);
+      stagedDocContents.push({ path: doc, content });
+    }
+    if (sourceFiles.length > 0) {
+      stagedDocContents.push({
+        path: '__impl_sources__',
+        content: [...sourceFiles].sort().join('\n'),
+      });
+    }
+    for (const t of collectApplicableTruths(cwd, 'impl')) {
+      allTruths.set(t.relPath, t);
+    }
+  }
+
   writeTruthSession(cwd, stagedDocContents, [...allTruths.values()]);
+  const signingCount = hierarchyDocs.length + implMdFiles.length + (sourceFiles.length > 0 ? 1 : 0);
   process.stdout.write(
-    `Truth check signed for ${hierarchyDocs.length} file(s) against ${allTruths.size} truth(s).\n`
+    `Truth check signed for ${signingCount} file(s) against ${allTruths.size} truth(s).\n`
   );
   return 0;
 }

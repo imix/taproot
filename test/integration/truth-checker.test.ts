@@ -427,3 +427,191 @@ describe('runCommithook — truth checks', () => {
     expect(code).toBe(0);
   });
 });
+
+// ─── Integration: impl-level truth checks (AC-7 through AC-10) ───────────────
+
+/** Helpers for impl commit tests. */
+function makeMinimalSettings(dir: string): void {
+  writeFileSync(join(dir, '.taproot', 'settings.yaml'), 'version: 1\nroot: taproot/\n');
+}
+
+const IMPL_MD_IN_PROGRESS = `# Implementation: My Impl
+
+## Behaviour
+../usecase.md
+
+## Design Decisions
+- Simple test implementation
+
+## Source Files
+- \`src/foo.ts\` — test source file
+
+## Commits
+- placeholder
+
+## Tests
+- none
+
+## Status
+- **State:** in-progress
+- **Created:** 2026-03-27
+- **Last verified:** 2026-03-27
+`;
+
+const IMPL_MD_COMPLETE = IMPL_MD_IN_PROGRESS.replace('in-progress', 'complete');
+
+describe('runCommithook — impl-level truth checks', () => {
+  it('AC-7: impl commit with staged source file is blocked when truths exist but no session', async () => {
+    makeMinimalSettings(tmpDir);
+    git(['add', '-A'], tmpDir);
+    git(['commit', '-m', 'minimal settings'], tmpDir);
+
+    // Add a truth file
+    const gtDir = join(tmpDir, 'taproot', 'global-truths');
+    writeFileSync(join(gtDir, 'ux-principles_intent.md'), '## UX\n- fail early\n');
+    git(['add', '-A'], tmpDir);
+    git(['commit', '-m', 'add truth'], tmpDir);
+
+    // Commit hierarchy + impl.md (declares src/foo.ts)
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-beh', 'my-impl'), { recursive: true });
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'intent.md'), VALID_INTENT);
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-beh', 'usecase.md'), VALID_USECASE);
+    writeFileSync(
+      join(tmpDir, 'taproot', 'my-intent', 'my-beh', 'my-impl', 'impl.md'),
+      IMPL_MD_IN_PROGRESS
+    );
+    git(['add', '-A'], tmpDir);
+    git(['commit', '-m', 'declare impl'], tmpDir);
+
+    // Stage source file + updated impl.md (complete)
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-beh', 'my-impl', 'impl.md'), IMPL_MD_COMPLETE);
+    mkdirSync(join(tmpDir, 'src'), { recursive: true });
+    writeFileSync(join(tmpDir, 'src', 'foo.ts'), '// source\n');
+    git(['add', 'src/foo.ts', 'taproot/my-intent/my-beh/my-impl/impl.md'], tmpDir);
+
+    // No session → blocked
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(1);
+  });
+
+  it('AC-7: impl commit passes after truth-sign', async () => {
+    makeMinimalSettings(tmpDir);
+    git(['add', '-A'], tmpDir);
+    git(['commit', '-m', 'minimal settings'], tmpDir);
+
+    const gtDir = join(tmpDir, 'taproot', 'global-truths');
+    writeFileSync(join(gtDir, 'ux-principles_intent.md'), '## UX\n- fail early\n');
+    git(['add', '-A'], tmpDir);
+    git(['commit', '-m', 'add truth'], tmpDir);
+
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-beh', 'my-impl'), { recursive: true });
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'intent.md'), VALID_INTENT);
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-beh', 'usecase.md'), VALID_USECASE);
+    writeFileSync(
+      join(tmpDir, 'taproot', 'my-intent', 'my-beh', 'my-impl', 'impl.md'),
+      IMPL_MD_IN_PROGRESS
+    );
+    git(['add', '-A'], tmpDir);
+    git(['commit', '-m', 'declare impl'], tmpDir);
+
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-beh', 'my-impl', 'impl.md'), IMPL_MD_COMPLETE);
+    mkdirSync(join(tmpDir, 'src'), { recursive: true });
+    writeFileSync(join(tmpDir, 'src', 'foo.ts'), '// source\n');
+    git(['add', 'src/foo.ts', 'taproot/my-intent/my-beh/my-impl/impl.md'], tmpDir);
+
+    // Sign → should pass
+    runTruthSign({ cwd: tmpDir });
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(0);
+  });
+
+  it('AC-8: scope ladder — usecase.md commit does not require impl-scoped truths in session', async () => {
+    makeMinimalSettings(tmpDir);
+    git(['add', '-A'], tmpDir);
+    git(['commit', '-m', 'minimal settings'], tmpDir);
+
+    const gtDir = join(tmpDir, 'taproot', 'global-truths');
+    writeFileSync(join(gtDir, 'glossary_intent.md'), '## Terms\n- booking: slot\n');
+    writeFileSync(join(gtDir, 'patterns_impl.md'), '## Patterns\n- use modules\n');
+    git(['add', '-A'], tmpDir);
+    git(['commit', '-m', 'add truths'], tmpDir);
+
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-beh'), { recursive: true });
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'intent.md'), VALID_INTENT);
+    stage([{ path: 'taproot/my-intent/my-beh/usecase.md', content: VALID_USECASE }], tmpDir);
+
+    // truth-sign: only hierarchy docs staged → session covers behaviour level (intent + behaviour truths)
+    // patterns_impl.md is impl-scoped → NOT included in session
+    runTruthSign({ cwd: tmpDir });
+
+    // Adding an impl-scoped truth after signing should not invalidate the session
+    // (because impl truths don't apply to behaviour-level commits)
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(0);
+  });
+
+  it('AC-9: impl commit blocked when session was signed for different source files', async () => {
+    makeMinimalSettings(tmpDir);
+    git(['add', '-A'], tmpDir);
+    git(['commit', '-m', 'minimal settings'], tmpDir);
+
+    const gtDir = join(tmpDir, 'taproot', 'global-truths');
+    writeFileSync(join(gtDir, 'ux_intent.md'), '## UX\n- fail early\n');
+    git(['add', '-A'], tmpDir);
+    git(['commit', '-m', 'add truth'], tmpDir);
+
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-beh', 'my-impl'), { recursive: true });
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'intent.md'), VALID_INTENT);
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-beh', 'usecase.md'), VALID_USECASE);
+    writeFileSync(
+      join(tmpDir, 'taproot', 'my-intent', 'my-beh', 'my-impl', 'impl.md'),
+      IMPL_MD_IN_PROGRESS
+    );
+    git(['add', '-A'], tmpDir);
+    git(['commit', '-m', 'declare impl'], tmpDir);
+
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-beh', 'my-impl', 'impl.md'), IMPL_MD_COMPLETE);
+    mkdirSync(join(tmpDir, 'src'), { recursive: true });
+    writeFileSync(join(tmpDir, 'src', 'foo.ts'), '// source\n');
+    git(['add', 'src/foo.ts', 'taproot/my-intent/my-beh/my-impl/impl.md'], tmpDir);
+    runTruthSign({ cwd: tmpDir });
+
+    // Add another source file after signing → different staged set → session invalidated
+    writeFileSync(join(tmpDir, 'src', 'bar.ts'), '// extra\n');
+    git(['add', 'src/bar.ts'], tmpDir);
+
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(1); // session no longer covers src/bar.ts
+  });
+
+  it('AC-10: no check-if-affected-by entry in settings.yaml — truths still enforced automatically', async () => {
+    // Explicit minimal settings with NO check-if-affected-by for global-truths
+    makeMinimalSettings(tmpDir);
+    git(['add', '-A'], tmpDir);
+    git(['commit', '-m', 'minimal settings'], tmpDir);
+
+    const gtDir = join(tmpDir, 'taproot', 'global-truths');
+    writeFileSync(join(gtDir, 'ux_intent.md'), '## UX\n- no surprises\n');
+    git(['add', '-A'], tmpDir);
+    git(['commit', '-m', 'add truth'], tmpDir);
+
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-beh', 'my-impl'), { recursive: true });
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'intent.md'), VALID_INTENT);
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-beh', 'usecase.md'), VALID_USECASE);
+    writeFileSync(
+      join(tmpDir, 'taproot', 'my-intent', 'my-beh', 'my-impl', 'impl.md'),
+      IMPL_MD_IN_PROGRESS
+    );
+    git(['add', '-A'], tmpDir);
+    git(['commit', '-m', 'declare impl'], tmpDir);
+
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-beh', 'my-impl', 'impl.md'), IMPL_MD_COMPLETE);
+    mkdirSync(join(tmpDir, 'src'), { recursive: true });
+    writeFileSync(join(tmpDir, 'src', 'foo.ts'), '// source\n');
+    git(['add', 'src/foo.ts', 'taproot/my-intent/my-beh/my-impl/impl.md'], tmpDir);
+
+    // No session → blocked — proving enforcement is automatic, not via settings.yaml
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(1);
+  });
+});
