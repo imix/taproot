@@ -111,6 +111,50 @@ describe('taproot init --with-ci github', () => {
     expect(content).toContain('taproot validate-format');
     expect(content).toContain('taproot check-orphans');
   });
+
+  it('generated file includes npm audit --audit-level=high (AC-18)', () => {
+    runInit({ cwd: tmpDir, withCi: 'github' });
+    const content = readFileSync(join(tmpDir, '.github', 'workflows', 'taproot.yml'), 'utf-8');
+    expect(content).toContain('npm audit --audit-level=high');
+  });
+
+  it('is idempotent — reports exists on second run', () => {
+    runInit({ cwd: tmpDir, withCi: 'github' });
+    const messages = runInit({ cwd: tmpDir, withCi: 'github' });
+    expect(messages.some(m => m.includes('exists') && m.includes('taproot.yml'))).toBe(true);
+  });
+});
+
+// ─── .gitignore append ────────────────────────────────────────────────────────
+
+describe('taproot init — .gitignore append', () => {
+  it('creates .gitignore with .taproot/ when file does not exist (AC-16)', () => {
+    runInit({ cwd: tmpDir });
+    const content = readFileSync(join(tmpDir, '.gitignore'), 'utf-8');
+    expect(content).toContain('.taproot/');
+  });
+
+  it('appends .taproot/ to existing .gitignore (AC-16)', () => {
+    writeFileSync(join(tmpDir, '.gitignore'), 'node_modules/\ndist/\n');
+    runInit({ cwd: tmpDir });
+    const content = readFileSync(join(tmpDir, '.gitignore'), 'utf-8');
+    expect(content).toContain('node_modules/');
+    expect(content).toContain('.taproot/');
+  });
+
+  it('does not re-add .taproot/ if already present (AC-17)', () => {
+    writeFileSync(join(tmpDir, '.gitignore'), 'node_modules/\n.taproot/\n');
+    runInit({ cwd: tmpDir });
+    const content = readFileSync(join(tmpDir, '.gitignore'), 'utf-8');
+    const count = (content.match(/\.taproot\//g) ?? []).length;
+    expect(count).toBe(1);
+  });
+
+  it('reports already-ignored when .taproot/ is present (AC-17)', () => {
+    writeFileSync(join(tmpDir, '.gitignore'), '.taproot/\n');
+    const messages = runInit({ cwd: tmpDir });
+    expect(messages.some(m => m.includes('.taproot/ already ignored'))).toBe(true);
+  });
 });
 
 // ─── Pre-commit hook ──────────────────────────────────────────────────────────

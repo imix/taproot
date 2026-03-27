@@ -520,6 +520,25 @@ export function runInit(options: {
     }
   }
 
+  // Append .taproot/ to .gitignore (AC-16/17) — created once at init; taproot update does not touch it
+  const gitignorePath = join(cwd, '.gitignore');
+  const gitignoreEntry = '.taproot/';
+  if (existsSync(gitignorePath)) {
+    const gitignoreContent = readFileSync(gitignorePath, 'utf-8');
+    if (gitignoreContent.split('\n').some(line => line.trim() === gitignoreEntry)) {
+      messages.push('exists   .gitignore (.taproot/ already ignored)');
+    } else {
+      const appended = gitignoreContent.endsWith('\n')
+        ? gitignoreContent + gitignoreEntry + '\n'
+        : gitignoreContent + '\n' + gitignoreEntry + '\n';
+      writeFileSync(gitignorePath, appended);
+      messages.push('updated  .gitignore (.taproot/ appended)');
+    }
+  } else {
+    writeFileSync(gitignorePath, gitignoreEntry + '\n');
+    messages.push('created  .gitignore');
+  }
+
   messages.push('');
   messages.push('Taproot initialized. Run `taproot validate-structure` to verify.');
   if (appliedPreset || appliedLanguage) {
@@ -720,6 +739,7 @@ jobs:
       - run: taproot validate-structure
       - run: taproot validate-format
       - run: taproot check-orphans
+      - run: npm audit --audit-level=high
 `;
 }
 
