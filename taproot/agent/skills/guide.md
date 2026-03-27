@@ -107,7 +107,7 @@ ineed → intent → behaviour → implement → trace → status
    **What's next?**
    [A] `/tr-ineed` — capture your first (or next) requirement
    [B] `/tr-status` — see the current project health at a glance
-   [C] `/tr-backlog` — triage captured ideas (only if `taproot/agent/backlog.md` is non-empty)
+   [C] `/tr-backlog` — triage captured ideas (only if `taproot/backlog.md` is non-empty)
 
 ## Output
 

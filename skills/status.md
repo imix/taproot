@@ -78,13 +78,13 @@ Generated: <date>
      [B] `/tr-refine taproot/<intent>/<behaviour>/` — add missing tests
      [C] `/tr-plan` — pick a different next item
 
-   - **If no specific items were found** (healthy project): check whether `taproot/agent/backlog.md` exists and contains items. Show the generic fallback menu:
+   - **If no specific items were found** (healthy project): check whether `taproot/backlog.md` exists and contains items. Show the generic fallback menu:
 
      **What's next?**
      [A] `/tr-plan` — pick the next behaviour to implement
      [B] `/tr-ineed` — route a new requirement into the hierarchy
      [C] `/tr-review-all` — deeper semantic review of specs
-     [D] `/tr-backlog` — triage captured ideas (only if `taproot/agent/backlog.md` is non-empty)
+     [D] `/tr-backlog` — triage captured ideas (only if `taproot/backlog.md` is non-empty)
 
 ## Output
 

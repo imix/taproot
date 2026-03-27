@@ -48,6 +48,36 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/architecture.md updated: replaced outdated .taproot/ constraint with new unified layout description; updated Testing section. docs/cli.md updated: taproot init description, --with-skills path, --template settings path, taproot update docs path. docs/agents.md updated: skills path from taproot/agent/skills/ to taproot/agent/skills/. docs/security.md updated: skill security section paths. docs/configuration.md updated: all taproot/settings.yaml → taproot/settings.yaml, CONFIGURATION.md path updated. docs/patterns.md updated: settings.yaml references. README.md accurately reflects the CLI commands and workflow (no layout references to update). | resolved: 2026-03-27T13:57:26.376Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: VERIFIED — skill file changes are path string replacements only. update.ts changes are path string corrections in migration logic with no new attack surface. | resolved: 2026-03-27T17:31:14.825Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — a path correction is not a reusable pattern. | resolved: 2026-03-27T17:31:14.572Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — path correction; no new cross-cutting concern. | resolved: 2026-03-27T17:31:14.318Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — backlog migration in removeStale() follows existing migration patterns (stateless, filesystem as data model, I/O at command boundary). No architectural deviations. | resolved: 2026-03-27T17:31:14.063Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: NOT APPLICABLE — update.ts does not receive natural language requirement descriptions. | resolved: 2026-03-27T17:31:13.802Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: NOT APPLICABLE — update.ts does not contain commit steps. | resolved: 2026-03-27T17:31:13.549Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: NOT APPLICABLE — update.ts is a CLI command, not a skill. | resolved: 2026-03-27T17:31:13.294Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: NOT APPLICABLE — update.ts is a CLI command that does not author multiple documents interactively. | resolved: 2026-03-27T17:31:13.042Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: NOT APPLICABLE — update.ts is a CLI command, not a skill with interactive next-steps. | resolved: 2026-03-27T17:31:12.780Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: COMPLIANT — no agent-specific language in update.ts or migration messages. | resolved: 2026-03-27T17:31:12.521Z
+
+- condition: check-if-affected: examples/ | note: NOT APPLICABLE — examples demonstrate hierarchy structure; backlog path is not referenced in starter examples. | resolved: 2026-03-27T17:31:12.265Z
+
+- condition: check-if-affected: docs/ | note: COMPLIANT — docs/architecture.md already updated. No further docs/ changes required for the path correction. | resolved: 2026-03-27T17:31:11.992Z
+
+- condition: check-if-affected: skills/guide.md | note: APPLIED — updated taproot/agent/backlog.md reference to taproot/backlog.md. | resolved: 2026-03-27T17:31:11.735Z
+
+- condition: check-if-affected: src/commands/update.ts | note: APPLIED — corrected backlog migration target from taproot/agent/backlog.md to taproot/backlog.md; added migration step to move taproot/agent/backlog.md → taproot/backlog.md for existing projects on the erroneous v0.6.0 layout. | resolved: 2026-03-27T17:31:11.479Z
+
+- condition: document-current | note: COMPLIANT — docs/architecture.md was already updated to reflect the unified layout. The backlog.md path correction (taproot/agent/backlog.md → taproot/backlog.md) is an internal skill path; no CLI commands or config options changed. | resolved: 2026-03-27T17:31:11.217Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: NO skill files modified in this rework — only src/commands/update.ts, src/core/config.ts, and two test files. | resolved: 2026-03-27T16:14:19.218Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — directory migration with exclusion list and settings rewrite is a one-time upgrade utility, not a reusable pattern for taproot users. | resolved: 2026-03-27T16:14:18.953Z
