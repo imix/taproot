@@ -125,13 +125,7 @@ function removeStale(cwd) {
     const newAgentSkills = join(cwd, 'taproot', 'agent', 'skills');
     const oldDotTaprootDocs = join(cwd, '.taproot', 'docs');
     const newAgentDocs = join(cwd, 'taproot', 'agent', 'docs');
-    if (existsSync(oldSettings) && !existsSync(newSettings)) {
-        mkdirSync(join(cwd, 'taproot', 'agent'), { recursive: true });
-        // Copy settings (not move) to preserve old layout until migration is complete
-        const settingsContent = readFileSync(oldSettings, 'utf-8');
-        writeFileSync(newSettings, settingsContent);
-        messages.push(`migrated .taproot/settings.yaml → taproot/settings.yaml`);
-    }
+    // settings.yaml migration is handled unconditionally earlier in runUpdate
     if (existsSync(oldDotTaprootSkills) && !existsSync(newAgentSkills)) {
         mkdirSync(join(cwd, 'taproot', 'agent'), { recursive: true });
         renameSync(oldDotTaprootSkills, newAgentSkills);
@@ -288,8 +282,16 @@ export async function runUpdate(options) {
         }
         messages.push(`vocabulary ${Object.keys(vocab).length} overrides`);
     }
+    // Always: migrate .taproot/settings.yaml → taproot/settings.yaml if old layout detected
+    const oldSettingsPath = join(cwd, '.taproot', 'settings.yaml');
+    const newSettingsPath = join(cwd, 'taproot', 'settings.yaml');
+    if (existsSync(oldSettingsPath) && !existsSync(newSettingsPath)) {
+        mkdirSync(join(cwd, 'taproot'), { recursive: true });
+        writeFileSync(newSettingsPath, readFileSync(oldSettingsPath, 'utf-8'));
+        messages.push(`migrated .taproot/settings.yaml → taproot/settings.yaml`);
+    }
     // Always (when taproot project present): install/refresh wrapper, migrate old hooks, bump version
-    const isTaprootProject = existsSync(join(cwd, 'taproot', 'agent'));
+    const isTaprootProject = existsSync(newSettingsPath) || existsSync(join(cwd, 'taproot', 'agent'));
     if (isTaprootProject) {
         messages.push(...installWrapper(cwd));
     }
