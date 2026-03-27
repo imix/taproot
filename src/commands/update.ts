@@ -338,10 +338,14 @@ export async function runUpdate(options: { cwd?: string; withHooks?: boolean }):
   // Always: migrate .taproot/settings.yaml → taproot/settings.yaml if old layout detected
   const oldSettingsPath = join(cwd, '.taproot', 'settings.yaml');
   const newSettingsPath = join(cwd, 'taproot', 'settings.yaml');
-  if (existsSync(oldSettingsPath) && !existsSync(newSettingsPath)) {
-    mkdirSync(join(cwd, 'taproot'), { recursive: true });
-    writeFileSync(newSettingsPath, readFileSync(oldSettingsPath, 'utf-8'));
-    messages.push(`migrated .taproot/settings.yaml → taproot/settings.yaml`);
+  if (existsSync(oldSettingsPath)) {
+    if (!existsSync(newSettingsPath)) {
+      mkdirSync(join(cwd, 'taproot'), { recursive: true });
+      writeFileSync(newSettingsPath, readFileSync(oldSettingsPath, 'utf-8'));
+      messages.push(`migrated .taproot/settings.yaml → taproot/settings.yaml`);
+    }
+    unlinkSync(oldSettingsPath);
+    messages.push(`removed  .taproot/settings.yaml`);
   }
 
   // Always (when taproot project present): install/refresh wrapper, migrate old hooks, bump version
