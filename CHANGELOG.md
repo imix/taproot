@@ -4,6 +4,32 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.6.0] - 2026-03-27
+
+### Taproot
+- taproot(quality-gates/impl-ordering-constraints/hook-extension): implement depends-on ordering check in DoR (f3442f7)
+- taproot(quality-gates/impl-ordering-constraints): add behaviour spec for depends-on ordering constraints (c19bb8a)
+- taproot(global-truths/guide-truth-capture): spec guide-truth-capture usecase (8f3db4e)
+- taproot(requirements-hierarchy/initialise-hierarchy/cli-command): fail-early git check before prompts (84a6dfb)
+- taproot(requirements-hierarchy/initialise-hierarchy): fail-early git check; add ux-principles truth (cbb0f50)
+- taproot(requirements-hierarchy/init-domain-presets): add domain preset behaviour spec (2750c4e)
+- taproot(requirements-hierarchy/init-domain-presets): set state to specified (1df97c9)
+- taproot(requirements-hierarchy/init-domain-presets/cli-command): implement domain preset step in taproot init (c6a2ab1)
+- taproot(project-presentation/starter-examples): collapse template prompt to single select (0c4bd37)
+- taproot(project-presentation/starter-examples/bundled-templates): single select for template prompt AC-7 (3293f15)
+- taproot(global-truths/enforce-truths-at-commit): declare all-levels implementation (ef7e946)
+- taproot(global-truths/enforce-truths-at-commit/all-levels): extend truth check to all commit levels (68e8519)
+
+### Bug Fixes
+- fix: mark global-truths as taproot-managed; warn on intent.md in global-truths (3bf52cc)
+- fix(define-truth): add Phase 3 naming guidance with category-level name suggestions (51fc977)
+- fix(ineed): add global-truth pre-check before pattern-hints in step 0 (0c4bd37)
+- fix: truth-sign excludes impl.md from hash to match hook validation (063ed7d)
+
+### Maintenance
+- refactor: rename global-truths feature intent to global-truth-store; clean truth store (6b49d1d)
+- docs: move quick start before concepts; add enforcement model table (53aa55c)
+
 ## [0.5.1] - 2026-03-26
 
 ### Features
