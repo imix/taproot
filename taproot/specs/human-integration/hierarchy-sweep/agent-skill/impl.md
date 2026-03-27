@@ -39,6 +39,18 @@
 
 ## DoD Resolutions
 - condition: document-current | note: added /tr-sweep to docs/agents.md skills table; added /tr-sweep to skills/guide.md command reference table | resolved: 2026-03-20T15:56:49.737Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: Compliant — sweep.md has no shell commands, no credentials, no tokens; writes only to .taproot/sessions/sweep-status.md via agent action. | resolved: 2026-03-27T20:48:50.867Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — status file persistence is captured by the batch-skill-progress global truth; no new settings.yaml entry needed. | resolved: 2026-03-27T20:48:50.605Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: Not applicable — sweep.md contains no git commit steps; it edits hierarchy files in-session only. | resolved: 2026-03-27T20:48:50.343Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: Compliant — skills/sweep.md uses no agent-specific syntax; 'the developer', 'the agent' throughout; no Claude/Cursor-specific references. | resolved: 2026-03-27T20:48:50.088Z
+
+- condition: check-if-affected: examples/ | note: Not affected — example starters do not reference /tr-sweep or demonstrate its session state. | resolved: 2026-03-27T20:48:49.825Z
+
+- condition: check-if-affected: docs/ | note: Not affected — sweep's docs/workflows.md entry already covers the skill; status file is an internal implementation detail not requiring doc updates. | resolved: 2026-03-27T20:48:49.560Z
+
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — in-session per-file iteration is the natural agent approach; not a reusable pattern worth documenting | resolved: 2026-03-20T17:26:38.670Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — in-session per-file processing is specific to sweep; no new architectural constraint | resolved: 2026-03-20T17:26:38.439Z

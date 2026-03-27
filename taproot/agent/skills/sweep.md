@@ -12,6 +12,11 @@ Apply a uniform task to a filtered set of hierarchy files — enumerate matching
 
 ## Steps
 
+0. Check for `.taproot/sessions/sweep-status.md`. If found, present:
+   > "A previous sweep session exists (N done, M remaining, task: `<task>`). [A] Resume  [R] Restart"
+   - **[A] Resume**: load the stored task description and file list; skip files already marked `[x]`; continue from the first `[ ]` file. Proceed directly to step 4.
+   - **[R] Restart**: overwrite the status file from scratch and run the full flow from step 1.
+
 1. Read the task description and determine the target file type(s):
    - If the developer mentions "all usecases" / "every usecase" → filter to `usecase.md` files
    - If the developer mentions "all intents" / "every intent" → filter to `intent.md` files
@@ -44,10 +49,11 @@ Apply a uniform task to a filtered set of hierarchy files — enumerate matching
 4. For each file in the confirmed list, process it in-session:
    a. Read the file to understand its current content
    b. Apply the task directly — edit the file in place
-   c. Output progress immediately after completing each file:
+   c. Mark the file complete and output progress:
       ```
       [x] taproot/intent-a/behaviour-b/usecase.md
       ```
+   d. Write the updated checklist (task description + full file list with current `[x]`/`[ ]` state) to `.taproot/sessions/sweep-status.md`. This persists progress so the session can be resumed if interrupted.
 
    **For tasks requiring codebase exploration** (e.g. "add ACs from existing tests", "fill in missing fields from source code"), before processing each file:
    - Identify **where to look**: explicit directory paths relevant to the file (e.g. `test/integration/`, `src/commands/`)
@@ -61,6 +67,7 @@ Apply a uniform task to a filtered set of hierarchy files — enumerate matching
 
 5. After all files are processed, show a summary:
    > "Sweep complete — N files processed: M modified, K skipped"
+   Delete `.taproot/sessions/sweep-status.md` (clean completion — no resume needed).
 
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
