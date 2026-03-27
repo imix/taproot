@@ -138,8 +138,11 @@ flowchart TD
 - When the developer selects Q (abort)
 - Then `taproot/plan.md` is not created or modified
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — plan-build](./agent-skill/impl.md)
+
 ## Status
-- **State:** proposed
+- **State:** implemented
 - **Created:** 2026-03-27
 - **Last reviewed:** 2026-03-27
 

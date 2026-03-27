@@ -129,7 +129,7 @@ flowchart TD
 - Then the agent reports no plan found and suggests `/tr-plan build`
 
 ## Status
-- **State:** proposed
+- **State:** specified
 - **Created:** 2026-03-27
 - **Last reviewed:** 2026-03-27
 

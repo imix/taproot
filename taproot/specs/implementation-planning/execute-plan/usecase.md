@@ -154,7 +154,7 @@ flowchart TD
 - Then the agent reports the plan is complete with no pending items
 
 ## Status
-- **State:** proposed
+- **State:** specified
 - **Created:** 2026-03-27
 - **Last reviewed:** 2026-03-27
 
