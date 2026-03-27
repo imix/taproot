@@ -10,14 +10,14 @@
 - Long-section pagination threshold of ~20 lines is a guideline in the skill notes rather than a hard rule — gives the agent judgment to handle edge cases (e.g. 22 very short lines vs 15 very long lines).
 - `[S] Skip to children` included from the start (per refined spec, AC-1) — lets the developer jump straight to the children list when they've already read the spec.
 - Taproot-managed section warning (`## Commits`, `## DoD Resolutions`) prevents accidental corruption of machine-managed sections without blocking the developer if they knowingly want to edit.
-- Both `skills/` (package source) and `.taproot/skills/` (installed copy) updated per CLAUDE.md sync policy.
+- Both `skills/` (package source) and `taproot/agent/skills/` (installed copy) updated per CLAUDE.md sync policy.
 
 ## Source Files
 - `skills/browse.md` — new skill file implementing all 8 ACs; seven steps covering path resolution, discussion.md detection, section presentation, [C]/[M]/[S] interaction, pagination, children listing, and What's next? block
-- `.taproot/skills/browse.md` — synced from skills/
+- `taproot/agent/skills/browse.md` — synced from skills/
 - `src/commands/init.ts` — added `'browse.md'` to `SKILL_FILES`
 - `skills/guide.md` — added `/tr-browse` to the slash commands reference table
-- `.taproot/skills/guide.md` — synced from skills/
+- `taproot/agent/skills/guide.md` — synced from skills/
 
 ## Commits
 <!-- taproot-managed -->
@@ -43,7 +43,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — the [C]/[M]/[S] interaction pattern is specific to the browse skill; it is not a cross-cutting architectural pattern for other skills or implementations. | resolved: 2026-03-25T13:06:45.646Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — browse is a standalone reading skill; it does not introduce a pattern that every implementation must satisfy. | resolved: 2026-03-25T13:06:45.389Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: NO — browse is a standalone reading skill; it does not introduce a pattern that every implementation must satisfy. | resolved: 2026-03-25T13:06:45.389Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: NOT APPLICABLE — architecture-compliance governs TypeScript CLI source code; this implementation modifies only skill files and the SKILL_FILES array constant. | resolved: 2026-03-25T13:06:45.144Z
 
@@ -63,7 +63,7 @@
 
 - condition: check-if-affected: docs/ | note: NOT APPLICABLE — docs/ covers CLI commands and configuration; /tr-browse is a slash command documented in skills/guide.md, not a CLI binary command. No docs/ changes required. | resolved: 2026-03-25T13:06:43.059Z
 
-- condition: check-if-affected: skills/guide.md | note: APPLIED — added /tr-browse row to the slash commands table in skills/guide.md and synced to .taproot/skills/guide.md. | resolved: 2026-03-25T13:06:42.797Z
+- condition: check-if-affected: skills/guide.md | note: APPLIED — added /tr-browse row to the slash commands table in skills/guide.md and synced to taproot/agent/skills/guide.md. | resolved: 2026-03-25T13:06:42.797Z
 
 - condition: check-if-affected: src/commands/update.ts | note: NOT APPLICABLE — taproot update regenerates skills from SKILL_FILES; browse.md is now in SKILL_FILES so it will be installed/refreshed automatically. No change to update.ts logic needed. | resolved: 2026-03-25T13:06:42.537Z
 

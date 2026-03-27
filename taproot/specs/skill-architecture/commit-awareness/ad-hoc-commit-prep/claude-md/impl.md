@@ -31,7 +31,7 @@
 - condition: document-current | note: CLAUDE.md is the documentation surface for this behaviour — it IS the implementation. README.md and docs/ describe CLI commands and skills at a high level; pre-commit agent guidance belongs in CLAUDE.md, not in docs/ | resolved: 2026-03-20T21:09:02.487Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — the grep-scan-before-commit pattern is specific to this CLAUDE.md instruction; it is not a general taproot spec pattern applicable to other implementations | resolved: 2026-03-20T21:09:04.835Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — ad-hoc commit prep is specific to Claude Code agent guidance in CLAUDE.md; it does not introduce a new architectural constraint that should gate future skill implementations | resolved: 2026-03-20T21:09:04.603Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — ad-hoc commit prep is specific to Claude Code agent guidance in CLAUDE.md; it does not introduce a new architectural constraint that should gate future skill implementations | resolved: 2026-03-20T21:09:04.603Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — architecture-compliance governs CLI source code; CLAUDE.md is a markdown instruction file with no source code | resolved: 2026-03-20T21:09:04.372Z
 

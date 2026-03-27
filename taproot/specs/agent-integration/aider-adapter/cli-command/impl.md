@@ -6,12 +6,12 @@
 ## What was built
 
 `generateAiderAdapter()` in `src/adapters/index.ts` — produces two adapter files:
-- **`.aider.conf.yml`**: Aider config with `read:` entries pointing to all `.taproot/skills/*.md` files and `CONVENTIONS.md`, so every Aider session loads taproot context automatically
+- **`.aider.conf.yml`**: Aider config with `read:` entries pointing to all `taproot/agent/skills/*.md` files and `CONVENTIONS.md`, so every Aider session loads taproot context automatically
 - **`CONVENTIONS.md`**: Taproot workflow instructions for Aider — hierarchy layout, skill list with descriptions, commit convention, CLI commands, pre-commit hook note
 
 Merge logic: if `.aider.conf.yml` already exists, parses it with `js-yaml`, merges taproot `read:` entries without duplicating or removing developer settings. Returns `error` on invalid YAML without modifying the file.
 
-Detection in `update.ts`: Aider adapter is detected by presence of `.aider.conf.yml` containing `.taproot/skills/` or `CONVENTIONS.md` containing the taproot init marker.
+Detection in `update.ts`: Aider adapter is detected by presence of `.aider.conf.yml` containing `taproot/agent/skills/` or `CONVENTIONS.md` containing the taproot init marker.
 
 ## Source Files
 
@@ -61,7 +61,7 @@ All 645 tests pass.
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: The YAML merge approach (parse with js-yaml, merge a list field, preserve all other keys, error on invalid YAML) is a novel pattern for taproot adapters. However, it's currently only used by the Aider adapter — premature to generalize before a second use case arises. No patterns.md entry added. | resolved: 2026-03-25T19:01:35.068Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: No new cross-cutting concern. The error? field on AdapterResult is an internal additive change. The Aider adapter pattern is an instance of the existing agent adapter pattern, not a new architectural layer. No new settings.yaml entries warranted. | resolved: 2026-03-25T19:01:28.705Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: No new cross-cutting concern. The error? field on AdapterResult is an internal additive change. The Aider adapter pattern is an instance of the existing agent adapter pattern, not a new architectural layer. No new settings.yaml entries warranted. | resolved: 2026-03-25T19:01:28.705Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: Compliant: the Aider adapter follows the established adapter generator pattern (generateAdapter switch case, AgentName type, AGENT_TIERS). Uses js-yaml which is an existing dependency. Adds error? to AdapterResult for graceful error reporting — a safe additive change. No architectural constraints violated. | resolved: 2026-03-25T19:01:23.084Z
 
@@ -83,5 +83,5 @@ All 645 tests pass.
 
 - condition: check-if-affected: skills/guide.md | note: Not applicable: skills/guide.md is a generic onboarding guide that does not enumerate specific supported agents by name. No change needed. | resolved: 2026-03-25T19:00:38.824Z
 
-- condition: check-if-affected: src/commands/update.ts | note: Updated: added Aider detection in detectInstalledAgents() — checks for .aider.conf.yml containing '.taproot/skills/' or CONVENTIONS.md containing the taproot init marker. Also added error handling in the adapter output loop. | resolved: 2026-03-25T19:00:32.518Z
+- condition: check-if-affected: src/commands/update.ts | note: Updated: added Aider detection in detectInstalledAgents() — checks for .aider.conf.yml containing 'taproot/agent/skills/' or CONVENTIONS.md containing the taproot init marker. Also added error handling in the adapter output loop. | resolved: 2026-03-25T19:00:32.518Z
 

@@ -7,7 +7,7 @@
 - DoR logic lives in `src/core/dor-runner.ts` as a reusable module — invoked by `taproot commithook` for declaration commits, and available as a baseline for DoD
 - `resolveUsecasePath(implMdPath, cwd)` resolves the parent `usecase.md` by walking one level up from the `impl.md` directory: `taproot/X/Y/Z/impl.md` → `taproot/X/Y/usecase.md`
 - Baseline checks are always enforced (not configurable): usecase-exists, state=specified, validate-format, Flow section with Mermaid, Related section
-- Configured `definitionOfReady` conditions in `.taproot/settings.yaml` use the same condition format as DoD (bare built-in names, `run:` shell commands, `check:` agent questions)
+- Configured `definitionOfReady` conditions in `taproot/settings.yaml` use the same condition format as DoD (bare built-in names, `run:` shell commands, `check:` agent questions)
 - `check:` conditions are resolved by reading `## DoR Resolutions` in the staged impl.md — no staleness check (impl.md is brand-new at declaration commit time)
 - `readDorResolutions(implMdPath, cwd)` reads the `## DoR Resolutions` section from impl.md on disk, returning resolved condition names as a Set
 - If a complete impl.md already exists under the same behaviour, a warning is emitted but the commit is not blocked — allows replacement implementations
@@ -45,7 +45,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — check: at DoR uses the same pattern as check: at DoD, already documented in docs/patterns.md | resolved: 2026-03-20T11:09:39.794Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — adding check: to DoR is a capability enhancement, not a new cross-cutting concern | resolved: 2026-03-20T11:09:38.516Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — adding check: to DoR is a capability enhancement, not a new cross-cutting concern | resolved: 2026-03-20T11:09:38.516Z
 
 - condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — pattern-hints applies to skills routing user requests; commithook is a git hook | resolved: 2026-03-20T11:09:37.297Z
 
@@ -63,7 +63,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no new pattern introduced — check: at DoR follows the same pattern as check: at DoD (already documented in docs/patterns.md); the DoR Resolutions section follows the same format as DoD Resolutions | resolved: 2026-03-20T11:04:50.444Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — adding check: to DoR is a capability enhancement; it does not introduce a new architectural rule requiring a new check-if-affected-by entry | resolved: 2026-03-20T11:04:49.215Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — adding check: to DoR is a capability enhancement; it does not introduce a new architectural rule requiring a new check-if-affected-by entry | resolved: 2026-03-20T11:04:49.215Z
 
 - condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — pattern-hints applies to skills routing user requests; taproot commithook is a git hook, not a user-facing skill | resolved: 2026-03-20T11:04:47.936Z
 

@@ -19,7 +19,7 @@
 - `src/commands/init.ts` — creates `taproot/global-truths/` with README hint on init
 - `src/cli.ts` — registers `truth-sign` command
 - `skills/commit.md` — step 5 added to requirement commit sub-flow (truth check + truth-sign)
-- `.taproot/skills/commit.md` — synced from skills/commit.md
+- `taproot/agent/skills/commit.md` — synced from skills/commit.md
 
 ## Commits
 - `43576af` — declare implementation
@@ -35,7 +35,7 @@
 ## Status
 - **State:** needs-rework
 - **Created:** 2026-03-26
-- **Last verified:** 2026-03-26
+- **Last verified:** 2026-03-27
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md updated: added truth-sign command documentation and updated commithook table to mention truth consistency check. docs/patterns.md updated with new session-hash pattern. README.md does not list individual CLI commands and does not need updating. | resolved: 2026-03-26T12:23:54.070Z
@@ -73,7 +73,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: yes. Added the session-hash / agent-verified pre-commit check pattern to docs/patterns.md: agent writes a SHA-256 hash of checked content before commit; hook validates the hash. Documented with when-to-use, limitation, and built-in taproot use cases. | resolved: 2026-03-26T12:24:56.868Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no. Truth checking is enforced at requirement-commit time by the hook — it is not a DoD condition for implementations. No new settings.yaml entry is warranted. | resolved: 2026-03-26T12:24:55.610Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no. Truth checking is enforced at requirement-commit time by the hook — it is not a DoD condition for implementations. No new settings.yaml entry is warranted. | resolved: 2026-03-26T12:24:55.610Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: implementation follows existing patterns: new core module (truth-checker.ts) + new command (truth-sign.ts) + registered in cli.ts + hook extension in commithook.ts. No deviations from established module/command patterns. | resolved: 2026-03-26T12:24:42.778Z
 

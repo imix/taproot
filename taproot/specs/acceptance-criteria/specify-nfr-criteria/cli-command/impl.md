@@ -13,7 +13,7 @@
 ## Source Files
 - `src/validators/format-rules.ts` — `checkAcceptanceCriteria()`: pattern extended to recognize `NFR-N` IDs
 - `skills/behaviour.md` — step 7b added: prompt for quality constraints and derive NFR-N entries
-- `.taproot/skills/behaviour.md` — installed copy of skills/behaviour.md (CLAUDE.md copy-back requirement)
+- `taproot/agent/skills/behaviour.md` — installed copy of skills/behaviour.md (CLAUDE.md copy-back requirement)
 - `docs/concepts.md` — NFR guidance added: NFR-N example, measurability definition, ISO 25010 taxonomy
 
 ## Commits
@@ -34,7 +34,7 @@
 - condition: document-current | note: docs/cli.md updated: validate-format section now mentions NFR-N alongside AC-N for DUPLICATE_CRITERION_ID; acceptance-check section updated to cover NFR-N criterion IDs; docs/concepts.md updated with NFR-N guidance and ISO 25010 taxonomy | resolved: 2026-03-21T10:57:35.798Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — NFR-N as labelled AC entries is a spec format convention documented in docs/concepts.md; it is not an implementation pattern for docs/patterns.md | resolved: 2026-03-21T10:58:24.803Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — NFR-N IDs are a format extension to an existing validator; no new cross-cutting rule needed; the existing validate-format check handles duplicate ID detection automatically | resolved: 2026-03-21T10:58:20.684Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — NFR-N IDs are a format extension to an existing validator; no new cross-cutting rule needed; the existing validate-format check handles duplicate ID detection automatically | resolved: 2026-03-21T10:58:20.684Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — NFR-N ID regex extension is pure validation logic in src/validators/format-rules.ts; no I/O, no global state; skill and docs changes are markdown-only; no architectural constraints violated | resolved: 2026-03-21T10:58:15.672Z
 

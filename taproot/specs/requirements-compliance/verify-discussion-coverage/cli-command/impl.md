@@ -40,7 +40,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — the require-discussion-log condition is a standalone opt-in enforcement hook; not a reusable architectural pattern. | resolved: 2026-03-25T12:26:13.507Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — require-discussion-log is itself a DoR condition teams configure explicitly; not a cross-cutting concern. | resolved: 2026-03-25T12:26:13.244Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: NO — require-discussion-log is itself a DoR condition teams configure explicitly; not a cross-cutting concern. | resolved: 2026-03-25T12:26:13.244Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — handler in src/core/dor-runner.ts uses existsSync (consistent with existing pattern); DodConditionEntry variant follows existing union type pattern; error message includes correction hint per architecture constraint. | resolved: 2026-03-25T12:26:12.993Z
 

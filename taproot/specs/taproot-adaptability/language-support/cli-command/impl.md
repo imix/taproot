@@ -47,7 +47,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-23
-- **Last verified:** 2026-03-24
+- **Last verified:** 2026-03-27
 
 ## DoD Resolutions
 - condition: document-current | note: Updated docs/configuration.md: added language: field to settings.yaml example, added ## Language section documenting all 5 supported codes, what gets localised, and the unknown-code abort behaviour | resolved: 2026-03-23T12:17:50.488Z
@@ -59,7 +59,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — the localizedSectionKey() helper is internal to dor-runner.ts; not a reusable pattern worth extracting. | resolved: 2026-03-24T17:01:14.510Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — bug fixes to three existing surfaces; no new cross-cutting pattern introduced. | resolved: 2026-03-24T17:01:14.271Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: NO — bug fixes to three existing surfaces; no new cross-cutting pattern introduced. | resolved: 2026-03-24T17:01:14.271Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — localizedSectionKey() helper added to dor-runner.ts follows the same pure-logic pattern as language.ts. Pack I/O stays at command boundary (loadConfig/loadLanguagePack called inside runDorChecks, which is invoked from commithook.ts). No architectural constraint violated. | resolved: 2026-03-24T17:01:14.028Z
 
@@ -85,7 +85,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — the language pack mechanism is specific to taproot's structural vocabulary substitution. It is not a general pattern applicable to other implementations in this codebase. | resolved: 2026-03-23T12:18:51.241Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — language substitution is self-contained and opt-in via settings.yaml language: field. It does not impose new structural requirements on every implementation. No new cross-cutting condition needed. | resolved: 2026-03-23T12:18:45.865Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: NO — language substitution is self-contained and opt-in via settings.yaml language: field. It does not impose new structural requirements on every implementation. No new cross-cutting condition needed. | resolved: 2026-03-23T12:18:45.865Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — language.ts lives in src/core/ as pure logic (no I/O at module level). Pack file reads happen only at command boundaries (validate-format.ts, commithook.ts, update.ts, adapters/index.ts). Satisfies the architecture constraint: External I/O only at command boundaries. | resolved: 2026-03-23T12:18:38.117Z
 

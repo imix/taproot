@@ -20,10 +20,10 @@
 - `skills/implement.md` — step to update parent `## Implementations` section before declaration commit
 - `skills/refine.md` — note to preserve link sections before rewriting
 - `skills/intent.md` — note to preserve link sections before rewriting
-- `.taproot/skills/behaviour.md` — mirror of skills/behaviour.md
-- `.taproot/skills/implement.md` — mirror of skills/implement.md
-- `.taproot/skills/refine.md` — mirror of skills/refine.md
-- `.taproot/skills/intent.md` — mirror of skills/intent.md
+- `taproot/agent/skills/behaviour.md` — mirror of skills/behaviour.md
+- `taproot/agent/skills/implement.md` — mirror of skills/implement.md
+- `taproot/agent/skills/refine.md` — mirror of skills/refine.md
+- `taproot/agent/skills/intent.md` — mirror of skills/intent.md
 
 ## Commits
 - (run `taproot link-commits` to populate)
@@ -36,7 +36,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-03-23
+- **Last verified:** 2026-03-27
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md documents taproot update cross-link refresh and validate-format link section checks; skills/guide.md lists taproot update and updated validate-format description | resolved: 2026-03-19T19:56:18.230Z
@@ -46,7 +46,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — cross-linked-specs link management is already described in the usecase.md itself. Not a reusable pattern for docs/patterns.md. | resolved: 2026-03-20T20:03:55.977Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — cross-linked-specs is already the mechanism enforced by taproot update and tr-implement/tr-behaviour as side-effects. No new .taproot/settings.yaml entry needed. | resolved: 2026-03-20T20:03:55.740Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — cross-linked-specs is already the mechanism enforced by taproot update and tr-implement/tr-behaviour as side-effects. No new taproot/settings.yaml entry needed. | resolved: 2026-03-20T20:03:55.740Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — this implementation modifies taproot hierarchy markdown files (usecase.md and impl.md link sections). No CLI source code, no architectural decisions involved. docs/architecture.md constraints do not apply to hierarchy document link management. | resolved: 2026-03-20T20:03:55.500Z
 
@@ -64,4 +64,4 @@
 
 - condition: check-if-affected: src/commands/update.ts | note: update.ts was modified — refreshLinks() added and called from runUpdate() | resolved: 2026-03-19T19:56:18.475Z
 
-- condition: sweep-taproot-yaml-rename | note: .taproot.yaml references updated to .taproot/settings.yaml across the project; this impl.md contains no such references — no content changes required | resolved: 2026-03-20
+- condition: sweep-taproot-yaml-rename | note: .taproot.yaml references updated to taproot/settings.yaml across the project; this impl.md contains no such references — no content changes required | resolved: 2026-03-20

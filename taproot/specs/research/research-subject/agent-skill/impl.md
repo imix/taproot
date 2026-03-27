@@ -14,7 +14,7 @@
 
 ## Source Files
 - `skills/research.md` — canonical skill definition (package source)
-- `.taproot/skills/research.md` — installed copy (managed by `taproot update`)
+- `taproot/agent/skills/research.md` — installed copy (managed by `taproot update`)
 - `src/commands/init.ts` — added `'research.md'` to `SKILL_FILES`
 
 ## Commits
@@ -28,7 +28,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-20
-- **Last verified:** 2026-03-20
+- **Last verified:** 2026-03-27
 
 ## DoD Resolutions
 - condition: document-current | note: docs/agents.md and skills/guide.md updated with /tr-research entry; no other docs reference the full skill list | resolved: 2026-03-20T08:11:13.230Z
@@ -36,7 +36,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — /tr-research is an existing documented skill; no new pattern revealed | resolved: 2026-03-20T16:07:23.049Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — research skill is self-contained; no new cross-cutting concern introduced | resolved: 2026-03-20T16:07:22.819Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — research skill is self-contained; no new cross-cutting concern introduced | resolved: 2026-03-20T16:07:22.819Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — skills/research.md is a markdown skill file; architecture-compliance constraints govern CLI source code, not skill markdown definitions | resolved: 2026-03-20T16:07:22.586Z
 
@@ -51,7 +51,7 @@
 - condition: check-if-affected: skills/guide.md | note: updated — added /tr-research row to the slash commands table | resolved: 2026-03-20T08:11:13.695Z
 
 - condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts reads SKILL_FILES from init.ts dynamically; adding research.md to SKILL_FILES is sufficient | resolved: 2026-03-20T08:11:13.463Z
-- condition: check-if-affected: src/commands/init.ts | note: init.ts changed (config path moved to .taproot/settings.yaml) — SKILL_FILES entry for research.md is unchanged; no impact on research skill installation | resolved: 2026-03-20T12:00:00.000Z
+- condition: check-if-affected: src/commands/init.ts | note: init.ts changed (config path moved to taproot/settings.yaml) — SKILL_FILES entry for research.md is unchanged; no impact on research skill installation | resolved: 2026-03-20T12:00:00.000Z
 - condition: sweep-update | note: src/commands/init.ts updated to add 'sweep.md' to SKILL_FILES for /tr-sweep distribution; research.md SKILL_FILES entry unaffected | resolved: 2026-03-20T16:00:00.000Z
 - condition: fix-update-skill-overwrite | note: installSkills gained a force parameter; research.md entry in SKILL_FILES unaffected — only the copy logic changed | resolved: 2026-03-20
 

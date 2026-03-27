@@ -62,7 +62,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No. Adding /tr-commit to the guide table is a routine maintenance update, not a new reusable pattern. | resolved: 2026-03-21T07:27:10.912Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: No. Adding a row to guide.md's slash commands table does not introduce a new cross-cutting concern. | resolved: 2026-03-21T07:27:10.684Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: No. Adding a row to guide.md's slash commands table does not introduce a new cross-cutting concern. | resolved: 2026-03-21T07:27:10.684Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: Not applicable — skills/guide.md is a markdown documentation file; no CLI source code modified. No architectural constraints apply. | resolved: 2026-03-21T07:27:10.454Z
 
@@ -80,4 +80,4 @@
 
 - condition: check-if-affected: src/commands/update.ts | note: update.ts regenerates agent adapters and skill files; skill content changes (not structure) do not affect update.ts logic — no changes needed | resolved: 2026-03-20T06:11:51.890Z
 
-- condition: sweep-taproot-yaml-rename | note: .taproot.yaml references updated to .taproot/settings.yaml across the project; this impl.md contains no such references — no content changes required | resolved: 2026-03-20
+- condition: sweep-taproot-yaml-rename | note: .taproot.yaml references updated to taproot/settings.yaml across the project; this impl.md contains no such references — no content changes required | resolved: 2026-03-20

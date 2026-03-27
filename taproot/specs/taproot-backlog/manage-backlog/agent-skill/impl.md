@@ -6,16 +6,16 @@
 ## Design Decisions
 - Pure skill-file implementation — no TypeScript/CLI changes beyond adding to `SKILL_FILES`. All logic (detect arg, read/write file, triage loop) is conversational.
 - `backlog.md` added to `SKILL_FILES` in `src/commands/init.ts` so it installs via `taproot init` and refreshes via `taproot update`.
-- `taproot update` used to sync both `.taproot/skills/backlog.md` and `.claude/commands/tr-backlog.md` — cleaner than manual copy.
+- `taproot update` used to sync both `taproot/agent/skills/backlog.md` and `.claude/commands/tr-backlog.md` — cleaner than manual copy.
 - Non-standard lines in `.taproot/backlog.md` are preserved and skipped silently during triage, with a count reported after — avoids data loss for hand-edited content.
 - Blank/whitespace argument detected early with a one-line warning — no silent no-ops.
 
 ## Source Files
 - `skills/backlog.md` — new skill file implementing all 7 ACs; two modes: capture (arg present) and triage (no arg)
-- `.taproot/skills/backlog.md` — synced via `taproot update`
+- `taproot/agent/skills/backlog.md` — synced via `taproot update`
 - `src/commands/init.ts` — added `'backlog.md'` to `SKILL_FILES`
 - `skills/guide.md` — added `/tr-backlog` to the slash commands reference table
-- `.taproot/skills/guide.md` — synced via `taproot update`
+- `taproot/agent/skills/guide.md` — synced via `taproot update`
 
 ## Commits
 <!-- taproot-managed -->
@@ -47,7 +47,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — the arg/no-arg mode split is specific to backlog; it is not a cross-cutting architectural pattern for other skills. | resolved: 2026-03-25T13:40:09.479Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — backlog is a standalone capture/triage skill; it does not introduce a pattern that every implementation must satisfy. | resolved: 2026-03-25T13:40:09.216Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: NO — backlog is a standalone capture/triage skill; it does not introduce a pattern that every implementation must satisfy. | resolved: 2026-03-25T13:40:09.216Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: NOT APPLICABLE — architecture-compliance governs TypeScript CLI source code; this implementation modifies only skill files and the SKILL_FILES array constant. | resolved: 2026-03-25T13:38:47.490Z
 
@@ -67,7 +67,7 @@
 
 - condition: check-if-affected: docs/ | note: NOT APPLICABLE — docs/ covers CLI commands and configuration; /tr-backlog is a slash command documented in skills/guide.md, not a CLI binary command. No docs/ changes required. | resolved: 2026-03-25T13:38:15.263Z
 
-- condition: check-if-affected: skills/guide.md | note: APPLIED — added /tr-backlog row to the slash commands table in skills/guide.md and synced to .taproot/skills/guide.md. | resolved: 2026-03-25T13:38:15.027Z
+- condition: check-if-affected: skills/guide.md | note: APPLIED — added /tr-backlog row to the slash commands table in skills/guide.md and synced to taproot/agent/skills/guide.md. | resolved: 2026-03-25T13:38:15.027Z
 
 - condition: check-if-affected: src/commands/update.ts | note: NOT APPLICABLE — taproot update regenerates skills from SKILL_FILES; backlog.md is now in SKILL_FILES so it installs/refreshes automatically. No change to update.ts logic needed. | resolved: 2026-03-25T13:38:14.788Z
 

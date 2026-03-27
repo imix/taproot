@@ -4,7 +4,7 @@
 ../usecase.md
 
 ## Design Decisions
-- Agent detection is heuristic-based (scan for characteristic files) rather than config-based — avoids requiring developers to maintain a list of installed agents in `.taproot/settings.yaml`; the filesystem is the source of truth
+- Agent detection is heuristic-based (scan for characteristic files) rather than config-based — avoids requiring developers to maintain a list of installed agents in `taproot/settings.yaml`; the filesystem is the source of truth
 - Stale path removal is encoded as a static list of known old layouts (`STALE_PATHS`) — explicit, auditable, and easy to extend as the tool evolves
 - OVERVIEW.md regeneration is always included in the update — keeps the overview current after any skill changes without requiring a separate command
 - CONFIGURATION.md installation (AC-6/AC-7) is implemented in `src/core/configuration.ts` via `buildConfigurationMd()` — content generation is pure logic in core/, write happens at the command boundary in update.ts. CONFIGURATION.md is only written when at least one adapter is detected, consistent with the existing update guard.
@@ -24,13 +24,13 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-03-24
+- **Last verified:** 2026-03-27
 
 ## DoD Resolutions
 - condition: document-current | note: UPDATED docs/configuration.md: added Quick discovery section documenting .taproot/CONFIGURATION.md (installed by taproot update) and the taproot --help footer as the primary configuration discovery surfaces. README and docs/agents.md describe what taproot update does (refreshes skills), not how; no additional changes needed. | resolved: 2026-03-24T15:16:59.944Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — generating a reference file alongside skills is a straightforward extension of the existing update flow; no new reusable pattern. | resolved: 2026-03-24T15:18:09.133Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — CONFIGURATION.md installation is specific to the update command; no new architectural constraint affecting other implementations. | resolved: 2026-03-24T15:18:08.899Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — CONFIGURATION.md installation is specific to the update command; no new architectural constraint affecting other implementations. | resolved: 2026-03-24T15:18:08.899Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: STILL COMPLIANT — CONFIGURATION.md write added to update.ts follows same architecture as language pack and vocabulary passes: buildConfigurationMd() is pure logic in src/core/configuration.ts (no I/O), file write happens at the command boundary in update.ts. | resolved: 2026-03-24T15:18:08.662Z
 

@@ -8,7 +8,7 @@
 - Signal phrases from the spec are embedded directly in the step text so the agent knows exactly what to match against — no ambiguity about what constitutes a "match".
 - The interruption presents the pattern name, a one-line description, and [A]/[B] choice. It does not dump the full `.taproot/docs/patterns.md` content into context — it names the pattern and the agent reads the relevant section on demand if the user chooses [A].
 - All four skills (ineed, behaviour, implement, refine) updated. Other skills (tr-plan, tr-decompose, etc.) are less likely to receive raw requirement expressions and are left for future passes when their source implementations are touched.
-- Both `skills/` (package source) and `.taproot/skills/` (installed copy) updated in sync per CLAUDE.md policy.
+- Both `skills/` (package source) and `taproot/agent/skills/` (installed copy) updated in sync per CLAUDE.md policy.
 - Pattern file path is `.taproot/docs/patterns.md` (not `docs/patterns.md`) — `taproot update` distributes the full `docs/` folder to `.taproot/docs/` so agent skills have consistent access to all taproot reference material under `.taproot/`.
 
 ## Source Files
@@ -16,7 +16,7 @@
 - `skills/behaviour.md` — step 1a: scan for pattern match on the behaviour description
 - `skills/implement.md` — step 4: check for pattern match before presenting implementation plan
 - `skills/refine.md` — step 0: scan for pattern match on the change being described
-- `taproot/human-integration/pattern-hints/usecase.md` — updated `docs/patterns.md` path references to `.taproot/docs/patterns.md`
+- `taproot/specs/human-integration/pattern-hints/usecase.md` — updated `docs/patterns.md` path references to `.taproot/docs/patterns.md`
 
 ## Commits
 - placeholder
@@ -39,7 +39,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No. Path migration is a mechanical fix, not a reusable pattern. | resolved: 2026-03-24T19:57:32.710Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: No. The path change from docs/patterns.md to .taproot/docs/patterns.md is a one-time migration fix. No new cross-cutting constraint needed. | resolved: 2026-03-24T19:57:31.477Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: No. The path change from docs/patterns.md to .taproot/docs/patterns.md is a one-time migration fix. No new cross-cutting constraint needed. | resolved: 2026-03-24T19:57:31.477Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: Compliant. Change is a path string update in four skill markdown files. No CLI source code, no architectural decisions modified. | resolved: 2026-03-24T19:57:30.210Z
 
@@ -67,7 +67,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — pattern-hints is a behaviour spec, not a reusable configuration pattern for docs/patterns.md. | resolved: 2026-03-20T20:04:08.203Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — pattern-hints is already enforced via check-if-affected-by: human-integration/pattern-hints in .taproot/settings.yaml. No new entry needed. | resolved: 2026-03-20T20:04:07.970Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — pattern-hints is already enforced via check-if-affected-by: human-integration/pattern-hints in taproot/settings.yaml. No new entry needed. | resolved: 2026-03-20T20:04:07.970Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — pattern-hints implementation modifies skills/*.md (agent skill markdown). No CLI source code, no architectural decisions in docs/architecture.md apply. | resolved: 2026-03-20T20:04:07.737Z
 
@@ -85,4 +85,4 @@
 
 - condition: check-if-affected: src/commands/update.ts | note: Not affected. update.ts copies skill files by name; no change to names or copy logic. | resolved: 2026-03-20T10:28:18.973Z
 
-- condition: sweep-taproot-yaml-rename | note: .taproot.yaml references updated to .taproot/settings.yaml across the project; this impl.md contains no such references — no content changes required | resolved: 2026-03-20
+- condition: sweep-taproot-yaml-rename | note: .taproot.yaml references updated to taproot/settings.yaml across the project; this impl.md contains no such references — no content changes required | resolved: 2026-03-20

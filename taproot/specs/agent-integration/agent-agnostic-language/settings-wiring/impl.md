@@ -11,7 +11,7 @@
 - No automated test — agent-driven reasoning check; activation is verified by the DoD runner's existing `check-if-affected-by` test coverage
 
 ## Source Files
-- `.taproot/settings.yaml` — adds `check-if-affected-by: agent-integration/agent-agnostic-language` to `definitionOfDone`
+- `taproot/settings.yaml` — adds `check-if-affected-by: agent-integration/agent-agnostic-language` to `definitionOfDone`
 
 ## Commits
 <!-- taproot-managed -->
@@ -27,16 +27,16 @@
 - **Last verified:** 2026-03-21
 
 ## DoR Resolutions
-- condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — implementation writes only .taproot/settings.yaml (a config file); no code design decisions; no architectural constraints apply | resolved: 2026-03-21
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — implementation writes only taproot/settings.yaml (a config file); no code design decisions; no architectural constraints apply | resolved: 2026-03-21
 - condition: check-if-affected-by: quality-gates/nfr-measurability | note: not applicable — usecase.md has no NFR-N entries | resolved: 2026-03-21
 
 ## DoD Resolutions
 - condition: document-current | note: docs/configuration.md updated: added Built-in cross-cutting DoD conditions table documenting agent-agnostic-language and all other check-if-affected-by conditions with descriptions | resolved: 2026-03-21T17:21:39.053Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — agent-agnostic language is an instance of the existing check-if-affected-by pattern already in docs/patterns.md | resolved: 2026-03-21T17:21:41.575Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: yes — this story IS the cross-cutting concern; check-if-affected-by: agent-integration/agent-agnostic-language added to definitionOfDone | resolved: 2026-03-21T17:21:41.346Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: yes — this story IS the cross-cutting concern; check-if-affected-by: agent-integration/agent-agnostic-language added to definitionOfDone | resolved: 2026-03-21T17:21:41.346Z
 
-- condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — implementation writes .taproot/settings.yaml (config) and docs/configuration.md (doc); no code design decisions | resolved: 2026-03-21T17:21:41.119Z
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — implementation writes taproot/settings.yaml (config) and docs/configuration.md (doc); no code design decisions | resolved: 2026-03-21T17:21:41.119Z
 
 - condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — no skill or agent interaction surface added | resolved: 2026-03-21T17:21:40.891Z
 
@@ -48,7 +48,7 @@
 
 - condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — implementation writes settings.yaml and docs/configuration.md; no agent-facing output and no What's next? interaction surface | resolved: 2026-03-21T17:21:39.977Z
 
-- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: this IS the agent-agnostic-language implementation — self-referentially compliant; implementation writes only .taproot/settings.yaml and docs/configuration.md | resolved: 2026-03-21T17:21:39.746Z
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: this IS the agent-agnostic-language implementation — self-referentially compliant; implementation writes only taproot/settings.yaml and docs/configuration.md | resolved: 2026-03-21T17:21:39.746Z
 
 - condition: check-if-affected: skills/guide.md | note: not affected — guide.md covers skill invocation; the DoD condition is a configuration concern documented in docs/configuration.md | resolved: 2026-03-21T17:21:39.518Z
 

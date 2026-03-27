@@ -13,7 +13,7 @@
 - `src/commands/commithook.ts` — unified truth check block replacing requirement-only check
 - `src/commands/truth-sign.ts` — extended to include impl.md + source file paths in session hash
 - `skills/commit.md` — step 4 added to implementation sub-flow (truth check before staging)
-- `.taproot/skills/commit.md` — synced from skills/commit.md
+- `taproot/agent/skills/commit.md` — synced from skills/commit.md
 
 ## Commits
 - placeholder
@@ -36,7 +36,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No new pattern. The session-hash pattern in docs/patterns.md already covers this. The extension to impl-level is a scope change to an existing pattern, not a new one. | resolved: 2026-03-27T12:06:56.187Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: No. Truth checking at impl commit time is enforced by the hook automatically — no settings.yaml entry is needed or warranted. This is the whole point of the story. | resolved: 2026-03-27T12:06:54.930Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: No. Truth checking at impl commit time is enforced by the hook automatically — no settings.yaml entry is needed or warranted. This is the whole point of the story. | resolved: 2026-03-27T12:06:54.930Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: Applies: commithook.ts restructured (truth check block moved). No new modules, no new commands. Follows existing module/command pattern. Compliant. | resolved: 2026-03-27T12:06:43.697Z
 

@@ -6,7 +6,7 @@
 ## Design Decisions
 - Autonomous mode awareness lives in the skill markdown files — the agent reads and follows skill instructions, so behavior changes belong where instructions are defined, not in the CLI. Adding a runtime flag to the CLI would not help because skills are text executed by the agent, not by the taproot process.
 - Three activation mechanisms (env var `TAPROOT_AUTONOMOUS=1`, `--autonomous` flag, `autonomous: true` in settings) are documented in skills as a "check autonomous mode" preamble that the agent reads at skill load time. No CLI orchestration is needed.
-- `autonomous?: boolean` added to `TaprootConfig` so `autonomous: true` in `.taproot/settings.yaml` is a first-class supported setting — parsed, typed, and discoverable via CONFIGURATION.md.
+- `autonomous?: boolean` added to `TaprootConfig` so `autonomous: true` in `taproot/settings.yaml` is a first-class supported setting — parsed, typed, and discoverable via CONFIGURATION.md.
 - Only `skills/implement.md` and `skills/commit.md` carry explicit confirmation prompts that autonomous mode should bypass. Other skills (tr-plan, tr-status, etc.) present structured choices but do not block on user approval before acting — no changes needed there.
 - `<!-- autonomous: pending-review -->` is a pure skill-text convention. No CLI parsing is needed because the marker is written into `impl.md` by the agent following skill instructions; `taproot dod` already reads `## DoD Resolutions` entries by convention.
 - The CONFIGURATION.md generator is updated so `.taproot/CONFIGURATION.md` (the agent-facing config reference) documents `autonomous` alongside `cli` and `language` — the three runtime-behavior settings.
@@ -41,7 +41,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: yes — the ## Autonomous mode preamble convention (check env var / flag / settings at skill load time) is a reusable pattern for any skill that has confirmation prompts. Adding to docs/patterns.md. | resolved: 2026-03-26T05:36:31.881Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — autonomous mode is an opt-in configuration feature. It does not introduce a cross-cutting architectural constraint that every future implementation must verify. No new settings.yaml entry warranted. | resolved: 2026-03-26T05:36:27.384Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — autonomous mode is an opt-in configuration feature. It does not introduce a cross-cutting architectural constraint that every future implementation must verify. No new settings.yaml entry warranted. | resolved: 2026-03-26T05:36:27.384Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — autonomous?: boolean added to TaprootConfig (validators layer); no new module boundaries crossed; configuration.ts (core layer) generates documentation, no I/O in non-command layers; skill markdown files are not TypeScript source. deepMerge handles the new optional field without changes. No global mutable state, no raw exceptions exposed. | resolved: 2026-03-26T05:36:22.836Z
 

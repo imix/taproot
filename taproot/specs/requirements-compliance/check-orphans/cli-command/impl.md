@@ -28,7 +28,7 @@
 - condition: document-current | note: NO UPDATE NEEDED — docs/configuration.md and README document user-facing CLI behaviour (commands, flags, output). The path-token recognition fix is an internal parsing detail in impl-reader.ts with no change to CLI interface, flags, or user-visible output format. | resolved: 2026-03-24T13:38:41.663Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — the isFilePath heuristic is specific to impl.md parsing. Not a general-purpose pattern. | resolved: 2026-03-24T13:39:26.126Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — path-token recognition is specific to impl-reader.ts parsing. Not a cross-cutting concern affecting other implementations. | resolved: 2026-03-24T13:39:24.820Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: NO — path-token recognition is specific to impl-reader.ts parsing. Not a cross-cutting concern affecting other implementations. | resolved: 2026-03-24T13:39:24.820Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — isFilePath() and extractFilePaths() are pure logic in src/core/impl-reader.ts (no I/O). No architectural constraint violated. | resolved: 2026-03-24T13:39:23.576Z
 

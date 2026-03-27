@@ -8,7 +8,7 @@
 - C-5 `/compact` signal is placed immediately before the `## What's next?` block in each long skill. Wording is standardised: `> 💡 If this session is getting long, consider running \`/compact\` or starting a fresh context before the next task.`
 - C-1 trimming moves detail from `## Description` into the `## Steps` section (which is already the canonical home for step detail). No information is lost.
 - C-4 fixes in `ineed.md` and `grill-me.md` defer the OVERVIEW.md read to the step that first *uses* the hierarchy information, not step 1. The load still happens — just one step later.
-- Both `skills/` (package source) and `.taproot/skills/` (installed copy) are updated in sync per CLAUDE.md policy.
+- Both `skills/` (package source) and `taproot/agent/skills/` (installed copy) are updated in sync per CLAUDE.md policy.
 
 ## Source Files
 - (none — this implementation is a one-time compliance sweep enforced via DoD check at each skill's own implementation commit, not through permanent file ownership; individual skill files are owned by their respective impl.md records)
@@ -30,9 +30,9 @@
 
 ## DoD Resolutions
 - condition: document-current | note: No new CLI commands, skills, or configuration options added. Changes are internal to skill step content (description trims, step reordering, /compact signal additions). README.md and docs/ remain accurate. | resolved: 2026-03-20T09:51:26.112Z
-- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — context-engineering is already enforced via check-if-affected-by in .taproot/settings.yaml; the enforcement pattern is already documented in docs/patterns.md | resolved: 2026-03-20T16:08:33.145Z
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — context-engineering is already enforced via check-if-affected-by in taproot/settings.yaml; the enforcement pattern is already documented in docs/patterns.md | resolved: 2026-03-20T16:08:33.145Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: this story IS the cross-cutting concern mechanism (check-if-affected-by: skill-architecture/context-engineering is already in .taproot/settings.yaml); no additional entries needed | resolved: 2026-03-20T16:08:32.910Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: this story IS the cross-cutting concern mechanism (check-if-affected-by: skill-architecture/context-engineering is already in taproot/settings.yaml); no additional entries needed | resolved: 2026-03-20T16:08:32.910Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — this impl modifies skill files (skills/*.md), not CLI source code; architecture-compliance constraints govern CLI command implementations | resolved: 2026-03-20T16:08:32.674Z
 
@@ -46,7 +46,7 @@
 
 - condition: check-if-affected: skills/guide.md | note: Updated in this implementation — C-5 /compact signal added to guide.md step 4. The skills table descriptions are independently authored and remain accurate; no further changes needed. | resolved: 2026-03-20T09:51:34.828Z
 
-- condition: check-if-affected: src/commands/update.ts | note: Not affected. update.ts copies skill files by name from skills/ to .taproot/skills/. No change to file names, structure, or copy logic is required — skill files were updated in place. | resolved: 2026-03-20T09:51:33.576Z
+- condition: check-if-affected: src/commands/update.ts | note: Not affected. update.ts copies skill files by name from skills/ to taproot/agent/skills/. No change to file names, structure, or copy logic is required — skill files were updated in place. | resolved: 2026-03-20T09:51:33.576Z
 - condition: sweep-update | note: skills/guide.md updated to add /tr-sweep to the Slash Commands table; this is a content addition, not a context-engineering compliance issue | resolved: 2026-03-20T16:00:00.000Z
 - condition: commit-awareness-update | note: skills/implement.md updated as part of skill-architecture/commit-awareness implementation — pre-commit context steps added to steps 6 and 9; context-engineering compliance unaffected (C-1 description unchanged, C-5 /compact signal unchanged, C-6 What's next block unchanged) | resolved: 2026-03-20T20:00:00.000Z
 - condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — this impl.md is an implementation record, not a skill file; commit-awareness constraints govern skills/*.md files that contain git commit steps; this implementation modified skill content files (skills/*.md) as its deliverable, not as an implementation artifact | resolved: 2026-03-20T20:00:00.000Z

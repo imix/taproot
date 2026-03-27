@@ -40,7 +40,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — inserting a vocabulary section into a README is a one-off documentation task; not a reusable pattern | resolved: 2026-03-26T13:00:34.102Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — adding a Concepts section to README.md is project-specific presentation; no cross-cutting enforcement concern for other implementations | resolved: 2026-03-26T13:00:32.786Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — adding a Concepts section to README.md is project-specific presentation; no cross-cutting enforcement concern for other implementations | resolved: 2026-03-26T13:00:32.786Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — implementation writes README.md (documentation only); no code design decisions; no architectural constraints apply | resolved: 2026-03-26T13:00:23.133Z
 

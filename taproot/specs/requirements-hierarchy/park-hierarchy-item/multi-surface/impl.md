@@ -41,7 +41,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — deferred state is a lifecycle mechanism, not a reusable pattern; it is documented in docs/concepts.md as part of the state table | resolved: 2026-03-20T18:00:27.286Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — the deferred state affects multiple CLI commands but this is a first-class feature implemented directly, not a cross-cutting enforcement constraint that would need to be wired up per-implementation | resolved: 2026-03-20T18:00:27.053Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — the deferred state affects multiple CLI commands but this is a first-class feature implemented directly, not a cross-cutting enforcement constraint that would need to be wired up per-implementation | resolved: 2026-03-20T18:00:27.053Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — all changes respect module boundaries: config defaults in src/core/config.ts, pure validation logic in src/validators/format-rules.ts, I/O-boundary changes in src/commands/; no global mutable state introduced; error message for deferred-on-intent.md includes correction hint (use deprecated instead) | resolved: 2026-03-20T18:00:26.822Z
 

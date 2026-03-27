@@ -41,7 +41,7 @@
 
 - condition: check | note:  does this story reveal a reusable pattern worth documenting in docs/patterns.md?:NO — variant of existing invocation-block pattern. | resolved: 2026-03-27T16:52:22.967Z
 
-- condition: check | note:  does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml?:NO — migration concern, not ongoing. | resolved: 2026-03-27T16:52:22.712Z
+- condition: check | note:  does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml?:NO — migration concern, not ongoing. | resolved: 2026-03-27T16:52:22.712Z
 
 - condition: check-if-affected-by | note:  quality-gates/architecture-compliance:COMPLIANT — follows pure-function adapter pattern; cli param flows from config. | resolved: 2026-03-27T16:52:22.456Z
 
@@ -73,7 +73,7 @@
 - condition: document-current | note: init.test.ts updated to add AC-9–12 tests for interactive init prompts. agent-adapter impl not affected — adapter generation logic and init.ts adapter path unchanged. | resolved: 2026-03-21T07:50:39.999Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: init.test.ts updated to add AC-9–12 tests for interactive init prompts. agent-adapter impl not affected — adapter generation logic and init.ts adapter path unchanged. | resolved: 2026-03-21T07:50:42.365Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: init.test.ts updated to add AC-9–12 tests for interactive init prompts. agent-adapter impl not affected — adapter generation logic and init.ts adapter path unchanged. | resolved: 2026-03-21T07:50:42.132Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: init.test.ts updated to add AC-9–12 tests for interactive init prompts. agent-adapter impl not affected — adapter generation logic and init.ts adapter path unchanged. | resolved: 2026-03-21T07:50:42.132Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: init.test.ts updated to add AC-9–12 tests for interactive init prompts. agent-adapter impl not affected — adapter generation logic and init.ts adapter path unchanged. | resolved: 2026-03-21T07:50:41.901Z
 

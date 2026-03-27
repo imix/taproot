@@ -54,7 +54,7 @@ Remaining before DoD can pass:
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No. Adding a publish job to release.yml for a new distribution channel is straightforward CI configuration — not a reusable taproot pattern worth formalising. | resolved: 2026-03-26T08:48:18.698Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: No. The VS Code extension is a distribution artifact; its publish mechanism is not a cross-cutting constraint on taproot implementations. No new settings.yaml entry needed. | resolved: 2026-03-26T08:48:17.346Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: No. The VS Code extension is a distribution artifact; its publish mechanism is not a cross-cutting constraint on taproot implementations. No new settings.yaml entry needed. | resolved: 2026-03-26T08:48:17.346Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: Compliant. Checked against docs/architecture.md: vscode-extension/ is a standalone artifact with its own toolchain, not part of the taproot CLI module hierarchy. The CI workflow addition is infrastructure, not application code. No violations of filesystem-as-data-model, module boundaries, stateless CLI, or other architectural constraints. | resolved: 2026-03-26T08:47:35.349Z
 

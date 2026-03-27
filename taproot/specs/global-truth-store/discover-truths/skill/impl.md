@@ -13,8 +13,8 @@
 ## Source Files
 - `skills/discover-truths.md` — standalone skill implementing the full discover-truths usecase (Main Flow, all Alternate Flows, Error Conditions)
 - `skills/review-all.md` — extended with step 7: truth discovery pass appended to the review report
-- `.taproot/skills/discover-truths.md` — synced copy for agent use
-- `.taproot/skills/review-all.md` — synced copy for agent use
+- `taproot/agent/skills/discover-truths.md` — synced copy for agent use
+- `taproot/agent/skills/review-all.md` — synced copy for agent use
 
 ## Commits
 - `34efd95` — declare implementation
@@ -38,7 +38,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No new reusable pattern introduced. The candidate suppression mechanism reuses the existing backlog.md convention. The interactive P/S/B/D per-candidate menu is specific to this skill. No docs/patterns.md update needed. | resolved: 2026-03-26T13:59:19.239Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: No. discover-truths is a standalone skill for periodic use — not an architectural rule that applies to every implementation. No settings.yaml entry needed. | resolved: 2026-03-26T13:59:14.619Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: No. discover-truths is a standalone skill for periodic use — not an architectural rule that applies to every implementation. No settings.yaml entry needed. | resolved: 2026-03-26T13:59:14.619Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: Applies: implementation adds discover-truths.md (new skill file), review-all.md (extension), test/integration/discover-truths.test.ts, and src/commands/init.ts (SKILL_FILES update). Architecture review: (1) Filesystem as data model — skill reads/writes .taproot/backlog.md as specified. (2) Stateless CLI commands — not a CLI command; skill is stateless (no session state). (3) Agent-agnostic output — no agent-specific syntax. (4) Module boundary: SKILL_FILES update is in commands/init.ts at command boundary — compliant. No deviations from architectural constraints. | resolved: 2026-03-26T13:59:09.391Z
 
@@ -58,7 +58,7 @@
 
 - condition: check-if-affected: docs/ | note: docs/workflows.md: added 'Surfacing implicit project truths' section. docs/cli.md lists only CLI commands — /tr-discover-truths is an agent skill, not a CLI command, so no update needed there. Other docs/ files (concepts.md, architecture.md, configuration.md, patterns.md, security.md) do not reference individual skills. | resolved: 2026-03-26T13:58:16.540Z
 
-- condition: check-if-affected: skills/guide.md | note: Added /tr-discover-truths to the slash commands table in skills/guide.md and synced to .taproot/skills/guide.md. | resolved: 2026-03-26T13:58:16.287Z
+- condition: check-if-affected: skills/guide.md | note: Added /tr-discover-truths to the slash commands table in skills/guide.md and synced to taproot/agent/skills/guide.md. | resolved: 2026-03-26T13:58:16.287Z
 
 - condition: check-if-affected: src/commands/update.ts | note: update.ts calls installSkills(skillsDir, SKILL_FILES) from init.ts. Added 'discover-truths.md' to SKILL_FILES so the new skill is included in taproot update runs. update.ts itself does not need further changes. | resolved: 2026-03-26T13:58:08.807Z
 

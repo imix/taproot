@@ -9,13 +9,13 @@
 - Step 9b inserted in `behaviour.md` after step 9 (write usecase.md) as an explicit optional — not step 9a to avoid renumbering the existing 9b (which doesn't exist, but to leave room).
 - Template documented inline in the skill (four sections: Pivotal Questions, Alternatives Considered, Decision, Open Questions) — no separate template file needed; agents read the skill and reproduce it.
 - "When to skip" guidance explicitly documented in `implement.md` to address AC-3 — a skill that always writes the file would produce low-quality noise for trivial commits.
-- Both `skills/` (package source) and `.taproot/skills/` (installed copy) updated per CLAUDE.md sync policy.
+- Both `skills/` (package source) and `taproot/agent/skills/` (installed copy) updated per CLAUDE.md sync policy.
 
 ## Source Files
 - `skills/implement.md` — added step 5b: write `discussion.md` with four-section template and skip guidance; updated step 6 header to mention `discussion.md`
 - `skills/behaviour.md` — added step 9b: optional `discussion.md` for substantive spec-authoring sessions
-- `.taproot/skills/implement.md` — synced from skills/
-- `.taproot/skills/behaviour.md` — synced from skills/
+- `taproot/agent/skills/implement.md` — synced from skills/
+- `taproot/agent/skills/behaviour.md` — synced from skills/
 
 ## Commits
 <!-- taproot-managed -->
@@ -40,7 +40,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — discussion.md is an agent-written file instructed via skill steps; it is not a DoD/DoR settings.yaml pattern. docs/patterns.md documents check-if-affected-by and document-current patterns for settings.yaml configuration, not document templates. | resolved: 2026-03-25T12:12:47.111Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — discussion.md generation is enforced via the skill steps themselves, not via a DoD condition. The optional hook enforcement (verify-discussion-coverage) is a separate specced behaviour. | resolved: 2026-03-25T12:12:37.568Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: NO — discussion.md generation is enforced via the skill steps themselves, not via a DoD condition. The optional hook enforcement (verify-discussion-coverage) is a separate specced behaviour. | resolved: 2026-03-25T12:12:37.568Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: NOT APPLICABLE — architecture-compliance applies to TypeScript CLI implementations; this implementation modifies only skill files | resolved: 2026-03-25T12:12:36.262Z
 

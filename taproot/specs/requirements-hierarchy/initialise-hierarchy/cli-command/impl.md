@@ -34,7 +34,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO. | resolved: 2026-03-27T16:56:36.128Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO. | resolved: 2026-03-27T16:56:35.871Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: NO. | resolved: 2026-03-27T16:56:35.871Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — adding one field to configForYaml object in init.ts, no architectural concerns. | resolved: 2026-03-27T16:56:35.610Z
 
@@ -75,7 +75,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — skill distribution via SKILL_FILES + taproot update is already the established pattern; no new pattern to document | resolved: 2026-03-20T16:05:55.514Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — taproot init already has all relevant cross-cutting checks; sweep skill distribution is an extension of the existing pattern, not a new concern | resolved: 2026-03-20T16:05:55.280Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — taproot init already has all relevant cross-cutting checks; sweep skill distribution is an extension of the existing pattern, not a new concern | resolved: 2026-03-20T16:05:55.280Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — taproot init is a stateless CLI command; all I/O at command boundaries; no global mutable state; validation before filesystem writes; error messages are actionable | resolved: 2026-03-20T16:05:55.047Z
 

@@ -38,10 +38,10 @@
 - condition: document-current | note: docs/agents.md updated with tier table (AC-5). No other docs affected. | resolved: 2026-03-21
 - condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts refreshes adapter files and skills; AGENT_TIERS and getTierLabel are consumed only at init/display time, not during updates. No changes needed. | resolved: 2026-03-21
 - condition: check-if-affected: skills/guide.md | note: not affected — no new slash commands or skills were added. Tier labels are a CLI output change only. | resolved: 2026-03-21
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — agent support tiers is a display/documentation concern, not a gate or quality constraint that other implementations need to check against. | resolved: 2026-03-21
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — agent support tiers is a display/documentation concern, not a gate or quality constraint that other implementations need to check against. | resolved: 2026-03-21
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — the AGENT_TIERS static map pattern is specific to this feature; no generalizable pattern beyond what already exists for adapter generation. | resolved: 2026-03-21
 
 ## Status
 - **State:** complete
 - **Created:** 2026-03-21
-- **Last verified:** 2026-03-24
+- **Last verified:** 2026-03-27

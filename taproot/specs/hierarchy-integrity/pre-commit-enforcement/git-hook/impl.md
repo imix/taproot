@@ -20,13 +20,13 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-03-19
+- **Last verified:** 2026-03-27
 
 ## DoD Resolutions
 - condition: document-current | note: init.test.ts updated to add AC-9–12 tests for interactive init prompts. git-hook impl not affected — hook installation logic unchanged; new tests cover the prompt/flag UX, not hook content. | resolved: 2026-03-21T07:49:49.245Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: init.test.ts updated to add AC-9–12 tests for interactive init prompts. git-hook impl not affected — hook installation logic unchanged; new tests cover the prompt/flag UX, not hook content. | resolved: 2026-03-21T07:49:51.647Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: init.test.ts updated to add AC-9–12 tests for interactive init prompts. git-hook impl not affected — hook installation logic unchanged; new tests cover the prompt/flag UX, not hook content. | resolved: 2026-03-21T07:49:51.406Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: init.test.ts updated to add AC-9–12 tests for interactive init prompts. git-hook impl not affected — hook installation logic unchanged; new tests cover the prompt/flag UX, not hook content. | resolved: 2026-03-21T07:49:51.406Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: init.test.ts updated to add AC-9–12 tests for interactive init prompts. git-hook impl not affected — hook installation logic unchanged; new tests cover the prompt/flag UX, not hook content. | resolved: 2026-03-21T07:49:51.167Z
 

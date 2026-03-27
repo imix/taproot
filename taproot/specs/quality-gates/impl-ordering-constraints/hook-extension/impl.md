@@ -38,7 +38,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: the depends-on mechanism is specific to impl.md ordering constraints; it does not generalise to a reusable pattern that applies elsewhere — no patterns.md entry needed | resolved: 2026-03-26T19:09:32.436Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: the depends-on field is an opt-in per-impl declaration, not a cross-cutting architectural rule; no settings.yaml change needed | resolved: 2026-03-26T19:09:32.168Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: the depends-on field is an opt-in per-impl declaration, not a cross-cutting architectural rule; no settings.yaml change needed | resolved: 2026-03-26T19:09:32.168Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: reviewed against docs/architecture.md: reads files via readFileSync (filesystem as data model ✓), no module-level state (✓), error messages include actionable correction hints (✓), no external service calls (✓) — fully compliant | resolved: 2026-03-26T19:05:40.947Z
 

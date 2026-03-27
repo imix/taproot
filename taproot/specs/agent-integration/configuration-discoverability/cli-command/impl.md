@@ -12,7 +12,7 @@
 
 ## Source Files
 - `src/core/configuration.ts` — `buildConfigurationMd()`: generates the full `.taproot/CONFIGURATION.md` content documenting all settings.yaml options with examples and update-vs-runtime annotations
-- `src/cli.ts` — adds `addHelpText('after', ...)` footer pointing to `.taproot/settings.yaml` and `.taproot/CONFIGURATION.md` (AC-2)
+- `src/cli.ts` — adds `addHelpText('after', ...)` footer pointing to `taproot/settings.yaml` and `.taproot/CONFIGURATION.md` (AC-2)
 - `src/commands/update.ts` — calls `buildConfigurationMd()` and writes `.taproot/CONFIGURATION.md` after skills step (AC-6, AC-7 of update-adapters-and-skills)
 
 ## Commits
@@ -35,7 +35,7 @@
 - condition: document-current | note: UPDATED docs/configuration.md: added Quick discovery section documenting .taproot/CONFIGURATION.md (installed by taproot update) and the taproot --help footer as the primary configuration discovery surfaces. | resolved: 2026-03-24T15:06:49.570Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — straightforward file generation and installation. Not a general pattern. | resolved: 2026-03-24T15:07:24.686Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — CONFIGURATION.md installation is specific to taproot update. No cross-cutting concern affecting other implementations. | resolved: 2026-03-24T15:07:24.448Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: NO — CONFIGURATION.md installation is specific to taproot update. No cross-cutting concern affecting other implementations. | resolved: 2026-03-24T15:07:24.448Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — buildConfigurationMd() is pure logic in src/core/configuration.ts (no I/O). File writes happen only at the command boundary in update.ts. cli.ts change is addHelpText only. | resolved: 2026-03-24T15:07:24.211Z
 

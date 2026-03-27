@@ -9,7 +9,7 @@
 - AC-4 (missing architecture doc): the DoR runner will fail the check as unresolved; a capable agent resolving it will surface the missing doc. A machine-readable guard (`run: test -f docs/architecture.md`) is deferred as a future enhancement.
 
 ## Source Files
-- `.taproot/settings.yaml` — adds `check-if-affected-by: quality-gates/architecture-compliance` to `definitionOfReady`
+- `taproot/settings.yaml` — adds `check-if-affected-by: quality-gates/architecture-compliance` to `definitionOfReady`
 - `docs/architecture.md` — the architecture document; its existence is the precondition for the check to run
 
 ## Commits
@@ -38,12 +38,12 @@
 - condition: sessions-convention | note: docs/architecture.md updated: added _sessions/ scratch space convention. Architecture doc remains accurate and actionable. | resolved: 2026-03-20T20:13:47.707Z
 - condition: no-raw-exceptions | note: docs/architecture.md updated with "No raw exceptions to the user" constraint. Constraint is self-enforcing via check-if-affected-by: quality-gates/architecture-compliance. | resolved: 2026-03-21
 
-- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — architecture-compliance implementation writes docs/architecture.md and updates .taproot/settings.yaml. Neither is a skill file (skills/*.md) containing git commit steps. commit-awareness constraints do not apply. | resolved: 2026-03-20T20:03:59.590Z
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — architecture-compliance implementation writes docs/architecture.md and updates taproot/settings.yaml. Neither is a skill file (skills/*.md) containing git commit steps. commit-awareness constraints do not apply. | resolved: 2026-03-20T20:03:59.590Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: this IS the architecture compliance implementation — self-referentially compliant by definition | resolved: 2026-03-20T13:43:59.658Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: yes — architecture compliance pre-check is a reusable pattern; however it is already captured in docs/patterns.md indirectly via check-if-affected-by, and the specific use case is documented in docs/configuration.md. No new pattern entry needed. | resolved: 2026-03-20T13:39:40.782Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: yes — added check-if-affected-by: quality-gates/architecture-compliance to definitionOfReady in settings.yaml; this is itself the cross-cutting concern | resolved: 2026-03-20T13:39:40.553Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: yes — added check-if-affected-by: quality-gates/architecture-compliance to definitionOfReady in settings.yaml; this is itself the cross-cutting concern | resolved: 2026-03-20T13:39:40.553Z
 
 - condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — no skill or agent interaction surface added | resolved: 2026-03-20T13:39:31.278Z
 

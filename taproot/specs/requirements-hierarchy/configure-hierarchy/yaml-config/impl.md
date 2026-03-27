@@ -1,12 +1,12 @@
-# Implementation: YAML Config — .taproot/settings.yaml
+# Implementation: YAML Config — taproot/settings.yaml
 
 ## Behaviour
 ../usecase.md
 
 ## Design Decisions
 - Config is optional — all values have sensible defaults (`taproot/` root, `taproot(...)` commit pattern, conventional trailer)
-- Config file moved from `.taproot/settings.yaml` (project root) to `.taproot/settings.yaml` — consolidates all framework files under `.taproot/`
-- Config loading walks up the directory tree from `cwd` to find the nearest `.taproot/settings.yaml` — walk-up still supported for monorepo use cases
+- Config file moved from `taproot/settings.yaml` (project root) to `taproot/settings.yaml` — consolidates all framework files under `.taproot/`
+- Config loading walks up the directory tree from `cwd` to find the nearest `taproot/settings.yaml` — walk-up still supported for monorepo use cases
 - `findConfigFile` returns both the config file path and the project root (parent of `.taproot/`), so `configDir` is always the project root, not the `.taproot/` subdirectory
 - Config is immutable after load — commands receive a resolved config object rather than reading the file themselves
 
@@ -25,4 +25,4 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-03-20
+- **Last verified:** 2026-03-27

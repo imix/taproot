@@ -29,7 +29,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-24
-- **Last verified:** 2026-03-24
+- **Last verified:** 2026-03-27
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — applyVocabulary() is pure logic in src/core/language.ts (no I/O). Empty-value validation and vocabulary loading happen in src/commands/update.ts at the command boundary. Config is loaded once at entry and passed down. Follows exact same pattern as language pack substitution. | resolved: 2026-03-24
@@ -39,7 +39,7 @@
 - condition: document-current | note: Updated docs/configuration.md: added vocabulary: to the settings.yaml example, added ## Vocabulary section documenting substitution semantics, structural keyword protection, and error conditions. | resolved: 2026-03-24T13:08:26.378Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — the vocabulary override mechanism is specific to taproot's skill file substitution. Not a general-purpose pattern for other projects. | resolved: 2026-03-24T13:10:58.165Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — vocabulary substitution is opt-in via settings.yaml vocabulary: map. It does not impose new requirements on other implementations. | resolved: 2026-03-24T13:10:56.880Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: NO — vocabulary substitution is opt-in via settings.yaml vocabulary: map. It does not impose new requirements on other implementations. | resolved: 2026-03-24T13:10:56.880Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — applyVocabulary() is pure logic in src/core/language.ts (no I/O). Vocabulary loading and empty-value validation happen at command boundary (src/commands/update.ts). Structural key conflict detection uses getStructuralKeys() which reads the loaded pack or falls back to English defaults — no module-level state. | resolved: 2026-03-24T13:08:37.648Z
 

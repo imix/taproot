@@ -25,7 +25,7 @@
 
 ## DoD Resolutions
 - condition: check-if-affected-by: skill-architecture/commit-awareness | note: no commit step in this impl; gate enforcement is in commithook.ts invoked by the pre-commit hook, not a skill | resolved: 2026-03-21T00:00:00.000Z
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — spec quality checks are part of the existing commithook requirement tier; no new check-if-affected-by needed | resolved: 2026-03-21T06:36:49.895Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — spec quality checks are part of the existing commithook requirement tier; no new check-if-affected-by needed | resolved: 2026-03-21T06:36:49.895Z
 
 - condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — pattern-hints applies to skills routing natural language requests; commithook.ts is a git hook | resolved: 2026-03-21T06:36:49.658Z
 

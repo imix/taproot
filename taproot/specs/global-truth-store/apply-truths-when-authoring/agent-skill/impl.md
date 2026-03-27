@@ -14,10 +14,10 @@
 - `skills/behaviour.md` — added step 1b: load applicable truths before specifying a use case
 - `skills/implement.md` — added step 3a: load applicable truths before planning an implementation
 - `skills/refine.md` — added step 2a: load applicable truths before drafting spec changes
-- `.taproot/skills/intent.md` — synced copy
-- `.taproot/skills/behaviour.md` — synced copy
-- `.taproot/skills/implement.md` — synced copy
-- `.taproot/skills/refine.md` — synced copy
+- `taproot/agent/skills/intent.md` — synced copy
+- `taproot/agent/skills/behaviour.md` — synced copy
+- `taproot/agent/skills/implement.md` — synced copy
+- `taproot/agent/skills/refine.md` — synced copy
 
 ## Commits
 - (run `taproot link-commits` to populate)
@@ -40,7 +40,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No new reusable pattern. The inline injection approach is specific to applying truths within authoring skills and not generalizable enough to document as a standalone pattern. | resolved: 2026-03-26T15:19:20.831Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: No. apply-truths-when-authoring is itself the cross-cutting behaviour — it is now implemented by woven-in steps. No new check-if-affected-by condition is needed because the behavior is already injected directly into the authoring skills. | resolved: 2026-03-26T15:19:20.577Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: No. apply-truths-when-authoring is itself the cross-cutting behaviour — it is now implemented by woven-in steps. No new check-if-affected-by condition is needed because the behavior is already injected directly into the authoring skills. | resolved: 2026-03-26T15:19:20.577Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: Applies: reviewed docs/architecture.md. This implementation modifies four skills/*.md prose files — no TypeScript changes, no new CLI commands, no module boundary crossings. Filesystem-as-data-model preserved. Agent-agnostic output preserved. Stateless. Compliant. | resolved: 2026-03-26T15:19:09.097Z
 

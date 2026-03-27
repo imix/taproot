@@ -8,7 +8,7 @@
 - The `--template` flag skips the interactive prompt entirely for scripted/CI use (AC-6 alternate flow).
 - The interactive prompt only appears when `taproot/` does not yet exist — avoids pestering users who re-run `taproot init` to add a new agent adapter.
 - `applyTemplate()` is exported separately from `runInit()` so tests can cover template application in isolation without needing a full git repo + config flow.
-- `--force` only applies to `.taproot/settings.yaml` overwrite (the hierarchy copy is always unconditional since it targets `taproot/`, which by definition doesn't exist when the prompt fires).
+- `--force` only applies to `taproot/settings.yaml` overwrite (the hierarchy copy is always unconditional since it targets `taproot/`, which by definition doesn't exist when the prompt fires).
 - `@inquirer/select` added as a dependency (consistent with existing `@inquirer/checkbox` and `@inquirer/confirm` already used in init).
 
 ## Source Files
@@ -43,7 +43,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — bundling static data alongside CLI commands is a standard Node.js pattern already in use (BUNDLED_SKILLS_DIR, BUNDLED_DOCS_DIR); not novel enough for patterns.md | resolved: 2026-03-25T11:19:15.778Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — bundled template application is a one-time init concern; not cross-cutting | resolved: 2026-03-25T11:19:05.709Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: NO — bundled template application is a one-time init concern; not cross-cutting | resolved: 2026-03-25T11:19:05.709Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — applyTemplate() is a stateless pure function following the same pattern as installSkills(); I/O at command boundary only; no global mutable state; throws with actionable error on unknown template name | resolved: 2026-03-25T11:19:04.512Z
 

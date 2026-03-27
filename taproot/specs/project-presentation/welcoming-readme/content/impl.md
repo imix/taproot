@@ -43,7 +43,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — README rewrite is a one-off presentation task; the animated SVG approach is too project-specific to be a reusable pattern | resolved: 2026-03-24T20:30:06.961Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — README rewrite and animation asset are project-specific presentation; no cross-cutting enforcement concern for other implementations | resolved: 2026-03-24T20:30:06.960Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — README rewrite and animation asset are project-specific presentation; no cross-cutting enforcement concern for other implementations | resolved: 2026-03-24T20:30:06.960Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — implementation writes README.md and docs/demo.svg (documentation/asset); no code design decisions; no architectural constraints apply | resolved: 2026-03-24T20:30:06.960Z
 

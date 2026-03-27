@@ -2,7 +2,7 @@
 
 ## What
 Extends `taproot init` with a domain preset step that writes `vocabulary` and `language` fields
-to `.taproot/settings.yaml` — surfacing the settings system to developers who would not otherwise
+to `taproot/settings.yaml` — surfacing the settings system to developers who would not otherwise
 know it exists.
 
 ## Where
@@ -49,7 +49,7 @@ know it exists.
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No reusable pattern. Domain preset is a specific UX feature of taproot init, not a general pattern applicable to other implementations. | resolved: 2026-03-27T10:17:25.426Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: No new cross-cutting concern. Domain preset writes to settings.yaml at init time — it is a one-time setup concern, not a pattern that should be checked on every implementation commit. | resolved: 2026-03-27T10:16:43.873Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: No new cross-cutting concern. Domain preset writes to settings.yaml at init time — it is a one-time setup concern, not a pattern that should be checked on every implementation commit. | resolved: 2026-03-27T10:16:43.873Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: Compliant: all file writes in command boundary (src/commands/init.ts); DOMAIN_PRESETS is an immutable constant; error messages are actionable (unknown preset error lists valid options); no global mutable state; no raw exceptions to user. | resolved: 2026-03-27T10:16:42.578Z
 

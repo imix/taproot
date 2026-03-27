@@ -47,7 +47,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — Commander array accumulator for repeatable options is a standard Commander.js pattern, not a taproot-specific reusable pattern | resolved: 2026-03-24T20:05:55.671Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — batch-resolve is a UX improvement to an existing CLI option; it does not introduce a new architectural rule that applies across implementations | resolved: 2026-03-24T20:05:55.671Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — batch-resolve is a UX improvement to an existing CLI option; it does not introduce a new architectural rule that applies across implementations | resolved: 2026-03-24T20:05:55.671Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — change is an enhancement to CLI option parsing (Commander array accumulator); no architectural decisions in docs/architecture.md apply to option-parsing internals | resolved: 2026-03-24T20:05:55.671Z
 
@@ -73,7 +73,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: yes — added 'Open-ended agent questions (check:)' pattern to docs/patterns.md describing when and how to use check: vs check-if-affected-by | resolved: 2026-03-20T10:57:46.667Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — adding the check: condition type is a capability enhancement to the existing DoD runner; it does not define a new architectural rule that applies to every implementation | resolved: 2026-03-20T10:57:45.455Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — adding the check: condition type is a capability enhancement to the existing DoD runner; it does not define a new architectural rule that applies to every implementation | resolved: 2026-03-20T10:57:45.455Z
 
 - condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — pattern-hints applies to skills that route user requests; the DoD CLI command is invoked by the agent at commit time, not in response to a user expressing a need | resolved: 2026-03-20T10:57:44.173Z
 

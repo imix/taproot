@@ -11,7 +11,7 @@
 - "Status-only changed" check compares `git show HEAD:<impl>` vs `git show :<impl>` using the markdown section parser — robust against whitespace and ordering; fails if any section other than `status` or `dod resolutions` differs
 - If impl.md is new in HEAD (first commit), it's treated as not-yet-declared and the implementation commit is rejected — forces the two-commit discipline (declaration then implementation)
 - DoD is run in `--dry-run` mode from the hook — the hook does not mark impl complete, only gates the commit
-- DoR baseline checks (7 conditions) always run for declaration commits; configured `definitionOfReady` conditions in `.taproot/settings.yaml` run additionally
+- DoR baseline checks (7 conditions) always run for declaration commits; configured `definitionOfReady` conditions in `taproot/settings.yaml` run additionally
 - `complete` impl.mds are exempt from co-staging: `getImplState()` reads the impl.md from disk and returns the `**State:**` value; if `complete` and NOT staged, the impl is skipped — a shared source file (e.g. `src/commands/update.ts`) can be modified without re-staging every complete impl.md that mentions it. If the impl.md IS staged alongside source, all checks (Status-only, DoD) still apply regardless of state.
 
 ## Source Files
@@ -36,7 +36,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-03-24
+- **Last verified:** 2026-03-27
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md commithook section updated: added reverse-lookup explanation and new table row for missing impl.md case | resolved: 2026-03-20T07:33:53.988Z
@@ -74,7 +74,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — getImplState() is a narrow helper specific to this hook; not a reusable pattern. | resolved: 2026-03-24T15:31:21.048Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — the complete-impl skip is specific to the commithook implementation tier; no new architectural constraint affecting other implementations. | resolved: 2026-03-24T15:31:20.812Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — the complete-impl skip is specific to the commithook implementation tier; no new architectural constraint affecting other implementations. | resolved: 2026-03-24T15:31:20.812Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — getImplState() is a pure read function in commithook.ts. The skip logic is a conditional in the implementation tier loop. No new I/O patterns introduced; follows existing architecture. | resolved: 2026-03-24T15:31:20.568Z
 
@@ -98,7 +98,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: getSection() helper for markdown section extraction is internal to commithook.ts and too narrow to document as a standalone pattern | resolved: 2026-03-21T06:27:33.982Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no new cross-cutting concern — spec quality checks are part of the existing commithook requirement tier, not a new orthogonal concern | resolved: 2026-03-21T06:27:33.753Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no new cross-cutting concern — spec quality checks are part of the existing commithook requirement tier, not a new orthogonal concern | resolved: 2026-03-21T06:27:33.753Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — new checkUsecaseQuality and checkIntentQuality functions run in the requirement tier; all 6 ACs for each behaviour are covered by tests | resolved: 2026-03-21T06:27:33.522Z
 

@@ -7,7 +7,7 @@
 - `MISSING_ACCEPTANCE_CRITERIA` is a **warning** (not error) because a spec in `proposed`/`specified` state may legitimately have no impls yet — the check is gated on `hasImplChildren`, not state
 - `DUPLICATE_CRITERION_ID` is an **error** because duplicate IDs break grep-based traceability; two tests referencing `AC-1` cannot be disambiguated
 - ID detection uses `**AC-N:**` bold prefix pattern — this is the canonical format; bare `AC-N` elsewhere (e.g. in body text) does not count as an ID declaration
-- Skills updated in both `skills/` (package source) and `.taproot/skills/` (installed copy); CLAUDE.md documents this copy-back step
+- Skills updated in both `skills/` (package source) and `taproot/agent/skills/` (installed copy); CLAUDE.md documents this copy-back step
 
 ## Source Files
 - `src/validators/format-rules.ts` — `checkAcceptanceCriteria()` function + wired into `validateFormat()` for behaviour docs
@@ -30,7 +30,7 @@
 - condition: document-current | note: docs/cli.md updated with MISSING_ACCEPTANCE_CRITERIA and DUPLICATE_CRITERION_ID violation codes | resolved: 2026-03-19T22:32:00.969Z
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — Gherkin-style AC in usecase.md is a format convention, not a reusable implementation pattern | resolved: 2026-03-20T18:30:44.897Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — acceptance criteria is already enforced via the existing MISSING_ACCEPTANCE_CRITERIA validate-format check | resolved: 2026-03-20T18:30:44.657Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — acceptance criteria is already enforced via the existing MISSING_ACCEPTANCE_CRITERIA validate-format check | resolved: 2026-03-20T18:30:44.657Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — checkAcceptanceCriteria() is pure validation logic in src/validators/format-rules.ts; no I/O; no global state; skill changes are markdown-only | resolved: 2026-03-20T18:30:44.418Z
 
