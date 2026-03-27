@@ -6,8 +6,8 @@
 ## Design Decisions
 - Interactive checkbox prompt (via `@inquirer/checkbox`) lets developers pick agent adapters at init time — avoids a required argument for the most common case
 - `--agent all` shorthand installs all supported adapters in one shot
-- `.taproot/settings.yaml` is generated with commented defaults rather than a minimal file — aids discoverability for first-time users
-- Skills are installed to `taproot/skills/` at init time so agents can load them locally without internet access
+- `taproot/settings.yaml` is generated with commented defaults rather than a minimal file — aids discoverability for first-time users
+- Skills are installed to `taproot/agent/skills/` at init time so agents can load them locally without internet access
 
 ## Source Files
 - `src/commands/init.ts` — CLI command registration, directory scaffolding, config generation, skill installation, adapter generation
@@ -26,7 +26,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-03-21
+- **Last verified:** 2026-03-27
 
 ## DoD Resolutions
 - condition: gemini-toml-fix | note: src/adapters/index.ts updated to fix Gemini TOML format — removed invalid [command] section and name field; top-level prompt and description only. | resolved: 2026-03-21

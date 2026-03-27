@@ -69,7 +69,7 @@ sequenceDiagram
 
 ## Related
 - [Configure Hierarchy Behaviour](../configure-hierarchy/usecase.md) — settings.yaml options that govern hierarchy validation behaviour
-- [Manage Agent Adapter](../../agent-integration/manage-adapter/usecase.md) — installing and updating agent adapters after init
+- [Update Adapters and Skills](../../agent-integration/update-adapters-and-skills/usecase.md) — updating agent adapters and skills after init
 
 ## Implementations <!-- taproot-managed -->
 - [CLI Command — taproot init](./cli-command/impl.md)
