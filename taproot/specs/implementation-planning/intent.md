@@ -23,6 +23,8 @@ Enable orchestrators and agents to extract the next independently-implementable 
 ## Behaviours <!-- taproot-managed -->
 - [Extract Next Implementable Slice](./extract-next-slice/usecase.md)
 - [Build Release Plan](./build-plan/usecase.md)
+- [Execute Release Plan](./execute-plan/usecase.md)
+- [Analyse Release Plan](./analyse-plan/usecase.md)
 
 
 ## Status

@@ -115,7 +115,9 @@ _No behaviours yet._
 
 **Goal:** Enable orchestrators and agents to extract the next independently-implementable work item from the requirement hierarchy — as a thin vertical slice with clear acceptance criteria, dependencies, and traceability back to the originating behaviour.
 
+- **[analyse-plan](./implementation-planning/analyse-plan/usecase.md)** `[proposed]` — Actor: Developer — reviewing `taproot/plan.md` before execution begins, wanting to identify blockers, ambiguities, and missing prerequisites so that execution runs without unexpected interruptions.
 - **[build-plan](./implementation-planning/build-plan/usecase.md)** `[proposed]` — Actor: Developer — building a multi-item implementation roadmap with agent assistance, to be executed in a future session or delegated to an agent.
+- **[execute-plan](./implementation-planning/execute-plan/usecase.md)** `[proposed]` — Actor: Developer — working through a previously built plan, delegating each item to the agent and confirming at each step boundary.
 - **[extract-next-slice](./implementation-planning/extract-next-slice/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator (human who asks the agent to plan the next work item)
   - [agent-skill](./implementation-planning/extract-next-slice/agent-skill/impl.md) `[complete]` (1 commit, 2 tests)
   - [cli-command](./implementation-planning/extract-next-slice/cli-command/impl.md) `[complete]` (1 commit, 1 test)
@@ -250,4 +252,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-20 intents · 71 behaviours · 72 implementations · 70/72 complete
+20 intents · 73 behaviours · 72 implementations · 70/72 complete

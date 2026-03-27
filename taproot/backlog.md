@@ -1,4 +1,5 @@
 - [2026-03-25] decompose generate-agent-adapter into per-agent behaviours (claude-adapter, cursor-adapter, gemini-adapter, etc.)
+- [2026-03-27] taproot feels slow, can we accelerate it?
 - [2026-03-25] extended BDD format?
 - [2026-03-25] research is not triggered efficiently
 - [2026-03-25] we need to ensure that agents can run autonomously without user interaction
