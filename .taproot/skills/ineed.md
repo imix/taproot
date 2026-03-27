@@ -10,7 +10,24 @@ Route a natural language requirement to the right place in the taproot hierarchy
 
 ## Steps
 
-0. **Pattern check** — If `.taproot/docs/patterns.md` exists, scan the stated requirement for semantic matches against the patterns listed there. Match signals:
+0. **Global truth check** — Before anything else, determine if the requirement is a **principle, fact, or rule to capture** rather than a feature to build or enforce.
+
+   Global truth signals:
+   - User explicitly says "as a global truth", "add this as a truth", "capture this as a principle"
+   - The requirement is a design principle or quality attribute with no concrete actor or user-visible action (e.g. "fail early", "discoverable by default", "no surprises")
+   - The requirement describes how the system *should be* rather than what it *should do*
+
+   If a global truth signal is present, **interrupt before proceeding**:
+   > "That sounds like a **global truth** — a design principle to capture in `taproot/global-truths/`, not a feature to build. Should I route it there, or is this something that should actively enforce on every implementation via a DoD gate?
+   > **[A]** Global truth → route to `/tr-define-truth`
+   > **[B]** Enforcement gate → apply `check-if-affected-by` pattern
+   > **[C]** New requirement → continue with normal routing"
+
+   - **[A]**: call `/tr-define-truth` with the principle. Stop — do not continue routing.
+   - **[B]**: proceed to pattern check below.
+   - **[C]** or no global truth signal: proceed to pattern check below.
+
+0a. **Pattern check** — If `.taproot/docs/patterns.md` exists, scan the stated requirement for semantic matches against the patterns listed there. Match signals:
    - "apply to all / every implementation / every skill / everywhere" → `check-if-affected-by`
    - "guide agents / architecture rules / agents should follow / enforce a rule" → `check-if-affected-by`
    - "enforce documentation / docs must stay current / keep docs accurate" → `document-current`

@@ -29,6 +29,12 @@
 
 ## DoD Resolutions
 - condition: document-current | note: Not affected. ineed.md changes are internal (C-1 trim, C-4 step merge, C-5 /compact signal, C-6 What's next? block added). No new CLI commands or configuration options. | resolved: 2026-03-20T10:03:04.603Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: Change adds a routing pre-check and delegates to /tr-define-truth. No shell commands, no credentials, no tokens. Least-privilege: agent only reads the requirement and delegates — no new write or execution authority granted. | resolved: 2026-03-27T10:28:19.637Z
+
+- condition: check-if-affected: examples/ | note: No examples exercise ineed routing directly. Not applicable. | resolved: 2026-03-27T10:28:18.332Z
+
+- condition: check-if-affected: docs/ | note: No docs mention the ineed routing logic at a step level. The global-truth pre-check is an internal skill routing decision — not a user-facing configuration or command that requires documentation. | resolved: 2026-03-27T10:28:17.007Z
+
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — bug-path detection is a routing branch specific to ineed; not generalizable as a reusable pattern. | resolved: 2026-03-24T16:44:43.289Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — bug detection is specific to the ineed routing skill. Not a cross-cutting pattern applicable to other implementations. | resolved: 2026-03-24T16:44:36.548Z
