@@ -55,6 +55,21 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 _No behaviours yet._
 
+## [global-truth-store](./global-truth-store/intent.md) `[active]`
+
+**Goal:** Enable developers and agents to capture facts that are true across the project — domain concepts, business rules, entity definitions, project conventions — scoped to the hierarchy level they originate from, so that all specs share a consistent foundation and semantic drift is detected at write time and commit time.
+
+- **[apply-truths-when-authoring](./global-truth-store/apply-truths-when-authoring/usecase.md)** `[implemented]` — Actor: Agent — authoring or reviewing a spec (intent.md, usecase.md, or impl.md) via any taproot skill (`/tr-intent`, `/tr-behaviour`, `/tr-implement`, `/tr-refine`, `/tr-ineed`)
+  - [agent-skill](./global-truth-store/apply-truths-when-authoring/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
+- **[define-truth](./global-truth-store/define-truth/usecase.md)** `[implemented]` — Actor: Developer — creating, editing, or removing a truth entry in the project's shared knowledge base
+  - [agent-skill](./global-truth-store/define-truth/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
+- **[discover-truths](./global-truth-store/discover-truths/usecase.md)** `[implemented]` — Actor: Developer with an existing `taproot/` hierarchy who wants to identify what project-wide facts, business rules, and conventions are implicit in their specs but not yet captured as global truths
+  - [skill](./global-truth-store/discover-truths/skill/impl.md) `[complete]` (2 commits, 1 test)
+- **[enforce-truths-at-commit](./global-truth-store/enforce-truths-at-commit/usecase.md)** `[implemented]` — Actor: Pre-commit hook — triggered automatically when a contributor commits; fires for hierarchy documents (`intent.md`, `usecase.md`, or `impl.md`) and for implementation commits (source files staged alongside or without `impl.md`)
+  - [all-levels](./global-truth-store/enforce-truths-at-commit/all-levels/impl.md) `[complete]` (0 commits, 1 test)
+  - [hook-extension](./global-truth-store/enforce-truths-at-commit/hook-extension/impl.md) `[complete]` (2 commits, 1 test)
+- **[guide-truth-capture](./global-truth-store/guide-truth-capture/usecase.md)** `[proposed]` — Actor: Developer — setting up `taproot/global-truths/` for the first time, or adding truths to an existing project and unsure what facts are worth formalising
+
 ## [hierarchy-integrity](./hierarchy-integrity/intent.md) `[active]`
 
 **Goal:** Ensure the requirement hierarchy remains structurally valid and formally complete as it evolves — whether authored by humans, AI agents, or both.
@@ -117,8 +132,8 @@ _No behaviours yet._
 
 - **[conceptual-orientation](./project-presentation/conceptual-orientation/usecase.md)** `[implemented]` — Actor: Developer reading the README for the first time — either evaluating taproot or having just installed it and wanting to understand the vocabulary before running any commands
   - [concepts-section](./project-presentation/conceptual-orientation/concepts-section/impl.md) `[complete]` (3 commits ⚠ no tests)
-- **[starter-examples](./project-presentation/starter-examples/usecase.md)** `[specified]` — Actor: Developer starting a new project with taproot — who has decided to use taproot but is facing a blank hierarchy and does not know what intents or behaviours to create.
-  - [bundled-templates](./project-presentation/starter-examples/bundled-templates/impl.md) `[complete]` (3 commits, 1 test)
+- **[starter-examples](./project-presentation/starter-examples/usecase.md)** `[implemented]` — Actor: Developer starting a new project with taproot — who has decided to use taproot but is facing a blank hierarchy and does not know what intents or behaviours to create.
+  - [bundled-templates](./project-presentation/starter-examples/bundled-templates/impl.md) `[complete]` (4 commits, 1 test)
 - **[welcoming-readme](./project-presentation/welcoming-readme/usecase.md)** `[implemented]` — Actor: Developer discovering taproot for the first time
   - [content](./project-presentation/welcoming-readme/content/impl.md) `[complete]` (4 commits ⚠ no tests)
 
@@ -233,4 +248,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-19 intents · 65 behaviours · 66 implementations · 64/66 complete
+20 intents · 70 behaviours · 71 implementations · 69/71 complete

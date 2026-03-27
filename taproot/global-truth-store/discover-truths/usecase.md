@@ -129,9 +129,9 @@ flowchart TD
 ```
 
 ## Related
-- `taproot/global-truths/define-truth/usecase.md` — each promoted candidate flows into define-truth via /tr-ineed
-- `taproot/global-truths/apply-truths-when-authoring/usecase.md` — truths discovered here are applied by agents when the next spec is authored
-- `taproot/global-truths/enforce-truths-at-commit/usecase.md` — truths discovered here are enforced at commit time once defined
+- `taproot/global-truth-store/define-truth/usecase.md` — each promoted candidate flows into define-truth via /tr-ineed
+- `taproot/global-truth-store/apply-truths-when-authoring/usecase.md` — truths discovered here are applied by agents when the next spec is authored
+- `taproot/global-truth-store/enforce-truths-at-commit/usecase.md` — truths discovered here are enforced at commit time once defined
 - `taproot/human-integration/hierarchy-sweep/usecase.md` — sweep applies a uniform task to filtered files; discover-truths uses a different lens (cross-spec pattern detection rather than per-file task application)
 
 ## Acceptance Criteria
