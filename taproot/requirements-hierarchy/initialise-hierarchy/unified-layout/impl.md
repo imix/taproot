@@ -22,6 +22,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `c8d6cfd6ed5536a20a8d6efc666feee848d04d9f` — (auto-linked by taproot link-commits)
+- `34cf803db764403496dc0c8649060aafaaf5072c` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/init.test.ts` — all AC tests updated to use new layout paths (`taproot/agent/skills/`, `taproot/settings.yaml`)
