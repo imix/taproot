@@ -23,6 +23,7 @@ Enable developers and agents to capture facts that are true across the project â
 - [Apply Truths When Authoring](./apply-truths-when-authoring/usecase.md)
 - [Enforce Truths at Commit](./enforce-truths-at-commit/usecase.md)
 - [Discover Truths](./discover-truths/usecase.md)
+- [Guide Truth Capture](./guide-truth-capture/usecase.md)
 
 ## Status
 - **State:** active
