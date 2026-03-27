@@ -121,6 +121,12 @@ function removeStale(cwd) {
         renameSync(oldConfigMd, newConfigMd);
         messages.push(`migrated .taproot/CONFIGURATION.md → taproot/agent/CONFIGURATION.md`);
     }
+    const oldBacklog = join(cwd, '.taproot', 'backlog.md');
+    const newBacklog = join(cwd, 'taproot', 'agent', 'backlog.md');
+    if (existsSync(oldBacklog) && !existsSync(newBacklog) && existsSync(join(cwd, 'taproot', 'agent'))) {
+        renameSync(oldBacklog, newBacklog);
+        messages.push(`migrated .taproot/backlog.md → taproot/agent/backlog.md`);
+    }
     // Remove taproot/_brainstorms/
     const brainsDir = join(cwd, DEFAULT_CONFIG.root, '_brainstorms');
     if (existsSync(brainsDir)) {

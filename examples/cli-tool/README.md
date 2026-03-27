@@ -16,7 +16,7 @@ This starter uses standard taproot vocabulary. No overrides are applied.
 
 ## DoD conditions
 
-The `.taproot/settings.yaml` includes CLI-appropriate definition-of-done conditions:
+The `taproot/settings.yaml` includes CLI-appropriate definition-of-done conditions:
 
 - `npm test` — run the test suite
 - `npx tsc --noEmit` — type-check without emitting
@@ -29,7 +29,7 @@ The `.taproot/settings.yaml` includes CLI-appropriate definition-of-done conditi
 
 1. Adjust the command names in `taproot/command-interface/` to match your tool
 2. Add intents for each major capability area (e.g. `taproot/file-processing/`)
-3. Update the `run:` commands in `.taproot/settings.yaml` to match your project's scripts
+3. Update the `run:` commands in `taproot/settings.yaml` to match your project's scripts
 4. Open your agent and run `/tr-implement` on a behaviour to generate code
 
 ## Common additions

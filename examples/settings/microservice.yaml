@@ -1,7 +1,7 @@
 # Taproot settings template — Microservice / API
 #
 # Suitable for: REST or GraphQL APIs, background workers, event consumers.
-# Copy to .taproot/settings.yaml in your project and adjust run: commands.
+# Copy to taproot/settings.yaml in your project and adjust run: commands.
 
 version: 1
 root: taproot/

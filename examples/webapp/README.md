@@ -14,8 +14,8 @@ All specs are in `specified` state — ready to implement.
 
 ## How to use
 
-1. **Copy** the `taproot/` and `.taproot/` folders into your project root
-2. **Edit** `.taproot/settings.yaml` — set your agents and adjust the DoD `run:` commands for your stack
+1. **Copy** the `taproot/` folder into your project root
+2. **Edit** `taproot/settings.yaml` — set your agents and adjust the DoD `run:` commands for your stack
 3. **Run** `npx @imix-js/taproot init` to generate agent adapters
 4. **Add your product intents** — the auth and profile intents cover every webapp; your product's core features go alongside them:
    ```
@@ -28,7 +28,7 @@ All specs are in `specified` state — ready to implement.
 
 ## Customising the DoD
 
-The included `.taproot/settings.yaml` uses `npm test` and `npm run lint`. Change these to match your stack:
+The included `taproot/settings.yaml` uses `npm test` and `npm run lint`. Change these to match your stack:
 
 - **Vitest:** `npx vitest run`
 - **Jest:** `jest --ci`

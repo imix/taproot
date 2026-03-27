@@ -1,7 +1,7 @@
 # Taproot settings template — Web Application
 #
 # Suitable for: Next.js, React + Express, SvelteKit, or any full-stack web app.
-# Copy to .taproot/settings.yaml in your project and adjust run: commands for your stack.
+# Copy to taproot/settings.yaml in your project and adjust run: commands for your stack.
 
 version: 1
 root: taproot/

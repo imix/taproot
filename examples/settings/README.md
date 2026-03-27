@@ -1,6 +1,6 @@
 # Settings Templates
 
-Ready-to-use `.taproot/settings.yaml` templates for common project types.
+Ready-to-use `taproot/settings.yaml` templates for common project types.
 
 | Template | Best for |
 |----------|----------|
@@ -12,7 +12,7 @@ Ready-to-use `.taproot/settings.yaml` templates for common project types.
 
 ```bash
 # Copy the right template into your project
-cp examples/settings/webapp.yaml .taproot/settings.yaml
+cp examples/settings/webapp.yaml taproot/settings.yaml
 
 # Then run init to generate adapters
 npx @imix-js/taproot init

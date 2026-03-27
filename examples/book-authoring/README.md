@@ -20,7 +20,7 @@ All specs are in `specified` state. The vocabulary is pre-configured to replace 
 
 ## Vocabulary overrides
 
-The included `.taproot/settings.yaml` replaces dev-specific terms in skill files:
+The included `taproot/settings.yaml` replaces dev-specific terms in skill files:
 
 | Default | Replaced with |
 |---------|--------------|

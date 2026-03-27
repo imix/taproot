@@ -97,15 +97,18 @@ export function applyTemplate(templateName: string, cwd: string, force = false):
     messages.push(`created  taproot/ (from ${templateName} template)`);
   }
 
-  const srcSettings = join(templateDir, '.taproot', 'settings.yaml');
-  const destSettings = join(cwd, '.taproot', 'settings.yaml');
+  // Check new layout (taproot/settings.yaml) first, then fall back to old layout (.taproot/settings.yaml)
+  const srcSettingsNew = join(templateDir, 'taproot', 'settings.yaml');
+  const srcSettingsOld = join(templateDir, '.taproot', 'settings.yaml');
+  const srcSettings = existsSync(srcSettingsNew) ? srcSettingsNew : srcSettingsOld;
+  const destSettings = join(cwd, 'taproot', 'settings.yaml');
   if (existsSync(srcSettings)) {
     if (!existsSync(destSettings) || force) {
-      mkdirSync(join(cwd, '.taproot'), { recursive: true });
+      mkdirSync(join(cwd, 'taproot'), { recursive: true });
       cpSync(srcSettings, destSettings);
-      messages.push(`created  .taproot/settings.yaml (from ${templateName} template)`);
+      messages.push(`created  taproot/settings.yaml (from ${templateName} template)`);
     } else {
-      messages.push(`exists   .taproot/settings.yaml (kept — template settings not applied)`);
+      messages.push(`exists   taproot/settings.yaml (kept — template settings not applied)`);
     }
   }
 

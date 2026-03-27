@@ -46,7 +46,7 @@ describe('starter-examples — applyTemplate', () => {
   it('AC-2: book-authoring template settings.yaml has vocabulary overrides', () => {
     applyTemplate('book-authoring', tmpDir);
 
-    const settingsPath = join(tmpDir, '.taproot', 'settings.yaml');
+    const settingsPath = join(tmpDir, 'taproot', 'settings.yaml');
     expect(existsSync(settingsPath)).toBe(true);
 
     const settings = yaml.load(readFileSync(settingsPath, 'utf-8')) as Record<string, unknown>;
@@ -60,7 +60,7 @@ describe('starter-examples — applyTemplate', () => {
   it('AC-3: cli-tool template settings.yaml has build and type-check DoD conditions', () => {
     applyTemplate('cli-tool', tmpDir);
 
-    const settingsPath = join(tmpDir, '.taproot', 'settings.yaml');
+    const settingsPath = join(tmpDir, 'taproot', 'settings.yaml');
     expect(existsSync(settingsPath)).toBe(true);
 
     const settings = yaml.load(readFileSync(settingsPath, 'utf-8')) as Record<string, unknown>;
@@ -80,9 +80,9 @@ describe('starter-examples — applyTemplate', () => {
   });
 
   // Template settings.yaml is not overwritten when it already exists (no --force)
-  it('does not overwrite existing .taproot/settings.yaml without force', () => {
-    mkdirSync(join(tmpDir, '.taproot'), { recursive: true });
-    const settingsPath = join(tmpDir, '.taproot', 'settings.yaml');
+  it('does not overwrite existing taproot/settings.yaml without force', () => {
+    mkdirSync(join(tmpDir, 'taproot'), { recursive: true });
+    const settingsPath = join(tmpDir, 'taproot', 'settings.yaml');
     const original = 'version: 1\nroot: taproot/\n';
     require('fs').writeFileSync(settingsPath, original);
 
@@ -90,9 +90,9 @@ describe('starter-examples — applyTemplate', () => {
     expect(readFileSync(settingsPath, 'utf-8')).toBe(original);
   });
 
-  it('overwrites existing .taproot/settings.yaml with --force', () => {
-    mkdirSync(join(tmpDir, '.taproot'), { recursive: true });
-    const settingsPath = join(tmpDir, '.taproot', 'settings.yaml');
+  it('overwrites existing taproot/settings.yaml with --force', () => {
+    mkdirSync(join(tmpDir, 'taproot'), { recursive: true });
+    const settingsPath = join(tmpDir, 'taproot', 'settings.yaml');
     require('fs').writeFileSync(settingsPath, 'version: 1\nroot: taproot/\n');
 
     applyTemplate('webapp', tmpDir, true);

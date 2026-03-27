@@ -1,7 +1,7 @@
 # Taproot settings template — npm Library / SDK
 #
 # Suitable for: TypeScript/JavaScript libraries published to npm.
-# Copy to .taproot/settings.yaml in your project and adjust run: commands.
+# Copy to taproot/settings.yaml in your project and adjust run: commands.
 
 version: 1
 root: taproot/
