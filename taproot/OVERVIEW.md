@@ -67,7 +67,7 @@ _No behaviours yet._
   - [skill](./global-truth-store/discover-truths/skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[enforce-truths-at-commit](./global-truth-store/enforce-truths-at-commit/usecase.md)** `[implemented]` — Actor: Pre-commit hook — triggered automatically when a contributor commits; fires for hierarchy documents (`intent.md`, `usecase.md`, or `impl.md`) and for implementation commits (source files staged alongside or without `impl.md`)
   - [all-levels](./global-truth-store/enforce-truths-at-commit/all-levels/impl.md) `[complete]` (0 commits, 1 test)
-  - [hook-extension](./global-truth-store/enforce-truths-at-commit/hook-extension/impl.md) `[complete]` (2 commits, 1 test)
+  - [hook-extension](./global-truth-store/enforce-truths-at-commit/hook-extension/impl.md) `[needs-rework]` (2 commits, 1 test)
 - **[guide-truth-capture](./global-truth-store/guide-truth-capture/usecase.md)** `[proposed]` — Actor: Developer — setting up `taproot/global-truths/` for the first time, or adding truths to an existing project and unsure what facts are worth formalising
 
 ## [hierarchy-integrity](./hierarchy-integrity/intent.md) `[active]`
@@ -79,7 +79,7 @@ _No behaviours yet._
 - **[cascade-impl-status](./hierarchy-integrity/cascade-impl-status/usecase.md)** `[implemented]` — Actor: `taproot dod` CLI (when marking an `impl.md` complete) and the `tr-implement` skill (step 5a, when adding the implementation link to `usecase.md`)
   - [multi-surface](./hierarchy-integrity/cascade-impl-status/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 - **[pre-commit-enforcement](./hierarchy-integrity/pre-commit-enforcement/usecase.md)** `[implemented]` — Actor: Git — triggered automatically when any contributor (human or agent) runs `git commit`
-  - [cli-command](./hierarchy-integrity/pre-commit-enforcement/cli-command/impl.md) `[complete]` (5 commits, 1 test)
+  - [cli-command](./hierarchy-integrity/pre-commit-enforcement/cli-command/impl.md) `[complete]` (6 commits, 1 test)
   - [git-hook](./hierarchy-integrity/pre-commit-enforcement/git-hook/impl.md) `[complete]` (0 commits, 1 test)
 - **[validate-format](./hierarchy-integrity/validate-format/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying document contents conform to the schema
   - [cli-command](./hierarchy-integrity/validate-format/cli-command/impl.md) `[complete]` (0 commits, 3 tests)
@@ -249,4 +249,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-20 intents · 70 behaviours · 72 implementations · 70/72 complete
+20 intents · 70 behaviours · 72 implementations · 69/72 complete

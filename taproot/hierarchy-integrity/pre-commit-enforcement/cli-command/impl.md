@@ -28,6 +28,7 @@
 - `00e7123aef6b6caab016a0d1237f33b4b8b428be` — (auto-linked by taproot link-commits)
 - `3f3d4b27743e2ed661cf905ab4572795b1cdca2d` — (auto-linked by taproot link-commits)
 - `300092a026ff80b46537de3d998d1f82e16ec2f9` — (auto-linked by taproot link-commits)
+- `ee12b1f2a74698e43eba15fe815b15f90445effd` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/commithook.test.ts` — covers: plain commit (tracked/untracked source files), requirement commit valid/invalid, declaration commit specified/not-specified/missing-Flow/missing-Related, implementation commit status-only/beyond-status/missing-impl.md/new-impl, reverse-lookup map unit tests, DoR unit checks, hook installation content, AC-14 complete-impl skip (source staged alone passes), regression (in-progress impl still requires co-staging)
