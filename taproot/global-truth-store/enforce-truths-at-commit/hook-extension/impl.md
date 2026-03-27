@@ -33,12 +33,42 @@
 - condition: check-if-affected-by: quality-gates/nfr-measurability | note: no new NFRs introduced; the session hash check is deterministic and synchronous. Timeout behaviour is deferred to the tr-commit skill (hook times out → allow with warning is documented in the spec as a future improvement). | resolved: 2026-03-26
 
 ## Status
-- **State:** complete
+- **State:** needs-rework
 - **Created:** 2026-03-26
 - **Last verified:** 2026-03-26
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md updated: added truth-sign command documentation and updated commithook table to mention truth consistency check. docs/patterns.md updated with new session-hash pattern. README.md does not list individual CLI commands and does not need updating. | resolved: 2026-03-26T12:23:54.070Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: NO skill files modified — only truth-sign.ts and test files. | resolved: 2026-03-27T15:05:20.628Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — narrow correctness fix, not a reusable pattern. | resolved: 2026-03-27T15:05:19.364Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: NO — covered by architecture.md constraint. | resolved: 2026-03-27T15:05:18.151Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — taproot/agent/ exclusion follows existing taproot/global-truths/ exclusion pattern. Pure predicate, no I/O, no global state. | resolved: 2026-03-27T15:05:16.921Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — truth-sign is a CLI command, not a skill. | resolved: 2026-03-27T15:05:15.642Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — truth-sign.ts is invoked by the commit skill; it is not itself a skill with commit steps. | resolved: 2026-03-27T15:05:14.349Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — truth-sign.ts is the signing mechanism, not a skill. | resolved: 2026-03-27T15:05:13.091Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — truth-sign is a CLI command. | resolved: 2026-03-27T15:05:11.877Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — truth-sign is a CLI command, not a skill producing agent guidance. | resolved: 2026-03-27T15:05:09.972Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — truth-sign.ts is CLI source, not a skill file. | resolved: 2026-03-27T15:05:08.737Z
+
+- condition: check-if-affected: examples/ | note: not affected — examples contain no taproot/agent/ files. | resolved: 2026-03-27T15:05:07.462Z
+
+- condition: check-if-affected: docs/ | note: AFFECTED: docs/architecture.md updated (see document-current). No other docs require updating. | resolved: 2026-03-27T15:05:06.151Z
+
+- condition: check-if-affected: skills/guide.md | note: not affected — guide.md documents user-facing skills; taproot/agent/ exclusion is an internal fix. | resolved: 2026-03-27T15:05:04.907Z
+
+- condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts handles skill distribution and hook migration; truth-sign.ts filter change is internal. | resolved: 2026-03-27T15:05:03.671Z
+
+- condition: document-current | note: docs/architecture.md updated with exclusion-list sync constraint. truth-sign.ts taproot/agent/ exclusion is an internal correctness fix — no user-visible behaviour change, no docs/cli.md update needed. | resolved: 2026-03-27T15:05:02.440Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: skills/commit.md modified. Step 5e instructs the agent to run taproot truth-sign — a safe read/write CLI command with no credentials. No shell execution without validation. No hardcoded tokens. Instructions are minimal and scoped to the truth-check signing operation. Compliant. | resolved: 2026-03-26T12:24:58.194Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: yes. Added the session-hash / agent-verified pre-commit check pattern to docs/patterns.md: agent writes a SHA-256 hash of checked content before commit; hook validates the hash. Documented with when-to-use, limitation, and built-in taproot use cases. | resolved: 2026-03-26T12:24:56.868Z

@@ -3,7 +3,7 @@ import { readFileSync, existsSync } from 'fs';
 import { resolve } from 'path';
 
 const SKILLS_DIR = resolve(__dirname, '../../skills');
-const TAPROOT_SKILLS_DIR = resolve(__dirname, '../../.taproot/skills');
+const TAPROOT_SKILLS_DIR = resolve(__dirname, '../../taproot/agent/skills');
 
 const skill = readFileSync(resolve(SKILLS_DIR, 'discover-truths.md'), 'utf-8');
 const reviewAll = readFileSync(resolve(SKILLS_DIR, 'review-all.md'), 'utf-8');

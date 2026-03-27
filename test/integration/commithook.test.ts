@@ -609,6 +609,41 @@ describe('runCommithook — spec quality gates (requirement commit)', () => {
   });
 });
 
+describe('regression — taproot/agent/ files must not be treated as hierarchy specs', () => {
+  it('does not flag taproot/agent/skills/intent.md as a spec quality violation', async () => {
+    // Regression: isHierarchyFile() previously matched any taproot/ path, including
+    // taproot/agent/skills/intent.md, causing the commithook to validate skill files
+    // as hierarchy specs and fail with spurious "Goal does not start with a verb" errors.
+    mkdirSync(join(tmpDir, 'taproot', 'agent', 'skills'), { recursive: true });
+    stage([{
+      path: 'taproot/agent/skills/intent.md',
+      content: `# Skill: intent\n\n## Description\nCreate a new business intent.\n`,
+    }], tmpDir);
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(0);
+  });
+
+  it('does not flag taproot/agent/skills/usecase.md as a spec quality violation', async () => {
+    mkdirSync(join(tmpDir, 'taproot', 'agent', 'skills'), { recursive: true });
+    stage([{
+      path: 'taproot/agent/skills/usecase.md',
+      content: `# Skill: behaviour\n\n## Description\nDefine a UseCase.\n`,
+    }], tmpDir);
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(0);
+  });
+
+  it('still validates genuine hierarchy intent.md files outside taproot/agent/', async () => {
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent'), { recursive: true });
+    stage([{
+      path: 'taproot/my-intent/intent.md',
+      content: `# Intent: Test\n\n## Goal\nNot a verb at the start\n\n## Stakeholders\n- Dev: yes\n\n## Success Criteria\n- Something measurable\n\n## Status\n- **State:** active\n- **Created:** 2026-03-27\n`,
+    }], tmpDir);
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(1);
+  });
+});
+
 describe('taproot init --with-hooks', () => {
   it('installs hook invoking taproot commithook', () => {
     const hookPath = join(tmpDir, '.git', 'hooks', 'pre-commit');

@@ -39,6 +39,38 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md commithook section updated: added reverse-lookup explanation and new table row for missing impl.md case | resolved: 2026-03-20T07:33:53.988Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: NO skill files modified — this implementation touches commithook.ts, truth-sign.ts, and test files only. | resolved: 2026-03-27T15:03:47.072Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — the isHierarchyFile exclusion is a narrow correctness fix specific to commithook.ts and truth-sign.ts. Not a pattern applicable to other implementations. | resolved: 2026-03-27T15:03:45.813Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: NO — the exclusion sync constraint is documented in docs/architecture.md as a developer guideline, not a runtime gate. Adding a check-if-affected-by would trigger on every implementation touching fs-walker.ts, which is too broad. The architecture note is the right mechanism. | resolved: 2026-03-27T15:03:44.581Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — isHierarchyFile() is a pure predicate function with no I/O. The taproot/agent/ exclusion follows the same pattern as the existing taproot/global-truths/ exclusion. All architectural principles honoured: stateless, deterministic, no global state, actionable error messages. | resolved: 2026-03-27T15:03:43.215Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — commithook is a CLI command, not a skill that receives natural language intent. | resolved: 2026-03-27T15:03:29.941Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — commithook.ts is the pre-commit hook itself; commit-awareness governs skills containing git commit steps. | resolved: 2026-03-27T15:03:28.715Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — commithook.ts is the enforcement mechanism, not a skill. | resolved: 2026-03-27T15:03:27.447Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — commithook is a CLI command, not a multi-document authoring skill. | resolved: 2026-03-27T15:03:26.176Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — commithook is a CLI command invoked by git, not a skill; produces no agent guidance output. | resolved: 2026-03-27T15:03:24.867Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — commithook.ts is CLI source code, not a skill file; agent-agnostic-language governs shared skill and spec markdown files. | resolved: 2026-03-27T15:03:23.637Z
+
+- condition: check-if-affected: examples/ | note: not affected — examples contain no taproot/agent/ files; this fix has no impact on example project structure. | resolved: 2026-03-27T15:03:11.746Z
+
+- condition: check-if-affected: docs/ | note: AFFECTED: docs/architecture.md updated with sync constraint. docs/cli.md not affected — no user-visible commithook behaviour changed. | resolved: 2026-03-27T15:03:10.544Z
+
+- condition: check-if-affected: skills/guide.md | note: not affected — guide.md documents user-facing skill commands. The taproot/agent/ exclusion fix is an internal correctness change with no user-visible behaviour change. | resolved: 2026-03-27T15:03:09.294Z
+
+- condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts handles hook script migration and skill file distribution. The isHierarchyFile exclusion change is internal to commithook.ts; no migration logic needed in update.ts. | resolved: 2026-03-27T15:03:08.049Z
+
+- condition: document-current | note: docs/architecture.md updated with new constraint: DEFAULT_EXCLUDE in fs-walker.ts and isHierarchyFile guards in commithook.ts/truth-sign.ts must be kept in sync. No CLI commands or user-visible behaviour changed — docs/cli.md does not need updating. | resolved: 2026-03-27T15:02:59.249Z
+
+- condition: tests-passing | note: 829/829 tests pass including 3 new regression tests for taproot/agent/ exclusion from isHierarchyFile | resolved: 2026-03-27T15:02:52.508Z
+
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — getImplState() is a narrow helper specific to this hook; not a reusable pattern. | resolved: 2026-03-24T15:31:21.048Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — the complete-impl skip is specific to the commithook implementation tier; no new architectural constraint affecting other implementations. | resolved: 2026-03-24T15:31:20.812Z

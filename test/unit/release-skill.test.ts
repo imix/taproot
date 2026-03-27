@@ -4,7 +4,7 @@ import { resolve } from 'path';
 import { parseMarkdown } from '../../src/core/markdown-parser.js';
 
 const ROOT = resolve(__dirname, '../..');
-const SKILL_PATH = resolve(ROOT, '.taproot/skills/release.md');
+const SKILL_PATH = resolve(ROOT, 'taproot/agent/skills/release.md');
 const WORKFLOW_PATH = resolve(ROOT, '.github/workflows/release.yml');
 const PREFLIGHT_PATH = resolve(ROOT, 'scripts/preflight.sh');
 
@@ -23,9 +23,9 @@ const REQUIRED_PREFLIGHT_CHECKS_IN_SCRIPT = [
   'git tag -l',
 ];
 
-describe('release skill (.taproot/skills/release.md)', () => {
-  it('exists at .taproot/skills/release.md', () => {
-    expect(existsSync(SKILL_PATH), 'release.md not found at .taproot/skills/release.md').toBe(true);
+describe('release skill (taproot/agent/skills/release.md)', () => {
+  it('exists at taproot/agent/skills/release.md', () => {
+    expect(existsSync(SKILL_PATH), 'release.md not found at taproot/agent/skills/release.md').toBe(true);
   });
 
   it('is readable and non-empty', () => {
