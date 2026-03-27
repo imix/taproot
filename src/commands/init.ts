@@ -87,6 +87,7 @@ export const SKILL_FILES = [
   'promote.md',
   'decompose.md',
   'plan.md',
+  'plan-build.md',
   'guide.md',
   'discover.md',
   'discover-truths.md',
