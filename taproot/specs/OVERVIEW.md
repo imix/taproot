@@ -115,9 +115,12 @@ _No behaviours yet._
 
 **Goal:** Enable orchestrators and agents to extract the next independently-implementable work item from the requirement hierarchy — as a thin vertical slice with clear acceptance criteria, dependencies, and traceability back to the originating behaviour.
 
-- **[analyse-plan](./implementation-planning/analyse-plan/usecase.md)** `[proposed]` — Actor: Developer — reviewing `taproot/plan.md` before execution begins, wanting to identify blockers, ambiguities, and missing prerequisites so that execution runs without unexpected interruptions.
-- **[build-plan](./implementation-planning/build-plan/usecase.md)** `[proposed]` — Actor: Developer — building a multi-item implementation roadmap with agent assistance, to be executed in a future session or delegated to an agent.
-- **[execute-plan](./implementation-planning/execute-plan/usecase.md)** `[proposed]` — Actor: Developer — working through a previously built plan, delegating each item to the agent and confirming at each step boundary.
+- **[analyse-plan](./implementation-planning/analyse-plan/usecase.md)** `[implemented]` — Actor: Developer — reviewing `taproot/plan.md` before execution begins, wanting to identify blockers, ambiguities, and missing prerequisites so that execution runs without unexpected interruptions.
+  - [agent-skill](./implementation-planning/analyse-plan/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
+- **[build-plan](./implementation-planning/build-plan/usecase.md)** `[implemented]` — Actor: Developer — building a multi-item implementation roadmap with agent assistance, to be executed in a future session or delegated to an agent.
+  - [agent-skill](./implementation-planning/build-plan/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
+- **[execute-plan](./implementation-planning/execute-plan/usecase.md)** `[implemented]` — Actor: Developer — working through a previously built plan, delegating each item to the agent and confirming at each step boundary.
+  - [agent-skill](./implementation-planning/execute-plan/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
 - **[extract-next-slice](./implementation-planning/extract-next-slice/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator (human who asks the agent to plan the next work item)
   - [agent-skill](./implementation-planning/extract-next-slice/agent-skill/impl.md) `[complete]` (1 commit, 2 tests)
   - [cli-command](./implementation-planning/extract-next-slice/cli-command/impl.md) `[complete]` (1 commit, 1 test)
@@ -239,6 +242,8 @@ _No behaviours yet._
 
 **Goal:** Enable the taproot maintainer to publish reliable, tested releases to npm and GitHub through a single repeatable procedure — so that every published version is fully verified, correctly versioned, and accompanied by a changelog and GitHub release.
 
+- **[ci-pipeline](./taproot-distribution/ci-pipeline/usecase.md)** `[implemented]` — Actor: GitHub Actions — automated, triggered on every push to `main` and every pull request targeting `main`
+  - [github-workflow](./taproot-distribution/ci-pipeline/github-workflow/impl.md) `[complete]` (0 commits ⚠ no tests)
 - **[cut-release](./taproot-distribution/cut-release/usecase.md)** `[implemented]` — Actor: - **Maintainer** — runs the local phase (pre-flight, changelog, version bump, tag, push)
   - [multi-surface](./taproot-distribution/cut-release/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 - **[vscode-marketplace](./taproot-distribution/vscode-marketplace/usecase.md)** `[specified]` — Actor: Maintainer — the VS Code extension publish step runs automatically in CI as part of the `cut-release` flow, after npm publish succeeds
@@ -252,4 +257,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-20 intents · 73 behaviours · 72 implementations · 70/72 complete
+20 intents · 74 behaviours · 76 implementations · 74/76 complete
