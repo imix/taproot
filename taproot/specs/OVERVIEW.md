@@ -51,7 +51,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 ## [documentation](./documentation/intent.md) `[deprecated]`
 
-**Goal:** Keep all taproot documentation accurate and current so that users, contributors, and integrators always have reliable information about what the tool does and how to use it
+**Goal:** Ensure taproot documentation stays accurate and current so that users, contributors, and integrators always have reliable information about what the tool does and how to use it
 
 _No behaviours yet._
 
@@ -121,7 +121,7 @@ _No behaviours yet._
 
 ## [project-discovery](./project-discovery/intent.md) `[active]`
 
-**Goal:** A project with an existing codebase, existing requirements, or both can be fully represented as a taproot requirement hierarchy — so that teams using another tool or workflow can adopt taproot without losing prior work or starting from scratch.
+**Goal:** Allow any project with an existing codebase or requirements to be fully represented as a taproot requirement hierarchy — so that teams using another tool or workflow can adopt taproot without losing prior work or starting from scratch.
 
 - **[discover-existing-project](./project-discovery/discover-existing-project/usecase.md)** `[implemented]` — Actor: Developer invoking `/tr-discover` on a project that has no taproot hierarchy yet (or a partial one)
   - [agent-skill](./project-discovery/discover-existing-project/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
@@ -160,7 +160,7 @@ _No behaviours yet._
 
 ## [requirements-completeness](./requirements-completeness/intent.md) `[active]`
 
-**Goal:** Verify that no requirement has been left without coverage at the level below it — every business intent has behaviours and every behaviour has implementations.
+**Goal:** Ensure no requirement is left without coverage at the level below it — every business intent has behaviours and every behaviour has implementations.
 
 - **[coverage-report](./requirements-completeness/coverage-report/usecase.md)** `[implemented]` — Actor: Developer or operator running `taproot coverage`
   - [cli-command](./requirements-completeness/coverage-report/cli-command/impl.md) `[complete]` (0 commits, 1 test)
@@ -205,7 +205,7 @@ _No behaviours yet._
 
 ## [skill-architecture](./skill-architecture/intent.md) `[active]`
 
-**Goal:** Define and enforce the architectural constraints that govern how taproot skills are built — so that every skill is context-efficient, consistent in how it loads resources, and explicit about its effect on the developer's session
+**Goal:** Enforce the architectural constraints that govern how taproot skills are built — so that every skill is context-efficient, consistent in how it loads resources, and explicit about its effect on the developer's session
 
 - **[commit-awareness](./skill-architecture/commit-awareness/usecase.md)** `[implemented]` — Actor: Skill author — a human developer or AI agent writing or updating a taproot skill file (`skills/*.md`) that includes a `git commit` step.
   - [multi-surface](./skill-architecture/commit-awareness/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
@@ -243,7 +243,7 @@ _No behaviours yet._
 
 ## [taproot-lifecycle](./taproot-lifecycle/intent.md) `[active]`
 
-**Goal:** Keep an installed taproot setup current as the tool evolves — refreshing skills, regenerating agent adapters, and removing stale artefacts from older versions.
+**Goal:** Ensure an installed taproot setup stays current as the tool evolves — refreshing skills, regenerating agent adapters, and removing stale artefacts from older versions.
 
 - **[update-installation](./taproot-lifecycle/update-installation/usecase.md)** `[implemented]` — Actor: Developer running `taproot update` after upgrading the taproot package
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
