@@ -9,17 +9,18 @@ Developer starting a new project with taproot — who has decided to use taproot
 
 ## Main Flow
 1. Developer runs `npx @imix-js/taproot init`
-2. System detects an empty or new project and prompts: `Start from a template? [y/N]`
-3. Developer enters `y`
-4. System displays available templates with one-line descriptions:
+2. System detects an empty or new project and presents a single template selection prompt showing all options:
    ```
-   Available templates:
+   Start from a template?
+   ❯ No template — start with an empty hierarchy
      webapp        — SaaS web application (user auth, profiles)
      book-authoring — Book or content project (manuscript, research, publishing)
      cli-tool      — Command-line tool or developer utility
    ```
-5. Developer selects a template by name
-6. System copies the starter's `taproot/` and `.taproot/` folders into the project root and continues with adapter generation
+3. Developer selects an option (default: "No template")
+4. If "No template" is selected: init continues without copying any template (proceeds to adapter generation)
+5. If a template is selected: system copies the starter's `taproot/` and `.taproot/` folders into the project root
+6. System continues with adapter generation
 7. Developer opens `.taproot/settings.yaml` and adjusts the `run:` commands for their actual test runner and build tool
 8. Developer opens their agent and runs `/tr-implement taproot/<first-behaviour>/` against a pre-populated spec
 
@@ -69,11 +70,10 @@ Developer starting a new project with taproot — who has decided to use taproot
 ## Flow
 ```mermaid
 flowchart TD
-    A[Developer runs taproot init] --> B{Start from a template?}
-    B -->|N / skip| Z[Blank init\n+ /tr-intent manually]
-    B -->|Y| C[System lists available templates]
+    A[Developer runs taproot init] --> B[Single select prompt\nall templates + No template visible]
+    B -->|No template| Z[Blank init\n+ /tr-intent manually]
     A -->|--template flag| D
-    C --> D[Developer selects template]
+    B --> D[Developer selects template]
     D --> E{Template?}
     E -->|webapp| F[Copy examples/webapp/]
     E -->|book-authoring| G[Copy examples/book-authoring/\ntaproot update for vocabulary]
@@ -123,13 +123,18 @@ flowchart TD
 - When the command runs
 - Then it exits with a non-zero code and lists the available template names
 
+**AC-7: All template options visible before selection**
+- Given a developer runs `npx @imix-js/taproot init` on a fresh project
+- When the template prompt is shown
+- Then all available templates with their one-line descriptions are visible in a single prompt, with "No template" as the default option — before the developer commits to any choice
+
 ## Implementations <!-- taproot-managed -->
 - [Bundled Templates](./bundled-templates/impl.md)
 
 ## Status
-- **State:** implemented
+- **State:** specified
 - **Created:** 2026-03-25
-- **Last reviewed:** 2026-03-25
+- **Last reviewed:** 2026-03-27
 
 ## Notes
 - The webapp starter already exists at `examples/webapp/`. This behaviour spec covers the full collection including the two starters yet to be built (book-authoring, cli-tool) and the `--template` flag for `taproot init`.
