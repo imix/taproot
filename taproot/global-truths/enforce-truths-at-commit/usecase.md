@@ -157,6 +157,7 @@ flowchart TD
 
 ## Implementations <!-- taproot-managed -->
 - [Hook Extension](./hook-extension/impl.md)
+- [All Levels](./all-levels/impl.md)
 
 ## Status
 - **State:** specified
