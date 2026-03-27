@@ -43,8 +43,37 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 - **No git repository**: if `.git/` is not found in the project root, system aborts immediately with `"No git repository found. Run \`git init\` first, then re-run \`taproot init\`."` — no prompts are shown and no files are created
 - **No write permission**: filesystem error is surfaced; earlier steps that succeeded are not rolled back (no transactional guarantee)
 
+## Flow
+```mermaid
+sequenceDiagram
+    participant Actor as Developer / Orchestrator
+    participant CLI as taproot CLI
+    participant FS as Filesystem
+
+    Actor->>CLI: taproot init [--agent <name>] [--with-hooks]
+    CLI->>FS: check .git/ exists
+    alt no .git/
+        CLI-->>Actor: abort — "No git repository found. Run git init first."
+    end
+    CLI->>Actor: prompt: which agent adapter?
+    Actor->>CLI: select (claude / cursor / none)
+    CLI->>Actor: prompt: install pre-commit hook? [Y/n]
+    Actor->>CLI: Y / n
+    CLI->>FS: create taproot/, taproot/specs/, taproot/global-truths/, taproot/agent/
+    CLI->>FS: write taproot/settings.yaml
+    CLI->>FS: write taproot/CONVENTIONS.md
+    CLI->>FS: install adapter skills → taproot/agent/skills/
+    CLI->>FS: install pre-commit hook (if confirmed)
+    CLI-->>Actor: report each created path
+```
+
+## Related
+- [Configure Hierarchy Behaviour](../configure-hierarchy/usecase.md) — settings.yaml options that govern hierarchy validation behaviour
+- [Manage Agent Adapter](../../agent-integration/manage-adapter/usecase.md) — installing and updating agent adapters after init
+
 ## Implementations <!-- taproot-managed -->
 - [CLI Command — taproot init](./cli-command/impl.md)
+- [Unified taproot/ Layout](./unified-layout/impl.md)
 
 
 ## Acceptance Criteria
