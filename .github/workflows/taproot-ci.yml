@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Validate structure
+        run: node dist/cli.js validate-structure --path taproot/
+
+      - name: Validate format
+        run: node dist/cli.js validate-format --path taproot/
+
+      - name: Check orphans
+        run: node dist/cli.js check-orphans --path taproot/
+
+      - name: Security audit
+        run: npm audit --audit-level=high
+
+      - name: Test
+        run: npm test
