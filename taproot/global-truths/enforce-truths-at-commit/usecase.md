@@ -1,22 +1,24 @@
 # Behaviour: Enforce Truths at Commit
 
 ## Actor
-Pre-commit hook — triggered automatically when a contributor commits any hierarchy document (`intent.md`, `usecase.md`, or `impl.md`)
+Pre-commit hook — triggered automatically when a contributor commits; fires for hierarchy documents (`intent.md`, `usecase.md`, or `impl.md`) and for implementation commits (source files staged alongside or without `impl.md`)
 
 ## Preconditions
 - `taproot/global-truths/` exists and contains at least one truth file
-- A commit includes one or more staged hierarchy documents
+- A commit includes one or more staged hierarchy documents or source files
 - The pre-commit hook is installed (`taproot init --with-hooks`)
 
 ## Main Flow
 
-1. Pre-commit hook detects one or more staged hierarchy documents
-2. For each staged document, hook determines its level (intent, behaviour, or implementation)
-3. Hook collects all truth files applicable to that level using the same scope-resolution rules as `apply-truths-when-authoring`:
-   - Intent-scoped truths apply to all levels
-   - Behaviour-scoped truths apply to behaviour and impl
-   - Impl-scoped truths apply to impl only
-   - Unscoped files default to intent scope
+1. Pre-commit hook detects staged files — either hierarchy documents or implementation source files
+2. Hook determines the commit level:
+   - Staged `intent.md` → intent level
+   - Staged `usecase.md` → behaviour level
+   - Staged `impl.md` or source files (no higher-level doc staged) → implementation level
+3. Hook collects all truth files applicable to that level:
+   - Intent-scoped truths (`_intent.md` or unscoped) apply to all levels
+   - Behaviour-scoped truths (`_behaviour.md`) apply to behaviour and impl
+   - Impl-scoped truths (`_impl.md`) apply to impl only
 4. Hook (via agent) checks each staged document against applicable truths for semantic consistency:
    - Are defined terms used consistently with their definitions?
    - Are stated business rules respected in acceptance criteria and main flow?
@@ -45,6 +47,15 @@ Pre-commit hook — triggered automatically when a contributor commits any hiera
   2. Commit is blocked entirely — developer must fix the violation before re-committing
   3. The passing document is not re-checked on retry (it has not changed)
 
+### Implementation commit: only source files staged
+- **Trigger:** Developer commits source code with no hierarchy documents staged
+- **Steps:**
+  1. Hook detects staged source files, no `intent.md`, `usecase.md`, or `impl.md` present
+  2. Hook treats the commit as implementation level
+  3. All truths (intent, behaviour, and impl-scoped) are collected and checked against the staged changes
+  4. No `check-if-affected-by: global-truths/...` entry in `settings.yaml` is required — truth enforcement at implementation level is automatic
+  5. Pass → commit proceeds; violation → commit blocked with truth file and conflicting excerpt
+
 ### Developer disagrees with the truth (truth is wrong)
 - **Trigger:** Hook blocks a commit because of a truth conflict, but the developer believes the truth is outdated
 - **Steps:**
@@ -55,7 +66,8 @@ Pre-commit hook — triggered automatically when a contributor commits any hiera
 
 ## Postconditions
 - Every committed hierarchy document is consistent with all applicable truths
-- Any semantic drift between a staged spec and an applicable truth is blocked before it enters the repository
+- Every implementation commit is automatically checked against all applicable truths at commit time — no manual `check-if-affected-by` configuration required
+- Any semantic drift between a staged artifact and an applicable truth is blocked before it enters the repository
 - Truth violations are reported with enough detail to locate and fix them
 
 ## Error Conditions
@@ -66,16 +78,22 @@ Pre-commit hook — triggered automatically when a contributor commits any hiera
 
 ```mermaid
 flowchart TD
-    A[git commit triggered\nstaged files include hierarchy docs] --> B{global-truths/ exists?}
+    A[git commit triggered] --> B{global-truths/ exists?}
     B -->|No| C[Skip truth checks\ncommit proceeds]
-    B -->|Yes| D[For each staged doc:\ncollect applicable truths by level]
+    B -->|Yes| L{Staged files?}
+    L -->|intent.md| M[Level: intent\napplicable: intent-scoped truths]
+    L -->|usecase.md| N[Level: behaviour\napplicable: intent + behaviour truths]
+    L -->|impl.md or source| O[Level: impl\napplicable: all truths]
+    M --> D[Collect applicable truths]
+    N --> D
+    O --> D
     D --> E{Applicable truths found?}
     E -->|No| C
-    E -->|Yes| F[Agent checks doc against truths\nterms, rules, conventions]
+    E -->|Yes| F[Agent checks staged content\nterms, rules, conventions]
     F --> G{Violation found?}
     G -->|No| H[All checks pass\ncommit proceeds]
     G -->|Yes| I[Block commit\nReport: doc path, truth file, conflicting excerpt]
-    I --> J[Developer fixes spec\nor updates truth and re-stages]
+    I --> J[Developer fixes artifact\nor updates truth and re-stages]
     J --> F
 ```
 
@@ -116,10 +134,31 @@ flowchart TD
 - When a commit triggers truth checks
 - Then the unreadable file is skipped with a warning and the commit is not blocked by it
 
+**AC-7: Implementation commit triggers truth check without any settings.yaml configuration**
+- Given `taproot/global-truths/` contains `ux-principles_intent.md` and no `check-if-affected-by` entry for it exists in `settings.yaml`
+- When a developer commits source files only (no hierarchy docs staged)
+- Then the hook still checks the commit against `ux-principles_intent.md` automatically
+
+**AC-8: Scope ladder is respected across all commit levels**
+- Given `global-truths/` contains `glossary_intent.md`, `rules_behaviour.md`, and `patterns_impl.md`
+- When an `intent.md` is committed → only `glossary_intent.md` is checked
+- And when a `usecase.md` is committed → `glossary_intent.md` and `rules_behaviour.md` are checked
+- And when source files are committed → all three files are checked
+
+**AC-9: Implementation commit blocked when source contradicts an applicable truth**
+- Given `taproot/global-truths/ux-principles_intent.md` states "all errors must be surfaced to the user immediately"
+- When a developer commits source code implementing a silent failure
+- Then the commit is blocked with a message identifying the truth file and the conflicting behaviour
+
+**AC-10: No check-if-affected-by entry needed for global truth enforcement**
+- Given a project has `taproot/global-truths/` with truth files but no `check-if-affected-by: global-truths/...` in `settings.yaml`
+- When any commit is made at any level
+- Then applicable truths are checked automatically — the absence of a settings.yaml entry does not skip enforcement
+
 ## Implementations <!-- taproot-managed -->
 - [Hook Extension](./hook-extension/impl.md)
 
 ## Status
-- **State:** implemented
+- **State:** specified
 - **Created:** 2026-03-26
-- **Last reviewed:** 2026-03-26
+- **Last reviewed:** 2026-03-27
