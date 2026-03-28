@@ -25,7 +25,7 @@ Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the 
 ## Alternate Flows
 
 ### Deterministic continuation
-- **Trigger:** The skill's completion context maps to exactly one sensible next step — e.g. `/tr-implement` always leads to `taproot dod`, `/tr-plan` always leads to `/tr-implement`
+- **Trigger:** The skill's completion context maps to exactly one sensible next step — e.g. `/tr-implement` always leads to `taproot dod`, `/tr-next` always leads to `/tr-implement`
 - **Steps:**
   1. Skill presents a single **Next:** line with the exact command and path pre-filled
   2. No menu — one line, no options to evaluate
@@ -53,7 +53,7 @@ Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the 
 - **Trigger:** The skill succeeded but has no deterministic continuation and the context is terminal — e.g. `/tr-status` run at end of sprint with everything healthy, `/tr-guide` run standalone
 - **Steps:**
   1. Skill checks whether `.taproot/backlog.md` exists and contains items
-  2. If backlog is non-empty: include `/tr-backlog` (triage) as a lettered option alongside `/tr-plan` and `/tr-status`
+  2. If backlog is non-empty: include `/tr-backlog` (triage) as a lettered option alongside `/tr-next` and `/tr-status`
   3. If backlog is empty: propose the existing low-friction fallback — `taproot overview` to orient, or `/tr-ineed` to capture anything new
   4. Guidance is framed as optional: "Nothing obvious next — whenever you're ready: ..."
 
@@ -68,7 +68,7 @@ Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the 
 - **Steps:**
   1. Skill selects the top 1–2 highest-priority items from its findings
   2. Those items appear as the first lettered options with the exact command and path pre-filled
-  3. A generic fallback option (e.g. `/tr-plan` or `/tr-ineed`) is the final option
+  3. A generic fallback option (e.g. `/tr-next` or `/tr-ineed`) is the final option
   4. Generic workflow-only options are suppressed when specific findings are more actionable
 
 ### `/tr-ineed` terminates without delegating (near-duplicate detected)
@@ -141,7 +141,7 @@ flowchart TD
 **AC-7: Findings-informed menu surfaces specific items as direct options**
 - Given `/tr-status` identifies an unimplemented behaviour at `taproot/acceptance-criteria/verify-coverage/`
 - When the skill finishes its output
-- Then the "What's next?" menu contains `/tr-implement taproot/acceptance-criteria/verify-coverage/` as a lettered option — not just generic options like `/tr-plan`
+- Then the "What's next?" menu contains `/tr-implement taproot/acceptance-criteria/verify-coverage/` as a lettered option — not just generic options like `/tr-next`
 
 **AC-8: Backlog option appears when ideas or out-of-scope findings surface**
 - Given a skill's output includes open questions, deferred work, or ideas not ready to route into the hierarchy
@@ -151,7 +151,7 @@ flowchart TD
 **AC-9: /tr-backlog appears in terminal guidance when backlog is non-empty**
 - Given a skill has completed with no deterministic continuation
 - When `.taproot/backlog.md` exists and contains at least one item
-- Then `/tr-backlog` appears as a lettered option in the fallback What's next? menu alongside `/tr-plan` and `/tr-status`
+- Then `/tr-backlog` appears as a lettered option in the fallback What's next? menu alongside `/tr-next` and `/tr-status`
 
 **AC-6: /tr-ineed near-duplicate termination shows refinement option**
 - Given `/tr-ineed` detects an existing behaviour that matches the requirement and stops
@@ -174,10 +174,10 @@ flowchart TD
   - `/tr-implement` → deterministic: `taproot dod <impl-path>` (run DoD and mark complete)
   - `/tr-refine` → open-ended: commit the change **or** `/tr-implement <path>/` (if spec changes require reimplementing)
   - `/tr-review` → open-ended: `/tr-refine <path>` (if issues found) **or** `/tr-implement <path>/` (if spec is clean) **or** `/tr-backlog <finding>` (if issues are out of scope for now)
-  - `/tr-review-all` → findings-informed: surface top 1–2 issues as direct options; fallback: `/tr-backlog <finding>` (capture deferred items) **or** `/tr-plan` (next slice)
-  - `/tr-plan` → deterministic: `/tr-implement <returned-slice-path>/`
-  - `/tr-status` → findings-informed when specific items found (surface top 1–2 as direct options + one generic fallback); otherwise open-ended: `/tr-plan` (pick next item) **or** `/tr-ineed` (route a gap) **or** `/tr-backlog` (if backlog is non-empty — triage before moving on)
-  - `/tr-discover` → open-ended: `/tr-status` (see coverage), `/tr-plan` (get next slice), or `/tr-ineed` (add missing requirements)
+  - `/tr-review-all` → findings-informed: surface top 1–2 issues as direct options; fallback: `/tr-backlog <finding>` (capture deferred items) **or** `/tr-next` (next slice)
+  - `/tr-next` → deterministic: `/tr-implement <returned-slice-path>/`
+  - `/tr-status` → findings-informed when specific items found (surface top 1–2 as direct options + one generic fallback); otherwise open-ended: `/tr-next` (pick next item) **or** `/tr-ineed` (route a gap) **or** `/tr-backlog` (if backlog is non-empty — triage before moving on)
+  - `/tr-discover` → open-ended: `/tr-status` (see coverage), `/tr-next` (get next slice), or `/tr-ineed` (add missing requirements)
   - `/tr-analyse-change` → open-ended: `/tr-refine <path>` (apply safe changes) **or** `/tr-intent <path>` (if upstream affected)
   - `/tr-promote` → open-ended: `/tr-refine` on each impacted sibling behaviour
   - `/tr-grill-me` → open-ended: `/tr-ineed "<clarified requirement>"` **or** `/tr-behaviour <path>/` **or** `/tr-backlog <deferred question>` (if questions surfaced but not ready to route)

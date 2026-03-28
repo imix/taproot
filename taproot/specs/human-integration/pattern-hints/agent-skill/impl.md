@@ -7,7 +7,7 @@
 - Pattern check is inserted as a new **step 0** in skills where the need is expressed at invocation (ineed, refine). In behaviour and implement it fires at the first step that receives the user's description.
 - Signal phrases from the spec are embedded directly in the step text so the agent knows exactly what to match against — no ambiguity about what constitutes a "match".
 - The interruption presents the pattern name, a one-line description, and [A]/[B] choice. It does not dump the full `.taproot/docs/patterns.md` content into context — it names the pattern and the agent reads the relevant section on demand if the user chooses [A].
-- All four skills (ineed, behaviour, implement, refine) updated. Other skills (tr-plan, tr-decompose, etc.) are less likely to receive raw requirement expressions and are left for future passes when their source implementations are touched.
+- All four skills (ineed, behaviour, implement, refine) updated. Other skills (tr-next, tr-decompose, etc.) are less likely to receive raw requirement expressions and are left for future passes when their source implementations are touched.
 - Both `skills/` (package source) and `taproot/agent/skills/` (installed copy) updated in sync per CLAUDE.md policy.
 - Pattern file path is `.taproot/docs/patterns.md` (not `docs/patterns.md`) — `taproot update` distributes the full `docs/` folder to `.taproot/docs/` so agent skills have consistent access to all taproot reference material under `.taproot/`.
 

@@ -1,4 +1,4 @@
-# Implementation: Agent Skill — plan-build
+# Implementation: Agent Skill — plan
 
 ## Behaviour
 ../usecase.md
@@ -7,13 +7,13 @@
 - **Agent skill, not CLI command**: build-plan requires agent reasoning (classify backlog items, infer dependencies, present and await confirmation) — these are not deterministic CLI operations. The implementation is a skill file.
 - **plan.md format**: numbered list with inline `pending|done|skipped|blocked|stale` status, item type in brackets (`[spec]|[implement]|[refine]`), `hitl|afk` execution mode, then path or description. Header includes legend. Human-readable and regex-parseable by execute-plan and analyse-plan skills.
 - **HITL/AFK heuristics**: `spec` → `hitl` (design decisions needed); `refine` → `hitl` (human confirmation required); `implement` → `afk` by default unless known external blockers or unresolved design questions exist. Agent reasons per-item — heuristics are defaults, not rules.
-- **Skill slug `plan-build`**: groups build/execute/analyse under the `plan-` namespace, distinct from the existing `plan.md` skill (extract-next-slice). Adapter: `/tr-plan-build`.
+- **Skill slug `plan`**: groups build/execute/analyse under the `plan-` namespace, distinct from the existing `next.md` skill (extract-next-slice). Adapter: `/tr-plan`.
 - **Backlog items removed after plan write**: after `taproot/plan.md` is written, consumed backlog items are deleted from `taproot/backlog.md` and the count is reported. Removal is scoped to backlog-sourced items only — explicit and hierarchy items have no backlog entry. The removal is reported inline so the developer is never surprised (aligns with UX "No Surprises" truth).
 - **Existing plan check at write time**: the agent checks for `taproot/plan.md` only after the developer confirms the proposed plan (step 7), not before collection and classification. Avoids interrupting the discovery phase.
 
 ## Source Files
-- `skills/plan-build.md` — skill instructions (package source; synced to `taproot/agent/skills/plan-build.md` by `taproot update`)
-- `.claude/commands/tr-plan-build.md` — Claude Code adapter
+- `skills/plan.md` — skill instructions (package source; synced to `taproot/agent/skills/plan.md` by `taproot update`)
+- `.claude/commands/tr-plan.md` — Claude Code adapter
 
 ## Commits
 - (run `taproot link-commits` to populate)
@@ -35,7 +35,7 @@
 - condition: check-if-affected-by: quality-gates/nfr-measurability | note: not applicable — build-plan usecase.md contains only AC-N entries, no NFR-N performance criteria | resolved: 2026-03-27
 
 ## DoD Resolutions
-- condition: document-current | note: docs/workflows.md updated with new '## Planning a sprint or batch of work' section documenting /tr-plan-build usage. skills/guide.md updated to include /tr-plan-build in the slash commands table. docs/cli.md already covers taproot plan CLI; no CLI command added. | resolved: 2026-03-27T19:08:32.698Z
+- condition: document-current | note: docs/workflows.md updated with new '## Planning a sprint or batch of work' section documenting /tr-plan usage. skills/guide.md updated to include /tr-plan in the slash commands table. docs/cli.md already covers taproot plan CLI; no CLI command added. | resolved: 2026-03-27T19:08:32.698Z
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: compliant — no shell execution added; no credentials; new classification step reasons about item descriptions only | resolved: 2026-03-28T05:52:47.721Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — HITL/AFK labelling is specific to plan-build; the concept is documented in the skill and spec | resolved: 2026-03-28T05:52:47.466Z
@@ -60,11 +60,11 @@
 
 - condition: check-if-affected: docs/ | note: not affected — HITL/AFK classification is a skill-internal behaviour; no new CLI commands or config options to document | resolved: 2026-03-28T05:52:44.824Z
 
-- condition: check-if-affected: skills/guide.md | note: not affected — /tr-plan-build entry already present; no new command or changed signature | resolved: 2026-03-28T05:52:44.569Z
+- condition: check-if-affected: skills/guide.md | note: not affected — /tr-plan entry already present; no new command or changed signature | resolved: 2026-03-28T05:52:44.569Z
 
 - condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts copies skill files verbatim; content change picked up automatically | resolved: 2026-03-28T05:52:44.311Z
 
-- condition: document-current | note: not affected — no new CLI commands or config options; docs/agents.md describes /tr-plan-build at command level which is unchanged; HITL/AFK is an internal classification detail | resolved: 2026-03-28T05:52:44.053Z
+- condition: document-current | note: not affected — no new CLI commands or config options; docs/agents.md describes /tr-plan at command level which is unchanged; HITL/AFK is an internal classification detail | resolved: 2026-03-28T05:52:44.053Z
 
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: compliant — new step 9 instructs the agent to edit taproot/backlog.md (file write only); no shell execution, no credentials, no tokens; least-privilege maintained | resolved: 2026-03-27T21:19:43.179Z
 
@@ -90,11 +90,11 @@
 
 - condition: check-if-affected: docs/ | note: not affected — docs/agents.md describes the skill at command level; the backlog removal is an internal step detail not surfaced in docs | resolved: 2026-03-27T21:19:11.414Z
 
-- condition: check-if-affected: skills/guide.md | note: not affected — /tr-plan-build entry already present in guide.md; no new command or changed signature | resolved: 2026-03-27T21:19:11.159Z
+- condition: check-if-affected: skills/guide.md | note: not affected — /tr-plan entry already present in guide.md; no new command or changed signature | resolved: 2026-03-27T21:19:11.159Z
 
 - condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts copies skill files verbatim; the skill content change is picked up automatically on taproot update | resolved: 2026-03-27T21:19:10.904Z
 
-- condition: document-current | note: docs/agents.md already lists /tr-plan-build with correct description; no CLI or config change — skill behaviour update only; no docs update needed | resolved: 2026-03-27T21:19:10.656Z
+- condition: document-current | note: docs/agents.md already lists /tr-plan with correct description; no CLI or config change — skill behaviour update only; no docs update needed | resolved: 2026-03-27T21:19:10.656Z
 
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: compliant — plan-build.md instructs the agent to run 'node dist/cli.js coverage' (read-only CLI command) and write taproot/plan.md; no shell execution beyond the controlled CLI call, no credentials or tokens, no excessive filesystem access beyond the plan file | resolved: 2026-03-27T19:10:06.555Z
 
@@ -114,13 +114,13 @@
 
 - condition: check-if-affected-by: human-integration/contextual-next-steps | note: compliant — skill ends with a What's next? block offering /tr-plan-analyse and /tr-plan-execute as the natural next steps after plan is built | resolved: 2026-03-27T19:09:21.126Z
 
-- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: compliant — skills/plan-build.md uses generic language throughout: 'the agent', 'node dist/cli.js coverage'; no Claude-specific names, no @{project-root} syntax (that belongs in .claude/commands/tr-plan-build.md adapter), no CLAUDE.md references | resolved: 2026-03-27T19:08:49.576Z
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: compliant — skills/plan.md uses generic language throughout: 'the agent', 'node dist/cli.js coverage'; no Claude-specific names, no @{project-root} syntax (that belongs in .claude/commands/tr-plan.md adapter), no CLAUDE.md references | resolved: 2026-03-27T19:08:49.576Z
 
 - condition: check-if-affected: examples/ | note: not affected — examples demonstrate taproot hierarchy structure; plan.md is a runtime artifact generated by the skill, not a hierarchy convention that examples should scaffold | resolved: 2026-03-27T19:08:44.374Z
 
-- condition: check-if-affected: docs/ | note: affected — docs/workflows.md updated with new planning workflow section documenting /tr-plan-build. No CLI reference doc update needed (plan-build is a skill, not a CLI command). | resolved: 2026-03-27T19:08:44.119Z
+- condition: check-if-affected: docs/ | note: affected — docs/workflows.md updated with new planning workflow section documenting /tr-plan. No CLI reference doc update needed (plan-build is a skill, not a CLI command). | resolved: 2026-03-27T19:08:44.119Z
 
-- condition: check-if-affected: skills/guide.md | note: affected — added /tr-plan-build row to the slash commands table in skills/guide.md (and synced to taproot/agent/skills/guide.md) | resolved: 2026-03-27T19:08:39.025Z
+- condition: check-if-affected: skills/guide.md | note: affected — added /tr-plan row to the slash commands table in skills/guide.md (and synced to taproot/agent/skills/guide.md) | resolved: 2026-03-27T19:08:39.025Z
 
 - condition: check-if-affected: src/commands/update.ts | note: affected — added 'plan-build.md' to SKILL_FILES array in src/commands/init.ts; this is consumed by update.ts via installSkills() so the new skill is picked up on taproot update | resolved: 2026-03-27T19:08:38.776Z
 

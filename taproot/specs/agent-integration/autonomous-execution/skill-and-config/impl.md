@@ -7,7 +7,7 @@
 - Autonomous mode awareness lives in the skill markdown files — the agent reads and follows skill instructions, so behavior changes belong where instructions are defined, not in the CLI. Adding a runtime flag to the CLI would not help because skills are text executed by the agent, not by the taproot process.
 - Three activation mechanisms (env var `TAPROOT_AUTONOMOUS=1`, `--autonomous` flag, `autonomous: true` in settings) are documented in skills as a "check autonomous mode" preamble that the agent reads at skill load time. No CLI orchestration is needed.
 - `autonomous?: boolean` added to `TaprootConfig` so `autonomous: true` in `taproot/settings.yaml` is a first-class supported setting — parsed, typed, and discoverable via CONFIGURATION.md.
-- Only `skills/implement.md` and `skills/commit.md` carry explicit confirmation prompts that autonomous mode should bypass. Other skills (tr-plan, tr-status, etc.) present structured choices but do not block on user approval before acting — no changes needed there.
+- Only `skills/implement.md` and `skills/commit.md` carry explicit confirmation prompts that autonomous mode should bypass. Other skills (tr-next, tr-status, etc.) present structured choices but do not block on user approval before acting — no changes needed there.
 - `<!-- autonomous: pending-review -->` is a pure skill-text convention. No CLI parsing is needed because the marker is written into `impl.md` by the agent following skill instructions; `taproot dod` already reads `## DoD Resolutions` entries by convention.
 - The CONFIGURATION.md generator is updated so `.taproot/CONFIGURATION.md` (the agent-facing config reference) documents `autonomous` alongside `cli` and `language` — the three runtime-behavior settings.
 

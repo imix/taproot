@@ -34,7 +34,7 @@ Agentic developer / orchestrator (human who asks the agent to plan the next work
 - On completion, the behaviour has a passing test and a traceable `impl.md`
 
 ## Implementations <!-- taproot-managed -->
-- [Agent Skill — /tr-plan](./agent-skill/impl.md)
+- [Agent Skill — /tr-next](./agent-skill/impl.md)
 - [CLI Command — taproot plan](./cli-command/impl.md)
 
 

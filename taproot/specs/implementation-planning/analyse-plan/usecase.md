@@ -38,13 +38,13 @@ Developer — reviewing `taproot/plan.md` before execution begins, wanting to id
 - **Trigger:** Every pending item passes all readiness checks.
 - **Steps:**
   1. Agent reports: *"All N pending items are ready — no blockers or ambiguities found."*
-  2. Agent offers: *"[A] Execute now → `/tr-plan execute`"*
+  2. Agent offers: *"[A] Execute now → `/tr-plan-execute`"*
 
 ### Plan is empty or fully complete
 - **Trigger:** `taproot/plan.md` has no `pending` items.
 - **Steps:**
   1. Agent reports: *"No pending items to analyse."*
-  2. Agent suggests: *"Build a new plan with `/tr-plan build`."*
+  2. Agent suggests: *"Build a new plan with `/tr-plan`."*
 
 ### Referenced spec path not found
 - **Trigger:** An `implement` or `refine` item references a path that does not exist in the hierarchy.
@@ -57,7 +57,7 @@ Developer — reviewing `taproot/plan.md` before execution begins, wanting to id
 - No files are modified — this behaviour is read-only.
 
 ## Error Conditions
-- **`taproot/plan.md` absent:** Agent reports *"No plan found — build one first with `/tr-plan build`."*
+- **`taproot/plan.md` absent:** Agent reports *"No plan found — build one first with `/tr-plan`."*
 - **`taproot coverage` fails during dependency check:** Agent notes the failure inline and marks affected items as `unknown` readiness rather than stopping the entire analysis.
 
 ## Flow
@@ -116,7 +116,7 @@ flowchart TD
 **AC-5: All-ready path offers execute shortcut**
 - Given all pending items in `taproot/plan.md` pass readiness checks
 - When the developer invokes "analyse plan"
-- Then the report states all items are ready and offers to proceed with `/tr-plan execute`
+- Then the report states all items are ready and offers to proceed with `/tr-plan-execute`
 
 **AC-6: Stale path flagged inline**
 - Given `taproot/plan.md` references a path that no longer exists
@@ -126,7 +126,7 @@ flowchart TD
 **AC-7: No plan file exits cleanly**
 - Given `taproot/plan.md` does not exist
 - When the developer invokes "analyse plan"
-- Then the agent reports no plan found and suggests `/tr-plan build`
+- Then the agent reports no plan found and suggests `/tr-plan`
 
 ## Implementations <!-- taproot-managed -->
 - [Agent Skill — plan-analyse](./agent-skill/impl.md)

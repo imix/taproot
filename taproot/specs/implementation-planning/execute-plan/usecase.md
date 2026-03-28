@@ -91,7 +91,7 @@ Developer — working through a previously built plan, delegating each item to t
 ### Plan is empty or fully complete
 - **Trigger:** `taproot/plan.md` exists but contains no `pending` items.
 - **Steps:**
-  1. Agent reports: *"Plan is complete — no pending items. Build a new plan with `/tr-plan build`."*
+  1. Agent reports: *"Plan is complete — no pending items. Build a new plan with `/tr-plan`."*
   2. No skills are invoked.
 
 ### Developer stops mid-batch
@@ -148,7 +148,7 @@ Developer — working through a previously built plan, delegating each item to t
 - After each completed `hitl` item, developer was offered the opportunity to append a follow-on item.
 
 ## Error Conditions
-- **`taproot/plan.md` absent:** Agent reports *"No plan found — build one first with `/tr-plan build`."* No skills are invoked.
+- **`taproot/plan.md` absent:** Agent reports *"No plan found — build one first with `/tr-plan`."* No skills are invoked.
 - **Item path invalid (behaviour deleted or moved):** Agent marks the item `stale` in `taproot/plan.md`, reports *"Item N is stale — path `<path>` not found."*, and offers `[S] Skip · [Q] Stop`.
 
 ## Flow
@@ -209,7 +209,7 @@ flowchart TD
 **AC-6: No plan file exits with clear message**
 - Given `taproot/plan.md` does not exist
 - When the developer invokes execute-plan
-- Then the agent reports no plan found and suggests `/tr-plan build`
+- Then the agent reports no plan found and suggests `/tr-plan`
 
 **AC-7: All items done reports plan complete**
 - Given all items in `taproot/plan.md` are `done`, `skipped`, or `blocked`

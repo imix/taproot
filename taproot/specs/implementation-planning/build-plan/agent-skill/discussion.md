@@ -14,12 +14,12 @@
 
 ## Alternatives Considered
 
-- **Extend `skills/plan.md`** — rejected because `plan.md` already implements extract-next-slice (a different behaviour). Mixing concerns would make both harder to read and maintain.
+- **Extend `skills/next.md`** — rejected because `next.md` already implements extract-next-slice (a different behaviour). Mixing concerns would make both harder to read and maintain.
 - **`taproot plan-build` CLI sub-command** — rejected because classification and presentation require agent reasoning; a CLI can only list, not decide.
 
 ## Decision
 
-Implemented as a standalone skill file `skills/plan-build.md` with adapter `/tr-plan-build`. The plan.md format is a numbered list with inline status and type tags — simple enough for an agent to write reliably, and parseable by downstream skills (execute-plan, analyse-plan) with a single regex per line.
+Implemented as a standalone skill file `skills/plan.md` with adapter `/tr-plan`. The plan.md format is a numbered list with inline status and type tags — simple enough for an agent to write reliably, and parseable by downstream skills (execute-plan, analyse-plan) with a single regex per line.
 
 ## Open Questions
 

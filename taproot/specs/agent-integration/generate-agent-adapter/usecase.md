@@ -56,8 +56,8 @@ Developer initializing taproot for a specific AI coding agent via `taproot init 
 
 **AC-3: Each claude command file is a thin launcher referencing the skill file path**
 - Given a project with the claude adapter installed
-- When the actor reads `.claude/commands/tr-plan.md`
-- Then the file contains `@{project-root}/.taproot/skills/plan.md` and does not inline `## Description` or `## Inputs`
+- When the actor reads `.claude/commands/tr-next.md`
+- Then the file contains `@{project-root}/.taproot/skills/next.md` and does not inline `## Description` or `## Inputs`
 
 **AC-4: Each claude command file contains imperative execution framing**
 - Given a project with the claude adapter installed

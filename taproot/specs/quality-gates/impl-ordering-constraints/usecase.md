@@ -146,6 +146,6 @@ sequenceDiagram
 - **Last reviewed:** 2026-03-26
 
 ## Notes
-- **Point-in-time gate:** The ordering check fires once at declaration commit time. If a dependency's state is later reset (e.g. the impl is re-opened for a spec change), the hook does not retroactively invalidate the declaration. Teams relying on strong ordering guarantees should also check `taproot coverage` or `/tr-plan` before starting work.
+- **Point-in-time gate:** The ordering check fires once at declaration commit time. If a dependency's state is later reset (e.g. the impl is re-opened for a spec change), the hook does not retroactively invalidate the declaration. Teams relying on strong ordering guarantees should also check `taproot coverage` or `/tr-next` before starting work.
 - **Path format:** `depends-on` values must be project-root-relative paths (e.g. `taproot/quality-gates/other-impl/impl.md`). File-relative paths (`../sibling/impl.md`) are not supported and will be treated as "not found."
-- **`/tr-plan` integration:** `/tr-plan` (extract-next-slice) should respect `depends-on` when determining which impls are independently startable — impls whose dependencies are not yet `complete` should not be proposed as the next work item. This is a companion constraint on `/tr-plan`, not enforced by this behaviour.
+- **`/tr-next` integration:** `/tr-next` (extract-next-slice) should respect `depends-on` when determining which impls are independently startable — impls whose dependencies are not yet `complete` should not be proposed as the next work item. This is a companion constraint on `/tr-next`, not enforced by this behaviour.

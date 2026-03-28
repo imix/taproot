@@ -1,15 +1,15 @@
-# Implementation: Agent Skill — /tr-plan
+# Implementation: Agent Skill — /tr-next
 
 ## Behaviour
 ../usecase.md
 
 ## Design Decisions
-- A dedicated `/tr-plan` skill wraps `taproot plan` with conversational selection, confirmation, and delegation — separating the CLI scanning logic (deterministic, testable) from the agent dialogue layer (conversational, context-aware)
+- A dedicated `/tr-next` skill wraps `taproot plan` with conversational selection, confirmation, and delegation — separating the CLI scanning logic (deterministic, testable) from the agent dialogue layer (conversational, context-aware)
 - AFK/HITL classification delegates to `taproot plan` rather than re-implementing the logic: the CLI command uses `usecase.md` state as the proxy (`specified` → AFK, `proposed` → HITL), which is concrete and testable
 - The skill presents one recommendation by default (top AFK candidate) and offers a shortlist on request — minimising cognitive load for the common case while preserving full visibility
 
 ## Source Files
-- `skills/plan.md` — full skill definition: scans via `taproot plan`, presents recommended slice, handles alternate flows (shortlist, all-done, path-specified), delegates to `/tr-implement`
+- `skills/next.md` — full skill definition: scans via `taproot plan`, presents recommended slice, handles alternate flows (shortlist, all-done, path-specified), delegates to `/tr-implement`
 - `src/commands/plan.ts` — backing CLI command providing candidate scanning, AFK/HITL classification, and output formatting
 
 ## Commits

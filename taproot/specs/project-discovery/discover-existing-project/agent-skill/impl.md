@@ -50,7 +50,7 @@
 
 - condition: check-if-affected-by: human-integration/pause-and-confirm | note: Compliant. discover.md presents each proposed intent/behaviour/impl with [Y]/[E]/[S]/[Q] menu before writing. All three document types paused for developer confirmation. | resolved: 2026-03-20T19:49:25.712Z
 
-- condition: check-if-affected-by: human-integration/contextual-next-steps | note: Compliant. discover.md has a What's next? block at Phase 5 step 17 (final step), presenting [A] /tr-status, [B] /tr-plan, [C] /tr-ineed. | resolved: 2026-03-20T19:49:25.480Z
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: Compliant. discover.md has a What's next? block at Phase 5 step 17 (final step), presenting [A] /tr-status, [B] /tr-next, [C] /tr-ineed. | resolved: 2026-03-20T19:49:25.480Z
 
 - condition: check-if-affected: skills/guide.md | note: Not affected. guide.md's command table does not include /tr-discover; this change does not add or remove any commands. No update needed. | resolved: 2026-03-20T19:49:16.986Z
 

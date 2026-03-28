@@ -13,7 +13,7 @@ Developer — who has decided that a behaviour or implementation is not being pu
 3. `taproot validate-format` accepts `deferred` as a valid state for both `usecase.md` and `impl.md`
 4. `taproot check-orphans` skips deferred items — MISSING_SOURCE_FILE, MISSING_TEST_FILE, and reference errors are not raised for them
 5. `taproot coverage` counts deferred behaviours and implementations in a dedicated `deferred` total, not as gaps or errors
-6. `tr-plan` excludes deferred behaviours from candidate next items
+6. `tr-next` excludes deferred behaviours from candidate next items
 7. `tr-status` displays deferred items in a dedicated **Parked** section with their reason (if provided)
 
 ## Alternate Flows
@@ -30,7 +30,7 @@ Developer — who has decided that a behaviour or implementation is not being pu
 - **Steps:**
   1. Developer sets `State: deferred` on the `impl.md` only
   2. The parent `usecase.md` remains `specified`
-  3. `check-orphans` and `tr-plan` exclude the deferred impl but still treat the behaviour as an open candidate
+  3. `check-orphans` and `tr-next` exclude the deferred impl but still treat the behaviour as an open candidate
 
 ## Postconditions
 - The item's state is `deferred` in the hierarchy
@@ -53,7 +53,7 @@ flowchart TD
     E --> F[taproot validate-format accepts deferred state]
     F --> G{Tooling effects}
     G --> H[check-orphans: skips item]
-    G --> I[tr-plan: excludes from candidates]
+    G --> I[tr-next: excludes from candidates]
     G --> J[tr-status: shows in Parked section]
     G --> K[coverage: counts in deferred total]
 
@@ -69,7 +69,7 @@ flowchart TD
 - `../hierarchy-integrity/validate-format/usecase.md` — must be updated to accept `deferred` as a valid state in both document types
 - `../requirements-completeness/coverage-report/usecase.md` — coverage output must count deferred items separately
 - `../requirements-compliance/check-orphans/usecase.md` — must skip deferred items when checking for missing source and test files
-- `../implementation-planning/extract-next-slice/usecase.md` — tr-plan must exclude deferred behaviours from candidate selection
+- `../implementation-planning/extract-next-slice/usecase.md` — tr-next must exclude deferred behaviours from candidate selection
 - `../human-integration/human-readable-report/usecase.md` — tr-status must display a Parked section for deferred items
 
 ## Acceptance Criteria
@@ -84,9 +84,9 @@ flowchart TD
 - When `taproot check-orphans` runs
 - Then no MISSING_SOURCE_FILE error is raised for that impl
 
-**AC-3: Deferred behaviour excluded from tr-plan candidates**
+**AC-3: Deferred behaviour excluded from tr-next candidates**
 - Given a behaviour with `State: deferred`
-- When `taproot plan` (or `tr-plan`) selects the next implementable slice
+- When `taproot plan` (or `tr-next`) selects the next implementable slice
 - Then the deferred behaviour is not returned as a candidate
 
 **AC-4: Deferred items visible in tr-status Parked section**

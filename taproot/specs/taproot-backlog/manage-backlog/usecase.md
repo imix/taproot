@@ -93,7 +93,7 @@ flowchart TD
 ## Related
 - `../../../human-integration/route-requirement/usecase.md` — `/tr-ineed` is the promotion target; backlog items graduate into the hierarchy through it
 - `../../../human-integration/browse-hierarchy-item/usecase.md` — browse is for reading hierarchy documents in depth; backlog is for capturing things before they're hierarchy items
-- `../../../implementation-planning/extract-next-slice/usecase.md` — `/tr-plan` surfaces what's next from the hierarchy; backlog surfaces what's captured but not yet placed
+- `../../../implementation-planning/extract-next-slice/usecase.md` — `/tr-next` surfaces what's next from the hierarchy; backlog surfaces what's captured but not yet placed
 
 ## Acceptance Criteria
 
