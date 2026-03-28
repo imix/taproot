@@ -86,7 +86,7 @@ jobs:
         run: |
           VERSION="${GITHUB_REF_NAME}"
           VERSION_NUM="${VERSION#v}"
-          URL="https://github.com/imix-js/taproot/archive/refs/tags/${VERSION}.tar.gz"
+          URL="https://github.com/imix/taproot/archive/refs/tags/${VERSION}.tar.gz"
           echo "Downloading ${URL}"
           curl -fsSL --retry 3 -o taproot.tar.gz "${URL}" || {
             echo "GitHub release tarball not found for ${VERSION} — ensure the GitHub Release was created before this job runs."

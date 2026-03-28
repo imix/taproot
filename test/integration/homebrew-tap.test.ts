@@ -31,7 +31,7 @@ describe('homebrew-tap CI job — structural checks', () => {
   it('job downloads tarball and computes sha256 (AC-4)', () => {
     const jobSection = releaseYml.slice(releaseYml.indexOf('update-homebrew-tap:'));
     expect(jobSection).toContain('sha256sum');
-    expect(jobSection).toContain('imix-js/taproot/archive/refs/tags/');
+    expect(jobSection).toContain('imix/taproot/archive/refs/tags/');
   });
 
   it('job handles 404 tarball with descriptive error', () => {
