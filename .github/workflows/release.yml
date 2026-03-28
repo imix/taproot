@@ -110,27 +110,22 @@ jobs:
 
           mkdir -p Formula
           if [ ! -f Formula/taproot.rb ]; then
-            cat > Formula/taproot.rb <<FORMULA
-class Taproot < Formula
-  desc "AI-driven specs, enforced at commit time"
-  homepage "https://github.com/imix/taproot"
-  url "${URL}"
-  sha256 "${SHA}"
-  version "${VERSION}"
-  license "MIT"
-
-  depends_on "node"
-
-  def install
-    system "npm", "install", *std_npm_args
-    bin.install_symlink Dir["#{libexec}/bin/*"]
-  end
-
-  test do
-    system "#{bin}/taproot", "--version"
-  end
-end
-FORMULA
+            printf 'class Taproot < Formula\n' > Formula/taproot.rb
+            printf '  desc "AI-driven specs, enforced at commit time"\n' >> Formula/taproot.rb
+            printf '  homepage "https://github.com/imix/taproot"\n' >> Formula/taproot.rb
+            printf '  url "%s"\n' "${URL}" >> Formula/taproot.rb
+            printf '  sha256 "%s"\n' "${SHA}" >> Formula/taproot.rb
+            printf '  version "%s"\n' "${VERSION}" >> Formula/taproot.rb
+            printf '  license "MIT"\n\n' >> Formula/taproot.rb
+            printf '  depends_on "node"\n\n' >> Formula/taproot.rb
+            printf '  def install\n' >> Formula/taproot.rb
+            printf '    system "npm", "install", *std_npm_args\n' >> Formula/taproot.rb
+            printf '    bin.install_symlink Dir["#{libexec}/bin/*"]\n' >> Formula/taproot.rb
+            printf '  end\n\n' >> Formula/taproot.rb
+            printf '  test do\n' >> Formula/taproot.rb
+            printf '    system "#{bin}/taproot", "--version"\n' >> Formula/taproot.rb
+            printf '  end\n' >> Formula/taproot.rb
+            printf 'end\n' >> Formula/taproot.rb
           else
             sed -i "s|url \".*\"|url \"${URL}\"|" Formula/taproot.rb
             sed -i "s|sha256 \".*\"|sha256 \"${SHA}\"|" Formula/taproot.rb
