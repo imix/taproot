@@ -58,6 +58,38 @@ Phase 2 (human action required before CI publish can run end-to-end):
 
 ## DoD Resolutions
 - condition: document-current: README.md and docs/ accurately reflect all currently implemented CLI commands, skills, and configuration options | note: Not applicable. This implementation adds a VS Code extension (vscode-extension/) and a CI publish job (release.yml). Neither introduces new CLI commands, skill files, or configuration options. The docs/ and README.md describe taproot CLI usage — unchanged by this implementation. | resolved: 2026-03-26T08:46:29.862Z
+- condition: check-if-affected-by: taproot-distribution/vscode-marketplace | note: This IS the vscode-marketplace behaviour implementation. All ACs satisfied: AC-1 CI publishes on release, AC-2 Open VSX non-blocking, AC-3 version mismatch pre-flight, AC-4 PAT expiry recovery, AC-5 duplicate handled, AC-6 taproot.init command, AC-7 walkthrough, AC-8 README sync check in ci job. | resolved: 2026-03-28T14:50:41.421Z
+
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: release.md modified: path references only (vscode-extension/ → channels/vscode/). No new shell execution, no hardcoded credentials, no privilege changes. CI uses GitHub Actions secret references throughout. | resolved: 2026-03-28T14:50:41.159Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No new generalizable taproot pattern. The SHA marker approach for README sync is distribution-channel-specific. | resolved: 2026-03-28T14:50:40.896Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: Yes — channels/ folder convention already added as scoped DoD condition: check-if-affected-by: taproot-distribution/vscode-marketplace when source-matches: channels/**. | resolved: 2026-03-28T14:50:40.637Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: Compliant. channels/vscode/ is a standalone distribution artifact. scripts/sync-channel-readmes.sh is a maintainer utility. No CLI module boundary violations. | resolved: 2026-03-28T14:50:40.372Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: Not applicable. No user-facing skills modified. | resolved: 2026-03-28T14:50:40.098Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: Not applicable. release.md manages its own release commit flow intentionally. | resolved: 2026-03-28T14:50:39.819Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: Not applicable. release.md is maintainer-only; path reference update only. | resolved: 2026-03-28T14:50:39.554Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: Not applicable. No bulk-authoring skills modified. | resolved: 2026-03-28T14:50:39.272Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: Not applicable. CI workflow and bash script, not a skill producing taproot output. | resolved: 2026-03-28T14:50:39.004Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: Not applicable. No user-facing skill files modified. | resolved: 2026-03-28T14:50:38.734Z
+
+- condition: check-if-affected: examples/ | note: Not affected. Examples demonstrate hierarchy usage patterns. Distribution mechanics are out of scope. | resolved: 2026-03-28T14:50:38.470Z
+
+- condition: check-if-affected: docs/ | note: Not affected. No new CLI commands or configuration options introduced. | resolved: 2026-03-28T14:50:38.202Z
+
+- condition: check-if-affected: skills/guide.md | note: Not affected. guide.md describes taproot workflow commands. No new commands or workflow steps added. | resolved: 2026-03-28T14:50:37.932Z
+
+- condition: check-if-affected: src/commands/update.ts | note: Not affected. update.ts distributes agent adapters and skills. channels/vscode/ is a maintainer-only distribution artifact not managed by taproot update. | resolved: 2026-03-28T14:50:37.661Z
+
+- condition: document-current | note: Read README.md and docs/. No new CLI commands, configuration options, or agent workflows introduced. channels/vscode/ folder move and scripts/sync-channel-readmes.sh are maintainer utilities not exposed via CLI. docs/ and README.md are current. | resolved: 2026-03-28T14:50:37.396Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: release.md updated: version bump step only edits package.json files; CI job uses GitHub Actions secret references, no hardcoded credentials | resolved: 2026-03-28T12:03:03.537Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — generating a lockfile and adding a CI publish job is routine | resolved: 2026-03-28T12:02:57.556Z
