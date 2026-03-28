@@ -22,7 +22,7 @@
 - `test/integration/plan-build.test.ts` — structural tests: required sections present, item types documented, plan.md format documented, what's-next block present, append/replace/abort flows present
 
 ## Status
-- **State:** needs-rework
+- **State:** complete
 - **Created:** 2026-03-27
 - **Last verified:** 2026-03-27
 
@@ -32,6 +32,36 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/workflows.md updated with new '## Planning a sprint or batch of work' section documenting /tr-plan-build usage. skills/guide.md updated to include /tr-plan-build in the slash commands table. docs/cli.md already covers taproot plan CLI; no CLI command added. | resolved: 2026-03-27T19:08:32.698Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: compliant — no shell execution added; no credentials; new classification step reasons about item descriptions only | resolved: 2026-03-28T05:52:47.721Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — HITL/AFK labelling is specific to plan-build; the concept is documented in the skill and spec | resolved: 2026-03-28T05:52:47.466Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — HITL/AFK classification is specific to plan-build output format; not a cross-cutting architectural constraint | resolved: 2026-03-28T05:52:47.185Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — pure agent skill file; no TypeScript source; follows existing skill architecture pattern | resolved: 2026-03-28T05:52:46.904Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — plan-build is an orchestration skill; does not process user-expressed requirements | resolved: 2026-03-28T05:52:46.640Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — plan-build does not commit anything | resolved: 2026-03-28T05:52:46.383Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: compliant — step count unchanged (10); no embedded docs; on-demand file reads unchanged; /compact signal present | resolved: 2026-03-28T05:52:46.126Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: compliant — plan still presented for [A] Confirm before writing; no new destructive action added | resolved: 2026-03-28T05:52:45.868Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: compliant — What's next? block unchanged; /tr-plan-analyse and /tr-plan-execute still offered | resolved: 2026-03-28T05:52:45.606Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: compliant — skill uses generic language: 'the agent', 'hitl', 'afk'; no Claude-specific names | resolved: 2026-03-28T05:52:45.343Z
+
+- condition: check-if-affected: examples/ | note: not affected — examples scaffold hierarchy structure; plan.md format is a runtime artifact | resolved: 2026-03-28T05:52:45.087Z
+
+- condition: check-if-affected: docs/ | note: not affected — HITL/AFK classification is a skill-internal behaviour; no new CLI commands or config options to document | resolved: 2026-03-28T05:52:44.824Z
+
+- condition: check-if-affected: skills/guide.md | note: not affected — /tr-plan-build entry already present; no new command or changed signature | resolved: 2026-03-28T05:52:44.569Z
+
+- condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts copies skill files verbatim; content change picked up automatically | resolved: 2026-03-28T05:52:44.311Z
+
+- condition: document-current | note: not affected — no new CLI commands or config options; docs/agents.md describes /tr-plan-build at command level which is unchanged; HITL/AFK is an internal classification detail | resolved: 2026-03-28T05:52:44.053Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: compliant — new step 9 instructs the agent to edit taproot/backlog.md (file write only); no shell execution, no credentials, no tokens; least-privilege maintained | resolved: 2026-03-27T21:19:43.179Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — backlog cleanup on plan write is specific to plan-build; not a reusable cross-skill pattern | resolved: 2026-03-27T21:19:42.917Z

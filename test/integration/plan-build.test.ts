@@ -73,6 +73,32 @@ describe('plan-build skill — plan.md format', () => {
   });
 });
 
+describe('plan-build skill — hitl/afk classification (AC-9)', () => {
+  it('classifies items as hitl', () => {
+    expect(skill).toMatch(/hitl/);
+  });
+
+  it('classifies items as afk', () => {
+    expect(skill).toMatch(/afk/);
+  });
+
+  it('defines hitl as human-in-the-loop', () => {
+    expect(skill).toMatch(/human-in-the-loop|human.*decision/i);
+  });
+
+  it('defines afk as away-from-keyboard or autonomous', () => {
+    expect(skill).toMatch(/away-from-keyboard|autonomously/i);
+  });
+
+  it('includes hitl/afk legend in plan.md format', () => {
+    expect(skill).toMatch(/HITL.*human.*AFK.*agent|HITL = human/i);
+  });
+
+  it('shows hitl/afk labels in proposed plan preview', () => {
+    expect(skill).toMatch(/hitl\s+\[spec\]|afk\s+\[implement\]/);
+  });
+});
+
 describe('plan-build skill — backlog removal (AC-8)', () => {
   it('removes consumed backlog items from taproot/backlog.md', () => {
     expect(skill).toMatch(/[Rr]emov.*backlog|backlog.*[Rr]emov/);

@@ -20,19 +20,24 @@ Build a persistent implementation plan (`taproot/plan.md`) from backlog items, u
    - *hierarchy*: run `node dist/cli.js coverage` and collect behaviours whose state is `proposed` (→ `refine`) or have no implementation yet (→ `implement` if usecase.md is `specified`, else → `spec`).
    - *explicit*: collect items the developer named; resolve each to a hierarchy path if one exists, or mark as `spec` if it doesn't.
 
-3. **Classify each candidate:**
-   - **`spec`** — no `usecase.md` exists yet; first action is to write one with `/tr-behaviour`
-   - **`implement`** — a `usecase.md` exists and is in `specified` state; ready to code
-   - **`refine`** — a `usecase.md` exists but is in `proposed` or `draft` state; needs `/tr-refine` before implementing
+3. **Classify each candidate by type and execution mode:**
+   - Type:
+     - **`spec`** — no `usecase.md` exists yet; first action is to write one with `/tr-behaviour`
+     - **`implement`** — a `usecase.md` exists and is in `specified` state; ready to code
+     - **`refine`** — a `usecase.md` exists but is in `proposed` or `draft` state; needs `/tr-refine` before implementing
+   - Execution mode:
+     - **`hitl`** (human-in-the-loop) — requires a human decision, design choice, or external action before or during execution. Signals: open-ended design, naming decisions, external setup (accounts, secrets, infrastructure), architectural trade-offs, or vague success criteria.
+     - **`afk`** (away-from-keyboard) — agent can execute autonomously; success criteria are fully derivable from an existing spec with no open questions.
+   - Default heuristics: `spec` → `hitl`; `refine` → `hitl`; `implement` → `afk` unless the impl has known external blockers or unresolved design questions.
 
 4. **Sequence candidates.** `spec` and `refine` items that are prerequisites for `implement` items appear earlier in the list. Otherwise preserve source order.
 
 5. **Present the proposed plan for review:**
    ```
    Proposed plan — N items:
-    1. [spec]      "description of new item"
-    2. [refine]    taproot/specs/<intent>/<behaviour>/usecase.md
-    3. [implement] taproot/specs/<intent>/<behaviour>/
+    1. hitl  [spec]      "description of new item"
+    2. hitl  [refine]    taproot/specs/<intent>/<behaviour>/usecase.md
+    3. afk   [implement] taproot/specs/<intent>/<behaviour>/
 
    [A] Confirm  [E] Edit directly then reply A  [Q] Abort
    ```
@@ -55,12 +60,13 @@ Build a persistent implementation plan (`taproot/plan.md`) from backlog items, u
    # Taproot Plan
 
    _Built: YYYY-MM-DD — N items_
+   _HITL = human decision required · AFK = agent executes autonomously_
 
    ## Items
 
-   1. pending  [spec]      "description of new item"
-   2. pending  [implement] taproot/specs/<intent>/<behaviour>/
-   3. pending  [refine]    taproot/specs/<intent>/<behaviour>/usecase.md
+   1. pending  [spec]      hitl  "description of new item"
+   2. pending  [implement] afk   taproot/specs/<intent>/<behaviour>/
+   3. pending  [refine]    hitl  taproot/specs/<intent>/<behaviour>/usecase.md
    ```
 
    Status values: `pending` · `done` · `skipped` · `blocked` · `stale`
