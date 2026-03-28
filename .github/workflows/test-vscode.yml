@@ -1,0 +1,43 @@
+name: Test VS Code Extension
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to test against (e.g. v0.8.7)'
+        required: false
+        default: ''
+
+jobs:
+  build-vsix:
+    name: Build and attach VSIX
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install extension dependencies
+        run: cd vscode-extension && npm ci
+
+      - name: Compile extension
+        run: cd vscode-extension && npm run compile
+
+      - name: Package VSIX
+        run: |
+          cd vscode-extension
+          npx @vscode/vsce package --allow-missing-repository
+          echo "VSIX=$(ls *.vsix | head -1)" >> "$GITHUB_ENV"
+
+      - name: Upload VSIX as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: taproot-vsix
+          path: vscode-extension/*.vsix
+          retention-days: 7
