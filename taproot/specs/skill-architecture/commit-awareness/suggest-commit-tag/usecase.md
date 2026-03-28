@@ -111,6 +111,9 @@ flowchart TD
 - When the commit message is composed
 - Then no tag is suggested and the developer supplies the full message
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — suggest-commit-tag](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-28
