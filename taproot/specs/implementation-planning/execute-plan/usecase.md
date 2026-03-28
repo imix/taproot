@@ -40,7 +40,7 @@ Developer — working through a previously built plan, delegating each item to t
    - `spec` → `/tr-behaviour <path> "<description>"`
    - `implement` → `/tr-implement <path>`
    - `refine` → `/tr-refine <path>`
-6. On skill completion, agent marks the item `done` in `taproot/plan.md`.
+6. On skill completion, agent invokes `/tr-commit` to commit the output of the completed item. Once the commit succeeds, agent marks the item `done` in `taproot/plan.md`. If the commit fails or is aborted, the item is not marked `done` and the agent reports the blocker.
 7. Agent reports. If the completed item was `hitl`:
    ```
    ✓ Done — <description>
@@ -235,6 +235,11 @@ flowchart TD
 - Given `taproot/plan.md` contains pending items
 - When the developer invokes execute-plan without specifying a mode
 - Then the agent presents a plan summary (pending count split by hitl/afk) and a mode menu before executing anything
+
+**AC-20: Each completed item is committed before the next item starts**
+- Given a plan item's skill completes successfully
+- When execute-plan processes the completion
+- Then `/tr-commit` is invoked and succeeds before the item is marked `done` and before the next pending item is presented
 
 **AC-13: HITL mode processes only hitl-labelled items**
 - Given `taproot/plan.md` contains a mix of `hitl` and `afk` items
