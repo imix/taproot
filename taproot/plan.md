@@ -26,5 +26,5 @@ _Built: 2026-03-27 — 23 items — Goal: release readiness (VS Code, release ch
 19. done     [implement] afk   taproot/specs/taproot-distribution/homebrew-tap/ — implement Homebrew formula + CI update job
 20. done     [implement] afk   "update skills/commit.md — add explicit document-current resolution guidance: read docs/ content, compare against git diff, prohibited shortcuts listed; mirrors the spec prohibition"
 21. done     [implement] afk   taproot/specs/quality-gates/scoped-conditions/ — implement when: source-matches: glob qualifier in taproot dod CLI; auto-resolve non-matching scoped conditions
-22. pending  [implement] afk   "rename commands: /tr-plan → /tr-next, /tr-plan-build → /tr-plan; update .claude/commands/, skills/, guide.md, docs/agents.md, all cross-references in specs and docs"
+22. done     [implement] afk   "rename commands: /tr-plan → /tr-next, /tr-plan-build → /tr-plan; update .claude/commands/, skills/, guide.md, docs/agents.md, all cross-references in specs and docs"
 23. pending  [implement] afk   taproot/specs/quality-gates/definition-of-done/ — implement step 0 uncommitted changes gate in taproot dod CLI: git status diff, out-of-scope detection, [C]/[S]/[I]/[A] prompt
