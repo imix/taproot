@@ -4,6 +4,11 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.8.5] - 2026-03-28
+
+### Bug Fixes
+- fix: compile extension before vsce package, add repository field, ignore vsix and out/ (6594320)
+
 ## [0.8.4] - 2026-03-28
 
 ### Taproot
