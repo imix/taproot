@@ -52,14 +52,29 @@ Tokens required to cut a taproot release. All expire — rotate before they bloc
 
 ## OVSX_PAT
 
-**Purpose:** Publish VS Code extension to Open VSX (optional — non-blocking)
-**Used by:** `publish-vscode-extension` CI job (`release.yml`)
-**Scope:** Open VSX namespace token
-**Expiry:** Varies
+**Purpose:** Publish VS Code extension to Open VSX Registry (used by Cursor, VSCodium, and other VS Code forks)
+**Used by:** `publish-vscode-extension` CI job (`release.yml`) — non-blocking (`continue-on-error: true`)
+**Scope:** Open VSX namespace token scoped to the `imix-ai` namespace
+**Expiry:** Does not expire (revoke manually if compromised)
+**Extension URL:** `open-vsx.org/extension/imix-ai/taproot`
 
-**Create / rotate:**
-1. https://open-vsx.org → Sign in → Settings → Access Tokens
-2. Add to repo: https://github.com/imix/taproot/settings/secrets/actions → `OVSX_PAT`
+**One-time namespace setup (required before first publish):**
+1. Go to https://open-vsx.org and sign in with GitHub
+2. Navigate to **User Settings → Namespaces**
+3. Create namespace: `imix-ai` (must match `publisher` in `channels/vscode/package.json`)
+4. Open VSX may require a manual claim approval — check the namespace status
+
+**Create token:**
+1. https://open-vsx.org → User Settings → **Access Tokens**
+2. Click **Generate New Token**
+3. Description: `taproot-ci`
+4. Copy the token immediately (shown only once)
+
+**Add to CI:**
+1. https://github.com/imix/taproot/settings/secrets/actions
+2. New repository secret → Name: `OVSX_PAT` → Value: token from above
+
+**Verify:** After the next release, check `open-vsx.org/extension/imix-ai/taproot` — propagation is near-instant. If the CI step fails, the error and a manual retry command are printed in the workflow log.
 
 ---
 
