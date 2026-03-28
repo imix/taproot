@@ -44,7 +44,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[configuration-discoverability](./agent-integration/configuration-discoverability/usecase.md)** `[implemented]` — Actor: AI coding agent — given a natural-language configuration task ("configure taproot for German", "add vocabulary overrides for book authoring") by the developer
   - [cli-command](./agent-integration/configuration-discoverability/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 - **[generate-agent-adapter](./agent-integration/generate-agent-adapter/usecase.md)** `[implemented]` — Actor: Developer initializing taproot for a specific AI coding agent via `taproot init --agent `
-  - [cli-command](./agent-integration/generate-agent-adapter/cli-command/impl.md) `[complete]` (4 commits, 2 tests)
+  - [cli-command](./agent-integration/generate-agent-adapter/cli-command/impl.md) `[complete]` (5 commits, 2 tests)
 - **[parallel-agent-execution](./agent-integration/parallel-agent-execution/usecase.md)** `[specified]` — Actor: Developer or orchestrator running multiple taproot implementation tasks in parallel across the same codebase
 - **[update-adapters-and-skills](./agent-integration/update-adapters-and-skills/usecase.md)** `[implemented]` — Actor: Developer running `taproot update` after upgrading taproot or modifying skill definitions
   - [cli-command](./agent-integration/update-adapters-and-skills/cli-command/impl.md) `[complete]` (1 commit, 2 tests)
@@ -64,7 +64,7 @@ _No behaviours yet._
 - **[define-truth](./global-truth-store/define-truth/usecase.md)** `[implemented]` — Actor: Developer — creating, editing, or removing a truth entry in the project's shared knowledge base
   - [agent-skill](./global-truth-store/define-truth/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
 - **[discover-truths](./global-truth-store/discover-truths/usecase.md)** `[implemented]` — Actor: Developer with an existing `taproot/` hierarchy who wants to identify what project-wide facts, business rules, and conventions are implicit in their specs but not yet captured as global truths
-  - [skill](./global-truth-store/discover-truths/skill/impl.md) `[complete]` (2 commits, 1 test)
+  - [skill](./global-truth-store/discover-truths/skill/impl.md) `[complete]` (3 commits, 1 test)
 - **[enforce-truths-at-commit](./global-truth-store/enforce-truths-at-commit/usecase.md)** `[implemented]` — Actor: Pre-commit hook — triggered automatically when a contributor commits; fires for hierarchy documents (`intent.md`, `usecase.md`, or `impl.md`) and for implementation commits (source files staged alongside or without `impl.md`)
   - [all-levels](./global-truth-store/enforce-truths-at-commit/all-levels/impl.md) `[complete]` (0 commits, 1 test)
   - [hook-extension](./global-truth-store/enforce-truths-at-commit/hook-extension/impl.md) `[complete]` (2 commits, 1 test)
@@ -101,7 +101,7 @@ _No behaviours yet._
 - **[grill-me](./human-integration/grill-me/usecase.md)** `[implemented]` — Actor: Developer or orchestrator who wants to stress-test a plan, design decision, or vague idea through relentless structured questioning — invoked directly via `/tr-grill-me`, or called by another skill (`tr-ineed`, `tr-behaviour`) when deeper elicitation is needed before writing a spec.
   - [agent-skill](./human-integration/grill-me/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[hierarchy-sweep](./human-integration/hierarchy-sweep/usecase.md)** `[implemented]` — Actor: Developer — applying a uniform task across many hierarchy items without accumulating context drift. Also surfaced by `/tr-ineed` when the developer expresses a bulk-edit intent (e.g. "add X to all usecases").
-  - [agent-skill](./human-integration/hierarchy-sweep/agent-skill/impl.md) `[complete]` (7 commits, 1 test)
+  - [agent-skill](./human-integration/hierarchy-sweep/agent-skill/impl.md) `[complete]` (8 commits, 1 test)
 - **[human-readable-report](./human-integration/human-readable-report/usecase.md)** `[implemented]` — Actor: Developer or project stakeholder invoking `/tr-status`
   - [agent-skill](./human-integration/human-readable-report/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
 - **[pattern-hints](./human-integration/pattern-hints/usecase.md)** `[implemented]` — Actor: Agent — processing any user-expressed need via any taproot skill (`/tr-ineed`, `/tr-behaviour`, `/tr-implement`, `/tr-refine`, or any skill that receives a natural language description of intent).
@@ -116,11 +116,11 @@ _No behaviours yet._
 **Goal:** Enable orchestrators and agents to extract the next independently-implementable work item from the requirement hierarchy — as a thin vertical slice with clear acceptance criteria, dependencies, and traceability back to the originating behaviour.
 
 - **[analyse-plan](./implementation-planning/analyse-plan/usecase.md)** `[implemented]` — Actor: Developer — reviewing `taproot/plan.md` before execution begins, wanting to identify blockers, ambiguities, and missing prerequisites so that execution runs without unexpected interruptions.
-  - [agent-skill](./implementation-planning/analyse-plan/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
+  - [agent-skill](./implementation-planning/analyse-plan/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[build-plan](./implementation-planning/build-plan/usecase.md)** `[implemented]` — Actor: Developer — building a multi-item implementation roadmap with agent assistance, to be executed in a future session or delegated to an agent.
-  - [agent-skill](./implementation-planning/build-plan/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
+  - [agent-skill](./implementation-planning/build-plan/agent-skill/impl.md) `[complete]` (4 commits, 1 test)
 - **[execute-plan](./implementation-planning/execute-plan/usecase.md)** `[implemented]` — Actor: Developer — working through a previously built plan, delegating each item to the agent and confirming at each step boundary.
-  - [agent-skill](./implementation-planning/execute-plan/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
+  - [agent-skill](./implementation-planning/execute-plan/agent-skill/impl.md) `[complete]` (4 commits, 1 test)
 - **[extract-next-slice](./implementation-planning/extract-next-slice/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator (human who asks the agent to plan the next work item)
   - [agent-skill](./implementation-planning/extract-next-slice/agent-skill/impl.md) `[complete]` (1 commit, 2 tests)
   - [cli-command](./implementation-planning/extract-next-slice/cli-command/impl.md) `[complete]` (1 commit, 1 test)
@@ -150,14 +150,15 @@ _No behaviours yet._
 - **[architecture-compliance](./quality-gates/architecture-compliance/usecase.md)** `[implemented]` — Actor: Developer or agent declaring a new implementation (committing an `impl.md`) — the check runs automatically at Definition of Ready time before any code is written.
   - [multi-surface](./quality-gates/architecture-compliance/multi-surface/impl.md) `[complete]` (4 commits, 1 test)
 - **[definition-of-done](./quality-gates/definition-of-done/usecase.md)** `[implemented]` — Actor: `/tr-implement` — triggered automatically at the end of the implement flow before marking an impl `complete`. Also invoked by `taproot commithook` on implementation commits (staged source files + `impl.md`). Can also be invoked standalone by a developer or CI pipeline.
-  - [cli-command](./quality-gates/definition-of-done/cli-command/impl.md) `[complete]` (5 commits, 1 test)
+  - [cli-command](./quality-gates/definition-of-done/cli-command/impl.md) `[complete]` (5 commits, 2 tests)
 - **[definition-of-ready](./quality-gates/definition-of-ready/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a contributor commits an `impl.md` file without source code changes (the "I'm starting this implementation" declaration commit).
   - [cli-command](./quality-gates/definition-of-ready/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 - **[impl-ordering-constraints](./quality-gates/impl-ordering-constraints/usecase.md)** `[implemented]` — Actor: Developer or agent — making a declaration commit (`impl.md` only, no source files) for a new implementation that depends on another implementation being complete before work can begin.
   - [hook-extension](./quality-gates/impl-ordering-constraints/hook-extension/impl.md) `[complete]` (1 commit, 1 test)
 - **[nfr-measurability](./quality-gates/nfr-measurability/usecase.md)** `[implemented]` — Actor: Developer or agent declaring a new implementation (committing an `impl.md`) — the check runs automatically at Definition of Ready time before any code is written.
   - [settings-wiring](./quality-gates/nfr-measurability/settings-wiring/impl.md) `[complete]` (3 commits, 1 test)
-- **[scoped-conditions](./quality-gates/scoped-conditions/usecase.md)** `[specified]` — Actor: Developer — configuring `taproot/settings.yaml` to scope DoD/DoR conditions to specific implementation types using source file glob patterns.
+- **[scoped-conditions](./quality-gates/scoped-conditions/usecase.md)** `[implemented]` — Actor: Developer — configuring `taproot/settings.yaml` to scope DoD/DoR conditions to specific implementation types using source file glob patterns.
+  - [cli-extension](./quality-gates/scoped-conditions/cli-extension/impl.md) `[complete]` (0 commits, 1 test)
 - **[state-transition-guardrails](./quality-gates/state-transition-guardrails/usecase.md)** `[implemented]` — Actor: `taproot dod` CLI — when processing the `tests-passing` condition for an `impl.md` about to be marked `complete`. Also enforced by `taproot commithook` when an implementation commit includes an `impl.md` whose state is `complete`.
   - [cli-command](./quality-gates/state-transition-guardrails/cli-command/impl.md) `[complete]` (3 commits, 1 test)
 - **[validate-intent-quality](./quality-gates/validate-intent-quality/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when an `intent.md` is committed (requirement commit)
@@ -198,7 +199,7 @@ _No behaviours yet._
 - **[init-domain-presets](./requirements-hierarchy/init-domain-presets/usecase.md)** `[implemented]` — Actor: Developer running `taproot init` for the first time on a new project — including non-coding projects (blogging, book authoring, technical writing) who would not know that vocabulary and language settings exist
   - [cli-command](./requirements-hierarchy/init-domain-presets/cli-command/impl.md) `[complete]` (1 commit, 1 test)
 - **[initialise-hierarchy](./requirements-hierarchy/initialise-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator setting up taproot in a new or existing project
-  - [cli-command](./requirements-hierarchy/initialise-hierarchy/cli-command/impl.md) `[complete]` (3 commits, 1 test)
+  - [cli-command](./requirements-hierarchy/initialise-hierarchy/cli-command/impl.md) `[complete]` (4 commits, 1 test)
   - [unified-layout](./requirements-hierarchy/initialise-hierarchy/unified-layout/impl.md) `[complete]` (2 commits, 7 tests)
 - **[park-hierarchy-item](./requirements-hierarchy/park-hierarchy-item/usecase.md)** `[implemented]` — Actor: Developer — who has decided that a behaviour or implementation is not being pursued for the foreseeable future and wants to formally record that decision in the hierarchy.
   - [multi-surface](./requirements-hierarchy/park-hierarchy-item/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
@@ -208,7 +209,7 @@ _No behaviours yet._
 **Goal:** Enable developers and agents to research any domain or technical subject before writing a behaviour spec — by scanning local resources, searching the web, and drawing on expert knowledge — so that requirements are grounded in what already exists and what domain practice recommends, rather than invented from scratch.
 
 - **[research-subject](./research/research-subject/usecase.md)** `[implemented]` — Actor: Developer or AI agent — either invoking `/tr-research ` explicitly, or triggered automatically from within `/tr-ineed` when a knowledge-intensive topic is detected.
-  - [agent-skill](./research/research-subject/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
+  - [agent-skill](./research/research-subject/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
 
 ## [skill-architecture](./skill-architecture/intent.md) `[active]`
 
@@ -219,7 +220,9 @@ _No behaviours yet._
   - **[ad-hoc-commit-prep](./skill-architecture/commit-awareness/ad-hoc-commit-prep/usecase.md)** `[implemented]` — Actor: Agent executing an ad-hoc implementation task — modifying source files outside any taproot skill (e.g. a direct bug fix, refactor, or exploratory change not driven by `/tr-implement`)
     - [claude-md](./skill-architecture/commit-awareness/ad-hoc-commit-prep/claude-md/impl.md) `[complete]` (0 commits, 1 test)
   - **[commit-skill](./skill-architecture/commit-awareness/commit-skill/usecase.md)** `[implemented]` — Actor: Agent — executing any taproot skill that ends in a commit, or responding to a user saying "commit", "let's commit", "commit that", or similar natural-language commit intent.
-    - [agent-skill](./skill-architecture/commit-awareness/commit-skill/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
+    - [agent-skill](./skill-architecture/commit-awareness/commit-skill/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
+  - **[suggest-commit-tag](./skill-architecture/commit-awareness/suggest-commit-tag/usecase.md)** `[implemented]` — Actor: Agent executing `/tr-commit` — determining the commit message prefix when the staged files are implementation files tracked by one or more `impl.md` records.
+    - [agent-skill](./skill-architecture/commit-awareness/suggest-commit-tag/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[context-engineering](./skill-architecture/context-engineering/usecase.md)** `[implemented]` — Actor: Skill author — a human developer or AI agent writing or updating a taproot skill file (`skills/*.md`).
   - [agent-skill](./skill-architecture/context-engineering/agent-skill/impl.md) `[complete]` (4 commits, 1 test)
 
@@ -244,10 +247,11 @@ _No behaviours yet._
 **Goal:** Enable the taproot maintainer to publish reliable, tested releases to npm and GitHub through a single repeatable procedure — so that every published version is fully verified, correctly versioned, and accompanied by a changelog and GitHub release.
 
 - **[ci-pipeline](./taproot-distribution/ci-pipeline/usecase.md)** `[implemented]` — Actor: GitHub Actions — automated, triggered on every push to `main` and every pull request targeting `main`
-  - [github-workflow](./taproot-distribution/ci-pipeline/github-workflow/impl.md) `[complete]` (0 commits ⚠ no tests)
+  - [github-workflow](./taproot-distribution/ci-pipeline/github-workflow/impl.md) `[complete]` (2 commits ⚠ no tests)
 - **[cut-release](./taproot-distribution/cut-release/usecase.md)** `[implemented]` — Actor: - **Maintainer** — runs the local phase (pre-flight, changelog, version bump, tag, push)
   - [multi-surface](./taproot-distribution/cut-release/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
-- **[homebrew-tap](./taproot-distribution/homebrew-tap/usecase.md)** `[specified]` — Actor: CI system — the `update-homebrew-tap` job runs automatically after each successful npm publish; one-time formula creation is performed by the Maintainer.
+- **[homebrew-tap](./taproot-distribution/homebrew-tap/usecase.md)** `[implemented]` — Actor: CI system — the `update-homebrew-tap` job runs automatically after each successful npm publish; one-time formula creation is performed by the Maintainer.
+  - [ci-job](./taproot-distribution/homebrew-tap/ci-job/impl.md) `[complete]` (0 commits, 1 test)
 - **[vscode-marketplace](./taproot-distribution/vscode-marketplace/usecase.md)** `[specified]` — Actor: Maintainer — the VS Code extension publish step runs automatically in CI as part of the `cut-release` flow, after npm publish succeeds
   - [multi-surface](./taproot-distribution/vscode-marketplace/multi-surface/impl.md) `[deferred]` (2 commits, 1 test)
 
@@ -259,4 +263,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-20 intents · 76 behaviours · 76 implementations · 74/76 complete
+20 intents · 77 behaviours · 79 implementations · 77/79 complete
