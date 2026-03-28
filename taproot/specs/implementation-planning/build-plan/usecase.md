@@ -15,22 +15,32 @@ Developer — building a multi-item implementation roadmap with agent assistance
    - **hierarchy** — runs `taproot coverage` to find unimplemented or in-progress behaviours
    - **explicit** — uses developer-supplied item(s) directly without scanning
 3. Agent collects candidate items from the identified sources.
-4. Agent classifies each candidate:
-   - **`spec`** — a new or vague item that needs a `usecase.md` written first
-   - **`implement`** — a specified behaviour ready for coding
-   - **`refine`** — an existing spec that needs updating before it can be implemented
+4. Agent classifies each candidate by **type** and **execution mode**:
+   - Type:
+     - **`spec`** — a new or vague item that needs a `usecase.md` written first
+     - **`implement`** — a specified behaviour ready for coding
+     - **`refine`** — an existing spec that needs updating before it can be implemented
+   - Execution mode:
+     - **`hitl`** (human-in-the-loop) — requires a human decision, design choice, or external action before or during execution (e.g. naming decisions, external account setup, architectural trade-offs, open-ended design)
+     - **`afk`** (away-from-keyboard) — agent can execute autonomously without human input; success criteria are unambiguous and fully derivable from the spec
 5. Agent sequences the candidates: `spec` items that are prerequisites for `implement` items are ordered first; otherwise, items follow source order.
 6. Agent presents the proposed plan for developer review:
    ```
    Proposed plan — N items:
-    1. [spec]      <path or description>
-    2. [implement] taproot/<intent>/<behaviour>/
-    3. [refine]    taproot/<intent>/<behaviour>/usecase.md
+    1. hitl  [spec]      <path or description>
+    2. afk   [implement] taproot/<intent>/<behaviour>/
+    3. hitl  [refine]    taproot/<intent>/<behaviour>/usecase.md
    ...
    [A] Confirm  [E] Edit directly then reply A  [Q] Abort
    ```
 7. Developer confirms.
-8. Agent writes `taproot/plan.md`, creating it if absent or replacing it if it already exists (after confirming replacement — see Alternate Flows).
+8. Agent writes `taproot/plan.md` using this format, creating it if absent or replacing it if it already exists (after confirming replacement — see Alternate Flows):
+   ```
+   # Taproot Plan
+   _Built: YYYY-MM-DD — N items_
+   _HITL = human decision required · AFK = agent executes autonomously_
+   ```
+   Each item line: `status  [type]  hitl|afk  path/description`
 9. If any plan items were sourced from backlog items, agent removes those items from `taproot/backlog.md` and reports: *"Removed N item(s) from `taproot/backlog.md`."*
 10. Agent confirms: *"Plan saved — N items in `taproot/plan.md`."*
 
@@ -68,6 +78,8 @@ Developer — building a multi-item implementation roadmap with agent assistance
 
 ## Postconditions
 - `taproot/plan.md` exists with an ordered list of typed action items (spec / implement / refine), each with a path or description.
+- Every item carries a `hitl` or `afk` execution mode label.
+- The plan header includes a legend defining `hitl` and `afk`.
 - Items that are prerequisites for others appear earlier in the list.
 - Backlog items that were added to the plan are removed from `taproot/backlog.md`.
 
@@ -83,7 +95,7 @@ flowchart TD
     B -->|backlog| C[Read taproot/backlog.md]
     B -->|hierarchy| D[Run taproot coverage]
     B -->|explicit| E[Use named items]
-    C & D & E --> F[Classify: spec / implement / refine]
+    C & D & E --> F[Classify: spec / implement / refine\n+ hitl / afk]
     F --> G[Sequence by dependency]
     G --> H[Present proposed plan]
     H --> I{Developer choice}
@@ -108,7 +120,7 @@ flowchart TD
 **AC-1: Plan built from backlog**
 - Given `taproot/backlog.md` contains at least one actionable item
 - When the developer requests "add all pending items to plan"
-- Then the agent presents a proposed ordered plan including those items, and on confirmation writes `taproot/plan.md` and removes the consumed items from `taproot/backlog.md`
+- Then the agent presents a proposed ordered plan including those items with `hitl`/`afk` labels, and on confirmation writes `taproot/plan.md` and removes the consumed items from `taproot/backlog.md`
 
 **AC-2: Plan built from hierarchy gaps**
 - Given the hierarchy contains at least one unimplemented behaviour
@@ -145,6 +157,11 @@ flowchart TD
 - When the developer confirms and the plan is written
 - Then those items are removed from `taproot/backlog.md` and the agent reports how many were removed
 
+**AC-9: Each plan item is labelled hitl or afk**
+- Given the agent has classified all candidates
+- When the plan is written
+- Then every item in `taproot/plan.md` carries either `hitl` or `afk` and the plan header includes a legend defining the terms
+
 ## Implementations <!-- taproot-managed -->
 - [Agent Skill — plan-build](./agent-skill/impl.md)
 
@@ -152,7 +169,7 @@ flowchart TD
 - **State:** implemented
 - **Created:** 2026-03-27
 - **Last reviewed:** 2026-03-27
-- **Last refined:** 2026-03-27
+- **Last refined:** 2026-03-28
 
 ## Notes
 - The plan file format (`taproot/plan.md`) is an implementation concern — the spec only constrains observable behaviour (ordered typed items, path or description per item).
