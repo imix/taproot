@@ -16,3 +16,4 @@ _HITL = human decision required · AFK = agent executes autonomously_
 9. pending  [spec]      hitl  "taproot scale justification — agents complain overhead is too high for small projects; spec lighter entry paths or starter mode"
 10. pending  [spec]      hitl  "performance — diagnose why taproot feels slow; spec and implement improvements"
 11. pending  [spec]      hitl  "GitHub Actions PR bot — impact reports on PRs: this PR modifies files linked to behaviour X, spec stale since..."
+12. pending  [implement] hitl  "move research/ folder into taproot/ — research artefacts should live inside the taproot hierarchy, not at project root"
