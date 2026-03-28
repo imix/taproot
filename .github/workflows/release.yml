@@ -108,9 +108,34 @@ jobs:
           git clone "https://x-access-token:${HOMEBREW_TAP_TOKEN}@github.com/imix/homebrew-tap.git" tap
           cd tap
 
-          sed -i "s|url \".*\"|url \"${URL}\"|" Formula/taproot.rb
-          sed -i "s|sha256 \".*\"|sha256 \"${SHA}\"|" Formula/taproot.rb
-          sed -i "s|version \".*\"|version \"${VERSION}\"|" Formula/taproot.rb
+          mkdir -p Formula
+          if [ ! -f Formula/taproot.rb ]; then
+            cat > Formula/taproot.rb <<FORMULA
+class Taproot < Formula
+  desc "AI-driven specs, enforced at commit time"
+  homepage "https://github.com/imix/taproot"
+  url "${URL}"
+  sha256 "${SHA}"
+  version "${VERSION}"
+  license "MIT"
+
+  depends_on "node"
+
+  def install
+    system "npm", "install", *std_npm_args
+    bin.install_symlink Dir["#{libexec}/bin/*"]
+  end
+
+  test do
+    system "#{bin}/taproot", "--version"
+  end
+end
+FORMULA
+          else
+            sed -i "s|url \".*\"|url \"${URL}\"|" Formula/taproot.rb
+            sed -i "s|sha256 \".*\"|sha256 \"${SHA}\"|" Formula/taproot.rb
+            sed -i "s|version \".*\"|version \"${VERSION}\"|" Formula/taproot.rb
+          fi
 
           git config user.email "ci@imix.io"
           git config user.name "taproot-ci"
