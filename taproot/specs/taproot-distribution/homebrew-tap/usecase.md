@@ -93,6 +93,7 @@ flowchart TD
 - Then the SHA256 written to the formula is computed from that exact tarball (not hardcoded or assumed)
 
 ## Implementations <!-- taproot-managed -->
+- [CI Job — update-homebrew-tap](./ci-job/impl.md)
 
 ## Status
 - **State:** specified
