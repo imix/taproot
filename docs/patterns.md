@@ -48,6 +48,38 @@ When the DoD runner encounters this condition, it instructs the agent to:
 
 ---
 
+## Scoped conditions (`when: source-matches:`)
+
+**Problem:** A cross-cutting condition is relevant only to specific implementation types — for example, a skill-file style guide applies only to impls whose `## Source Files` include `skills/*.md`. Without scoping, every other implementation in the project must record a repetitive "not applicable" resolution, adding noise to DoD runs.
+
+**Pattern:** Add a `when: source-matches: "<glob>"` qualifier to any condition in `definitionOfDone` or `definitionOfReady`.
+
+```yaml
+definitionOfDone:
+  - check-if-affected-by: skill-architecture/context-engineering
+    when:
+      source-matches: "skills/*.md"
+  - check-if-affected-by: api-design/rest-conventions
+    when:
+      source-matches: "src/api/**/*.ts"
+```
+
+The glob is matched against the paths listed in the impl's `## Source Files` section:
+- **Match** → condition runs exactly as if no `when:` qualifier were present
+- **No match** → condition is auto-resolved as `not applicable — no source files match \`<glob>\`` with no agent work
+- **No `## Source Files` section** → all scoped conditions auto-resolve as `not applicable — impl has no ## Source Files section`
+
+**When to use it:**
+- The condition only makes sense for a specific implementation type (skill files, API handlers, CLI commands)
+- You have multiple implementation types sharing the same settings.yaml, and most are not affected by the condition
+- The manual "not applicable" resolutions are adding noise without value
+
+**Glob syntax:** `*` matches any characters except `/`; `**` matches across directory separators. Same conventions as `.gitignore`.
+
+**Limitation:** Scoping is based on listed source file paths — it does not read the files themselves. If an impl omits a file from `## Source Files`, that file is not considered for matching.
+
+---
+
 ## Specific file impact tracking (`check-if-affected`)
 
 **Problem:** Certain files need manual review whenever the codebase changes — a docs index, a CLI help text, a skill guide. You want the DoD to prompt the implementer to check them, without making the check fully automated.

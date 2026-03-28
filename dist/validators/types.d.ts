@@ -28,20 +28,29 @@ export interface Violation {
     code: string;
     message: string;
 }
+export type WhenQualifier = {
+    'source-matches': string;
+};
 export type DodConditionEntry = string | {
     run: string;
     name?: string;
     correction?: string;
+    when?: WhenQualifier;
 } | {
     'document-current': string;
+    when?: WhenQualifier;
 } | {
     'check-if-affected': string;
+    when?: WhenQualifier;
 } | {
     'check-if-affected-by': string;
+    when?: WhenQualifier;
 } | {
     'check': string;
+    when?: WhenQualifier;
 } | {
     'require-discussion-log': boolean;
+    when?: WhenQualifier;
 };
 export interface TaprootConfig {
     version: number;

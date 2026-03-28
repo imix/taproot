@@ -33,14 +33,16 @@ export interface Violation {
   message: string;
 }
 
+export type WhenQualifier = { 'source-matches': string };
+
 export type DodConditionEntry =
   | string
-  | { run: string; name?: string; correction?: string }
-  | { 'document-current': string }
-  | { 'check-if-affected': string }
-  | { 'check-if-affected-by': string }
-  | { 'check': string }
-  | { 'require-discussion-log': boolean };
+  | { run: string; name?: string; correction?: string; when?: WhenQualifier }
+  | { 'document-current': string; when?: WhenQualifier }
+  | { 'check-if-affected': string; when?: WhenQualifier }
+  | { 'check-if-affected-by': string; when?: WhenQualifier }
+  | { 'check': string; when?: WhenQualifier }
+  | { 'require-discussion-log': boolean; when?: WhenQualifier };
 
 export interface TaprootConfig {
   version: number;

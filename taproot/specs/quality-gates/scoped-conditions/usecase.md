@@ -101,7 +101,7 @@ flowchart TD
 - [CLI Extension — scoped-conditions](./cli-extension/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-28
 - **Last reviewed:** 2026-03-28
 

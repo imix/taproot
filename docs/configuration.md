@@ -73,6 +73,30 @@ The `definitionOfDone` list controls what `taproot dod` checks and what the pre-
 | `check: <free-form question>` | Agent-verified: the agent reads the question, reasons whether the answer is yes, no, or not applicable for this specific implementation, and takes any indicated action (e.g. adds an entry to `taproot/settings.yaml`, documents a new pattern). The two default entries in `taproot/settings.yaml` cover the most common meta-questions. |
 | `run: <command>` | Custom shell command. Exit 0 = pass, any other exit code = fail. |
 
+### Scoping conditions with `when:`
+
+Any condition can be scoped to run only when the implementation's `## Source Files` list contains a file matching a glob pattern:
+
+```yaml
+definitionOfDone:
+  - check-if-affected-by: skill-architecture/context-engineering
+    when:
+      source-matches: "skills/*.md"
+  - check-if-affected-by: api-design/rest-conventions
+    when:
+      source-matches: "src/api/**/*.ts"
+```
+
+When `taproot dod` runs for an impl:
+
+- If any source file path listed in `## Source Files` matches the glob → the condition runs normally.
+- If no source file matches → the condition is auto-resolved as `not applicable — no source files match \`<glob>\`` without requiring agent work.
+- If the impl has no `## Source Files` section → all scoped conditions are auto-resolved as `not applicable — impl has no ## Source Files section`.
+
+Glob syntax: `*` matches any characters except `/`; `**` matches across directory separators. A malformed `when:` qualifier (any key other than `source-matches`) produces a parse error result for that condition.
+
+The primary use case is conditions that apply only to a specific implementation type — e.g. skill files, API handlers, CLI commands — to avoid repetitive "not applicable" resolutions across all other impls.
+
 You can give any condition a custom name with `name: <label>`, which is used in DoD reports:
 
 ```yaml

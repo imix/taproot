@@ -2,9 +2,62 @@ import { existsSync, readFileSync, statSync } from 'fs';
 import { join, dirname, resolve } from 'path';
 import { spawnSync } from 'child_process';
 import { parseMarkdown } from './markdown-parser.js';
+import { parseImplData } from './impl-reader.js';
 import { validateFormat } from '../validators/format-rules.js';
 import { loadConfig } from './config.js';
 import { runTestsPassingWithCache } from './test-cache.js';
+// ── Scoped-condition helpers ──────────────────────────────────────────────────
+/** Convert a glob pattern to a RegExp. Supports `*` (non-separator) and `**` (any). */
+function globToRegex(pattern) {
+    let re = '';
+    let i = 0;
+    while (i < pattern.length) {
+        if (pattern[i] === '*' && pattern[i + 1] === '*') {
+            re += '.*';
+            i += 2;
+            if (pattern[i] === '/')
+                i++; // skip trailing slash after **
+        }
+        else if (pattern[i] === '*') {
+            re += '[^/]*';
+            i++;
+        }
+        else if (pattern[i] === '?') {
+            re += '[^/]';
+            i++;
+        }
+        else {
+            re += pattern[i].replace(/[.+^${}()|[\]\\]/g, '\\$&');
+            i++;
+        }
+    }
+    return new RegExp(`^${re}$`);
+}
+/** Return true if `filePath` matches `glob`. */
+export function globMatches(glob, filePath) {
+    return globToRegex(glob).test(filePath);
+}
+/** Parse a `when:` qualifier object. Returns `{ type, glob }` or `null` for a parse error. */
+function parseWhenQualifier(when) {
+    if (when && typeof when === 'object' && 'source-matches' in when) {
+        const glob = when['source-matches'];
+        if (typeof glob === 'string')
+            return { type: 'source-matches', glob };
+    }
+    return null;
+}
+/** Read source file paths from an impl.md's ## Source Files section. */
+function readImplSourceFiles(implPath, cwd) {
+    const absPath = resolve(cwd, implPath);
+    if (!existsSync(absPath))
+        return null;
+    const content = readFileSync(absPath, 'utf-8');
+    const parsed = parseMarkdown(absPath, content);
+    const data = parseImplData(parsed);
+    if (!parsed.sections.has('source files'))
+        return null; // section absent
+    return data.sourceFiles;
+}
 const BUILTINS = {
     'tests-passing': {
         run: 'npm test',
@@ -219,7 +272,56 @@ export async function runDodChecks(conditions, cwd, options) {
         ? readResolutions(options.implPath, cwd)
         : new Set();
     const cfg = options?.config;
+    // Pre-read source files once for scoped condition evaluation
+    const implSourceFiles = options?.implPath
+        ? readImplSourceFiles(options.implPath, cwd)
+        : null;
     for (const entry of conditions) {
+        // ── Scoped condition check (`when: { source-matches: <glob> }`) ──────────
+        const whenValue = typeof entry === 'object' && 'when' in entry ? entry.when : undefined;
+        if (whenValue !== undefined) {
+            const qualifier = parseWhenQualifier(whenValue);
+            if (!qualifier) {
+                // Malformed when: qualifier — report parse error, skip condition
+                const entryName = typeof entry === 'object'
+                    ? (Object.keys(entry).find(k => k !== 'when') ?? 'unknown')
+                    : String(entry);
+                const whenStr = typeof whenValue === 'object' ? JSON.stringify(whenValue) : String(whenValue);
+                results.push({
+                    name: entryName,
+                    passed: false,
+                    output: `Condition '${entryName}' has an unrecognised 'when:' value: '${whenStr}'. Expected: 'source-matches: <glob>'`,
+                    correction: `Fix the 'when:' qualifier for condition '${entryName}' in taproot/settings.yaml.`,
+                });
+                continue;
+            }
+            // source-matches: check if any impl source file matches the glob
+            if (implSourceFiles === null) {
+                // No ## Source Files section — auto-resolve as not applicable
+                const condName = resolveCondition(entry).name;
+                results.push({
+                    name: condName,
+                    passed: true,
+                    output: `not applicable — impl has no ## Source Files section`,
+                    correction: '',
+                });
+                continue;
+            }
+            const anyMatch = implSourceFiles.some(f => globMatches(qualifier.glob, f));
+            if (!anyMatch) {
+                // No source file matches — auto-resolve as not applicable
+                const condName = resolveCondition(entry).name;
+                results.push({
+                    name: condName,
+                    passed: true,
+                    output: `not applicable — no source files match \`${qualifier.glob}\``,
+                    correction: '',
+                });
+                continue;
+            }
+            // At least one source file matches — fall through to normal condition execution
+        }
+        // ─────────────────────────────────────────────────────────────────────────
         const resolved = resolveCondition(entry);
         // Evidence-backed tests-passing: intercept when testsCommand is configured
         if (resolved.name === 'tests-passing' && cfg?.testsCommand) {

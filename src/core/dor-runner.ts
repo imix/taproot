@@ -271,7 +271,7 @@ export function runDorChecks(implMdPath: string, cwd: string): DorReport {
       } else if (typeof entry === 'object' && ('document-current' in entry || 'check-if-affected' in entry || 'check-if-affected-by' in entry)) {
         // Other agent-check types — treat as unresolvable shell-side, report as agent check
         const key = 'document-current' in entry ? 'document-current' : 'check-if-affected' in entry ? 'check-if-affected' : 'check-if-affected-by';
-        const value = (entry as Record<string, string>)[key]!;
+        const value = (entry as Record<string, unknown>)[key] as string;
         const name = `${key}: ${value}`;
         const isResolved = resolvedChecks.has(name);
         results.push({
