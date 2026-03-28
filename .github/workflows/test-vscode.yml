@@ -24,14 +24,14 @@ jobs:
           node-version: '20'
 
       - name: Install extension dependencies
-        run: cd vscode-extension && npm ci
+        run: cd channels/vscode && npm ci
 
       - name: Compile extension
-        run: cd vscode-extension && npm run compile
+        run: cd channels/vscode && npm run compile
 
       - name: Package VSIX
         run: |
-          cd vscode-extension
+          cd channels/vscode
           npx @vscode/vsce package --allow-missing-repository
           echo "VSIX=$(ls *.vsix | head -1)" >> "$GITHUB_ENV"
 
@@ -39,5 +39,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: taproot-vsix
-          path: vscode-extension/*.vsix
+          path: channels/vscode/*.vsix
           retention-days: 7

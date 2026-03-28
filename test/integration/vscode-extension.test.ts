@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
-const manifestPath = join(process.cwd(), 'vscode-extension', 'package.json');
+const manifestPath = join(process.cwd(), 'channels', 'vscode', 'package.json');
 const manifest = JSON.parse(readFileSync(manifestPath, 'utf-8'));
 
 describe('VS Code extension manifest', () => {
