@@ -4,6 +4,11 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.8.9] - 2026-03-28
+
+### Bug Fixes
+- fix(project-presentation/starter-examples/bundled-templates): add examples/ to npm package files (0be3b90)
+
 ## [0.8.8] - 2026-03-28
 
 ### Taproot
