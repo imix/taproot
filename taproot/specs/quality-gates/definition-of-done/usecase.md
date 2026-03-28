@@ -9,6 +9,14 @@
 - The parent `usecase.md` was DoR-validated at declaration commit time
 
 ## Main Flow
+0. **Uncommitted changes pre-check.** System runs `git status` and compares changed files against the impl's `## Source Files` list. If any modified or untracked files are **not** listed in `## Source Files`:
+   - System reports: *"Uncommitted changes detected outside this impl's scope: [list]. These may pollute the implementation commit."*
+   - System offers: `[C] Commit first · [S] Stash · [I] Ignore and continue · [A] Abort`
+   - `[C]`: invoke `/tr-commit` for the out-of-scope files; resume DoD once that commit completes
+   - `[S]`: run `git stash`; proceed to step 1
+   - `[I]`: proceed to step 1 with the dirty state noted in DoD output
+   - `[A]`: stop — no conditions run; impl state unchanged
+   If no out-of-scope changes exist, proceed directly to step 1.
 1. System always runs the DoD baseline (non-configurable):
    - Parent `usecase.md` still exists
    - Parent `usecase.md` still has `state: specified`
@@ -17,7 +25,8 @@
 3. System runs all configured conditions — every condition runs regardless of whether earlier ones fail
 4. For each condition, system records: name, pass/fail, output, and a proposed correction if failed:
    - Shell conditions: executed directly; exit code 0 = pass
-   - `document-current`: agent reads recent git commits and diffs, identifies stale sections in `README.md` and `docs/`, and applies updates directly — condition passes once updates are made
+   - `document-current`: agent reads `docs/` and `README.md` content, then reads recent git commits and diffs to identify what the implementation changed. Agent compares the two: are the docs accurate and current relative to what was just implemented? If stale sections are found, agent applies updates directly. Condition passes once docs are verified current or updated.
+     **Prohibited:** resolving this condition by inferring from backlog state, impl.md state, or the absence of related items is not valid. The agent must read actual doc content and compare it against actual implementation changes.
    - `check-if-affected`: agent reads the git diff, reasons whether the target file should have been updated, applies changes if needed — condition passes once resolved; agent writes resolution to `impl.md` via `taproot dod --resolve`
    - `check-if-affected-by`: agent reads the referenced behaviour spec at `<behaviour-path>`, reasons whether that cross-cutting behaviour applies to the current implementation, verifies compliance and applies changes if needed — condition passes once resolved; agent writes resolution to `impl.md` via `taproot dod --resolve`
    - `check:`: agent reads the free-form question text, reasons whether the answer is yes, no, or not applicable for this implementation, and takes any indicated action (e.g. adds an entry to `.taproot/settings.yaml`, updates `docs/patterns.md`) — agent calls `taproot dod --resolve "check: <text>" "<resolution note>"` recording what was done or why it does not apply
@@ -25,6 +34,15 @@
 6. If any conditions fail: system reports all failures together with corrections and does NOT mark impl complete
 
 ## Alternate Flows
+### Uncommitted changes outside impl scope detected
+- **Trigger:** `git status` shows modified or untracked files not listed in the impl's `## Source Files` section.
+- **Steps:**
+  1. System reports the out-of-scope files and offers `[C] Commit first · [S] Stash · [I] Ignore · [A] Abort`.
+  2. `[C]`: agent invokes `/tr-commit` for the out-of-scope files; DoD resumes after that commit completes.
+  3. `[S]`: system runs `git stash`; DoD proceeds from step 1.
+  4. `[I]`: DoD proceeds from step 1; a note is added to the DoD output that the working tree was dirty.
+  5. `[A]`: DoD stops; no conditions run; impl state unchanged.
+
 ### No configured conditions
 - **Trigger:** `.taproot/settings.yaml` has no `definitionOfDone` section, or the file does not exist
 - **Steps:**
@@ -137,6 +155,16 @@ flowchart TD
 - When `taproot dod` runs without a resolution in `impl.md`
 - Then the condition is reported as not passed with "Agent check required" in the output
 
+**AC-19: Uncommitted changes outside impl scope are flagged before DoD runs**
+- Given `git status` shows modified files not listed in the impl's `## Source Files`
+- When `taproot dod` runs
+- Then the system reports the out-of-scope files and offers `[C] Commit first · [S] Stash · [I] Ignore · [A] Abort` before running any conditions
+
+**AC-18: document-current requires reading docs content, not inferring from backlog**
+- Given a `document-current` condition and an impl that added a new CLI command
+- When the agent resolves the condition
+- Then the agent must read `docs/` content and compare it against the implementation diff — resolving with "nothing in backlog" or similar inference is not a valid resolution
+
 **AC-7: check-if-affected condition reports as agent check required**
 - Given a `check-if-affected: src/commands/update.ts` condition
 - When `taproot dod` runs without a resolution
@@ -196,7 +224,8 @@ flowchart TD
 - **State:** implemented
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-20
-- **Last reviewed:** 2026-03-20
+- **Last reviewed:** 2026-03-28
+
 
 ## Notes
 - Conditions in `.taproot/settings.yaml` use a mixed syntax: built-in names are bare strings; custom conditions use `run:` with optional `name:` and `correction:` keys; parameterizable built-ins use a `key: value` form:
@@ -215,7 +244,8 @@ flowchart TD
       correction: "Run the fix script"
   ```
 - Built-in names (`tests-passing`, `linter-clean`, `commit-conventions`) resolve to known commands and standard corrections without requiring shell configuration.
-- `document-current`, `check-if-affected`, `check-if-affected-by`, and `check:` are agent-driven conditions — they always fail in a plain shell context and require agent reasoning to resolve. Agents call `taproot dod --resolve <condition> "<note>"` to record their resolution in `impl.md`.
+- `document-current`, `check-if-affected`, `check-if-affected-by`, and `check:` are agent-driven conditions — they always fail in a plain shell context and require agent reasoning to resolve.
+- `document-current` resolution requires the agent to read the actual `docs/` and `README.md` content and compare it against the git diff. Inferring from backlog state ("nothing pending → docs are fine") is a known invalid shortcut — the spec explicitly prohibits it. Agents call `taproot dod --resolve <condition> "<note>"` to record their resolution in `impl.md`.
 - `check:` is the most open-ended agent condition: write any question whose answer might change what gets committed or configured. The two taproot default entries (cross-cutting concern, new pattern) are a starting point — replace or extend them for your project.
 - `check-if-affected-by` is the inverse of `check-if-affected`: where `check-if-affected` asks "did my change require updating X?", `check-if-affected-by` asks "does cross-cutting behaviour X apply to what I just built, and if so, is it satisfied?". Use it for requirements that apply to every implementation of a given type — e.g. every new skill must satisfy `human-integration/contextual-next-steps` and `human-integration/pause-and-confirm`.
 - DoD can never be a no-op: the baseline always runs, even with no configured conditions. An impl cannot be marked `complete` without the baseline passing.

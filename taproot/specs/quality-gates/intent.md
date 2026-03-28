@@ -30,6 +30,7 @@ Enforce quality at every level of the hierarchy — from intent and usecase docu
 - [NFR Measurability Check](./nfr-measurability/usecase.md)
 - [State Transition Guardrails](./state-transition-guardrails/usecase.md)
 - [Implementation Ordering Constraints](./impl-ordering-constraints/usecase.md)
+- [Scoped DoD/DoR Conditions](./scoped-conditions/usecase.md)
 
 
 ## Status
