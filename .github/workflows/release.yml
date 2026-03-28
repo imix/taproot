@@ -55,6 +55,9 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: Pack npm tarball
+        run: npm pack
+
       - name: Create GitHub release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -64,9 +67,11 @@ jobs:
           BODY=$(awk -v ver="$VERSION_NUM" \
             '$0 ~ "^## \\[" ver "\\]" {found=1;next} found && /^## \[/{exit} found{print}' \
             CHANGELOG.md | sed '/^[[:space:]]*$/d')
+          TARBALL=$(ls imix-js-taproot-*.tgz | head -1)
           gh release create "$VERSION" \
             --title "taproot $VERSION" \
-            --notes "${BODY:-Release $VERSION}"
+            --notes "${BODY:-Release $VERSION}" \
+            "$TARBALL"
 
   update-homebrew-tap:
     name: Update Homebrew tap
@@ -178,10 +183,13 @@ jobs:
       - name: Build and publish to VS Code Marketplace
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd vscode-extension
           npx @vscode/vsce package --allow-missing-repository
+          VSIX=$(ls *.vsix | head -1)
           npx @vscode/vsce publish --pat "$VSCE_PAT" --allow-missing-repository
+          gh release upload "${GITHUB_REF_NAME}" "$VSIX" --repo "${GITHUB_REPOSITORY}"
 
       - name: Publish to Open VSX
         continue-on-error: true
