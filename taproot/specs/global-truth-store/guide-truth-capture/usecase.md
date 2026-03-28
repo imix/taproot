@@ -155,7 +155,7 @@ flowchart TD
 - `agent-skill/impl.md`
 
 ## Status
-- **State:** implemented
+- **State:** specified
 - **Created:** 2026-03-27
 - **Last reviewed:** 2026-03-28
 
