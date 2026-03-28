@@ -4,6 +4,7 @@
   "description": "AI-driven specs, enforced at commit time. Code without traceability doesn't merge.",
   "version": "0.4.0",
   "publisher": "imix-ai",
+  "icon": "icon.png",
   "engines": {
     "vscode": "^1.80.0"
   },
