@@ -4,6 +4,17 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.8.8] - 2026-03-28
+
+### Taproot
+- taproot(taproot-distribution/vscode-marketplace/multi-surface): complete channels/ move and README sync (d1b1928)
+- taproot(taproot-distribution/vscode-marketplace/multi-surface): declare channels/ move and README sync (b8ec9c4)
+
+### Maintenance
+- spec(taproot-distribution/vscode-marketplace): refine for channels/ folder convention and README sync (d6c3e02)
+- chore: add channel-folder-convention global truth and scoped DoD condition (459296d)
+- ci: add test-vscode workflow — build vsix on demand without publishing (4f5db6f)
+
 ## [0.8.7] - 2026-03-28
 
 ### Bug Fixes

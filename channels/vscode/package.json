@@ -2,13 +2,13 @@
   "name": "taproot",
   "displayName": "Taproot",
   "description": "AI-driven specs, enforced at commit time. Code without traceability doesn't merge.",
-  "version": "0.8.7",
+  "version": "0.8.8",
   "publisher": "imix-ai",
   "icon": "icon.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/imix/taproot.git",
-    "directory": "vscode-extension"
+    "directory": "channels/vscode"
   },
   "engines": {
     "vscode": "^1.80.0"
