@@ -6,7 +6,7 @@ _HITL = human decision required · AFK = agent executes autonomously_
 ## Items
 
 1. done     [implement] hitl  taproot/specs/taproot-distribution/vscode-marketplace/ — finish VS Code extension: icon, package-lock.json, publisher placeholder, release skill update
-2. pending  [implement] hitl  "docs/workflows.md + docs/skills.md — add planning workflow (/tr-plan, /tr-plan-execute, /tr-plan-analyse) and backlog management; create docs/skills.md with skill authoring guide (step sequences, context-engineering, pause-and-confirm, agent patterns)"
+2. done     [implement] hitl  "docs/workflows.md + docs/skills.md — add planning workflow (/tr-plan, /tr-plan-execute, /tr-plan-analyse) and backlog management; create docs/skills.md with skill authoring guide (step sequences, context-engineering, pause-and-confirm, agent patterns)"
 3. pending  [implement] afk   taproot/specs/global-truth-store/guide-truth-capture/ — add global-truths pattern entry to taproot/agent/docs/patterns.md; update define-truth skill to surface guidance on first invocation
 4. pending  [implement] afk   "add missing tests — 5 impls have no test coverage: agent-integration/agent-agnostic-language/settings-wiring, project-presentation/conceptual-orientation/concepts-section, project-presentation/welcoming-readme/content, requirements-hierarchy/configure-hierarchy/yaml-config, taproot-distribution/ci-pipeline/github-workflow"
 5. pending  [implement] hitl  "docs: plan feature as selling point — add plan workflow to docs/quick-start.md; add 'Planning a batch of work' end-to-end workflow to docs/workflows.md"

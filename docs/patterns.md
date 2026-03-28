@@ -223,3 +223,38 @@ taproot truth-sign
 | Hook check | Written by | Validates |
 |---|---|---|
 | Truth consistency | `taproot truth-sign` (called by `/tr-commit`) | Staged hierarchy docs are consistent with `taproot/global-truths/` |
+
+---
+
+## What belongs in `taproot/global-truths/`
+
+**Problem:** You know you want to capture project-wide facts in `taproot/global-truths/` but aren't sure what kinds of facts are worth formalising — or how to scope them.
+
+**The five starting categories:**
+
+| Category | Default scope | What it contains | Example |
+|---|---|---|---|
+| **Glossary** | intent | Canonical names for domain concepts — disambiguates terms that have different meanings in different contexts | "A *session* is a continuous authenticated user period, distinct from a request or a connection" |
+| **Domain model** | intent | Entities, relationships, and invariants that are always true in the domain | "Every Order must have at least one LineItem. An Order without LineItems cannot be placed." |
+| **Architecture decisions** | impl | Technology choices, infrastructure patterns, and constraints that govern implementation | "All async I/O uses the event-loop pattern; no blocking calls in the request path" |
+| **Naming conventions** | intent or behaviour | Identifier patterns, casing rules, and naming standards that apply across specs and code | "Command identifiers use kebab-case. Internal types use PascalCase. No abbreviations except `id` and `url`." |
+| **Business rules** | intent or behaviour | Eligibility criteria, constraints, and invariants that govern domain behaviour | "A user may not hold more than one active subscription per product tier" |
+
+These five are starting categories, not an exhaustive constraint. Any fact that is stable, cross-spec, and would prevent misinterpretation if left implicit is a valid candidate.
+
+**Default scope recommendations:**
+- **intent** — fact applies everywhere (cross-cutting terms, domain invariants, naming conventions)
+- **behaviour** — fact governs observable system behaviour but not implementation choices
+- **impl** — fact governs how something is built (tech stack, patterns, infrastructure)
+
+**When NOT to capture a fact as a global truth:**
+- It appears in only one spec — keep it as a note in that spec's `usecase.md`
+- It describes *how* something is implemented (a detail), not *what is true* (a rule)
+- It is ephemeral or likely to change frequently
+- It can be derived directly by reading the code
+
+**How to start:**
+```
+/tr-define-truth
+```
+On first invocation in a project with no existing truths, the skill walks you through the five categories and creates scoped starter files for the ones that apply. You populate them with your project's facts in free-form markdown.

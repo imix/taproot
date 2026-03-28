@@ -150,10 +150,14 @@ flowchart TD
 - When the developer reads the global-truths pattern entry
 - Then the entry directs them to create an impl-scoped truth file in `taproot/global-truths/`
 
+## Implementations
+
+- `agent-skill/impl.md`
+
 ## Status
-- **State:** proposed
+- **State:** implemented
 - **Created:** 2026-03-27
-- **Last reviewed:** 2026-03-27
+- **Last reviewed:** 2026-03-28
 
 ## Notes
 - The five categories (glossary, domain model, architecture decisions, naming conventions, business rules) are a starting point, not an exhaustive constraint — any stable, cross-spec fact is a valid truth
