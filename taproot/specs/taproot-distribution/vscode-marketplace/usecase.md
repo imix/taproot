@@ -136,10 +136,14 @@ flowchart TD
 ## Status
 - **State:** specified
 - **Created:** 2026-03-26
-- **Last reviewed:** 2026-03-26
+- **Last reviewed:** 2026-03-28
 
 ## Notes
 - **Marketplace propagation delay:** VS Marketplace typically takes 5–15 minutes to propagate a newly published version. The release summary URL may return 404 immediately after publish — this is not a failure.
 - **Implementation requires modifying `cut-release`:** this behaviour adds (a) a pre-flight version-match check and (b) a `publish-vscode-extension` CI job to `cut-release`. Both are in scope for implementing this behaviour. See `cut-release`'s Related section after implementation.
 - **Extension runtime behaviour** (what happens after install: walkthrough UX, command terminal integration) is verified by AC-6 and AC-7 at build time via manifest inspection. End-to-end runtime testing (install in VS Code, run command) is deferred to manual smoke test.
 - **Publisher name:** `imix-ai` — permanent Marketplace URL: `marketplace.visualstudio.com/items?itemName=imix-ai.taproot`.
+- **Implementation phases**: two separable phases allow partial progress:
+  - **Phase 1 (local — agent-completable):** icon at `vscode-extension/icon.png` (128×128, derived from `assets/logo-512.png`); `vscode-extension/package-lock.json` generated via `npm install`; release skill updated to bump both `package.json` versions; publisher placeholder resolved to `imix-ai`. These require no external accounts.
+  - **Phase 2 (external — human action required):** create the `imix-ai` publisher account at `marketplace.visualstudio.com/manage`, generate `VSCE_PAT` and `OVSX_PAT`, store both as GitHub `release` environment secrets. Phase 2 must complete before the CI publish flow can run end-to-end.
+- **Shared brand assets:** `assets/` at project root holds the master icon set (`logo.svg`, `logo-96.png`, `logo-192.png`, `logo-512.png`, `favicon.ico`, `apple-touch-icon.png`). The VS Code extension icon (`vscode-extension/icon.png`) is a 128×128 copy derived from `assets/logo-512.png`.

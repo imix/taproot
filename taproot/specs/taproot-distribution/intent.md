@@ -25,6 +25,7 @@ Enable the taproot maintainer to publish reliable, tested releases to npm and Gi
 - [Cut Release](./cut-release/usecase.md)
 - [Publish VS Code Extension](./vscode-marketplace/usecase.md)
 - [CI Pipeline](./ci-pipeline/usecase.md)
+- [Publish to Homebrew Tap](./homebrew-tap/usecase.md)
 
 ## Status
 - **State:** active
