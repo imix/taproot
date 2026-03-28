@@ -19,7 +19,7 @@
 - `97b1b4d13ca0803f41fe16848e2e887b10230c0a` — (auto-linked by taproot link-commits)
 
 ## Tests
-- (no automated test — agent-driven check; verified by DoD runner's existing check-if-affected-by integration test coverage)
+- `test/integration/agent-agnostic-language.test.ts`
 
 ## Status
 - **State:** complete
@@ -32,6 +32,16 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/configuration.md updated: added Built-in cross-cutting DoD conditions table documenting agent-agnostic-language and all other check-if-affected-by conditions with descriptions | resolved: 2026-03-21T17:21:39.053Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: not applicable — no skill files modified, only a test file added | resolved: 2026-03-28T16:22:08.516Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — adding a test is not a cross-cutting architectural concern | resolved: 2026-03-28T16:22:08.261Z
+
+- condition: check-if-affected: examples/ | note: test file only — no examples changes | resolved: 2026-03-28T16:22:08.006Z
+
+- condition: check-if-affected: docs/ | note: test file only — no docs changes needed | resolved: 2026-03-28T16:22:07.740Z
+
+- condition: check-if-affected: package.json | note: test file only — no new CLI commands or dependencies | resolved: 2026-03-28T16:22:07.471Z
+
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — agent-agnostic language is an instance of the existing check-if-affected-by pattern already in docs/patterns.md | resolved: 2026-03-21T17:21:41.575Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: yes — this story IS the cross-cutting concern; check-if-affected-by: agent-integration/agent-agnostic-language added to definitionOfDone | resolved: 2026-03-21T17:21:41.346Z

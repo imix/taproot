@@ -26,7 +26,7 @@
 - `fa57208f439f49117e3cfc07a7fbe7b10c807e85` — (auto-linked by taproot link-commits)
 
 ## Tests
-- (no automated test — content artefact; ACs verified by human review; NFR-1/NFR-2 verified by GitHub rendering)
+- `test/integration/welcoming-readme.test.ts`
 
 ## Status
 - **State:** complete
@@ -39,6 +39,12 @@
 
 ## DoD Resolutions
 - condition: document-current | note: README.md rewritten with animation, new tagline, updated counts (18 intents/53 behaviours); all CLI commands, skills, and options accurately reflected; docs/ links unchanged and valid | resolved: 2026-03-24T20:30:06.954Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — README content, not an architectural concern | resolved: 2026-03-28T16:22:17.703Z
+
+- condition: check-if-affected: examples/ | note: no examples changes | resolved: 2026-03-28T16:22:17.450Z
+
+- condition: check-if-affected: package.json | note: README and SVG content — no new CLI commands or dependencies | resolved: 2026-03-28T16:22:17.199Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: not applicable — no skill files modified; this story writes README.md and docs/demo.svg only | resolved: 2026-03-24T20:30:06.961Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — README rewrite is a one-off presentation task; the animated SVG approach is too project-specific to be a reusable pattern | resolved: 2026-03-24T20:30:06.961Z

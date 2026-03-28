@@ -23,7 +23,7 @@
 - `1c29d9582814334499e5965962fdb43d854a1582` — (auto-linked by taproot link-commits)
 
 ## Tests
-- (no automated test — content artefact; ACs verified by human review)
+- `test/integration/concepts-section.test.ts`
 
 ## Status
 - **State:** complete
@@ -36,6 +36,10 @@
 
 ## DoD Resolutions
 - condition: document-current | note: README.md updated with a new Concepts section covering all five taproot terms (intent, behaviour, implementation, global truth, backlog) — each with a plain-language definition and a one-line example. All docs/ links in the section point to existing, accurate pages (docs/concepts.md, docs/workflows.md, taproot/global-truths/). No CLI commands, skills, or configuration options changed; no existing docs/ content became stale. | resolved: 2026-03-26T12:59:02.006Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — README content addition, not an architectural concern | resolved: 2026-03-28T16:22:12.943Z
+
+- condition: check-if-affected: package.json | note: README content change — no new CLI commands or dependencies | resolved: 2026-03-28T16:22:12.686Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: not applicable — no skill files modified; this implementation writes README.md only | resolved: 2026-03-26T13:00:35.458Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — inserting a vocabulary section into a README is a one-off documentation task; not a reusable pattern | resolved: 2026-03-26T13:00:34.102Z

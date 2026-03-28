@@ -19,7 +19,7 @@
 - `35bd7824f8471cbe15b6328b3ac2d60bb9af4571` — (auto-linked by taproot link-commits)
 
 ## Tests
-- No automated test file — workflow correctness is verified by GitHub Actions execution; AC-1 through AC-9 are verified by reading the workflow file
+- `test/integration/github-workflow.test.ts`
 
 ## Status
 - **State:** complete
@@ -32,6 +32,8 @@
 
 ## DoD Resolutions
 - condition: document-current | note: not applicable — this change adds a GitHub Actions workflow file, not a CLI command, skill, or configuration option; README.md and docs/ do not need updating | resolved: 2026-03-27T21:04:04.859Z
+- condition: check-if-affected: package.json | note: workflow file only — no package.json changes | resolved: 2026-03-28T16:22:21.541Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: not applicable — this change adds a GitHub Actions YAML file, not a skill file | resolved: 2026-03-27T21:04:53.583Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — standard GitHub Actions workflow pattern; nothing novel to document | resolved: 2026-03-27T21:04:53.324Z
