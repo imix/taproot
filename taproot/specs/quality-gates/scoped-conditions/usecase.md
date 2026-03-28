@@ -98,6 +98,7 @@ flowchart TD
 - Then a parse error is reported naming the condition and the unrecognised qualifier, and the condition is skipped
 
 ## Implementations <!-- taproot-managed -->
+- [CLI Extension — scoped-conditions](./cli-extension/impl.md)
 
 ## Status
 - **State:** specified
