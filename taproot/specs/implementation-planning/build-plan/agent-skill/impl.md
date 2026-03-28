@@ -17,6 +17,10 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `a0f6f28b5f07527a356efb858f326dde0776c9ab` — (auto-linked by taproot link-commits)
+- `d9abca638cfbf193b5b8cc1ab18fcdd68a2ebcde` — (auto-linked by taproot link-commits)
+- `bab36a92f9c991bd32ad5d8764aab62ed7e205a8` — (auto-linked by taproot link-commits)
+- `b2adc103b5cb12ef56c2248b73ae5e31d1251217` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/plan-build.test.ts` — structural tests: required sections present, item types documented, plan.md format documented, what's-next block present, append/replace/abort flows present

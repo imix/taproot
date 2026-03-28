@@ -15,6 +15,8 @@
 
 ## Commits
 - placeholder
+- `5f39db036ef48941ce7f1316687e09f5b8570e33` — (auto-linked by taproot link-commits)
+- `35bd7824f8471cbe15b6328b3ac2d60bb9af4571` — (auto-linked by taproot link-commits)
 
 ## Tests
 - No automated test file — workflow correctness is verified by GitHub Actions execution; AC-1 through AC-9 are verified by reading the workflow file

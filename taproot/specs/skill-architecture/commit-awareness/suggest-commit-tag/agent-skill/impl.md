@@ -16,6 +16,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `a4bea670d0816417b065d3374cbdac3ced407084` — (auto-linked by taproot link-commits)
+- `cc700f1d181e24ec6f9fcf36454c6ee509c68c06` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/commit-tag-suggest.test.ts` — AC-1: single impl path → correct tag; AC-2: two impls same behaviour → collapsed tag; AC-3: developer-supplied tag preserved; AC-4: multi-intent → conflict reported; AC-5: plain commit → no tag

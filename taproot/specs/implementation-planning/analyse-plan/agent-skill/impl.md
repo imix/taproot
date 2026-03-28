@@ -16,6 +16,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `0bafc7d47c59ae507798af8fbce1f968cc797e35` — (auto-linked by taproot link-commits)
+- `74fdfe4b7ce1dda73752e785343150c43f9ca2d3` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/plan-analyse.test.ts` — structural tests: required sections, no-plan guard, readiness checks (spec/implement/refine/dependency), report format (ready/attention/blocked), all-ready execute shortcut, read-only guarantee

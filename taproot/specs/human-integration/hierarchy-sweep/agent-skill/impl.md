@@ -24,6 +24,7 @@
 - `5759ada7eb364678c368f716041cc835812f21f8` — (auto-linked by taproot link-commits)
 - `5d513054bd0f6f365b001f74b07bb48282550759` — (auto-linked by taproot link-commits)
 - `dd8d7c70bf7f6e0490cdcdd68e94300c316a32b0` — (auto-linked by taproot link-commits)
+- `d5888d5b8cfe8d0539cbfde67573a9ab3cfcc991` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/skills.test.ts` — AC-1: [x] progress marking present; AC-2: Y/N confirmation gate and cancellation; AC-4: [x] line includes taproot path; cross-item context warning redirects to /tr-review-all
