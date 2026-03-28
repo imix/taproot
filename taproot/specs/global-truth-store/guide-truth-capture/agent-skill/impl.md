@@ -32,6 +32,11 @@ No automated tests — skill file and pattern entry are agent-readable markdown.
 - condition: check-if-affected-by: quality-gates/nfr-measurability | note: no new measurable behaviour introduced | resolved: 2026-03-28
 
 ## DoD Resolutions
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: No new cross-cutting concern. This adds a phase to define-truth for first-time use — it is not an architectural rule that should gate all implementations. | resolved: 2026-03-28T15:55:30.616Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: skills/define-truth.md updated. Phase 0 only reads directory listings and a markdown file. No shell execution, no credentials, no elevated permissions. | resolved: 2026-03-28T15:55:36.640Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: Yes — the global-truths pattern entry added to docs/patterns.md is itself the reusable output of this story. | resolved: 2026-03-28T15:55:36.377Z
+
 
 - condition: tests-passing | note: no testable source files changed; skill is agent-readable markdown | resolved: 2026-03-28
 - condition: document-current | note: docs/patterns.md is the primary output — added global-truths section. docs/workflows.md not affected. README not affected. | resolved: 2026-03-28
