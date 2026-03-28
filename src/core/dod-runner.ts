@@ -48,7 +48,7 @@ function parseWhenQualifier(when: unknown): { type: 'source-matches'; glob: stri
 }
 
 /** Read source file paths from an impl.md's ## Source Files section. */
-function readImplSourceFiles(implPath: string, cwd: string): string[] | null {
+export function readImplSourceFiles(implPath: string, cwd: string): string[] | null {
   const absPath = resolve(cwd, implPath);
   if (!existsSync(absPath)) return null;
   const content = readFileSync(absPath, 'utf-8');

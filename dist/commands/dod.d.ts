@@ -1,6 +1,8 @@
 import type { Command } from 'commander';
 import type { DodReport, DodResult } from '../core/dod-runner.js';
 export { DodReport, DodResult };
+/** Return files with uncommitted changes that are not in the impl's ## Source Files list. */
+export declare function getOutOfScopeChanges(implPath: string, cwd: string): string[];
 export declare function registerDod(program: Command): void;
 export declare function runDod(options: {
     implPath?: string;

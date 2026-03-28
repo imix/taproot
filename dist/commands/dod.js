@@ -1,7 +1,37 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs';
-import { resolve, dirname, join } from 'path';
+import { resolve, dirname, join, relative } from 'path';
+import { spawnSync } from 'child_process';
 import { loadConfig } from '../core/config.js';
-import { runDodChecks } from '../core/dod-runner.js';
+import { runDodChecks, readImplSourceFiles } from '../core/dod-runner.js';
+/** Return files with uncommitted changes that are not in the impl's ## Source Files list. */
+export function getOutOfScopeChanges(implPath, cwd) {
+    const sourceFiles = readImplSourceFiles(implPath, cwd);
+    if (sourceFiles === null)
+        return []; // no Source Files section — skip check
+    const gitResult = spawnSync('git', ['status', '--porcelain', '--untracked-files=all'], { cwd, encoding: 'utf-8' });
+    if (gitResult.error || gitResult.status !== 0)
+        return []; // not a git repo or git error
+    const uncommitted = (gitResult.stdout ?? '')
+        .split('\n')
+        .filter(Boolean)
+        .map(line => {
+        const path = line.slice(3).trim();
+        const arrowIdx = path.lastIndexOf(' -> ');
+        return arrowIdx >= 0 ? path.slice(arrowIdx + 4) : path;
+    })
+        .filter(Boolean);
+    const implFileSet = new Set(sourceFiles.map(f => f.startsWith('./') ? f.slice(2) : f));
+    // Also exclude the impl.md itself
+    const relImpl = relative(cwd, resolve(cwd, implPath)).replace(/\\/g, '/');
+    return uncommitted.filter(f => {
+        const norm = f.startsWith('./') ? f.slice(2) : f;
+        if (implFileSet.has(norm))
+            return false;
+        if (norm === relImpl || norm === implPath)
+            return false;
+        return true;
+    });
+}
 export function registerDod(program) {
     const dodCmd = program
         .command('dod [impl-path]')
@@ -11,6 +41,8 @@ export function registerDod(program) {
         .option('--resolve <condition>', 'Record agent resolution for a named condition (repeatable)', (v, a) => [...a, v], [])
         .option('--note <note>', 'Resolution note (used with --resolve, repeatable)', (v, a) => [...a, v], [])
         .option('--rerun-tests', 'Ignore cached test result and re-execute testsCommand')
+        .option('--stash', 'Auto-stash uncommitted out-of-scope changes before running checks')
+        .option('--ignore-dirty', 'Skip the uncommitted changes pre-check')
         .action(async (implPath, options) => {
         const cwd = options.cwd ? resolve(options.cwd) : process.cwd();
         // --rerun-tests requires impl-path
@@ -45,6 +77,31 @@ export function registerDod(program) {
                 process.stdout.write(`Recorded resolution for "${condition}" in ${implPath}\n`);
             }
             return;
+        }
+        // Step 0: uncommitted changes pre-check
+        if (implPath && !options.ignoreDirty && !options.resolve?.length) {
+            if (options.stash) {
+                const stashResult = spawnSync('git', ['stash'], { cwd, encoding: 'utf-8', stdio: 'pipe' });
+                if (stashResult.status !== 0) {
+                    process.stderr.write(`Error: git stash failed: ${stashResult.stderr ?? ''}\n`);
+                    process.exitCode = 1;
+                    return;
+                }
+                process.stdout.write('Stashed out-of-scope changes. Run `git stash pop` to restore them after DoD completes.\n');
+            }
+            else {
+                const outOfScope = getOutOfScopeChanges(implPath, cwd);
+                if (outOfScope.length > 0) {
+                    process.stderr.write(`Uncommitted changes detected outside this impl's scope:\n` +
+                        outOfScope.map(f => `  • ${f}`).join('\n') + '\n\n' +
+                        `These may pollute the implementation commit.\n` +
+                        `  [S] git stash, then re-run:  taproot dod ${implPath} (or --stash to auto-stash)\n` +
+                        `  [I] ignore and continue:     taproot dod ${implPath} --ignore-dirty\n` +
+                        `  [A] abort and review changes manually\n`);
+                    process.exitCode = 1;
+                    return;
+                }
+            }
         }
         const report = await runDod({ implPath, dryRun: options.dryRun ?? false, cwd, rerunTests: options.rerunTests });
         if (!report.configured) {

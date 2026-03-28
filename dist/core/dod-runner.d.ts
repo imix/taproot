@@ -1,6 +1,8 @@
 import type { DodConditionEntry, TaprootConfig } from '../validators/types.js';
 /** Return true if `filePath` matches `glob`. */
 export declare function globMatches(glob: string, filePath: string): boolean;
+/** Read source file paths from an impl.md's ## Source Files section. */
+export declare function readImplSourceFiles(implPath: string, cwd: string): string[] | null;
 export interface DodResult {
     name: string;
     passed: boolean;

@@ -18,11 +18,13 @@
 - Exit code 127 (shell "command not found") is detected explicitly and returns the "ensure executable" correction rather than the generic fallback
 - State update logic lives in `runDod` (not just the CLI action) so tests can verify it without spawning a subprocess
 - YAML key must be `definitionOfDone` (camelCase) to match the TypeScript field name
+- **Step-0 dirty check** (`getOutOfScopeChanges`): runs `git status --porcelain --untracked-files=all` and compares against impl's Source Files list; any modified/untracked file not in Source Files is out-of-scope; skipped when `--ignore-dirty` is set or impl has no Source Files section; `--stash` auto-runs `git stash` before proceeding; exits early with options message when out-of-scope files detected
 
 ## Source Files
-- `src/core/dod-runner.ts` — parses conditions, runs baseline, runs each condition as a shell command or agent check, reads resolutions from impl.md; returns DodReport
-- `src/commands/dod.ts` — `taproot dod [impl-path]` CLI command; `--dry-run` and `--resolve`/`--note` options; calls runDodChecks, updates impl.md state on success; `writeResolution` exported for tests
+- `src/core/dod-runner.ts` — parses conditions, runs baseline, runs each condition as a shell command or agent check, reads resolutions from impl.md; exports `readImplSourceFiles` for dirty-check use
+- `src/commands/dod.ts` — `taproot dod [impl-path]` CLI; `--dry-run`, `--resolve`/`--note`, `--stash`, `--ignore-dirty` options; `getOutOfScopeChanges` exported; step-0 dirty check; calls runDodChecks; `writeResolution` exported for tests
 - `src/validators/types.ts` — `DodConditionEntry` type and `definitionOfDone?` / `definitionOfReady?` fields on `TaprootConfig`
+- `src/commands/init.ts` — `SKILL_FILES` list: `plan-build.md` replaced by `next.md` (rename)
 - `src/cli.ts` — registered `registerDod`
 
 ## Commits
@@ -35,6 +37,7 @@
 
 ## Tests
 - `test/integration/dod.test.ts` — covers: no DoD configured, custom shell pass/fail, all-conditions-run, command not found, standalone mode (no impl.md change), impl.md marked complete on pass, not marked on fail, dry-run, document-current agent check, check-if-affected agent check, DoD baseline (usecase missing/state-wrong/format-invalid/all-pass), writeResolution, agent check passing after resolution, stale resolution detection (impl.md mtime > latest resolution timestamp), no-conditions-but-implPath marks complete
+- `test/integration/dod-dirty.test.ts` — AC-19: getOutOfScopeChanges: clean tree, matching source files, untracked out-of-scope, modified out-of-scope, impl.md excluded, no Source Files section, non-git repo
 
 ## Status
 - **State:** complete
@@ -43,6 +46,36 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md documents taproot dod including --dry-run and --resolve; guide.md lists taproot dod | resolved: 2026-03-19T18:34:52.172Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: not applicable — no skills/*.md modified; TypeScript CLI changes only | resolved: 2026-03-28T09:50:42.442Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — step-0 dirty check is specific to taproot dod CLI; not a generalizable pattern for other impls | resolved: 2026-03-28T09:50:42.441Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — dirty-check gate is a UX improvement to taproot dod; does not introduce a new architectural rule for all implementations | resolved: 2026-03-28T09:50:42.439Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — getOutOfScopeChanges runs git in CLI layer (commands/), not core; readImplSourceFiles call from commands/ follows architecture; no new external dependencies | resolved: 2026-03-28T09:50:25.317Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — TypeScript CLI invoked at commit time; pattern-hints applies to user-facing skills | resolved: 2026-03-28T09:50:25.316Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — TypeScript CLI; commit-awareness applies to skills with commit steps | resolved: 2026-03-28T09:50:25.316Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — TypeScript CLI; context-engineering applies to skill files | resolved: 2026-03-28T09:50:25.315Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — TypeScript CLI; pause-and-confirm applies to bulk-authoring skills | resolved: 2026-03-28T09:50:25.306Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — TypeScript CLI; contextual-next-steps applies to agent skills | resolved: 2026-03-28T09:50:25.306Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — TypeScript CLI source files; agent-agnostic-language applies to skill files only | resolved: 2026-03-28T09:50:25.306Z
+
+- condition: check-if-affected: examples/ | note: not affected — no examples use taproot dod with dirty check | resolved: 2026-03-28T09:50:25.305Z
+
+- condition: check-if-affected: docs/ | note: affected — docs/cli.md updated with --stash and --ignore-dirty options and explanation of step-0 dirty check | resolved: 2026-03-28T09:50:25.305Z
+
+- condition: check-if-affected: skills/guide.md | note: not affected — guide.md lists taproot dod at command level; --stash/--ignore-dirty are option-level details not warranting guide.md entry | resolved: 2026-03-28T09:50:25.305Z
+
+- condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts regenerates skill/adapter files; no dependency on taproot dod | resolved: 2026-03-28T09:50:25.304Z
+
+- condition: document-current | note: docs/cli.md updated: taproot dod section now documents --stash and --ignore-dirty options with explanation of the uncommitted changes pre-check (AC-19) | resolved: 2026-03-28T09:50:25.302Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: not applicable — this story modifies src/commands/dod.ts (TypeScript CLI), not any skill file; no skills/*.md were changed | resolved: 2026-03-24T20:05:55.672Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — Commander array accumulator for repeatable options is a standard Commander.js pattern, not a taproot-specific reusable pattern | resolved: 2026-03-24T20:05:55.671Z

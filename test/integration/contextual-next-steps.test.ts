@@ -56,9 +56,9 @@ describe('contextual-next-steps — guidance format references correct commands'
     expect(content).toContain('/tr-review');
   });
 
-  it('implement.md guidance references /tr-plan', () => {
+  it('implement.md guidance references /tr-next', () => {
     const content = readFileSync(resolve(SKILLS_DIR, 'implement.md'), 'utf-8');
-    expect(content).toContain('/tr-plan');
+    expect(content).toContain('/tr-next');
   });
 
   it('review.md guidance references /tr-refine and /tr-implement', () => {

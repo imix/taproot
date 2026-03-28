@@ -47,7 +47,7 @@ function parseWhenQualifier(when) {
     return null;
 }
 /** Read source file paths from an impl.md's ## Source Files section. */
-function readImplSourceFiles(implPath, cwd) {
+export function readImplSourceFiles(implPath, cwd) {
     const absPath = resolve(cwd, implPath);
     if (!existsSync(absPath))
         return null;

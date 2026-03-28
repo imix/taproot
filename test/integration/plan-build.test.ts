@@ -3,9 +3,9 @@ import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
 const SKILLS_DIR = resolve(__dirname, '../../skills');
-const skill = readFileSync(resolve(SKILLS_DIR, 'plan-build.md'), 'utf-8');
+const skill = readFileSync(resolve(SKILLS_DIR, 'plan.md'), 'utf-8');
 
-describe('plan-build skill — required sections', () => {
+describe('plan skill — required sections', () => {
   it('has a Description', () => {
     expect(skill).toMatch(/## Description/);
   });
@@ -23,7 +23,7 @@ describe('plan-build skill — required sections', () => {
   });
 });
 
-describe('plan-build skill — source scanning (AC-1, AC-2)', () => {
+describe('plan skill — source scanning (AC-1, AC-2)', () => {
   it('covers backlog source', () => {
     expect(skill).toMatch(/backlog/i);
   });
@@ -37,7 +37,7 @@ describe('plan-build skill — source scanning (AC-1, AC-2)', () => {
   });
 });
 
-describe('plan-build skill — item classification (AC-3)', () => {
+describe('plan skill — item classification (AC-3)', () => {
   it('classifies items as spec', () => {
     expect(skill).toMatch(/\[spec\]/);
   });
@@ -51,7 +51,7 @@ describe('plan-build skill — item classification (AC-3)', () => {
   });
 });
 
-describe('plan-build skill — plan.md format', () => {
+describe('plan skill — plan.md format', () => {
   it('documents pending status', () => {
     expect(skill).toMatch(/pending/);
   });
@@ -73,7 +73,7 @@ describe('plan-build skill — plan.md format', () => {
   });
 });
 
-describe('plan-build skill — hitl/afk classification (AC-9)', () => {
+describe('plan skill — hitl/afk classification (AC-9)', () => {
   it('classifies items as hitl', () => {
     expect(skill).toMatch(/hitl/);
   });
@@ -99,7 +99,7 @@ describe('plan-build skill — hitl/afk classification (AC-9)', () => {
   });
 });
 
-describe('plan-build skill — backlog removal (AC-8)', () => {
+describe('plan skill — backlog removal (AC-8)', () => {
   it('removes consumed backlog items from taproot/backlog.md', () => {
     expect(skill).toMatch(/[Rr]emov.*backlog|backlog.*[Rr]emov/);
   });
@@ -113,7 +113,7 @@ describe('plan-build skill — backlog removal (AC-8)', () => {
   });
 });
 
-describe('plan-build skill — confirmation flows (AC-4, AC-5, AC-6, AC-7)', () => {
+describe('plan skill — confirmation flows (AC-4, AC-5, AC-6, AC-7)', () => {
   it('presents plan before writing (pause-and-confirm)', () => {
     expect(skill).toMatch(/\[A\].*Confirm|\[A\].*Append/i);
   });
