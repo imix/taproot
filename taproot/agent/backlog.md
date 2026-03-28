@@ -1,0 +1,1 @@
+- [2026-03-28] VS Code extension Phase 2: Language Model API integration — add Copilot-powered commands (e.g. "Taproot: review this file") and spec status sidebar using VS Code's built-in Language Model API, making the extension a genuine workflow tool for Copilot users rather than just an onboarding/discovery vehicle
