@@ -4,6 +4,12 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.8.3] - 2026-03-28
+
+### Bug Fixes
+- fix: replace heredoc with printf in homebrew-tap formula creation (1034909)
+- fix: create Formula/taproot.rb if it does not exist in homebrew-tap (f06f85a)
+
 ## [0.8.2] - 2026-03-28
 
 ### Bug Fixes
