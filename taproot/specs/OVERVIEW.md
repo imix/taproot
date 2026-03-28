@@ -157,6 +157,7 @@ _No behaviours yet._
   - [hook-extension](./quality-gates/impl-ordering-constraints/hook-extension/impl.md) `[complete]` (1 commit, 1 test)
 - **[nfr-measurability](./quality-gates/nfr-measurability/usecase.md)** `[implemented]` — Actor: Developer or agent declaring a new implementation (committing an `impl.md`) — the check runs automatically at Definition of Ready time before any code is written.
   - [settings-wiring](./quality-gates/nfr-measurability/settings-wiring/impl.md) `[complete]` (3 commits, 1 test)
+- **[scoped-conditions](./quality-gates/scoped-conditions/usecase.md)** `[specified]` — Actor: Developer — configuring `taproot/settings.yaml` to scope DoD/DoR conditions to specific implementation types using source file glob patterns.
 - **[state-transition-guardrails](./quality-gates/state-transition-guardrails/usecase.md)** `[implemented]` — Actor: `taproot dod` CLI — when processing the `tests-passing` condition for an `impl.md` about to be marked `complete`. Also enforced by `taproot commithook` when an implementation commit includes an `impl.md` whose state is `complete`.
   - [cli-command](./quality-gates/state-transition-guardrails/cli-command/impl.md) `[complete]` (3 commits, 1 test)
 - **[validate-intent-quality](./quality-gates/validate-intent-quality/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when an `intent.md` is committed (requirement commit)
@@ -246,6 +247,7 @@ _No behaviours yet._
   - [github-workflow](./taproot-distribution/ci-pipeline/github-workflow/impl.md) `[complete]` (0 commits ⚠ no tests)
 - **[cut-release](./taproot-distribution/cut-release/usecase.md)** `[implemented]` — Actor: - **Maintainer** — runs the local phase (pre-flight, changelog, version bump, tag, push)
   - [multi-surface](./taproot-distribution/cut-release/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
+- **[homebrew-tap](./taproot-distribution/homebrew-tap/usecase.md)** `[specified]` — Actor: CI system — the `update-homebrew-tap` job runs automatically after each successful npm publish; one-time formula creation is performed by the Maintainer.
 - **[vscode-marketplace](./taproot-distribution/vscode-marketplace/usecase.md)** `[specified]` — Actor: Maintainer — the VS Code extension publish step runs automatically in CI as part of the `cut-release` flow, after npm publish succeeds
   - [multi-surface](./taproot-distribution/vscode-marketplace/multi-surface/impl.md) `[deferred]` (2 commits, 1 test)
 
@@ -257,4 +259,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-20 intents · 74 behaviours · 76 implementations · 74/76 complete
+20 intents · 76 behaviours · 76 implementations · 74/76 complete
