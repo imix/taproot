@@ -4,6 +4,11 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.8.7] - 2026-03-28
+
+### Bug Fixes
+- fix: add contents: write permission to publish-vscode-extension job (4755c7b)
+
 ## [0.8.6] - 2026-03-28
 
 ### Bug Fixes
