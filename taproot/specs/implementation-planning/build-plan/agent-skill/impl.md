@@ -5,7 +5,8 @@
 
 ## Design Decisions
 - **Agent skill, not CLI command**: build-plan requires agent reasoning (classify backlog items, infer dependencies, present and await confirmation) — these are not deterministic CLI operations. The implementation is a skill file.
-- **plan.md format**: numbered list with inline `pending|done|skipped|blocked|stale` status, item type in brackets (`[spec]|[implement]|[refine]`), then path or description. Human-readable and regex-parseable by execute-plan and analyse-plan skills.
+- **plan.md format**: numbered list with inline `pending|done|skipped|blocked|stale` status, item type in brackets (`[spec]|[implement]|[refine]`), `hitl|afk` execution mode, then path or description. Header includes legend. Human-readable and regex-parseable by execute-plan and analyse-plan skills.
+- **HITL/AFK heuristics**: `spec` → `hitl` (design decisions needed); `refine` → `hitl` (human confirmation required); `implement` → `afk` by default unless known external blockers or unresolved design questions exist. Agent reasons per-item — heuristics are defaults, not rules.
 - **Skill slug `plan-build`**: groups build/execute/analyse under the `plan-` namespace, distinct from the existing `plan.md` skill (extract-next-slice). Adapter: `/tr-plan-build`.
 - **Backlog items removed after plan write**: after `taproot/plan.md` is written, consumed backlog items are deleted from `taproot/backlog.md` and the count is reported. Removal is scoped to backlog-sourced items only — explicit and hierarchy items have no backlog entry. The removal is reported inline so the developer is never surprised (aligns with UX "No Surprises" truth).
 - **Existing plan check at write time**: the agent checks for `taproot/plan.md` only after the developer confirms the proposed plan (step 7), not before collection and classification. Avoids interrupting the discovery phase.
@@ -21,7 +22,7 @@
 - `test/integration/plan-build.test.ts` — structural tests: required sections present, item types documented, plan.md format documented, what's-next block present, append/replace/abort flows present
 
 ## Status
-- **State:** complete
+- **State:** needs-rework
 - **Created:** 2026-03-27
 - **Last verified:** 2026-03-27
 
