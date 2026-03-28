@@ -55,6 +55,20 @@ Execute the full commit procedure: classify the commit type, run the appropriate
       taproot dod <impl-path> --resolve "<exact-condition-name>" --note "<reasoning>"
       ```
       **One condition per invocation.** Do not pass multiple `--resolve` flags.
+
+      **`document-current` resolution — mandatory steps:**
+      1. Read `docs/` and `README.md` content (the actual text, not inferred state)
+      2. Read the git diff for this implementation to identify what changed
+      3. Compare: are the docs accurate and current relative to what was just implemented?
+      4. If stale sections are found: apply updates directly, then resolve
+      5. If docs are current: resolve with a note describing what you read and why no update is needed
+
+      **Prohibited resolutions for `document-current`:**
+      - "nothing in backlog → docs are fine"
+      - "impl.md says complete → docs must be current"
+      - "no related backlog items → no doc update needed"
+      - Any resolution that does not involve reading `docs/` content and comparing it to the git diff
+
    c. Re-run `taproot dod <impl-path>` after each resolution to check remaining failures
    d. Repeat until all conditions pass. If a condition remains `✗` after its `--resolve` invocation, stop immediately: "Cannot resolve `<condition>` — it requires: `<correction hint>`." Wait for the user to intervene.
 
