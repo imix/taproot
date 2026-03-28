@@ -4,6 +4,14 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.8.1] - 2026-03-28
+
+### Taproot
+- taproot(taproot-distribution/homebrew-tap/ci-job): use repo-level secret, remove environment gate (ff06649)
+
+### Bug Fixes
+- fix: move taproot_version to top of settings.yaml (ed3fbb6)
+
 ## [0.8.0] - 2026-03-28
 
 ### Taproot
