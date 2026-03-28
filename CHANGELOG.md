@@ -4,6 +4,65 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.8.0] - 2026-03-28
+
+### Taproot
+- taproot(quality-gates/definition-of-done/cli-command): implement step-0 dirty check gate (d881b6b)
+- taproot(quality-gates/scoped-conditions/cli-extension): implement when: source-matches qualifier (f8ff324)
+- taproot(quality-gates/scoped-conditions/cli-extension): declare implementation (0922458)
+- taproot(skill-architecture/commit-awareness/suggest-commit-tag/agent-skill): add commit tag suggestion to /tr-commit skill (a4bea67)
+- taproot(skill-architecture/commit-awareness/suggest-commit-tag/agent-skill): declare implementation (cc700f1)
+- taproot(skill-architecture/commit-awareness/commit-skill/agent-skill): add document-current resolution guidance with prohibited shortcuts (2569708)
+- taproot(skill-architecture/commit-awareness/commit-skill/agent-skill): What's next options after commit per AC-9 (d5888d5)
+- taproot(taproot-distribution/homebrew-tap/ci-job): add update-homebrew-tap CI job to release workflow (cf15270)
+- taproot(taproot-distribution/homebrew-tap/ci-job): declare implementation (0e8605e)
+- taproot(taproot-distribution/ci-pipeline/github-workflow): add GitHub Actions CI workflow (5f39db0)
+- taproot(taproot-distribution/ci-pipeline/github-workflow): declare implementation (35bd782)
+- taproot(implementation-planning/execute-plan/agent-skill): add hitl/afk modes, orientation menu, per-item commit step (2b7a9f1)
+- taproot(implementation-planning/execute-plan/agent-skill): implement plan-execute skill and adapter (96d414d)
+- taproot(implementation-planning/execute-plan/agent-skill): declare implementation (fed5f4c)
+- taproot(implementation-planning/analyse-plan/agent-skill): implement plan-analyse skill and adapter (74fdfe4)
+- taproot(implementation-planning/build-plan/agent-skill): implement plan-build skill and adapter (bab36a9)
+- taproot(implementation-planning/build-plan/agent-skill): declare implementation (b2adc10)
+- taproot(implementation-planning/build-plan/agent-skill): add hitl/afk classification to plan items (a0f6f28)
+- taproot(implementation-planning/build-plan/agent-skill): remove consumed backlog items after plan is written (d9abca6)
+- taproot(agent-integration/generate-agent-adapter/cli-command): add taproot/agent/ stub to all example starters per AC-16 (8d5ad94)
+- taproot(research/research-subject/agent-skill): replace expert gate with three-way mode selection per AC-2b (21625c3)
+- taproot(human-integration/hierarchy-sweep/agent-skill): status file persistence + resume flow per AC-5/6/7 (d5ec52a)
+- taproot(global-truth-store/discover-truths/skill): one-at-a-time + status file persistence per AC-10/11/12 (0d86e1e)
+- taproot(requirements-hierarchy/initialise-hierarchy/cli-command): .gitignore append + npm audit in github CI workflow (d5ec52a)
+- taproot(taproot-backlog/manage-backlog/agent-skill): fix backlog.md path — move from taproot/agent/ to taproot/ (235ce5f)
+
+### Features
+- feat: add execute-plan and analyse-plan behaviour specs (1133268)
+- feat: add build-plan behaviour spec under implementation-planning (1f91658)
+
+### Maintenance
+- chore: mark item 23 done, update OVERVIEW.md (0f3dbac)
+- chore: mark item 22 done in plan.md (024c4e5)
+- chore: mark item 21 done in plan.md (0243dbe)
+- chore: update plan.md and link commits across impl.md files (117cf6f)
+- chore: add brand assets directory, set vscode-extension icon (82e2f0e)
+- chore: expand plan to 12 items (07e1ac4)
+- chore: rebuild plan — 7 items for release readiness + phased execution (f36558d)
+- chore: remove implemented backlog items (81ac525)
+- chore: mark plan item 15 done — CI pipeline complete (ea8db81)
+- chore: update discover-truths impl.md design decisions (1fcb7cc)
+- chore: link commits and update overview for backlog path fix (5cc9447)
+
+### Other
+- refactor: rename /tr-plan → /tr-next and /tr-plan-build → /tr-plan (ab29001)
+- refactor: update spec cross-references for tr-plan/tr-next rename (937a0b6)
+- build: add .taproot/ to .gitignore on taproot init (96c7464)
+- refine(execute-plan): add hitl/afk modes, orientation menu, per-item commit, follow-on offer (8838ad8)
+- refine(implementation-planning/execute-plan): add hitl/afk batch logic, orientation menu, follow-on offer (f6ffb64)
+- refine(implementation-planning/build-plan): add hitl/afk classification to plan items (b1cbbc2)
+- refine(implementation-planning/build-plan): remove consumed backlog items after plan is written (b3edcac)
+- refine: v1.0 specify pass — 8 specs/refinements + ci-pipeline spec + batch-skill-progress truth (a864ed0)
+- spec: suggest-commit-tag — derive taproot() prefix from staged impl.md paths (eb9a635)
+- spec: add homebrew-tap behaviour, refine vscode-marketplace scope and brand assets (978c615)
+- spec: add scoped-conditions, step-0 uncommitted-changes gate in definition-of-done (b6342d8)
+
 ## [0.7.0] - 2026-03-27
 
 ### Taproot
