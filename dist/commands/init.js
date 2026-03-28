@@ -329,6 +329,7 @@ export function runInit(options) {
     const pkgVersion = JSON.parse(readFileSync(resolve(__dirname, '..', '..', 'package.json'), 'utf-8')).version;
     if (!existsSync(configPath)) {
         const configForYaml = {
+            taproot_version: pkgVersion,
             version: DEFAULT_CONFIG.version,
             root: 'taproot/specs/',
             cli: './taproot/agent/bin/taproot',
@@ -342,7 +343,6 @@ export function runInit(options) {
                 allowed_behaviour_states: DEFAULT_CONFIG.validation.allowedBehaviourStates,
                 allowed_impl_states: DEFAULT_CONFIG.validation.allowedImplStates,
             },
-            taproot_version: pkgVersion,
         };
         if (resolvedVocabulary && Object.keys(resolvedVocabulary).length > 0) {
             configForYaml.vocabulary = resolvedVocabulary;

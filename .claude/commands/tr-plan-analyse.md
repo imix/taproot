@@ -1,6 +1,6 @@
 ---
 name: 'tr-plan-analyse'
-description: 'Analyse taproot/plan.md before execution — check each pending item for readiness, flag ambiguous specs, unresolved dependencies, and missing prerequisites'
+description: 'Analyse `taproot/plan.md` before execution: check each pending item for readiness, flag ambiguous specs, unresolved dependencies, and missing prerequisites, and produce a per-item report so the developer knows what needs fixing before executing'
 ---
 
 <!-- taproot:cli-invocation: node dist/cli.js -->

@@ -89,9 +89,13 @@ function bumpTaprootVersion(cwd: string): string[] {
   let content = readFileSync(settingsPath, 'utf-8');
   if (/^taproot_version:/m.test(content)) {
     content = content.replace(/^taproot_version:.*$/m, `taproot_version: '${newVersion}'`);
+    // Move to top if not already first line
+    if (!content.startsWith('taproot_version:')) {
+      content = content.replace(/^taproot_version:.*\n/m, '');
+      content = `taproot_version: '${newVersion}'\n` + content;
+    }
   } else {
-    // Append before first blank line after last key, or at end
-    content = content.trimEnd() + `\ntaproot_version: '${newVersion}'\n`;
+    content = `taproot_version: '${newVersion}'\n` + content;
   }
   writeFileSync(settingsPath, content, 'utf-8');
   msgs.push(`updated  taproot/settings.yaml (taproot_version: ${newVersion})`);

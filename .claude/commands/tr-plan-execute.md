@@ -1,6 +1,6 @@
 ---
 name: 'tr-plan-execute'
-description: 'Execute items from taproot/plan.md — step-by-step, batch, specify (spec+refine only), or implement (implement only) mode'
+description: 'Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence (batch), with optional filters to process only `spec`+`refine` items (specify mode) or only `implement` items (implement mode)'
 ---
 
 <!-- taproot:cli-invocation: node dist/cli.js -->

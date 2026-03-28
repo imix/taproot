@@ -122,40 +122,6 @@ The skill walks the hierarchy below the artifact and identifies: which implement
 
 ---
 
-## Planning a sprint or batch of work
-
-When you have multiple items to implement across a session — or want to hand off a list to an autonomous agent — use `/tr-plan-build` to create a persistent plan file:
-
-```
-/tr-plan-build "add all backlog items to plan"
-/tr-plan-build "add login flow and password reset to plan"
-```
-
-The agent scans your backlog (`taproot/backlog.md`), unimplemented behaviours (`taproot coverage`), or explicit items you name. Each item is classified as `spec` (needs a usecase.md first), `implement` (ready to code), or `refine` (spec needs updating). The agent sequences prerequisites first and presents the proposed plan for your review before writing `taproot/plan.md`.
-
-```
-Proposed plan — 3 items:
- 1. [spec]      "add login flow"
- 2. [refine]    taproot/specs/auth/session/usecase.md
- 3. [implement] taproot/specs/auth/logout/
-[A] Confirm  [E] Edit  [Q] Abort
-```
-
-Once the plan is built, use `/tr-plan-execute` to work through it:
-
-```
-/tr-plan-execute             # step-by-step: present and confirm each item
-/tr-plan-execute "run all"   # batch: confirm the full list up-front, then execute sequentially
-/tr-plan-execute "bring all to specified"   # specify mode: run spec+refine items only
-/tr-plan-execute "implement all specified"  # implement mode: run implement items only
-```
-
-A typical two-pass workflow: run specify mode first (all specs written and refined), then implement mode (all code written).
-
-To find a single next item without building a full plan, use `/tr-plan` — it surfaces the top AFK (agent-can-implement) candidate and delegates directly to `/tr-implement`.
-
----
-
 ## Stress-testing a spec
 
 ```

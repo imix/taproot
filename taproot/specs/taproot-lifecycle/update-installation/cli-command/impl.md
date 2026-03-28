@@ -32,6 +32,8 @@
 
 ## DoD Resolutions
 - condition: document-current | note: no docs change needed — force-overwrite of skills on update is an internal implementation detail; README and docs/agents.md describe what taproot update does (refreshes skills), not how it detects changes | resolved: 2026-03-20T20:55:08.050Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no — moving taproot_version to the top of settings.yaml is a cosmetic layout change; it does not introduce a new architectural rule for other implementations | resolved: 2026-03-28T10:45:52.209Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: NO skill files modified. | resolved: 2026-03-27T16:53:31.086Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO. | resolved: 2026-03-27T16:53:30.824Z

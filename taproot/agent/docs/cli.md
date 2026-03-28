@@ -161,7 +161,7 @@ Regenerates `taproot/OVERVIEW.md` — a compact hierarchy summary with clickable
 taproot plan [--format tree|json]
 ```
 
-Surfaces unimplemented behaviours as work items, ordered by priority (intents with more coverage are prioritized to reach completion). Useful for sprint planning or for orienting a new contributor. The `/tr-plan` skill provides an AI-driven version with more context.
+Surfaces unimplemented behaviours as work items, ordered by priority (intents with more coverage are prioritized to reach completion). Useful for sprint planning or for orienting a new contributor. The `/tr-next` skill provides an AI-driven version with more context.
 
 ---
 
@@ -170,11 +170,15 @@ Surfaces unimplemented behaviours as work items, ordered by priority (intents wi
 ### `taproot dod`
 
 ```bash
-taproot dod [impl-path] [--dry-run] [--rerun-tests]
+taproot dod [impl-path] [--dry-run] [--rerun-tests] [--stash] [--ignore-dirty]
 taproot dod <impl-path> --resolve <condition> --note "<text>" [--resolve <condition> --note "<text>" ...]
 ```
 
 Runs all configured DoD conditions from `taproot/settings.yaml` against the specified implementation (or all implementations if no path is given). If all conditions pass and an `impl-path` is provided, marks the impl `complete`, records the results in `## DoD Resolutions`, and automatically advances the parent `usecase.md` state from `specified` to `implemented` if it hasn't been already.
+
+**Uncommitted changes pre-check:** When an `impl-path` is provided, `taproot dod` first checks `git status` for files modified or untracked that are not listed in the impl's `## Source Files`. If such files are found, it reports them and exits with a non-zero code before running any conditions. This prevents uncommitted out-of-scope changes from polluting the implementation commit. Options:
+- `--stash` — automatically run `git stash` before running DoD; restores with `git stash pop` manually after
+- `--ignore-dirty` — skip the dirty check and run DoD regardless of working tree state
 
 Use `--resolve`/`--note` to record agent resolutions for agent-driven conditions (e.g. `document-current`, `check-if-affected`, `check-if-affected-by`). Multiple pairs can be supplied in a single invocation — conditions are paired with notes by position.
 

@@ -1,3 +1,4 @@
+taproot_version: '0.8.0'
 version: 1
 root: taproot/specs/
 cli: node dist/cli.js
@@ -47,4 +48,3 @@ definitionOfDone:
   - check: "does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml?"
   - check: "does this story reveal a reusable pattern worth documenting in docs/patterns.md?"
   - check: "if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md"
-taproot_version: '0.7.0'
