@@ -134,7 +134,7 @@ flowchart TD
 - [VS Code Extension and CI Publish](./multi-surface/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-26
 - **Last reviewed:** 2026-03-28
 

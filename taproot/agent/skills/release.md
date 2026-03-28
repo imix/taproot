@@ -72,11 +72,11 @@ Run the taproot maintainer's local release phase: pre-flight checks, changelog g
      - If `CHANGELOG.md` exists and contains `<!-- entries below -->`, insert the new entry on the line immediately after that marker.
      - If `CHANGELOG.md` exists but has no marker, prepend the entry after the first blank line following the `# Changelog` heading.
 
-4. **Version bump** — update the `version` field in `package.json` to `<next>`. Write the file with the same formatting (2-space indent, trailing newline). Verify by re-reading the file.
+4. **Version bump** — update the `version` field in both `package.json` and `vscode-extension/package.json` to `<next>`. Write each file with the same formatting (2-space indent, trailing newline). Verify by re-reading both files.
 
 5. **Commit** — this is a **plain commit** (message `chore: release v<next>` does not match the `taproot(<scope>):` pattern). The taproot pre-commit hook classifies it as plain and runs no DoD or DoR conditions. Stage and commit:
    ```
-   git add package.json CHANGELOG.md
+   git add package.json vscode-extension/package.json CHANGELOG.md
    git commit -m "chore: release v<next>"
    ```
    If the commit is blocked by the pre-commit hook, report the hook output verbatim and stop. Do not bypass the hook (`--no-verify`).

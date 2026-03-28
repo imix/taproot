@@ -141,5 +141,56 @@ jobs:
             exit 1
           }
 
-  # publish-vscode-extension: disabled until publisher account, icon, lockfile, and secrets are ready
-  # See taproot/taproot-distribution/vscode-marketplace/multi-surface/impl.md for remaining gaps
+  publish-vscode-extension:
+    name: Publish VS Code Extension
+    needs: publish
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check secrets
+        run: |
+          if [ -z "${{ secrets.VSCE_PAT }}" ]; then
+            echo "VSCE_PAT not set — add it as a repository secret to enable VS Code Marketplace publish."
+            exit 1
+          fi
+
+      - name: Pre-flight version check
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          EXT_VERSION=$(node -p "require('./vscode-extension/package.json').version")
+          if [ "$EXT_VERSION" != "$VERSION" ]; then
+            echo "vscode-extension/package.json version ($EXT_VERSION) does not match release version ($VERSION). Update vscode-extension/package.json before releasing."
+            exit 1
+          fi
+
+      - name: Install extension dependencies
+        run: cd vscode-extension && npm ci
+
+      - name: Build and publish to VS Code Marketplace
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        run: |
+          cd vscode-extension
+          npx @vscode/vsce package
+          npx @vscode/vsce publish --pat "$VSCE_PAT"
+
+      - name: Publish to Open VSX
+        continue-on-error: true
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+        run: |
+          if [ -z "$OVSX_PAT" ]; then
+            echo "OVSX_PAT not set — skipping Open VSX publish."
+            exit 0
+          fi
+          cd vscode-extension
+          VSIX=$(ls *.vsix | head -1)
+          npx ovsx publish "$VSIX" --pat "$OVSX_PAT" || {
+            echo "VS Marketplace ✓ — Open VSX failed. Retry manually: npx ovsx publish $VSIX --pat \$OVSX_PAT"
+          }
