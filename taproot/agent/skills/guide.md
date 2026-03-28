@@ -62,7 +62,8 @@ ineed → intent → behaviour → implement → trace → status
 | `/tr-backlog` | Capture an idea or finding instantly mid-session; called with no args opens triage to discard, keep, or promote items |
 | `/tr-grill-me` | Interview the user relentlessly to sharpen a plan or design |
 | `/tr-research` | Research a domain or technical subject before speccing — local resources, web search, expert grilling |
-| `/tr-plan-build` | Build a persistent implementation plan (`taproot/plan.md`) from backlog items, hierarchy gaps, or explicit items |
+| `/tr-next` | Surface the next independently-implementable work item from the hierarchy |
+| `/tr-plan` | Build a persistent implementation plan (`taproot/plan.md`) from backlog items, hierarchy gaps, or explicit items |
 | `/tr-plan-execute` | Execute items from `taproot/plan.md` — step-by-step, batch, specify (spec+refine only), or implement (implement only) mode |
 | `/tr-plan-analyse` | Analyse `taproot/plan.md` before execution — check readiness, flag ambiguous specs, unresolved dependencies, and missing prerequisites |
 | `/tr-sweep` | Apply a uniform task to a filtered set of hierarchy files — enumerate, confirm, then call `taproot apply` |

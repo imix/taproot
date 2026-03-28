@@ -1,6 +1,6 @@
 ---
-name: 'tr-plan-build'
-description: 'Build a persistent implementation plan (`taproot/plan.md`) from backlog items, unimplemented hierarchy behaviours, or developer-supplied items'
+name: 'tr-next'
+description: 'Surface the next independently-implementable work item from the requirement hierarchy'
 ---
 
 <!-- taproot:cli-invocation: node dist/cli.js -->
@@ -9,7 +9,7 @@ description: 'Build a persistent implementation plan (`taproot/plan.md`) from ba
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
 
 <steps CRITICAL="TRUE">
-1. LOAD the FULL skill file at @{project-root}/taproot/agent/skills/plan-build.md
+1. LOAD the FULL skill file at @{project-root}/taproot/agent/skills/next.md
 2. READ its entire contents — this contains the complete skill definition with steps, inputs, and output format
 3. FOLLOW every step in the ## Steps section precisely and in order
 4. When the skill references other taproot commands (e.g. `/taproot:intent`), use the corresponding `/tr-intent` command instead

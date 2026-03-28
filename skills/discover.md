@@ -241,7 +241,7 @@ Reverse-engineer an existing project into a taproot hierarchy — from source co
 
     **What's next?**
     [A] `/tr-status` — see coverage gaps and health report
-    [B] `/tr-plan` — surface the next behaviour to implement
+    [B] `/tr-next` — surface the next behaviour to implement
     [C] `/tr-ineed` — capture requirements that surfaced during discovery but weren't formalised
 
 ## Output

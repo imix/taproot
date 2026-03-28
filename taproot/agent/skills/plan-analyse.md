@@ -11,12 +11,12 @@ None required.
 ## Steps
 
 1. **Check for plan.** If `taproot/plan.md` does not exist, report:
-   > *"No plan found — build one first with `/tr-plan-build`."*
+   > *"No plan found — build one first with `/tr-plan`."*
    Stop.
 
 2. **Read `taproot/plan.md`.** Collect all items. If no `pending` items exist, report:
    > *"No pending items to analyse."*
-   Suggest: *"Build a new plan with `/tr-plan-build`."* Stop.
+   Suggest: *"Build a new plan with `/tr-plan`."* Stop.
 
 3. **Evaluate readiness for each pending item:**
 
@@ -64,7 +64,7 @@ None required.
 
    **What's next?**
    [A] `/tr-plan-execute` — execute the plan (after resolving flagged items)
-   [B] `/tr-plan-build` — rebuild or add items to the plan
+   [B] `/tr-plan` — rebuild or add items to the plan
 
 ## Output
 

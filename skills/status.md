@@ -76,12 +76,12 @@ Generated: <date>
      **What's next?**
      [A] `/tr-implement taproot/<intent>/<behaviour>/` — implement unimplemented behaviour
      [B] `/tr-refine taproot/<intent>/<behaviour>/` — add missing tests
-     [C] `/tr-plan` — pick a different next item
+     [C] `/tr-next` — pick a different next item
 
    - **If no specific items were found** (healthy project): check whether `taproot/backlog.md` exists and contains items. Show the generic fallback menu:
 
      **What's next?**
-     [A] `/tr-plan` — pick the next behaviour to implement
+     [A] `/tr-next` — pick the next behaviour to implement
      [B] `/tr-ineed` — route a new requirement into the hierarchy
      [C] `/tr-review-all` — deeper semantic review of specs
      [D] `/tr-backlog` — triage captured ideas (only if `taproot/backlog.md` is non-empty)

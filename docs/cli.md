@@ -161,7 +161,7 @@ Regenerates `taproot/OVERVIEW.md` — a compact hierarchy summary with clickable
 taproot plan [--format tree|json]
 ```
 
-Surfaces unimplemented behaviours as work items, ordered by priority (intents with more coverage are prioritized to reach completion). Useful for sprint planning or for orienting a new contributor. The `/tr-plan` skill provides an AI-driven version with more context.
+Surfaces unimplemented behaviours as work items, ordered by priority (intents with more coverage are prioritized to reach completion). Useful for sprint planning or for orienting a new contributor. The `/tr-next` skill provides an AI-driven version with more context.
 
 ---
 

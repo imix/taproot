@@ -146,7 +146,7 @@ If any of these is true, **autonomous mode is active** — apply the autonomous 
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
-   [A] `/tr-plan` — surface the next implementable behaviour
+   [A] `/tr-next` — surface the next implementable behaviour
    [B] `/tr-status` — see full project health after this implementation
 
 ## Output

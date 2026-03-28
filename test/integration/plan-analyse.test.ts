@@ -32,8 +32,8 @@ describe('plan-analyse skill — no-plan guard (AC-7)', () => {
     expect(skill).toMatch(/plan\.md.*does not exist|No plan found/i);
   });
 
-  it('suggests /tr-plan-build when plan is missing', () => {
-    expect(skill).toMatch(/tr-plan-build/);
+  it('suggests /tr-plan when plan is missing', () => {
+    expect(skill).toMatch(/tr-plan/);
   });
 });
 

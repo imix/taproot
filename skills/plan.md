@@ -1,63 +1,96 @@
-# Skill: plan
+# Skill: plan-build
 
 ## Description
 
-Surface the next independently-implementable work item from the requirement hierarchy. Runs `taproot plan` to scan and classify candidates as AFK (agent can proceed autonomously) or HITL (human input required), presents the recommended next slice, and delegates to `/tr-implement` once the developer confirms.
+Build a persistent implementation plan (`taproot/plan.md`) from backlog items, unimplemented hierarchy behaviours, or developer-supplied items. Each item is typed (`spec`, `implement`, or `refine`) and sequenced so prerequisites come first.
 
 ## Inputs
 
-- `path` (optional): Behaviour path to implement directly — skips discovery and goes straight to `/tr-implement`.
+- `source` (optional): `backlog`, `hierarchy`, or leave blank to let the developer specify in natural language
 
 ## Steps
 
-1. **If a path was provided**: skip to Step 5 and invoke `/tr-implement <path>` directly.
+1. **Determine sources.** Read the developer's request and identify which sources to scan:
+   - **backlog** — read `taproot/backlog.md`; filter to actionable items
+   - **hierarchy** — run `node dist/cli.js coverage` to find unimplemented or in-progress behaviours
+   - **explicit** — use the items the developer named directly, without scanning
 
-2. Run `taproot plan` and read the output. It lists:
-   - **AFK** candidates: behaviours with `specified` state, ready to implement autonomously
-   - **HITL** candidates: behaviours with `proposed` state, needing human review first
-   - **In-progress** implementations: partially-implemented behaviours that can be resumed
+2. **Collect candidates.** For each source:
+   - *backlog*: read `taproot/backlog.md`, one item per bullet/line. Skip blank lines and dated metadata lines. If `taproot/backlog.md` is absent, note *"backlog.md not found, treating as empty"* and continue.
+   - *hierarchy*: run `node dist/cli.js coverage` and collect behaviours whose state is `proposed` (→ `refine`) or have no implementation yet (→ `implement` if usecase.md is `specified`, else → `spec`).
+   - *explicit*: collect items the developer named; resolve each to a hierarchy path if one exists, or mark as `spec` if it doesn't.
 
-3. If no candidates are found (all behaviours fully implemented), report: "Everything is implemented."
+3. **Classify each candidate by type and execution mode:**
+   - Type:
+     - **`spec`** — no `usecase.md` exists yet; first action is to write one with `/tr-behaviour`
+     - **`implement`** — a `usecase.md` exists and is in `specified` state; ready to code
+     - **`refine`** — a `usecase.md` exists but is in `proposed` or `draft` state; needs `/tr-refine` before implementing
+   - Execution mode:
+     - **`hitl`** (human-in-the-loop) — requires a human decision, design choice, or external action before or during execution. Signals: open-ended design, naming decisions, external setup (accounts, secrets, infrastructure), architectural trade-offs, or vague success criteria.
+     - **`afk`** (away-from-keyboard) — agent can execute autonomously; success criteria are fully derivable from an existing spec with no open questions.
+   - Default heuristics: `spec` → `hitl`; `refine` → `hitl`; `implement` → `afk` unless the impl has known external blockers or unresolved design questions.
 
-   Nothing obvious next — whenever you're ready:
+4. **Sequence candidates.** `spec` and `refine` items that are prerequisites for `implement` items appear earlier in the list. Otherwise preserve source order.
+
+5. **Present the proposed plan for review:**
+   ```
+   Proposed plan — N items:
+    1. hitl  [spec]      "description of new item"
+    2. hitl  [refine]    taproot/specs/<intent>/<behaviour>/usecase.md
+    3. afk   [implement] taproot/specs/<intent>/<behaviour>/
+
+   [A] Confirm  [E] Edit directly then reply A  [Q] Abort
+   ```
+   Wait for developer response. Do not write any files before confirmation.
+
+6. **Handle developer choice:**
+   - **[E]**: wait for the developer to paste an edited list in the conversation, then treat it as the confirmed plan and continue to step 7.
+   - **[Q]**: stop — no files written.
+   - **[A]** or any affirmative: continue to step 7.
+
+7. **Check for existing plan.** If `taproot/plan.md` already exists:
+   - Report: *"A plan already exists with N items."*
+   - Offer: `[A] Append new items · [R] Replace · [Q] Abort`
+   - **[A]**: append only items not already present (match by type + path/description).
+   - **[R]**: replace the file with the new plan.
+   - **[Q]**: stop — no files modified.
+
+8. **Write `taproot/plan.md`** using this format:
+   ```
+   # Taproot Plan
+
+   _Built: YYYY-MM-DD — N items_
+   _HITL = human decision required · AFK = agent executes autonomously_
+
+   ## Items
+
+   1. pending  [spec]      hitl  "description of new item"
+   2. pending  [implement] afk   taproot/specs/<intent>/<behaviour>/
+   3. pending  [refine]    hitl  taproot/specs/<intent>/<behaviour>/usecase.md
+   ```
+
+   Status values: `pending` · `done` · `skipped` · `blocked` · `stale`
+
+9. **Remove consumed backlog items.** If any plan items were sourced from `taproot/backlog.md`, remove those lines from the file and report: *"Removed N item(s) from `taproot/backlog.md`."* Skip this step if no backlog items were used or if `taproot/backlog.md` is absent.
+
+10. Confirm: *"Plan saved — N items in `taproot/plan.md`."*
 
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
-   [A] `/tr-review-all` — semantic review of the full hierarchy
-   [B] `/tr-ineed` — capture a new requirement
-
-   Then stop.
-
-4. Recommend the top AFK candidate (first in the sorted output). Present it as:
-   > "Next recommended slice: **`<behaviour-path>`** (`<intent goal>`)"
-   > "Classification: AFK — spec is complete, no design decisions required."
-   > "To implement: `/tr-implement taproot/<behaviour-path>/`"
-   >
-   > **[Y]** Implement this   **[L]** Show full list   **[S]** Skip to a different behaviour
-
-   - **[Y]**: proceed to Step 5
-   - **[L]**: display the full `taproot plan` output, then ask the developer to pick a behaviour path, then proceed to Step 5
-   - **[S]**: ask "Which behaviour path would you like to implement?" then proceed to Step 5
-
-5. If the top candidate is HITL (no AFK candidates exist), flag it:
-   > "The next unimplemented behaviour is HITL — the spec needs clarification before an agent can proceed autonomously."
-   > "Behaviour: `<path>`"
-
-   **Next:** `/tr-refine taproot/<path>/` — sharpen the spec, then return here
-
-6. Invoke `/tr-implement taproot/<behaviour-path>/` with the confirmed path.
+   [A] `/tr-plan-analyse` — check readiness of all items before executing
+   [B] `/tr-plan-execute` — start executing items one by one
 
 ## Output
 
-Delegates to `/tr-implement`. No files are written directly by this skill.
+`taproot/plan.md` — an ordered list of typed, status-tracked action items.
 
 ## CLI Dependencies
 
-- `taproot plan`
+- `taproot coverage`
 
 ## Notes
 
-- AFK/HITL classification is determined by the `taproot plan` command using the behaviour's `usecase.md` state as a proxy: `specified` → AFK, `proposed` → HITL.
-- This skill is the conversational wrapper around `taproot plan` — it adds selection, confirmation, and delegation logic that the CLI command cannot provide.
-- `/tr-plan` is the Claude Code adapter command name for this skill.
+- Backlog removal applies only to items sourced from `taproot/backlog.md` — explicit items and hierarchy items have no backlog entry to remove.
+- Dependency ordering is inferred by the agent, not formally declared in the plan file.
+- Autonomous execution of plan items is out of scope — see `/tr-plan-execute` for confirmed step-by-step execution.

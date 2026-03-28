@@ -100,7 +100,7 @@ Run a comprehensive review of an entire subtree — an intent and all its descen
 
    **What's next?**
    [A] `/tr-refine <highest-priority-path>` — fix the top-priority finding
-   [B] `/tr-plan` — surface the next implementable behaviour
+   [B] `/tr-next` — surface the next implementable behaviour
    [C] `/tr-backlog <finding>` — capture a deferred finding before routing it to the hierarchy
 
 ## Output

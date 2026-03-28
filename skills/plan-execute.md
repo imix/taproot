@@ -11,7 +11,7 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
 ## Steps
 
 1. **Check for plan.** If `taproot/plan.md` does not exist, report:
-   > *"No plan found — build one first with `/tr-plan-build`."*
+   > *"No plan found — build one first with `/tr-plan`."*
    Stop — no skills invoked.
 
 2. **Read `taproot/plan.md`.** Collect all items and their current status.
@@ -46,7 +46,7 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
    - *implement*: `pending` items where type is `[implement]`; `[spec]` and `[refine]` items remain `pending` untouched
 
 5. **Check for pending items.** If the filtered list is empty (no pending items matching the filter):
-   - If the overall plan has no `pending` items at all: report *"Plan is complete — no pending items. Build a new plan with `/tr-plan-build`."*
+   - If the overall plan has no `pending` items at all: report *"Plan is complete — no pending items. Build a new plan with `/tr-plan`."*
    - If items exist but none match the filter: report *"No [hitl | afk | spec/refine | implement] items pending."*
    Stop — no skills invoked.
 
@@ -109,7 +109,7 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
 
    **What's next?**
    [A] Continue executing — call `/tr-plan-execute` again for remaining items
-   [B] `/tr-plan-build` — add more items to the plan
+   [B] `/tr-plan` — add more items to the plan
 
 ## Output
 

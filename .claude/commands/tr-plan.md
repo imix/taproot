@@ -1,6 +1,6 @@
 ---
 name: 'tr-plan'
-description: 'Surface the next independently-implementable work item from the requirement hierarchy'
+description: 'Build a persistent implementation plan (`taproot/plan.md`) from backlog items, unimplemented hierarchy behaviours, or developer-supplied items'
 ---
 
 <!-- taproot:cli-invocation: node dist/cli.js -->
