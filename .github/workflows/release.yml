@@ -151,6 +151,8 @@ jobs:
     needs: publish
     runs-on: ubuntu-latest
     continue-on-error: true
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
