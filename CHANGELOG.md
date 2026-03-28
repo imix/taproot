@@ -4,6 +4,11 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.8.2] - 2026-03-28
+
+### Bug Fixes
+- fix: correct GitHub owner in homebrew-tap tarball URL (imix-js → imix) (e5950ff)
+
 ## [0.8.1] - 2026-03-28
 
 ### Taproot
