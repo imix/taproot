@@ -72,7 +72,6 @@ jobs:
     name: Update Homebrew tap
     needs: publish
     runs-on: ubuntu-latest
-    environment: release
     continue-on-error: true
     steps:
       - name: Check token

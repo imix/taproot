@@ -51,8 +51,8 @@ describe('homebrew-tap CI job — structural checks', () => {
     expect(jobSection).toContain('imix/homebrew-tap');
   });
 
-  it('job runs in release environment to access HOMEBREW_TAP_TOKEN', () => {
+  it('job uses HOMEBREW_TAP_TOKEN secret (repo-level secret, no environment gate required)', () => {
     const jobSection = releaseYml.slice(releaseYml.indexOf('update-homebrew-tap:'));
-    expect(jobSection).toMatch(/environment:\s*release/);
+    expect(jobSection).toContain('secrets.HOMEBREW_TAP_TOKEN');
   });
 });
