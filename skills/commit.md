@@ -72,7 +72,20 @@ Execute the full commit procedure: classify the commit type, run the appropriate
       Wait for the developer's choice. Do not proceed to step 5 until resolved.
    e. If no conflicts (or all resolved): run `taproot truth-sign` to record the session marker the hook validates.
 
-5. Stage source files + all matched impl.md files and commit with a concise one-line message.
+5. **Suggest commit tag** — derive the conventional tag from the matched impl.md paths:
+   - For each matched `impl.md`, extract the relative path between `taproot/specs/` and `/impl.md` → `<intent>/<behaviour>/<impl>`
+   - If the developer has already supplied a commit message that starts with a recognised prefix (`taproot(`, `fix:`, `feat:`, `chore:`, `refine:`, `spec:`, `build:`, `docs:`): use it as-is — do not suggest or prepend anything
+   - If all matched impl.md files share the same `<intent>/<behaviour>` prefix:
+     - Single impl: suggest `taproot(<intent>/<behaviour>/<impl>):`
+     - Multiple impls under the same behaviour: suggest `taproot(<intent>/<behaviour>):`
+   - If matched impl.md files span two or more distinct `<intent>/<behaviour>` paths:
+     - Report: *"Staged files span multiple behaviours: `<path-1>`, `<path-2>`. Suggested: commit them separately, one per behaviour, to keep commit history traceable."*
+     - Offer: `[A] Commit all together (no single tag)  [B] Split — commit one behaviour at a time`
+     - `[B]`: stage only the first behaviour's files, apply its tag, commit; then repeat for the remainder
+   - If an impl.md path does not match `taproot/specs/<intent>/<behaviour>/<impl>/impl.md`, skip the tag suggestion for that file and note: *"Could not derive tag from `<path>` — path layout unexpected."*
+   - Present: `Suggested commit tag: taproot(<path>):`
+
+6. Stage source files + all matched impl.md files and commit with the suggested tag prefix (or the developer-supplied message).
 
 ### Declaration commit
 

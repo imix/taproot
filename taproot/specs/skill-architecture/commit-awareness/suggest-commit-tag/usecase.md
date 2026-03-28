@@ -115,7 +115,7 @@ flowchart TD
 - [Agent Skill — suggest-commit-tag](./agent-skill/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-28
 - **Last reviewed:** 2026-03-28
 
