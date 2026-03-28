@@ -20,14 +20,36 @@ You never have to think about whether you need an intent or a behaviour. `/tr-in
 
 ```
 /tr-plan
+/tr-plan-analyse
 /tr-plan-execute
 ```
 
-Use `/tr-plan` to build a prioritised list of work items from your backlog, unimplemented behaviours, or items you describe directly. The plan is saved to `taproot/plan.md` and persists across sessions.
+**A typical session looks like this:**
 
-When you're ready to execute, `/tr-plan-execute` works through the plan one item at a time — or in batch for items that don't need your input. Items requiring a human decision pause and wait; autonomous items run straight through.
+You have a list of things you want to build. You describe them — or point at unimplemented specs already in the hierarchy — and `/tr-plan` builds a prioritised list, classifying each item as `hitl` (needs your input) or `afk` (agent can run it autonomously). The plan is saved to `taproot/plan.md` and persists across sessions.
 
-Before executing a large plan, run `/tr-plan-analyse` to catch items that aren't ready (ambiguous specs, missing prerequisites, unresolved dependencies).
+```
+/tr-plan "add CSV export, add JSON export, add rate limiting, add audit log"
+```
+
+Before executing, run `/tr-plan-analyse` to catch anything that isn't ready — ambiguous specs, unresolved dependencies, missing prerequisites. It produces a per-item report so you can fix blockers before starting.
+
+Then:
+
+```
+/tr-plan-execute
+```
+
+`afk` items run straight through without stopping — spec, implement, tests, commit, move on. `hitl` items pause and wait for your input before continuing. When you return, everything autonomous is done and the decisions are waiting exactly where you left off.
+
+**Modes:**
+
+```
+/tr-plan-execute --mode specify      # only run spec + refine phases (stop before implementing)
+/tr-plan-execute --mode implement    # only run implementation phases (skip spec work)
+```
+
+Use `specify` mode to work through all specs with the agent first, refine them together, then hand off the whole implementation phase as a single autonomous batch.
 
 ---
 

@@ -24,4 +24,4 @@ Taproot keeps a git-versioned chain from business intent → stakeholder behavio
 - [GitHub](https://github.com/imix/taproot)
 - [npm](https://www.npmjs.com/package/@imix-js/taproot)
 
-<!-- root-readme-sha: f5a927425a67493b61297cba17df249dc34a58e854d23e3ab131f7ef82d7ff53 -->
+<!-- root-readme-sha: 89f76666199e23c055f17085f0f4a861ec514b8f4fada1a14086f5eb8663c1ae -->

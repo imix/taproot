@@ -25,6 +25,15 @@ Then in your agent:
 
 That's the loop. Spec first, code second, git enforces both.
 
+**Planning a batch of work:**
+
+```
+/tr-plan                         # build a prioritised plan from backlog + unimplemented specs
+/tr-plan-execute                 # run through it — autonomous items execute; HITL items pause for you
+```
+
+Describe ten requirements, review the plan, walk away. When you return, everything autonomous is done and the human decisions are waiting.
+
 ---
 
 ```
