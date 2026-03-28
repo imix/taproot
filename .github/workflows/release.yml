@@ -172,13 +172,16 @@ jobs:
       - name: Install extension dependencies
         run: cd vscode-extension && npm ci
 
+      - name: Compile extension
+        run: cd vscode-extension && npm run compile
+
       - name: Build and publish to VS Code Marketplace
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
         run: |
           cd vscode-extension
-          npx @vscode/vsce package
-          npx @vscode/vsce publish --pat "$VSCE_PAT"
+          npx @vscode/vsce package --allow-missing-repository
+          npx @vscode/vsce publish --pat "$VSCE_PAT" --allow-missing-repository
 
       - name: Publish to Open VSX
         continue-on-error: true

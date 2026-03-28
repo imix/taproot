@@ -5,6 +5,11 @@
   "version": "0.8.4",
   "publisher": "imix-ai",
   "icon": "icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/imix/taproot.git",
+    "directory": "vscode-extension"
+  },
   "engines": {
     "vscode": "^1.80.0"
   },
