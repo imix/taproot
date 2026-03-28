@@ -4,6 +4,11 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.8.6] - 2026-03-28
+
+### Bug Fixes
+- fix: attach npm tarball and vsix to GitHub release assets (1ee06ff)
+
 ## [0.8.5] - 2026-03-28
 
 ### Bug Fixes
