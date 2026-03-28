@@ -4,6 +4,14 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.8.4] - 2026-03-28
+
+### Taproot
+- taproot(taproot-distribution/vscode-marketplace/multi-surface): complete Phase 1 — lockfile, version sync, CI job, release skill (66ab6c8)
+
+### Maintenance
+- chore: update plan and overview (7724cf7)
+
 ## [0.8.3] - 2026-03-28
 
 ### Bug Fixes
