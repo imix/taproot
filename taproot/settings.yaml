@@ -34,6 +34,7 @@ definitionOfReady:
 definitionOfDone:
   - tests-passing
   - document-current: README.md and docs/ accurately reflect all currently implemented CLI commands, skills, and configuration options
+  - check-if-affected: package.json
   - check-if-affected: src/commands/update.ts
   - check-if-affected: skills/guide.md
   - check-if-affected: docs/

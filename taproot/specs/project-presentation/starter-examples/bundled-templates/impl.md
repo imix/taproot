@@ -37,6 +37,36 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md updated to document --template and --force flags and the interactive template prompt; skills/guide.md updated to mention --template in init row and new-project context note; README.md does not reference init flags in detail — it uses a minimal quick-start example, which is appropriate | resolved: 2026-03-25T11:18:24.806Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: Not applicable. No skill files modified. | resolved: 2026-03-28T15:24:18.877Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No new reusable taproot pattern. | resolved: 2026-03-28T15:24:18.625Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: Yes — add check-if-affected: package.json to prevent future omissions of bundled directories. Will add after this commit. | resolved: 2026-03-28T15:24:18.372Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: Compliant. Adding examples/ to package.json files array has no architectural implications. | resolved: 2026-03-28T15:24:18.122Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: Not applicable. No user-facing skills modified. | resolved: 2026-03-28T15:24:17.862Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: Not applicable. No skill files modified. | resolved: 2026-03-28T15:24:17.602Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: Not applicable. No skill files modified. | resolved: 2026-03-28T15:24:17.346Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: Not applicable. No bulk-authoring skills modified. | resolved: 2026-03-28T15:24:17.083Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: Not applicable. CLI init command, not a skill. | resolved: 2026-03-28T15:24:16.828Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: Not applicable. No skill files modified. | resolved: 2026-03-28T15:24:16.571Z
+
+- condition: check-if-affected: examples/ | note: Not affected by logic changes. examples/ content unchanged — fix is solely in package.json files array. | resolved: 2026-03-28T15:24:16.317Z
+
+- condition: check-if-affected: docs/ | note: Not affected. docs/cli.md already documents --template flag. No new options introduced. | resolved: 2026-03-28T15:24:16.052Z
+
+- condition: check-if-affected: skills/guide.md | note: Not affected. No new commands or workflow steps. | resolved: 2026-03-28T15:24:15.788Z
+
+- condition: check-if-affected: src/commands/update.ts | note: Not affected. update.ts distributes skills/adapters. The package.json files fix does not change update behavior. | resolved: 2026-03-28T15:24:15.525Z
+
+- condition: document-current | note: Read docs/cli.md — --template and --force flags are documented. README.md does not need updating. This fix adds examples/ to package.json files array only; no new CLI commands or options. | resolved: 2026-03-28T15:24:15.259Z
+
 - condition: check-if-affected: examples/ | note: Change is to the interactive prompt UI only (confirm→select). Template content in examples/ is unchanged — no template files need updating. | resolved: 2026-03-27T10:50:33.353Z
 
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: skills/guide.md was updated (table row + context note only); the changes are read-only documentation text, no shell execution, no credentials, no agent instructions | resolved: 2026-03-25T11:19:17.001Z
