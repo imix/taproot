@@ -19,17 +19,35 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
 3. **Detect mode** from the developer's request:
    - *"execute next item"* / *"execute plan"* / *"run next"* → **step-by-step** (default)
    - *"execute all"* / *"run all"* / *"batch"* → **batch**
+   - *"hitl only"* / *"run human items"* / *"interactive only"* → **hitl** (filter: `hitl` items only)
+   - *"afk only"* / *"run autonomous"* / *"implement automatically"* → **afk** (filter: `afk` items only)
    - *"bring all to specified"* / *"run spec and refine only"* / *"specify mode"* → **specify** (filter: `spec` + `refine` types only)
    - *"implement all specified"* / *"implement all"* / *"run implement only"* → **implement** (filter: `implement` type only)
+   - No mode specified (bare `/tr-plan-execute` or ambiguous): → **show orientation** (step 3a)
+
+   **3a. Orientation** (only when no mode is specified): count pending items by execution mode and present the mode menu:
+   ```
+   Plan: N items pending (X hitl · Y afk)
+
+   How would you like to proceed?
+   [A] Step-by-step     — one item at a time, confirm each (default)
+   [B] Batch            — confirm full list upfront, then run all
+   [C] HITL only        — human-decision items only
+   [D] AFK only         — autonomous items only
+   [Q] Cancel
+   ```
+   Wait for developer response, then continue with the chosen mode.
 
 4. **Filter pending items** based on mode:
    - *step-by-step / batch*: all `pending` items
+   - *hitl*: `pending` items labelled `hitl`; `afk` items remain `pending` untouched
+   - *afk*: `pending` items labelled `afk`; `hitl` items remain `pending` untouched
    - *specify*: `pending` items where type is `[spec]` or `[refine]`; `[implement]` items remain `pending` untouched
    - *implement*: `pending` items where type is `[implement]`; `[spec]` and `[refine]` items remain `pending` untouched
 
 5. **Check for pending items.** If the filtered list is empty (no pending items matching the filter):
    - If the overall plan has no `pending` items at all: report *"Plan is complete — no pending items. Build a new plan with `/tr-plan-build`."*
-   - If items exist but none match the filter: report *"No [spec/refine | implement] items pending."*
+   - If items exist but none match the filter: report *"No [hitl | afk | spec/refine | implement] items pending."*
    Stop — no skills invoked.
 
 6. **In batch mode**, present the full filtered list first and wait for confirmation:
@@ -82,6 +100,8 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
 8. **Report final status** when done or stopped:
    - All items executed: *"Plan complete — all N items executed."*
    - Stopped early: *"Stopped after N items — M items remaining."*
+   - HITL pass: *"HITL pass complete — N items done. M afk items remain pending."*
+   - AFK pass: *"AFK pass complete — N items done. M hitl items remain pending."*
    - Specify pass: *"Specify pass complete — N items done. M implement items remain pending."*
    - Implement pass: *"Implement pass complete — N items done. M spec/refine items remain pending."*
 
