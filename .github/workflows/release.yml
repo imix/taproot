@@ -68,5 +68,59 @@ jobs:
             --title "taproot $VERSION" \
             --notes "${BODY:-Release $VERSION}"
 
+  update-homebrew-tap:
+    name: Update Homebrew tap
+    needs: publish
+    runs-on: ubuntu-latest
+    environment: release
+    continue-on-error: true
+    steps:
+      - name: Check token
+        run: |
+          if [ -z "${{ secrets.HOMEBREW_TAP_TOKEN }}" ]; then
+            echo "HOMEBREW_TAP_TOKEN not set or invalid. Add or rotate the token in the 'release' GitHub environment."
+            exit 1
+          fi
+
+      - name: Download tarball and compute SHA256
+        id: sha
+        run: |
+          VERSION="${GITHUB_REF_NAME}"
+          VERSION_NUM="${VERSION#v}"
+          URL="https://github.com/imix-js/taproot/archive/refs/tags/${VERSION}.tar.gz"
+          echo "Downloading ${URL}"
+          curl -fsSL --retry 3 -o taproot.tar.gz "${URL}" || {
+            echo "GitHub release tarball not found for ${VERSION} — ensure the GitHub Release was created before this job runs."
+            exit 1
+          }
+          SHA=$(sha256sum taproot.tar.gz | awk '{print $1}')
+          echo "sha=${SHA}" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION_NUM}" >> "$GITHUB_OUTPUT"
+          echo "url=${URL}" >> "$GITHUB_OUTPUT"
+
+      - name: Update Formula/taproot.rb in imix/homebrew-tap
+        env:
+          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+        run: |
+          VERSION="${{ steps.sha.outputs.version }}"
+          SHA="${{ steps.sha.outputs.sha }}"
+          URL="${{ steps.sha.outputs.url }}"
+
+          git clone "https://x-access-token:${HOMEBREW_TAP_TOKEN}@github.com/imix/homebrew-tap.git" tap
+          cd tap
+
+          sed -i "s|url \".*\"|url \"${URL}\"|" Formula/taproot.rb
+          sed -i "s|sha256 \".*\"|sha256 \"${SHA}\"|" Formula/taproot.rb
+          sed -i "s|version \".*\"|version \"${VERSION}\"|" Formula/taproot.rb
+
+          git config user.email "ci@imix.io"
+          git config user.name "taproot-ci"
+          git add Formula/taproot.rb
+          git commit -m "taproot v${VERSION}" || echo "No changes to commit"
+          git push || {
+            echo "Homebrew tap update failed: push rejected. Retry manually: update Formula/taproot.rb in imix/homebrew-tap to version ${VERSION}."
+            exit 1
+          }
+
   # publish-vscode-extension: disabled until publisher account, icon, lockfile, and secrets are ready
   # See taproot/taproot-distribution/vscode-marketplace/multi-surface/impl.md for remaining gaps
