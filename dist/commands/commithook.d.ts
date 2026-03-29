@@ -7,6 +7,9 @@ export interface SpecFailure {
     message: string;
     hint: string;
 }
+/** Walk up from a staged usecase.md path to find the nearest ancestor intent.md within taproot/. */
+export declare function findParentIntentPath(usecasePath: string, cwd: string): string | null;
+export declare function checkBehaviourIntentAlignment(usecasePath: string, intentPath: string | null, intentContent: string | null, pack?: LanguagePack | null): SpecFailure[];
 export declare function checkUsecaseQuality(filePath: string, content: string, pack?: LanguagePack | null): SpecFailure[];
 export declare function checkIntentQuality(filePath: string, content: string, pack?: LanguagePack | null): SpecFailure[];
 export declare function runCommithook(options: {

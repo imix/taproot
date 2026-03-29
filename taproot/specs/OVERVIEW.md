@@ -168,7 +168,8 @@ _No behaviours yet._
   - [cli-extension](./quality-gates/scoped-conditions/cli-extension/impl.md) `[complete]` (0 commits, 1 test)
 - **[state-transition-guardrails](./quality-gates/state-transition-guardrails/usecase.md)** `[implemented]` — Actor: `taproot dod` CLI — when processing the `tests-passing` condition for an `impl.md` about to be marked `complete`. Also enforced by `taproot commithook` when an implementation commit includes an `impl.md` whose state is `complete`.
   - [cli-command](./quality-gates/state-transition-guardrails/cli-command/impl.md) `[complete]` (3 commits, 1 test)
-- **[validate-behaviour-intent-alignment](./quality-gates/validate-behaviour-intent-alignment/usecase.md)** `[specified]` — Actor: `taproot commithook` (structural check) and agent/developer (semantic check) — triggered when a `usecase.md` is committed
+- **[validate-behaviour-intent-alignment](./quality-gates/validate-behaviour-intent-alignment/usecase.md)** `[implemented]` — Actor: `taproot commithook` (structural check) and agent/developer (semantic check) — triggered when a `usecase.md` is committed
+  - [commithook-extension](./quality-gates/validate-behaviour-intent-alignment/commithook-extension/impl.md) `[complete]` (0 commits, 1 test)
 - **[validate-intent-quality](./quality-gates/validate-intent-quality/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when an `intent.md` is committed (requirement commit)
   - [multi-surface](./quality-gates/validate-intent-quality/multi-surface/impl.md) `[complete]` (0 commits, 1 test)
 - **[validate-usecase-quality](./quality-gates/validate-usecase-quality/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a `usecase.md` is committed (requirement commit)
@@ -273,4 +274,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-20 intents · 84 behaviours · 82 implementations · 80/82 complete
+20 intents · 84 behaviours · 83 implementations · 81/83 complete
