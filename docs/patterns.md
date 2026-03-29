@@ -150,7 +150,7 @@ The agent is asked: "Does this implementation require changes to `<file>`?" If y
 ```
 /tr-research "satellite tracking algorithms"
 → scan local docs, web search, expert grilling
-→ save as research/satellite-tracking-algorithms.md
+→ save as taproot/research/satellite-tracking-algorithms.md
 → /tr-behaviour taproot/navigation/ "satellite tracking" (with research context)
 ```
 
