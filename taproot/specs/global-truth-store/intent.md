@@ -24,6 +24,7 @@ Enable developers and agents to capture facts that are true across the project â
 - [Enforce Truths at Commit](./enforce-truths-at-commit/usecase.md)
 - [Discover Truths](./discover-truths/usecase.md)
 - [Guide Truth Capture](./guide-truth-capture/usecase.md)
+- [Author Design Constraints](./author-design-constraints/usecase.md)
 
 ## Status
 - **State:** active

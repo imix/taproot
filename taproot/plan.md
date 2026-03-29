@@ -1,18 +1,15 @@
 # Taproot Plan
 
-_Built: 2026-03-28 — 11 items — Goal: distribution, docs, marketing, scale — updated 2026-03-28_
+_Built: 2026-03-29 — v1.0 release plan — bugs + essentials only — updated 2026-03-29_
 _HITL = human decision required · AFK = agent executes autonomously_
 
 ## Items
 
-1. done     [implement] hitl  taproot/specs/taproot-distribution/vscode-marketplace/ — finish VS Code extension: icon, package-lock.json, publisher placeholder, release skill update
-2. done     [implement] hitl  "docs/workflows.md + docs/skills.md — add planning workflow (/tr-plan, /tr-plan-execute, /tr-plan-analyse) and backlog management; create docs/skills.md with skill authoring guide (step sequences, context-engineering, pause-and-confirm, agent patterns)"
-3. done     [implement] afk   taproot/specs/global-truth-store/guide-truth-capture/ — add global-truths pattern entry to taproot/agent/docs/patterns.md; update define-truth skill to surface guidance on first invocation
-4. done     [implement] afk   "add missing tests — 5 impls have no test coverage: agent-integration/agent-agnostic-language/settings-wiring, project-presentation/conceptual-orientation/concepts-section, project-presentation/welcoming-readme/content, requirements-hierarchy/configure-hierarchy/yaml-config, taproot-distribution/ci-pipeline/github-workflow"
-5. done     [implement] hitl  "docs: plan feature as selling point — add plan workflow to docs/quick-start.md; add 'Planning a batch of work' end-to-end workflow to docs/workflows.md"
-6. pending  [implement] hitl  "marketing: submit taproot to awesome-claude and similar curated lists (awesome-ai-agents, awesome-llm-tools, awesome-developer-tools); write a short submission blurb for each"
+1. pending  [spec]      hitl  "bug: verify behaviour against parent intent at commit — agent should flag when a usecase.md references an intent whose goal it does not address"
+2. pending  [spec]      hitl  "taproot scale justification — agents complain overhead is too high for small projects; spec lighter entry paths or starter mode"
+3. pending  [spec]      hitl  "performance — diagnose why taproot feels slow; spec and implement improvements"
+4. pending  [spec]      hitl  "autonomous execution audit — verify TAPROOT_AUTONOMOUS works end-to-end; identify gaps (skill reads, commit hooks, interactive prompts that block headless runs)"
+5. pending  [spec]      hitl  "CLAUDE.md commit hook — assess whether the pre-commit hook in CLAUDE.md affects non-Claude agents (Cursor, Copilot, etc.); spec a fix if needed"
+6. pending  [implement] hitl  "move research/ folder into taproot/ — research artefacts should live inside the taproot hierarchy, not at project root"
 7. pending  [implement] hitl  "marketing: GitHub topic strategy — add relevant topics to the taproot repo (ai, requirements, bdd, traceability, agentic, spec, tdd)"
-8. pending  [spec]      hitl  "taproot scale justification — agents complain overhead is too high for small projects; spec lighter entry paths or starter mode"
-9. pending  [spec]      hitl  "performance — diagnose why taproot feels slow; spec and implement improvements"
-10. pending  [spec]      hitl  "GitHub Actions PR bot — impact reports on PRs: this PR modifies files linked to behaviour X, spec stale since..."
-11. pending  [implement] hitl  "move research/ folder into taproot/ — research artefacts should live inside the taproot hierarchy, not at project root"
+8. pending  [implement] hitl  "marketing: submit taproot to awesome-claude and similar curated lists (awesome-ai-agents, awesome-llm-tools, awesome-developer-tools); write a short submission blurb for each"

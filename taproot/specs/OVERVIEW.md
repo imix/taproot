@@ -61,6 +61,11 @@ _No behaviours yet._
 
 - **[apply-truths-when-authoring](./global-truth-store/apply-truths-when-authoring/usecase.md)** `[implemented]` — Actor: Agent — authoring or reviewing a spec (intent.md, usecase.md, or impl.md) via any taproot skill (`/tr-intent`, `/tr-behaviour`, `/tr-implement`, `/tr-refine`, `/tr-ineed`)
   - [agent-skill](./global-truth-store/apply-truths-when-authoring/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
+- **[author-design-constraints](./global-truth-store/author-design-constraints/usecase.md)** `[proposed]` — Actor: Developer, architect, or tech lead establishing project-wide constraints before or during spec authoring
+  - **[define-convention](./global-truth-store/author-design-constraints/define-convention/usecase.md)** `[proposed]` — Actor: Developer or tech lead recording a specific rule or convention that must be followed consistently across the project
+  - **[define-principle](./global-truth-store/author-design-constraints/define-principle/usecase.md)** `[proposed]` — Actor: Developer, designer, or tech lead recording a design value that should guide ongoing choices across the project
+  - **[record-decision](./global-truth-store/author-design-constraints/record-decision/usecase.md)** `[proposed]` — Actor: Developer, architect, or tech lead recording a decision that was made — or is still open — about any aspect of the project
+  - **[record-external-constraint](./global-truth-store/author-design-constraints/record-external-constraint/usecase.md)** `[proposed]` — Actor: Developer or project lead recording a constraint imposed from outside the project — not a choice the team made
 - **[define-truth](./global-truth-store/define-truth/usecase.md)** `[implemented]` — Actor: Developer — creating, editing, or removing a truth entry in the project's shared knowledge base
   - [agent-skill](./global-truth-store/define-truth/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
 - **[discover-truths](./global-truth-store/discover-truths/usecase.md)** `[implemented]` — Actor: Developer with an existing `taproot/` hierarchy who wants to identify what project-wide facts, business rules, and conventions are implicit in their specs but not yet captured as global truths
@@ -197,7 +202,8 @@ _No behaviours yet._
   - [cli-command](./requirements-hierarchy/apply-task/cli-command/impl.md) `[deferred]` (4 commits, 1 test)
 - **[configure-hierarchy](./requirements-hierarchy/configure-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator customising taproot to match project conventions
   - [yaml-config](./requirements-hierarchy/configure-hierarchy/yaml-config/impl.md) `[complete]` (2 commits, 1 test)
-- **[incremental-behaviour-implementation](./requirements-hierarchy/incremental-behaviour-implementation/usecase.md)** `[specified]` — Actor: Developer or agent scoping implementation of a behaviour whose acceptance criteria span more than one delivery iteration
+- **[incremental-behaviour-implementation](./requirements-hierarchy/incremental-behaviour-implementation/usecase.md)** `[implemented]` — Actor: Developer or agent scoping implementation of a behaviour whose acceptance criteria span more than one delivery iteration
+  - [agent-skill](./requirements-hierarchy/incremental-behaviour-implementation/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
 - **[init-domain-presets](./requirements-hierarchy/init-domain-presets/usecase.md)** `[implemented]` — Actor: Developer running `taproot init` for the first time on a new project — including non-coding projects (blogging, book authoring, technical writing) who would not know that vocabulary and language settings exist
   - [cli-command](./requirements-hierarchy/init-domain-presets/cli-command/impl.md) `[complete]` (1 commit, 1 test)
 - **[initialise-hierarchy](./requirements-hierarchy/initialise-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator setting up taproot in a new or existing project
@@ -265,4 +271,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-20 intents · 78 behaviours · 80 implementations · 78/80 complete
+20 intents · 83 behaviours · 81 implementations · 79/81 complete
