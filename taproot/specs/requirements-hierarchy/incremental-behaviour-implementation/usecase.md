@@ -92,6 +92,9 @@ flowchart TD
 - When they ask the agent
 - Then the agent asks whether the deferred ACs have different flows or actors, and defaults to Pattern A if the answer is unclear
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — incremental behaviour delivery convention](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-29
