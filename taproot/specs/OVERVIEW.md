@@ -61,12 +61,13 @@ _No behaviours yet._
 
 - **[apply-truths-when-authoring](./global-truth-store/apply-truths-when-authoring/usecase.md)** `[implemented]` — Actor: Agent — authoring or reviewing a spec (intent.md, usecase.md, or impl.md) via any taproot skill (`/tr-intent`, `/tr-behaviour`, `/tr-implement`, `/tr-refine`, `/tr-ineed`)
   - [agent-skill](./global-truth-store/apply-truths-when-authoring/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
-- **[author-design-constraints](./global-truth-store/author-design-constraints/usecase.md)** `[proposed]` — Actor: Developer, architect, or tech lead establishing project-wide constraints before or during spec authoring
+- **[author-design-constraints](./global-truth-store/author-design-constraints/usecase.md)** `[implemented]` — Actor: Developer, architect, or tech lead establishing project-wide constraints before or during spec authoring
+  - [agent-skill](./global-truth-store/author-design-constraints/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
   - **[define-convention](./global-truth-store/author-design-constraints/define-convention/usecase.md)** `[proposed]` — Actor: Developer or tech lead recording a specific rule or convention that must be followed consistently across the project
   - **[define-principle](./global-truth-store/author-design-constraints/define-principle/usecase.md)** `[proposed]` — Actor: Developer, designer, or tech lead recording a design value that should guide ongoing choices across the project
   - **[record-decision](./global-truth-store/author-design-constraints/record-decision/usecase.md)** `[proposed]` — Actor: Developer, architect, or tech lead recording a decision that was made — or is still open — about any aspect of the project
   - **[record-external-constraint](./global-truth-store/author-design-constraints/record-external-constraint/usecase.md)** `[proposed]` — Actor: Developer or project lead recording a constraint imposed from outside the project — not a choice the team made
-- **[define-truth](./global-truth-store/define-truth/usecase.md)** `[implemented]` — Actor: Developer — creating, editing, or removing a truth entry in the project's shared knowledge base
+- **[define-truth](./global-truth-store/define-truth/usecase.md)** `[implemented]` — Actor: Developer or agent — creating, editing, or removing a truth entry in the project's shared knowledge base
   - [agent-skill](./global-truth-store/define-truth/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
 - **[discover-truths](./global-truth-store/discover-truths/usecase.md)** `[implemented]` — Actor: Developer with an existing `taproot/` hierarchy who wants to identify what project-wide facts, business rules, and conventions are implicit in their specs but not yet captured as global truths
   - [skill](./global-truth-store/discover-truths/skill/impl.md) `[complete]` (3 commits, 1 test)
@@ -271,4 +272,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-20 intents · 83 behaviours · 81 implementations · 79/81 complete
+20 intents · 83 behaviours · 82 implementations · 80/82 complete
