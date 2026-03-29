@@ -8,11 +8,11 @@ Developer — setting up `taproot/global-truths/` for the first time, or adding 
 - The developer wants to populate `taproot/global-truths/` but is unsure what kinds of facts belong there
 
 ## Main Flow
-1. Developer opens `.taproot/docs/patterns.md` to find guidance on what kinds of facts belong in `taproot/global-truths/`
+1. Developer opens `docs/patterns.md` to find guidance on what kinds of facts belong in `taproot/global-truths/`
 2. Developer reads the global-truths pattern entry
 3. Developer reviews the five example truth type categories — each with a recommended default scope and concrete example: glossary terms (intent), domain model facts (intent), architecture decisions (impl), naming conventions (intent or behaviour), business rules (intent or behaviour)
 4. Developer identifies which categories apply to their project
-5. For each applicable category, developer invokes `/tr-define-truth` to create a scoped truth file
+5. For each applicable category, developer invokes `/tr-define-truth` to create a scoped truth file — or `/tr-design-constraints` for structured prompting on architectural decisions, design principles, conventions, and external constraints
 6. Developer populates each truth file with their project's facts in free-form markdown
 
 ## Alternate Flows
@@ -20,7 +20,7 @@ Developer — setting up `taproot/global-truths/` for the first time, or adding 
 ### Agent proactively surfaces guidance for empty global-truths
 - **Trigger:** Developer invokes `/tr-define-truth` for the first time in a project with no existing truth files
 - **Steps:**
-  1. Agent reads the global-truths pattern entry from `.taproot/docs/patterns.md`
+  1. Agent reads the global-truths pattern entry from `docs/patterns.md`
   2. Agent presents the truth type categories and asks: "Which of these apply to your project?"
   3. Developer selects applicable categories
   4. Agent creates a blank scoped truth file for each selected category via the `define-truth` flow
@@ -54,15 +54,15 @@ Developer — setting up `taproot/global-truths/` for the first time, or adding 
   2. `taproot/global-truths/` remains empty — this is valid for early-stage projects
   3. Developer may revisit once the domain stabilises
 
-### `.taproot/docs/patterns.md` absent
+### `docs/patterns.md` absent
 - **Trigger:** The patterns file does not yet exist when the developer or agent needs to reference the global-truths pattern
 - **Steps:**
-  1. Agent creates `.taproot/docs/patterns.md` with the global-truths section
+  1. Agent creates `docs/patterns.md` with the global-truths section
   2. Flow continues from step 2 of the main flow
   3. No error is surfaced to the developer
 
 ### `patterns.md` exists but global-truths section is absent
-- **Trigger:** `.taproot/docs/patterns.md` exists but contains no global-truths pattern entry
+- **Trigger:** `docs/patterns.md` exists but contains no global-truths pattern entry
 - **Steps:**
   1. Agent appends the global-truths section to the existing file
   2. Flow continues from step 2 of the main flow
@@ -104,6 +104,7 @@ flowchart TD
 
 ## Related
 - `./define-truth/usecase.md` — provides the mechanics for creating and scoping truth files; this behaviour provides the content guidance ("what to put in them")
+- `./author-design-constraints/usecase.md` — structured authoring session for architectural decisions, design principles, conventions, and external constraints; use instead of define-truth when the content benefits from guided prompting
 - `./discover-truths/usecase.md` — discovers implicit truths from existing specs; this behaviour guides explicit truth creation when starting fresh
 - `./apply-truths-when-authoring/usecase.md` — truths captured here are applied by agents when authoring subsequent specs
 - `taproot/human-integration/pattern-hints/usecase.md` — surfaces this behaviour's pattern entry automatically when a developer expresses a need that matches truth-capture
@@ -111,12 +112,12 @@ flowchart TD
 ## Acceptance Criteria
 
 **AC-1: Developer guided on truth types from patterns.md**
-- Given `.taproot/docs/patterns.md` contains the global-truths pattern entry with five truth type categories
+- Given `docs/patterns.md` contains the global-truths pattern entry with five truth type categories
 - When a developer reads the entry to understand what to capture
 - Then they can identify at least three applicable categories for their project without further guidance
 
 **AC-2: Pattern entry covers all five truth type categories with scope and examples**
-- Given `.taproot/docs/patterns.md` exists
+- Given `docs/patterns.md` exists
 - When the developer reads the global-truths pattern section
 - Then the entry describes at least glossary, domain model, architecture decisions, naming conventions, and business rules — each with a recommended default scope and at least one concrete example — and makes clear these are starting categories, not an exhaustive list
 
@@ -136,7 +137,7 @@ flowchart TD
 - Then the agent flags the fact as potentially too narrow and suggests keeping it as a note in the relevant `usecase.md`
 
 **AC-6: patterns.md absent — agent creates entry before proceeding**
-- Given `.taproot/docs/patterns.md` does not exist
+- Given `docs/patterns.md` does not exist
 - When the developer or agent needs to reference the global-truths pattern
 - Then the agent creates the file with the global-truths entry before proceeding, without surfacing an error
 
@@ -163,6 +164,6 @@ flowchart TD
 - The five categories (glossary, domain model, architecture decisions, naming conventions, business rules) are a starting point, not an exhaustive constraint — any stable, cross-spec fact is a valid truth
 - Default scope recommendations per category: glossary → intent; domain model → intent; architecture decisions → impl; naming conventions → intent or behaviour; business rules → intent or behaviour. These are defaults — developers choose the scope that fits their project
 - This behaviour pairs with `discover-truths`: discovery finds implicit truths in existing specs; this behaviour guides explicit truth creation when starting from scratch
-- The pattern entry in `.taproot/docs/patterns.md` is the primary output artefact — it must be present for AC-1 through AC-8 to be testable
+- The pattern entry in `docs/patterns.md` is the primary output artefact — it must be present for AC-1 through AC-8 to be testable
 - Agent-assisted domain modelling is particularly valuable at project start, before any specs exist (when `discover-truths` has insufficient signal)
 - Exclusion criteria for "when NOT to capture": single-spec facts, implementation details (how not what), ephemeral decisions, facts derivable directly from code

@@ -4,7 +4,7 @@
 Developer with an existing `taproot/` hierarchy who wants to identify what project-wide facts, business rules, and conventions are implicit in their specs but not yet captured as global truths
 
 ## Preconditions
-- `taproot/` hierarchy exists with at least 3 `intent.md` or `usecase.md` files (fewer provides insufficient signal for pattern detection)
+- `taproot/` hierarchy exists with at least one `intent.md` or `usecase.md` file
 - `taproot/global-truths/` exists (created by `taproot init`)
 
 ## Main Flow
@@ -21,7 +21,7 @@ Developer with an existing `taproot/` hierarchy who wants to identify what proje
    - Proposed scope and the heuristic that produced it
    - Evidence: which specs reference the candidate and how
 6. Developer reviews the candidate and chooses: **promote**, **skip**, **backlog**, or **dismiss**
-   - **dismiss** — permanently resolved; recorded as "reviewed — not a truth: `<term>`" in `.taproot/backlog.md` and will not resurface on the next run
+   - **dismiss** — permanently resolved; recorded as "reviewed — not a truth: `<term>`" in `.taproot/sessions/dismissed-truths.md` and will not resurface on the next run
    After each response, system writes progress to `.taproot/sessions/discover-truths-status.md` before moving to the next candidate.
 7. For each **promoted** candidate, system invokes `/tr-ineed` with the candidate as input — developer completes the `/tr-ineed` flow, which routes to `define-truth` to create the truth file; if `/tr-ineed` routes elsewhere, developer is offered the option to redirect to `define-truth` directly
 8. System returns to the next unprocessed candidate after each `/tr-ineed` flow completes (or after an abandoned flow, treating it as skipped)
@@ -53,7 +53,7 @@ Developer with an existing `taproot/` hierarchy who wants to identify what proje
 - **Trigger:** Developer has considered the candidate and determined it is not a project-wide truth — permanently
 - **Steps:**
   1. Developer selects "dismiss"
-  2. System appends to `.taproot/backlog.md`: "reviewed — not a truth: `<term>`"
+  2. System appends to `.taproot/sessions/dismissed-truths.md`: "reviewed — not a truth: `<term>`"
   3. On all future discovery runs, the candidate is suppressed (filtered out alongside already-defined truths)
   4. System moves to the next candidate
 
@@ -93,13 +93,13 @@ Developer with an existing `taproot/` hierarchy who wants to identify what proje
 ## Postconditions
 - Each promoted candidate has a corresponding truth file in `taproot/global-truths/`
 - Backlogged candidates are recorded in `.taproot/backlog.md` as "truth candidate: `<term>`"
-- Dismissed candidates are recorded in `.taproot/backlog.md` as "reviewed — not a truth: `<term>`" and will not resurface on the next discovery run
+- Dismissed candidates are recorded in `.taproot/sessions/dismissed-truths.md` as "reviewed — not a truth: `<term>`" and will not resurface on the next discovery run
 - Skipped candidates have no persistent record (will resurface on next run)
 - The system does not modify any `intent.md` or `usecase.md` files — discovery is read-only on the hierarchy
 - `.taproot/sessions/discover-truths-status.md` is absent after a clean completed session; present (with remaining candidates noted) if the session was interrupted mid-run
 
 ## Error Conditions
-- **Hierarchy too small (fewer than 3 specs):** Insufficient signal — system warns "Too few specs to surface patterns reliably (found N). Run discovery again after adding more specs." and exits without scanning.
+- **Hierarchy too small to surface cross-spec patterns:** If fewer than 3 specs exist, cross-spec pattern detection (recurring terms, implicit conventions) is unreliable — system warns "Only N spec(s) found; cross-spec patterns may not surface reliably. Proceeding." Single-spec candidates are still surfaced if signal is clear.
 - **`global-truths/` not found:** System prompts: "taproot/global-truths/ does not exist. Run `taproot init` or create it manually." and exits.
 - **Spec file unreadable (malformed, permissions, encoding error):** System skips the file, emits a warning listing all skipped paths, and continues scanning the remaining files. Discovery completes on readable files only.
 - **All candidates already defined:** System reports clean state and exits — not an error, but surfaced explicitly so the developer knows the scan ran.
@@ -115,7 +115,7 @@ flowchart TD
     D --> E[Filter out already-defined + dismissed truths]
     E --> F{Any candidates?}
     F -->|None| G[Report: hierarchy consistent — exit]
-    F -->|Some| H[Present batch of up to 5 candidates]
+    F -->|Some| H[Present next candidate — one at a time]
     H --> I{Developer choice}
     I -->|Promote| J[Invoke /tr-ineed → define-truth]
     J -->|Completed| K[Next candidate]
@@ -164,10 +164,10 @@ flowchart TD
 - When discovery completes
 - Then no record of the skip exists — the candidate reappears on the next discovery run (use "dismiss" to permanently resolve without creating a truth)
 
-**AC-6: Too-small hierarchy exits cleanly**
+**AC-6: Small hierarchy warned but not blocked**
 - Given a hierarchy with fewer than 3 intent.md or usecase.md files
 - When discovery is invoked
-- Then the system warns and exits without scanning
+- Then the system warns that cross-spec patterns may not surface reliably but proceeds with scanning
 
 **AC-7: Discovery pass appended to /tr-review-all output**
 - Given a developer running `/tr-review-all` on a hierarchy with undefined truth candidates
@@ -177,7 +177,7 @@ flowchart TD
 **AC-8: Dismissed candidate suppressed from future runs**
 - Given the developer selects "dismiss" on a candidate
 - When discovery is run again
-- Then the dismissed candidate does not reappear, and `.taproot/backlog.md` contains "reviewed — not a truth: `<term>`"
+- Then the dismissed candidate does not reappear, and `.taproot/sessions/dismissed-truths.md` contains "reviewed — not a truth: `<term>`"
 
 **AC-9: Abandoned /tr-ineed flow treated as skip**
 - Given the developer promotes a candidate but abandons the /tr-ineed flow before completing it

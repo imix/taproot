@@ -1,7 +1,7 @@
 # Behaviour: Define Truth
 
 ## Actor
-Developer — creating, editing, or removing a truth entry in the project's shared knowledge base
+Developer or agent — creating, editing, or removing a truth entry in the project's shared knowledge base
 
 ## Preconditions
 - A `taproot/` hierarchy exists in the project
@@ -62,6 +62,7 @@ Developer — creating, editing, or removing a truth entry in the project's shar
 
 ## Error Conditions
 - **`global-truths/` created outside `taproot/`**: agent warns the file will not be discovered; correct location is `taproot/global-truths/`
+- **New truth contradicts an existing entry**: agent reads existing truth files before writing and flags: "This appears to contradict an existing entry in `global-truths/<file>`: `<excerpt>`. [A] update the existing entry, [B] record both with a distinction note, [C] cancel"
 
 ## Flow
 

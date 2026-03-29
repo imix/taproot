@@ -9,7 +9,7 @@
 Enable developers and agents to capture facts that are true across the project — domain concepts, business rules, entity definitions, project conventions — scoped to the hierarchy level they originate from, so that all specs share a consistent foundation and semantic drift is detected at write time and commit time.
 
 ## Success Criteria
-- [ ] A developer can define a global truth at any hierarchy level (intent, behaviour, or implementation) without being constrained to a particular format or schema
+- [ ] A developer can capture any project-wide fact in a single session without learning a new schema — free-form content is always valid
 - [ ] An agent authoring a spec automatically applies applicable truths — using the defined term, rule, or convention — rather than inventing its own interpretation
 - [ ] Semantic drift between specs is detected and flagged: two specs that define or use the same concept differently are surfaced at write time or commit time
 - [ ] Truths cascade correctly through the hierarchy: intent-level truths apply to all behaviours and implementations under that intent; behaviour-level truths apply to implementations; implementation-level truths are local *(enforced by `enforce-truths-at-commit` and `apply-truths-when-authoring` — no separate behaviour needed)*

@@ -10,16 +10,17 @@ Developer or project lead recording a constraint imposed from outside the projec
 ## Main Flow
 
 1. Agent asks: "Describe the constraint — what are you required to do, use, or avoid?"
-2. Agent asks: "Who or what imposed this? (e.g. client contract, regulator, platform, legacy system, corporate policy)"
-3. Agent asks: "What are the implications for the project — what does this constrain or require in practice?"
-4. Agent asks: "Is there an expiry or review date? (e.g. API contract ends, regulation under review)" — optional
-5. Agent proposes scope:
+2. Agent checks: if the description sounds like a choice ("we use X", "we prefer Y") rather than an imposition, agent asks: "Was this imposed on you, or did your team choose it? If you chose it, this is better captured as a Decision." Developer confirms or redirects.
+3. Agent asks: "Who or what imposed this? (e.g. client contract, regulator, platform, legacy system, corporate policy)"
+4. Agent asks: "What are the implications for the project — what does this constrain or require in practice?"
+5. Agent asks: "Is there an expiry or review date? (e.g. API contract ends, regulation under review)" — optional
+6. Agent proposes scope:
    - **intent** (default) — applies project-wide, visible to all specs
    - **behaviour** — constrains how specific features behave
    - **impl** — constrains implementation choices only
-6. Developer confirms or adjusts the scope
-7. Agent writes a structured external constraint entry to an appropriately scoped truth file in `taproot/global-truths/`, appending if the file already exists
-8. Agent confirms: "Written — [constraint summary] recorded in `<path>`"
+7. Developer confirms or adjusts the scope
+8. Agent writes a structured external constraint entry to an appropriately scoped truth file in `taproot/global-truths/`, appending if the file already exists
+9. Agent confirms: "Written — [constraint summary] recorded in `<path>`"
 
 ## Alternate Flows
 
@@ -46,6 +47,7 @@ Developer or project lead recording a constraint imposed from outside the projec
 - A structured external constraint entry exists in `taproot/global-truths/` recording: what the constraint is, its source, its implications, and optionally its expiry and any workarounds
 - The entry is intent-scoped by default — external constraints typically affect the whole project
 - Future specs authored against this project will have the constraint surfaced when relevant
+- To update an existing entry (e.g. when a constraint expires or its implications change), edit the truth file directly and commit the change
 
 ## Error Conditions
 - **Constraint sounds like a decision:** Developer describes something they chose (e.g. "we use Stripe") — agent asks: "Was this imposed on you, or did you choose it? If you chose it, this may be better captured as a Decision."
@@ -54,19 +56,19 @@ Developer or project lead recording a constraint imposed from outside the projec
 
 ```mermaid
 flowchart TD
-    A[Agent asks: what is the constraint?] --> B[Agent asks: who imposed it?]
-    B --> C[Agent asks: implications for the project]
-    C --> D[Agent asks: expiry or review date? — optional]
-    D --> E{Workaround\nexists?}
-    E -->|Yes| F[Agent asks: describe workaround]
-    E -->|No| G[Agent proposes scope: intent / behaviour / impl]
-    F --> G
-    G --> H[Developer confirms scope]
-    H --> I{Sounds like\na decision?}
-    I -->|Yes| J[Agent asks: was this imposed or chosen?]
-    J -->|Chosen| K[Redirect to record-decision]
-    J -->|Imposed| L[Write external constraint entry]
-    I -->|No| L
+    A[Agent asks: describe the constraint] --> B{Sounds like\na choice?}
+    B -->|Yes| C[Agent asks: imposed or chosen?]
+    C -->|Chosen| D[Redirect to record-decision]
+    C -->|Imposed| E[Agent asks: who imposed it?]
+    B -->|No| E
+    E --> F[Agent asks: implications for the project]
+    F --> G[Agent asks: expiry or review date? — optional]
+    G --> H{Workaround\nexists?}
+    H -->|Yes| I[Agent asks: describe workaround]
+    H -->|No| J[Agent proposes scope: intent / behaviour / impl]
+    I --> J
+    J --> K[Developer confirms scope]
+    K --> L[Write external constraint entry]
     L --> M[Confirm written]
 ```
 

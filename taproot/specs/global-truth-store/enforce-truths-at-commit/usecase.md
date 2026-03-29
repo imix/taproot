@@ -145,10 +145,10 @@ flowchart TD
 - And when a `usecase.md` is committed → `glossary_intent.md` and `rules_behaviour.md` are checked
 - And when source files are committed → all three files are checked
 
-**AC-9: Implementation commit blocked when source contradicts an applicable truth**
+**AC-9: Implementation commit checked against applicable truths (best-effort)**
 - Given `taproot/global-truths/ux-principles_intent.md` states "all errors must be surfaced to the user immediately"
-- When a developer commits source code implementing a silent failure
-- Then the commit is blocked with a message identifying the truth file and the conflicting behaviour
+- When a developer commits source code
+- Then the hook checks the staged changes against applicable truths on a best-effort basis; a detected violation blocks the commit with the truth file and conflicting excerpt identified — undetected violations are not a hook failure
 
 **AC-10: No check-if-affected-by entry needed for global truth enforcement**
 - Given a project has `taproot/global-truths/` with truth files but no `check-if-affected-by: global-truths/...` in `settings.yaml`

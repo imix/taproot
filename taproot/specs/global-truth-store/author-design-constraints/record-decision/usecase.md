@@ -47,6 +47,7 @@ Developer, architect, or tech lead recording a decision that was made — or is 
 - A structured ADR entry exists in `taproot/global-truths/` with context, options, decision (or "open"), and consequences
 - The entry is scoped appropriately and immediately active at commit time
 - If the decision is open, it is visible but does not constrain specs until resolved
+- To update an existing entry (e.g. to resolve an open decision), edit the truth file directly and commit the change
 
 ## Error Conditions
 - **Contradictory decision detected:** The new decision conflicts with an existing entry — agent flags: "This appears to contradict an existing decision: [excerpt]. [A] update the existing entry, [B] record both with a distinction note, [C] cancel"
