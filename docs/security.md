@@ -1,6 +1,6 @@
 # Security Posture
 
-This document describes taproot's security model, applicable threat categories, and recommended controls. It is derived from `research/owasp-cli-and-agentic-applicability.md` and is the authoritative reference for security decisions.
+This document describes taproot's security model, applicable threat categories, and recommended controls. It is derived from `taproot/research/owasp-cli-and-agentic-applicability.md` and is the authoritative reference for security decisions.
 
 ---
 
@@ -92,4 +92,4 @@ Every change to a skill file triggers the DoD skill review condition (see `tapro
 
 ---
 
-*See `research/owasp-cli-and-agentic-applicability.md` for the full applicability matrices and open questions.*
+*See `taproot/research/owasp-cli-and-agentic-applicability.md` for the full applicability matrices and open questions.*

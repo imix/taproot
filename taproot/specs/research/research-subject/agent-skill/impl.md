@@ -33,6 +33,8 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/agents.md and skills/guide.md updated with /tr-research entry; no other docs reference the full skill list | resolved: 2026-03-20T08:11:13.230Z
+- condition: check-if-affected: package.json | note: Path-only update: research/ references changed to taproot/research/ in skills/research.md. No new dependencies, no new CLI commands, no version bump. package.json unchanged. | resolved: 2026-03-29T20:45:55.262Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: Compliant — step 6 adds [A]/[B]/[C] mode options only; no shell commands, credentials, or tokens introduced. | resolved: 2026-03-27T20:54:24.540Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — mode selection is a UX refinement to an existing skill; no new architectural constraint. | resolved: 2026-03-27T20:54:24.287Z

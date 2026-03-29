@@ -14,14 +14,14 @@ Research any domain or technical subject before writing a behaviour spec — by 
 1. **Announce the topic** and confirm scope: `"Researching: <topic>."` If the topic is a single word or lacks domain context (e.g. `"sort"`, `"auth"`), ask one clarifying question before proceeding: `"What domain or language context should I scope this to?"` Incorporate the answer into all subsequent steps.
 
 2. **Scan local resources** in this order:
-   - `research/` folder — any `.md` or `.pdf` files
+   - `taproot/research/` folder — any `.md` or `.pdf` files
    - `docs/` and project root — any `.pdf` files
    - Files linked from `taproot/OVERVIEW.md`
 
    Use the topic as a **semantic** query against file content — do not rely on filename matching alone. A file named `thermal-design.pdf` may be relevant to `"heat dissipation"`. For each relevant file found, note the path and a one-line summary of what it contributes.
 
-3. **Check for prior research:** if `research/<topic-slug>.md` already exists, present it:
-   > "Found existing research at `research/<topic-slug>.md` (last updated: `<date>`). [U]se it / [R]efresh it / [S]tart fresh?"
+3. **Check for prior research:** if `taproot/research/<topic-slug>.md` already exists, present it:
+   > "Found existing research at `taproot/research/<topic-slug>.md` (last updated: `<date>`). [U]se it / [R]efresh it / [S]tart fresh?"
    - **[U]** — load the existing document as the synthesis; skip to step 7
    - **[R]** — run the full flow (steps 4–6); merge new findings with the existing document, updating citations and conclusions; preserve prior expert insights unless explicitly superseded
    - **[S]** — discard the existing document; run the full flow
@@ -85,14 +85,14 @@ Research any domain or technical subject before writing a behaviour spec — by 
    ```
 
 8. **Propose slug and output choice.** Derive a kebab-case slug from the topic:
-   > `"I'll save this as research/<topic-slug>.md — is that right?"`
+   > `"I'll save this as taproot/research/<topic-slug>.md — is that right?"`
 
    Developer confirms or corrects the slug. Then ask:
-   > **`[S] Save to research/<topic-slug>.md with citations`**
+   > **`[S] Save to taproot/research/<topic-slug>.md with citations`**
    > **`[F] Feed directly into a spec`**
    > **`[Q] Discard and stop`**
 
-   - **[S]** — create `research/` directory if absent; write `research/<topic-slug>.md` using the final summary structure from step 7; present:
+   - **[S]** — create `taproot/research/` directory if absent; write `taproot/research/<topic-slug>.md` using the final summary structure from step 7; present:
 
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
@@ -105,7 +105,7 @@ Research any domain or technical subject before writing a behaviour spec — by 
 ## Output
 
 One of:
-- A saved `research/<topic-slug>.md` document with full citations and structured findings
+- A saved `taproot/research/<topic-slug>.md` document with full citations and structured findings
 - The research synthesis passed as input context to a downstream skill (`/tr-behaviour` or `/tr-ineed`)
 - Nothing (if the developer chose `[Q]`)
 
