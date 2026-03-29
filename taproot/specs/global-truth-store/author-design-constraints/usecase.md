@@ -148,7 +148,10 @@ The following sub-behaviours define the prompting and output format for each con
 - [Define Convention](./define-convention/usecase.md) — Rule format: rule statement, correct example, incorrect example
 - [Record External Constraint](./record-external-constraint/usecase.md) — External format: constraint, source, implications, optional expiry
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — design constraints session](./agent-skill/impl.md)
+
 ## Status
-- **State:** proposed
+- **State:** specified
 - **Created:** 2026-03-29
 - **Last reviewed:** 2026-03-29
