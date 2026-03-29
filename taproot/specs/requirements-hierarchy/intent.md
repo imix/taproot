@@ -27,6 +27,7 @@ Enable teams to capture the full requirements hierarchy — from business intent
 - [Apply Task to Hierarchy Files](./apply-task/usecase.md)
 - [Park Hierarchy Item](./park-hierarchy-item/usecase.md)
 - [Apply Domain Preset During Init](./init-domain-presets/usecase.md)
+- [Implement a Behaviour Incrementally](./incremental-behaviour-implementation/usecase.md)
 
 
 ## Status

@@ -197,6 +197,7 @@ _No behaviours yet._
   - [cli-command](./requirements-hierarchy/apply-task/cli-command/impl.md) `[deferred]` (4 commits, 1 test)
 - **[configure-hierarchy](./requirements-hierarchy/configure-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator customising taproot to match project conventions
   - [yaml-config](./requirements-hierarchy/configure-hierarchy/yaml-config/impl.md) `[complete]` (2 commits, 1 test)
+- **[incremental-behaviour-implementation](./requirements-hierarchy/incremental-behaviour-implementation/usecase.md)** `[specified]` — Actor: Developer or agent scoping implementation of a behaviour whose acceptance criteria span more than one delivery iteration
 - **[init-domain-presets](./requirements-hierarchy/init-domain-presets/usecase.md)** `[implemented]` — Actor: Developer running `taproot init` for the first time on a new project — including non-coding projects (blogging, book authoring, technical writing) who would not know that vocabulary and language settings exist
   - [cli-command](./requirements-hierarchy/init-domain-presets/cli-command/impl.md) `[complete]` (1 commit, 1 test)
 - **[initialise-hierarchy](./requirements-hierarchy/initialise-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator setting up taproot in a new or existing project
@@ -264,4 +265,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-20 intents · 77 behaviours · 80 implementations · 78/80 complete
+20 intents · 78 behaviours · 80 implementations · 78/80 complete

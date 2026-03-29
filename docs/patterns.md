@@ -4,6 +4,46 @@ Reusable patterns for extending and enforcing the taproot hierarchy. Each patter
 
 ---
 
+## Incremental behaviour delivery
+
+**Problem:** A behaviour spec has more acceptance criteria than can be delivered in one iteration — for example, an authentication behaviour covers password, MFA, OAuth, and passkey, but only password is in scope now. Without a clear convention, teams either silently skip ACs, over-scope the iteration, or lose track of what was deferred.
+
+**Two patterns — choose based on flow shape:**
+
+**Pattern A — Sub-behaviour decomposition** (preferred when deferred ACs have different flows, actors, or preconditions):
+```
+user-authentication/
+  intent.md
+  password-login/
+    usecase.md        ← specified + implemented
+  mfa-login/
+    usecase.md        ← state: deferred
+  oauth-login/
+    usecase.md        ← state: deferred
+```
+Run `/tr-decompose` to create sub-behaviours. Set deferred ones to `state: deferred`. Each sub-behaviour has its own DoD gate. `/tr-status` and `/tr-next` surface deferred items for future iterations.
+
+**Pattern B — AC-scoped impl** (when all ACs share the same flow shape):
+Keep one `usecase.md`. Create `impl.md` for the in-scope ACs. In `## Design Decisions`, name which ACs are covered. At DoD time, resolve each deferred AC explicitly:
+```
+condition: AC-2 (MFA) | note: deferred — not in scope for this release | resolved: 2026-03-29
+```
+
+**Decision rule:** If unsure, default to Pattern A — sub-behaviours are easier to merge than to split.
+
+**When to use it:**
+- Any time you write a behaviour spec and know upfront that only a subset of ACs will be implemented now
+- Any time an agent asks "we only have time for X — how do we handle the rest?"
+
+**Signal phrases** (pattern-check will match these):
+- "start with / implement part of / phase the delivery"
+- "defer some ACs / not all ACs in scope / implement incrementally"
+- "only do password for now / first version / MVP of this behaviour"
+
+See full spec: `taproot/specs/requirements-hierarchy/incremental-behaviour-implementation/usecase.md`
+
+---
+
 ## Cross-cutting constraint enforcement (`check-if-affected-by`)
 
 **Problem:** You have an architectural rule that should apply to every implementation — not just a one-time concern, but a standing requirement. Examples: every skill must include a session hygiene signal; every skill that produces output must present a **What's next?** block; every implementation must satisfy a security review checklist. Writing this rule in a README or CLAUDE.md makes it aspirational. You want it enforced automatically, at commit time, for every new implementation.
