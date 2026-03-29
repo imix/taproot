@@ -36,6 +36,38 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/workflows.md already covers the global truths workflow. docs/cli.md lists CLI commands only — this implementation adds no CLI commands. skills/guide.md is handled by check-if-affected below. No other docs/ files list individual skill pre-steps. README.md does not enumerate skill internals. Docs are current. | resolved: 2026-03-26T15:17:40.435Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: APPLIES — behaviour.md and implement.md modified. Reviewed added enforcement note: no shell command execution, no credentials or tokens. The note is read-only informational prose. Least-privilege preserved. Compliant. | resolved: 2026-03-29T19:15:01.261Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: YES — already done. Added 'Global truths are live commit constraints' pattern to docs/patterns.md with enforcement explanation, practical implications, signal phrases, and spec link. | resolved: 2026-03-29T19:15:00.992Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — surfacing existing enforcement behavior more clearly does not introduce a new cross-cutting concern. The enforcement is already implemented via commithook. | resolved: 2026-03-29T19:15:00.724Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — prose-only changes to skills/behaviour.md, skills/implement.md, and docs/patterns.md. No TypeScript changes, no new CLI commands. docs/architecture.md constraints unaffected. | resolved: 2026-03-29T19:15:00.447Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: APPLIES — docs/patterns.md updated with 'Global truths are live commit constraints' pattern including signal phrases. Signal phrases ('global truths are checked at commit time', 'why is the commit blocked by a truth') will be discoverable in behaviour.md step 1a pattern-check. Compliant. | resolved: 2026-03-29T19:15:00.159Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: APPLIES — enforcement note mentions 'when /tr-commit runs' to inform agents. The note does not instruct agents to commit; it informs them that truths are enforced at commit time. Follows commit-awareness guidance: the skill references /tr-commit as the authoritative commit path without duplicating commit logic. Compliant. | resolved: 2026-03-29T19:14:59.896Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: APPLIES — behaviour.md and implement.md modified. The enforcement note is a single sentence appended to the existing truth-loading step. (C-3) No cross-skill repetition beyond the two authoring skills. (C-4) Conditional on truths existing (no bulk pre-load). (C-5) Single sentence — no /compact trigger. Compliant. | resolved: 2026-03-29T19:14:59.626Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: Not applicable — the enforcement note informs the agent but does not add a pause/confirm step. The existing contradiction surface (A/B/C choice) already handles user confirmation. Unchanged. | resolved: 2026-03-29T19:14:59.367Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: Not applicable — the rework adds a note to an existing pre-draft step, not a new output-producing step or What's next? block. Existing What's next? blocks in behaviour.md and implement.md are unchanged. | resolved: 2026-03-29T19:14:59.105Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: APPLIES — behaviour.md and implement.md modified. Reviewed added enforcement note: 'These truths are automatically enforced at commit time by the commithook.' No Claude-specific names, no @{project-root} syntax, no agent-specific invocations. Compliant. | resolved: 2026-03-29T19:14:58.816Z
+
+- condition: check-if-affected: examples/ | note: No examples exercise the truth-loading step directly. Not affected. | resolved: 2026-03-29T19:11:02.041Z
+
+- condition: check-if-affected: docs/ | note: AFFECTED AND UPDATED — docs/patterns.md updated with 'Global truths are live commit constraints' pattern. | resolved: 2026-03-29T19:11:01.772Z
+
+- condition: check-if-affected: skills/guide.md | note: guide.md lists user-facing slash commands. No new commands added — this rework adds a note to an existing step in behaviour.md and implement.md. Not affected. | resolved: 2026-03-29T19:11:01.477Z
+
+- condition: check-if-affected: src/commands/update.ts | note: update.ts copies skill files. skills/behaviour.md and skills/implement.md are modified — they will be correctly picked up by taproot update. No change to update.ts logic needed. | resolved: 2026-03-29T19:11:01.201Z
+
+- condition: check-if-affected: package.json | note: No new dependencies. Prose-only changes to skills and docs/patterns.md. | resolved: 2026-03-29T19:11:00.924Z
+
+- condition: document-current | note: AFFECTED AND UPDATED — docs/patterns.md: added 'Global truths are live commit constraints' pattern entry with enforcement explanation, signal phrases, and spec link. README.md does not enumerate skill step internals. docs/ accurately reflects the rework. | resolved: 2026-03-29T19:11:00.659Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: Applies: intent.md, behaviour.md, implement.md, refine.md modified. Security review: no shell command execution in any injected step. No credentials or tokens hardcoded. Truth-loading step only reads from taproot/global-truths/ — minimal, scoped reads. No write operations in the injected step itself. Compliant. | resolved: 2026-03-26T15:19:21.082Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No new reusable pattern. The inline injection approach is specific to applying truths within authoring skills and not generalizable enough to document as a standalone pattern. | resolved: 2026-03-26T15:19:20.831Z

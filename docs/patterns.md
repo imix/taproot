@@ -266,6 +266,35 @@ taproot truth-sign
 
 ---
 
+## Global truths are live commit constraints
+
+**Problem:** An agent loads `taproot/global-truths/` when authoring a spec but treats it as optional reference material — not realising that any spec or implementation that contradicts an applicable truth will be **blocked at commit time** by the commithook. The agent writes a spec that contradicts a business rule, `/tr-commit` runs, and the commit fails.
+
+**How it works:**
+- Every file in `taproot/global-truths/` is a live constraint, scoped to the hierarchy level(s) it applies to
+- When you run `/tr-commit`, it checks the staged content against applicable truths and calls `taproot truth-sign` to record the result
+- The commithook then validates the session marker — if truths were not checked, or if the content changed since the check, the commit is blocked
+- Bypassing `/tr-commit` and running `git commit` directly will be blocked if applicable truths exist and no valid session marker is present
+
+**Practical implication for agents:**
+When step 1b (behaviour authoring) or step 3a (implementation) loads truths and finds a contradiction, **resolve it before continuing** — not at the end of the session. A contradiction noted and left unresolved will block the commit.
+
+**Signal phrases that indicate this pattern applies:**
+- "global truths are checked at commit time"
+- "why is the commit blocked by a truth"
+- "what does taproot truth-sign do"
+- "our truths are being enforced but I didn't know"
+
+**What `/tr-commit` does automatically:**
+1. Collects staged hierarchy docs and applicable truth files
+2. Agent reviews consistency (already done at authoring time in step 1b/3a)
+3. Runs `taproot truth-sign` to record the session marker
+4. Commithook validates the marker — fast, no LLM needed
+
+See also: `taproot/specs/global-truth-store/enforce-truths-at-commit/usecase.md`
+
+---
+
 ## CLI prompt copy length
 
 **Problem:** A prompt added to `taproot init` (or any CLI wizard) is significantly longer than sibling prompts, making the terminal output inconsistent and harder to scan.

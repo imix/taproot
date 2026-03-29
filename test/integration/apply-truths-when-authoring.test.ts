@@ -173,3 +173,32 @@ describe('placement — truth-loading step precedes first draft action', () => {
     expect(truthIdx).toBeLessThan(draftIdx);
   });
 });
+
+// ─── Enforcement awareness: truths are live commit constraints ────────────────
+
+describe('Enforcement awareness — truths enforced at commit time', () => {
+  it('behaviour.md truth step mentions commit-time enforcement', () => {
+    const skill = read('behaviour.md');
+    expect(skill).toMatch(/enforced at commit time/i);
+  });
+
+  it('implement.md truth step mentions commit-time enforcement', () => {
+    const skill = read('implement.md');
+    expect(skill).toMatch(/enforced at commit time/i);
+  });
+
+  it('docs/patterns.md contains "Global truths are live commit constraints" pattern', () => {
+    const patterns = readFileSync(resolve(__dirname, '../../docs/patterns.md'), 'utf-8');
+    expect(patterns).toMatch(/Global truths are live commit constraints/i);
+  });
+
+  it('docs/patterns.md live-constraints pattern references enforce-truths-at-commit spec', () => {
+    const patterns = readFileSync(resolve(__dirname, '../../docs/patterns.md'), 'utf-8');
+    expect(patterns).toMatch(/enforce-truths-at-commit\/usecase\.md/);
+  });
+
+  it('docs/patterns.md live-constraints pattern mentions taproot truth-sign', () => {
+    const patterns = readFileSync(resolve(__dirname, '../../docs/patterns.md'), 'utf-8');
+    expect(patterns).toMatch(/truth-sign/);
+  });
+});

@@ -4,6 +4,46 @@ Reusable patterns for extending and enforcing the taproot hierarchy. Each patter
 
 ---
 
+## Incremental behaviour delivery
+
+**Problem:** A behaviour spec has more acceptance criteria than can be delivered in one iteration — for example, an authentication behaviour covers password, MFA, OAuth, and passkey, but only password is in scope now. Without a clear convention, teams either silently skip ACs, over-scope the iteration, or lose track of what was deferred.
+
+**Two patterns — choose based on flow shape:**
+
+**Pattern A — Sub-behaviour decomposition** (preferred when deferred ACs have different flows, actors, or preconditions):
+```
+user-authentication/
+  intent.md
+  password-login/
+    usecase.md        ← specified + implemented
+  mfa-login/
+    usecase.md        ← state: deferred
+  oauth-login/
+    usecase.md        ← state: deferred
+```
+Run `/tr-decompose` to create sub-behaviours. Set deferred ones to `state: deferred`. Each sub-behaviour has its own DoD gate. `/tr-status` and `/tr-next` surface deferred items for future iterations.
+
+**Pattern B — AC-scoped impl** (when all ACs share the same flow shape):
+Keep one `usecase.md`. Create `impl.md` for the in-scope ACs. In `## Design Decisions`, name which ACs are covered. At DoD time, resolve each deferred AC explicitly:
+```
+condition: AC-2 (MFA) | note: deferred — not in scope for this release | resolved: 2026-03-29
+```
+
+**Decision rule:** If unsure, default to Pattern A — sub-behaviours are easier to merge than to split.
+
+**When to use it:**
+- Any time you write a behaviour spec and know upfront that only a subset of ACs will be implemented now
+- Any time an agent asks "we only have time for X — how do we handle the rest?"
+
+**Signal phrases** (pattern-check will match these):
+- "start with / implement part of / phase the delivery"
+- "defer some ACs / not all ACs in scope / implement incrementally"
+- "only do password for now / first version / MVP of this behaviour"
+
+See full spec: `taproot/specs/requirements-hierarchy/incremental-behaviour-implementation/usecase.md`
+
+---
+
 ## Cross-cutting constraint enforcement (`check-if-affected-by`)
 
 **Problem:** You have an architectural rule that should apply to every implementation — not just a one-time concern, but a standing requirement. Examples: every skill must include a session hygiene signal; every skill that produces output must present a **What's next?** block; every implementation must satisfy a security review checklist. Writing this rule in a README or CLAUDE.md makes it aspirational. You want it enforced automatically, at commit time, for every new implementation.
@@ -223,6 +263,89 @@ taproot truth-sign
 | Hook check | Written by | Validates |
 |---|---|---|
 | Truth consistency | `taproot truth-sign` (called by `/tr-commit`) | Staged hierarchy docs are consistent with `taproot/global-truths/` |
+
+---
+
+## Global truths are live commit constraints
+
+**Problem:** An agent loads `taproot/global-truths/` when authoring a spec but treats it as optional reference material — not realising that any spec or implementation that contradicts an applicable truth will be **blocked at commit time** by the commithook. The agent writes a spec that contradicts a business rule, `/tr-commit` runs, and the commit fails.
+
+**How it works:**
+- Every file in `taproot/global-truths/` is a live constraint, scoped to the hierarchy level(s) it applies to
+- When you run `/tr-commit`, it checks the staged content against applicable truths and calls `taproot truth-sign` to record the result
+- The commithook then validates the session marker — if truths were not checked, or if the content changed since the check, the commit is blocked
+- Bypassing `/tr-commit` and running `git commit` directly will be blocked if applicable truths exist and no valid session marker is present
+
+**Practical implication for agents:**
+When step 1b (behaviour authoring) or step 3a (implementation) loads truths and finds a contradiction, **resolve it before continuing** — not at the end of the session. A contradiction noted and left unresolved will block the commit.
+
+**Signal phrases that indicate this pattern applies:**
+- "global truths are checked at commit time"
+- "why is the commit blocked by a truth"
+- "what does taproot truth-sign do"
+- "our truths are being enforced but I didn't know"
+
+**What `/tr-commit` does automatically:**
+1. Collects staged hierarchy docs and applicable truth files
+2. Agent reviews consistency (already done at authoring time in step 1b/3a)
+3. Runs `taproot truth-sign` to record the session marker
+4. Commithook validates the marker — fast, no LLM needed
+
+See also: `taproot/specs/global-truth-store/enforce-truths-at-commit/usecase.md`
+
+---
+
+## CLI prompt copy length
+
+**Problem:** A prompt added to `taproot init` (or any CLI wizard) is significantly longer than sibling prompts, making the terminal output inconsistent and harder to scan.
+
+**Convention:** Init and wizard prompts must fit within ~80 characters (excluding the `? ` prefix and the trailing option suffix like `(Y/n)` or `(yes)`). The message text itself is the constraint — parenthetical detail, rationale, and examples belong in docs, not in the prompt string.
+
+**Before:**
+```
+? Install the pre-commit hook? (Strongly recommended — prevents implementation commits without traceability and requirement commits without quality checks) (Y/n)
+```
+
+**After:**
+```
+? Install the pre-commit hook? (Strongly recommended) (Y/n)
+```
+
+**When to use it:**
+- Any new prompt added to `src/commands/init.ts` or other CLI wizard flows
+- Any existing prompt that feels noticeably longer than its neighbours
+
+---
+
+## Design constraints session (`/tr-design-constraints`)
+
+**Problem:** You want to define your project's architectural decisions, design principles, naming conventions, or external constraints before writing specs — but `define-truth` is single-truth oriented and doesn't guide you through the right structure for each constraint type. An architecture decision recorded as a flat note is hard to reason about; an ADR with context, options, and consequences is actionable.
+
+**Four structured formats:**
+
+| Format | What it captures | Default scope | Example |
+|---|---|---|---|
+| **Decision** (ADR) | A choice made from options | impl | "We use PostgreSQL over SQLite — context, options, decision, consequences" |
+| **Principle** | A design value with rationale and examples | intent | "Fail early — surface failures before long operations; correct/violation examples" |
+| **Rule / Convention** | A specific do/don't with right/wrong examples | impl | "Never log auth tokens — in any log level; correct/incorrect examples" |
+| **External constraint** | Imposed from outside; not your team's choice | intent | "Must use corporate SAML IdP — client contract; implications; review date" |
+
+**How to use it:**
+```
+/tr-design-constraints
+```
+The skill asks which format applies (or classifies from your description), guides the appropriate prompts, appends to the right truth file, and loops until you're done. A completeness check at the end surfaces any formats you haven't used.
+
+**For free-form truths** — DB schemas, API contracts, glossaries — use `/tr-define-truth` instead.
+
+**Signal phrases** (pattern-check will match these):
+- "define our architecture / record our tech choices / document our decisions"
+- "UX guidelines / design principles / accessibility principles"
+- "project conventions / coding standards / naming rules"
+- "external constraint / we have to use / imposed on us / client requires"
+- "what's the right way to capture our..."
+
+See full spec: `taproot/specs/global-truth-store/author-design-constraints/usecase.md`
 
 ---
 

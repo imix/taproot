@@ -35,6 +35,7 @@ If any of these is true, **autonomous mode is active** — apply the autonomous 
    - Include files with `_intent`, `_behaviour`, or `_impl` suffix, in an `intent/`, `behaviour/`, or `impl/` sub-folder, or with no scope signal (treat as intent-scoped; note inline: "Applied `global-truths/<file>` as intent-scoped (no explicit scope signal)")
    - Read each applicable file; apply defined terms and conventions when choosing the implementation approach, naming, and design decisions
    - If the implementation plan contradicts an applicable truth, surface the conflict before proceeding: "This implementation contradicts `global-truths/<file>`: `<excerpt>`. [A] update plan to align, [B] update the truth, [C] proceed with the conflict noted."
+   - **Enforcement note:** These truths are automatically enforced at commit time by the commithook. A contradiction left unresolved here will block the commit when `/tr-commit` runs. Resolve conflicts now rather than at commit time.
 
 4. **Pattern check + plan mode.** Before proposing the plan: if `taproot/agent/docs/patterns.md` exists, scan the behaviour description and any design notes for semantic matches. Match signals:
    - "applies to all implementations / cross-cutting concern" → `check-if-affected-by`
