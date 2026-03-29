@@ -96,6 +96,6 @@ flowchart TD
 - [Agent Skill — incremental behaviour delivery convention](./agent-skill/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-29
 - **Last reviewed:** 2026-03-29
