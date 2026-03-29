@@ -49,7 +49,7 @@ Define a UseCase (observable system behaviour) under an intent or another behavi
    - "What if an external call here times out or returns an error?"
    - "What if the user navigates away or cancels mid-flow?"
    - "What if this step is attempted twice in a row?"
-   Each recoverable branch becomes an **Alternate Flow** (with trigger + steps + outcome). Each unrecoverable failure becomes an **Error Condition** (with trigger + system response). Do not accept vague answers like "the request fails" — push for the specific trigger and the exact system response (e.g., "API returns 5xx — system shows inline error, preserves form state, and allows retry").
+   Each recoverable branch becomes an **Alternate Flow** (with trigger + steps + outcome). Each unrecoverable failure becomes an **Error Condition** (with trigger + system response). Do not accept vague answers like "the request fails" — push for the specific actor-visible trigger and the exact system response (e.g., "Service is unavailable — system shows inline error, preserves form state, and allows retry"). Use actor-visible language: "item is not found" not "404", "service is unavailable" not "HTTP 503", "request is too large" not "token limit exceeded".
 
 5. Generate a Mermaid diagram that visualises the main flow and key alternate/error branches. Use `sequenceDiagram` for actor–system interactions or `flowchart TD` for branching logic — choose whichever makes the flow most readable. This is the human-readable visual contract for the behaviour. Include it in the `## Flow` section of `usecase.md`.
 
@@ -183,5 +183,5 @@ sequenceDiagram
 - A behaviour should be completable in one user session. If it spans sessions or days, it is likely multiple behaviours.
 - Aim for 3–7 steps in the main flow. Fewer usually means the behaviour is too abstract; more usually means it should be decomposed.
 - The Mermaid diagram is the human-readable contract — it should be understandable by a non-technical stakeholder. Prefer `sequenceDiagram` for flows with clear actor–system turns; use `flowchart TD` for decision-heavy branching.
-- Error conditions should be specific: name the exact trigger (HTTP 5xx, timeout, duplicate key) and the exact system response (error message shown, state preserved, retry offered). Vague conditions ("request fails") are not acceptable.
+- Error conditions should be specific: name the exact actor-visible trigger and the exact system response (error message shown, state preserved, retry offered). Vague conditions ("request fails") are not acceptable. Technical triggers (HTTP 5xx, duplicate key, token limit) belong in `impl.md` — translate them to actor-visible language in the spec (e.g. "service is unavailable", "an item with that name already exists", "request is too large").
 - Related behaviours are not just cross-references — they define the dependency graph that `/tr-analyse-change` uses for impact analysis.
