@@ -105,6 +105,29 @@ Route a natural language requirement to the right place in the taproot hierarchy
 
    **If [C]:** Proceed to Step 4 with the synthesised requirement as context. This summary will carry forward into `/tr-behaviour` as richer input than a raw one-liner.
 
+4a. **Scope-split check** — Before searching for placement, check whether the requirement (or synthesised description) spans multiple distinct business goals. Signals:
+   - No hierarchy exists yet and the description covers a whole product or system
+   - Multiple independent actors with different needs appear in the description
+   - The description is a feature list or product vision, not a single capability
+   - The synthesised success criteria contain multiple unrelated outcomes
+
+   If any signal is present, enumerate the distinct goals and interrupt:
+   > "This covers more than one independent goal — I can see at least [N]:
+   > 1. [goal 1]
+   > 2. [goal 2]
+   > ...
+   >
+   > Each needs its own intent. How would you like to proceed?
+   > **[A]** Route each separately — I'll call `/tr-ineed` for each in sequence
+   > **[B]** Decompose — `/tr-decompose` to write a top-level intent and enumerate child behaviours
+   > **[C]** Treat as one intent — I'll note the scope risk in Constraints"
+
+   - **[A]**: invoke `/tr-ineed` for each goal sequentially, waiting for placement confirmation before the next
+   - **[B]**: call `/tr-decompose` with the full description
+   - **[C]**: proceed to step 4, adding a Constraints note: "Scope risk: this intent may cover multiple independent business goals — consider splitting if it grows beyond 3–4 behaviours"
+
+   If no scope signal is present, proceed directly to step 4.
+
 4. **Search for near-duplicates** — Scan existing `usecase.md` files under `taproot/`. If a behaviour closely matches the stated (or synthesised) requirement, surface it:
 
    > "There's already a behaviour `<path>` that covers `<summary>`. Is your requirement the same, a refinement, or a distinct addition?"

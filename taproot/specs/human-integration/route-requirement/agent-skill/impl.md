@@ -29,6 +29,10 @@
 
 ## DoD Resolutions
 - condition: document-current | note: Not affected. ineed.md changes are internal (C-1 trim, C-4 step merge, C-5 /compact signal, C-6 What's next? block added). No new CLI commands or configuration options. | resolved: 2026-03-20T10:03:04.603Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: No — scope-split gate is specific to ineed routing logic, not a cross-cutting architectural concern. | resolved: 2026-03-29T09:35:32.859Z
+
+- condition: check-if-affected: package.json | note: Skill-only change (ineed.md). No new CLI commands, dependencies, or version bump needed. | resolved: 2026-03-29T09:35:32.605Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: Change adds a routing pre-check and delegates to /tr-define-truth. No shell commands, no credentials, no tokens. Least-privilege: agent only reads the requirement and delegates — no new write or execution authority granted. | resolved: 2026-03-27T10:28:19.637Z
 
 - condition: check-if-affected: examples/ | note: No examples exercise ineed routing directly. Not applicable. | resolved: 2026-03-27T10:28:18.332Z
