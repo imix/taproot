@@ -21,6 +21,7 @@ Define a UseCase (observable system behaviour) under an intent or another behavi
    - "keep docs current / enforce documentation quality" → `document-current`
    - "every new feature must update X" → `check-if-affected: X`
    - "start with / implement part of / phase the delivery / defer some ACs / only do X for now / MVP of this behaviour" → `incremental behaviour delivery` pattern
+   - "define our architecture / record our tech choices / UX guidelines / design principles / project conventions / external constraint / we have to use / client requires" → `design constraints session` pattern
 
    If a match is found, **interrupt before asking clarifying questions**:
    > "Before I write this spec — that sounds like the **`<pattern-name>`** pattern. <one-line description>. See `taproot/agent/docs/patterns.md`."

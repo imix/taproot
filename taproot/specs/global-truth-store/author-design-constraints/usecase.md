@@ -152,6 +152,6 @@ The following sub-behaviours define the prompting and output format for each con
 - [Agent Skill — design constraints session](./agent-skill/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-29
 - **Last reviewed:** 2026-03-29

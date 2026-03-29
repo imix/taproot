@@ -288,6 +288,38 @@ taproot truth-sign
 
 ---
 
+## Design constraints session (`/tr-design-constraints`)
+
+**Problem:** You want to define your project's architectural decisions, design principles, naming conventions, or external constraints before writing specs — but `define-truth` is single-truth oriented and doesn't guide you through the right structure for each constraint type. An architecture decision recorded as a flat note is hard to reason about; an ADR with context, options, and consequences is actionable.
+
+**Four structured formats:**
+
+| Format | What it captures | Default scope | Example |
+|---|---|---|---|
+| **Decision** (ADR) | A choice made from options | impl | "We use PostgreSQL over SQLite — context, options, decision, consequences" |
+| **Principle** | A design value with rationale and examples | intent | "Fail early — surface failures before long operations; correct/violation examples" |
+| **Rule / Convention** | A specific do/don't with right/wrong examples | impl | "Never log auth tokens — in any log level; correct/incorrect examples" |
+| **External constraint** | Imposed from outside; not your team's choice | intent | "Must use corporate SAML IdP — client contract; implications; review date" |
+
+**How to use it:**
+```
+/tr-design-constraints
+```
+The skill asks which format applies (or classifies from your description), guides the appropriate prompts, appends to the right truth file, and loops until you're done. A completeness check at the end surfaces any formats you haven't used.
+
+**For free-form truths** — DB schemas, API contracts, glossaries — use `/tr-define-truth` instead.
+
+**Signal phrases** (pattern-check will match these):
+- "define our architecture / record our tech choices / document our decisions"
+- "UX guidelines / design principles / accessibility principles"
+- "project conventions / coding standards / naming rules"
+- "external constraint / we have to use / imposed on us / client requires"
+- "what's the right way to capture our..."
+
+See full spec: `taproot/specs/global-truth-store/author-design-constraints/usecase.md`
+
+---
+
 ## What belongs in `taproot/global-truths/`
 
 **Problem:** You know you want to capture project-wide facts in `taproot/global-truths/` but aren't sure what kinds of facts are worth formalising — or how to scope them.

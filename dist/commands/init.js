@@ -74,6 +74,7 @@ export const SKILL_FILES = [
     'discover.md',
     'discover-truths.md',
     'define-truth.md',
+    'design-constraints.md',
     'ineed.md',
     'research.md',
     'sweep.md',

@@ -17,13 +17,21 @@ Route a natural language requirement to the right place in the taproot hierarchy
    - The requirement is a design principle or quality attribute with no concrete actor or user-visible action (e.g. "fail early", "discoverable by default", "no surprises")
    - The requirement describes how the system *should be* rather than what it *should do*
 
+   Additional signals — route to `/tr-design-constraints` instead of `/tr-define-truth` when:
+   - "define our architecture / record our tech choices / document our decisions"
+   - "UX guidelines / design principles / accessibility principles / sustainability goals"
+   - "coding conventions / naming rules / security rules"
+   - "external constraint / we have to use / imposed on us / client requires / regulatory requirement"
+
    If a global truth signal is present, **interrupt before proceeding**:
    > "That sounds like a **global truth** — a design principle to capture in `taproot/global-truths/`, not a feature to build. Should I route it there, or is this something that should actively enforce on every implementation via a DoD gate?
-   > **[A]** Global truth → route to `/tr-define-truth`
+   > **[A]** Global truth (free-form) → route to `/tr-define-truth`
+   > **[A2]** Structured constraint (architecture/UX/conventions/external) → route to `/tr-design-constraints`
    > **[B]** Enforcement gate → apply `check-if-affected-by` pattern
    > **[C]** New requirement → continue with normal routing"
 
    - **[A]**: call `/tr-define-truth` with the principle. Stop — do not continue routing.
+   - **[A2]**: call `/tr-design-constraints`. Stop — do not continue routing.
    - **[B]**: proceed to pattern check below.
    - **[C]** or no global truth signal: proceed to pattern check below.
 
