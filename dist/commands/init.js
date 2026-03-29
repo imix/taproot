@@ -36,17 +36,9 @@ const BUNDLED_SKILLS_DIR = resolve(__dirname, '..', '..', 'skills');
 const BUNDLED_DOCS_DIR = resolve(__dirname, '..', '..', 'docs');
 // Bundled examples directory — two levels up from src/commands/ → package root → examples/
 const BUNDLED_EXAMPLES_DIR = resolve(__dirname, '..', '..', 'examples');
-export const AVAILABLE_TEMPLATES = ['webapp', 'book-authoring', 'cli-tool'];
+export const AVAILABLE_TEMPLATES = ['webapp', 'cli-tool'];
 export const DOMAIN_PRESETS = {
     coding: { label: 'Coding / software', vocabulary: {} },
-    blogging: {
-        label: 'Blogging',
-        vocabulary: { 'source files': 'posts', tests: 'editorial reviews', implementation: 'writing', build: 'publish' },
-    },
-    'book-authoring': {
-        label: 'Book authoring',
-        vocabulary: { 'source files': 'chapters', tests: 'manuscript reviews', implementation: 'writing', build: 'compile draft' },
-    },
     'technical-writing': {
         label: 'Technical writing',
         vocabulary: { 'source files': 'documents', tests: 'reviews', implementation: 'writing', build: 'publish' },
@@ -149,7 +141,6 @@ export function registerInit(program) {
                     choices: [
                         { name: 'No template — start with an empty hierarchy', value: '' },
                         { name: 'webapp        — SaaS web application (user auth, profiles)', value: 'webapp' },
-                        { name: 'book-authoring — Book or content project (manuscript, research, publishing)', value: 'book-authoring' },
                         { name: 'cli-tool      — Command-line tool or developer utility', value: 'cli-tool' },
                     ],
                 });
@@ -225,8 +216,6 @@ export function registerInit(program) {
                     message: 'What kind of project is this? (Determines how taproot labels things like \'tests\' and \'source files\')',
                     choices: [
                         { name: 'Coding / software (default — no changes)', value: 'coding' },
-                        { name: 'Blogging — source files → posts, tests → editorial reviews', value: 'blogging' },
-                        { name: 'Book authoring — source files → chapters, tests → manuscript reviews', value: 'book-authoring' },
                         { name: 'Technical writing — source files → documents, tests → reviews', value: 'technical-writing' },
                         { name: 'Skip — I\'ll configure manually later', value: 'skip' },
                     ],

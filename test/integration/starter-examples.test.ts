@@ -42,20 +42,6 @@ describe('starter-examples — applyTemplate', () => {
     expect(content).toContain('**State:** specified');
   });
 
-  // AC-2: Book-authoring template configures domain vocabulary
-  it('AC-2: book-authoring template settings.yaml has vocabulary overrides', () => {
-    applyTemplate('book-authoring', tmpDir);
-
-    const settingsPath = join(tmpDir, 'taproot', 'settings.yaml');
-    expect(existsSync(settingsPath)).toBe(true);
-
-    const settings = yaml.load(readFileSync(settingsPath, 'utf-8')) as Record<string, unknown>;
-    expect(settings).toHaveProperty('vocabulary');
-    const vocab = settings['vocabulary'] as Record<string, string>;
-    expect(vocab['tests']).toBe('manuscript reviews');
-    expect(vocab['source files']).toBe('chapters');
-  });
-
   // AC-3: CLI tool template has CLI-appropriate DoD conditions
   it('AC-3: cli-tool template settings.yaml has build and type-check DoD conditions', () => {
     applyTemplate('cli-tool', tmpDir);
@@ -75,7 +61,7 @@ describe('starter-examples — applyTemplate', () => {
   // AC-6: Unknown template name produces a helpful error
   it('AC-6: unknown template throws with available template names', () => {
     expect(() => applyTemplate('unknown-type', tmpDir)).toThrow(
-      /Unknown template.*Available:.*webapp.*book-authoring.*cli-tool/
+      /Unknown template.*Available:.*webapp.*cli-tool/
     );
   });
 

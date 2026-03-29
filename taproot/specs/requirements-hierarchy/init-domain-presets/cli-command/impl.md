@@ -45,6 +45,10 @@ know it exists.
 
 ## DoD Resolutions
 - condition: document-current | note: README.md does not document individual CLI flags (by design — only quick-start usage shown). docs/configuration.md already fully documents vocabulary and language settings. The --preset flag is a convenience UI for those settings; no doc update needed. | resolved: 2026-03-27T10:11:01.817Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: No new cross-cutting concern — this is a removal of content-domain presets (blogging, book-authoring) that were a poor fit for taproot's software traceability model. | resolved: 2026-03-29T09:00:49.262Z
+
+- condition: check-if-affected: package.json | note: Removed blogging and book-authoring presets — no dependency changes, no version bump needed. | resolved: 2026-03-29T09:00:49.011Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: No skill files were modified. Not applicable. | resolved: 2026-03-27T10:17:26.726Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No reusable pattern. Domain preset is a specific UX feature of taproot init, not a general pattern applicable to other implementations. | resolved: 2026-03-27T10:17:25.426Z
