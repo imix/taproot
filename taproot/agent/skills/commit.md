@@ -83,7 +83,10 @@ Execute the full commit procedure: classify the commit type, run the appropriate
       - Are domain terms used consistently with their definitions?
    d. If a conflict is found, surface it before proceeding:
       > "Truth conflict: `<excerpt>` in staged changes conflicts with `global-truths/<file>`: `<truth excerpt>`. [A] Fix the implementation | [B] Update the truth | [C] Proceed with conflict noted"
-      Wait for the developer's choice. Do not proceed to step 5 until resolved.
+
+      **Interactive mode:** Wait for the developer's choice. Do not proceed to step 5 until resolved.
+
+      **Autonomous mode:** Record the conflict in `impl.md` under `## Notes` as "Autonomous commit — truth conflict detected: `<excerpt>` conflicts with `<truth file>`. Proceeding with conflict noted." Run `taproot truth-sign` and continue — do not stop.
    e. If no conflicts (or all resolved): run `taproot truth-sign` to record the session marker the hook validates.
 
 5. **Suggest commit tag** — derive the conventional tag from the matched impl.md paths:
@@ -138,7 +141,10 @@ Execute the full commit procedure: classify the commit type, run the appropriate
       - Are project conventions followed?
    d. If a conflict is found, surface it before proceeding:
       > "Truth conflict in `<file>`: `<excerpt>` conflicts with `<truth file>`: `<truth excerpt>`. [A] Fix the spec | [B] Update the truth | [C] Proceed with conflict noted"
-      Wait for the developer's choice. Do not proceed to step 6 until resolved.
+
+      **Interactive mode:** Wait for the developer's choice. Do not proceed to step 6 until resolved.
+
+      **Autonomous mode:** Record the conflict as a note in the staged document's frontmatter comment or in the session output: "Autonomous commit — truth conflict detected: `<excerpt>` conflicts with `<truth file>`. Proceeding with conflict noted." Run `taproot truth-sign` and continue — do not stop.
    e. If no conflicts (or all resolved): run `taproot truth-sign` to record the session marker the hook validates.
 
 6. Stage the hierarchy files and commit.

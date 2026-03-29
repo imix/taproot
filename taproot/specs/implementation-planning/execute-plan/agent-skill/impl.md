@@ -40,6 +40,8 @@
 
 ## DoD Resolutions
 - condition: check-if-affected: src/commands/update.ts | note: affected — added 'plan-execute.md' to SKILL_FILES array in src/commands/init.ts; consumed by update.ts via installSkills() so the new skill is picked up on taproot update | resolved: 2026-03-27
+- condition: check-if-affected: package.json | note: Prose-only addition to skills/plan-execute.md — autonomous mode check woven into step 3. No new dependencies, no new CLI commands. package.json unchanged. | resolved: 2026-03-29T19:44:59.245Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: compliant — no shell execution added; no credentials or tokens; new orientation step reads plan.md (read-only); hitl/afk filtering and follow-on append are file writes to plan.md only; least-privilege maintained | resolved: 2026-03-28T06:23:55.290Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — orientation menu and hitl/afk filtering are specific to plan-execute; not a general pattern applicable across other skills | resolved: 2026-03-28T06:23:55.037Z

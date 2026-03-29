@@ -16,7 +16,9 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
 
 2. **Read `taproot/plan.md`.** Collect all items and their current status.
 
-3. **Detect mode** from the developer's request:
+3. **Check autonomous mode.** If autonomous mode is active (`TAPROOT_AUTONOMOUS=1`, `--autonomous`, or `autonomous: true` in settings): automatically apply the **afk** filter — process only `afk`-labelled items. Skip the mode menu (step 3a) and proceed directly to step 4 with afk filter active. HITL items are left `pending` untouched.
+
+   **Detect mode** from the developer's request (interactive mode only):
    - *"execute next item"* / *"execute plan"* / *"run next"* → **step-by-step** (default)
    - *"execute all"* / *"run all"* / *"batch"* → **batch**
    - *"hitl only"* / *"run human items"* / *"interactive only"* → **hitl** (filter: `hitl` items only)
