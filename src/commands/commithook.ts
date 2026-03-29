@@ -126,6 +126,63 @@ function localizedHeading(englishKey: string, pack: LanguagePack | null): string
   return pack[englishKey] ?? englishKey;
 }
 
+/** Walk up from a staged usecase.md path to find the nearest ancestor intent.md within taproot/. */
+export function findParentIntentPath(usecasePath: string, cwd: string): string | null {
+  const normalized = usecasePath.replace(/\\/g, '/');
+  const parts = normalized.split('/');
+  // Remove the filename (usecase.md)
+  parts.pop();
+
+  while (parts.length > 0 && parts[0] === 'taproot') {
+    const candidate = [...parts, 'intent.md'].join('/');
+    if (existsSync(join(cwd, candidate))) return candidate;
+    parts.pop();
+  }
+  return null;
+}
+
+export function checkBehaviourIntentAlignment(
+  usecasePath: string,
+  intentPath: string | null,
+  intentContent: string | null,
+  pack: LanguagePack | null = null
+): SpecFailure[] {
+  const failures: SpecFailure[] = [];
+
+  if (intentPath === null) {
+    failures.push({
+      file: usecasePath,
+      message: 'No parent `intent.md` found',
+      hint: `No parent \`intent.md\` found for \`${usecasePath}\` — place this behaviour under an intent folder or create the intent first`,
+    });
+    return failures;
+  }
+
+  if (intentContent === null) {
+    // Intent found on disk but unreadable — skip rather than false-block
+    return failures;
+  }
+
+  const goalHeading = localizedHeading('Goal', pack);
+  const goalBody = getSection(intentContent, goalHeading);
+
+  if (goalBody === null) {
+    failures.push({
+      file: usecasePath,
+      message: `Parent intent at \`${intentPath}\` is missing a \`## ${goalHeading}\` section`,
+      hint: `Add a \`## ${goalHeading}\` section to \`${intentPath}\` before committing a behaviour under it`,
+    });
+  } else if (goalBody.trim().length === 0) {
+    failures.push({
+      file: usecasePath,
+      message: `Parent intent at \`${intentPath}\` has an empty \`## ${goalHeading}\``,
+      hint: `Fill in the \`## ${goalHeading}\` section in \`${intentPath}\` before committing a behaviour under it`,
+    });
+  }
+
+  return failures;
+}
+
 export function checkUsecaseQuality(filePath: string, content: string, pack: LanguagePack | null = null): SpecFailure[] {
   const failures: SpecFailure[] = [];
   const acHeading = localizedHeading('Acceptance Criteria', pack);
@@ -352,6 +409,15 @@ export async function runCommithook(options: { cwd: string }): Promise<number> {
       if (!content) continue;
       if (f.endsWith('usecase.md')) {
         specFailures.push(...checkUsecaseQuality(f, content, pack));
+        const intentPath = findParentIntentPath(f, cwd);
+        let intentContent: string | null = null;
+        if (intentPath !== null) {
+          intentContent = getStagedContent(intentPath, cwd);
+          if (intentContent === null) {
+            try { intentContent = readFileSync(join(cwd, intentPath), 'utf-8'); } catch { /* unreadable */ }
+          }
+        }
+        specFailures.push(...checkBehaviourIntentAlignment(f, intentPath, intentContent, pack));
       } else if (f.endsWith('intent.md')) {
         specFailures.push(...checkIntentQuality(f, content, pack));
       }

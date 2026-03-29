@@ -21,5 +21,6 @@ The pre-commit hook enforces these quality rules at commit time. Write specs cor
 - `## Acceptance Criteria` must be present with at least one `**AC-1:**` Gherkin entry (Given/When/Then)
 - `## Actor` must name a human, external system, or service — not an implementation mechanism (not "the endpoint", "the database", "the API")
 - `## Postconditions` must be present and non-empty
+- Before writing a `usecase.md`, read the parent `intent.md`'s `## Goal` section and verify that your Acceptance Criteria address it. If the ACs do not plausibly serve the parent intent's goal, revise the ACs or flag the misalignment before saving the spec.
 
 If the hook rejects a spec, the error message includes a correction hint. Fix the issue, re-stage, and re-commit.

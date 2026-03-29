@@ -114,6 +114,6 @@ flowchart TD
 - [Commithook Extension + CLAUDE.md Guidance](./commithook-extension/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-29
 - **Last reviewed:** 2026-03-29

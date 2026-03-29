@@ -26,6 +26,39 @@
 - condition: check-if-affected-by: quality-gates/nfr-measurability | note: NOT APPLICABLE — the parent usecase.md contains no NFR-N entries. This behaviour has no performance, security, or reliability thresholds to verify. | resolved: 2026-03-29
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-29
 - **Last verified:** 2026-03-29
+
+## DoD Resolutions
+- condition: document-current | note: docs/cli.md updated: commithook table row for hierarchy files now explicitly lists spec quality checks including behaviour-intent alignment. README.md does not enumerate individual commithook checks. docs/ accurately reflects the change. | resolved: 2026-03-29T18:36:55.909Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: COMPLIANT — CLAUDE.md is modified (not skills/*.md). The CLAUDE.md addition instructs the agent to read a file and check alignment. No shell commands, no credentials, no tokens introduced. | resolved: 2026-03-29T18:38:19.899Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — directory traversal for parent intent lookup is internal to commithook.ts. No reusable pattern for docs/patterns.md. | resolved: 2026-03-29T18:38:19.635Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — extending an existing quality gate check is not a new cross-cutting concern. No new DoD conditions needed. | resolved: 2026-03-29T18:38:19.360Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — extends commithook.ts in the established quality gate pattern (checkUsecaseQuality, checkIntentQuality). Tests cover all 6 ACs. No architectural constraints from docs/architecture.md violated. | resolved: 2026-03-29T18:38:19.096Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: NOT APPLICABLE — pattern-hints applies to skills routing natural language requests. commithook.ts is a git hook. | resolved: 2026-03-29T18:38:07.025Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: NOT APPLICABLE — commithook.ts is the gate that runs at commit time; it does not instruct agents to run git commit. Committing is the developer's action. | resolved: 2026-03-29T18:38:06.765Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: NOT APPLICABLE — context-engineering governs skill file design. This implementation changes commithook.ts (TypeScript) and CLAUDE.md. | resolved: 2026-03-29T18:38:06.507Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: NOT APPLICABLE — commithook.ts is a git hook, not a multi-document-authoring skill. No destructive actions or bulk writes. | resolved: 2026-03-29T18:37:27.505Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: NOT APPLICABLE — commithook.ts is a git hook with no What's next block. No interactive skill flow. | resolved: 2026-03-29T18:37:27.235Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: NOT APPLICABLE — commithook.ts is TypeScript source code. CLAUDE.md guidance uses generic language ('read the parent intent.md Goal section'). No Claude-specific names or agent-specific invocation mechanisms introduced. | resolved: 2026-03-29T18:37:26.970Z
+
+- condition: check-if-affected: examples/ | note: No examples exercise commithook directly. Not affected. | resolved: 2026-03-29T18:37:08.457Z
+
+- condition: check-if-affected: docs/ | note: AFFECTED AND UPDATED — docs/cli.md commithook table updated to include behaviour-intent alignment in the spec quality checks listed for hierarchy file commits. | resolved: 2026-03-29T18:37:08.192Z
+
+- condition: check-if-affected: skills/guide.md | note: guide.md documents user-facing skills. The behaviour-intent alignment check is a pre-commit gate, not a user-facing skill. Not affected. | resolved: 2026-03-29T18:37:03.475Z
+
+- condition: check-if-affected: src/commands/update.ts | note: update.ts copies skill files only; commithook.ts changes are not distributed via taproot update. Not affected. | resolved: 2026-03-29T18:37:03.188Z
+
+- condition: check-if-affected: package.json | note: No new dependencies or version bump required. Pure logic addition to commithook.ts — no new packages. | resolved: 2026-03-29T18:37:02.920Z
+

@@ -3,7 +3,7 @@ import { mkdtempSync, rmSync, mkdirSync, writeFileSync, readFileSync, existsSync
 import { tmpdir } from 'os';
 import { join } from 'path';
 import { spawnSync } from 'child_process';
-import { runCommithook, buildSourceToImplMap, checkUsecaseQuality, checkIntentQuality } from '../../src/commands/commithook.js';
+import { runCommithook, buildSourceToImplMap, checkUsecaseQuality, checkIntentQuality, checkBehaviourIntentAlignment, findParentIntentPath } from '../../src/commands/commithook.js';
 import { runInit } from '../../src/commands/init.js';
 import { runDorChecks } from '../../src/core/dor-runner.js';
 
@@ -638,6 +638,116 @@ describe('regression — taproot/agent/ files must not be treated as hierarchy s
     stage([{
       path: 'taproot/my-intent/intent.md',
       content: `# Intent: Test\n\n## Goal\nNot a verb at the start\n\n## Stakeholders\n- Dev: yes\n\n## Success Criteria\n- Something measurable\n\n## Status\n- **State:** active\n- **Created:** 2026-03-27\n`,
+    }], tmpDir);
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(1);
+  });
+});
+
+// ─── findParentIntentPath ────────────────────────────────────────────────────
+
+describe('findParentIntentPath', () => {
+  it('returns the direct ancestor intent.md when present one level up', () => {
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour'), { recursive: true });
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'intent.md'), '# Intent: Test\n');
+    const result = findParentIntentPath('taproot/my-intent/my-behaviour/usecase.md', tmpDir);
+    expect(result).toBe('taproot/my-intent/intent.md');
+  });
+
+  it('returns null when no ancestor intent.md exists', () => {
+    mkdirSync(join(tmpDir, 'taproot', 'orphan-behaviour'), { recursive: true });
+    const result = findParentIntentPath('taproot/orphan-behaviour/usecase.md', tmpDir);
+    expect(result).toBeNull();
+  });
+
+  it('traverses past sub-behaviour directory to find root intent', () => {
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'parent-behaviour', 'sub-behaviour'), { recursive: true });
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'intent.md'), '# Intent: Test\n');
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'parent-behaviour', 'usecase.md'), '# Behaviour: Parent\n');
+    const result = findParentIntentPath('taproot/my-intent/parent-behaviour/sub-behaviour/usecase.md', tmpDir);
+    expect(result).toBe('taproot/my-intent/intent.md');
+  });
+});
+
+// ─── checkBehaviourIntentAlignment ──────────────────────────────────────────
+
+describe('checkBehaviourIntentAlignment', () => {
+  const VALID_INTENT = `# Intent: Test\n\n## Goal\nEnable teams to test the system\n\n## Stakeholders\n- Dev: needs to verify behaviour\n\n## Success Criteria\n- [ ] Tests pass\n`;
+
+  it('AC-1: returns failure when no parent intent found (intentPath is null)', () => {
+    const failures = checkBehaviourIntentAlignment('taproot/orphan/usecase.md', null, null);
+    expect(failures).toHaveLength(1);
+    expect(failures[0]!.message).toMatch(/No parent `intent\.md` found/);
+    expect(failures[0]!.hint).toMatch(/place this behaviour under an intent folder/);
+  });
+
+  it('AC-2: returns no failures when parent intent has a non-empty Goal', () => {
+    const failures = checkBehaviourIntentAlignment(
+      'taproot/my-intent/my-behaviour/usecase.md',
+      'taproot/my-intent/intent.md',
+      VALID_INTENT
+    );
+    expect(failures).toHaveLength(0);
+  });
+
+  it('AC-3: returns failure when parent intent Goal section is empty', () => {
+    const emptyGoal = `# Intent: Test\n\n## Goal\n\n## Stakeholders\n- Dev: needs to verify\n`;
+    const failures = checkBehaviourIntentAlignment(
+      'taproot/my-intent/my-behaviour/usecase.md',
+      'taproot/my-intent/intent.md',
+      emptyGoal
+    );
+    expect(failures).toHaveLength(1);
+    expect(failures[0]!.message).toMatch(/empty.*Goal/i);
+  });
+
+  it('AC-4: returns failure when parent intent has no Goal section', () => {
+    const noGoal = `# Intent: Test\n\n## Stakeholders\n- Dev: needs to verify\n\n## Success Criteria\n- Something\n`;
+    const failures = checkBehaviourIntentAlignment(
+      'taproot/my-intent/my-behaviour/usecase.md',
+      'taproot/my-intent/intent.md',
+      noGoal
+    );
+    expect(failures).toHaveLength(1);
+    expect(failures[0]!.message).toMatch(/missing a.*Goal/i);
+  });
+
+  it('returns no failures when intent is found but content is unreadable (null content)', () => {
+    // Path found but content unavailable — should not false-block
+    const failures = checkBehaviourIntentAlignment(
+      'taproot/my-intent/my-behaviour/usecase.md',
+      'taproot/my-intent/intent.md',
+      null
+    );
+    expect(failures).toHaveLength(0);
+  });
+});
+
+// ─── Alignment check integration (AC-5: sub-behaviour traversal) ─────────────
+
+describe('runCommithook — behaviour-intent alignment', () => {
+  it('AC-5: passes for sub-behaviour when root intent has a valid Goal', async () => {
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'parent-behaviour', 'sub-behaviour'), { recursive: true });
+    const intentContent = `# Intent: Test\n\n## Goal\nEnable teams to test the system\n\n## Stakeholders\n- Dev: yes\n\n## Success Criteria\n- [ ] Tests pass\n\n## Status\n- **State:** active\n- **Created:** 2026-03-29\n`;
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'intent.md'), intentContent);
+    git(['add', 'taproot/my-intent/intent.md'], tmpDir);
+    git(['commit', '-m', 'add intent'], tmpDir);
+
+    const USECASE_WITH_AC = VALID_USECASE + '\n## Acceptance Criteria\n\n**AC-1: Happy path**\n- Given precondition\n- When actor acts\n- Then outcome\n';
+    stage([{
+      path: 'taproot/my-intent/parent-behaviour/sub-behaviour/usecase.md',
+      content: USECASE_WITH_AC,
+    }], tmpDir);
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(0);
+  });
+
+  it('blocks when usecase is staged with no ancestor intent.md', async () => {
+    mkdirSync(join(tmpDir, 'taproot', 'orphan-behaviour'), { recursive: true });
+    const USECASE_WITH_AC = VALID_USECASE + '\n## Acceptance Criteria\n\n**AC-1: Happy path**\n- Given precondition\n- When actor acts\n- Then outcome\n';
+    stage([{
+      path: 'taproot/orphan-behaviour/usecase.md',
+      content: USECASE_WITH_AC,
     }], tmpDir);
     const code = await runCommithook({ cwd: tmpDir });
     expect(code).toBe(1);
