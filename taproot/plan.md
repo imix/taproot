@@ -1,6 +1,6 @@
 # Taproot Plan
 
-_Built: 2026-03-28 — 11 items — Goal: distribution, docs, marketing, scale_
+_Built: 2026-03-28 — 11 items — Goal: distribution, docs, marketing, scale — updated 2026-03-28_
 _HITL = human decision required · AFK = agent executes autonomously_
 
 ## Items
@@ -12,8 +12,7 @@ _HITL = human decision required · AFK = agent executes autonomously_
 5. done     [implement] hitl  "docs: plan feature as selling point — add plan workflow to docs/quick-start.md; add 'Planning a batch of work' end-to-end workflow to docs/workflows.md"
 6. pending  [implement] hitl  "marketing: submit taproot to awesome-claude and similar curated lists (awesome-ai-agents, awesome-llm-tools, awesome-developer-tools); write a short submission blurb for each"
 7. pending  [implement] hitl  "marketing: GitHub topic strategy — add relevant topics to the taproot repo (ai, requirements, bdd, traceability, agentic, spec, tdd)"
-8. pending  [implement] hitl  "rename npm package — @imix-js/taproot is JS-specific; consider @imix-ai/taproot or unscoped taproot"
-9. pending  [spec]      hitl  "taproot scale justification — agents complain overhead is too high for small projects; spec lighter entry paths or starter mode"
-10. pending  [spec]      hitl  "performance — diagnose why taproot feels slow; spec and implement improvements"
-11. pending  [spec]      hitl  "GitHub Actions PR bot — impact reports on PRs: this PR modifies files linked to behaviour X, spec stale since..."
-12. pending  [implement] hitl  "move research/ folder into taproot/ — research artefacts should live inside the taproot hierarchy, not at project root"
+8. pending  [spec]      hitl  "taproot scale justification — agents complain overhead is too high for small projects; spec lighter entry paths or starter mode"
+9. pending  [spec]      hitl  "performance — diagnose why taproot feels slow; spec and implement improvements"
+10. pending  [spec]      hitl  "GitHub Actions PR bot — impact reports on PRs: this PR modifies files linked to behaviour X, spec stale since..."
+11. pending  [implement] hitl  "move research/ folder into taproot/ — research artefacts should live inside the taproot hierarchy, not at project root"

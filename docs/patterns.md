@@ -226,6 +226,28 @@ taproot truth-sign
 
 ---
 
+## CLI prompt copy length
+
+**Problem:** A prompt added to `taproot init` (or any CLI wizard) is significantly longer than sibling prompts, making the terminal output inconsistent and harder to scan.
+
+**Convention:** Init and wizard prompts must fit within ~80 characters (excluding the `? ` prefix and the trailing option suffix like `(Y/n)` or `(yes)`). The message text itself is the constraint — parenthetical detail, rationale, and examples belong in docs, not in the prompt string.
+
+**Before:**
+```
+? Install the pre-commit hook? (Strongly recommended — prevents implementation commits without traceability and requirement commits without quality checks) (Y/n)
+```
+
+**After:**
+```
+? Install the pre-commit hook? (Strongly recommended) (Y/n)
+```
+
+**When to use it:**
+- Any new prompt added to `src/commands/init.ts` or other CLI wizard flows
+- Any existing prompt that feels noticeably longer than its neighbours
+
+---
+
 ## What belongs in `taproot/global-truths/`
 
 **Problem:** You know you want to capture project-wide facts in `taproot/global-truths/` but aren't sure what kinds of facts are worth formalising — or how to scope them.

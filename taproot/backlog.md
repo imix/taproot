@@ -20,3 +20,5 @@
 - [2026-03-26] cross-repo traceability for global truths — intents/behaviours implemented in other repos, shared domain model across repo boundaries
 - [2026-03-26] rename npm package from @imix-js/taproot — @imix-js is JS-specific but taproot works with any language/stack; consider @imix-ai/taproot or unscoped taproot
 - [2026-03-27] agents complain "this hierarchy is significant" even in small projects like a calculator — taproot needs to justify its overhead relative to project scale; consider lighter-weight entry paths or a "starter" mode
+- [2026-03-28] VS Code extension Phase 2: Language Model API integration — add Copilot-powered commands (e.g. "Taproot: review this file") and spec status sidebar using VS Code's built-in Language Model API, making the extension a genuine workflow tool for Copilot users rather than just an onboarding/discovery vehicle
+- [2026-03-28] bug: verify each behaviour against its parent intent, and each implementation against its parent behaviour, automatically on commit — had a case where behaviour contradicted the intent with no automatic detection. Likely a new pre-commit check or DoR/DoD condition.

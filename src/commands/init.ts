@@ -282,7 +282,7 @@ export function registerInit(program: Command): void {
       let withHooks = options.withHooks;
       if (!withHooks) {
         withHooks = await confirm({
-          message: 'Install the pre-commit hook? (Strongly recommended — prevents implementation commits without traceability and requirement commits without quality checks)',
+          message: 'Install the pre-commit hook? (Strongly recommended)',
           default: true,
         });
       }

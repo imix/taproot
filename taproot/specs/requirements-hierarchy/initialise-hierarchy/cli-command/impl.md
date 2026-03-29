@@ -31,6 +31,8 @@
 
 ## DoD Resolutions
 - condition: gemini-toml-fix | note: src/adapters/index.ts updated to fix Gemini TOML format — removed invalid [command] section and name field; top-level prompt and description only. | resolved: 2026-03-21
+- condition: check-if-affected: package.json | note: Prompt text change only — no new dependencies, scripts, or version bump required. package.json unaffected. | resolved: 2026-03-29T08:20:21.414Z
+
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — appending .taproot/ to .gitignore is a one-time init-only operation; taproot update explicitly does not touch .gitignore (per spec Notes). No new cross-cutting concern warranted. | resolved: 2026-03-27T20:41:00.722Z
 
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: NO skill files modified. | resolved: 2026-03-27T16:56:36.392Z

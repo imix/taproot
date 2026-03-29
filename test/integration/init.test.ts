@@ -65,8 +65,6 @@ describe('taproot init', () => {
   // AC-9: hook prompt safety rationale present in source
   it('AC-9: hook prompt message describes safety rationale', () => {
     const src = readFileSync(resolve(__dirname, '../../src/commands/init.ts'), 'utf-8');
-    expect(src).toMatch(/prevents.*traceability|traceability.*prevents/i);
-    expect(src).toMatch(/quality checks/i);
     expect(src).toMatch(/Strongly recommended/i);
   });
 
