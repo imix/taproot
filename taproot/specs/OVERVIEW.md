@@ -157,6 +157,7 @@ _No behaviours yet._
 
 - **[architecture-compliance](./quality-gates/architecture-compliance/usecase.md)** `[implemented]` — Actor: Developer or agent declaring a new implementation (committing an `impl.md`) — the check runs automatically at Definition of Ready time before any code is written.
   - [multi-surface](./quality-gates/architecture-compliance/multi-surface/impl.md) `[complete]` (4 commits, 1 test)
+- **[batch-dod-na-resolution](./quality-gates/batch-dod-na-resolution/usecase.md)** `[specified]` — Actor: Developer or AI agent running `taproot dod  --resolve-all-na`
 - **[definition-of-done](./quality-gates/definition-of-done/usecase.md)** `[implemented]` — Actor: `/tr-implement` — triggered automatically at the end of the implement flow before marking an impl `complete`. Also invoked by `taproot commithook` on implementation commits (staged source files + `impl.md`). Can also be invoked standalone by a developer or CI pipeline.
   - [cli-command](./quality-gates/definition-of-done/cli-command/impl.md) `[complete]` (5 commits, 2 tests)
 - **[definition-of-ready](./quality-gates/definition-of-ready/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a contributor commits an `impl.md` file without source code changes (the "I'm starting this implementation" declaration commit).
@@ -216,13 +217,6 @@ _No behaviours yet._
 - **[park-hierarchy-item](./requirements-hierarchy/park-hierarchy-item/usecase.md)** `[implemented]` — Actor: Developer — who has decided that a behaviour or implementation is not being pursued for the foreseeable future and wants to formally record that decision in the hierarchy.
   - [multi-surface](./requirements-hierarchy/park-hierarchy-item/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 
-## [research](./research/intent.md) `[active]`
-
-**Goal:** Enable developers and agents to research any domain or technical subject before writing a behaviour spec — by scanning local resources, searching the web, and drawing on expert knowledge — so that requirements are grounded in what already exists and what domain practice recommends, rather than invented from scratch.
-
-- **[research-subject](./research/research-subject/usecase.md)** `[implemented]` — Actor: Developer or AI agent — either invoking `/tr-research ` explicitly, or triggered automatically from within `/tr-ineed` when a knowledge-intensive topic is detected.
-  - [agent-skill](./research/research-subject/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
-
 ## [skill-architecture](./skill-architecture/intent.md) `[active]`
 
 **Goal:** Enforce the architectural constraints that govern how taproot skills are built — so that every skill is context-efficient, consistent in how it loads resources, and explicit about its effect on the developer's session
@@ -275,4 +269,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-20 intents · 85 behaviours · 83 implementations · 81/83 complete
+19 intents · 85 behaviours · 82 implementations · 80/82 complete

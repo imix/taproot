@@ -32,7 +32,7 @@ Enforce quality at every level of the hierarchy — from intent and usecase docu
 - [Implementation Ordering Constraints](./impl-ordering-constraints/usecase.md)
 - [Scoped DoD/DoR Conditions](./scoped-conditions/usecase.md)
 - [Validate Behaviour–Intent Alignment at Commit](./validate-behaviour-intent-alignment/usecase.md)
-
+- [Batch DoD NA Resolution](./batch-dod-na-resolution/usecase.md)
 
 ## Status
 - **State:** active
