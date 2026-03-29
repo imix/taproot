@@ -110,6 +110,9 @@ flowchart TD
 - When the agent reviews the draft spec before committing
 - Then the agent raises the misalignment and asks to revise the ACs or reframe the intent before proceeding
 
+## Implementations <!-- taproot-managed -->
+- [Commithook Extension + CLAUDE.md Guidance](./commithook-extension/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-29
