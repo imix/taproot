@@ -16,16 +16,17 @@ _(Fast path: requirement is clear, concrete, and immediately placeable)_
 2. Agent acknowledges the requirement and classifies it:
    - **Quick** (clear actor, clear goal, unambiguous outcome) → proceed directly to step 3
    - **Substantive** (vague, new domain, significant new capability, or unclear success criteria) → enter structured discovery (see Alternate Flow: Structured Discovery)
-3. Agent reads the existing hierarchy (`taproot/OVERVIEW.md` or walks the hierarchy directly) and checks for near-duplicates
-4. Agent searches for the best-fit parent intent by matching the requirement's domain and goal against existing intents
-5. Agent presents proposed placement with reasoning:
+3. Agent checks whether the requirement spans multiple distinct business goals — if yes, see Alternate Flow: Scope too large
+4. Agent reads the existing hierarchy (`taproot/OVERVIEW.md` or walks the hierarchy directly) and checks for near-duplicates
+5. Agent searches for the best-fit parent intent by matching the requirement's domain and goal against existing intents
+6. Agent presents proposed placement with reasoning:
    > "This sounds like it belongs under **`<intent-slug>`** (*`<intent goal>`*) as a new behaviour. Does that feel right?"
-6. Developer confirms the proposed placement
-7. Agent calls the appropriate skill for the confirmed level:
+7. Developer confirms the proposed placement
+8. Agent calls the appropriate skill for the confirmed level:
    - **New intent needed**: calls `/tr-intent` to define a new top-level business goal
    - **New behaviour under existing intent**: calls `/tr-behaviour` on the matched intent
    - **New sub-behaviour**: calls `/tr-behaviour` on the matched parent behaviour
-8. The skill guides the developer through the full document, and a new `intent.md` or `usecase.md` is written
+9. The skill guides the developer through the full document, and a new `intent.md` or `usecase.md` is written
 
 ## Alternate Flows
 
@@ -67,7 +68,24 @@ _(Fast path: requirement is clear, concrete, and immediately placeable)_
      >
      > Does that capture it? [A] Go deeper — [C] Continue to placement"
   7. If **[A]**: agent applies advanced elicitation — stress-tests assumptions, explores edge cases, challenges scope from MVP perspective, or considers alternative approaches — then returns to synthesis
-  8. If **[C]**: agent proceeds from Main Flow step 3 with the synthesised requirement as context
+  8. If **[C]**: agent checks whether the synthesised description spans multiple distinct business goals — if yes, see Alternate Flow: Scope too large. Otherwise proceeds from Main Flow step 4 with the synthesised requirement as context
+
+### Scope too large — greenfield or multi-goal description
+- **Trigger:** One or more of: (a) no hierarchy exists yet and the description covers a whole product or system; (b) the synthesised requirement spans multiple distinct business goals with different actors, independent success criteria, or no shared postcondition; (c) the description is a feature list or product vision rather than a single capability
+- **Steps:**
+  1. Agent identifies the distinct goals embedded in the description and presents them:
+     > "This covers more than one independent goal — I can see at least [N]:
+     > 1. [goal 1]
+     > 2. [goal 2]
+     > 3. [goal 3]
+     >
+     > Each needs its own intent to keep the hierarchy navigable. How would you like to proceed?
+     > **[A]** Route each separately — I'll call `/tr-ineed` for each in sequence
+     > **[B]** Decompose — write a top-level intent first, then break it into child behaviours via `/tr-decompose`
+     > **[C]** Treat as one intent anyway — I'll note the scope risk in Constraints"
+  2. If **[A]**: agent lists the goals in order and invokes `/tr-ineed` for each sequentially, waiting for placement confirmation before moving to the next goal
+  3. If **[B]**: agent calls `/tr-decompose` with the full description — it creates the parent intent and enumerates child behaviours
+  4. If **[C]**: agent proceeds from Main Flow step 4, adding a `## Constraints` note: "Scope risk: this intent may cover multiple independent business goals — consider splitting if it grows beyond 3–4 behaviours"
 
 ### No suitable parent intent exists
 - **Trigger:** Requirement doesn't map to any existing intent
@@ -122,7 +140,7 @@ _(Fast path: requirement is clear, concrete, and immediately placeable)_
 - The new document is validated by `taproot validate-structure` and `taproot validate-format`
 
 ## Error Conditions
-- **Requirement spans multiple intents**: Agent flags this and recommends splitting into separate requirements, one per intent
+- **Requirement spans multiple intents**: See Alternate Flow: Scope too large — agent enumerates the distinct goals and offers to route each separately, decompose, or proceed with scope risk noted
 - **No hierarchy exists yet**: Agent offers to run `taproot init` first, then proceeds with placement
 - **Discovery reveals contradictory requirements**: Agent surfaces the contradiction and asks the developer to resolve it before placement
 
@@ -131,11 +149,15 @@ _(Fast path: requirement is clear, concrete, and immediately placeable)_
 flowchart TD
     A[Developer states requirement] --> B{Classify}
     B -- Bug-shaped language --> BUG[Hand off to /tr-bug\nhandoff: true]
-    B -- Quick: clear actor+goal --> C[Search hierarchy for near-duplicates]
+    B -- Quick: clear actor+goal --> SC{Scope check:\nmulti-goal?}
     B -- Substantive: vague/new domain --> D[Structured discovery: problem → persona → success criteria → scope]
     D --> E[Synthesise & confirm with developer]
     E -- Go deeper --> D
-    E -- Continue --> C
+    E -- Continue --> SC
+    SC -- Yes: multiple goals --> SPLIT[Enumerate goals\nA: route each via /tr-ineed\nB: /tr-decompose\nC: proceed with scope risk noted]
+    SC -- No: single goal --> C[Search hierarchy for near-duplicates]
+    SPLIT -- A or B --> DONE[Goals routed or decomposed]
+    SPLIT -- C --> C
     C --> F{Find parent intent}
     F -- Match found --> G[Propose placement]
     F -- No match --> H[Propose new intent]
@@ -183,6 +205,11 @@ flowchart TD
 - When the agent classifies the input
 - Then the agent states it is handing off to `/tr-bug` and calls `/tr-bug` with `handoff: true` — it does not route to the requirement hierarchy
 
+**AC-8: Multi-goal description is split before placement**
+- Given the developer describes multiple independent goals in one statement (e.g. "I need user auth, a dashboard, and an API") or describes a whole greenfield project
+- When the agent checks scope after classification or synthesis
+- Then the agent identifies the distinct goals, presents them numbered, and offers to route each separately via `/tr-ineed`, decompose via `/tr-decompose`, or proceed as one with scope risk noted — it does not silently place all goals under a single intent
+
 ## Related
 - `taproot/human-integration/grill-me/usecase.md` — structured discovery delegates to grill-me for advanced elicitation
 - `taproot/human-integration/bug-triage/usecase.md` — bug-shaped inputs are handed off here with `handoff: true`
@@ -194,7 +221,7 @@ flowchart TD
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
-- **Last reviewed:** 2026-03-24
+- **Last reviewed:** 2026-03-29
 
 ## Notes
 - The fast path (Main Flow) is for requirements that are already clear and concrete — skip discovery when the actor, goal, and success criteria are unambiguous
