@@ -31,6 +31,7 @@ Enforce quality at every level of the hierarchy — from intent and usecase docu
 - [State Transition Guardrails](./state-transition-guardrails/usecase.md)
 - [Implementation Ordering Constraints](./impl-ordering-constraints/usecase.md)
 - [Scoped DoD/DoR Conditions](./scoped-conditions/usecase.md)
+- [Validate Behaviour–Intent Alignment at Commit](./validate-behaviour-intent-alignment/usecase.md)
 
 
 ## Status
