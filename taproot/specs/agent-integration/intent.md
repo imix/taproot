@@ -29,7 +29,7 @@ Enable any AI coding agent to participate fully in the taproot workflow — thro
 - [Configuration Discoverability](./configuration-discoverability/usecase.md)
 - [CLI Invocation Prefix](./cli-invocation/usecase.md)
 - [Aider Adapter](./aider-adapter/usecase.md)
-
+- [Multi-Agent Hook Compatibility](./hook-compatibility/usecase.md)
 
 ## Status
 - **State:** active
