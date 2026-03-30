@@ -103,6 +103,17 @@ describe('plan-execute skill — batch mode (AC-4, AC-5)', () => {
   });
 });
 
+describe('plan-execute skill — review option (AC-22)', () => {
+  it('offers [R] Review spec as first HITL option', () => {
+    expect(skill).toMatch(/\[R\].*Review/i);
+  });
+
+  it('invokes /tr-browse on [R] and re-presents the item', () => {
+    expect(skill).toMatch(/tr-browse/);
+    expect(skill).toMatch(/re-present|re.present.*same.*item|same.*prompt/i);
+  });
+});
+
 describe('plan-execute skill — filter modes (AC-8, AC-9)', () => {
   it('specify mode filters to spec and refine only', () => {
     expect(skill).toMatch(/spec.*refine|refine.*spec/i);

@@ -70,11 +70,12 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
    Next: [implement] taproot/specs/<intent>/<behaviour>/
          "Validate Input Parameters" — <goal>
    Skill: /tr-implement
-   [A] Proceed  [S] Skip  [Q] Stop
+   [R] Review spec  [A] Proceed  [S] Skip  [Q] Stop
    ```
    Where `"<Behaviour Title>"` comes from the `# Behaviour:` heading of the referenced `usecase.md` (omitted for `[spec]` items with no existing spec); `<goal>` is the plan item's inline description if present, otherwise a one-sentence summary derived from the spec's Actor and main outcome.
 
    **b. In step-by-step mode**, wait for developer response:
+   - `[R]`: invoke `/tr-browse <path>` for the item's behaviour path; on return, re-present the same item prompt unchanged (developer may review again or choose another option)
    - `[A]` or affirmative: proceed to c
    - `[S]`: mark item `skipped` in `taproot/plan.md`; move to next item
    - `[Q]`: stop — remaining items stay `pending`
