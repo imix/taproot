@@ -1,6 +1,6 @@
 ---
-name: 'tr-plan'
-description: 'Build or modify the persistent implementation plan (`taproot/plan.md`)'
+name: 'tr-design-constraints'
+description: 'Capture project-wide constraints in a structured session — architectural decisions (ADR format), design principles, conventions and rules, or external constraints imposed from outside'
 ---
 
 <!-- taproot:cli-invocation: node dist/cli.js -->
@@ -9,7 +9,7 @@ description: 'Build or modify the persistent implementation plan (`taproot/plan.
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
 
 <steps CRITICAL="TRUE">
-1. LOAD the FULL skill file at @{project-root}/taproot/agent/skills/plan.md
+1. LOAD the FULL skill file at @{project-root}/taproot/agent/skills/design-constraints.md
 2. READ its entire contents — this contains the complete skill definition with steps, inputs, and output format
 3. FOLLOW every step in the ## Steps section precisely and in order
 4. When the skill references other taproot commands (e.g. `/taproot:intent`), use the corresponding `/tr-intent` command instead

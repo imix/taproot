@@ -265,4 +265,22 @@ Each document has a `State` field that tracks its lifecycle. States are validate
 
 The pre-commit hook uses state transitions to enforce workflow gates: you cannot declare an implementation without the parent behaviour being in `specified` state, and you cannot mark an implementation complete without passing Definition of Done checks.
 
+---
+
+## When taproot is a poor fit
+
+Taproot is designed for **software traceability** — the gap between what a system is supposed to do and what it actually does. The format assumes an actor triggering a system and observing its response. If your work doesn't fit that model, the format will fight you.
+
+**Signals that taproot is a poor fit:**
+
+- **No actor-system interaction** — A blog post, manuscript chapter, or marketing copy is a content artifact, not an observable behaviour. There is no trigger, no system response, no postcondition in the behavioural sense. `usecase.md` fields like `## Actor`, `## Preconditions`, and `## Postconditions` become awkward fictions.
+
+- **Commit ≠ publish** — Taproot's DoD hook fires at `git commit`. If your quality gates belong at publish time (not commit time), you will be asked to resolve publication criteria against intentionally incomplete drafts. The two moments are different and cannot be reconciled by configuration alone.
+
+- **High ceremony for small artifact count** — Every item needs a `usecase.md` and an `impl.md`. For software with many behaviours, that overhead pays for itself in traceability. For a blog with 20 posts, it means 40+ spec files — more infrastructure than content.
+
+- **No natural home for the artifact** — Taproot tracks specs and implementations, but the artifact itself (the post, the draft, the document) has no defined storage location. It either lives alongside `impl.md` in an unconventional way, or outside the repo entirely, breaking the traceability chain.
+
+**What taproot is suited for:** any software project where requirements, observable behaviour, and code need to stay in sync — regardless of language, stack, or team size.
+
 **Deferred items** are consciously parked — `deferred` is not a synonym for `proposed` (not started) or `needs-rework` (broken). It means "we explored or attempted this and decided to stop for now." Deferred behaviours are excluded from `taproot plan` candidates, and deferred implementations are excluded from `check-orphans` errors (missing source files, missing test files). Both are reported in a separate Parked section by `tr-status`. Use `deprecated` (not `deferred`) on intents.
