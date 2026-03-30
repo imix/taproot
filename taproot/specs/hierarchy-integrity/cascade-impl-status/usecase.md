@@ -97,15 +97,15 @@ flowchart TD
 - When `taproot dod --dry-run` runs
 - Then the usecase file is unchanged (still `specified`)
 
-**AC-6: Does not cascade when DoD fails**
-- Given an `impl.md` with a parent `usecase.md` in `specified` state
-- When `taproot dod` runs and a condition fails
-- Then `usecaseCascade` is undefined and the usecase file remains `specified`
+**AC-6: Does not cascade when impl.md is not in complete state**
+- Given an `impl.md` in `in-progress` state with a parent `usecase.md` in `specified` state
+- When `taproot dod` runs (regardless of whether conditions pass or fail)
+- Then the usecase file is not modified — cascade only triggers when impl.md reaches `complete`
 
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
-- **Last reviewed:** 2026-03-19
+- **Last reviewed:** 2026-03-30
 
 ## Notes
 - The cascade is intentionally one-directional: impl `complete` → usecase `implemented`. There is no automatic reverse cascade (impl `needs-rework` does not revert usecase to `specified`) because multiple impls may exist under one usecase, and the revert decision belongs to a human.
