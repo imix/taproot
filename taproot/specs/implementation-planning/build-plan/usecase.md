@@ -9,7 +9,7 @@ Developer — building a multi-item implementation roadmap with agent assistance
 
 ## Main Flow
 
-1. Developer requests plan building with a natural-language prompt — e.g. "plan X", "create a plan for Y", "make a plan for the next release", "add all pending items to plan", "add X to plan", or "analyze backlog, what can we add?"
+1. Developer requests plan building with a natural-language prompt — e.g. "plan X", "create a plan for Y", "make a plan for the next release", "add all pending items to plan", "add X to plan", or "analyze backlog, what can we add?" — or requests a vertical slice (e.g. "vertical slice for X", "walking skeleton for Y", "minimal path to Z"), which triggers the Vertical Slice alternate flow.
 2. Agent determines which sources to scan based on the request:
    - **backlog** — reads `taproot/backlog.md`; filters items that describe actionable work
    - **hierarchy** — runs `taproot coverage` to find unimplemented or in-progress behaviours
@@ -83,6 +83,32 @@ Developer — building a multi-item implementation roadmap with agent assistance
   1. Agent waits for the developer to edit the proposed plan in the conversation.
   2. Developer replies `A` when done.
   3. Agent uses the edited plan as input to step 8.
+
+### Developer requests a vertical slice
+- **Trigger:** Developer uses phrases like "vertical slice", "walking skeleton", "tracer bullet", "thin slice", "minimal path", "just enough to demo X", or similar — signalling they want only minimum critical-path items, not an exhaustive plan.
+- **Steps:**
+  1. Agent asks for three inputs:
+     > "Vertical slice — I need three things: **Actor** (who initiates), **Entry point** (where the flow begins), and **Observable outcome** (what the actor sees when it works)."
+  2. Developer supplies the three inputs.
+  3. Agent scans the hierarchy and backlog to identify behaviours on the critical path — those whose absence would prevent the actor from reaching the observable outcome via the entry point. Non-critical-path behaviours are excluded.
+  4. Agent presents the filtered plan:
+     ```
+     Vertical slice — actor: <actor> · entry: <entry point> · outcome: <observable outcome>
+     N critical-path items:
+      1. hitl  [spec]      <path or description>
+      2. afk   [implement] taproot/<intent>/<behaviour>/
+     ...
+     [A] Confirm  [E] Edit directly then reply A  [Q] Abort
+     ```
+  5. Developer confirms (or edits at `[E]`).
+  6. Agent writes `taproot/plan.md` with only the critical-path items and this header:
+     ```
+     # Taproot Plan
+     _Built: YYYY-MM-DD — N items (vertical slice)_
+     _Slice: <actor> → <entry point> → <observable outcome>_
+     _HITL = human decision required · AFK = agent executes autonomously_
+     ```
+  7. Non-critical-path behaviours are NOT added to the plan — they remain in the hierarchy as unimplemented. Agent does not suggest or add them.
 
 ## Postconditions
 - `taproot/plan.md` exists with an ordered list of typed action items (spec / implement / refine), each with a path or description.
@@ -170,6 +196,11 @@ flowchart TD
 - When the agent receives the request
 - Then the agent invokes this skill and writes `taproot/plan.md` — it does not generate a plan as inline chat text
 
+**AC-11: Vertical slice mode limits plan to critical-path items only**
+- Given the developer requests a vertical slice with a specified actor, entry point, and observable outcome
+- When the agent builds the plan
+- Then only minimum critical-path behaviours appear in `taproot/plan.md`; non-critical-path behaviours are excluded entirely and the plan header records the slice context (actor, entry point, outcome)
+
 **AC-9: Each plan item is labelled hitl or afk**
 - Given the agent has classified all candidates
 - When the plan is written
@@ -182,10 +213,11 @@ flowchart TD
 - **State:** implemented
 - **Created:** 2026-03-27
 - **Last reviewed:** 2026-03-30
-- **Last refined:** 2026-03-28
+- **Last refined:** 2026-03-30
 
 ## Notes
 - The plan file format (`taproot/plan.md`) is an implementation concern — the spec only constrains observable behaviour (ordered typed items, path or description per item).
 - Dependency ordering is inferred by the agent (spec-before-implement for the same behaviour), not formally declared in the plan file.
 - Autonomous execution of plan items (agent works without confirmation at each step) is explicitly out of scope — see `execute-plan` for confirmed step-by-step execution.
 - Backlog removal only applies to items sourced from `taproot/backlog.md` — explicit items and hierarchy items have no backlog entry to remove.
+- Vertical slice mode excludes non-critical-path behaviours entirely — they are not added to the plan as post-slice or deferred items. They remain in the hierarchy as unimplemented for future planning sessions.
