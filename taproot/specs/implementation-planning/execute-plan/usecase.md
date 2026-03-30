@@ -29,12 +29,14 @@ Developer — working through a previously built plan, delegating each item to t
 
 1. Developer invokes "execute next item in plan" (or selects `[A]` from orientation).
 2. Agent reads `taproot/plan.md` and identifies the first `pending` item.
-3. Agent presents the item for confirmation:
+3. Before presenting, if the item references a path with an existing `usecase.md`, read its `# Behaviour: <title>` heading. Then present the item:
    ```
-   Next: [implement] taproot/<intent>/<behaviour>/ — <description>
+   Next: [implement] taproot/<intent>/<behaviour>/
+         "Validate Input Parameters" — <goal>
    Skill: /tr-implement
    [A] Proceed  [S] Skip  [Q] Stop
    ```
+   Where `"<Behaviour Title>"` is read from the referenced `usecase.md`'s heading (omitted if no spec exists yet — `spec` type items); `<goal>` is the plan item's inline description if present, otherwise a one-sentence summary of what the behaviour achieves derived from the spec's Actor and main outcome.
 4. Developer confirms with `[A]`.
 5. Agent invokes the appropriate skill:
    - `spec` → `/tr-behaviour <path> "<description>"`
@@ -59,16 +61,17 @@ Developer — working through a previously built plan, delegating each item to t
 ### Batch mode
 
 1. Developer invokes "execute all to next release" (or "execute all").
-2. Agent reads `taproot/plan.md` and presents the full pending list:
+2. Agent reads `taproot/plan.md` and presents the full pending list. For each item with an existing `usecase.md`, read its `# Behaviour: <title>` heading and append it inline:
    ```
    Executing N items:
     1. [spec]      <description>
-    2. [implement] taproot/<intent>/<behaviour>/
+    2. [implement] taproot/<intent>/<behaviour>/ — "Validate Input Parameters"
+    3. [refine]    taproot/<intent>/<behaviour>/usecase.md — "Execute Release Plan"
    ...
    [A] Begin  [Q] Abort
    ```
 3. Developer confirms.
-4. Agent works through pending items sequentially — presenting each item before invoking its skill (same as step 3–6 of step-by-step mode).
+4. Agent works through pending items sequentially — presenting each item before invoking its skill (same as step 3–6 of step-by-step mode, including reading the behaviour title from each item's `usecase.md`).
 5. After each `afk` item completes, agent marks it `done` and proceeds to the next without waiting. When a `hitl` item is reached, agent pauses and presents it for confirmation before invoking its skill — HITL items require human attention and may change what comes next.
 6. When all items are done: *"Plan complete — all N items executed."*
 
@@ -260,6 +263,11 @@ flowchart TD
 - When the agent reports completion
 - Then the agent offers `[+] Add follow-on to plan` and if accepted, appends the corresponding `implement afk` item to `taproot/plan.md`
 
+**AC-21: Item prompt includes behaviour title and goal**
+- Given a pending plan item references a path with an existing `usecase.md`
+- When the agent presents the item for confirmation
+- Then the prompt includes the behaviour title from `# Behaviour: <title>` and a one-line goal (plan item's inline description if present, otherwise a one-sentence summary derived from the spec's Actor and main outcome)
+
 ## Implementations <!-- taproot-managed -->
 - [Agent Skill — plan-execute](./agent-skill/impl.md)
 
@@ -267,6 +275,7 @@ flowchart TD
 - **State:** implemented
 - **Created:** 2026-03-27
 - **Last reviewed:** 2026-03-30
+- **Refined:** 2026-03-30 — enriched item display: behaviour title + one-line goal in Next: prompt (AC-21)
 
 ## Notes
 - When invoked without a mode, the agent presents an orientation menu summarising the plan state and available modes. When a mode is specified explicitly (e.g. "implement all"), the orientation is skipped.
