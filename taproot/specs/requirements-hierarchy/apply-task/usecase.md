@@ -105,12 +105,12 @@ sequenceDiagram
 - [CLI Command — taproot apply](./cli-command/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** proposed
 - **Created:** 2026-03-20
-- **Last reviewed:** 2026-03-20
+- **Last reviewed:** 2026-03-30
 
-## Finding
-The initial CLI implementation (`claude -p`) was removed: when invoked headlessly, Claude's permission system blocks file writes — the agent correctly identifies what to write but cannot do so without explicit approval, causing every file to be silently skipped. A fix requires an agent-agnostic mechanism for granting write access in unattended mode; agent-specific flags (e.g. `--allowedTools`) are not acceptable as taproot must work with any agent.
+## Notes — Deferral
+The initial CLI implementation (`claude -p`) was removed: when invoked headlessly, Claude's permission system blocks file writes — the agent correctly identifies what to write but cannot do so without explicit approval, causing every file to be silently skipped. A fix requires an agent-agnostic mechanism for granting write access in unattended mode; agent-specific flags (e.g. `--allowedTools`) are not acceptable as taproot must work with any agent. **Deferred** until an agent-agnostic headless write mechanism is available.
 
 ## Notes
 - The agent receives the file path and has full filesystem access — it can read test files, source files, or any related context it needs to complete the task.
