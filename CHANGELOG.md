@@ -4,6 +4,19 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.9.4] - 2026-03-30
+
+### Taproot
+- taproot(implementation-planning/build-plan/agent-skill): add vertical slice mode to plan skill (074588e)
+- taproot(implementation-planning/build-plan/agent-skill): declare vertical slice mode (59b9612)
+- taproot(implementation-planning/execute-plan): browse sub-actions must complete before plan-execute resumes (AC-23) (fedfef7)
+
+### Bug Fixes
+- fix(plan-execute): let browse run to full completion before re-presenting HITL prompt (0214b4c)
+
+### Other
+- spec: add vertical slice mode to build-plan (050aa45)
+
 ## [0.9.3] - 2026-03-30
 
 ### Bug Fixes
