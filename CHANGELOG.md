@@ -4,6 +4,18 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.9.3] - 2026-03-30
+
+### Bug Fixes
+- fix(dod): writeResolution updates existing entry in-place instead of appending duplicate (d174834)
+
+### Features
+- taproot(implementation-planning/execute-plan): add [R] Review spec as first HITL option (AC-22) (0c72d74)
+
+### Maintenance
+- taproot(implementation-planning/execute-plan/agent-skill): add [R] Review spec as first HITL option (c2d99b6)
+- chore: defer plan item 22 post-v1, bump settings to 0.9.2, sync agent docs (e793c62)
+
 ## [0.9.2] - 2026-03-30
 
 ### Features
