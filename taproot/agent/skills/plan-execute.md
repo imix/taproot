@@ -75,7 +75,7 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
    Where `"<Behaviour Title>"` comes from the `# Behaviour:` heading of the referenced `usecase.md` (omitted for `[spec]` items with no existing spec); `<goal>` is the plan item's inline description if present, otherwise a one-sentence summary derived from the spec's Actor and main outcome.
 
    **b. In step-by-step mode**, wait for developer response:
-   - `[R]`: invoke `/tr-browse <path>` for the item's behaviour path; on return, re-present the same item prompt unchanged (developer may review again or choose another option)
+   - `[R]`: invoke `/tr-browse <path>` for the item's behaviour path. Let browse run to full completion — including any sub-actions the developer selects within browse (e.g. `/tr-review`, navigating sections). Do not re-present the plan-execute prompt until the developer has finished all browse activity and browse itself has exited. Then re-present the same item prompt unchanged so the developer can choose `[R]`, `[A]`, `[S]`, or `[Q]`.
    - `[A]` or affirmative: proceed to c
    - `[S]`: mark item `skipped` in `taproot/plan.md`; move to next item
    - `[Q]`: stop — remaining items stay `pending`

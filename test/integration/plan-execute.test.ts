@@ -103,7 +103,7 @@ describe('plan-execute skill — batch mode (AC-4, AC-5)', () => {
   });
 });
 
-describe('plan-execute skill — review option (AC-22)', () => {
+describe('plan-execute skill — review option (AC-22, AC-23)', () => {
   it('offers [R] Review spec as first HITL option', () => {
     expect(skill).toMatch(/\[R\].*Review/i);
   });
@@ -111,6 +111,10 @@ describe('plan-execute skill — review option (AC-22)', () => {
   it('invokes /tr-browse on [R] and re-presents the item', () => {
     expect(skill).toMatch(/tr-browse/);
     expect(skill).toMatch(/re-present|re.present.*same.*item|same.*prompt/i);
+  });
+
+  it('lets browse run to full completion before re-presenting (AC-23)', () => {
+    expect(skill).toMatch(/full completion|fully.*exit|fully completed/i);
   });
 });
 
