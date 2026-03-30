@@ -57,12 +57,17 @@ Developer or CI pipeline running `taproot check-orphans`
 - When the actor runs `taproot check-orphans`
 - Then no `MISSING_SOURCE_FILE` violation is reported for that line
 
-**AC-3: Reports UNIMPLEMENTED_BEHAVIOUR when --include-unimplemented is set**
+**AC-3: No UNIMPLEMENTED_BEHAVIOUR when all behaviours have implementations**
 - Given a hierarchy where all behaviours have implementations
 - When the actor runs `taproot check-orphans --include-unimplemented`
 - Then zero violations with code `UNIMPLEMENTED_BEHAVIOUR` are reported
 
+**AC-5: Flags UNIMPLEMENTED_BEHAVIOUR for a behaviour with no implementation folder**
+- Given a behaviour folder (containing only `usecase.md`, no implementation sub-folder)
+- When the actor runs `taproot check-orphans --include-unimplemented`
+- Then a violation with code `UNIMPLEMENTED_BEHAVIOUR` is reported for that behaviour
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
-- **Last reviewed:** 2026-03-24
+- **Last reviewed:** 2026-03-30
