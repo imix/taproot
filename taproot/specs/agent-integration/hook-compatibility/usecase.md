@@ -111,6 +111,9 @@ flowchart TD
 - When truth-check session is missing
 - Then the hook error message names the CLI command to run (`taproot truth-sign`) and the file to stage (`.taproot/.truth-check-session`)
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command](./cli-command/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-29
