@@ -5,7 +5,7 @@
 
 ## Design Decisions
 - Gate triggers only on newly added files (`--diff-filter=A`), not modifications — allows state upgrades (proposed → specified) to be committed without looping
-- Pattern match against `**State:** proposed` in staged content (not working tree) ensures the gate sees exactly what would be committed
+- Pattern match against `State: proposed` in staged content (not working tree) ensures the gate sees exactly what would be committed
 - Error message includes actionable instructions: show spec to developer, wait for [Y], change state to `specified`
 
 ## Source Files
