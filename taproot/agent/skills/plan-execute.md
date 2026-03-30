@@ -52,11 +52,12 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
    - If items exist but none match the filter: report *"No [hitl | afk | spec/refine | implement] items pending."*
    Stop — no skills invoked.
 
-6. **In batch mode**, present the full filtered list first and wait for confirmation:
+6. **In batch mode**, present the full filtered list first and wait for confirmation. For each item with a path to an existing `usecase.md`, read its `# Behaviour: <title>` heading and append it inline:
    ```
    Executing N items:
     1. [spec]      "description"
-    2. [implement] taproot/specs/<intent>/<behaviour>/
+    2. [implement] taproot/specs/<intent>/<behaviour>/ — "Validate Input Parameters"
+    3. [refine]    taproot/specs/<intent>/<behaviour>/usecase.md — "Execute Release Plan"
    ...
    [A] Begin  [Q] Abort
    ```
@@ -64,12 +65,14 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
 
 7. **For each pending item** (in plan order, respecting the filter):
 
-   **a. Present the item** (always — even in batch mode, each item is shown before its skill runs):
+   **a. Present the item** (always — even in batch mode, each item is shown before its skill runs). If the item references a path with an existing `usecase.md`, read its `# Behaviour: <title>` heading first:
    ```
-   Next: [implement] taproot/specs/<intent>/<behaviour>/ — <description>
+   Next: [implement] taproot/specs/<intent>/<behaviour>/
+         "Validate Input Parameters" — <goal>
    Skill: /tr-implement
    [A] Proceed  [S] Skip  [Q] Stop
    ```
+   Where `"<Behaviour Title>"` comes from the `# Behaviour:` heading of the referenced `usecase.md` (omitted for `[spec]` items with no existing spec); `<goal>` is the plan item's inline description if present, otherwise a one-sentence summary derived from the spec's Actor and main outcome.
 
    **b. In step-by-step mode**, wait for developer response:
    - `[A]` or affirmative: proceed to c
