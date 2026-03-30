@@ -171,9 +171,10 @@ flowchart TD
 
 ## Implementations <!-- taproot-managed -->
 - [Discover and Decompose](./discover-and-decompose/impl.md)
+- [Commithook Extension](./commithook-extension/impl.md)
 
 ## Status
-- **State:** implemented
+- **State:** specified
 - **Created:** 2026-03-20
 - **Last reviewed:** 2026-03-30
 - **Last updated:** 2026-03-30
