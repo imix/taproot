@@ -62,15 +62,17 @@ jobs:
       - name: Install syft
         run: |
           curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | \
-            sh -s -- -b /usr/local/bin v0.104.0
+            sh -s -- -b /usr/local/bin
           syft version || { echo "syft not found — install failed"; exit 1; }
 
       - name: Install grype
         run: |
-          # v0.82+ is required for database schema v6; earlier versions receive stale v5 databases
           curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | \
-            sh -s -- -b /usr/local/bin v0.87.0
+            sh -s -- -b /usr/local/bin
           grype version || { echo "grype not found — install failed"; exit 1; }
+
+      - name: Update vulnerability database
+        run: grype db update || { echo "no vulnerability database available — cannot run dependency scan"; exit 1; }
 
       # ── SAST — semgrep ────────────────────────────────────────────────────
       - name: Run semgrep SAST
@@ -95,20 +97,10 @@ jobs:
       - name: Scan SBOM for vulnerabilities
         run: |
           # Run without --fail-on; threshold gate is in compile-security-report.js.
-          # Grype exits non-zero if the database is unavailable and no cache exists.
-          if ! grype sbom:sbom.syft.json \
+          grype sbom:sbom.syft.json \
             --output json \
             --add-cpes-if-none \
-            > grype-results.json 2>grype-stderr.txt; then
-            # Check whether grype produced results despite the error (stale cache path)
-            if grep -q '"matches"' grype-results.json 2>/dev/null; then
-              echo "WARNING: vulnerability database may be stale — scanning with cached data"
-            else
-              echo "no vulnerability database available — cannot run dependency scan"
-              cat grype-stderr.txt
-              exit 1
-            fi
-          fi
+            > grype-results.json
 
       # ── Report and gate ───────────────────────────────────────────────────
       - name: Compile scan report
