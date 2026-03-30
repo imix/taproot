@@ -237,7 +237,7 @@ The hook uses a three-tier classification, where the implementation tier is dete
 
 The DoR gate prevents committing an implementation record before the behaviour is fully specified. The DoD gate prevents marking an implementation complete without passing the quality checks defined in `taproot/settings.yaml`.
 
-**Truth consistency check:** when hierarchy files are staged and `taproot/global-truths/` exists, the hook validates that a truth-check session marker (`.taproot/.truth-check-session`) is present and matches the current staged content. This marker is written by `taproot truth-sign`, which `/tr-commit` calls after the agent approves the truth check. Committing hierarchy files directly with `git commit` (bypassing `/tr-commit`) will be blocked if applicable truths exist.
+**Truth consistency check:** when hierarchy files are staged and `taproot/global-truths/` exists, the hook validates that a truth-check session marker (`.taproot/.truth-check-session`) is present and matches the current staged content. This marker is written by `taproot truth-sign`, which `taproot commit` calls automatically. Committing hierarchy files directly with `git commit` (bypassing `taproot commit` or a manual `taproot truth-sign` + stage step) will be blocked if applicable truths exist.
 
 ---
 
@@ -247,7 +247,7 @@ The DoR gate prevents committing an implementation record before the behaviour i
 taproot truth-sign
 ```
 
-Records a truth-check session marker after the agent has verified that staged hierarchy documents are consistent with applicable truths in `taproot/global-truths/`. Called automatically by the `/tr-commit` skill — you do not need to invoke this directly unless scripting a custom commit workflow.
+Records a truth-check session marker after the agent has verified that staged hierarchy documents are consistent with applicable truths in `taproot/global-truths/`. Called automatically by `taproot commit` — you do not need to invoke this directly unless scripting a custom commit workflow.
 
 The session marker is a SHA-256 hash of the staged document contents combined with all applicable truth file contents. If the staged files or truths change after signing, the marker is invalidated and the pre-commit hook will require re-signing.
 

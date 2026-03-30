@@ -247,6 +247,7 @@ ${skillIndex}
 - Hierarchy lives in \`taproot/\` — intents → behaviours → implementations
 - Validate with: \`taproot validate-structure\` and \`taproot validate-format\`
 - See coverage: \`taproot coverage\`
+- Use \`taproot commit "message"\` instead of plain \`git commit\` — handles truth signing automatically
 
 ${buildConfigQuickRef(cli, projectRoot)}
 
@@ -313,6 +314,14 @@ Run these to validate and inspect the hierarchy:
 - Commits that implement a behaviour: \`taproot(<intent>/<behaviour>/<impl>): <message>\`
 - Full conventions: \`taproot/CONVENTIONS.md\`
 
+### Committing with Global Truths
+
+If the project has \`taproot/global-truths/\`, use the taproot commit wrapper instead of plain \`git commit\`:
+\`\`\`bash
+taproot commit "your message"
+\`\`\`
+This handles \`taproot truth-sign\` and session staging automatically.
+
 ${buildConfigQuickRef(cli)}
 ${TAPROOT_END}
 `;
@@ -361,6 +370,10 @@ This project uses Taproot to maintain traceability from business intent to code.
 ## Taproot Skills
 
 ${skillIndex}
+
+## Committing
+
+Use \`taproot commit "message"\` instead of plain \`git commit\` when committing hierarchy files or source files tracked by a spec — it handles truth signing automatically.
 
 ${buildConfigQuickRef(cli)}
 
@@ -531,6 +544,8 @@ When implementing a behaviour, commit with:
 taproot(<intent>/<behaviour>/<impl>): <what this commit does>
 \`\`\`
 
+When committing hierarchy files (\`intent.md\`, \`usecase.md\`, \`impl.md\`) or source files tracked by a spec, use \`taproot commit "message"\` instead of plain \`git commit\`. This handles \`taproot truth-sign\` and session staging automatically.
+
 ## Skill Definitions
 
 ${skillSections}
@@ -651,6 +666,16 @@ taproot coverage             # completeness tree
 taproot check-orphans        # find broken references
 taproot sync-check           # detect stale specs
 \`\`\`
+
+## Committing
+
+When committing hierarchy files (\`intent.md\`, \`usecase.md\`, \`impl.md\`) or source files tracked by a spec, use the taproot commit wrapper instead of plain \`git commit\`:
+
+\`\`\`bash
+taproot commit "your message"
+\`\`\`
+
+This automatically runs \`taproot truth-sign\`, stages \`.taproot/.truth-check-session\`, and commits in one step. If you use plain \`git commit\`, run \`taproot truth-sign\` and stage the session file manually first.
 
 ## Pre-commit Hook
 

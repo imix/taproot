@@ -173,19 +173,19 @@ export function validateTruthSession(
   if (!existsSync(sessionFile)) {
     return {
       valid: false,
-      reason: 'no truth-check session found — run /tr-commit to check truths before committing',
+      reason: 'no truth-check session found — run `taproot truth-sign` and stage `.taproot/.truth-check-session` before committing (or use `taproot commit` to handle this automatically)',
     };
   }
   let session: TruthSession;
   try {
     session = JSON.parse(readFileSync(sessionFile, 'utf-8')) as TruthSession;
   } catch {
-    return { valid: false, reason: 'truth-check session file is malformed — re-run /tr-commit' };
+    return { valid: false, reason: 'truth-check session file is malformed — run `taproot truth-sign`' };
   }
   if (session.hash !== computeHash(stagedDocs, truths)) {
     return {
       valid: false,
-      reason: 'staged files or truths have changed since the last truth check — re-run /tr-commit',
+      reason: 'staged files or truths have changed since the last truth check — run `taproot truth-sign` again and re-stage `.taproot/.truth-check-session`',
     };
   }
   return { valid: true, reason: '' };

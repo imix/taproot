@@ -115,9 +115,9 @@ flowchart TD
 - [CLI Command](./cli-command/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-29
-- **Last reviewed:** 2026-03-29
+- **Last reviewed:** 2026-03-30
 
 ## Notes
 - The pre-commit hook is intentionally agent-agnostic — it runs the same checks regardless of which agent committed. The gap is in the error messages (currently reference `/tr-commit`) and in the adapter instruction files (currently omit truth-sign guidance).
