@@ -41,7 +41,7 @@ Developer or agent — applying a uniform transformation to a set of hierarchy f
 ## Error Conditions
 - **Path outside `taproot/`**: system aborts before processing with: `"Error: <path> is outside taproot/ — aborting"`
 - **Path does not exist**: system aborts before processing with: `"Error: <path> not found"`
-- **Agent exits non-zero**: file is restored to its snapshot, result recorded as `error` with the agent's stderr
+- **Agent fails**: file is restored to its snapshot, result recorded as `error` with the agent's error output
 - **`filelist` or `prompt` file not found**: system exits immediately with a clear usage error
 
 ## Flow

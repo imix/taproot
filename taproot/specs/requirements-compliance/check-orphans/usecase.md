@@ -15,8 +15,8 @@ Developer or CI pipeline running `taproot check-orphans`
    c. Every path listed under `## Tests` exists on disk — same path-recognition rule applies: tokens are only checked if they contain `/` or a file extension
    d. Every commit hash listed under `## Commits` exists in git history
 4. If `--include-unimplemented` is set, system also checks every behaviour node for the absence of any child impl folders
-5. System renders all violations (errors and warnings) to stdout
-6. System exits with code 0 if no errors, non-zero if any errors found
+5. System renders all violations (errors and warnings)
+6. System reports success if no errors were found, failure if any errors were found
 
 ## Alternate Flows
 - **No git repository**: Commit hash checks are skipped; file reference checks still run

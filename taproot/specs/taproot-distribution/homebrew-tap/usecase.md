@@ -49,7 +49,7 @@ CI system — the `update-homebrew-tap` job runs automatically after each succes
 
 ## Error Conditions
 - **`HOMEBREW_TAP_TOKEN` missing or expired:** CI job fails immediately with: `"HOMEBREW_TAP_TOKEN not set or invalid. Add or rotate the token in the 'release' GitHub environment."`
-- **Tarball URL not found (404):** CI reports: `"GitHub release tarball not found for vX.Y.Z — ensure the GitHub Release was created before this job runs."`
+- **Tarball URL not found:** CI reports: `"GitHub release tarball not found for vX.Y.Z — ensure the GitHub Release was created before this job runs."`
 - **`brew audit` fails on formula:** CI reports the audit output; Maintainer corrects the formula template and re-runs.
 
 ## Flow
@@ -57,7 +57,7 @@ CI system — the `update-homebrew-tap` job runs automatically after each succes
 ```mermaid
 flowchart TD
     A[cut-release CI\nnpm publish succeeds] --> B[update-homebrew-tap job\ndownload tarball]
-    B -->|404 not found| C[Fail: tarball not found\nreport URL]
+    B -->|not found| C[Fail: tarball not found\nreport URL]
     B -->|Download OK| D[Compute SHA256]
     D --> E[Generate Formula/taproot.rb\nversion + url + sha256]
     E --> F[Commit and push\nto imix/homebrew-tap]

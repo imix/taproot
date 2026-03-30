@@ -53,7 +53,7 @@
 - **`validate-format` violations**: `FAIL — usecase.md has format violations: <list>. Fix them and re-commit`
 - **Mermaid diagram missing**: `FAIL — usecase.md has no ## Flow section with a Mermaid diagram. Add one before starting implementation`
 - **Related section missing**: `FAIL — usecase.md has no ## Related section. Document related behaviours before starting implementation`
-- **Custom DoR condition fails**: correction from the condition's `correction:` field or stdout/stderr of the failed command
+- **Custom DoR condition fails**: correction from the condition's `correction:` field or command output
 - **`check:` condition unresolved at commit time**: DoR blocks with "agent check required: <question text>" — agent must reason about the question and record a resolution before the declaration commit proceeds
 
 ## Flow

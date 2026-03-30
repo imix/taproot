@@ -24,7 +24,7 @@
 2. System reads `definitionOfDone` conditions from `.taproot/settings.yaml` (may be empty — baseline already ran)
 3. System runs all configured conditions — every condition runs regardless of whether earlier ones fail
 4. For each condition, system records: name, pass/fail, output, and a proposed correction if failed:
-   - Shell conditions: executed directly; exit code 0 = pass
+   - Shell conditions: executed directly; command success = pass, command failure = fail
    - `document-current`: agent reads `docs/` and `README.md` content, then reads recent git commits and diffs to identify what the implementation changed. Agent compares the two: are the docs accurate and current relative to what was just implemented? If stale sections are found, agent applies updates directly. Condition passes once docs are verified current or updated.
      **Prohibited:** resolving this condition by inferring from backlog state, impl.md state, or the absence of related items is not valid. The agent must read actual doc content and compare it against actual implementation changes.
    - `check-if-affected`: agent reads the git diff, reasons whether the target file should have been updated, applies changes if needed — condition passes once resolved; agent writes resolution to `impl.md` via `taproot dod --resolve`
@@ -86,8 +86,8 @@
 - **Trigger:** A condition in `.taproot/settings.yaml` is declared with a `run:` key
 - **Steps:**
   1. System executes the shell command in the project root
-  2. Exit code 0 = pass; non-zero = fail
-  3. On failure, system includes stdout/stderr and the `correction:` field if provided
+  2. Command success = pass; command failure = fail
+  3. On failure, system includes command output and the `correction:` field if provided
 
 ## Postconditions
 - If all conditions passed: `impl.md` has `state: complete`

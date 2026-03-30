@@ -16,10 +16,10 @@ Developer or operator running `taproot coverage`
    - **markdown**: heading-based report suitable for GitHub or docs sites
    - **json**: machine-readable structured data for tooling integration
    - **context**: generates `taproot/CONTEXT.md` — a navigable summary for AI agents, including a "Needs Attention" section
-6. For `--format context`, system writes the file to `taproot/CONTEXT.md` and reports the path; all other formats print to stdout
+6. For `--format context`, system writes the file to `taproot/CONTEXT.md` and reports the path; all other formats display the report directly
 
 ## Alternate Flows
-- **`--format context`**: Side-effect output — writes `CONTEXT.md` rather than printing to stdout; includes a "Needs Attention" section with in-progress, untested, and unimplemented items
+- **`--format context`**: Side-effect output — writes `CONTEXT.md` rather than displaying it directly; includes a "Needs Attention" section with in-progress, untested, and unimplemented items
 
 ## Error Conditions
 - **No intents found**: Reports zero counts; no error exit

@@ -56,7 +56,7 @@ Developer configuring taproot for a non-development project — book authoring, 
 ## Error Conditions
 - **Override key matches structural keyword** — taproot logs a warning and skips the conflicting override; all other overrides are applied normally
 - **Empty-string vocabulary value** — if any vocabulary key maps to an empty string (e.g. `tests: ""`), `taproot update` reports: "Vocabulary override 'tests' maps to an empty string — this would silently delete the term from skill files. Provide a non-empty replacement or remove the key." No files are modified.
-- **Malformed `vocabulary:` map** — `taproot update` aborts with a YAML parse error and the offending entry; no files are modified
+- **Malformed `vocabulary:` map** — `taproot update` aborts with a parse error and reports the offending entry; no files are modified
 
 ## Related
 - `../../requirements-hierarchy/configure-hierarchy/usecase.md` — `settings.yaml` is the configuration surface; `vocabulary:` is a new map in the same file

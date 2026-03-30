@@ -14,15 +14,15 @@
    - If a result exists and is not stale (see Staleness definition below): proceed to step 5
    - If absent or stale: proceed to step 3
    - **Cache path derivation:** Given `implPath` (relative or absolute), resolve to a project-relative path, strip the leading `taproot/` segment, strip the trailing `/impl.md`. Both absolute and relative `implPath` values must produce the same cache path (e.g. `taproot/quality-gates/my-behaviour/cli-command/impl.md` → `.taproot/.test-results/quality-gates/my-behaviour/cli-command.json`).
-3. System executes the configured `testsCommand` in the project root. Output is captured; stdout/stderr are also forwarded to the developer's terminal in real time. The final N lines (N = min(20, total output lines)) are stored as `summary` in the cache file.
+3. System executes the configured `testsCommand` in the project root. Output is captured and forwarded to the developer's terminal in real time. The final N lines (N = min(20, total output lines)) are stored as `summary` in the cache file.
    - **Implementation note:** Simultaneous streaming and capturing requires `spawn` with piped stdio and manual forwarding — `spawnSync` with `stdio: 'inherit'` cannot capture output.
 4. System writes `.taproot/.test-results/<intent>/<behaviour>/<impl>.json`, creating parent directories if absent, with:
    - `timestamp`: ISO 8601 execution time
    - `command`: the command that was run
-   - `exitCode`: 0 = passed, non-zero = failed
+   - `exitCode`: records whether tests passed or failed
    - `summary`: last N lines of output (N = min(20, total lines)) — for diagnostics
-5. If `exitCode === 0`: `tests-passing` condition passes — state transition to `complete` is allowed
-6. If `exitCode !== 0`: `tests-passing` condition fails — state transition is blocked with a clear error showing the test output summary
+5. If tests passed: `tests-passing` condition passes — state transition to `complete` is allowed
+6. If tests failed: `tests-passing` condition fails — state transition is blocked with a clear error showing the test output summary
 
 **Staleness definition:** A cached result is stale if any source file tracked by the `impl.md` (listed in `## Source Files`) has been modified more recently than the test result timestamp. If no source files are listed, the result is stale after a configurable `testResultMaxAge` (default: 60 minutes).
 
@@ -33,15 +33,15 @@
 - **Steps:**
   1. System runs the BUILTINS fallback command (`npm test`) directly via shell, without evidence caching — identical to the existing pre-guardrail behavior
   2. System emits a warning: `"No testsCommand configured — tests-passing ran npm test without evidence caching. Add testsCommand to .taproot/settings.yaml to enable cache-backed verification."`
-  3. No cache file is written. The condition passes or fails based solely on the command exit code.
+  3. No cache file is written. The condition passes or fails based solely on the command result.
 - **Note:** This preserves backward compatibility for projects already using `tests-passing` without `testsCommand`. The evidence-backed path (cache + staleness + commithook enforcement) only activates when `testsCommand` is explicitly configured.
 
 ### Test result is fresh — skip re-execution
 - **Trigger:** `.taproot/.test-results/<intent>/<behaviour>/<impl>.json` exists and is not stale
 - **Steps:**
   1. System reads the cached result and checks `exitCode`
-  2. If `exitCode === 0`: condition passes immediately — no re-execution
-  3. If `exitCode !== 0`: condition fails — developer must fix tests and re-run `taproot dod`
+  2. If tests passed: condition passes immediately — no re-execution
+  3. If tests failed: condition fails — developer must fix tests and re-run `taproot dod`
 
 ### State transition to non-`complete` state
 - **Trigger:** `taproot dod` or commithook processes an `impl.md` whose target state is not `complete` (e.g., `in-progress`, `needs-rework`)

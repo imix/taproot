@@ -87,7 +87,7 @@
 - **Push fails** — `git push` is rejected (non-fast-forward, auth, or network) after the local commit and tag have been created. Skill reports: "local commit ✓, local tag `v<version>` ✓ — push failed: `<error>`". Skill prints retry commands: `git push origin main && git push origin v<version>`. CI will not trigger until push succeeds.
 - **CI checks fail** — `npm test`, `npm audit`, or `npm run build` fails in the workflow after the tag has been pushed. Workflow reports the failure. The tag exists on `origin/main` but npm has not been published. Maintainer must: fix the issue, delete the tag (`git push origin :v<version> && git tag -d v<version>`), and re-run the release from step 1.
 - **npm publish fails (auth)** — `NPM_TOKEN` is invalid or expired; workflow reports the auth error. Maintainer rotates the token in the GitHub Environment secret and re-runs the workflow from the approval gate (no need to re-tag).
-- **npm publish fails (duplicate version)** — the version was already published from a prior partial attempt; workflow detects the duplicate (exit code 1, message contains "cannot publish over") and treats it as a completed step, continues to GitHub release.
+- **npm publish fails (duplicate version)** — the version was already published from a prior partial attempt; workflow detects the duplicate (publish rejected with "cannot publish over") and treats it as a completed step, continues to GitHub release.
 
 ## Flow
 ```mermaid

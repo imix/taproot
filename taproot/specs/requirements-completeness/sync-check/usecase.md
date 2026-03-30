@@ -16,7 +16,7 @@ Developer or CI pipeline running `taproot sync-check`
 4. For each `usecase.md` with child implementations:
    a. System checks whether `usecase.md` was modified more recently than any of its child `impl.md` files
    b. If so, system emits a warning: the spec changed after the implementation was recorded, and the implementation may not reflect the current spec
-5. System renders all warnings to stdout and exits with code 0 (warnings only, not errors)
+5. System renders all warnings (warnings only, not errors) and completes successfully
 
 ## Alternate Flows
 - **`--since <date>`**: Only consider file changes after the given date
