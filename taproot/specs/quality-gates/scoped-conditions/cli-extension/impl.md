@@ -17,6 +17,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `f8ff32444896888e016fd747979f3dbcc112a024` — (auto-linked by taproot link-commits)
+- `0922458eae7f4ec42e3ff525661d7995c3125526` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/scoped-conditions.test.ts` — AC-1: scoped no-match auto-resolves; AC-2: scoped match runs normally; AC-3: unscoped unaffected; AC-4: no source-files section auto-resolves; AC-5: malformed when produces error

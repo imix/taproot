@@ -17,6 +17,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `bef249f68acc36661b64b3a45d91fe499c2dad2a` — (auto-linked by taproot link-commits)
+- `4e797a44b162d1f4e0c4281f95af083b8605b844` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/commithook.test.ts` — `checkBehaviourIntentAlignment` unit describe block (AC-1 to AC-5) + integration test for staged usecase with valid parent intent

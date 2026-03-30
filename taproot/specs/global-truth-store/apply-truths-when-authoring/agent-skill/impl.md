@@ -21,6 +21,7 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `d7db0fcee78c8b69ce4cddeb7accabd57ea3c27a` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/apply-truths-when-authoring.test.ts` — covers AC-1 (intent-scoped truth applied in behaviour spec), AC-2 (scope filtering: impl-scoped not loaded at behaviour level), AC-3 (contradiction detection in all four skills), AC-4 (no-truths proceeds normally), AC-5 (unscoped file treated as intent-scoped with note)

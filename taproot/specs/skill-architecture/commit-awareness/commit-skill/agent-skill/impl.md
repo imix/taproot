@@ -21,6 +21,7 @@
 - `ee187a3cd63ed2c5ff051f778def4f279a36d88c` — (auto-linked by taproot link-commits)
 - `e66ab5498df954cc159d9aaee190fbb3451588bb` — (auto-linked by taproot link-commits)
 - `21625c35c523c1d372e398fc8081bf3c9c393535` — (auto-linked by taproot link-commits)
+- `25697083369ac760fbfbe8747cd069c0af049920` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/skills.test.ts` — AC-1: one-condition-per-invocation; AC-2: conversational trigger; AC-4: declaration parent state check; AC-5: plain commit no gate; AC-7: mass commit [A]/[B]/[C]; requirement commit quality checks; declaration DoR without CLI

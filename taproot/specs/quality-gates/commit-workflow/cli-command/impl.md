@@ -16,6 +16,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `de81275ed56aa45c58192490b76cc9ecad67f415` — (auto-linked by taproot link-commits)
+- `d2ed5a01a1f572e837959fb062f7f714a0410447` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/commit-workflow.test.ts` — covers AC-2 through AC-5, AC-7: truth-sign skipped for source-only, truth-sign skipped without global-truths, --all stages all, nothing-staged error, dry-run makes no changes

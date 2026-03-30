@@ -22,6 +22,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `2de7348a1129a102367e679fe44ffb832fcb8656` — (auto-linked by taproot link-commits)
+- `aaa65f59fb1caf7c6c7eb2cdcc99a6259280846e` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/batch-dod-na-resolution.test.ts` — covers AC-1 through AC-10: naRules matching, predicate evaluation, protected conditions, dry-run, auditability, skip-already-resolved, no-naRules path, custom rules, unknown-when warning

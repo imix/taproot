@@ -16,6 +16,7 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `2e78c326d6083c6bbee635e412e491dfeb2eba40` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/validate-structure.test.ts` — end-to-end tests for valid and invalid hierarchies

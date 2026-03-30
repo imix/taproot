@@ -60,6 +60,8 @@ No automated tests — skill file and pattern entry are agent-readable markdown.
 ## Commits
 
 <!-- populated by taproot link-commits -->
+- `ecd26ce3d0247954c90e1d63eaf8b1b15f3ca6d0` — (auto-linked by taproot link-commits)
+- `e99f4f032efc365080605bf4661e0db7fdec92e1` — (auto-linked by taproot link-commits)
 
 ## Status
 

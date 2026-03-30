@@ -29,6 +29,9 @@
 <!-- taproot-managed -->
 - `1b43978f48e64eb234dc317884f17a1630605981` — (auto-linked by taproot link-commits)
 - `0ca60a2cd1c1ec50e2ec4d135b6346b5b11b3eb2` — (auto-linked by taproot link-commits)
+- `d1b1928ff154cccc9767cb484291965747a7db51` — (auto-linked by taproot link-commits)
+- `b8ec9c45f7cf18ca921eeb4b471969f0a982f634` — (auto-linked by taproot link-commits)
+- `66ab6c873f3ad399fbb0b03b597d8f57c7fecafd` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/vscode-extension.test.ts` — reads `channels/vscode/package.json` and asserts: (AC-6) command `taproot.init` with title "Taproot: Initialize project" present in `contributes.commands`; (AC-7) at least one walkthrough with at least one step present in `contributes.walkthroughs`

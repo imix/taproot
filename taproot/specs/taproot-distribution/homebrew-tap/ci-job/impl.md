@@ -18,6 +18,9 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `ff06649838aef276d70df83eb02b63ce76ec068e` — (auto-linked by taproot link-commits)
+- `cf15270fea292369e4be063745a2f5404497d95b` — (auto-linked by taproot link-commits)
+- `0e8605e96654c7b54104f145a916e48ab38666ed` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/homebrew-tap.test.ts` — structural: job present in release.yml, needs publish, continue-on-error, token check step present, sha256 computation step present, formula update step present

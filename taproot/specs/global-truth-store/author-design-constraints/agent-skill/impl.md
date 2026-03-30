@@ -24,6 +24,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `ad707e76f9f2bf913733e58bb887aa535778c2d0` — (auto-linked by taproot link-commits)
+- `a35c09b699dcfc0029728c61e4baad038bffb388` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/design-constraints.test.ts` — skill file exists; all four formats present with required fields; signal phrases present; completeness check step present; default file naming conventions present; spec link present

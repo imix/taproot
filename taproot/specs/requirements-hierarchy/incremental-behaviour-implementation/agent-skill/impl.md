@@ -16,6 +16,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `62faf3992538c85ed57fde47503f31a5af750f2b` — (auto-linked by taproot link-commits)
+- `b713aecaa429bf4fe21e14e17a7aa5358c576caa` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/patterns.test.ts` — verifies incremental delivery pattern is present in docs/patterns.md with required signal phrases and spec link (covers AC-1 discoverability)

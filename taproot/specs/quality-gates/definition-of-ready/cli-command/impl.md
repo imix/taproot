@@ -20,6 +20,7 @@
 - (run `taproot link-commits` to populate)
 - `80f4c5639b67ba9a6d142d7b09ee3bfef0cffe17` — (auto-linked by taproot link-commits)
 - `36bb198880650dd18afaeb0324a8b23b62298c19` — (auto-linked by taproot link-commits)
+- `efe7505cdcde245eb66a77546b8f50c702217fbd` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/commithook.test.ts` — covers: declaration commit with valid spec passes, missing usecase.md fails, state not-specified fails, missing Flow fails, missing Related fails, configured DoR conditions evaluated; check: fails when unresolved, passes when DoR Resolutions present
