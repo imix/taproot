@@ -1,7 +1,7 @@
 # Behaviour: Security Scanning
 
 ## Actor
-CI Pipeline (GitHub Actions) — runs scans on a nightly schedule and as a pre-release gate; can also be triggered manually via the GitHub Actions UI
+CI Pipeline (GitHub Actions)
 
 ## Preconditions
 - taproot source repository is checked out with dependencies installed (`npm ci`)
@@ -32,10 +32,10 @@ CI Pipeline (GitHub Actions) — runs scans on a nightly schedule and as a pre-r
 - **Steps:**
   1. Workflow runs the full scan sequence (steps 2–7 of main flow)
   2. On clean result: workflow succeeds silently; report is archived as a CI artefact
-  3. On findings: workflow fails and notifies the maintainer
+  3. On findings: workflow fails; GitHub's default workflow-failure notification (GitHub web/email notification, subject to the maintainer's GitHub notification settings) is triggered
 
 ### Pre-release gate
-- **Trigger:** Release workflow reaches the security scan step (during `cut-release`)
+- **Trigger:** Release workflow reaches the security scan step (during `cut-release`) — security-scanning runs as a called reusable workflow invoked by the release workflow, so its result is directly visible as a job in the release run
 - **Steps:**
   1. Release workflow runs the full scan sequence before the publish step
   2. On clean result: release workflow proceeds to publish
@@ -57,6 +57,8 @@ CI Pipeline (GitHub Actions) — runs scans on a nightly schedule and as a pre-r
 - **Scan tool not found** — if semgrep, syft, or grype is not available in the CI environment, the workflow step fails immediately with a message naming the missing tool
 - **SBOM generation fails** — if syft cannot read the dependency manifest, the workflow step fails: "Failed to generate SBOM — check that `node_modules` is present and `package.json` is valid"
 - **Semgrep ruleset unavailable** — if the configured ruleset cannot be fetched (network error, invalid ruleset name), the workflow step fails; results are not marked clean
+- **Vulnerability database unavailable, no cache** — if grype cannot reach the vulnerability database and no local cache exists, the workflow step fails: "no vulnerability database available — cannot run dependency scan" (see Alternate Flow: Vulnerability database unavailable)
+- **Severity threshold misconfigured** — if the configured threshold value is not a recognised severity level, the workflow step fails immediately: "unrecognised severity threshold '\<value\>' — expected one of: critical, high, medium, low"
 
 ## Flow
 
@@ -115,3 +117,6 @@ flowchart TD
 - **grype vs npm audit:** grype scans the full SBOM against multiple CVE databases (NVD, GitHub Advisory, OSV); `npm audit` covers only the npm advisory database. Both are retained — grype supplements, not replaces, the existing npm audit in `ci-pipeline`.
 - **Local scanning deferred** — CI-only reduces tool installation complexity; the manual trigger on GitHub covers the pre-release use case without requiring local tool setup.
 - **PR scanning deferred** — nightly + pre-release provides the coverage needed for v1.
+- **AC-1 and AC-2 reserved** — these IDs covered local scan functionality, deferred when local scanning was dropped. AC-3 is the first active criterion.
+- **SBOM format:** syft default (Syft JSON) — sufficient for grype input. If downstream tooling requires SPDX or CycloneDX, the syft invocation should add `-o spdx-json` or `-o cyclonedx-json`.
+- **Artefact retention:** GitHub Actions default (90 days) is sufficient for v1 audit purposes; no extended retention required.

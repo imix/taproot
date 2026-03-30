@@ -256,7 +256,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [multi-surface](./taproot-distribution/cut-release/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 - **[homebrew-tap](./taproot-distribution/homebrew-tap/usecase.md)** `[implemented]` — Actor: CI system — the `update-homebrew-tap` job runs automatically after each successful npm publish; one-time formula creation is performed by the Maintainer.
   - [ci-job](./taproot-distribution/homebrew-tap/ci-job/impl.md) `[complete]` (0 commits, 1 test)
-- **[security-scanning](./taproot-distribution/security-scanning/usecase.md)** `[specified]` — Actor: - **Maintainer / Agent** — initiates a local scan before cutting a release
+- **[security-scanning](./taproot-distribution/security-scanning/usecase.md)** `[specified]` — Actor: CI Pipeline (GitHub Actions)
 - **[vscode-marketplace](./taproot-distribution/vscode-marketplace/usecase.md)** `[implemented]` — Actor: Maintainer — the VS Code extension publish step runs automatically in CI as part of the `cut-release` flow, after npm publish succeeds
   - [multi-surface](./taproot-distribution/vscode-marketplace/multi-surface/impl.md) `[deferred]` (2 commits, 2 tests)
 
