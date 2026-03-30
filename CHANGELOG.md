@@ -4,6 +4,15 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.9.1] - 2026-03-30
+
+### Bug Fixes
+- fix: restore push failure recovery path in release skill (ce44373)
+
+### Maintenance
+- build: add `npm run release` script — version bump + commit + tag + push in one step (a6debd7)
+- chore: update package-lock.json (77ad529)
+
 ## [0.9.0] - 2026-03-30
 
 ### Taproot

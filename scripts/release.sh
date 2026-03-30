@@ -59,12 +59,10 @@ node -e "
 "
 pass "Versions bumped to ${VERSION}"
 
-# ─── Truth-sign (ensures session is fresh before commit hook runs) ────────────
-node dist/cli.js truth-sign 2>/dev/null || true
-
 # ─── Commit ───────────────────────────────────────────────────────────────────
+# Stage release files first, then truth-sign against the staged set so the hook sees a fresh session.
 git add package.json channels/vscode/package.json CHANGELOG.md
-# Stage truth-check-session if it was written
+node dist/cli.js truth-sign 2>/dev/null || true
 [ -f .taproot/.truth-check-session ] && git add .taproot/.truth-check-session || true
 git commit -m "chore: release v${VERSION}"
 pass "Release commit created"
