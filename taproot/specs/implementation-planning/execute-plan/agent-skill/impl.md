@@ -32,7 +32,10 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-27
-- **Last verified:** 2026-03-27
+- **Last verified:** 2026-03-30
+
+## Notes
+- 2026-03-30: updated step 6 batch list and step 7a item prompt to show behaviour title + one-line goal (AC-21)
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — pure agent skill (markdown instruction file); no TypeScript source, no external I/O at unexpected boundaries, no global state; follows existing skill architecture pattern | resolved: 2026-03-27
