@@ -68,7 +68,7 @@ export function buildReport(threshold, semgrepFindings, grypeFindings) {
     '',
     `- **Date:** ${new Date().toISOString().replace('T', ' ').slice(0, 16)} UTC`,
     `- **Severity threshold:** ${threshold}`,
-    '- **Tools:** semgrep (p/typescript + p/owasp-top-ten), syft, grype',
+    '- **Tools:** semgrep 1.76.0 (p/typescript + p/owasp-top-ten), syft 0.104.0, grype 0.87.0',
     '',
     '## Summary',
     '',

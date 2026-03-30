@@ -56,7 +56,7 @@ jobs:
       # ── Install scan tools ────────────────────────────────────────────────
       - name: Install semgrep
         run: |
-          pip install semgrep==1.62.0
+          pip install semgrep==1.76.0
           semgrep --version || { echo "semgrep not found — install failed"; exit 1; }
 
       - name: Install syft
@@ -67,8 +67,9 @@ jobs:
 
       - name: Install grype
         run: |
+          # v0.82+ is required for database schema v6; earlier versions receive stale v5 databases
           curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | \
-            sh -s -- -b /usr/local/bin v0.79.4
+            sh -s -- -b /usr/local/bin v0.87.0
           grype version || { echo "grype not found — install failed"; exit 1; }
 
       # ── SAST — semgrep ────────────────────────────────────────────────────
