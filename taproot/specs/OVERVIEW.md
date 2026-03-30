@@ -45,11 +45,11 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [cli-command](./agent-integration/configuration-discoverability/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 - **[generate-agent-adapter](./agent-integration/generate-agent-adapter/usecase.md)** `[implemented]` — Actor: Developer initializing taproot for a specific AI coding agent via `taproot init --agent `
   - [cli-command](./agent-integration/generate-agent-adapter/cli-command/impl.md) `[complete]` (5 commits, 2 tests)
-- **[hook-compatibility](./agent-integration/hook-compatibility/usecase.md)** `[specified]` — Actor: Developer or AI coding agent (Claude Code, Cursor, Copilot, Aider, or any other agent) committing changes to a taproot project.
+- **[hook-compatibility](./agent-integration/hook-compatibility/usecase.md)** `[implemented]` — Actor: Developer or AI coding agent (Claude Code, Cursor, Copilot, Aider, or any other agent) committing changes to a taproot project.
+  - [cli-command](./agent-integration/hook-compatibility/cli-command/impl.md) `[complete]` (2 commits, 2 tests)
 - **[parallel-agent-execution](./agent-integration/parallel-agent-execution/usecase.md)** `[specified]` — Actor: Developer or orchestrator running multiple taproot implementation tasks in parallel across the same codebase
 - **[update-adapters-and-skills](./agent-integration/update-adapters-and-skills/usecase.md)** `[implemented]` — Actor: Developer running `taproot update` after upgrading taproot or modifying skill definitions
   - [cli-command](./agent-integration/update-adapters-and-skills/cli-command/impl.md) `[complete]` (1 commit, 2 tests)
-
 
 ## [global-truth-store](./global-truth-store/intent.md) `[active]`
 
@@ -154,8 +154,8 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [multi-surface](./quality-gates/architecture-compliance/multi-surface/impl.md) `[complete]` (4 commits, 1 test)
 - **[batch-dod-na-resolution](./quality-gates/batch-dod-na-resolution/usecase.md)** `[implemented]` — Actor: Developer or AI agent running `taproot dod  --resolve-all-na`
   - [cli-command](./quality-gates/batch-dod-na-resolution/cli-command/impl.md) `[complete]` (0 commits, 1 test)
-- **[commit-workflow](./quality-gates/commit-workflow/usecase.md)** `[specified]` — Actor: Developer or AI agent calling `taproot commit` as a one-command replacement for the multi-step commit sequence.
-  - [cli-command](./quality-gates/commit-workflow/cli-command/impl.md) `[in-progress]` (0 commits, 1 test)
+- **[commit-workflow](./quality-gates/commit-workflow/usecase.md)** `[implemented]` — Actor: Developer or AI agent calling `taproot commit` as a one-command replacement for the multi-step commit sequence.
+  - [cli-command](./quality-gates/commit-workflow/cli-command/impl.md) `[complete]` (0 commits, 1 test)
 - **[definition-of-done](./quality-gates/definition-of-done/usecase.md)** `[implemented]` — Actor: `/tr-implement` — triggered automatically at the end of the implement flow before marking an impl `complete`. Also invoked by `taproot commithook` on implementation commits (staged source files + `impl.md`). Can also be invoked standalone by a developer or CI pipeline.
   - [cli-command](./quality-gates/definition-of-done/cli-command/impl.md) `[complete]` (5 commits, 2 tests)
 - **[definition-of-ready](./quality-gates/definition-of-ready/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a contributor commits an `impl.md` file without source code changes (the "I'm starting this implementation" declaration commit).
@@ -201,7 +201,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 **Goal:** Enable teams to capture the full requirements hierarchy — from business intent through stakeholder behaviour to system implementation — in a single, navigable, git-versioned structure.
 
-- **[apply-task](./requirements-hierarchy/apply-task/usecase.md)** `[specified]` — Actor: Developer or agent — applying a uniform transformation to a set of hierarchy files using a configured AI agent.
+- **[apply-task](./requirements-hierarchy/apply-task/usecase.md)** `[proposed]` — Actor: Developer or agent — applying a uniform transformation to a set of hierarchy files using a configured AI agent.
   - [cli-command](./requirements-hierarchy/apply-task/cli-command/impl.md) `[deferred]` (4 commits, 1 test)
 - **[configure-hierarchy](./requirements-hierarchy/configure-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator customising taproot to match project conventions
   - [yaml-config](./requirements-hierarchy/configure-hierarchy/yaml-config/impl.md) `[complete]` (2 commits, 1 test)
@@ -256,6 +256,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [multi-surface](./taproot-distribution/cut-release/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 - **[homebrew-tap](./taproot-distribution/homebrew-tap/usecase.md)** `[implemented]` — Actor: CI system — the `update-homebrew-tap` job runs automatically after each successful npm publish; one-time formula creation is performed by the Maintainer.
   - [ci-job](./taproot-distribution/homebrew-tap/ci-job/impl.md) `[complete]` (0 commits, 1 test)
+- **[security-scanning](./taproot-distribution/security-scanning/usecase.md)** `[specified]` — Actor: - **Maintainer / Agent** — initiates a local scan before cutting a release
 - **[vscode-marketplace](./taproot-distribution/vscode-marketplace/usecase.md)** `[implemented]` — Actor: Maintainer — the VS Code extension publish step runs automatically in CI as part of the `cut-release` flow, after npm publish succeeds
   - [multi-surface](./taproot-distribution/vscode-marketplace/multi-surface/impl.md) `[deferred]` (2 commits, 2 tests)
 
@@ -267,4 +268,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-19 intents · 86 behaviours · 84 implementations · 81/84 complete
+18 intents · 87 behaviours · 85 implementations · 83/85 complete
