@@ -8,6 +8,7 @@ All notable changes to taproot are documented here.
 
 ### Bug Fixes
 - fix: restore push failure recovery path in release skill (ce44373)
+- fix: stage files before truth-sign in release script — prevents stale session hook failure (f13551c)
 
 ### Maintenance
 - build: add `npm run release` script — version bump + commit + tag + push in one step (a6debd7)
