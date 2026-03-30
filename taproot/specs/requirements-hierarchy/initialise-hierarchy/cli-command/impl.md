@@ -26,7 +26,7 @@
 - `test/integration/init.test.ts` — scaffolding, config generation, skill installation, hook installation, adapter generation
 
 ## Status
-- **State:** complete
+- **State:** needs-rework
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-27
 
