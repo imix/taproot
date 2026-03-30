@@ -34,7 +34,7 @@ Developer — working through a previously built plan, delegating each item to t
    Next: [implement] taproot/<intent>/<behaviour>/
          "Validate Input Parameters" — <goal>
    Skill: /tr-implement
-   [A] Proceed  [S] Skip  [Q] Stop
+   [R] Review spec  [A] Proceed  [S] Skip  [Q] Stop
    ```
    Where `"<Behaviour Title>"` is read from the referenced `usecase.md`'s heading (omitted if no spec exists yet — `spec` type items); `<goal>` is the plan item's inline description if present, otherwise a one-sentence summary of what the behaviour achieves derived from the spec's Actor and main outcome.
 4. Developer confirms with `[A]`.
@@ -72,7 +72,7 @@ Developer — working through a previously built plan, delegating each item to t
    ```
 3. Developer confirms.
 4. Agent works through pending items sequentially — presenting each item before invoking its skill (same as step 3–6 of step-by-step mode, including reading the behaviour title from each item's `usecase.md`).
-5. After each `afk` item completes, agent marks it `done` and proceeds to the next without waiting. When a `hitl` item is reached, agent pauses and presents it for confirmation before invoking its skill — HITL items require human attention and may change what comes next.
+5. After each `afk` item completes, agent marks it `done` and proceeds to the next without waiting. When a `hitl` item is reached, agent pauses and presents it with `[A] Proceed [S] Skip [R] Review spec [Q] Stop` before invoking its skill — HITL items require human attention and may change what comes next.
 6. When all items are done: *"Plan complete — all N items executed."*
 
 ## Alternate Flows
@@ -82,6 +82,19 @@ Developer — working through a previously built plan, delegating each item to t
 - **Steps:**
   1. Agent marks the item `skipped` in `taproot/plan.md`.
   2. Agent moves to the next pending item and repeats from step 3.
+
+### Developer reviews item before deciding
+- **Trigger:** Developer selects `[R]` at the item confirmation prompt (step 3 of step-by-step mode, or at any HITL pause in batch mode).
+- **Steps:**
+  1. Agent invokes `/tr-browse <path>` for the item's behaviour path.
+  2. On return from browse, agent re-presents the same item prompt unchanged:
+     ```
+     Next: [implement] taproot/<intent>/<behaviour>/
+           "<Behaviour Title>" — <goal>
+     Skill: /tr-implement
+     [R] Review spec  [A] Proceed  [S] Skip  [Q] Stop
+     ```
+  3. Developer may review again or choose `[A]`, `[S]`, or `[Q]`.
 
 ### Item is blocked (skill cannot complete)
 - **Trigger:** The invoked skill encounters an unresolvable error or the agent cannot proceed without developer input outside the normal flow.
@@ -168,6 +181,7 @@ flowchart TD
     F --> G{Developer choice}
     G -->|A proceed| H[Invoke skill\ntr-behaviour / tr-implement / tr-refine]
     G -->|S skip| I[Mark skipped] --> K
+    G -->|R review| T[Invoke /tr-browse path] --> F
     G -->|Q stop| J[Report stopped — M remaining]
     H --> L{Skill outcome}
     L -->|success| M1[Invoke /tr-commit]
@@ -263,6 +277,11 @@ flowchart TD
 - When the agent reports completion
 - Then the agent offers `[+] Add follow-on to plan` and if accepted, appends the corresponding `implement afk` item to `taproot/plan.md`
 
+**AC-22: Review option available at HITL item prompt**
+- Given a pending plan item is presented for confirmation
+- When the developer selects `[R]`
+- Then the agent invokes `/tr-browse` for the item's path, and on return re-presents the same item prompt with all options intact
+
 **AC-21: Item prompt includes behaviour title and goal**
 - Given a pending plan item references a path with an existing `usecase.md`
 - When the agent presents the item for confirmation
@@ -276,6 +295,7 @@ flowchart TD
 - **Created:** 2026-03-27
 - **Last reviewed:** 2026-03-30
 - **Refined:** 2026-03-30 — enriched item display: behaviour title + one-line goal in Next: prompt (AC-21)
+- **Refined:** 2026-03-30 — added [R] Review spec option to HITL pause menu; invokes /tr-browse and returns to same prompt (AC-22)
 
 ## Notes
 - When invoked without a mode, the agent presents an orientation menu summarising the plan state and available modes. When a mode is specified explicitly (e.g. "implement all"), the orientation is skipped.

@@ -109,7 +109,8 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [agent-skill](./human-integration/human-readable-report/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
 - **[pattern-hints](./human-integration/pattern-hints/usecase.md)** `[implemented]` — Actor: Agent — processing any user-expressed need via any taproot skill (`/tr-ineed`, `/tr-behaviour`, `/tr-implement`, `/tr-refine`, or any skill that receives a natural language description of intent).
   - [agent-skill](./human-integration/pattern-hints/agent-skill/impl.md) `[complete]` (4 commits, 1 test)
-- **[pause-and-confirm](./human-integration/pause-and-confirm/usecase.md)** `[implemented]` — Actor: Developer using any taproot skill that writes more than one document in sequence (primarily `/tr-discover`, `/tr-decompose`, and any future bulk-authoring skill)
+- **[pause-and-confirm](./human-integration/pause-and-confirm/usecase.md)** `[specified]` — Actor: Developer using any taproot skill that writes more than one document in sequence (primarily `/tr-discover`, `/tr-decompose`, and any future bulk-authoring skill)
+  - [commithook-extension](./human-integration/pause-and-confirm/commithook-extension/impl.md) `[complete]` (0 commits, 1 test)
   - [discover-and-decompose](./human-integration/pause-and-confirm/discover-and-decompose/impl.md) `[complete]` (2 commits, 1 test)
 - **[route-requirement](./human-integration/route-requirement/usecase.md)** `[implemented]` — Actor: Human orchestrator / developer stating a requirement in natural language — at any level of clarity, from vague instinct to fully-formed specification
   - [agent-skill](./human-integration/route-requirement/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
@@ -269,4 +270,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-18 intents · 87 behaviours · 86 implementations · 84/86 complete
+18 intents · 87 behaviours · 87 implementations · 85/87 complete
