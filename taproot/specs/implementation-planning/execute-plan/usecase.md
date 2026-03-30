@@ -146,10 +146,12 @@ Developer — working through a previously built plan, delegating each item to t
 - Each `done` item's output exists in the hierarchy (`usecase.md`, `impl.md`, or updated spec as appropriate).
 - When all items are done: `taproot/plan.md` contains no `pending` items.
 - After each completed `hitl` item, developer was offered the opportunity to append a follow-on item.
+- No item is marked `done` without a successful `/tr-commit` — the commit gate is mandatory, not optional.
 
 ## Error Conditions
 - **`taproot/plan.md` absent:** Agent reports *"No plan found — build one first with `/tr-plan`."* No skills are invoked.
 - **Item path invalid (behaviour deleted or moved):** Agent marks the item `stale` in `taproot/plan.md`, reports *"Item N is stale — path `<path>` not found."*, and offers `[S] Skip · [Q] Stop`.
+- **Commit gate omitted — item stays in-progress:** If `/tr-commit` is not invoked after a skill completes, or if the commit fails or is aborted, the item must not be marked `done`. The agent must not present the next pending item until the commit succeeds. If the commit cannot be completed, the item is treated as `blocked` (not `done`).
 
 ## Flow
 
@@ -165,8 +167,10 @@ flowchart TD
     G -->|S skip| I[Mark skipped] --> K
     G -->|Q stop| J[Report stopped — M remaining]
     H --> L{Skill outcome}
-    L -->|success| M[Mark done] --> K
-    L -->|blocked| N[Mark blocked + note] --> O{Mode?}
+    L -->|success| M1[Invoke /tr-commit]
+    M1 -->|succeeds| M[Mark done] --> K
+    M1 -->|fails/aborted| N[Mark blocked + note] --> O{Mode?}
+    L -->|blocked| N
     O -->|step-by-step| P[Offer continue / stop]
     O -->|batch| Q[Pause — wait for developer]
     K{More pending?} -->|Yes + batch mode| F
@@ -262,7 +266,7 @@ flowchart TD
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-27
-- **Last reviewed:** 2026-03-27
+- **Last reviewed:** 2026-03-30
 
 ## Notes
 - When invoked without a mode, the agent presents an orientation menu summarising the plan state and available modes. When a mode is specified explicitly (e.g. "implement all"), the orientation is skipped.
