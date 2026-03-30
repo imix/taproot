@@ -20,6 +20,8 @@
 
 ## Commits
 <!-- taproot-managed -->
+- `12b038edcb2c56b1d34777546e72e3eb2a2ccf35` — (auto-linked by taproot link-commits)
+- `f5f9c5a3eda6838631d3c5dc766572539a397444` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/security-scan.test.ts` — validates workflow YAML structure (all three triggers, threshold validation, tool installs, ruleset names, SBOM generation, artefact upload with 90-day retention, `compile-security-report.js` invocation); validates release.yml pre-release gate wiring; validates `compile-security-report.js` exports and output content
