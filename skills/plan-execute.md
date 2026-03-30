@@ -81,7 +81,9 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
    - `[implement]` → `/tr-implement <path>`
    - `[refine]` → `/tr-refine <path>`
 
-   **d. On skill completion**: invoke `/tr-commit` to commit the output. Once the commit succeeds, mark the item `done` in `taproot/plan.md`. If the commit fails or is aborted, treat as blocked (step e).
+   **d. Mandatory commit gate**: immediately after skill completion, invoke `/tr-commit`. This step is **not optional** — do not mark the item `done` until `/tr-commit` succeeds. Do not present the next item until the commit is complete.
+   - If `/tr-commit` succeeds: mark the item `done` in `taproot/plan.md`.
+   - If `/tr-commit` fails or is aborted: treat as blocked (step e). The item stays `in-progress` — not `done`, not `pending`.
 
    **e. On skill failure / unresolvable blocker**: mark the item `blocked` with a one-line note in `taproot/plan.md`. Report:
    > *"Item blocked: <reason>. Remaining items are unaffected."*

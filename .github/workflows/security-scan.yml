@@ -72,7 +72,15 @@ jobs:
           grype version || { echo "grype not found — install failed"; exit 1; }
 
       - name: Update vulnerability database
-        run: grype db update || { echo "no vulnerability database available — cannot run dependency scan"; exit 1; }
+        run: |
+          if ! grype db update; then
+            if grype db status 2>/dev/null; then
+              echo "Warning: vulnerability database may be stale — scanning with cached data"
+            else
+              echo "no vulnerability database available — cannot run dependency scan"
+              exit 1
+            fi
+          fi
 
       # ── SAST — semgrep ────────────────────────────────────────────────────
       - name: Run semgrep SAST
