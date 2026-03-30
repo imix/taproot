@@ -10,6 +10,7 @@
 - **Skill slug `plan`**: groups build/execute/analyse under the `plan-` namespace, distinct from the existing `next.md` skill (extract-next-slice). Adapter: `/tr-plan`.
 - **Backlog items removed after plan write**: after `taproot/plan.md` is written, consumed backlog items are deleted from `taproot/backlog.md` and the count is reported. Removal is scoped to backlog-sourced items only — explicit and hierarchy items have no backlog entry. The removal is reported inline so the developer is never surprised (aligns with UX "No Surprises" truth).
 - **Existing plan check at write time**: the agent checks for `taproot/plan.md` only after the developer confirms the proposed plan (step 7), not before collection and classification. Avoids interrupting the discovery phase.
+- **Vertical slice as step 0a**: placed between modification detection (step 0) and the standard source-scanning flow (step 1). It is a self-contained alternate path — asks for actor/entry/outcome, scans for critical-path items only, writes the plan with a slice header, and stops. Non-critical-path behaviours are excluded entirely (not added as deferred items). The same HITL/AFK heuristics and existing-plan prompts apply within slice mode for consistency.
 
 ## Source Files
 - `skills/plan.md` — skill instructions (package source; synced to `taproot/agent/skills/plan.md` by `taproot update`)
@@ -23,12 +24,12 @@
 - `b2adc103b5cb12ef56c2248b73ae5e31d1251217` — (auto-linked by taproot link-commits)
 
 ## Tests
-- `test/integration/plan-build.test.ts` — structural tests: required sections present, item types documented, plan.md format documented, what's-next block present, append/replace/abort flows present
+- `test/integration/plan-build.test.ts` — structural tests: required sections present, item types documented, plan.md format documented, what's-next block present, append/replace/abort flows present, vertical slice mode (AC-11): trigger phrases, actor/entry/outcome prompts, critical-path filtering, slice header format
 
 ## Status
 - **State:** complete
 - **Created:** 2026-03-27
-- **Last verified:** 2026-03-27
+- **Last verified:** 2026-03-30
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — pure agent skill (markdown instruction file); no TypeScript source, no external I/O at unexpected boundaries, no global state; follows existing skill architecture pattern | resolved: 2026-03-27
@@ -36,6 +37,8 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/workflows.md updated with new '## Planning a sprint or batch of work' section documenting /tr-plan usage. skills/guide.md updated to include /tr-plan in the slash commands table. docs/cli.md already covers taproot plan CLI; no CLI command added. | resolved: 2026-03-27T19:08:32.698Z
+- condition: tests-passing | note: 34/34 tests pass in test/integration/plan-build.test.ts — verified by running npx vitest run test/integration/plan-build.test.ts directly | resolved: 2026-03-30T21:42:27.788Z
+
 - condition: check-if-affected: package.json | note: No new npm dependencies added. Change is description text and a new step 0 in skills/plan.md (markdown only). package.json unchanged. | resolved: 2026-03-30T10:15:48.249Z
 
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: compliant — no shell execution added; no credentials; new classification step reasons about item descriptions only | resolved: 2026-03-28T05:52:47.721Z
