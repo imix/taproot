@@ -14,6 +14,8 @@
 
 ## Commits
 <!-- taproot-managed -->
+- `b4a6fdd` — fix hook error messages, add commit guidance to all adapters
+- `d9d264d` — declare impl
 
 ## Tests
 - AC-1, AC-2, AC-3: verified by reading `truth-checker.ts` — no `/tr-commit` references remain
