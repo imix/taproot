@@ -56,9 +56,9 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 **Goal:** Enable developers and agents to capture facts that are true across the project — domain concepts, business rules, entity definitions, project conventions — scoped to the hierarchy level they originate from, so that all specs share a consistent foundation and semantic drift is detected at write time and commit time.
 
 - **[apply-truths-when-authoring](./global-truth-store/apply-truths-when-authoring/usecase.md)** `[implemented]` — Actor: Agent — authoring or reviewing a spec (intent.md, usecase.md, or impl.md) via any taproot skill (`/tr-intent`, `/tr-behaviour`, `/tr-implement`, `/tr-refine`, `/tr-ineed`)
-  - [agent-skill](./global-truth-store/apply-truths-when-authoring/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
+  - [agent-skill](./global-truth-store/apply-truths-when-authoring/agent-skill/impl.md) `[complete]` (1 commit, 1 test)
 - **[author-design-constraints](./global-truth-store/author-design-constraints/usecase.md)** `[implemented]` — Actor: Developer, architect, or tech lead establishing project-wide constraints before or during spec authoring
-  - [agent-skill](./global-truth-store/author-design-constraints/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
+  - [agent-skill](./global-truth-store/author-design-constraints/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
   - **[define-convention](./global-truth-store/author-design-constraints/define-convention/usecase.md)** `[proposed]` — Actor: Developer or tech lead recording a specific rule or convention that must be followed consistently across the project
   - **[define-principle](./global-truth-store/author-design-constraints/define-principle/usecase.md)** `[proposed]` — Actor: Developer, designer, or tech lead recording a design value that should guide ongoing choices across the project
   - **[record-decision](./global-truth-store/author-design-constraints/record-decision/usecase.md)** `[proposed]` — Actor: Developer, architect, or tech lead recording a decision that was made — or is still open — about any aspect of the project
@@ -71,7 +71,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [all-levels](./global-truth-store/enforce-truths-at-commit/all-levels/impl.md) `[complete]` (0 commits, 1 test)
   - [hook-extension](./global-truth-store/enforce-truths-at-commit/hook-extension/impl.md) `[complete]` (2 commits, 1 test)
 - **[guide-truth-capture](./global-truth-store/guide-truth-capture/usecase.md)** `[implemented]` — Actor: Developer — setting up `taproot/global-truths/` for the first time, or adding truths to an existing project and unsure what facts are worth formalising
-  - [agent-skill](./global-truth-store/guide-truth-capture/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
+  - [agent-skill](./global-truth-store/guide-truth-capture/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 
 ## [hierarchy-integrity](./hierarchy-integrity/intent.md) `[active]`
 
@@ -87,7 +87,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[validate-format](./hierarchy-integrity/validate-format/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying document contents conform to the schema
   - [cli-command](./hierarchy-integrity/validate-format/cli-command/impl.md) `[complete]` (0 commits, 3 tests)
 - **[validate-structure](./hierarchy-integrity/validate-structure/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying the hierarchy is well-formed
-  - [cli-command](./hierarchy-integrity/validate-structure/cli-command/impl.md) `[complete]` (0 commits, 2 tests)
+  - [cli-command](./hierarchy-integrity/validate-structure/cli-command/impl.md) `[complete]` (1 commit, 2 tests)
 
 ## [human-integration](./human-integration/intent.md) `[active]`
 
@@ -112,7 +112,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[pause-and-confirm](./human-integration/pause-and-confirm/usecase.md)** `[implemented]` — Actor: Developer using any taproot skill that writes more than one document in sequence (primarily `/tr-discover`, `/tr-decompose`, and any future bulk-authoring skill)
   - [discover-and-decompose](./human-integration/pause-and-confirm/discover-and-decompose/impl.md) `[complete]` (2 commits, 1 test)
 - **[route-requirement](./human-integration/route-requirement/usecase.md)** `[implemented]` — Actor: Human orchestrator / developer stating a requirement in natural language — at any level of clarity, from vague instinct to fully-formed specification
-  - [agent-skill](./human-integration/route-requirement/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
+  - [agent-skill](./human-integration/route-requirement/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
 
 ## [implementation-planning](./implementation-planning/intent.md) `[active]`
 
@@ -153,23 +153,23 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[architecture-compliance](./quality-gates/architecture-compliance/usecase.md)** `[implemented]` — Actor: Developer or agent declaring a new implementation (committing an `impl.md`) — the check runs automatically at Definition of Ready time before any code is written.
   - [multi-surface](./quality-gates/architecture-compliance/multi-surface/impl.md) `[complete]` (4 commits, 1 test)
 - **[batch-dod-na-resolution](./quality-gates/batch-dod-na-resolution/usecase.md)** `[implemented]` — Actor: Developer or AI agent running `taproot dod  --resolve-all-na`
-  - [cli-command](./quality-gates/batch-dod-na-resolution/cli-command/impl.md) `[complete]` (0 commits, 1 test)
+  - [cli-command](./quality-gates/batch-dod-na-resolution/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 - **[commit-workflow](./quality-gates/commit-workflow/usecase.md)** `[implemented]` — Actor: Developer or AI agent calling `taproot commit` as a one-command replacement for the multi-step commit sequence.
-  - [cli-command](./quality-gates/commit-workflow/cli-command/impl.md) `[complete]` (0 commits, 1 test)
+  - [cli-command](./quality-gates/commit-workflow/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 - **[definition-of-done](./quality-gates/definition-of-done/usecase.md)** `[implemented]` — Actor: `/tr-implement` — triggered automatically at the end of the implement flow before marking an impl `complete`. Also invoked by `taproot commithook` on implementation commits (staged source files + `impl.md`). Can also be invoked standalone by a developer or CI pipeline.
-  - [cli-command](./quality-gates/definition-of-done/cli-command/impl.md) `[complete]` (5 commits, 2 tests)
+  - [cli-command](./quality-gates/definition-of-done/cli-command/impl.md) `[complete]` (6 commits, 2 tests)
 - **[definition-of-ready](./quality-gates/definition-of-ready/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a contributor commits an `impl.md` file without source code changes (the "I'm starting this implementation" declaration commit).
-  - [cli-command](./quality-gates/definition-of-ready/cli-command/impl.md) `[complete]` (2 commits, 1 test)
+  - [cli-command](./quality-gates/definition-of-ready/cli-command/impl.md) `[complete]` (3 commits, 1 test)
 - **[impl-ordering-constraints](./quality-gates/impl-ordering-constraints/usecase.md)** `[implemented]` — Actor: Developer or agent — making a declaration commit (`impl.md` only, no source files) for a new implementation that depends on another implementation being complete before work can begin.
   - [hook-extension](./quality-gates/impl-ordering-constraints/hook-extension/impl.md) `[complete]` (1 commit, 1 test)
 - **[nfr-measurability](./quality-gates/nfr-measurability/usecase.md)** `[implemented]` — Actor: Developer or agent declaring a new implementation (committing an `impl.md`) — the check runs automatically at Definition of Ready time before any code is written.
   - [settings-wiring](./quality-gates/nfr-measurability/settings-wiring/impl.md) `[complete]` (3 commits, 1 test)
 - **[scoped-conditions](./quality-gates/scoped-conditions/usecase.md)** `[implemented]` — Actor: Developer — configuring `taproot/settings.yaml` to scope DoD/DoR conditions to specific implementation types using source file glob patterns.
-  - [cli-extension](./quality-gates/scoped-conditions/cli-extension/impl.md) `[complete]` (0 commits, 1 test)
+  - [cli-extension](./quality-gates/scoped-conditions/cli-extension/impl.md) `[complete]` (2 commits, 1 test)
 - **[state-transition-guardrails](./quality-gates/state-transition-guardrails/usecase.md)** `[implemented]` — Actor: `taproot dod` CLI — when processing the `tests-passing` condition for an `impl.md` about to be marked `complete`. Also enforced by `taproot commithook` when an implementation commit includes an `impl.md` whose state is `complete`.
   - [cli-command](./quality-gates/state-transition-guardrails/cli-command/impl.md) `[complete]` (3 commits, 1 test)
 - **[validate-behaviour-intent-alignment](./quality-gates/validate-behaviour-intent-alignment/usecase.md)** `[implemented]` — Actor: `taproot commithook` (structural check) and agent/developer (semantic check) — triggered when a `usecase.md` is committed
-  - [commithook-extension](./quality-gates/validate-behaviour-intent-alignment/commithook-extension/impl.md) `[complete]` (0 commits, 1 test)
+  - [commithook-extension](./quality-gates/validate-behaviour-intent-alignment/commithook-extension/impl.md) `[complete]` (2 commits, 1 test)
 - **[validate-intent-quality](./quality-gates/validate-intent-quality/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when an `intent.md` is committed (requirement commit)
   - [multi-surface](./quality-gates/validate-intent-quality/multi-surface/impl.md) `[complete]` (0 commits, 1 test)
 - **[validate-usecase-quality](./quality-gates/validate-usecase-quality/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a `usecase.md` is committed (requirement commit)
@@ -206,11 +206,11 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[configure-hierarchy](./requirements-hierarchy/configure-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator customising taproot to match project conventions
   - [yaml-config](./requirements-hierarchy/configure-hierarchy/yaml-config/impl.md) `[complete]` (2 commits, 1 test)
 - **[incremental-behaviour-implementation](./requirements-hierarchy/incremental-behaviour-implementation/usecase.md)** `[implemented]` — Actor: Developer or agent scoping implementation of a behaviour whose acceptance criteria span more than one delivery iteration
-  - [agent-skill](./requirements-hierarchy/incremental-behaviour-implementation/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
+  - [agent-skill](./requirements-hierarchy/incremental-behaviour-implementation/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[init-domain-presets](./requirements-hierarchy/init-domain-presets/usecase.md)** `[implemented]` — Actor: Developer running `taproot init` for the first time on a new project — including non-coding projects (blogging, book authoring, technical writing) who would not know that vocabulary and language settings exist
   - [cli-command](./requirements-hierarchy/init-domain-presets/cli-command/impl.md) `[complete]` (1 commit, 1 test)
 - **[initialise-hierarchy](./requirements-hierarchy/initialise-hierarchy/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator setting up taproot in a new or existing project
-  - [cli-command](./requirements-hierarchy/initialise-hierarchy/cli-command/impl.md) `[complete]` (4 commits, 1 test)
+  - [cli-command](./requirements-hierarchy/initialise-hierarchy/cli-command/impl.md) `[complete]` (5 commits, 1 test)
   - [unified-layout](./requirements-hierarchy/initialise-hierarchy/unified-layout/impl.md) `[complete]` (2 commits, 7 tests)
 - **[park-hierarchy-item](./requirements-hierarchy/park-hierarchy-item/usecase.md)** `[implemented]` — Actor: Developer — who has decided that a behaviour or implementation is not being pursued for the foreseeable future and wants to formally record that decision in the hierarchy.
   - [multi-surface](./requirements-hierarchy/park-hierarchy-item/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
@@ -224,7 +224,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - **[ad-hoc-commit-prep](./skill-architecture/commit-awareness/ad-hoc-commit-prep/usecase.md)** `[implemented]` — Actor: Agent executing an ad-hoc implementation task — modifying source files outside any taproot skill (e.g. a direct bug fix, refactor, or exploratory change not driven by `/tr-implement`)
     - [claude-md](./skill-architecture/commit-awareness/ad-hoc-commit-prep/claude-md/impl.md) `[complete]` (0 commits, 1 test)
   - **[commit-skill](./skill-architecture/commit-awareness/commit-skill/usecase.md)** `[implemented]` — Actor: Agent — executing any taproot skill that ends in a commit, or responding to a user saying "commit", "let's commit", "commit that", or similar natural-language commit intent.
-    - [agent-skill](./skill-architecture/commit-awareness/commit-skill/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
+    - [agent-skill](./skill-architecture/commit-awareness/commit-skill/agent-skill/impl.md) `[complete]` (4 commits, 1 test)
   - **[suggest-commit-tag](./skill-architecture/commit-awareness/suggest-commit-tag/usecase.md)** `[implemented]` — Actor: Agent executing `/tr-commit` — determining the commit message prefix when the staged files are implementation files tracked by one or more `impl.md` records.
     - [agent-skill](./skill-architecture/commit-awareness/suggest-commit-tag/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[context-engineering](./skill-architecture/context-engineering/usecase.md)** `[implemented]` — Actor: Skill author — a human developer or AI agent writing or updating a taproot skill file (`skills/*.md`).
@@ -255,10 +255,11 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[cut-release](./taproot-distribution/cut-release/usecase.md)** `[implemented]` — Actor: - **Maintainer** — runs the local phase (pre-flight, changelog, version bump, tag, push)
   - [multi-surface](./taproot-distribution/cut-release/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
 - **[homebrew-tap](./taproot-distribution/homebrew-tap/usecase.md)** `[implemented]` — Actor: CI system — the `update-homebrew-tap` job runs automatically after each successful npm publish; one-time formula creation is performed by the Maintainer.
-  - [ci-job](./taproot-distribution/homebrew-tap/ci-job/impl.md) `[complete]` (0 commits, 1 test)
-- **[security-scanning](./taproot-distribution/security-scanning/usecase.md)** `[specified]` — Actor: CI Pipeline (GitHub Actions)
+  - [ci-job](./taproot-distribution/homebrew-tap/ci-job/impl.md) `[complete]` (3 commits, 1 test)
+- **[security-scanning](./taproot-distribution/security-scanning/usecase.md)** `[implemented]` — Actor: CI Pipeline (GitHub Actions)
+  - [github-workflow](./taproot-distribution/security-scanning/github-workflow/impl.md) `[complete]` (2 commits, 1 test)
 - **[vscode-marketplace](./taproot-distribution/vscode-marketplace/usecase.md)** `[implemented]` — Actor: Maintainer — the VS Code extension publish step runs automatically in CI as part of the `cut-release` flow, after npm publish succeeds
-  - [multi-surface](./taproot-distribution/vscode-marketplace/multi-surface/impl.md) `[deferred]` (2 commits, 2 tests)
+  - [multi-surface](./taproot-distribution/vscode-marketplace/multi-surface/impl.md) `[deferred]` (5 commits, 2 tests)
 
 ## [taproot-lifecycle](./taproot-lifecycle/intent.md) `[active]`
 
@@ -268,4 +269,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-18 intents · 87 behaviours · 85 implementations · 83/85 complete
+18 intents · 87 behaviours · 86 implementations · 84/86 complete
