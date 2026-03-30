@@ -30,6 +30,82 @@ export function wrapperScript() {
 export function hookScriptContent() {
     return `#!/bin/sh\nexec ./taproot/agent/bin/taproot commithook\n`;
 }
+export function buildSettingsYaml(pkgVersion, vocabulary, language) {
+    const vocabBlock = vocabulary && Object.keys(vocabulary).length > 0
+        ? `\n# Domain vocabulary — overrides default taproot terms in skill instructions\nvocabulary:\n${Object.entries(vocabulary).map(([k, v]) => `  '${k}': '${v}'`).join('\n')}\n`
+        : '';
+    const langBlock = language ? `\nlanguage: '${language}'\n` : '';
+    return `taproot_version: '${pkgVersion}'
+version: 1
+root: taproot/specs/
+cli: ./taproot/agent/bin/taproot
+
+# Agent adapters installed by \`taproot update\`. Remove any you don't use.
+# Each adapter installs slash commands (e.g. /tr-implement) for that agent.
+agents:
+  - claude    # Claude Code → .claude/commands/tr-*.md
+  - cursor    # Cursor → .cursor/rules/taproot.md
+  - generic   # Any agent → AGENTS.md
+
+commit_pattern: 'taproot\\(([^)]+)\\):'
+commit_trailer: Taproot
+
+validation:
+  require_dates: true
+  require_status: true
+  allowed_intent_states: [draft, active, achieved, deprecated]
+  allowed_behaviour_states: [proposed, specified, implemented, tested, deprecated]
+  allowed_impl_states: [planned, in-progress, complete, needs-rework]
+
+# naRules: auto-resolve DoD conditions as N/A when the implementation does not apply.
+# 'prose-only'     = no source code files changed (documentation or spec commits)
+# 'no-skill-files' = no skills/*.md files listed in the impl's Source Files
+naRules:
+  - condition: 'check-if-affected: package.json'
+    when: prose-only
+  - condition: 'check-if-affected: skills/guide.md'
+    when: no-skill-files
+  - condition: 'check-if-affected-by: skill-architecture/context-engineering'
+    when: no-skill-files
+  - condition: 'check-if-affected-by: human-integration/pause-and-confirm'
+    when: no-skill-files
+  - condition: 'check-if-affected-by: human-integration/contextual-next-steps'
+    when: no-skill-files
+  - condition: 'check-if-affected-by: agent-integration/agent-agnostic-language'
+    when: no-skill-files
+  - condition: 'check-if-affected-by: skill-architecture/commit-awareness'
+    when: no-skill-files
+${vocabBlock}${langBlock}
+# ── definitionOfReady ─────────────────────────────────────────────────────────
+# Conditions checked before a new impl.md can be declared (pre-implementation gate).
+# Uncomment and customise:
+#
+# definitionOfReady:
+#   - check-if-affected-by: your-cross-cutting-concern/usecase.md
+#     # Reads the spec at that path; verifies this implementation complies.
+#     # Path is relative to the hierarchy root (root: above) — omit the root prefix.
+
+# ── definitionOfDone ──────────────────────────────────────────────────────────
+# Conditions checked before an implementation commit is accepted (post-implementation gate).
+#
+# Condition types:
+#   tests-passing                        — runs \`npm test\` (override with run: command)
+#   document-current: <description>      — agent reads docs, compares to what changed, updates if stale
+#   check-if-affected: <file-or-dir>     — agent checks if <file> needs updating; applies changes or records N/A
+#   check-if-affected-by: <path>         — agent reads the behaviour spec at <path> and verifies compliance;
+#                                          if the implementation is affected, agent corrects any violations
+#   check: "<question>"                  — agent reasons about the question; if yes, takes the stated action
+#
+# Uncomment and customise:
+#
+# definitionOfDone:
+#   - tests-passing
+#   - document-current: README.md and docs/ accurately reflect all implemented features
+#   - check-if-affected: docs/
+#   - check-if-affected-by: your-architecture-rule/usecase.md
+#   - check: "does this change affect the public API contract?"
+`;
+}
 // Bundled skills directory — two levels up from src/commands/ → package root → skills/
 const BUNDLED_SKILLS_DIR = resolve(__dirname, '..', '..', 'skills');
 // Bundled docs directory — two levels up from src/commands/ → package root → docs/
@@ -318,38 +394,7 @@ export function runInit(options) {
     // Write taproot/settings.yaml
     const pkgVersion = JSON.parse(readFileSync(resolve(__dirname, '..', '..', 'package.json'), 'utf-8')).version;
     if (!existsSync(configPath)) {
-        const configForYaml = {
-            taproot_version: pkgVersion,
-            version: DEFAULT_CONFIG.version,
-            root: 'taproot/specs/',
-            cli: './taproot/agent/bin/taproot',
-            commit_pattern: DEFAULT_CONFIG.commitPattern,
-            commit_trailer: DEFAULT_CONFIG.commitTrailer,
-            agents: DEFAULT_CONFIG.agents,
-            validation: {
-                require_dates: DEFAULT_CONFIG.validation.requireDates,
-                require_status: DEFAULT_CONFIG.validation.requireStatus,
-                allowed_intent_states: DEFAULT_CONFIG.validation.allowedIntentStates,
-                allowed_behaviour_states: DEFAULT_CONFIG.validation.allowedBehaviourStates,
-                allowed_impl_states: DEFAULT_CONFIG.validation.allowedImplStates,
-            },
-        };
-        configForYaml.naRules = [
-            { condition: 'check-if-affected: package.json', when: 'prose-only' },
-            { condition: 'check-if-affected: skills/guide.md', when: 'no-skill-files' },
-            { condition: 'check-if-affected-by: skill-architecture/context-engineering', when: 'no-skill-files' },
-            { condition: 'check-if-affected-by: human-integration/pause-and-confirm', when: 'no-skill-files' },
-            { condition: 'check-if-affected-by: human-integration/contextual-next-steps', when: 'no-skill-files' },
-            { condition: 'check-if-affected-by: agent-integration/agent-agnostic-language', when: 'no-skill-files' },
-            { condition: 'check-if-affected-by: skill-architecture/commit-awareness', when: 'no-skill-files' },
-        ];
-        if (resolvedVocabulary && Object.keys(resolvedVocabulary).length > 0) {
-            configForYaml.vocabulary = resolvedVocabulary;
-        }
-        if (resolvedLanguage) {
-            configForYaml.language = resolvedLanguage;
-        }
-        writeFileSync(configPath, yaml.dump(configForYaml));
+        writeFileSync(configPath, buildSettingsYaml(pkgVersion, resolvedVocabulary ?? undefined, resolvedLanguage ?? undefined));
         messages.push('created  taproot/settings.yaml');
     }
     else {

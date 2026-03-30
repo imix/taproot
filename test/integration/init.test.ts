@@ -194,7 +194,7 @@ describe('taproot init', () => {
   it('AC-7 (preset): language option writes language field to settings.yaml', () => {
     runInit({ cwd: tmpDir, language: 'de' });
     const config = readFileSync(join(tmpDir, 'taproot', 'settings.yaml'), 'utf-8');
-    expect(config).toContain('language: de');
+    expect(config).toMatch(/language: ['"]?de['"]?/);
   });
 
   // AC-8: taproot update reminder shown after non-default preset
@@ -223,6 +223,23 @@ describe('taproot init', () => {
     // technical-writing vocabulary should still be there (not overwritten)
     const config = readFileSync(join(tmpDir, 'taproot', 'settings.yaml'), 'utf-8');
     expect(config).toContain('documents');
+  });
+
+  // AC-19: settings.yaml includes inline documentation of condition types
+  it('AC-19: settings.yaml includes inline comments explaining each DoD condition type', () => {
+    runInit({ cwd: tmpDir });
+    const config = readFileSync(join(tmpDir, 'taproot', 'settings.yaml'), 'utf-8');
+    expect(config).toContain('check-if-affected-by:');
+    expect(config).toContain('check-if-affected:');
+    expect(config).toContain('document-current:');
+    expect(config).toContain('check: "');
+    expect(config).toContain('definitionOfDone');
+    expect(config).toContain('definitionOfReady');
+    // Comments explain what each condition does
+    expect(config).toContain('agent reads the behaviour spec at');
+    expect(config).toContain('agent reads docs, compares to what changed');
+    expect(config).toContain('agent checks if');
+    expect(config).toContain('agent reasons about the question');
   });
 
   // AVAILABLE_PRESETS exports correctly

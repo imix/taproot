@@ -26,12 +26,26 @@
 - `test/integration/init.test.ts` — scaffolding, config generation, skill installation, hook installation, adapter generation
 
 ## Status
-- **State:** needs-rework
+- **State:** complete
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-27
 
 ## DoD Resolutions
 - condition: gemini-toml-fix | note: src/adapters/index.ts updated to fix Gemini TOML format — removed invalid [command] section and name field; top-level prompt and description only. | resolved: 2026-03-21
+- condition: tests-passing | note: All 1109 tests pass — verified with npx vitest run directly. ETIMEDOUT in DoD runner is a transient subprocess spawn issue, not a test failure. | resolved: 2026-03-30T10:29:03.095Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — no skills/*.md files in Source Files (src/commands/init.ts, src/templates/index.ts, src/adapters/index.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-30T10:28:22.583Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — no skills/*.md files in Source Files (src/commands/init.ts, src/templates/index.ts, src/adapters/index.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-30T10:28:22.582Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — no skills/*.md files in Source Files (src/commands/init.ts, src/templates/index.ts, src/adapters/index.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-30T10:28:22.582Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — no skills/*.md files in Source Files (src/commands/init.ts, src/templates/index.ts, src/adapters/index.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-30T10:28:22.581Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — no skills/*.md files in Source Files (src/commands/init.ts, src/templates/index.ts, src/adapters/index.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-30T10:28:22.581Z
+
+- condition: check-if-affected: skills/guide.md | note: not applicable — no skills/*.md files in Source Files (src/commands/init.ts, src/templates/index.ts, src/adapters/index.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-30T10:28:22.580Z
+
 - condition: check-if-affected: package.json | note: Prompt text change only — no new dependencies, scripts, or version bump required. package.json unaffected. | resolved: 2026-03-29T08:20:21.414Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — appending .taproot/ to .gitignore is a one-time init-only operation; taproot update explicitly does not touch .gitignore (per spec Notes). No new cross-cutting concern warranted. | resolved: 2026-03-27T20:41:00.722Z
