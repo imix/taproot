@@ -106,6 +106,9 @@ flowchart TD
 - When the workflow step finishes
 - Then a scan report file is uploaded as a GitHub Actions artefact and retained for review
 
+## Implementations <!-- taproot-managed -->
+- [GitHub Actions Workflow](./github-workflow/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-30
