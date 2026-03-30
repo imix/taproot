@@ -19,7 +19,7 @@ Developer configuring taproot for a non-English team — setting `language: de` 
 5. taproot regenerates agent adapter files with the same substitutions applied
    ↳ Steps 1–5 are install-time effects of `taproot update`. Steps 6–8 describe runtime behaviour that takes effect immediately because validators and hooks read the language setting from `settings.yaml` at invocation time — not from any file modified by `taproot update`.
 6. `taproot validate-format` and `taproot commithook` read the configured `language:` value from `settings.yaml` at startup, load the corresponding language pack, and use its section header key list as the set of accepted headers — replacing the hardcoded English set
-7. taproot's own CLI output messages remain in English — CLI message translation is out of scope for this behaviour; the language pack covers structural keywords only (section headers, Gherkin keywords, state values)
+7. taproot's own CLI output messages remain in English — CLI message translation is out of scope for this behaviour; the language pack covers structural keywords only (section headers, Gherkin keywords, state values); prose and domain terminology in skill files are handled by the separate domain-vocabulary feature
 8. Developer authors new specs using the German structural keywords — the pre-commit hook accepts them without section-header errors
 
 ## Alternate Flows
@@ -153,4 +153,4 @@ Pack files ship as part of the taproot npm package, co-located with the compiled
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-23
-- **Last reviewed:** 2026-03-23
+- **Last reviewed:** 2026-03-30
