@@ -9,7 +9,7 @@ Developer — building a multi-item implementation roadmap with agent assistance
 
 ## Main Flow
 
-1. Developer requests plan building with a natural-language prompt — e.g. "add all pending items to plan for next release", "add X to plan", or "analyze backlog, what can we add?"
+1. Developer requests plan building with a natural-language prompt — e.g. "plan X", "create a plan for Y", "make a plan for the next release", "add all pending items to plan", "add X to plan", or "analyze backlog, what can we add?"
 2. Agent determines which sources to scan based on the request:
    - **backlog** — reads `taproot/backlog.md`; filters items that describe actionable work
    - **hierarchy** — runs `taproot coverage` to find unimplemented or in-progress behaviours
@@ -68,6 +68,14 @@ Developer — building a multi-item implementation roadmap with agent assistance
   1. Agent reports: *"No actionable items found — backlog is empty and all behaviours are implemented."*
   2. Agent suggests: *"Add ideas with `/tr-backlog <idea>` or define new behaviours with `/tr-behaviour`."*
   3. No file is written.
+
+### Developer modifies an existing plan
+- **Trigger:** Developer requests changes to an existing plan — "rework the plan", "change the plan to prioritise X", "move X earlier", "remove X from plan", "reorder the plan", or similar.
+- **Steps:**
+  1. Agent reads `taproot/plan.md`.
+  2. Agent presents the proposed changes: items added, removed, or reordered.
+  3. Developer confirms (or edits further).
+  4. Agent writes the modified `taproot/plan.md` and reports: *"Plan updated — N items."*
 
 ### Developer edits the plan before confirming
 - **Trigger:** Developer selects `[E]` at step 6.
@@ -157,6 +165,11 @@ flowchart TD
 - When the developer confirms and the plan is written
 - Then those items are removed from `taproot/backlog.md` and the agent reports how many were removed
 
+**AC-10: Plan request is routed through this skill, not generated inline**
+- Given the developer makes any plan-creation or plan-modification request in natural language
+- When the agent receives the request
+- Then the agent invokes this skill and writes `taproot/plan.md` — it does not generate a plan as inline chat text
+
 **AC-9: Each plan item is labelled hitl or afk**
 - Given the agent has classified all candidates
 - When the plan is written
@@ -168,7 +181,7 @@ flowchart TD
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-27
-- **Last reviewed:** 2026-03-27
+- **Last reviewed:** 2026-03-30
 - **Last refined:** 2026-03-28
 
 ## Notes
