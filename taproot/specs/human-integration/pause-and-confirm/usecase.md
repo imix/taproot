@@ -107,6 +107,7 @@ flowchart TD
 - `taproot/project-discovery/discover-existing-project/usecase.md` — primary violating skill; must implement this pattern for each intent, behaviour, and impl proposed during discovery
 - `taproot/human-integration/contextual-next-steps/usecase.md` — sibling concern: next-step guidance fires at the end of a skill; pause-and-confirm fires during a multi-document skill run
 - `taproot/human-integration/route-requirement/usecase.md` — single-document skill; not directly affected, but shares the "agents propose, humans confirm" principle from the parent intent
+- `../../agent-integration/autonomous-execution/usecase.md` — autonomous mode bypasses pause-and-confirm; the two behaviours govern opposite ends of the interactive/non-interactive spectrum and must coexist cleanly
 
 ## Acceptance Criteria
 
@@ -151,7 +152,7 @@ flowchart TD
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-20
-- **Last reviewed:** 2026-03-20
+- **Last reviewed:** 2026-03-30
 - **Note:** Phase 0.5 in /tr-discover (requirements artifact detection + conflict resolution question) does not violate this spec — those are configuration questions, not document writes. Requirements-only mode (skip Phase 4) reduces write count but uses the same Y/E/S/Q protocol.
 
 ## Notes
