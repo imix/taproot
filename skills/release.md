@@ -2,7 +2,7 @@
 
 ## Description
 
-Run the taproot maintainer's local release phase: pre-flight checks, changelog generation, version bump, commit, tag, and push. Triggers GitHub Actions CI to build, gate on approval, and publish. Not distributed to user projects.
+Run the taproot maintainer's local release phase: pre-flight checks, changelog generation, then `npm run release -- <version>` to bump versions, commit, tag, and push. Triggers GitHub Actions CI to build, gate on approval, and publish. Not distributed to user projects.
 
 ## Inputs
 
@@ -72,27 +72,21 @@ Run the taproot maintainer's local release phase: pre-flight checks, changelog g
      - If `CHANGELOG.md` exists and contains `<!-- entries below -->`, insert the new entry on the line immediately after that marker.
      - If `CHANGELOG.md` exists but has no marker, prepend the entry after the first blank line following the `# Changelog` heading.
 
-4. **Version bump** — update the `version` field in both `package.json` and `channels/vscode/package.json` to `<next>`. Write each file with the same formatting (2-space indent, trailing newline). Verify by re-reading both files.
+4. **Run the release script** — this handles version bumps, commit, tag, and push atomically:
+   ```
+   npm run release -- <next>
+   ```
+   The script:
+   - Verifies `CHANGELOG.md` has an entry for `<next>`
+   - Bumps `version` in both `package.json` and `channels/vscode/package.json`
+   - Runs `taproot truth-sign` (ensures session is fresh for the hook)
+   - Commits `package.json`, `channels/vscode/package.json`, `CHANGELOG.md`, and `.taproot/.truth-check-session` with message `chore: release v<next>`
+   - Creates tag `v<next>`
+   - Pushes commit and tag to `origin/main`
 
-5. **Commit** — this is a **plain commit** (message `chore: release v<next>` does not match the `taproot(<scope>):` pattern). The taproot pre-commit hook classifies it as plain and runs no DoD or DoR conditions. Stage and commit:
-   ```
-   git add package.json channels/vscode/package.json CHANGELOG.md
-   git commit -m "chore: release v<next>"
-   ```
-   If the commit is blocked by the pre-commit hook, report the hook output verbatim and stop. Do not bypass the hook (`--no-verify`).
+   If the script exits non-zero, it prints the failing check. Do not attempt manual fallback steps — fix the root cause and re-run.
 
-6. **Tag** — create the release tag:
-   ```
-   git tag v<next>
-   ```
-
-7. **Push** — push the commit and tag to origin:
-   ```
-   git push origin main && git push origin v<next>
-   ```
-   If the push fails, report: "local commit ✓ · local tag `v<next>` ✓ — push failed: `<error>`. Retry with: `git push origin main && git push origin v<next>`" and stop.
-
-8. Report release initiated:
+5. Report release initiated:
    ```
    ✓ Local phase complete.
 
@@ -110,7 +104,7 @@ Run the taproot maintainer's local release phase: pre-flight checks, changelog g
 
 ## Output
 
-- `package.json` version bumped to `<next>`
+- `package.json` and `channels/vscode/package.json` version bumped to `<next>`
 - `CHANGELOG.md` entry added for `<next>`
 - Release commit on `origin/main` with message `chore: release v<next>`
 - Git tag `v<next>` on `origin/main`
