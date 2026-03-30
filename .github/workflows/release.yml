@@ -33,9 +33,19 @@ jobs:
       - name: Check channel README sync
         run: bash scripts/sync-channel-readmes.sh --check
 
+  security-scan:
+    name: Security scan (pre-release gate)
+    needs: ci
+    if: startsWith(github.ref, 'refs/tags/v')
+    uses: ./.github/workflows/security-scan.yml
+    with:
+      severity_threshold: high
+    permissions:
+      contents: read
+
   publish:
     name: Publish
-    needs: ci
+    needs: [ci, security-scan]
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     environment: release

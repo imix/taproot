@@ -1,0 +1,133 @@
+name: Security Scan
+
+# Runs as: nightly schedule (AC-3), manual trigger (AC-6), and pre-release gate via workflow_call (AC-4, AC-5).
+# Called from release.yml as a reusable workflow before the publish step.
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # Nightly at 02:00 UTC
+  workflow_dispatch: # Manual trigger from GitHub Actions UI
+    inputs:
+      severity_threshold:
+        description: 'Minimum severity to flag (critical / high / medium / low)'
+        required: false
+        default: high
+        type: choice
+        options: [critical, high, medium, low]
+  workflow_call: # Pre-release gate — invoked by release.yml
+    inputs:
+      severity_threshold:
+        description: 'Minimum severity to flag'
+        type: string
+        required: false
+        default: high
+
+jobs:
+  scan:
+    name: Security scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      # ── Validate threshold ────────────────────────────────────────────────
+      - name: Validate severity threshold
+        run: |
+          THRESHOLD="${{ inputs.severity_threshold || 'high' }}"
+          case "$THRESHOLD" in
+            critical|high|medium|low)
+              echo "SEVERITY_THRESHOLD=$THRESHOLD" >> "$GITHUB_ENV"
+              ;;
+            *)
+              echo "unrecognised severity threshold '$THRESHOLD' — expected one of: critical, high, medium, low"
+              exit 1
+              ;;
+          esac
+
+      # ── Install scan tools ────────────────────────────────────────────────
+      - name: Install semgrep
+        run: |
+          pip install semgrep==1.62.0
+          semgrep --version || { echo "semgrep not found — install failed"; exit 1; }
+
+      - name: Install syft
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | \
+            sh -s -- -b /usr/local/bin v0.104.0
+          syft version || { echo "syft not found — install failed"; exit 1; }
+
+      - name: Install grype
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | \
+            sh -s -- -b /usr/local/bin v0.79.4
+          grype version || { echo "grype not found — install failed"; exit 1; }
+
+      # ── SAST — semgrep ────────────────────────────────────────────────────
+      - name: Run semgrep SAST
+        run: |
+          # Run with JSON output; findings are threshold-filtered in compile-security-report.js.
+          # semgrep exits non-zero when findings are present — capture results before gating.
+          semgrep \
+            --config p/typescript \
+            --config p/owasp-top-ten \
+            --json \
+            --output semgrep-results.json \
+            src/ || true
+
+      # ── Dependency scan — syft + grype ───────────────────────────────────
+      - name: Generate SBOM
+        run: |
+          syft . -o syft-json --file sbom.syft.json || {
+            echo "Failed to generate SBOM — check that node_modules is present and package.json is valid"
+            exit 1
+          }
+
+      - name: Scan SBOM for vulnerabilities
+        run: |
+          # Run without --fail-on; threshold gate is in compile-security-report.js.
+          # Grype exits non-zero if the database is unavailable and no cache exists.
+          if ! grype sbom:sbom.syft.json \
+            --output json \
+            --add-cpes-if-none \
+            > grype-results.json 2>grype-stderr.txt; then
+            # Check whether grype produced results despite the error (stale cache path)
+            if grep -q '"matches"' grype-results.json 2>/dev/null; then
+              echo "WARNING: vulnerability database may be stale — scanning with cached data"
+            else
+              echo "no vulnerability database available — cannot run dependency scan"
+              cat grype-stderr.txt
+              exit 1
+            fi
+          fi
+
+      # ── Report and gate ───────────────────────────────────────────────────
+      - name: Compile scan report
+        run: |
+          node scripts/compile-security-report.js \
+            "$SEVERITY_THRESHOLD" \
+            semgrep-results.json \
+            grype-results.json \
+            security-scan-report.md
+
+      # Upload artefacts regardless of scan outcome (AC-7)
+      - name: Upload scan artefacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-scan-report
+          path: |
+            security-scan-report.md
+            semgrep-results.json
+            grype-results.json
+            sbom.syft.json
+          if-no-files-found: warn
+          retention-days: 90

@@ -29,6 +29,39 @@
 - condition: check-if-affected-by: quality-gates/nfr-measurability | note: Not applicable — the parent usecase.md has no **NFR-N:** entries. The only NFR (local scan execution time) was deferred when local scanning was dropped from scope; no NFR criteria remain in the spec. | resolved: 2026-03-30
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-30
 - **Last verified:** 2026-03-30
+
+## DoD Resolutions
+- condition: check-if-affected: skills/guide.md | note: not applicable — no skills/*.md files in Source Files (.github/workflows/security-scan.yml, .github/workflows/release.yml, scripts/compile-security-report.js); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-30T08:59:17.537Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: Not applicable — no skill files (skills/*.md or taproot/agent/skills/*.md) were modified in this implementation. | resolved: 2026-03-30T09:01:06.140Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No. Using GitHub Actions reusable workflows for CI gates is standard GitHub Actions practice, not a novel taproot pattern. | resolved: 2026-03-30T09:01:05.870Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: No. The security-scanning workflow is a CI-specific implementation concern. It does not introduce a new architectural rule or taproot-level convention that would apply to future implementations. | resolved: 2026-03-30T09:01:05.616Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: Not applicable — implementation is CI workflow files and a standalone Node.js helper script. No taproot core modules (src/commands/, src/core/, src/adapters/) modified. Architectural constraints (filesystem-as-data-model, stateless CLI, module boundaries, no global mutable state) do not apply to workflow YAML or a standalone CI script. | resolved: 2026-03-30T09:00:55.718Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: Not applicable — no skill files modified. pattern-hints applies to skills that produce output or guide the user through choices. This implementation consists of CI workflow files and a helper script; no skill instructions changed. | resolved: 2026-03-30T09:00:55.459Z
+
+- condition: check-if-affected: examples/ | note: No examples/ directory exists in this project. Not affected. | resolved: 2026-03-30T09:00:55.198Z
+
+- condition: check-if-affected: docs/ | note: Updated docs/security.md Supply Chain Controls section: added semgrep entry and reference to .github/workflows/security-scan.yml. No other docs/ files needed updating — CLI reference, concepts, configuration, and workflows docs do not cover CI security scanning implementation details. | resolved: 2026-03-30T09:00:45.570Z
+
+- condition: check-if-affected: src/commands/update.ts | note: No new skill files, CLI commands, or adapter types registered. update.ts installs skill files and adapter templates — none of the new files (.github/workflows/security-scan.yml, scripts/compile-security-report.js) are distributed via taproot update. Not affected. | resolved: 2026-03-30T09:00:45.312Z
+
+- condition: check-if-affected: package.json | note: No new npm dependencies added. semgrep, syft, and grype are installed inside the CI workflow environment (via pip and curl), not as npm packages. No scripts added to package.json. Not affected. | resolved: 2026-03-30T09:00:45.050Z
+
+- condition: document-current | note: Read README.md (no security scanning references — appropriate, product readme only) and docs/security.md (references Syft and Grype but was missing semgrep and the workflow file reference). Updated docs/security.md Supply Chain Controls section to add semgrep entry and reference .github/workflows/security-scan.yml. docs/cli.md, docs/concepts.md, docs/configuration.md, docs/workflows.md: none reference or need to reference CI security scanning workflow — no changes needed. | resolved: 2026-03-30T09:00:34.994Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — no skills/*.md files in Source Files (.github/workflows/security-scan.yml, .github/workflows/release.yml, scripts/compile-security-report.js); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-30T08:59:17.547Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — no skills/*.md files in Source Files (.github/workflows/security-scan.yml, .github/workflows/release.yml, scripts/compile-security-report.js); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-30T08:59:17.539Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — no skills/*.md files in Source Files (.github/workflows/security-scan.yml, .github/workflows/release.yml, scripts/compile-security-report.js); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-30T08:59:17.539Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — no skills/*.md files in Source Files (.github/workflows/security-scan.yml, .github/workflows/release.yml, scripts/compile-security-report.js); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-30T08:59:17.538Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — no skills/*.md files in Source Files (.github/workflows/security-scan.yml, .github/workflows/release.yml, scripts/compile-security-report.js); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-30T08:59:17.538Z
+

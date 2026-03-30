@@ -110,7 +110,7 @@ flowchart TD
 - [GitHub Actions Workflow](./github-workflow/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-30
 - **Last reviewed:** 2026-03-30
 

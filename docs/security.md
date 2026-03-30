@@ -59,9 +59,12 @@ Recommended controls for taproot's own CI and for projects using taproot:
 
 - **`npm audit --audit-level=high`** — fail CI on high/critical CVEs in the dependency tree
 - **Lockfile** — `package-lock.json` committed and verified; reject installs without a lockfile
-- **Syft** — generate an SBOM (Software Bill of Materials) on every release build
-- **Grype** — scan the SBOM for known vulnerabilities; fail on high/critical findings
+- **semgrep** — SAST scan of TypeScript source (`p/typescript` + `p/owasp-top-ten` rulesets) on every nightly and pre-release run
+- **Syft** — generate an SBOM (Software Bill of Materials) from the dependency manifest
+- **Grype** — scan the SBOM against CVE databases (NVD, GitHub Advisory, OSV); fail on findings above the configured severity threshold (default: `high`)
 - **npm provenance attestation** — publish with `--provenance` so package integrity can be verified against the build pipeline
+
+These controls are automated in `.github/workflows/security-scan.yml` (nightly schedule, manual trigger, and mandatory pre-release gate).
 
 ---
 
