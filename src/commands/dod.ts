@@ -5,6 +5,7 @@ import type { Command } from 'commander';
 import { loadConfig } from '../core/config.js';
 import { runDodChecks, readImplSourceFiles } from '../core/dod-runner.js';
 import type { DodReport, DodResult } from '../core/dod-runner.js';
+import type { NaRule } from '../validators/types.js';
 
 export { DodReport, DodResult };
 
@@ -38,6 +39,118 @@ export function getOutOfScopeChanges(implPath: string, cwd: string): string[] {
   });
 }
 
+// ── NA resolution helpers ─────────────────────────────────────────────────────
+
+/** Conditions that are never auto-resolved regardless of naRules. */
+function isProtectedCondition(name: string): boolean {
+  return (
+    name === 'document-current' ||
+    name === 'tests-passing' ||
+    name.startsWith('baseline-') ||
+    /^check:\s/.test(name) // "check: <free-form>" but not "check-if-affected:"
+  );
+}
+
+/** Evaluate a `when` predicate against the impl's source file list. */
+function evaluateNaWhen(when: string, sourceFiles: string[]): { matches: boolean; unknown: boolean } {
+  if (when === 'prose-only') {
+    return { matches: sourceFiles.every(f => f.endsWith('.md')), unknown: false };
+  }
+  if (when === 'no-skill-files') {
+    return { matches: !sourceFiles.some(f => /skills\/.*\.md$/.test(f)), unknown: false };
+  }
+  return { matches: false, unknown: true };
+}
+
+export interface NaResolutionSummary {
+  resolved: string[];
+  skipped: string[];
+  warnings: string[];
+  wouldResolve?: string[]; // populated in dry-run mode
+}
+
+/** Auto-resolve NA conditions based on naRules config. Returns summary. */
+export async function resolveAllNa(
+  implPath: string,
+  options: { dryRun?: boolean; cwd?: string }
+): Promise<NaResolutionSummary> {
+  const cwd = options.cwd ?? process.cwd();
+  const { config } = loadConfig(cwd);
+  const summary: NaResolutionSummary = { resolved: [], skipped: [], warnings: [], wouldResolve: [] };
+
+  if (!config.naRules || config.naRules.length === 0) {
+    return summary; // no naRules configured
+  }
+
+  // Read Source Files from impl.md (required for predicate evaluation)
+  const sourceFiles = readImplSourceFiles(implPath, cwd);
+  if (sourceFiles === null) {
+    throw new Error(
+      `Cannot determine impl type — ## Source Files section is missing or empty in ${implPath}`
+    );
+  }
+
+  // Dry-run DoD to find currently unresolved agent-check conditions
+  const report = await runDodChecks(config.definitionOfDone, cwd, { implPath, config });
+  const unresolvedAgentChecks = report.results.filter(
+    r => !r.passed && r.output.startsWith('Agent check required:')
+  );
+
+  for (const result of unresolvedAgentChecks) {
+    const conditionName = result.name;
+
+    if (isProtectedCondition(conditionName)) {
+      summary.skipped.push(conditionName);
+      continue;
+    }
+
+    // Find a matching naRule
+    const matchingRule = config.naRules.find(rule => rule.condition === conditionName);
+    if (!matchingRule) {
+      summary.skipped.push(conditionName);
+      continue;
+    }
+
+    const { matches, unknown } = evaluateNaWhen(matchingRule.when, sourceFiles);
+    if (unknown) {
+      summary.warnings.push(
+        `Unknown 'when' value '${matchingRule.when}' in naRules entry for '${conditionName}' — skipping.`
+      );
+      summary.skipped.push(conditionName);
+      continue;
+    }
+
+    if (!matches) {
+      summary.skipped.push(conditionName);
+      continue;
+    }
+
+    // Condition qualifies for auto-resolution
+    const note = buildNaNote(matchingRule, sourceFiles);
+
+    if (options.dryRun) {
+      summary.wouldResolve!.push(conditionName);
+    } else {
+      writeResolution(implPath, conditionName, note, cwd);
+      summary.resolved.push(conditionName);
+    }
+  }
+
+  return summary;
+}
+
+function buildNaNote(rule: NaRule, sourceFiles: string[]): string {
+  if (rule.when === 'prose-only') {
+    return `not applicable — prose-only impl (Source Files: ${sourceFiles.join(', ')}); no TypeScript or other non-markdown files; auto-resolved by naRules[when:prose-only]`;
+  }
+  if (rule.when === 'no-skill-files') {
+    return `not applicable — no skills/*.md files in Source Files (${sourceFiles.join(', ')}); auto-resolved by naRules[when:no-skill-files]`;
+  }
+  return `not applicable — auto-resolved by naRules[when:${rule.when}]`;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 export function registerDod(program: Command): void {
   const dodCmd = program
     .command('dod [impl-path]')
@@ -49,7 +162,8 @@ export function registerDod(program: Command): void {
     .option('--rerun-tests', 'Ignore cached test result and re-execute testsCommand')
     .option('--stash', 'Auto-stash uncommitted out-of-scope changes before running checks')
     .option('--ignore-dirty', 'Skip the uncommitted changes pre-check')
-    .action(async (implPath: string | undefined, options: { dryRun?: boolean; cwd?: string; resolve?: string[]; note?: string[]; rerunTests?: boolean; stash?: boolean; ignoreDirty?: boolean }) => {
+    .option('--resolve-all-na', 'Auto-resolve clearly not-applicable conditions based on naRules in settings.yaml')
+    .action(async (implPath: string | undefined, options: { dryRun?: boolean; cwd?: string; resolve?: string[]; note?: string[]; rerunTests?: boolean; stash?: boolean; ignoreDirty?: boolean; resolveAllNa?: boolean }) => {
       const cwd = options.cwd ? resolve(options.cwd) : process.cwd();
 
       // --rerun-tests requires impl-path
@@ -85,6 +199,80 @@ export function registerDod(program: Command): void {
           const note = notes[i] ?? '';
           writeResolution(implPath, condition, note, cwd);
           process.stdout.write(`Recorded resolution for "${condition}" in ${implPath}\n`);
+        }
+        return;
+      }
+
+      // --resolve-all-na mode: auto-resolve NA conditions from naRules
+      if (options.resolveAllNa) {
+        if (!implPath) {
+          process.stderr.write('Error: --resolve-all-na requires an impl-path argument\n');
+          process.exitCode = 1;
+          return;
+        }
+        const cwd = options.cwd ? resolve(options.cwd) : process.cwd();
+        const { config } = loadConfig(cwd);
+
+        if (!config.naRules || config.naRules.length === 0) {
+          process.stdout.write('No naRules configured in taproot/settings.yaml — nothing to auto-resolve.\n');
+          return;
+        }
+
+        let summary: NaResolutionSummary;
+        try {
+          summary = await resolveAllNa(implPath, { dryRun: options.dryRun, cwd });
+        } catch (err) {
+          process.stderr.write(`Error: ${(err as Error).message}\n`);
+          process.exitCode = 1;
+          return;
+        }
+
+        // Report warnings
+        for (const w of summary.warnings) {
+          process.stdout.write(`⚠  ${w}\n`);
+        }
+
+        if (options.dryRun) {
+          if (summary.wouldResolve!.length === 0) {
+            process.stdout.write('No conditions qualify for auto-resolution.\n');
+          } else {
+            process.stdout.write(`Would auto-resolve ${summary.wouldResolve!.length} condition(s) as not applicable:\n`);
+            for (const c of summary.wouldResolve!) {
+              process.stdout.write(`  ✓ ${c}\n`);
+            }
+            if (summary.skipped.length > 0) {
+              process.stdout.write(`${summary.skipped.length} condition(s) require manual resolution.\n`);
+            }
+          }
+          return;
+        }
+
+        if (summary.resolved.length === 0) {
+          process.stdout.write('No conditions qualify for auto-resolution.\n');
+        } else {
+          process.stdout.write(`Auto-resolved ${summary.resolved.length} condition(s) as not applicable:\n`);
+          for (const c of summary.resolved) {
+            process.stdout.write(`  ✓ ${c}\n`);
+          }
+        }
+
+        if (summary.skipped.length > 0) {
+          process.stdout.write(`${summary.skipped.length} condition(s) still require manual resolution.\n`);
+        }
+
+        // Re-run DoD and show updated state
+        process.stdout.write('\n');
+        const report = await runDod({ implPath, dryRun: options.dryRun ?? false, cwd });
+        if (!report.configured) {
+          process.stdout.write('No Definition of Done configured.\n');
+          return;
+        }
+        printReport(report);
+        if (report.allPassed) {
+          if (report.usecaseCascade) process.stdout.write(`Advanced parent usecase state: ${report.usecaseCascade}\n`);
+          process.stdout.write(`\nAll checks passed. Marked ${implPath} complete.\n`);
+        } else {
+          process.stdout.write('\nDefinition of Done not met — manual resolution required for remaining conditions.\n');
         }
         return;
       }

@@ -54,7 +54,7 @@ Execute the full commit procedure: classify the commit type, run the appropriate
       ```
       taproot dod <impl-path> --resolve "<exact-condition-name>" --note "<reasoning>"
       ```
-      **One condition per invocation.** Do not pass multiple `--resolve` flags.
+      **One condition per invocation** for reasoning-required conditions. Do not pass multiple `--resolve` flags. For structurally obvious not-applicable conditions, use `taproot dod <impl-path> --resolve-all-na` instead — it auto-resolves conditions matching `naRules` in `taproot/settings.yaml` in a single call.
 
       **`document-current` resolution — mandatory steps:**
       1. Read `docs/` and `README.md` content (the actual text, not inferred state)

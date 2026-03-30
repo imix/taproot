@@ -1,5 +1,10 @@
 export type MarkerType = 'intent' | 'behaviour' | 'impl';
 
+export interface NaRule {
+  condition: string;
+  when: string; // 'prose-only' | 'no-skill-files' | future values
+}
+
 export interface FolderNode {
   absolutePath: string;
   relativePath: string;
@@ -68,6 +73,7 @@ export interface TaprootConfig {
   };
   definitionOfDone?: DodConditionEntry[];
   definitionOfReady?: DodConditionEntry[];
+  naRules?: NaRule[];
   cli?: string;
   autonomous?: boolean;
   testsCommand?: string;

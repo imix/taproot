@@ -334,6 +334,15 @@ export function runInit(options) {
                 allowed_impl_states: DEFAULT_CONFIG.validation.allowedImplStates,
             },
         };
+        configForYaml.naRules = [
+            { condition: 'check-if-affected: package.json', when: 'prose-only' },
+            { condition: 'check-if-affected: skills/guide.md', when: 'no-skill-files' },
+            { condition: 'check-if-affected-by: skill-architecture/context-engineering', when: 'no-skill-files' },
+            { condition: 'check-if-affected-by: human-integration/pause-and-confirm', when: 'no-skill-files' },
+            { condition: 'check-if-affected-by: human-integration/contextual-next-steps', when: 'no-skill-files' },
+            { condition: 'check-if-affected-by: agent-integration/agent-agnostic-language', when: 'no-skill-files' },
+            { condition: 'check-if-affected-by: skill-architecture/commit-awareness', when: 'no-skill-files' },
+        ];
         if (resolvedVocabulary && Object.keys(resolvedVocabulary).length > 0) {
             configForYaml.vocabulary = resolvedVocabulary;
         }

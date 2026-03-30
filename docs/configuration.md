@@ -226,6 +226,55 @@ DoR runs once: when the declaration commit is made (committing `impl.md` alone, 
 
 ---
 
+## `naRules` — Batch NA Resolution
+
+`naRules` configures which DoD conditions can be auto-resolved as not applicable based on the impl's file types, without requiring per-condition manual reasoning.
+
+```yaml
+naRules:
+  - condition: "check-if-affected: package.json"
+    when: prose-only
+  - condition: "check-if-affected-by: skill-architecture/context-engineering"
+    when: no-skill-files
+```
+
+Run `taproot dod <impl-path> --resolve-all-na` to apply all matching rules in one call. Add `--dry-run` to preview without writing.
+
+### `when` predicates
+
+| Value | Meaning |
+|-------|---------|
+| `prose-only` | All entries in `## Source Files` end in `.md` — no TypeScript, JavaScript, or other non-markdown files |
+| `no-skill-files` | No entry in `## Source Files` matches `skills/*.md` |
+
+### Protected conditions
+
+These conditions are **never** auto-resolved regardless of `naRules`: `document-current`, `tests-passing`, `baseline-*`, and any `check:` free-form condition. They always require manual agent reasoning.
+
+### Default `naRules`
+
+`taproot init` ships the following default `naRules` block. Projects may add, remove, or replace entries:
+
+```yaml
+naRules:
+  - condition: "check-if-affected: package.json"
+    when: prose-only
+  - condition: "check-if-affected: skills/guide.md"
+    when: no-skill-files
+  - condition: "check-if-affected-by: skill-architecture/context-engineering"
+    when: no-skill-files
+  - condition: "check-if-affected-by: human-integration/pause-and-confirm"
+    when: no-skill-files
+  - condition: "check-if-affected-by: human-integration/contextual-next-steps"
+    when: no-skill-files
+  - condition: "check-if-affected-by: agent-integration/agent-agnostic-language"
+    when: no-skill-files
+  - condition: "check-if-affected-by: skill-architecture/commit-awareness"
+    when: no-skill-files
+```
+
+---
+
 ## CI Integration
 
 Taproot validation runs fast (seconds) and has no external dependencies beyond Node. Adding it to CI ensures the hierarchy stays valid on every merge.

@@ -172,6 +172,7 @@ Surfaces unimplemented behaviours as work items, ordered by priority (intents wi
 ```bash
 taproot dod [impl-path] [--dry-run] [--rerun-tests] [--stash] [--ignore-dirty]
 taproot dod <impl-path> --resolve <condition> --note "<text>" [--resolve <condition> --note "<text>" ...]
+taproot dod <impl-path> --resolve-all-na [--dry-run]
 ```
 
 Runs all configured DoD conditions from `taproot/settings.yaml` against the specified implementation (or all implementations if no path is given). If all conditions pass and an `impl-path` is provided, marks the impl `complete`, records the results in `## DoD Resolutions`, and automatically advances the parent `usecase.md` state from `specified` to `implemented` if it hasn't been already.
@@ -181,6 +182,8 @@ Runs all configured DoD conditions from `taproot/settings.yaml` against the spec
 - `--ignore-dirty` — skip the dirty check and run DoD regardless of working tree state
 
 Use `--resolve`/`--note` to record agent resolutions for agent-driven conditions (e.g. `document-current`, `check-if-affected`, `check-if-affected-by`). Multiple pairs can be supplied in a single invocation — conditions are paired with notes by position.
+
+Use `--resolve-all-na` to auto-resolve structurally obvious not-applicable conditions in bulk. The command reads `naRules` from `taproot/settings.yaml`, evaluates each rule's `when` predicate against the impl's `## Source Files`, and writes resolutions for all matching unresolved conditions. Add `--dry-run` to preview what would be resolved without writing. See [Configuration](configuration.md) for the `naRules` format.
 
 Use `--rerun-tests` to force re-execution of `testsCommand` regardless of any cached result. Requires `<impl-path>`.
 
@@ -202,7 +205,7 @@ The hook uses a three-tier classification, where the implementation tier is dete
 
 | Staged files | Gate applied |
 |---|---|
-| Only hierarchy files (`intent.md`, `usecase.md`) | `validate-structure` + `validate-format` + truth consistency check (if `taproot/global-truths/` contains applicable truths) |
+| Only hierarchy files (`intent.md`, `usecase.md`) | `validate-structure` + `validate-format` + spec quality checks (AC presence, valid actor, postconditions, verb-first intent goal, behaviour–intent alignment) + truth consistency check (if `taproot/global-truths/` applies) |
 | Only `impl.md` (no source files in map) | Definition of Ready — the parent `usecase.md` must be in `specified` state and have `## Flow` and `## Related` sections |
 | Source files found in map + `impl.md` staged | Verify only `## Status` (and `## DoD Resolutions`) changed in `impl.md`; then run DoD |
 | Source files found in map but `impl.md` NOT staged | **Blocked** — "Stage `impl.md` alongside your source files. No implementation commit should proceed without its traceability record." |
