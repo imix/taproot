@@ -86,8 +86,8 @@ Developer — working through a previously built plan, delegating each item to t
 ### Developer reviews item before deciding
 - **Trigger:** Developer selects `[R]` at the item confirmation prompt (step 3 of step-by-step mode, or at any HITL pause in batch mode).
 - **Steps:**
-  1. Agent invokes `/tr-browse <path>` for the item's behaviour path.
-  2. On return from browse, agent re-presents the same item prompt unchanged:
+  1. Agent invokes `/tr-browse <path>` for the item's behaviour path and lets it run to full completion — including any sub-actions the developer selects within browse (e.g. `/tr-review`, navigating further sections). The plan-execute prompt is not re-presented until browse has fully exited.
+  2. Once browse has fully exited, agent re-presents the same item prompt unchanged:
      ```
      Next: [implement] taproot/<intent>/<behaviour>/
            "<Behaviour Title>" — <goal>
@@ -280,7 +280,12 @@ flowchart TD
 **AC-22: Review option available at HITL item prompt**
 - Given a pending plan item is presented for confirmation
 - When the developer selects `[R]`
-- Then the agent invokes `/tr-browse` for the item's path, and on return re-presents the same item prompt with all options intact
+- Then the agent invokes `/tr-browse` for the item's path, lets it run to full completion including any sub-actions the developer takes within browse, and only then re-presents the same item prompt with all options intact
+
+**AC-23: Browse sub-actions execute fully before plan-execute resumes**
+- Given the developer selected `[R]` and is inside browse
+- When the developer selects a browse exit action (e.g. `[C] /tr-review`)
+- Then that action runs to completion before plan-execute re-presents the HITL prompt — browse exit options are not swallowed
 
 **AC-21: Item prompt includes behaviour title and goal**
 - Given a pending plan item references a path with an existing `usecase.md`
@@ -296,6 +301,7 @@ flowchart TD
 - **Last reviewed:** 2026-03-30
 - **Refined:** 2026-03-30 — enriched item display: behaviour title + one-line goal in Next: prompt (AC-21)
 - **Refined:** 2026-03-30 — added [R] Review spec option to HITL pause menu; invokes /tr-browse and returns to same prompt (AC-22)
+- **Refined:** 2026-03-30 — clarified [R] browse runs to full completion before plan-execute resumes; browse sub-actions (e.g. /tr-review) must not be swallowed (AC-23)
 
 ## Notes
 - When invoked without a mode, the agent presents an orientation menu summarising the plan state and available modes. When a mode is specified explicitly (e.g. "implement all"), the orientation is skipped.
