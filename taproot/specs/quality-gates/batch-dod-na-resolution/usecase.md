@@ -150,6 +150,9 @@ flowchart TD
 - When the developer runs `taproot dod <impl-path> --resolve-all-na`
 - Then the system warns about the unknown `when` value and skips that rule without stopping
 
+## Implementations <!-- taproot-managed -->
+- [CLI Command](./cli-command/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-29
