@@ -1,4 +1,4 @@
-taproot_version: '0.9.2'
+taproot_version: '0.9.3'
 version: 1
 root: taproot/specs/
 cli: node dist/cli.js

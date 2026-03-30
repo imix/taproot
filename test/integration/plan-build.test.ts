@@ -113,6 +113,36 @@ describe('plan skill — backlog removal (AC-8)', () => {
   });
 });
 
+describe('plan skill — vertical slice mode (AC-11)', () => {
+  it('recognises vertical slice trigger phrases', () => {
+    expect(skill).toMatch(/vertical slice/i);
+    expect(skill).toMatch(/walking skeleton/i);
+    expect(skill).toMatch(/tracer bullet/i);
+  });
+
+  it('asks for actor, entry point, and observable outcome', () => {
+    expect(skill).toMatch(/Actor/);
+    expect(skill).toMatch(/Entry point/i);
+    expect(skill).toMatch(/Observable outcome/i);
+  });
+
+  it('limits plan to critical-path items only', () => {
+    expect(skill).toMatch(/critical.path/i);
+  });
+
+  it('excludes non-critical-path behaviours entirely', () => {
+    expect(skill).toMatch(/non-critical.path.*excluded|excluded entirely/i);
+  });
+
+  it('writes slice context into plan.md header', () => {
+    expect(skill).toMatch(/vertical slice.*_Slice:/is);
+  });
+
+  it('stops after writing slice plan — does not continue to standard flow', () => {
+    expect(skill).toMatch(/Stop.*do not continue|stop.*—.*do not/i);
+  });
+});
+
 describe('plan skill — confirmation flows (AC-4, AC-5, AC-6, AC-7)', () => {
   it('presents plan before writing (pause-and-confirm)', () => {
     expect(skill).toMatch(/\[A\].*Confirm|\[A\].*Append/i);
