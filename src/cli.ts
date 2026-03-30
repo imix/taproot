@@ -17,6 +17,7 @@ import { registerDod } from './commands/dod.js';
 import { registerCommithook } from './commands/commithook.js';
 import { registerAcceptanceCheck } from './commands/acceptance-check.js';
 import { registerTruthSign } from './commands/truth-sign.js';
+import { registerCommit } from './commands/commit.js';
 import { checkProjectVersion } from './core/version-check.js';
 
 // Version compatibility check — warn if installed version diverges from project's pinned version.
@@ -48,6 +49,7 @@ registerDod(program);
 registerCommithook(program);
 registerAcceptanceCheck(program);
 registerTruthSign(program);
+registerCommit(program);
 
 program.parseAsync().catch((err: unknown) => {
   const message = err instanceof Error ? err.message : String(err);
