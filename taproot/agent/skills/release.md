@@ -86,6 +86,11 @@ Run the taproot maintainer's local release phase: pre-flight checks, changelog g
 
    If the script exits non-zero, it prints the failing check. Do not attempt manual fallback steps — fix the root cause and re-run.
 
+   **Push failure recovery** — if the script fails after creating the local commit and tag but before pushing:
+   ```
+   git push origin main && git push origin v<next>
+   ```
+
 5. Report release initiated:
    ```
    ✓ Local phase complete.
