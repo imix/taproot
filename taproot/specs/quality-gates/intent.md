@@ -33,6 +33,7 @@ Enforce quality at every level of the hierarchy — from intent and usecase docu
 - [Scoped DoD/DoR Conditions](./scoped-conditions/usecase.md)
 - [Validate Behaviour–Intent Alignment at Commit](./validate-behaviour-intent-alignment/usecase.md)
 - [Batch DoD NA Resolution](./batch-dod-na-resolution/usecase.md)
+- [Commit Workflow Orchestration](./commit-workflow/usecase.md)
 
 ## Status
 - **State:** active

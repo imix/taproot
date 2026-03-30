@@ -191,6 +191,30 @@ See [Configuration](configuration.md) for how to define DoD conditions.
 
 ---
 
+## Commit Workflow
+
+### `taproot commit`
+
+```bash
+taproot commit [<message>] [--all] [--dry-run]
+```
+
+Orchestrates the full commit sequence in one step: stage all changes (optional), run `taproot truth-sign` if hierarchy files are staged and `taproot/global-truths/` exists, automatically stage `.taproot/.truth-check-session`, then run `git commit`.
+
+| Option | Effect |
+|--------|--------|
+| `<message>` | Commit message passed to `git commit -m`. Omit to open `$GIT_EDITOR`. |
+| `--all` | Runs `git add .` before the truth-sign and commit steps. |
+| `--dry-run` | Reports what would be staged and signed without making any changes. |
+
+**When truth-sign runs:** only when `taproot/global-truths/` exists **and** at least one staged file is a hierarchy document (`intent.md`, `usecase.md`, or `impl.md` under `taproot/`, excluding `global-truths/` and `agent/` sub-paths). For source-only commits, truth-sign is skipped automatically.
+
+**Pre-commit hook:** `taproot commit` runs `git commit`, which triggers the installed pre-commit hook (`taproot commithook`) as normal. If the hook fails, the hook's output is shown verbatim and the commit is blocked. Staged files remain staged so you can fix the issue and re-run `taproot commit`.
+
+This command replaces the manual sequence that `/tr-commit` previously coordinated via individual bash steps, and reduces the bash surface required for autonomous agent execution.
+
+---
+
 ## Pre-commit Hook
 
 ### `taproot commithook`

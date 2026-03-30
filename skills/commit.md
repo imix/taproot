@@ -102,7 +102,11 @@ Execute the full commit procedure: classify the commit type, run the appropriate
    - If an impl.md path does not match `taproot/specs/<intent>/<behaviour>/<impl>/impl.md`, skip the tag suggestion for that file and note: *"Could not derive tag from `<path>` — path layout unexpected."*
    - Present: `Suggested commit tag: taproot(<path>):`
 
-6. Stage source files + all matched impl.md files and commit with the suggested tag prefix (or the developer-supplied message).
+6. Stage source files + all matched impl.md files. Then run:
+   ```
+   taproot commit "<tag-prefix>: <message>"
+   ```
+   This handles truth-sign (if needed) and `git commit` in one step. Do not run `taproot truth-sign` or `git commit` separately when using `taproot commit`.
 
 ### Declaration commit
 
@@ -147,7 +151,11 @@ Execute the full commit procedure: classify the commit type, run the appropriate
       **Autonomous mode:** Record the conflict as a note in the staged document's frontmatter comment or in the session output: "Autonomous commit — truth conflict detected: `<excerpt>` conflicts with `<truth file>`. Proceeding with conflict noted." Run `taproot truth-sign` and continue — do not stop.
    e. If no conflicts (or all resolved): run `taproot truth-sign` to record the session marker the hook validates.
 
-6. Stage the hierarchy files and commit.
+6. Stage the hierarchy files. Then run:
+   ```
+   taproot commit "<message>"
+   ```
+   This handles truth-sign (if hierarchy files are staged with global-truths) and `git commit` in one step.
 
 ### Plain commit
 
@@ -175,4 +183,5 @@ A clean commit where the pre-commit hook passes on the first attempt. All condit
 - `taproot dod`
 - `taproot validate-format`
 - `taproot validate-structure`
+- `taproot commit`
 - `taproot link-commits`
