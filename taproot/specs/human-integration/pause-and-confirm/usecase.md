@@ -75,6 +75,14 @@ Developer using any taproot skill that writes more than one document in sequence
   1. This behaviour does not apply — the skill presents its single output for review as part of its normal flow
   2. No Y/E/S/Q menu needed; the skill naturally pauses after presenting the single document
 
+### Commithook enforces proposed-state gate
+- **Trigger:** A newly added `usecase.md` is staged for commit with `State: proposed`
+- **Steps:**
+  1. The pre-commit hook detects the newly added file has `**State:** proposed` in its `## Status` section
+  2. The hook blocks the commit with: `taproot commithook — Spec confirmation required: <path> is in 'proposed' state`
+  3. The developer shows the spec, waits for `[Y]`, and updates `**State:** proposed` → `**State:** specified` before re-staging
+  4. The hook passes on re-commit once the state is `specified` or higher
+
 ## Postconditions
 - Every file written during the session was explicitly confirmed by the developer, or the developer explicitly opted into auto-proceed
 - No files are written silently or as a side-effect of earlier answers
@@ -146,6 +154,21 @@ flowchart TD
 - When the session completes
 - Then every file on disk was either explicitly confirmed with [Y] or written during an opted-in auto-proceed pass
 
+**AC-8: Commithook blocks newly added usecase.md in proposed state**
+- Given a new `usecase.md` with `**State:** proposed` is staged for commit
+- When the pre-commit hook runs
+- Then the commit is blocked with a confirmation-required message instructing the developer to show the spec, get `[Y]`, and change the state to `specified`
+
+**AC-9: Commithook passes for modified (not new) usecase.md in proposed state**
+- Given an existing committed `usecase.md` is modified and re-staged with `**State:** proposed`
+- When the pre-commit hook runs
+- Then the proposed-state gate does not fire (only newly added files are gated)
+
+**AC-10: Commithook passes for newly added usecase.md in specified state**
+- Given a new `usecase.md` with `**State:** specified` is staged for commit
+- When the pre-commit hook runs
+- Then the proposed-state gate does not block the commit
+
 ## Implementations <!-- taproot-managed -->
 - [Discover and Decompose](./discover-and-decompose/impl.md)
 
@@ -153,6 +176,7 @@ flowchart TD
 - **State:** implemented
 - **Created:** 2026-03-20
 - **Last reviewed:** 2026-03-30
+- **Last updated:** 2026-03-30
 - **Note:** Phase 0.5 in /tr-discover (requirements artifact detection + conflict resolution question) does not violate this spec — those are configuration questions, not document writes. Requirements-only mode (skip Phase 4) reduces write count but uses the same Y/E/S/Q protocol.
 
 ## Notes
