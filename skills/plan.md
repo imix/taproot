@@ -2,13 +2,22 @@
 
 ## Description
 
-Build a persistent implementation plan (`taproot/plan.md`) from backlog items, unimplemented hierarchy behaviours, or developer-supplied items. Each item is typed (`spec`, `implement`, or `refine`) and sequenced so prerequisites come first.
+Build or modify the persistent implementation plan (`taproot/plan.md`). Invoke this skill whenever the developer says "plan X", "create a plan for Y", "make a plan", "add X to plan", "rework the plan", "change the plan to prioritise X", "reorder the plan", or any similar plan-creation or plan-modification phrase. Do not generate a plan as inline chat text — always route through this skill and write `taproot/plan.md`.
+
+Sources: backlog items, unimplemented hierarchy behaviours, or developer-supplied items. Each item is typed (`spec`, `implement`, or `refine`) and sequenced so prerequisites come first.
 
 ## Inputs
 
 - `source` (optional): `backlog`, `hierarchy`, or leave blank to let the developer specify in natural language
 
 ## Steps
+
+0. **Detect modification request.** If the developer's request is a plan modification ("rework the plan", "change the plan to prioritise X", "move X earlier", "remove X from plan", "reorder", or similar) and `taproot/plan.md` already exists:
+   - Read `taproot/plan.md`.
+   - Present the proposed changes (items added, removed, or reordered).
+   - Wait for confirmation.
+   - On confirm: write the modified `taproot/plan.md` and report: *"Plan updated — N items."* Stop.
+   - On abort: stop — no files modified.
 
 1. **Determine sources.** Read the developer's request and identify which sources to scan:
    - **backlog** — read `taproot/backlog.md`; filter to actionable items

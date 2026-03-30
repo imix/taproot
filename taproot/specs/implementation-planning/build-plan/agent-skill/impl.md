@@ -36,6 +36,8 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/workflows.md updated with new '## Planning a sprint or batch of work' section documenting /tr-plan usage. skills/guide.md updated to include /tr-plan in the slash commands table. docs/cli.md already covers taproot plan CLI; no CLI command added. | resolved: 2026-03-27T19:08:32.698Z
+- condition: check-if-affected: package.json | note: No new npm dependencies added. Change is description text and a new step 0 in skills/plan.md (markdown only). package.json unchanged. | resolved: 2026-03-30T10:15:48.249Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: compliant — no shell execution added; no credentials; new classification step reasons about item descriptions only | resolved: 2026-03-28T05:52:47.721Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — HITL/AFK labelling is specific to plan-build; the concept is documented in the skill and spec | resolved: 2026-03-28T05:52:47.466Z
