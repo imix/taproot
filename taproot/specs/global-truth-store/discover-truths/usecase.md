@@ -46,7 +46,7 @@ Developer with an existing `taproot/` hierarchy who wants to identify what proje
 - **Trigger:** Candidate is worth capturing eventually, but not in this session
 - **Steps:**
   1. Developer selects "backlog"
-  2. System appends the candidate to `.taproot/backlog.md` with today's date and a note: "truth candidate: `<term>`"
+  2. System appends the candidate to `taproot/backlog.md` with today's date and a note: "truth candidate: `<term>`"
   3. System moves to the next candidate
 
 ### Developer dismisses a candidate
@@ -88,11 +88,11 @@ Developer with an existing `taproot/` hierarchy who wants to identify what proje
 - **Steps:**
   1. Discovery runs on the full hierarchy (same scan as standalone)
   2. Candidates are appended to the review-all report under a `## Truth Candidates` section
-  3. Developer chooses to process candidates now (inline, via `/tr-ineed`) or defer; if deferred, all unprocessed candidates are appended to `.taproot/backlog.md` as "truth candidate: `<term>`" entries
+  3. Developer chooses to process candidates now (inline, via `/tr-ineed`) or defer; if deferred, all unprocessed candidates are appended to `taproot/backlog.md` as "truth candidate: `<term>`" entries
 
 ## Postconditions
 - Each promoted candidate has a corresponding truth file in `taproot/global-truths/`
-- Backlogged candidates are recorded in `.taproot/backlog.md` as "truth candidate: `<term>`"
+- Backlogged candidates are recorded in `taproot/backlog.md` as "truth candidate: `<term>`"
 - Dismissed candidates are recorded in `.taproot/sessions/dismissed-truths.md` as "reviewed — not a truth: `<term>`" and will not resurface on the next discovery run
 - Skipped candidates have no persistent record (will resurface on next run)
 - The system does not modify any `intent.md` or `usecase.md` files — discovery is read-only on the hierarchy
@@ -157,7 +157,7 @@ flowchart TD
 **AC-4: Backlogged candidate recorded**
 - Given the developer selects "backlog" on a candidate
 - When discovery moves to the next candidate
-- Then `.taproot/backlog.md` contains a new entry: `[YYYY-MM-DD] truth candidate: <term>`
+- Then `taproot/backlog.md` contains a new entry: `[YYYY-MM-DD] truth candidate: <term>`
 
 **AC-5: Skipped candidate leaves no record**
 - Given the developer selects "skip" on a candidate
@@ -172,7 +172,7 @@ flowchart TD
 **AC-7: Discovery pass appended to /tr-review-all output**
 - Given a developer running `/tr-review-all` on a hierarchy with undefined truth candidates
 - When the review completes
-- Then a `## Truth Candidates` section appears at the end of the report, and unprocessed candidates are appended to `.taproot/backlog.md` if the developer defers
+- Then a `## Truth Candidates` section appears at the end of the report, and unprocessed candidates are appended to `taproot/backlog.md` if the developer defers
 
 **AC-8: Dismissed candidate suppressed from future runs**
 - Given the developer selects "dismiss" on a candidate

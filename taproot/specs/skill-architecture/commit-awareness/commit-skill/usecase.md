@@ -46,7 +46,7 @@ Agent — executing any taproot skill that ends in a commit, or responding to a 
    - **[A] Continue plan** — if `taproot/plan.md` exists with `pending` items: invokes `/tr-plan-execute`
    - **[B] Implement next** — if the commit was a requirement or declaration commit: prompts `Which behaviour should I implement next?` and invokes `/tr-implement <path>`
    - **[C] Check coverage** — `/tr-status` to review hierarchy health
-   - **[D] Check backlog** — opens `.taproot/backlog.md` to review deferred ideas and captured findings
+   - **[D] Check backlog** — opens `taproot/backlog.md` to review deferred ideas and captured findings
    - **[E] Done** — no further action; developer continues at their own pace
    Options are filtered by context: [A] omitted if no plan exists or no pending items; [B] omitted after implementation and plain commits. Developer may ignore the prompt silently.
 

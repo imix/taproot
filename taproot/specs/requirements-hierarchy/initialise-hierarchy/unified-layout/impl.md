@@ -132,7 +132,7 @@
 
 - condition: check-if-affected: docs/ | note: AFFECTED AND UPDATED — see document-current resolution above. docs/architecture.md, docs/cli.md, docs/agents.md, docs/security.md, docs/configuration.md, docs/patterns.md all updated to reflect new layout paths. | resolved: 2026-03-27T13:58:12.376Z
 
-- condition: check-if-affected: skills/guide.md | note: AFFECTED AND UPDATED — skills/guide.md updated: backlog.md reference changed from .taproot/backlog.md to taproot/agent/backlog.md. Also updated 10 other skill files (backlog, commit, implement, behaviour, refine, status, review-all, ineed, bug, discover-truths) to reference new layout paths. Copied to taproot/agent/skills/ for the taproot project itself. | resolved: 2026-03-27T13:57:52.776Z
+- condition: check-if-affected: skills/guide.md | note: AFFECTED AND UPDATED — skills/guide.md updated: backlog.md reference changed from taproot/backlog.md to taproot/agent/backlog.md. Also updated 10 other skill files (backlog, commit, implement, behaviour, refine, status, review-all, ineed, bug, discover-truths) to reference new layout paths. Copied to taproot/agent/skills/ for the taproot project itself. | resolved: 2026-03-27T13:57:52.776Z
 
 - condition: check-if-affected: src/commands/update.ts | note: AFFECTED AND IMPLEMENTED — update.ts is a primary source file in this implementation. removeStale() was extended to migrate taproot/agent/skills/ → taproot/agent/skills/, .taproot/docs/ → taproot/agent/docs/, and .taproot/CONFIGURATION.md → taproot/agent/CONFIGURATION.md. resolveAgentDir() is used throughout update.ts for all agent-dir writes. | resolved: 2026-03-27T13:57:52.524Z
 

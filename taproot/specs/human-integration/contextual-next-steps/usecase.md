@@ -52,7 +52,7 @@ Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the 
 ### Nothing obvious follows
 - **Trigger:** The skill succeeded but has no deterministic continuation and the context is terminal — e.g. `/tr-status` run at end of sprint with everything healthy, `/tr-guide` run standalone
 - **Steps:**
-  1. Skill checks whether `.taproot/backlog.md` exists and contains items
+  1. Skill checks whether `taproot/backlog.md` exists and contains items
   2. If backlog is non-empty: include `/tr-backlog` (triage) as a lettered option alongside `/tr-next` and `/tr-status`
   3. If backlog is empty: propose the existing low-friction fallback — `taproot overview` to orient, or `/tr-ineed` to capture anything new
   4. Guidance is framed as optional: "Nothing obvious next — whenever you're ready: ..."
@@ -150,7 +150,7 @@ flowchart TD
 
 **AC-9: /tr-backlog appears in terminal guidance when backlog is non-empty**
 - Given a skill has completed with no deterministic continuation
-- When `.taproot/backlog.md` exists and contains at least one item
+- When `taproot/backlog.md` exists and contains at least one item
 - Then `/tr-backlog` appears as a lettered option in the fallback What's next? menu alongside `/tr-next` and `/tr-status`
 
 **AC-6: /tr-ineed near-duplicate termination shows refinement option**

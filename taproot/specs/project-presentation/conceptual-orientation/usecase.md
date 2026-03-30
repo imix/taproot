@@ -14,7 +14,7 @@ Developer reading the README for the first time — either evaluating taproot or
 3. Developer reads the explanation of **behaviour** — an observable, testable thing the system does for a specific actor — and sees a one-line example (`request-reset`: *User submits their email; system sends a reset link*)
 4. Developer reads the explanation of **implementation** — the code that fulfils a behaviour, with a traceable link back to the spec — and sees that it maps to actual source files
 5. Developer reads the explanation of **global truth** — a project-wide fact (glossary term, business rule, entity definition) stored in `taproot/global-truths/` and enforced at commit time — and sees an example (`prices are always exclusive of VAT`)
-6. Developer reads the explanation of **backlog** — a lightweight scratchpad for ideas and deferred work captured mid-session, separate from the requirement hierarchy — and sees that it lives in `.taproot/backlog.md`
+6. Developer reads the explanation of **backlog** — a lightweight scratchpad for ideas and deferred work captured mid-session, separate from the requirement hierarchy — and sees that it lives in `taproot/backlog.md`
 7. Developer reads the explanation of **how taproot enforces integrity** — the pre-commit hook automatically runs DoD and DoR gates, truth-checks, and spec quality checks on every commit — and understands this happens without any manual invocation
 
 ## Alternate Flows

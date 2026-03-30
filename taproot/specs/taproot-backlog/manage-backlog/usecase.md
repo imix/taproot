@@ -12,14 +12,14 @@ Developer — working mid-session who wants to capture an idea, finding, or defe
 ### Capture mode — invoked with an argument
 
 1. Developer invokes `/tr-backlog <idea>` with a one-liner text describing the item.
-2. Skill creates `.taproot/backlog.md` if absent, then appends the item with the current date as a prefix: `- [YYYY-MM-DD] <idea>`.
+2. Skill creates `taproot/backlog.md` if absent, then appends the item with the current date as a prefix: `- [YYYY-MM-DD] <idea>`.
 3. Skill confirms in one line: *"✓ Captured: <idea>"*
 4. Developer returns to their current task — no further prompts.
 
 ### Triage mode — invoked with no argument
 
 1. Developer invokes `/tr-backlog` with no arguments.
-2. Skill reads `.taproot/backlog.md` and presents all standard items as a numbered list:
+2. Skill reads `taproot/backlog.md` and presents all standard items as a numbered list:
    ```
    Backlog — N items
     1. [YYYY-MM-DD] item text
@@ -41,7 +41,7 @@ Developer — working mid-session who wants to capture an idea, finding, or defe
 ## Alternate Flows
 
 ### Empty backlog (triage mode)
-- **Trigger:** Developer invokes `/tr-backlog` with no args but `.taproot/backlog.md` is absent or contains no items.
+- **Trigger:** Developer invokes `/tr-backlog` with no args but `taproot/backlog.md` is absent or contains no items.
 - **Steps:**
   1. Skill reports: *"Backlog is empty. Use `/tr-backlog <idea>` to capture something."*
   2. Skill stops — no triage loop.
@@ -50,15 +50,15 @@ Developer — working mid-session who wants to capture an idea, finding, or defe
 - **Trigger:** Developer types `done` or something unrelated to the command prompt.
 - **Steps:**
   1. Triage ends immediately.
-  2. All items not explicitly acted on remain in `.taproot/backlog.md` unchanged.
+  2. All items not explicitly acted on remain in `taproot/backlog.md` unchanged.
   3. If any actions were taken, the triage summary is shown; otherwise the session continues naturally.
 
 ### Backlog contains non-standard lines
-- **Trigger:** `.taproot/backlog.md` contains lines that do not match the `- [YYYY-MM-DD] <text>` format (headers, blank lines, free text added by hand).
+- **Trigger:** `taproot/backlog.md` contains lines that do not match the `- [YYYY-MM-DD] <text>` format (headers, blank lines, free text added by hand).
 - **Steps:**
   1. Skill processes only lines matching the standard format.
   2. Non-matching lines are preserved in the file and skipped during triage.
-  3. After triage, skill notes: *"Skipped N non-standard line(s) — they remain in `.taproot/backlog.md`."*
+  3. After triage, skill notes: *"Skipped N non-standard line(s) — they remain in `taproot/backlog.md`."*
 
 ### Developer changes mind during triage
 - **Trigger:** Developer selects [P] to promote, but decides against it mid-discovery.
@@ -67,8 +67,8 @@ Developer — working mid-session who wants to capture an idea, finding, or defe
   2. Item has already been removed from the backlog — if the developer wants to keep it, they re-capture it with `/tr-backlog <idea>`.
 
 ## Postconditions
-- **Capture mode:** The item appears in `.taproot/backlog.md` and is confirmed in the terminal.
-- **Triage mode:** Items acted on via `D <n>` or `P <n>` are removed from `.taproot/backlog.md`; all others remain. Promoted items have been handed to `/tr-ineed`.
+- **Capture mode:** The item appears in `taproot/backlog.md` and is confirmed in the terminal.
+- **Triage mode:** Items acted on via `D <n>` or `P <n>` are removed from `taproot/backlog.md`; all others remain. Promoted items have been handed to `/tr-ineed`.
 
 ## Error Conditions
 - **Invoked with no args and backlog file missing:** Treated as empty backlog — reports *"Backlog is empty"* and stops. No error.
@@ -78,7 +78,7 @@ Developer — working mid-session who wants to capture an idea, finding, or defe
 ```mermaid
 flowchart TD
     A[Developer invokes /tr-backlog] --> B{Has argument?}
-    B -->|Yes — idea text| C[Append to .taproot/backlog.md\nwith date prefix]
+    B -->|Yes — idea text| C[Append to taproot/backlog.md\nwith date prefix]
     C --> D[Confirm: ✓ Captured: idea]
     B -->|No args| E{Backlog empty?}
     E -->|Yes| F[Report: Backlog is empty]
@@ -103,21 +103,21 @@ flowchart TD
 - Then the item is captured and confirmed in one line — no follow-up response is required from the developer
 
 **AC-2: Triage shows numbered list**
-- Given `.taproot/backlog.md` contains at least one item
+- Given `taproot/backlog.md` contains at least one item
 - When the developer invokes `/tr-backlog` with no arguments
 - Then all items are presented as a numbered list with `D <n>`, `P <n>`, `A <n>`, and `done` options
 
 **AC-3: D <n> discards item by index**
 - Given triage is in progress and a numbered list is shown
 - When the developer enters `D <n>`
-- Then item n is removed from `.taproot/backlog.md` and the skill confirms *"✓ Discarded #n"*
+- Then item n is removed from `taproot/backlog.md` and the skill confirms *"✓ Discarded #n"*
 
 ~~**AC-4: Keep preserves item**~~ — deprecated; keeping is now implicit (no action = kept)
 
 **AC-5: P <n> promotes item by index**
 - Given triage is in progress and a numbered list is shown
 - When the developer enters `P <n>` (labelled "promote to /tr-ineed")
-- Then item n is removed from `.taproot/backlog.md` and `/tr-ineed` is invoked with its text
+- Then item n is removed from `taproot/backlog.md` and `/tr-ineed` is invoked with its text
 
 **AC-7: Triage completion summary on done**
 - Given triage is in progress
@@ -130,7 +130,7 @@ flowchart TD
 - Then the skill presents a structured analysis: a description of what the item is or could be (2–4 sentences), a complexity signal (simple / moderate / significant), and an impact assessment (minor addition / meaningful improvement / major capability), followed by `[P] Promote to /tr-ineed · [K] Keep · [D] Discard`
 
 **AC-6: Empty backlog**
-- Given `.taproot/backlog.md` is absent or contains no items
+- Given `taproot/backlog.md` is absent or contains no items
 - When the developer invokes `/tr-backlog` with no arguments
 - Then the skill reports *"Backlog is empty"* and stops without error
 
@@ -143,8 +143,8 @@ flowchart TD
 - **Last reviewed:** 2026-03-25
 
 ## Notes
-- Storage is `.taproot/backlog.md` — a committed markdown list file inside the taproot config directory, not a throwaway file
+- Storage is `taproot/backlog.md` — a committed markdown list file inside the taproot config directory, not a throwaway file
 - Capture must be instant: no prompts, no required fields, no confirmation questions
 - Items promoted via `[P]` are removed from the backlog even if the developer abandons the `/tr-ineed` discovery — re-capture if needed
-- Items are presented in FIFO order during triage (oldest first) — the order they were appended to `.taproot/backlog.md`
+- Items are presented in FIFO order during triage (oldest first) — the order they were appended to `taproot/backlog.md`
 - A CLI companion (`taproot backlog "idea"`) for capturing without an agent session is a natural extension but is out of scope here

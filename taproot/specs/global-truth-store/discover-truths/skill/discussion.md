@@ -6,8 +6,8 @@
 
 ## Pivotal Questions
 
-1. **Should dismissed candidates live in a separate suppression file, or reuse `.taproot/backlog.md`?**
-   The usecase spec says dismissed candidates are recorded as "reviewed — not a truth: `<term>`" in `.taproot/backlog.md`. Using a separate file (e.g. `.taproot/dismissed-truths.md`) would be more explicit, but the spec is clear — the backlog is the single home for deferred and dismissed items. Reusing backlog.md avoids a new file and keeps tooling simple.
+1. **Should dismissed candidates live in a separate suppression file, or reuse `taproot/backlog.md`?**
+   The usecase spec says dismissed candidates are recorded as "reviewed — not a truth: `<term>`" in `taproot/backlog.md`. Using a separate file (e.g. `.taproot/dismissed-truths.md`) would be more explicit, but the spec is clear — the backlog is the single home for deferred and dismissed items. Reusing backlog.md avoids a new file and keeps tooling simple.
 
 2. **Does this need new CLI support, or is agent prose sufficient?**
    The entire behaviour — scanning files, pattern-matching, presenting candidates — is reasoning work best done by the agent. No CLI command could usefully pre-scan candidates without running an LLM. The skill file is the implementation; there is no meaningful TypeScript to write.
@@ -23,7 +23,7 @@
 
 ## Decision
 
-Implemented as a pure skill file (`skills/discover-truths.md`) with a lightweight additive extension to `review-all.md`. The skill encodes all scan, filter, batch-present, and route logic as agent-executable prose steps. Dismissed suppression reuses `.taproot/backlog.md` as specified. The review-all integration appends a `## Truth Candidates` section after the existing report and defers unprocessed candidates to backlog automatically.
+Implemented as a pure skill file (`skills/discover-truths.md`) with a lightweight additive extension to `review-all.md`. The skill encodes all scan, filter, batch-present, and route logic as agent-executable prose steps. Dismissed suppression reuses `taproot/backlog.md` as specified. The review-all integration appends a `## Truth Candidates` section after the existing report and defers unprocessed candidates to backlog automatically.
 
 ## Open Questions
 - None.

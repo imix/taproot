@@ -7,7 +7,7 @@
 - Pure skill-file implementation — no TypeScript/CLI changes beyond adding to `SKILL_FILES`. All logic (detect arg, read/write file, triage loop) is conversational.
 - `backlog.md` added to `SKILL_FILES` in `src/commands/init.ts` so it installs via `taproot init` and refreshes via `taproot update`.
 - `taproot update` used to sync both `taproot/agent/skills/backlog.md` and `.claude/commands/tr-backlog.md` — cleaner than manual copy.
-- Non-standard lines in `.taproot/backlog.md` are preserved and skipped silently during triage, with a count reported after — avoids data loss for hand-edited content.
+- Non-standard lines in `taproot/backlog.md` are preserved and skipped silently during triage, with a count reported after — avoids data loss for hand-edited content.
 - Blank/whitespace argument detected early with a one-line warning — no silent no-ops.
 
 ## Source Files
@@ -84,11 +84,11 @@
 
 - condition: check-if-affected-by: human-integration/pattern-hints | note: NOT APPLICABLE — pattern-hints governs skills that receive natural language need descriptions; backlog capture receives a one-liner memo, not a requirement to route. | resolved: 2026-03-25T13:38:47.227Z
 
-- condition: check-if-affected-by: skill-architecture/commit-awareness | note: NOT APPLICABLE — backlog.md does not include any git commit steps; file writes go to .taproot/backlog.md only, not staged or committed. | resolved: 2026-03-25T13:38:46.927Z
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: NOT APPLICABLE — backlog.md does not include any git commit steps; file writes go to taproot/backlog.md only, not staged or committed. | resolved: 2026-03-25T13:38:46.927Z
 
-- condition: check-if-affected-by: skill-architecture/context-engineering | note: COMPLIANT — backlog.md reads only .taproot/backlog.md at most; no background docs loaded, no unnecessary context accumulation. Triage session hygiene note included. | resolved: 2026-03-25T13:38:46.648Z
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: COMPLIANT — backlog.md reads only taproot/backlog.md at most; no background docs loaded, no unnecessary context accumulation. Triage session hygiene note included. | resolved: 2026-03-25T13:38:46.648Z
 
-- condition: check-if-affected-by: human-integration/pause-and-confirm | note: NOT APPLICABLE — pause-and-confirm governs skills that write multiple documents in sequence; backlog writes only .taproot/backlog.md and does not bulk-author. | resolved: 2026-03-25T13:38:39.393Z
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: NOT APPLICABLE — pause-and-confirm governs skills that write multiple documents in sequence; backlog writes only taproot/backlog.md and does not bulk-author. | resolved: 2026-03-25T13:38:39.393Z
 
 - condition: check-if-affected-by: human-integration/contextual-next-steps | note: APPLIED — backlog.md step 6 added with What's next? block after triage completion offering [A] /tr-ineed and [B] /tr-status. Capture mode is exempt: its purpose is zero-friction one-line output with no follow-up. | resolved: 2026-03-25T13:38:39.142Z
 
