@@ -50,11 +50,6 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[update-adapters-and-skills](./agent-integration/update-adapters-and-skills/usecase.md)** `[implemented]` — Actor: Developer running `taproot update` after upgrading taproot or modifying skill definitions
   - [cli-command](./agent-integration/update-adapters-and-skills/cli-command/impl.md) `[complete]` (1 commit, 2 tests)
 
-## [documentation](./documentation/intent.md) `[deprecated]`
-
-**Goal:** Ensure taproot documentation stays accurate and current so that users, contributors, and integrators always have reliable information about what the tool does and how to use it
-
-_No behaviours yet._
 
 ## [global-truth-store](./global-truth-store/intent.md) `[active]`
 

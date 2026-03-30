@@ -46,7 +46,6 @@ agent-integration/ [active]
   ├─ parallel-agent-execution/ [specified] 0/0 impl
   └─ update-adapters-and-skills/ [implemented] 1/1 impl
       └─ cli-command [complete]
-documentation/ [deprecated]
 global-truth-store/ [active]
   ├─ apply-truths-when-authoring/ [implemented] 1/1 impl
   │   └─ agent-skill [complete]
