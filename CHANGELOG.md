@@ -4,6 +4,47 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.9.0] - 2026-03-30
+
+### Taproot
+
+**New behaviours & skills**
+- taproot(taproot-distribution/security-scanning/github-workflow): add security-scan workflow, report script, release gate, and tests (12b038e)
+- taproot(quality-gates/commit-workflow/cli-command): implement `taproot commit` command — truth-sign + git commit in one step (de81275)
+- taproot(quality-gates/batch-dod-na-resolution/cli-command): implement `--resolve-all-na` with naRules config-driven auto-resolve (2e78c32)
+- taproot(quality-gates/validate-behaviour-intent-alignment/commithook-extension): add behaviour-intent alignment check to commithook (bef249f)
+- taproot(global-truth-store/author-design-constraints/agent-skill): add `/tr-design-constraints` skill — structured ADR/principle/convention/external-constraint authoring (ad707e7)
+- taproot(requirements-hierarchy/incremental-behaviour-implementation/agent-skill): add phased delivery convention (62faf39)
+- taproot(global-truth-store/guide-truth-capture/agent-skill): add global-truths pattern entry and first-invocation guidance to define-truth (ecd26ce)
+- taproot(global-truth-store/apply-truths-when-authoring/agent-skill): surface truth enforcement signal in behaviour skill (d7db0fc)
+- taproot(human-integration/route-requirement/agent-skill): add scope-split gate to `/tr-ineed` for multi-goal descriptions (b1a2064)
+- taproot(human-integration/contextual-next-steps): add `/tr-browse` to spec-authoring next-steps (7482984)
+
+**Improvements**
+- taproot(implementation-planning/execute-plan/agent-skill): enrich Next: prompt with behaviour title and one-line goal (f0f0cc9)
+- taproot(implementation-planning/execute-plan/agent-skill): harden commit gate — mandatory `/tr-commit` before marking item done (7e02cce)
+- taproot(implementation-planning/build-plan/agent-skill): add trigger phrases and plan-modify step (0fa2f57)
+- taproot(requirements-hierarchy/initialise-hierarchy/cli-command): replace yaml.dump with commented settings.yaml template with inline docs (1c04caf)
+- taproot(quality-gates/definition-of-ready/cli-command): improve DoR error for implemented state (efe7505)
+- taproot(agent-integration/hook-compatibility/cli-command): fix hook error messages, add commit guidance to all agent adapters (b4a6fdd)
+- taproot(hierarchy-integrity/validate-structure/cli-command): exclude research/ from hierarchy walker (2e78c32)
+
+### Bug Fixes
+- fix(autonomous): fix G1 truth-conflict handling and G3 AFK filter in plan-execute (488d0ec)
+- fix: unpin syft/grype versions, add explicit db update step (bd1ef75)
+- fix: bump semgrep 1.76.0 and grype 0.87.0 for current db schema (5d33f53)
+- fix: add spec-language truth; behaviour skill uses actor-visible language in error conditions (b1a2064)
+- fix: remove blogging and book-authoring presets; document poor-fit signals in concepts.md (ec2fa89)
+- fix: update stale backlog.md path references (c94a74e)
+
+### Maintenance
+- refactor: move research/ into taproot/research/; update all path references (4c64811)
+- docs: add plan workflow to README quick start; expand workflows.md planning section (9b026d3)
+- docs: split workflows into user-facing and agent-internals docs; expand OVSX token docs (55fc5ba)
+- docs: add build-time vs runtime config split pattern to patterns_impl.md (e71f95f)
+- chore: add skill step emphasis convention to global-truths conventions_impl.md (7516c90)
+- chore: delete deprecated documentation/ intent (25295e1)
+
 ## [0.8.9] - 2026-03-28
 
 ### Bug Fixes
