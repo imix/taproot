@@ -42,6 +42,15 @@ function getStagedFiles(cwd: string): string[] {
   return result.stdout.split('\n').filter(Boolean);
 }
 
+function getNewlyAddedFiles(cwd: string): string[] {
+  const result = spawnSync('git', ['diff', '--cached', '--name-only', '--diff-filter=A'], {
+    cwd,
+    encoding: 'utf-8',
+  });
+  if (result.status !== 0) return [];
+  return result.stdout.split('\n').filter(Boolean);
+}
+
 /** Walk all impl.md files on disk and build a map of source file path → impl.md path. */
 export function buildSourceToImplMap(cwd: string): Map<string, string> {
   const map = new Map<string, string>();
@@ -399,6 +408,22 @@ export async function runCommithook(options: { cwd: string }): Promise<number> {
       process.stdout.write('taproot commithook — Requirement commit: hierarchy violations found\n');
       process.stdout.write(renderViolations(violations));
       failed = true;
+    }
+
+    // Proposed-state gate: block newly added usecase.md files in 'proposed' state
+    const newlyAdded = getNewlyAddedFiles(cwd);
+    for (const f of newlyAdded) {
+      if (!f.endsWith('usecase.md') || !isHierarchyFile(f)) continue;
+      const content = getStagedContent(f, cwd);
+      if (!content) continue;
+      if (/\*\*State:\*\*\s*proposed/.test(content)) {
+        process.stdout.write(
+          `taproot commithook — Spec confirmation required: ${f} is in 'proposed' state\n` +
+          `  → Show the spec to the developer and wait for [Y] before committing.\n` +
+          `    On confirmation, change **State:** from 'proposed' to 'specified' in the ## Status section.\n`
+        );
+        failed = true;
+      }
     }
 
     // Spec quality checks for usecase.md and intent.md files

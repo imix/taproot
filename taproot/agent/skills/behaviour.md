@@ -89,7 +89,19 @@ Define a UseCase (observable system behaviour) under an intent or another behavi
 
 8. Determine the folder slug: kebab-case, verb-noun or noun phrase (e.g., `register-account`, `reset-password`, `verify-email-address`). Should be distinct from sibling behaviour slugs.
 
-9. Create the directory `<parent>/<slug>/` and write `usecase.md`.
+9. Create the directory `<parent>/<slug>/` and write `usecase.md` with `**State:** proposed` in the `## Status` section. Then present the full contents to the developer:
+
+   ```
+   Proposed: <parent>/<slug>/usecase.md — <Title>
+
+   <full usecase.md content>
+
+   [Y] Confirm and write   [E] Edit before writing   [S] Skip
+   ```
+
+   - **[Y]**: Change `**State:** proposed` to `**State:** specified` in the file, then write it to disk. Report the path written.
+   - **[E]**: Apply developer edits, re-present the updated spec with the same menu. Loop until [Y] or [S].
+   - **[S]**: Do not write the file. Note: "Skipped `<path>` — you can create it later with `/tr-behaviour <parent>/`"
 
 9b. **Optionally write `discussion.md`** — if the session involved meaningful discovery dialogue (scope decisions, alternate flows surfaced, pivotal questions that changed the spec), draft a brief `discussion.md` in the behaviour folder alongside `usecase.md`. Use the same four-section template as `tr-implement` (Pivotal Questions, Alternatives Considered, Decision, Open Questions) but set `Skill: tr-behaviour`. Skip if the spec authoring was straightforward with no significant exploration.
 

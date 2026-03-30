@@ -151,6 +151,111 @@ describe('runCommithook — requirement commit', () => {
   });
 });
 
+describe('runCommithook — proposed-state gate', () => {
+  const VALID_INTENT = `# Intent: Test\n\n## Goal\nEnable teams to test\n\n## Stakeholders\n- Dev: needs to verify\n\n## Success Criteria\n- [ ] Tests pass\n\n## Status\n- **State:** active\n- **Created:** 2026-03-30\n`;
+
+  // Full-quality usecase with Acceptance Criteria (required by spec quality check)
+  const FULL_USECASE_SPECIFIED = `# Behaviour: Test
+
+## Actor
+Test actor
+
+## Preconditions
+- Some precondition
+
+## Main Flow
+1. Actor does something
+2. System responds
+
+## Alternate Flows
+### None
+- **Trigger:** N/A
+- **Steps:**
+  1. N/A
+
+## Postconditions
+- Something is true
+
+## Error Conditions
+- **Error**: System responds
+
+## Flow
+\`\`\`mermaid
+sequenceDiagram
+    Actor->>System: action
+    System-->>Actor: response
+\`\`\`
+
+## Related
+- \`../other/usecase.md\` — related behaviour
+
+## Acceptance Criteria
+
+**AC-1: Happy path**
+- Given some precondition
+- When actor does something
+- Then system responds
+
+## Status
+- **State:** specified
+- **Created:** 2026-03-30
+- **Last reviewed:** 2026-03-30
+`;
+
+  const USECASE_PROPOSED = FULL_USECASE_SPECIFIED.replace('**State:** specified', '**State:** proposed');
+  const USECASE_IMPLEMENTED = FULL_USECASE_SPECIFIED.replace('**State:** specified', '**State:** implemented');
+
+  it('blocks a newly added usecase.md with State: proposed', async () => {
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour'), { recursive: true });
+    stage([
+      { path: 'taproot/my-intent/intent.md', content: VALID_INTENT },
+      { path: 'taproot/my-intent/my-behaviour/usecase.md', content: USECASE_PROPOSED },
+    ], tmpDir);
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(1);
+  });
+
+  it('passes a newly added usecase.md with State: specified', async () => {
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour'), { recursive: true });
+    stage([
+      { path: 'taproot/my-intent/intent.md', content: VALID_INTENT },
+      { path: 'taproot/my-intent/my-behaviour/usecase.md', content: FULL_USECASE_SPECIFIED },
+    ], tmpDir);
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(0);
+  });
+
+  it('passes a newly added usecase.md with State: implemented', async () => {
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour'), { recursive: true });
+    stage([
+      { path: 'taproot/my-intent/intent.md', content: VALID_INTENT },
+      { path: 'taproot/my-intent/my-behaviour/usecase.md', content: USECASE_IMPLEMENTED },
+    ], tmpDir);
+    const code = await runCommithook({ cwd: tmpDir });
+    // Not blocked by proposed-state gate (state is 'implemented'); quality checks also pass
+    expect(code).toBe(0);
+  });
+
+  it('does not apply the proposed-state gate to a modified (not new) usecase.md', async () => {
+    // First commit the usecase with state: specified
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour'), { recursive: true });
+    stage([
+      { path: 'taproot/my-intent/intent.md', content: VALID_INTENT },
+      { path: 'taproot/my-intent/my-behaviour/usecase.md', content: FULL_USECASE_SPECIFIED },
+    ], tmpDir);
+    git(['commit', '-m', 'add behaviour'], tmpDir);
+
+    // Stage a modification to the existing file — this is diff-filter=M, not A (newly added).
+    // The proposed-state gate must NOT apply to modifications.
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'usecase.md'), FULL_USECASE_SPECIFIED);
+    git(['add', 'taproot/my-intent/my-behaviour/usecase.md'], tmpDir);
+    const addedAfterStage = spawnSync('git', ['diff', '--cached', '--name-only', '--diff-filter=A'],
+      { cwd: tmpDir, encoding: 'utf-8' });
+    // The modified usecase.md should NOT appear in the --diff-filter=A (newly added) list
+    expect(addedAfterStage.stdout).not.toContain('taproot/my-intent/my-behaviour/usecase.md');
+  });
+});
+
 describe('runCommithook — declaration commit', () => {
   beforeEach(() => {
     // Set up a valid behaviour spec and commit it
