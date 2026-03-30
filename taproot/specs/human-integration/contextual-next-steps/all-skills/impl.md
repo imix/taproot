@@ -52,6 +52,10 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/ describes skill capabilities but not skill-internal patterns like next-step guidance — no doc update needed; the guide.md skill itself was updated as part of this implementation | resolved: 2026-03-20T06:11:51.654Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — adding /tr-browse as a next-step option is a UX addition to existing menus, not a cross-cutting concern requiring a new check entry. | resolved: 2026-03-30T06:05:57.046Z
+
+- condition: check-if-affected: package.json | note: No new npm dependencies. Added /tr-browse option to What's next? menus in 3 skill files only. package.json unchanged. | resolved: 2026-03-30T06:05:57.036Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: VERIFIED — changes are limited to adding /tr-backlog as a lettered menu option in What's next? blocks. No shell commands, no credentials, no executable instructions beyond presenting a slash command suggestion. Least-privilege maintained. | resolved: 2026-03-25T15:38:21.496Z
 
 - condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: COMPLIANT — all five updated skill files (review.md, review-all.md, grill-me.md, status.md, guide.md) use agent-agnostic language: 'the developer', 'the skill'. No Claude-specific syntax introduced. | resolved: 2026-03-25T15:38:13.494Z

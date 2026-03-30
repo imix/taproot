@@ -111,6 +111,7 @@ Define a UseCase (observable system behaviour) under an intent or another behavi
    **What's next?**
    [A] `/tr-implement taproot/<parent>/<slug>/` — start building
    [B] `/tr-review taproot/<parent>/<slug>/usecase.md` — stress-test the spec first
+   [C] `/tr-browse taproot/<parent>/<slug>/` — browse related behaviours and specs for context
 
 ## Output
 

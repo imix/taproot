@@ -50,6 +50,7 @@ Create a new business intent or refine an existing one. An intent captures the "
    [A] `/tr-behaviour taproot/<slug>/` — define the first behaviour under this intent
    [B] `/tr-decompose taproot/<slug>/` — decompose the intent into a full behaviour set
    [C] `/tr-review taproot/<slug>/intent.md` — stress-test the spec before building
+   [D] `/tr-browse taproot/<slug>/` — browse related intents and behaviours for context
 
 ### Refining an existing intent
 
@@ -72,6 +73,7 @@ Create a new business intent or refine an existing one. An intent captures the "
    [A] `/tr-behaviour <path>/` — add or refine a behaviour under this intent
    [B] `/tr-review <path>/intent.md` — stress-test the updated intent
    [C] `/tr-status` — see overall project health
+   [D] `/tr-browse <path>/` — browse this intent and its behaviours for context
 
 ## Output
 
