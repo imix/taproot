@@ -423,6 +423,27 @@ describe('writeResolution and agent check passing', () => {
     expect(count).toBe(2);
   });
 
+  it('resolving the same condition twice updates in-place, no duplicate entry', () => {
+    const implPath = makeImplMd(tmpDir);
+    writeResolution(implPath, 'check-if-affected: src/commands/update.ts', 'First note', tmpDir);
+    writeResolution(implPath, 'check-if-affected: src/commands/update.ts', 'Updated note', tmpDir);
+    const content = readFileSync(implPath, 'utf-8');
+    const count = (content.match(/condition: check-if-affected: src\/commands\/update\.ts/g) ?? []).length;
+    expect(count).toBe(1);
+    expect(content).toContain('Updated note');
+    expect(content).not.toContain('First note');
+  });
+
+  it('resolving two different conditions produces exactly two entries', () => {
+    const implPath = makeImplMd(tmpDir);
+    writeResolution(implPath, 'check-if-affected: src/commands/update.ts', 'Not affected', tmpDir);
+    writeResolution(implPath, 'check-if-affected: src/commands/update.ts', 'Still not affected', tmpDir);
+    writeResolution(implPath, 'document-current', 'Docs current', tmpDir);
+    const content = readFileSync(implPath, 'utf-8');
+    const count = (content.match(/condition:/g) ?? []).length;
+    expect(count).toBe(2);
+  });
+
   it('multiple --resolve/--note pairs write all resolutions in one call via CLI action', async () => {
     // Simulate what the CLI does when called with multiple --resolve/--note flags
     const implPath = makeImplMd(tmpDir);

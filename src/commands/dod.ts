@@ -405,6 +405,10 @@ function markImplComplete(absPath: string): void {
   writeFileSync(absPath, updated, 'utf-8');
 }
 
+function escapeRegex(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 /** Write an agent-check resolution to ## DoD Resolutions section in impl.md. */
 export function writeResolution(implPath: string, condition: string, note: string, cwd: string): void {
   const absPath = resolve(cwd, implPath);
@@ -419,14 +423,19 @@ export function writeResolution(implPath: string, condition: string, note: strin
 
   const hasResolutionSection = /^## DoD Resolutions$/m.test(content);
   if (hasResolutionSection) {
-    // Append to existing section before the next ## heading or end of file
-    content = content.replace(
-      /(^## DoD Resolutions\n)([\s\S]*?)(\n^##\s|$)/m,
-      (_, header, body, suffix) => {
-        const trimmed = body.trimEnd();
-        return `${header}${trimmed ? trimmed + '\n' : ''}${entry}\n${suffix}`;
-      }
-    );
+    // Update existing entry for this condition in-place, or append if not found
+    const conditionPattern = new RegExp(`^- condition: ${escapeRegex(condition)} \\|.*$`, 'm');
+    if (conditionPattern.test(content)) {
+      content = content.replace(conditionPattern, entry);
+    } else {
+      content = content.replace(
+        /(^## DoD Resolutions\n)([\s\S]*?)(\n^##\s|$)/m,
+        (_, header, body, suffix) => {
+          const trimmed = body.trimEnd();
+          return `${header}${trimmed ? trimmed + '\n' : ''}${entry}\n${suffix}`;
+        }
+      );
+    }
   } else {
     // Append new section at end of file
     content = content.trimEnd() + `\n\n${resolutionHeader}\n${entry}\n`;

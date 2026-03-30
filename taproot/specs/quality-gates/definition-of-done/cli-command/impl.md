@@ -47,6 +47,8 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md documents taproot dod including --dry-run and --resolve; guide.md lists taproot dod | resolved: 2026-03-19T18:34:52.172Z
+- condition: check-if-affected: package.json | note: not affected — writeResolution is an internal function change; no new CLI commands, options, or dependencies added | resolved: 2026-03-30T19:46:26.248Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: not applicable — no skills/*.md modified; TypeScript CLI changes only | resolved: 2026-03-28T09:50:42.442Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — step-0 dirty check is specific to taproot dod CLI; not a generalizable pattern for other impls | resolved: 2026-03-28T09:50:42.441Z
@@ -57,21 +59,21 @@
 
 - condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — TypeScript CLI invoked at commit time; pattern-hints applies to user-facing skills | resolved: 2026-03-28T09:50:25.316Z
 
-- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — TypeScript CLI; commit-awareness applies to skills with commit steps | resolved: 2026-03-28T09:50:25.316Z
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — no skills/*.md files in Source Files (src/core/dod-runner.ts, src/commands/dod.ts, src/validators/types.ts, src/commands/init.ts, src/cli.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-30T19:45:53.979Z
 
-- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — TypeScript CLI; context-engineering applies to skill files | resolved: 2026-03-28T09:50:25.315Z
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — no skills/*.md files in Source Files (src/core/dod-runner.ts, src/commands/dod.ts, src/validators/types.ts, src/commands/init.ts, src/cli.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-30T19:45:53.978Z
 
-- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — TypeScript CLI; pause-and-confirm applies to bulk-authoring skills | resolved: 2026-03-28T09:50:25.306Z
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — no skills/*.md files in Source Files (src/core/dod-runner.ts, src/commands/dod.ts, src/validators/types.ts, src/commands/init.ts, src/cli.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-30T19:45:53.977Z
 
-- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — TypeScript CLI; contextual-next-steps applies to agent skills | resolved: 2026-03-28T09:50:25.306Z
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — no skills/*.md files in Source Files (src/core/dod-runner.ts, src/commands/dod.ts, src/validators/types.ts, src/commands/init.ts, src/cli.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-30T19:45:53.977Z
 
-- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — TypeScript CLI source files; agent-agnostic-language applies to skill files only | resolved: 2026-03-28T09:50:25.306Z
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — no skills/*.md files in Source Files (src/core/dod-runner.ts, src/commands/dod.ts, src/validators/types.ts, src/commands/init.ts, src/cli.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-30T19:45:53.976Z
 
 - condition: check-if-affected: examples/ | note: not affected — no examples use taproot dod with dirty check | resolved: 2026-03-28T09:50:25.305Z
 
 - condition: check-if-affected: docs/ | note: affected — docs/cli.md updated with --stash and --ignore-dirty options and explanation of step-0 dirty check | resolved: 2026-03-28T09:50:25.305Z
 
-- condition: check-if-affected: skills/guide.md | note: not affected — guide.md lists taproot dod at command level; --stash/--ignore-dirty are option-level details not warranting guide.md entry | resolved: 2026-03-28T09:50:25.305Z
+- condition: check-if-affected: skills/guide.md | note: not applicable — no skills/*.md files in Source Files (src/core/dod-runner.ts, src/commands/dod.ts, src/validators/types.ts, src/commands/init.ts, src/cli.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-30T19:45:53.974Z
 
 - condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts regenerates skill/adapter files; no dependency on taproot dod | resolved: 2026-03-28T09:50:25.304Z
 
