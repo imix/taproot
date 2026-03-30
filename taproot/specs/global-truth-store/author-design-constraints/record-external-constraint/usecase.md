@@ -109,7 +109,13 @@ flowchart TD
 - When the developer completes the prompts
 - Then a truth entry exists — the source type (client contract) does not affect the format or flow
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — design constraints session](../agent-skill/impl.md)
+
 ## Status
-- **State:** proposed
+- **State:** implemented
 - **Created:** 2026-03-29
-- **Last reviewed:** 2026-03-29
+- **Last reviewed:** 2026-03-30
+
+## Notes
+Implemented as part of the parent `/tr-design-constraints` session skill alongside the other three constraint formats — see `../agent-skill/impl.md`. All four formats (Decision, Principle, Convention, External) are handled inline by the `design-constraints.md` skill file. No standalone implementation is needed for this sub-behaviour.
