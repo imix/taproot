@@ -4,6 +4,16 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.9.2] - 2026-03-30
+
+### Features
+- feat(commithook): block proposed-state usecase.md at commit; two-phase write in behaviour skill (499e90f)
+
+### Maintenance
+- taproot(human-integration/pause-and-confirm): add proposed-state gate ACs and alternate flow (c67c7e5)
+- taproot(human-integration/pause-and-confirm/commithook-extension): declare impl (8f2eb5a)
+- taproot(human-integration/pause-and-confirm/commithook-extension): fix design notes State pattern (a930c9c)
+
 ## [0.9.1] - 2026-03-30
 
 ### Bug Fixes
