@@ -35,6 +35,18 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md and skills/guide.md already document taproot commithook with DoR context | resolved: 2026-03-19T18:17:46.871Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: NOT APPLICABLE — no skills/*.md files modified. Change is to src/core/dor-runner.ts only. | resolved: 2026-03-30T06:01:35.101Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — improving an error message is not a cross-cutting concern. No new settings.yaml entry needed. | resolved: 2026-03-30T06:01:35.100Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: NOT APPLICABLE — dor-runner.ts is a TypeScript CLI module, not a skill file. No agent-agnostic language concerns. | resolved: 2026-03-30T06:01:35.100Z
+
+- condition: check-if-affected: examples/ | note: No new user-visible workflow introduced. examples/ unchanged. | resolved: 2026-03-30T06:01:35.099Z
+
+- condition: check-if-affected: docs/ | note: NOT AFFECTED — the error message improvement is an internal UX change. docs/cli.md describes the commithook command generally, not specific error message text. No doc update needed. | resolved: 2026-03-30T06:01:35.099Z
+
+- condition: check-if-affected: package.json | note: No new npm dependencies. dor-runner.ts change is TypeScript-only: improved correction message for implemented/tested state. package.json unchanged. | resolved: 2026-03-30T06:01:35.089Z
+
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — src/commands/commithook.ts follows architecture rules: stateless, I/O at command boundary, no global state; change adds one constant to ALLOWED_IMPL_SECTIONS | resolved: 2026-03-20T21:31:40.376Z
 
 - condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — definition-of-ready CLI command has no git commit step; it validates impl.md specs and reports DoR results | resolved: 2026-03-20T21:31:40.146Z
