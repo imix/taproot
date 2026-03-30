@@ -17,7 +17,7 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 6. System creates `taproot/specs/` for the requirements hierarchy
 7. System creates `taproot/global-truths/` with README
 8. System creates `taproot/agent/` for skills and configuration
-9. System writes `taproot/settings.yaml` with default configuration
+9. System writes `taproot/settings.yaml` with default configuration; each condition type (`check-if-affected-by`, `check-if-affected`, `document-current`, `check:`) is preceded by a YAML comment explaining what it does and when to use it, so agents and developers can author new conditions directly in the file without consulting external documentation
 10. System writes `taproot/CONVENTIONS.md` with document format reference and commit conventions
 11. System installs the selected agent adapter (if any) — skills into `taproot/agent/skills/`, docs into `taproot/agent/docs/`
 12. System installs the pre-commit hook (if confirmed)
@@ -35,7 +35,7 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 
 ## Postconditions
 - `taproot/` directory exists with `specs/`, `global-truths/`, and `agent/` subdirectories
-- `taproot/settings.yaml` exists with default configuration (can be customised after init)
+- `taproot/settings.yaml` exists with default configuration (can be customised after init); inline YAML comments explain each gate condition type (`check-if-affected-by`, `check-if-affected`, `document-current`, `check:`) so agents and developers can author new conditions without consulting external documentation
 - `taproot/CONVENTIONS.md` exists as a human-readable format reference
 - `taproot/agent/skills/` is populated with canonical skill definitions
 - Selected agent adapter is installed (or none if declined)
@@ -168,6 +168,11 @@ sequenceDiagram
 - When the actor runs `taproot init`
 - Then `.gitignore` is not modified and the output reports the entry already exists
 
+**AC-19: settings.yaml includes inline documentation of condition types**
+- Given `taproot init` runs in a new project
+- When `taproot/settings.yaml` is written
+- Then the file contains inline YAML comments explaining `check-if-affected-by`, `check-if-affected`, `document-current`, and `check:` so that agents can author new conditions correctly without reading external documentation
+
 **AC-18: --with-ci github generates workflow including npm audit**
 - Given an actor runs `taproot init --with-ci github`
 - When init completes
@@ -179,5 +184,5 @@ sequenceDiagram
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
-- **Last reviewed:** 2026-03-27
+- **Last reviewed:** 2026-03-30
 - **Refined:** 2026-03-27 — added .gitignore step, CI template alternate flows, AC-16/17/18, Notes on taproot update
