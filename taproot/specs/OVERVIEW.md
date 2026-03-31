@@ -51,6 +51,12 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[update-adapters-and-skills](./agent-integration/update-adapters-and-skills/usecase.md)** `[implemented]` — Actor: Developer running `taproot update` after upgrading taproot or modifying skill definitions
   - [cli-command](./agent-integration/update-adapters-and-skills/cli-command/impl.md) `[complete]` (1 commit, 2 tests)
 
+## [cross-repo-specification](./cross-repo-specification/intent.md) `[active]`
+
+**Goal:** Enable teams working across multiple repositories to link to shared intents, behaviours, and global truths defined in a source repo — so that a requirement specified once can be implemented locally in each codebase without duplication, and each repo's coverage and validation runs independently.
+
+_No behaviours yet._
+
 ## [global-truth-store](./global-truth-store/intent.md) `[active]`
 
 **Goal:** Enable developers and agents to capture facts that are true across the project — domain concepts, business rules, entity definitions, project conventions — scoped to the hierarchy level they originate from, so that all specs share a consistent foundation and semantic drift is detected at write time and commit time.
@@ -270,4 +276,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-18 intents · 87 behaviours · 87 implementations · 85/87 complete
+19 intents · 87 behaviours · 87 implementations · 85/87 complete
