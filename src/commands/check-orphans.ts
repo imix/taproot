@@ -144,6 +144,17 @@ export function checkLinkTargets(
       continue;
     }
 
+    // Warn if the resolved target spec is in proposed (draft) state
+    const targetState = readSpecState(resolvedPath);
+    if (targetState === 'proposed') {
+      violations.push({
+        type: 'warning',
+        filePath: linkFilePath,
+        code: 'LINK_TARGET_DRAFT',
+        message: `Linked spec "${resolvedPath}" is in 'proposed' state — contents may change. Review this link after the source spec is finalised.`,
+      });
+    }
+
     // Follow one level of transitive links from the source repo (cycle detection)
     const newVisited = new Set(visited);
     newVisited.add(resolvedPath);
@@ -241,6 +252,21 @@ function checkImplReferences(node: FolderNode, repoRoot: string | null): Violati
   }
 
   return violations;
+}
+
+/** Read the **State:** value from the ## Status section of a spec file (first 50 lines only). */
+function readSpecState(filePath: string): string | null {
+  try {
+    const content = readFileSync(filePath, 'utf-8');
+    const lines = content.split('\n').slice(0, 50);
+    for (const line of lines) {
+      const m = /\*\*State:\*\*\s*(\S+)/.exec(line);
+      if (m) return m[1]!.trim().replace(/[^a-z-]/g, '');
+    }
+    return null;
+  } catch {
+    return null;
+  }
 }
 
 function readBehaviourState(node: FolderNode): string {

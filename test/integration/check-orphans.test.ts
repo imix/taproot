@@ -189,6 +189,44 @@ describe('link target validation — AC-7: TAPROOT_OFFLINE=1 skips validation', 
   });
 });
 
+describe('link target validation — AC-6: draft-state target warning', () => {
+  let dir: string;
+
+  beforeEach(() => {
+    dir = makeTmpDir();
+    delete process.env['TAPROOT_OFFLINE'];
+  });
+
+  afterEach(() => { rmSync(dir, { recursive: true, force: true }); });
+
+  it('emits LINK_TARGET_DRAFT warning when resolved target spec is in proposed state', () => {
+    const sourceDir = join(dir, 'source-repo');
+    mkdirSync(join(sourceDir, 'taproot/specs/auth/login'), { recursive: true });
+    writeFileSync(join(sourceDir, 'taproot/specs/auth/login/usecase.md'),
+      '# Behaviour: Login\n\n## Status\n- **State:** proposed\n', 'utf-8');
+    makeReposYaml(dir, { 'https://github.com/org/source': sourceDir });
+    const linkDir = join(dir, 'taproot/specs/my-intent/my-behaviour');
+    makeLinkFile(linkDir, 'link.md', 'https://github.com/org/source', 'taproot/specs/auth/login/usecase.md', 'behaviour');
+    const violations = checkLinkTargets(join(dir, 'taproot'), dir);
+    expect(violations.some(v => v.code === 'LINK_TARGET_DRAFT')).toBe(true);
+    // Should not be an error — only a warning
+    const draftViolation = violations.find(v => v.code === 'LINK_TARGET_DRAFT');
+    expect(draftViolation?.type).toBe('warning');
+  });
+
+  it('does not warn when resolved target spec is in specified or later state', () => {
+    const sourceDir = join(dir, 'source-repo');
+    mkdirSync(join(sourceDir, 'taproot/specs/auth/login'), { recursive: true });
+    writeFileSync(join(sourceDir, 'taproot/specs/auth/login/usecase.md'),
+      '# Behaviour: Login\n\n## Status\n- **State:** specified\n', 'utf-8');
+    makeReposYaml(dir, { 'https://github.com/org/source': sourceDir });
+    const linkDir = join(dir, 'taproot/specs/my-intent/my-behaviour');
+    makeLinkFile(linkDir, 'link.md', 'https://github.com/org/source', 'taproot/specs/auth/login/usecase.md', 'behaviour');
+    const violations = checkLinkTargets(join(dir, 'taproot'), dir);
+    expect(violations.some(v => v.code === 'LINK_TARGET_DRAFT')).toBe(false);
+  });
+});
+
 describe('check-orphans — --include-unimplemented', () => {
   it('reports UNIMPLEMENTED_BEHAVIOUR when flag is set', async () => {
     // create a fixture scenario with a behaviour that has no impls

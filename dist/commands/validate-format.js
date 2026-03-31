@@ -7,6 +7,8 @@ import { parseMarkdown } from '../core/markdown-parser.js';
 import { validateFormat } from '../validators/format-rules.js';
 import { renderViolations, exitCode } from '../core/reporter.js';
 import { SECTION_PLACEHOLDERS } from '../templates/index.js';
+import { findLinkFiles, parseLinkFile } from '../core/link-parser.js';
+const VALID_LINK_TYPES = new Set(['intent', 'behaviour', 'truth']);
 const MARKER_FILE = {
     intent: 'intent.md',
     behaviour: 'usecase.md',
@@ -71,6 +73,47 @@ export async function runValidateFormat(options) {
         }
         else {
             violations.push(...nodeViolations);
+        }
+    }
+    // Link file format validation
+    violations.push(...validateLinkFiles(rootPath));
+    return violations;
+}
+function validateLinkFiles(rootPath) {
+    const violations = [];
+    const linkFiles = findLinkFiles(rootPath);
+    for (const filePath of linkFiles) {
+        let content;
+        try {
+            content = readFileSync(filePath, 'utf-8');
+        }
+        catch {
+            violations.push({ type: 'error', filePath, code: 'UNREADABLE_FILE', message: 'Could not read link file' });
+            continue;
+        }
+        const parsed = parseLinkFile(content);
+        const missingFields = [];
+        if (!parsed.repo)
+            missingFields.push('Repo');
+        if (!parsed.path)
+            missingFields.push('Path');
+        if (!parsed.type)
+            missingFields.push('Type');
+        if (missingFields.length > 0) {
+            violations.push({
+                type: 'error',
+                filePath,
+                code: 'LINK_MISSING_FIELD',
+                message: `Link file missing required field(s): ${missingFields.join(', ')}. Required: **Repo:**, **Path:**, **Type:**`,
+            });
+        }
+        else if (!VALID_LINK_TYPES.has(parsed.type)) {
+            violations.push({
+                type: 'error',
+                filePath,
+                code: 'LINK_INVALID_TYPE',
+                message: `Invalid **Type:** value "${parsed.type}" — must be one of: intent, behaviour, truth`,
+            });
         }
     }
     return violations;

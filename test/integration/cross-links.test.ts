@@ -355,3 +355,109 @@ describe('refreshLinks — fallback to folder slug when no heading', () => {
     expect(content).toContain('[headless-behaviour]');
   });
 });
+
+// ─── validate-format: link file format validation ────────────────────────────
+
+function writeLinkFile(dir: string, name: string, fields: Record<string, string>): void {
+  mkdirSync(dir, { recursive: true });
+  const lines = ['# Link: Test Link', ''];
+  for (const [k, v] of Object.entries(fields)) {
+    lines.push(`**${k}:** ${v}`);
+  }
+  writeFileSync(join(dir, name), lines.join('\n'), 'utf-8');
+}
+
+describe('validate-format — link file: valid format passes (AC-1)', () => {
+  let dir: string;
+
+  beforeEach(() => {
+    dir = makeTempDir();
+    writeConfig(dir);
+    const intentDir = makeIntent(dir, 'my-intent',
+      '## Behaviours <!-- taproot-managed -->\n- [My Behaviour](./my-behaviour/usecase.md)\n');
+    const behaviourDir = makeBehaviour(intentDir, 'my-behaviour',
+      '## Implementations <!-- taproot-managed -->\n- [My Impl](./my-impl/impl.md)\n');
+    makeImpl(behaviourDir, 'my-impl');
+    writeLinkFile(join(intentDir, 'my-behaviour'), 'link.md', {
+      Repo: 'https://github.com/org/source',
+      Path: 'taproot/specs/auth/login/usecase.md',
+      Type: 'behaviour',
+    });
+  });
+
+  afterEach(() => { rmSync(dir, { recursive: true, force: true }); });
+
+  it('passes with no LINK_* violations for a valid link.md', async () => {
+    const violations = await runValidateFormat({ path: join(dir, 'taproot'), cwd: dir });
+    const linkErrors = violations.filter(v => v.code.startsWith('LINK_'));
+    expect(linkErrors).toHaveLength(0);
+  });
+});
+
+describe('validate-format — link file: missing required fields', () => {
+  let dir: string;
+
+  beforeEach(() => {
+    dir = makeTempDir();
+    writeConfig(dir);
+    const intentDir = makeIntent(dir, 'my-intent');
+    const behaviourDir = makeBehaviour(intentDir, 'my-behaviour');
+    makeImpl(behaviourDir, 'my-impl');
+    // Link file missing Type field
+    writeLinkFile(join(intentDir, 'my-behaviour'), 'link.md', {
+      Repo: 'https://github.com/org/source',
+      Path: 'taproot/specs/auth/login/usecase.md',
+    });
+  });
+
+  afterEach(() => { rmSync(dir, { recursive: true, force: true }); });
+
+  it('reports LINK_MISSING_FIELD when Type is absent', async () => {
+    const violations = await runValidateFormat({ path: join(dir, 'taproot'), cwd: dir });
+    expect(violations.some(v => v.code === 'LINK_MISSING_FIELD' && v.message.includes('Type'))).toBe(true);
+  });
+});
+
+describe('validate-format — link file: all required fields absent', () => {
+  let dir: string;
+
+  beforeEach(() => {
+    dir = makeTempDir();
+    writeConfig(dir);
+    const intentDir = makeIntent(dir, 'my-intent');
+    writeLinkFile(join(intentDir, 'my-behaviour'), 'link.md', {});
+  });
+
+  afterEach(() => { rmSync(dir, { recursive: true, force: true }); });
+
+  it('reports LINK_MISSING_FIELD listing all three missing fields', async () => {
+    const violations = await runValidateFormat({ path: join(dir, 'taproot'), cwd: dir });
+    const v = violations.find(v => v.code === 'LINK_MISSING_FIELD');
+    expect(v).toBeDefined();
+    expect(v!.message).toContain('Repo');
+    expect(v!.message).toContain('Path');
+    expect(v!.message).toContain('Type');
+  });
+});
+
+describe('validate-format — link file: invalid Type value', () => {
+  let dir: string;
+
+  beforeEach(() => {
+    dir = makeTempDir();
+    writeConfig(dir);
+    const intentDir = makeIntent(dir, 'my-intent');
+    writeLinkFile(join(intentDir, 'my-behaviour'), 'link.md', {
+      Repo: 'https://github.com/org/source',
+      Path: 'taproot/specs/auth/login/usecase.md',
+      Type: 'usecase',
+    });
+  });
+
+  afterEach(() => { rmSync(dir, { recursive: true, force: true }); });
+
+  it('reports LINK_INVALID_TYPE for unrecognised Type value', async () => {
+    const violations = await runValidateFormat({ path: join(dir, 'taproot'), cwd: dir });
+    expect(violations.some(v => v.code === 'LINK_INVALID_TYPE' && v.message.includes('"usecase"'))).toBe(true);
+  });
+});
