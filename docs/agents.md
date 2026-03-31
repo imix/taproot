@@ -38,8 +38,8 @@ After `taproot init --agent claude --with-skills`, skills are available as `/tr-
 | `/tr-implement` | Implement a behaviour: write code, write tests, create `impl.md`, commit with conventional tag |
 | `/tr-trace` | Navigate the hierarchy in any direction — file to intent (bottom-up), intent to code (top-down), or across siblings |
 | `/tr-status` | Coverage dashboard: shows what's implemented, what's planned, what's stale, and what to do next |
-| `/tr-review` | Stress-test a single artifact — challenges assumptions, identifies gaps, asks adversarial questions |
-| `/tr-review-all` | Comprehensive review of an entire subtree — structural checks, cross-cutting analysis, per-artifact findings |
+| `/tr-audit` | Stress-test a single artifact — challenges assumptions, identifies gaps, asks adversarial questions |
+| `/tr-audit-all` | Comprehensive review of an entire subtree — structural checks, cross-cutting analysis, per-artifact findings |
 | `/tr-refine` | Update a behaviour spec based on post-implementation learnings |
 | `/tr-promote` | Escalate a finding from implementation or behaviour level up to the intent |
 | `/tr-next` | Surface the next independently-implementable work item from the hierarchy |

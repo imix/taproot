@@ -66,13 +66,13 @@ Drop an idea, finding, or deferred decision into `taproot/agent/backlog.md` mid-
 ## I want to analyse my specs
 
 ```
-/tr-review taproot/password-reset/request-reset/usecase.md
-/tr-review-all taproot/password-reset/
+/tr-audit taproot/password-reset/request-reset/usecase.md
+/tr-audit-all taproot/password-reset/
 ```
 
-Use `/tr-review` to stress-test a single spec before you implement it — the agent challenges assumptions, asks adversarial questions, and flags coverage gaps. Use `/tr-review-all` on a subtree to catch contradictions between siblings and cross-check every intent criterion against the behaviours below it.
+Use `/tr-audit` to stress-test a single spec before you implement it — the agent challenges assumptions, asks adversarial questions, and flags coverage gaps. Use `/tr-audit-all` on a subtree to catch contradictions between siblings and cross-check every intent criterion against the behaviours below it.
 
-Run `/tr-review` on a fresh spec before starting implementation. Run `/tr-review-all` before a release or after significant scope changes.
+Run `/tr-audit` on a fresh spec before starting implementation. Run `/tr-audit-all` before a release or after significant scope changes.
 
 ---
 

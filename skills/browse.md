@@ -2,7 +2,7 @@
 
 ## Description
 
-Read a taproot hierarchy document section by section in the terminal — without opening an external editor. Presents each section one at a time, offers inline editing via `[M] Modify`, and lists what's below at the end. Distinct from `/tr-review` (which is an agent-driven critique); browse is the developer reading the spec themselves.
+Read a taproot hierarchy document section by section in the terminal — without opening an external editor. Presents each section one at a time, offers inline editing via `[M] Modify`, and lists what's below at the end. Distinct from `/tr-audit` (which is an agent-driven critique); browse is the developer reading the spec themselves.
 
 ## Inputs
 
@@ -66,7 +66,7 @@ Read a taproot hierarchy document section by section in the terminal — without
    **What's next?**
    [1] `/tr-browse <child-path>` — go deeper into one of the listed children
    [2] `/tr-implement <path>/` — start building (if browsing a behaviour spec)
-   [3] `/tr-review <path>` — get an agent critique of the spec
+   [3] `/tr-audit <path>` — get an agent critique of the spec
 
 ## Output
 
@@ -78,7 +78,7 @@ None
 
 ## Notes
 
-- Browse is read-and-light-edit, not a stress-test. Resist the urge to comment on spec quality — the developer is reading, not asking for a critique. Use `/tr-review` for that.
+- Browse is read-and-light-edit, not a stress-test. Resist the urge to comment on spec quality — the developer is reading, not asking for a critique. Use `/tr-audit` for that.
 - The ~20-line pagination threshold is a guideline. Use judgment — a section with 22 short lines may be fine to show in full; a section with 15 very long lines may need pagination.
 - The `> How we got here:` block is shown once per browse session at the designated anchor, not repeated for every section.
 - After [M] edits, the file on disk is updated but no git staging is performed — the developer commits when ready.

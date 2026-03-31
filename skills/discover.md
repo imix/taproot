@@ -240,7 +240,7 @@ Reverse-engineer an existing project into a taproot hierarchy — from source co
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
     **What's next?**
-    [1] `/tr-status` — see coverage gaps and health report
+    [1] `/tr-status` — coverage snapshot
     [2] `/tr-next` — surface the next behaviour to implement
     [3] `/tr-ineed` — capture requirements that surfaced during discovery but weren't formalised
 

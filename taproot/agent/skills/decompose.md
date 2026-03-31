@@ -83,7 +83,7 @@ Gap: Success criterion "Support <5 second load time" has no behaviour —
 
     **What's next?**
     [1] `/tr-implement taproot/<intent-slug>/<first-behaviour-slug>/` — start building the first behaviour
-    [2] `/tr-review taproot/<intent-slug>/<behaviour-slug>/usecase.md` — stress-test a behaviour spec first
+    [2] `/tr-audit taproot/<intent-slug>/<behaviour-slug>/usecase.md` — stress-test a behaviour spec first
 
 ## Output
 

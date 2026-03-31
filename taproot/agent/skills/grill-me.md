@@ -62,5 +62,5 @@ None — pure agent skill.
 - **Always recommend first.** The session is a dialogue about recommendations, not a blank-slate interview. Developers can agree, refine, or reject — but they should never have to start from scratch.
 - **One question at a time.** Batching questions lets the developer give vague omnibus answers. One question forces a specific answer on each branch.
 - **Explore the codebase proactively.** Many questions about existing behaviour, architecture, or conventions can be answered by reading files — do this instead of asking.
-- **Distinction from `/taproot:review`** (formerly `tr-grill`): `tr-review` stress-tests a finished taproot artefact from an adversarial reviewer's perspective. `tr-grill-me` interviews the developer *before* the artefact is written, to sharpen the thinking that goes into it.
+- **Distinction from `/taproot:audit`** (formerly `tr-grill`): `/tr-audit` stress-tests a finished taproot artefact from an adversarial reviewer's perspective. `tr-grill-me` interviews the developer *before* the artefact is written, to sharpen the thinking that goes into it.
 - **Called by other skills:** `/taproot:ineed` delegates to `grill-me` on the "Go deeper [A]" path. When called in embedded mode, output the synthesis summary to the calling skill context rather than presenting it to the user.

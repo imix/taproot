@@ -148,8 +148,8 @@ const AVAILABLE_LANGUAGES: Array<{ name: string; value: string }> = [
 ];
 
 export const SKILL_FILES = [
-  'review.md',
-  'review-all.md',
+  'audit.md',
+  'audit-all.md',
   'grill-me.md',
   'intent.md',
   'behaviour.md',

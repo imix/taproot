@@ -130,8 +130,8 @@ const AVAILABLE_LANGUAGES = [
     { name: 'Portuguese', value: 'pt' },
 ];
 export const SKILL_FILES = [
-    'review.md',
-    'review-all.md',
+    'audit.md',
+    'audit-all.md',
     'grill-me.md',
     'intent.md',
     'behaviour.md',

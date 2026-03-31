@@ -210,7 +210,7 @@ export function runDorChecks(implMdPath: string, cwd: string): DorReport {
       `usecase.md is already in '${state}' state — a previous implementation has been completed. ` +
       `To add a new implementation, revert the state: change \`**State:** ${state}\` to \`**State:** specified\` in the ## Status section of the usecase.md, then re-commit the impl.md.`;
   } else {
-    stateCorrection = "Bring the spec to 'specified' (run /tr-review then /tr-refine) before starting implementation";
+    stateCorrection = "Bring the spec to 'specified' (run /tr-audit then /tr-refine) before starting implementation";
   }
   results.push({
     name: 'state-specified',

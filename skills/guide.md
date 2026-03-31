@@ -53,8 +53,8 @@ ineed → intent → behaviour → implement → trace → status
 | `/tr-implement` | Implement a behaviour with code, tests, and `impl.md` |
 | `/tr-trace` | Navigate the hierarchy in any direction — file to intent (bottom-up), intent to code (top-down), lateral across siblings |
 | `/tr-status` | Generate a health dashboard for the hierarchy |
-| `/tr-review` | Stress-test a spec with adversarial questions |
-| `/tr-review-all` | Run review across an entire subtree |
+| `/tr-audit` | Stress-test a spec with adversarial questions |
+| `/tr-audit-all` | Audit an entire subtree — structural checks, cross-cutting analysis, per-artifact findings |
 | `/tr-discover-truths` | Scan the hierarchy for implicit facts and promote them to global truths |
 | `/tr-define-truth` | Capture any truth — free-form or structured (architecture decisions, principles, conventions, external constraints) |
 | `/tr-browse` | Read a hierarchy document section by section in the terminal — with inline editing via `[M] Modify` |

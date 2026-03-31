@@ -49,7 +49,7 @@ Create a new business intent or refine an existing one. An intent captures the "
    **What's next?**
    [1] `/tr-behaviour taproot/<slug>/` — define the first behaviour under this intent
    [2] `/tr-ineed` — describe the full intent in plain language; routing will decompose it
-   [3] `/tr-review taproot/<slug>/intent.md` — stress-test the spec before building
+   [3] `/tr-audit taproot/<slug>/intent.md` — stress-test the spec before building
    [4] `/tr-browse taproot/<slug>/` — browse related intents and behaviours for context
    [P] Plan these — build a `taproot/plan.md` from these findings
 
@@ -72,8 +72,8 @@ Create a new business intent or refine an existing one. An intent captures the "
 
    **What's next?**
    [1] `/tr-behaviour <path>/` — add or refine a behaviour under this intent
-   [2] `/tr-review <path>/intent.md` — stress-test the updated intent
-   [3] `/tr-status` — see overall project health
+   [2] `/tr-audit <path>/intent.md` — stress-test the updated intent
+   [3] `/tr-status` — coverage snapshot
    [4] `/tr-browse <path>/` — browse this intent and its behaviours for context
 
 ## Output

@@ -1,8 +1,8 @@
-# Skill: review-all
+# Skill: audit-all
 
 ## Description
 
-Run a comprehensive review of an entire subtree — an intent and all its descendants, or the entire `taproot/` root. Applies the per-artifact review logic from `/taproot:review` to each node, then adds cross-cutting analysis that can only be done by comparing artifacts against each other. Produces a consolidated report.
+Run a comprehensive review of an entire subtree — an intent and all its descendants, or the entire `taproot/` root. Applies the per-artifact review logic from `/taproot:audit` to each node, then adds cross-cutting analysis that can only be done by comparing artifacts against each other. Produces a consolidated report.
 
 ## Inputs
 
@@ -18,7 +18,7 @@ Run a comprehensive review of an entire subtree — an intent and all its descen
 
 4. Walk the subtree top-down. For each artifact found:
    - Read the file
-   - Apply the review logic from `/taproot:review` (Steps 3 of that skill)
+   - Apply the review logic from `/taproot:audit` (Steps 3 of that skill)
    - Record findings tagged with the artifact path
 
 5. After reviewing all individual artifacts, perform **cross-cutting analysis**:

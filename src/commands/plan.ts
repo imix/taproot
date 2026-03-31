@@ -164,7 +164,7 @@ function formatTree(report: PlanReport): string {
   const lines: string[] = [];
 
   if (report.allImplemented) {
-    lines.push('All behaviours are implemented. Consider running `taproot check-orphans` or `/tr-review-all`.');
+    lines.push('All behaviours are implemented. Consider running `taproot check-orphans` or `/tr-audit-all`.');
     lines.push('');
     return lines.join('\n');
   }

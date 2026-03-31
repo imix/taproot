@@ -24,7 +24,7 @@ Surface the next independently-implementable work item from the requirement hier
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
-   [1] `/tr-review-all` — semantic review of the full hierarchy
+   [1] `/tr-audit-all` — spec quality audit
    [2] `/tr-ineed` — capture a new requirement
 
    Then stop.

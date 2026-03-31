@@ -24,7 +24,7 @@ Apply a uniform task to a filtered set of hierarchy files — enumerate matching
    - If ambiguous, ask: "Should I apply this to usecases, intents, implementations, or all three?"
 
    Also check if the task requires **cross-item context** (e.g. "renumber all AC IDs globally" — needs awareness of IDs across files). If yes, warn:
-   > "This task needs cross-item context — consider `/tr-review-all` instead."
+   > "This task needs cross-item context — consider `/tr-audit-all` instead."
    > And stop.
 
 2. Enumerate matching files under the scope path (default: `taproot/`). Walk the hierarchy and collect all files matching the target type(s). Exclude any files that are clearly not candidates (e.g. OVERVIEW.md, impl.md files in `proposed` state for an intent-only sweep).
@@ -75,7 +75,7 @@ Apply a uniform task to a filtered set of hierarchy files — enumerate matching
 
    **What's next?**
    [1] `/tr-sweep` again — run another sweep with a different task or scope
-   [2] `/tr-status` — see the full project health after these changes
+   [2] `/tr-status` — coverage snapshot
 
 ## Output
 

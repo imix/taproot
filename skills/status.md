@@ -83,7 +83,7 @@ Generated: <date>
      **What's next?**
      [1] `/tr-next` — pick the next behaviour to implement
      [2] `/tr-ineed` — route a new requirement into the hierarchy
-     [3] `/tr-review-all` — deeper semantic review of specs
+     [3] `/tr-audit-all` — spec quality audit
      [4] `/tr-backlog` — triage captured ideas (only if `taproot/backlog.md` is non-empty)
 
 ## Output
@@ -101,4 +101,4 @@ A narrative health summary with metrics, issue categorization, and prioritized a
 ## Notes
 
 - This skill is read-only. It reports, it does not modify.
-- For deep semantic issues (unclear specs, over-scoped intents), this skill will not catch them — suggest `/taproot:review-all` for that.
+- For deep semantic issues (unclear specs, over-scoped intents), this skill will not catch them — suggest `/taproot:audit-all` for that.

@@ -78,7 +78,7 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
 
    **b. In step-by-step mode**, wait for developer response:
    - `[R]`:
-     - **If the item has an existing path** (a `usecase.md` is present): invoke `/tr-browse <path>` and let browse run to full completion — including any sub-actions the developer selects within browse (e.g. `/tr-review`, navigating sections). Do not re-present the plan-execute prompt until the developer has finished all browse activity and browse itself has exited.
+     - **If the item has an existing path** (a `usecase.md` is present): invoke `/tr-browse <path>` and let browse run to full completion — including any sub-actions the developer selects within browse (e.g. `/tr-audit`, navigating sections). Do not re-present the plan-execute prompt until the developer has finished all browse activity and browse itself has exited.
      - **If the item has no spec yet** (`[spec]` type with no existing path): show available design context inline — the item description, which skill will handle it, and any relevant hierarchy context (parent intent goal, sibling behaviours). Do not invoke `/tr-browse`.
      - **In both cases**: re-present the same item prompt unchanged with all four options — `[R] Review  [A] Proceed  [S] Skip  [C] Cancel`. `[R]` must always reappear so the developer can continue reviewing before committing to proceed.
    - `[A]` or affirmative: proceed to c

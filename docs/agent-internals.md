@@ -19,13 +19,13 @@ If you already know what you want and where it goes, call `/tr-intent` or `/tr-b
 
 ```
 /tr-ineed "users need to reset their password without contacting support"
-/tr-review taproot/password-reset/intent.md
+/tr-audit taproot/password-reset/intent.md
 /tr-implement taproot/password-reset/request-reset/
 taproot coverage --path taproot/password-reset/
 ```
 
 1. **`/tr-ineed`** — routes the requirement: writes `intent.md` with goal, stakeholders, and success criteria, then offers to decompose it into behaviours. Asks clarifying questions before writing.
-2. **`/tr-review`** — stress-tests the intent: challenges success criteria, surfaces scope ambiguity, flags missing stakeholders. Run before writing behaviours.
+2. **`/tr-audit`** — stress-tests the intent: challenges success criteria, surfaces scope ambiguity, flags missing stakeholders. Run before writing behaviours.
 3. **`/tr-implement`** — for one behaviour at a time: writes the code, writes the tests, creates `impl.md`, and commits using the conventional tag format.
 4. **`taproot coverage`** — shows what's implemented vs. still planned.
 
@@ -78,7 +78,7 @@ Before editing a behaviour or intent that already has implementations, the analy
 
 Scans all `intent.md` and `usecase.md` files for recurring terms, business rules, and conventions not yet defined in `taproot/global-truths/`. For each candidate: **promote** (routes to `/tr-define-truth`), **backlog**, **skip**, or **dismiss**.
 
-Truth discovery also runs as a final pass inside `/tr-review-all`.
+Truth discovery also runs as a final pass inside `/tr-audit-all`.
 
 ---
 

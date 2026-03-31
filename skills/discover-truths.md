@@ -2,7 +2,7 @@
 
 ## Description
 
-Scan the taproot hierarchy for implicit facts — recurring terms, business rules, and conventions — that are not yet captured as global truths. Present candidates to the developer for promotion, backlogging, or dismissal. Invoke standalone or as a final pass within `/tr-review-all`.
+Scan the taproot hierarchy for implicit facts — recurring terms, business rules, and conventions — that are not yet captured as global truths. Present candidates to the developer for promotion, backlogging, or dismissal. Invoke standalone or as a final pass within `/tr-audit-all`.
 
 ## Inputs
 
@@ -121,8 +121,8 @@ If any of these is true, **autonomous mode is active** — skip interactive prom
 
    **What's next?**
    [1] `/tr-ineed <candidate>` — promote a kept candidate now
-   [2] `/tr-status` — see current project health
-   [3] `/tr-review-all` — run a full review (includes another truth discovery pass)
+   [2] `/tr-status` — coverage snapshot
+   [3] `/tr-audit-all` — spec quality audit (includes another truth discovery pass)
 
 ## Output
 
