@@ -97,6 +97,9 @@ flowchart TD
 - When the developer runs `taproot coverage`
 - Then the linked intent is counted in intent-level coverage (not behaviour-level) and marked `[linked]`
 
+## Implementations <!-- taproot-managed -->
+- [coverage extension](./coverage-extension/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-31
