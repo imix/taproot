@@ -120,9 +120,9 @@ If any of these is true, **autonomous mode is active** — skip interactive prom
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
-   [A] `/tr-ineed <candidate>` — promote a kept candidate now
-   [B] `/tr-status` — see current project health
-   [C] `/tr-review-all` — run a full review (includes another truth discovery pass)
+   [1] `/tr-ineed <candidate>` — promote a kept candidate now
+   [2] `/tr-status` — see current project health
+   [3] `/tr-review-all` — run a full review (includes another truth discovery pass)
 
 ## Output
 

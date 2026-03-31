@@ -99,9 +99,10 @@ Run a comprehensive review of an entire subtree — an intent and all its descen
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
-   [A] `/tr-refine <highest-priority-path>` — fix the top-priority finding
-   [B] `/tr-next` — surface the next implementable behaviour
-   [C] `/tr-backlog <finding>` — capture a deferred finding before routing it to the hierarchy
+   [1] `/tr-refine <highest-priority-path>` — fix the top-priority finding
+   [2] `/tr-next` — surface the next implementable behaviour
+   [3] `/tr-backlog <finding>` — capture a deferred finding before routing it to the hierarchy
+   [P] Plan these — build a `taproot/plan.md` from these findings
 
 ## Output
 

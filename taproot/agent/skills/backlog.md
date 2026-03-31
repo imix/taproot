@@ -55,8 +55,8 @@ Capture ideas, findings, and deferred work mid-session with a single command —
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
-   [A] `/tr-ineed <idea>` — route a kept item into the hierarchy now
-   [B] `/tr-status` — see current project health
+   [1] `/tr-ineed <idea>` — route a kept item into the hierarchy now
+   [2] `/tr-status` — see current project health
 
 ## Output
 

@@ -54,9 +54,9 @@ Run the taproot maintainer's local release phase: pre-flight checks, changelog g
    ```
 
    Present the entry in the conversation and ask:
-   > Review changelog for v\<next\>. **[Y]** proceed · **[E]** edit `CHANGELOG.md` directly then reply Y · **[Q]** abort
+   > Review changelog for v\<next\>. **[Y]** proceed · **[E]** edit `CHANGELOG.md` directly then reply Y · **[C]** cancel
 
-   - **[Q]**: report "Release aborted — no files modified." and stop.
+   - **[C]**: report "Release aborted — no files modified." and stop.
    - **[E]**: wait for the user to confirm they have finished editing, then re-read the edited `CHANGELOG.md` entry.
    - **[Y]**: write the entry to `CHANGELOG.md`:
      - If `CHANGELOG.md` does not exist, create it:

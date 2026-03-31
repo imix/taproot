@@ -74,17 +74,17 @@ Generated: <date>
    - **If specific priority items were found** (unimplemented behaviours, missing tests, validation errors): surface the top 1–2 as direct lettered options with the exact command and path pre-filled. Add one generic fallback option last. Example:
 
      **What's next?**
-     [A] `/tr-implement taproot/<intent>/<behaviour>/` — implement unimplemented behaviour
-     [B] `/tr-refine taproot/<intent>/<behaviour>/` — add missing tests
-     [C] `/tr-next` — pick a different next item
+     [1] `/tr-implement taproot/<intent>/<behaviour>/` — implement unimplemented behaviour
+     [2] `/tr-refine taproot/<intent>/<behaviour>/` — add missing tests
+     [3] `/tr-next` — pick a different next item
 
    - **If no specific items were found** (healthy project): check whether `taproot/backlog.md` exists and contains items. Show the generic fallback menu:
 
      **What's next?**
-     [A] `/tr-next` — pick the next behaviour to implement
-     [B] `/tr-ineed` — route a new requirement into the hierarchy
-     [C] `/tr-review-all` — deeper semantic review of specs
-     [D] `/tr-backlog` — triage captured ideas (only if `taproot/backlog.md` is non-empty)
+     [1] `/tr-next` — pick the next behaviour to implement
+     [2] `/tr-ineed` — route a new requirement into the hierarchy
+     [3] `/tr-review-all` — deeper semantic review of specs
+     [4] `/tr-backlog` — triage captured ideas (only if `taproot/backlog.md` is non-empty)
 
 ## Output
 

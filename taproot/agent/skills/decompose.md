@@ -62,14 +62,14 @@ Gap: Success criterion "Support <5 second load time" has no behaviour —
    Satisfies: <success criterion>
    Depends on: <dependency or "none">
 
-   [Y] Create it   [E] Edit description before creating   [S] Skip   [Q] Quit
+   [Y] Create it   [E] Edit description before creating   [S] Skip   [C] Cancel
 
    ```
 
    - **[Y]**: run `/taproot:behaviour <path> "<description>"` to create the `usecase.md`
    - **[E]**: apply corrections to the description, re-present the preview, then create on next [Y]
    - **[S]**: skip — note "Skipped `taproot/<intent-slug>/<behaviour-slug>/`" and move to the next
-   - **[Q]**: stop immediately; list what was created, skipped, and remaining
+   - **[C]**: stop immediately; list what was created, skipped, and remaining
 
    If the user says "just go" or "do all", acknowledge once and create the remaining behaviours without pausing.
 
@@ -82,8 +82,8 @@ Gap: Success criterion "Support <5 second load time" has no behaviour —
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
     **What's next?**
-    [A] `/tr-implement taproot/<intent-slug>/<first-behaviour-slug>/` — start building the first behaviour
-    [B] `/tr-review taproot/<intent-slug>/<behaviour-slug>/usecase.md` — stress-test a behaviour spec first
+    [1] `/tr-implement taproot/<intent-slug>/<first-behaviour-slug>/` — start building the first behaviour
+    [2] `/tr-review taproot/<intent-slug>/<behaviour-slug>/usecase.md` — stress-test a behaviour spec first
 
 ## Output
 

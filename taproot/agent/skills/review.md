@@ -58,9 +58,10 @@ Stress-test a single Taproot artifact — an `intent.md`, `usecase.md`, or `impl
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
-   [A] `/tr-refine <path>` — apply the findings to the spec
-   [B] `/tr-implement <path>/` — spec is clean; proceed to implementation
-   [C] `/tr-backlog <finding>` — capture an out-of-scope issue for later without routing it now
+   [1] `/tr-refine <path>` — apply the findings to the spec
+   [2] `/tr-implement <path>/` — spec is clean; proceed to implementation
+   [3] `/tr-backlog <finding>` — capture an out-of-scope issue for later without routing it now
+   [P] Plan these — build a `taproot/plan.md` from these findings
 
 ## Output
 

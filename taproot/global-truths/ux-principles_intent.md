@@ -2,6 +2,36 @@
 
 Cross-cutting design principles that apply at every level of the hierarchy — intents, behaviours, and implementations.
 
+## Option Labeling Convention
+
+Two distinct prompt types exist — treat them differently:
+
+**Letters = semantic operations** with fixed meaning across all skills:
+
+| Letter | Meaning | Where used |
+|--------|---------|------------|
+| `[A]` | Accept / Proceed | Mid-flow decision prompts |
+| `[C]` | Cancel — abort, no changes made | Mid-flow decision prompts |
+| `[R]` | Review | Mid-flow and post-execution prompts |
+| `[S]` | Skip | Mid-flow decision prompts |
+| `[D]` | Done / Stop for now | Continuation prompts (e.g. `[A] Continue  [D] Stop for now`) |
+| `[P]` | Plan — invoke `/tr-plan` with findings | Multi-finding closing prompts |
+| `[B]` | Browse | Mid-flow, when context navigation is offered |
+
+**Numbers = positional selections** with no fixed meaning. Use for:
+- "What's next?" closing menus
+- Category or item pickers
+- Any list where position, not semantics, determines the choice
+
+**Rules:**
+- Never repurpose a reserved letter for a different meaning in any skill
+- Max 4 options in any single prompt
+- `[D]` (Done) only in continuation prompts — omit from numbered "What's next?" menus (stopping is implicit)
+- `/tr-commit` always appears as a numbered "What's next?" option, never a reserved letter
+- `[Q]` is retired — use `[C]` for Cancel
+
+---
+
 ## Fail Early
 
 When something will fail, detect and surface it as early as possible in the flow — not at the end.

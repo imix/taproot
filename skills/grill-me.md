@@ -44,9 +44,9 @@ Based on Matt Pocock's `grill-me` skill (MIT licensed, https://github.com/mattpo
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
-   [A] `/tr-ineed "<clarified requirement>"` — route the sharpened requirement into the hierarchy
-   [B] `/tr-behaviour <path>/` — write the spec now that the design is clear
-   [C] `/tr-backlog <deferred question>` — capture an unresolved question for later without routing it now
+   [1] `/tr-ineed "<clarified requirement>"` — route the sharpened requirement into the hierarchy
+   [2] `/tr-behaviour <path>/` — write the spec now that the design is clear
+   [3] `/tr-backlog <deferred question>` — capture an unresolved question for later without routing it now
 
 ## Output
 

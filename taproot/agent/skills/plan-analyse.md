@@ -63,8 +63,8 @@ None required.
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
-   [A] `/tr-plan-execute` — execute the plan (after resolving flagged items)
-   [B] `/tr-plan` — rebuild or add items to the plan
+   [1] `/tr-plan-execute` — execute the plan (after resolving flagged items)
+   [2] `/tr-plan` — rebuild or add items to the plan
 
 ## Output
 

@@ -125,13 +125,13 @@ Reverse-engineer an existing project into a taproot hierarchy — from source co
 
       <full proposed content>
 
-      [Y] Write it   [E] Edit before writing   [S] Skip   [Q] Quit session
+      [Y] Write it   [E] Edit before writing   [S] Skip   [C] Cancel
       ```
 
       - **[Y]**: write the file, report the path written, proceed to the next intent
       - **[E]**: apply the developer's corrections, re-present the updated proposal with the same menu
       - **[S]**: skip — do not write; note "Skipped `taproot/<slug>/intent.md`" and move on
-      - **[Q]**: stop the session immediately and write the session summary (see Phase 0)
+      - **[C]**: stop the session immediately and write the session summary (see Phase 0)
 
    f. Update `.taproot/sessions/discovery-status.md`: mark this intent `[x]` in Phase 2, set Phase to `2`, update Last updated.
 
@@ -174,10 +174,10 @@ Reverse-engineer an existing project into a taproot hierarchy — from source co
 
        <full proposed content>
 
-       [Y] Write it   [E] Edit before writing   [S] Skip   [Q] Quit session
+       [Y] Write it   [E] Edit before writing   [S] Skip   [C] Cancel
        ```
 
-       Apply Y/E/S/Q as described in step 8e above.
+       Apply Y/E/S/C as described in step 8e above.
 
     f. Update status file: mark this behaviour `[x]` under its intent in Phase 3, update Last updated.
 
@@ -211,10 +211,10 @@ Reverse-engineer an existing project into a taproot hierarchy — from source co
 
        <full proposed content>
 
-       [Y] Write it   [E] Edit before writing   [S] Skip   [Q] Quit session
+       [Y] Write it   [E] Edit before writing   [S] Skip   [C] Cancel
        ```
 
-       Apply Y/E/S/Q as described in step 8e above.
+       Apply Y/E/S/C as described in step 8e above.
 
     g. Update status file: mark this impl `[x]` under its behaviour in Phase 4, update Last updated.
 
@@ -240,9 +240,9 @@ Reverse-engineer an existing project into a taproot hierarchy — from source co
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
     **What's next?**
-    [A] `/tr-status` — see coverage gaps and health report
-    [B] `/tr-next` — surface the next behaviour to implement
-    [C] `/tr-ineed` — capture requirements that surfaced during discovery but weren't formalised
+    [1] `/tr-status` — see coverage gaps and health report
+    [2] `/tr-next` — surface the next behaviour to implement
+    [3] `/tr-ineed` — capture requirements that surfaced during discovery but weren't formalised
 
 ## Output
 

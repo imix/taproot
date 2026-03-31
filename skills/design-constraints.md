@@ -114,9 +114,9 @@ Capture project-wide constraints in a structured session — architectural decis
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
 **What's next?**
-[A] `/tr-define-truth` — capture a free-form truth (DB schema, API contract, glossary) not suited to these formats
-[B] `/tr-discover-truths` — scan existing specs for implicit truth candidates
-[C] `/tr-commit` — commit the new truth files
+[1] `/tr-define-truth` — capture a free-form truth (DB schema, API contract, glossary) not suited to these formats
+[2] `/tr-discover-truths` — scan existing specs for implicit truth candidates
+[3] `/tr-commit` — commit the new truth files
 
 ## Output
 

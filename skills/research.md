@@ -90,17 +90,17 @@ Research any domain or technical subject before writing a behaviour spec — by 
    Developer confirms or corrects the slug. Then ask:
    > **`[S] Save to taproot/research/<topic-slug>.md with citations`**
    > **`[F] Feed directly into a spec`**
-   > **`[Q] Discard and stop`**
+   > **`[C] Discard and stop`**
 
    - **[S]** — create `taproot/research/` directory if absent; write `taproot/research/<topic-slug>.md` using the final summary structure from step 7; present:
 
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
      **What's next?**
-     [A] `/tr-behaviour taproot/<intent>/` — write a spec informed by this research
-     [B] `/tr-ineed "<topic>"` — route it as a requirement with research context attached
+     [1] `/tr-behaviour taproot/<intent>/` — write a spec informed by this research
+     [2] `/tr-ineed "<topic>"` — route it as a requirement with research context attached
    - **[F]** — pass the final summary as input context to `/tr-behaviour`; no file written
-   - **[Q]** — discard the synthesis; exit without writing any file or chaining to another skill
+   - **[C]** — discard the synthesis; exit without writing any file or chaining to another skill
 
 ## Output
 

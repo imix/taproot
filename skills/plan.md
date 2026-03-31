@@ -30,10 +30,10 @@ Sources: backlog items, unimplemented hierarchy behaviours, or developer-supplie
      N critical-path items:
       1. hitl  [spec]      "description"
       2. afk   [implement] <intent>/<behaviour>/
-     [A] Confirm  [E] Edit directly then reply A  [Q] Abort
+     [A] Confirm  [E] Edit directly then reply A  [C] Cancel
      ```
-     Wait for confirmation. On `[Q]`: stop — no files written. On `[E]`: wait for edits.
-  6. If `taproot/plan.md` already exists, offer: `[A] Append new items · [R] Replace · [Q] Abort` before writing.
+     Wait for confirmation. On `[C]`: stop — no files written. On `[E]`: wait for edits.
+  6. If `taproot/plan.md` already exists, offer: `[A] Append new items · [R] Replace · [C] Cancel` before writing.
   7. Write `taproot/plan.md` with only the critical-path items:
      ```
      # Taproot Plan
@@ -77,21 +77,21 @@ Sources: backlog items, unimplemented hierarchy behaviours, or developer-supplie
     2. hitl  [refine]    <intent>/<behaviour>/usecase
     3. afk   [implement] <intent>/<behaviour>/
 
-   [A] Confirm  [E] Edit directly then reply A  [Q] Abort
+   [A] Confirm  [E] Edit directly then reply A  [C] Cancel
    ```
    Wait for developer response. Do not write any files before confirmation.
 
 6. **Handle developer choice:**
    - **[E]**: wait for the developer to paste an edited list in the conversation, then treat it as the confirmed plan and continue to step 7.
-   - **[Q]**: stop — no files written.
+   - **[C]**: stop — no files written.
    - **[A]** or any affirmative: continue to step 7.
 
 7. **Check for existing plan.** If `taproot/plan.md` already exists:
    - Report: *"A plan already exists with N items."*
-   - Offer: `[A] Append new items · [R] Replace · [Q] Abort`
+   - Offer: `[A] Append new items · [R] Replace · [C] Cancel`
    - **[A]**: append only items not already present (match by type + path/description).
    - **[R]**: replace the file with the new plan.
-   - **[Q]**: stop — no files modified.
+   - **[C]**: stop — no files modified.
 
 8. **Write `taproot/plan.md`** using this format:
    ```
@@ -118,8 +118,8 @@ Sources: backlog items, unimplemented hierarchy behaviours, or developer-supplie
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
-   [A] `/tr-plan-analyse` — check readiness of all items before executing
-   [B] `/tr-plan-execute` — start executing items one by one
+   [1] `/tr-plan-analyse` — check readiness of all items before executing
+   [2] `/tr-plan-execute` — start executing items one by one
 
 ## Output
 

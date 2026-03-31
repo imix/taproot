@@ -74,8 +74,8 @@ Apply a uniform task to a filtered set of hierarchy files — enumerate matching
 6. Present next steps:
 
    **What's next?**
-   [A] `/tr-sweep` again — run another sweep with a different task or scope
-   [B] `/tr-status` — see the full project health after these changes
+   [1] `/tr-sweep` again — run another sweep with a different task or scope
+   [2] `/tr-status` — see the full project health after these changes
 
 ## Output
 

@@ -41,16 +41,16 @@ File: src/auth/password-reset.ts
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
-   [A] `/tr-trace --unlinked` — find all unlinked files across the codebase
-   [B] `/tr-implement <path>/` — create a traceability record for this file
+   [1] `/tr-trace --unlinked` — find all unlinked files across the codebase
+   [2] `/tr-implement <path>/` — create a traceability record for this file
 
    If the chain was found, present:
 
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
-   [A] `/tr-refine <behaviour-path>/` — update the spec if it has drifted from the code
-   [B] `/tr-implement <behaviour-path>/` — add a new implementation under this behaviour
+   [1] `/tr-refine <behaviour-path>/` — update the spec if it has drifted from the code
+   [2] `/tr-implement <behaviour-path>/` — add a new implementation under this behaviour
 
 ### Bottom-up (from a commit hash)
 
@@ -84,8 +84,8 @@ Progress: 1/5 behaviours fully implemented and tested
 4. Suggest next actions based on the tree state:
 
    **What's next?**
-   [A] `/tr-implement taproot/<intent-slug>/<unimplemented-behaviour-slug>/` — implement the first unimplemented behaviour
-   [B] `/tr-refine taproot/<intent-slug>/<behaviour-slug>/` — update a spec that has drifted
+   [1] `/tr-implement taproot/<intent-slug>/<unimplemented-behaviour-slug>/` — implement the first unimplemented behaviour
+   [2] `/tr-refine taproot/<intent-slug>/<behaviour-slug>/` — update a spec that has drifted
 
 ### Lateral (siblings and cousins)
 

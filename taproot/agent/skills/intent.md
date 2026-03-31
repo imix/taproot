@@ -47,10 +47,11 @@ Create a new business intent or refine an existing one. An intent captures the "
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
-   [A] `/tr-behaviour taproot/<slug>/` — define the first behaviour under this intent
-   [B] `/tr-decompose taproot/<slug>/` — decompose the intent into a full behaviour set
-   [C] `/tr-review taproot/<slug>/intent.md` — stress-test the spec before building
-   [D] `/tr-browse taproot/<slug>/` — browse related intents and behaviours for context
+   [1] `/tr-behaviour taproot/<slug>/` — define the first behaviour under this intent
+   [2] `/tr-decompose taproot/<slug>/` — decompose the intent into a full behaviour set
+   [3] `/tr-review taproot/<slug>/intent.md` — stress-test the spec before building
+   [4] `/tr-browse taproot/<slug>/` — browse related intents and behaviours for context
+   [P] Plan these — build a `taproot/plan.md` from these findings
 
 ### Refining an existing intent
 
@@ -70,10 +71,10 @@ Create a new business intent or refine an existing one. An intent captures the "
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
-   [A] `/tr-behaviour <path>/` — add or refine a behaviour under this intent
-   [B] `/tr-review <path>/intent.md` — stress-test the updated intent
-   [C] `/tr-status` — see overall project health
-   [D] `/tr-browse <path>/` — browse this intent and its behaviours for context
+   [1] `/tr-behaviour <path>/` — add or refine a behaviour under this intent
+   [2] `/tr-review <path>/intent.md` — stress-test the updated intent
+   [3] `/tr-status` — see overall project health
+   [4] `/tr-browse <path>/` — browse this intent and its behaviours for context
 
 ## Output
 

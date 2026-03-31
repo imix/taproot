@@ -64,9 +64,9 @@ Read a taproot hierarchy document section by section in the terminal — without
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
-   [A] `/tr-browse <child-path>` — go deeper into one of the listed children
-   [B] `/tr-implement <path>/` — start building (if browsing a behaviour spec)
-   [C] `/tr-review <path>` — get an agent critique of the spec
+   [1] `/tr-browse <child-path>` — go deeper into one of the listed children
+   [2] `/tr-implement <path>/` — start building (if browsing a behaviour spec)
+   [3] `/tr-review <path>` — get an agent critique of the spec
 
 ## Output
 

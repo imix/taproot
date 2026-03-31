@@ -32,11 +32,11 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
    Plan: N items pending (X hitl · Y afk)
 
    How would you like to proceed?
-   [A] Step-by-step     — one item at a time, confirm each (default)
-   [B] Batch            — confirm full list upfront, then run all
-   [C] HITL only        — human-decision items only
-   [D] AFK only         — autonomous items only
-   [Q] Cancel
+   [1] Step-by-step     — one item at a time, confirm each (default)
+   [2] Batch            — confirm full list upfront, then run all
+   [3] HITL only        — human-decision items only
+   [4] AFK only         — autonomous items only
+   [C] Cancel
    ```
    Wait for developer response, then continue with the chosen mode.
 
@@ -59,9 +59,9 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
     2. [implement] <intent>/<behaviour>/ — "Validate Input Parameters"
     3. [refine]    <intent>/<behaviour>/usecase — "Execute Release Plan"
    ...
-   [A] Begin  [Q] Abort
+   [A] Begin  [C] Cancel
    ```
-   If `[Q]`: stop — no changes made.
+   If `[C]`: stop — no changes made.
 
 7. **For each pending item** (in plan order, respecting the filter):
 
@@ -72,7 +72,7 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
    Next: [implement] <intent>/<behaviour>/
          "Validate Input Parameters" — <goal>
    Skill: /tr-implement
-   [R] Review spec  [A] Proceed  [S] Skip  [Q] Stop
+   [R] Review spec  [A] Proceed  [S] Skip  [C] Cancel
    ```
    Where `"<Behaviour Title>"` comes from the `# Behaviour:` heading of the referenced `usecase.md` (omitted for `[spec]` items with no existing spec); `<goal>` is the plan item's inline description if present, otherwise a one-sentence summary derived from the spec's Actor and main outcome.
 
@@ -80,10 +80,10 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
    - `[R]`:
      - **If the item has an existing path** (a `usecase.md` is present): invoke `/tr-browse <path>` and let browse run to full completion — including any sub-actions the developer selects within browse (e.g. `/tr-review`, navigating sections). Do not re-present the plan-execute prompt until the developer has finished all browse activity and browse itself has exited.
      - **If the item has no spec yet** (`[spec]` type with no existing path): show available design context inline — the item description, which skill will handle it, and any relevant hierarchy context (parent intent goal, sibling behaviours). Do not invoke `/tr-browse`.
-     - **In both cases**: re-present the same item prompt unchanged with all four options — `[R] Review  [A] Proceed  [S] Skip  [Q] Stop`. `[R]` must always reappear so the developer can continue reviewing before committing to proceed.
+     - **In both cases**: re-present the same item prompt unchanged with all four options — `[R] Review  [A] Proceed  [S] Skip  [C] Cancel`. `[R]` must always reappear so the developer can continue reviewing before committing to proceed.
    - `[A]` or affirmative: proceed to c
    - `[S]`: mark item `skipped` in `taproot/plan.md`; move to next item
-   - `[Q]`: stop — remaining items stay `pending`
+   - `[C]`: stop — remaining items stay `pending`
 
    **c. Invoke the skill** based on item type:
    - `[spec]` → `/tr-behaviour <path> "<description>"`
@@ -122,8 +122,8 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next item.
 
    **What's next?**
-   [A] Continue executing — call `/tr-plan-execute` again for remaining items
-   [B] `/tr-plan` — add more items to the plan
+   [1] Continue executing — call `/tr-plan-execute` again for remaining items
+   [2] `/tr-plan` — add more items to the plan
 
 ## Output
 
