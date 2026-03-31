@@ -200,4 +200,4 @@ sequenceDiagram
 - Aim for 3–7 steps in the main flow. Fewer usually means the behaviour is too abstract; more usually means it should be decomposed.
 - The Mermaid diagram is the human-readable contract — it should be understandable by a non-technical stakeholder. Prefer `sequenceDiagram` for flows with clear actor–system turns; use `flowchart TD` for decision-heavy branching.
 - Error conditions should be specific: name the exact actor-visible trigger and the exact system response (error message shown, state preserved, retry offered). Vague conditions ("request fails") are not acceptable. Technical triggers (HTTP 5xx, duplicate key, token limit) belong in `impl.md` — translate them to actor-visible language in the spec (e.g. "service is unavailable", "an item with that name already exists", "request is too large").
-- Related behaviours are not just cross-references — they define the dependency graph that `/tr-analyse-change` uses for impact analysis.
+- Related behaviours are not just cross-references — they define the dependency graph used by the analyse-change skill for impact analysis.

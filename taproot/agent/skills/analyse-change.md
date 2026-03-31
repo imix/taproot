@@ -96,6 +96,5 @@ An impact report presented in the conversation, followed by a confirmed go/no-go
 
 - This skill is read-only. It reports impact; it does not apply changes.
 - Conceptual matching (Step 6) is agent reasoning, not a deterministic algorithm — it may miss indirect dependencies or flag false positives. Treat "possibly affected" as a prompt for human review, not a definitive list.
-- This skill is typically called by other skills (`tr-intent` in refine mode, `tr-refine`, `tr-promote`, `tr-ineed` when detecting a change) rather than directly by the user. Direct invocation is also valid.
+- This skill is called internally by other skills (`tr-intent` in refine mode, `tr-refine`, `tr-promote`, `tr-ineed` when detecting a change). It is not distributed as a user-facing `/tr-` command.
 - Concurrent invocations are not protected by any locking mechanism. In parallel agent pipelines, external coordination is required.
-- `/tr-analyse-change` is the Claude Code adapter command name for this skill.

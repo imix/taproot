@@ -50,15 +50,13 @@ ineed → intent → behaviour → implement → trace → status
 | `/tr-bug` | Diagnose a defect through 5-Why root cause analysis and delegate to the right fix skill |
 | `/tr-intent` | Create or refine a business intent document |
 | `/tr-behaviour` | Define use cases under an intent or another behaviour |
-| `/tr-decompose` | Break an intent into multiple behaviours |
 | `/tr-implement` | Implement a behaviour with code, tests, and `impl.md` |
 | `/tr-trace` | Navigate the hierarchy in any direction — file to intent (bottom-up), intent to code (top-down), lateral across siblings |
 | `/tr-status` | Generate a health dashboard for the hierarchy |
 | `/tr-review` | Stress-test a spec with adversarial questions |
 | `/tr-review-all` | Run review across an entire subtree |
 | `/tr-discover-truths` | Scan the hierarchy for implicit facts and promote them to global truths |
-| `/tr-define-truth` | Create or update a truth entry in `taproot/global-truths/` (free-form) |
-| `/tr-design-constraints` | Capture architectural decisions (ADR), design principles, conventions, or external constraints in structured format |
+| `/tr-define-truth` | Capture any truth — free-form or structured (architecture decisions, principles, conventions, external constraints) |
 | `/tr-browse` | Read a hierarchy document section by section in the terminal — with inline editing via `[M] Modify` |
 | `/tr-backlog` | Capture an idea or finding instantly mid-session; called with no args opens triage to discard, keep, or promote items |
 | `/tr-grill-me` | Interview the user relentlessly to sharpen a plan or design |

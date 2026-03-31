@@ -132,14 +132,14 @@ Route a natural language requirement to the right place in the taproot hierarchy
    >
    > Each needs its own intent. How would you like to proceed?
    > **[A]** Route each separately — I'll call `/tr-ineed` for each in sequence
-   > **[B]** Decompose — `/tr-decompose` to write a top-level intent and enumerate child behaviours
+   > **[B]** Decompose — write a top-level intent and enumerate child behaviours
    > **[C]** Treat as one intent — I'll note the scope risk in Constraints"
 
    - **[A]**: invoke `/tr-ineed` for each goal sequentially, waiting for placement confirmation before the next. After all intents are placed, offer:
      > "All [N] intents are in the hierarchy. Build a first `taproot/plan.md` from them?
      > **[P]** Yes, build plan · **[S]** Skip"
      If [P]: call `/tr-plan` with the explicit intent list as source. Stop after the plan is written.
-   - **[B]**: call `/tr-decompose` with the full description
+   - **[B]**: invoke the decompose skill with the full description — write a top-level intent then enumerate child behaviours
    - **[C]**: proceed to step 4, adding a Constraints note: "Scope risk: this intent may cover multiple independent business goals — consider splitting if it grows beyond 3–4 behaviours"
 
    If no scope signal is present, proceed directly to step 4.
