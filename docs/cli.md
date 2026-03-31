@@ -143,6 +143,8 @@ taproot coverage [--path taproot/] [--format tree|json|markdown|context]
 
 Summarizes implementation completeness across the hierarchy: how many behaviours have at least one implementation, how many are still planned. The default output is a tree view. Use `--format context` to write `taproot/CONTEXT.md` — a compact summary suitable for pasting into an agent context window.
 
+Cross-repo link files (`link.md`) are included in the coverage report with a `[linked]` marker. A linked behaviour counts as implemented when a local `impl.md` in the same folder lists the link file path in `## Source Files` and has state `complete`. Linked behaviours with no such `impl.md` are listed as coverage gaps.
+
 ### `taproot sync-check`
 
 ```bash

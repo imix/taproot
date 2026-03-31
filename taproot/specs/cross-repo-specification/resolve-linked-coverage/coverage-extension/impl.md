@@ -22,10 +22,42 @@
 - `test/integration/linked-coverage.test.ts` — AC-1 through AC-5: linked behaviour coverage counting and display
 
 ## DoR Resolutions
-- condition: check-if-affected-by: quality-gates/architecture-compliance | note: coverage extension reads link files using parseLinkFile() and loadReposYaml() from core module; receives rootPath via command options, not direct settings reads inside core logic. Compliant. | resolved: 2026-03-31
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: coverage extension reads link files using parseLinkFile() and loadReposYaml() from core module; no direct settings reads inside core logic. Compliant. | resolved: 2026-03-31T17:03:07.417Z
 - condition: check-if-affected-by: quality-gates/nfr-measurability | note: no NFR criteria on this usecase — coverage display is observability-only, not a measurable performance/reliability criterion | resolved: 2026-03-31
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-31
 - **Last verified:** 2026-03-31
+
+## DoD Resolutions
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: coverage extension reads link files using parseLinkFile() and loadReposYaml() from core module; no direct settings reads inside core logic. Compliant. | resolved: 2026-03-31T17:03:10.000Z
+- condition: check-if-affected: skills/guide.md | note: not applicable — no skills/*.md files in Source Files (src/commands/coverage.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-31T17:03:32.084Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: not applicable — no skill files modified; only src/commands/coverage.ts | resolved: 2026-03-31T17:03:08.286Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no reusable pattern — link file scanning for coverage is specific to the cross-repo-specification feature | resolved: 2026-03-31T17:03:07.999Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no new cross-cutting concern — linked coverage is an extension of existing coverage command, not a generalizable concern for all implementations | resolved: 2026-03-31T17:03:07.702Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — no skills/*.md files in Source Files (src/commands/coverage.ts) | resolved: 2026-03-31T17:03:07.113Z
+
+- condition: check-if-affected: examples/ | note: no changes — no new example commands | resolved: 2026-03-31T17:03:06.840Z
+
+- condition: check-if-affected: docs/ | note: docs/cli.md coverage section updated with linked behaviour note | resolved: 2026-03-31T17:03:06.526Z
+
+- condition: check-if-affected: src/commands/update.ts | note: no changes — coverage extension does not affect the update command | resolved: 2026-03-31T17:03:06.201Z
+
+- condition: check-if-affected: package.json | note: no changes — no new dependencies | resolved: 2026-03-31T17:03:05.864Z
+
+- condition: document-current | note: docs/cli.md coverage section updated to describe linked behaviour counting, [linked] marker, and coverage gap behaviour for link files without a referencing impl.md | resolved: 2026-03-31T17:03:05.570Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — no skills/*.md files in Source Files (src/commands/coverage.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-31T17:03:32.086Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — no skills/*.md files in Source Files (src/commands/coverage.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-31T17:03:32.086Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — no skills/*.md files in Source Files (src/commands/coverage.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-31T17:03:32.085Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — no skills/*.md files in Source Files (src/commands/coverage.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-31T17:03:32.085Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — no skills/*.md files in Source Files (src/commands/coverage.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-31T17:03:32.085Z
+

@@ -1,13 +1,21 @@
-import { readFileSync, writeFileSync } from 'fs';
-import { join, resolve } from 'path';
+import { readFileSync, writeFileSync, readdirSync } from 'fs';
+import { join, resolve, relative, basename } from 'path';
 import type { Command } from 'commander';
 import { loadConfig } from '../core/config.js';
 import { walkHierarchy, flattenTree } from '../core/fs-walker.js';
 import { parseMarkdown } from '../core/markdown-parser.js';
 import { parseImplData } from '../core/impl-reader.js';
+import { parseLinkFile, loadReposYaml, resolveLinkTarget } from '../core/link-parser.js';
 import type { FolderNode } from '../validators/types.js';
 
 export type CoverageFormat = 'tree' | 'json' | 'markdown' | 'context';
+
+export interface LinkedItemSummary {
+  linkFilePath: string;      // relative path from taproot root
+  linkType: string;          // 'intent' | 'behaviour' | 'truth'
+  implState: 'complete' | 'pending' | 'gap';
+  warnUnresolvable: boolean;
+}
 
 export interface ImplSummary {
   name: string;
@@ -23,6 +31,7 @@ export interface BehaviourSummary {
   state: string;
   implementations: ImplSummary[];
   subBehaviours: BehaviourSummary[];
+  linkedItems: LinkedItemSummary[];
 }
 
 export interface IntentSummary {
@@ -30,6 +39,7 @@ export interface IntentSummary {
   path: string;
   state: string;
   behaviours: BehaviourSummary[];
+  linkedItems: LinkedItemSummary[];
 }
 
 export interface CoverageReport {
@@ -42,6 +52,7 @@ export interface CoverageReport {
     testedImpls: number;
     deferredBehaviours: number;
     deferredImpls: number;
+    linkedIntents: number;
   };
 }
 
@@ -88,15 +99,16 @@ export async function runCoverage(options: {
   path?: string;
   cwd?: string;
 }): Promise<CoverageReport> {
-  const { config } = loadConfig(options.cwd);
+  const { config, configDir } = loadConfig(options.cwd);
   const rootPath = options.path ? resolve(options.path) : config.root;
+  const reposMap = loadReposYaml(configDir);
 
   const tree = walkHierarchy(rootPath);
   const intents: IntentSummary[] = [];
 
   for (const child of tree.children) {
     if (child.marker === 'intent') {
-      intents.push(buildIntentSummary(child));
+      intents.push(buildIntentSummary(child, rootPath, reposMap));
     }
   }
 
@@ -107,6 +119,7 @@ export async function runCoverage(options: {
   let testedCount = 0;
   let deferredBehaviourCount = 0;
   let deferredImplCount = 0;
+  let linkedIntentCount = 0;
 
   function countBehaviour(b: BehaviourSummary): void {
     if (b.state === 'deferred') {
@@ -123,11 +136,23 @@ export async function runCoverage(options: {
         if (impl.testCount > 0) testedCount++;
       }
     }
+    // Count linked behaviour/truth items toward impl totals
+    for (const linked of b.linkedItems) {
+      if (linked.linkType === 'intent') continue;
+      behaviourCount++;
+      if (linked.implState !== 'gap') {
+        implCount++;
+        if (linked.implState === 'complete') completeCount++;
+      }
+    }
     for (const sub of b.subBehaviours) countBehaviour(sub);
   }
 
   for (const intent of intents) {
     for (const b of intent.behaviours) countBehaviour(b);
+    for (const linked of intent.linkedItems) {
+      if (linked.linkType === 'intent') linkedIntentCount++;
+    }
   }
 
   return {
@@ -140,6 +165,7 @@ export async function runCoverage(options: {
       testedImpls: testedCount,
       deferredBehaviours: deferredBehaviourCount,
       deferredImpls: deferredImplCount,
+      linkedIntents: linkedIntentCount,
     },
   };
 }
@@ -179,7 +205,82 @@ function buildImplSummary(node: FolderNode): ImplSummary {
   return { name: node.name, path: node.relativePath, state, commitCount, testCount };
 }
 
-function buildBehaviourSummary(node: FolderNode): BehaviourSummary {
+function findDirectLinkFiles(folderPath: string): string[] {
+  try {
+    return readdirSync(folderPath)
+      .filter(f => f === 'link.md' || f.endsWith('-link.md'))
+      .map(f => join(folderPath, f));
+  } catch {
+    return [];
+  }
+}
+
+function checkLinkImplState(
+  linkFilePath: string,
+  node: FolderNode
+): 'complete' | 'pending' | 'gap' {
+  const implNodes = node.children.filter(c => c.marker === 'impl');
+  for (const implNode of implNodes) {
+    const implFilePath = join(implNode.absolutePath, 'impl.md');
+    try {
+      const content = readFileSync(implFilePath, 'utf-8');
+      const doc = parseMarkdown(implFilePath, content);
+      const data = parseImplData(doc);
+      const mentionsLink = data.sourceFiles.some(sf => {
+        try { return resolve(implNode.absolutePath, sf) === linkFilePath; } catch { return false; }
+      });
+      if (mentionsLink) {
+        const statusSection = doc.sections.get('status');
+        const stateMatch = statusSection ? /\*\*State:\*\*\s*(\S+)/.exec(statusSection.rawBody) : null;
+        const state = stateMatch?.[1]?.trim() ?? 'unknown';
+        return state === 'complete' ? 'complete' : 'pending';
+      }
+    } catch {
+      // ignore
+    }
+  }
+  return 'gap';
+}
+
+function buildLinkedItems(
+  node: FolderNode,
+  rootPath: string,
+  reposMap: Map<string, string> | null
+): LinkedItemSummary[] {
+  const linkFiles = findDirectLinkFiles(node.absolutePath);
+  return linkFiles.map(linkFilePath => {
+    let linkType = 'behaviour';
+    let warnUnresolvable = false;
+    try {
+      const content = readFileSync(linkFilePath, 'utf-8');
+      const parsed = parseLinkFile(content);
+      linkType = parsed.type ?? 'behaviour';
+      if (parsed.repo) {
+        if (reposMap === null) {
+          warnUnresolvable = true;
+        } else {
+          const resolved = resolveLinkTarget(parsed.repo, parsed.path ?? '', reposMap);
+          if (!resolved) warnUnresolvable = true;
+        }
+      }
+    } catch {
+      // use defaults
+    }
+    const implState = checkLinkImplState(linkFilePath, node);
+    return {
+      linkFilePath: relative(rootPath, linkFilePath),
+      linkType,
+      implState,
+      warnUnresolvable,
+    };
+  });
+}
+
+function buildBehaviourSummary(
+  node: FolderNode,
+  rootPath: string,
+  reposMap: Map<string, string> | null
+): BehaviourSummary {
   const state = readState(node, 'usecase.md');
   const implementations: ImplSummary[] = [];
   const subBehaviours: BehaviourSummary[] = [];
@@ -188,24 +289,32 @@ function buildBehaviourSummary(node: FolderNode): BehaviourSummary {
     if (child.marker === 'impl') {
       implementations.push(buildImplSummary(child));
     } else if (child.marker === 'behaviour') {
-      subBehaviours.push(buildBehaviourSummary(child));
+      subBehaviours.push(buildBehaviourSummary(child, rootPath, reposMap));
     }
   }
 
-  return { name: node.name, path: node.relativePath, state, implementations, subBehaviours };
+  const linkedItems = buildLinkedItems(node, rootPath, reposMap);
+
+  return { name: node.name, path: node.relativePath, state, implementations, subBehaviours, linkedItems };
 }
 
-function buildIntentSummary(node: FolderNode): IntentSummary {
+function buildIntentSummary(
+  node: FolderNode,
+  rootPath: string,
+  reposMap: Map<string, string> | null
+): IntentSummary {
   const state = readState(node, 'intent.md');
   const behaviours: BehaviourSummary[] = [];
 
   for (const child of node.children) {
     if (child.marker === 'behaviour') {
-      behaviours.push(buildBehaviourSummary(child));
+      behaviours.push(buildBehaviourSummary(child, rootPath, reposMap));
     }
   }
 
-  return { name: node.name, path: node.relativePath, state, behaviours };
+  const linkedItems = buildLinkedItems(node, rootPath, reposMap);
+
+  return { name: node.name, path: node.relativePath, state, behaviours, linkedItems };
 }
 
 // ─── Formatters ──────────────────────────────────────────────────────────────
@@ -223,10 +332,18 @@ function formatTree(report: CoverageReport): string {
 
   for (const intent of report.intents) {
     lines.push(`Intent: ${intent.name} [${intent.state}]`);
+    const linkedIntent = intent.linkedItems.filter(l => l.linkType === 'intent');
     const bList = intent.behaviours;
+    const allChildren = [...bList, ...linkedIntent];
     for (let bi = 0; bi < bList.length; bi++) {
-      const isLast = bi === bList.length - 1;
+      const isLast = bi === allChildren.length - 1;
       renderBehaviourTree(bList[bi]!, lines, isLast ? '└─' : '├─', isLast ? '  ' : '│  ');
+    }
+    for (let li = 0; li < linkedIntent.length; li++) {
+      const linked = linkedIntent[li]!;
+      const isLast = bList.length + li === allChildren.length - 1;
+      const warn = linked.warnUnresolvable ? ' ⚠ unresolvable' : '';
+      lines.push(`  ${isLast ? '└─' : '├─'} [linked intent] ${basename(linked.linkFilePath)}${warn}`);
     }
   }
 
@@ -234,6 +351,9 @@ function formatTree(report: CoverageReport): string {
   const t = report.totals;
   lines.push(`${t.intents} intent${t.intents !== 1 ? 's' : ''}, ${t.behaviours} behaviour${t.behaviours !== 1 ? 's' : ''}, ${t.implementations} implementation${t.implementations !== 1 ? 's' : ''}`);
   lines.push(`${t.completeImpls}/${t.implementations} complete, ${t.testedImpls}/${t.implementations} with tests`);
+  if (t.linkedIntents > 0) {
+    lines.push(`${t.linkedIntents} linked intent${t.linkedIntents !== 1 ? 's' : ''}`);
+  }
   lines.push('');
 
   return lines.join('\n');
@@ -250,7 +370,8 @@ function renderBehaviourTree(
   const bar = progressBar(completeImpls, implTotal);
   lines.push(`  ${prefix} ${b.name} [${b.state}] ${bar} ${completeImpls}/${implTotal} impl`);
 
-  const allChildren = [...b.implementations, ...b.subBehaviours];
+  const linkedBehaviour = b.linkedItems.filter(l => l.linkType !== 'intent');
+  const allChildren = [...b.implementations, ...b.subBehaviours, ...linkedBehaviour];
   for (let i = 0; i < b.implementations.length; i++) {
     const impl = b.implementations[i]!;
     const isLast = i === allChildren.length - 1;
@@ -258,9 +379,18 @@ function renderBehaviourTree(
     lines.push(`  ${childPrefix}  ${isLast ? '└─' : '├─'} ${impl.name} [${impl.state}, ${impl.commitCount} commit${impl.commitCount !== 1 ? 's' : ''}, ${impl.testCount} test${impl.testCount !== 1 ? 's' : ''}]${testWarn}`);
   }
 
+  for (let i = 0; i < linkedBehaviour.length; i++) {
+    const linked = linkedBehaviour[i]!;
+    const offset = b.implementations.length;
+    const isLast = offset + i === allChildren.length - 1;
+    const warn = linked.warnUnresolvable ? ' ⚠ unresolvable' : '';
+    lines.push(`  ${childPrefix}  ${isLast ? '└─' : '├─'} [linked] ${linked.implState} — ${basename(linked.linkFilePath)}${warn}`);
+  }
+
   for (let i = 0; i < b.subBehaviours.length; i++) {
     const sub = b.subBehaviours[i]!;
-    const isLast = i === b.subBehaviours.length - 1;
+    const offset = b.implementations.length + linkedBehaviour.length;
+    const isLast = offset + i === allChildren.length - 1;
     renderBehaviourTree(
       sub,
       lines,
@@ -271,12 +401,15 @@ function renderBehaviourTree(
 }
 
 function countAllImpls(b: BehaviourSummary): number {
-  return b.implementations.length + b.subBehaviours.reduce((n, s) => n + countAllImpls(s), 0);
+  const linkedNonIntent = b.linkedItems.filter(l => l.linkType !== 'intent' && l.implState !== 'gap').length;
+  return b.implementations.length + linkedNonIntent + b.subBehaviours.reduce((n, s) => n + countAllImpls(s), 0);
 }
 
 function countCompleteImpls(b: BehaviourSummary): number {
+  const linkedComplete = b.linkedItems.filter(l => l.linkType !== 'intent' && l.implState === 'complete').length;
   return (
     b.implementations.filter(i => i.state === 'complete').length +
+    linkedComplete +
     b.subBehaviours.reduce((n, s) => n + countCompleteImpls(s), 0)
   );
 }
@@ -315,6 +448,15 @@ function renderBehaviourMarkdown(b: BehaviourSummary, lines: string[], heading: 
     for (const impl of b.implementations) {
       const testWarn = impl.testCount === 0 ? ' ⚠️' : '';
       lines.push(`- **${impl.name}** \`[${impl.state}]\` — ${impl.commitCount} commit${impl.commitCount !== 1 ? 's' : ''}, ${impl.testCount} test${impl.testCount !== 1 ? 's' : ''}${testWarn}`);
+    }
+    lines.push('');
+  }
+
+  const linkedBehaviour = b.linkedItems.filter(l => l.linkType !== 'intent');
+  if (linkedBehaviour.length > 0) {
+    for (const linked of linkedBehaviour) {
+      const warn = linked.warnUnresolvable ? ' ⚠️ unresolvable' : '';
+      lines.push(`- **[linked]** \`[${linked.implState}]\` — ${basename(linked.linkFilePath)}${warn}`);
     }
     lines.push('');
   }

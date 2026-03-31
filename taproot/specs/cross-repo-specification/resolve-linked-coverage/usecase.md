@@ -101,6 +101,6 @@ flowchart TD
 - [coverage extension](./coverage-extension/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-31
 - **Last reviewed:** 2026-03-31
