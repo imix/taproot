@@ -33,6 +33,20 @@ Hierarchy paths shown in skill prompts, plan items, and output use an abbreviate
 
 ---
 
+## Review Option at Every Spec Decision Point
+
+Any plan-execute prompt where a spec is present or was just written must include `[R] Review` as an option, so the developer can read the spec at any point — before committing to proceed or after seeing what was written.
+
+**Applies to:**
+- Pre-execution prompts (before invoking a skill on an item) — if a `usecase.md` or `intent.md` exists at the referenced path
+- Post-execution prompts (after a spec-writing skill completes) — the just-written file is browseable immediately
+
+**Behaviour:** `[R]` invokes `/tr-browse <path>` on the relevant spec, lets browse run to completion, then re-presents the full prompt (including `[R]`) so the developer can continue reviewing or proceed.
+
+**Rationale:** Agents write specs quickly. Without `[R]`, the developer has no in-flow way to verify what was written before it becomes the basis for implementation.
+
+---
+
 ## No Surprises
 
 The user should always know what is happening. Avoid silent failures, unexpected state changes, and late-stage errors.

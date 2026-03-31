@@ -103,8 +103,9 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
    ```
    ✓ Done — <description>
    M items remaining.
-   [A] Continue to next  [D] Stop for now
+   [R] Review written spec  [A] Continue to next  [D] Stop for now
    ```
+   - `[R]`: invoke `/tr-browse <path>` on the spec just written (the path the skill targeted); let browse run to full completion. Then re-present this same prompt with all three options — `[R]`, `[A]`, `[D]` — so the developer can keep reviewing before deciding. Omit `[R]` only if the item type is `[implement]` and no spec path is associated.
    - `[A]`: continue to next item
    - `[D]` or no items remain: report final status (see step 8)
 
