@@ -79,6 +79,9 @@ sequenceDiagram
 - When the developer runs `taproot check-orphans`
 - Then system resolves the link successfully but warns that the linked spec is in `proposed` state and may change
 
+## Implementations <!-- taproot-managed -->
+- [validate-format extension](./validate-format-extension/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-31
