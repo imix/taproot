@@ -27,3 +27,11 @@ All distribution channel artifacts live under `channels/<channel-name>/` at proj
 - **VS Code extension:** `channels/vscode/`
 - Do not place channel-specific source files, manifests (`package.json`), or READMEs at project root
 - When adding a new distribution channel, create `channels/<channel-name>/` and place all channel-specific files there
+
+---
+
+# SKILL_FILES — user-facing skills only
+
+Only add a skill to `SKILL_FILES` if a developer would call it directly. Internal sub-skills
+routed to from other skills must be omitted — every entry generates a `/tr-` command and
+appears in `taproot update` output, so internal-only skills add noise.
