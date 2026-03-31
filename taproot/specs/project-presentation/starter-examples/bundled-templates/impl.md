@@ -13,7 +13,6 @@
 
 ## Source Files
 - `src/commands/init.ts` — added `BUNDLED_EXAMPLES_DIR`, `AVAILABLE_TEMPLATES`, `TemplateName`, `applyTemplate()`, `--template` and `--force` options, and the interactive template prompt in `registerInit()`
-- `examples/book-authoring/` — new starter: manuscript/editorial/publishing hierarchy with vocabulary overrides
 - `examples/cli-tool/` — new starter: command-interface/configuration hierarchy with CLI-appropriate DoD
 - `docs/cli.md` — documents `--template` and `--force` flags; documents the interactive template prompt
 
@@ -25,11 +24,14 @@
 - `3293f15ae81f85e5a01f154afddbeb61edc4cf4f` — (auto-linked by taproot link-commits)
 
 ## Tests
-- `test/integration/starter-examples.test.ts` — covers all 6 ACs: webapp hierarchy structure, book-authoring vocabulary, cli-tool DoD, unknown template error, settings.yaml force/no-force behaviour, and validate-structure/validate-format for all three templates
+- `test/integration/starter-examples.test.ts` — covers AC-1 (webapp hierarchy structure), AC-3 (cli-tool DoD), AC-6 (unknown template error), settings.yaml force/no-force behaviour
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — applyTemplate() is a stateless function; file I/O via cpSync at command boundary only; no global mutable state; error messages are actionable | resolved: 2026-03-25T11:10:00.000Z
 - condition: check-if-affected-by: quality-gates/nfr-measurability | note: NOT APPLICABLE — no performance-sensitive code paths introduced; template copy is a one-time init operation | resolved: 2026-03-25T11:10:00.000Z
+
+## Notes
+- `examples/book-authoring/` was removed after this implementation was completed. The starter was found to be too domain-specific for a general-purpose template; `examples/webapp/` covers the common case. Source Files updated to reflect current state.
 
 ## Status
 - **State:** complete
