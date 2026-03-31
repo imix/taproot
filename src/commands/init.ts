@@ -148,7 +148,6 @@ const AVAILABLE_LANGUAGES: Array<{ name: string; value: string }> = [
 ];
 
 export const SKILL_FILES = [
-  'analyse-change.md',
   'review.md',
   'review-all.md',
   'grill-me.md',
@@ -159,7 +158,6 @@ export const SKILL_FILES = [
   'status.md',
   'refine.md',
   'promote.md',
-  'decompose.md',
   'next.md',
   'plan.md',
   'plan-execute.md',
