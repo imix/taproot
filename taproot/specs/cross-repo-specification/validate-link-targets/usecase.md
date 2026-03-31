@@ -136,6 +136,9 @@ flowchart TD
 - When `taproot check-orphans` runs or the pre-commit hook fires
 - Then link resolution is skipped entirely, a warning is emitted noting how many link files were not checked, and the command exits with status 0
 
+## Implementations <!-- taproot-managed -->
+- [CLI check-orphans](./cli-check-orphans/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-03-31
