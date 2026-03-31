@@ -55,7 +55,9 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 **Goal:** Enable teams working across multiple repositories to link to shared intents, behaviours, and global truths defined in a source repo — so that a requirement specified once can be implemented locally in each codebase without duplication, and each repo's coverage and validation runs independently.
 
-_No behaviours yet._
+- **[define-cross-repo-link](./cross-repo-specification/define-cross-repo-link/usecase.md)** `[specified]` — Actor: Developer in a linking repo
+- **[resolve-linked-coverage](./cross-repo-specification/resolve-linked-coverage/usecase.md)** `[specified]` — Actor: Developer in a linking repo (running `taproot coverage`)
+- **[validate-link-targets](./cross-repo-specification/validate-link-targets/usecase.md)** `[specified]` — Actor: Developer in a linking repo (running `taproot check-orphans` or triggering a pre-commit hook)
 
 ## [global-truth-store](./global-truth-store/intent.md) `[active]`
 
@@ -276,4 +278,4 @@ _No behaviours yet._
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-19 intents · 87 behaviours · 87 implementations · 85/87 complete
+19 intents · 90 behaviours · 87 implementations · 85/87 complete

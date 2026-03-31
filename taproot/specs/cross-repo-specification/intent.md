@@ -25,6 +25,11 @@ Enable teams working across multiple repositories to link to shared intents, beh
 - Partial delegation uses a dedicated impl per repo contribution: one `impl.md` covering local ACs (state: complete), a second covering delegated ACs (state: delegated) — not a single partially-complete impl
 - The truth-check hook resolves linked truth files via the local path mapping; if the target does not resolve on disk, the hook fails with a clear error rather than silently passing
 
+## Behaviours <!-- taproot-managed -->
+- [Define Cross-Repo Link](./define-cross-repo-link/usecase.md)
+- [Resolve Linked Coverage](./resolve-linked-coverage/usecase.md)
+- [Validate Link Targets](./validate-link-targets/usecase.md)
+
 ## Status
 - **State:** active
 - **Created:** 2026-03-31
