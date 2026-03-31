@@ -9,6 +9,7 @@ import { runDorChecks, type DorReport } from '../core/dor-runner.js';
 import { runDod } from './dod.js';
 import { runValidateStructure } from './validate-structure.js';
 import { runValidateFormat } from './validate-format.js';
+import { checkLinkTargets } from './check-orphans.js';
 import { renderViolations } from '../core/reporter.js';
 import {
   globalTruthsDir,
@@ -584,6 +585,22 @@ export async function runCommithook(options: { cwd: string }): Promise<number> {
         process.stdout.write(`taproot commithook — Truth check: ${validation.reason}\n`);
         failed = true;
       }
+    }
+  }
+
+  // Link validation — runs on every commit that touches taproot/ or link files
+  const { config: linkConfig } = loadConfig(cwd);
+  const linkWarnOnly = (linkConfig as unknown as Record<string, unknown>)['linkValidation'] === 'warn-only';
+  const linkViolations = checkLinkTargets(
+    resolve(cwd, linkConfig.root ?? 'taproot/specs/'),
+    cwd
+  );
+  const linkErrors = linkViolations.filter(v => v.type === 'error' && v.code !== 'LINK_VALIDATION_SKIPPED');
+  if (linkErrors.length > 0) {
+    process.stdout.write('taproot commithook — Link validation:\n');
+    process.stdout.write(renderViolations(linkErrors));
+    if (!linkWarnOnly) {
+      failed = true;
     }
   }
 

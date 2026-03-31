@@ -6,6 +6,10 @@ export declare function hookScriptContent(): string;
 export declare function buildSettingsYaml(pkgVersion: string, vocabulary?: Record<string, string>, language?: string): string;
 export declare const AVAILABLE_TEMPLATES: readonly ["webapp", "cli-tool"];
 export type TemplateName = typeof AVAILABLE_TEMPLATES[number];
+export declare const TEMPLATE_PROMPT_CHOICES: Array<{
+    name: string;
+    value: string;
+}>;
 export declare const DOMAIN_PRESETS: Record<string, {
     label: string;
     vocabulary: Record<string, string>;

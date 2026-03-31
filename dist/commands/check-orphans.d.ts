@@ -6,3 +6,4 @@ export declare function runCheckOrphans(options: {
     includeUnimplemented?: boolean;
     cwd?: string;
 }): Promise<Violation[]>;
+export declare function checkLinkTargets(rootPath: string, projectRoot: string, visited?: Set<string>): Violation[];

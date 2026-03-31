@@ -7,6 +7,7 @@ import { parseMarkdown } from '../core/markdown-parser.js';
 import { parseImplData } from '../core/impl-reader.js';
 import { commitExists, isGitRepo, getRepoRoot } from '../core/git.js';
 import { renderViolations, exitCode } from '../core/reporter.js';
+import { findLinkFiles, loadReposYaml, parseLinkFile, resolveLinkTarget } from '../core/link-parser.js';
 import type { FolderNode, Violation } from '../validators/types.js';
 
 export function registerCheckOrphans(program: Command): void {
@@ -35,6 +36,7 @@ export async function runCheckOrphans(options: {
   const cwd = options.cwd ?? process.cwd();
 
   const repoRoot = isGitRepo(cwd) ? (getRepoRoot(cwd) ?? cwd) : null;
+  const projectRoot = repoRoot ?? cwd;
 
   const tree = walkHierarchy(rootPath);
   const nodes = flattenTree(tree);
@@ -46,6 +48,114 @@ export async function runCheckOrphans(options: {
     }
     if (node.marker === 'behaviour' && options.includeUnimplemented) {
       violations.push(...checkUnimplementedBehaviour(node));
+    }
+  }
+
+  violations.push(...checkLinkTargets(rootPath, projectRoot));
+
+  return violations;
+}
+
+export function checkLinkTargets(
+  rootPath: string,
+  projectRoot: string,
+  visited: Set<string> = new Set()
+): Violation[] {
+  // TAPROOT_OFFLINE skips all link resolution
+  if (process.env['TAPROOT_OFFLINE'] === '1') {
+    const linkFiles = findLinkFiles(rootPath);
+    if (linkFiles.length > 0) {
+      return [{
+        type: 'warning',
+        filePath: rootPath,
+        code: 'LINK_VALIDATION_SKIPPED',
+        message: `Link validation skipped (TAPROOT_OFFLINE=1) — ${linkFiles.length} link file(s) not checked`,
+      }];
+    }
+    return [];
+  }
+
+  const linkFiles = findLinkFiles(rootPath);
+  if (linkFiles.length === 0) return [];
+
+  const reposMap = loadReposYaml(projectRoot);
+  const violations: Violation[] = [];
+
+  for (const linkFilePath of linkFiles) {
+    let content: string;
+    try {
+      content = readFileSync(linkFilePath, 'utf-8');
+    } catch {
+      violations.push({ type: 'error', filePath: linkFilePath, code: 'LINK_UNREADABLE', message: 'Could not read link file' });
+      continue;
+    }
+
+    const parsed = parseLinkFile(content);
+
+    if (!parsed.repo || !parsed.path || !parsed.type) {
+      violations.push({
+        type: 'error',
+        filePath: linkFilePath,
+        code: 'LINK_INVALID_FORMAT',
+        message: `Link file is missing required fields: ${[!parsed.repo && 'Repo', !parsed.path && 'Path', !parsed.type && 'Type'].filter(Boolean).join(', ')}`,
+      });
+      continue;
+    }
+
+    if (reposMap === null) {
+      violations.push({
+        type: 'error',
+        filePath: linkFilePath,
+        code: 'LINK_TARGET_UNRESOLVABLE',
+        message: `Cannot resolve link — .taproot/repos.yaml not found. Create this file locally to map repo URLs to local filesystem paths. It must not be committed.`,
+      });
+      continue;
+    }
+
+    const resolvedPath = resolveLinkTarget(parsed.repo, parsed.path, reposMap);
+    if (resolvedPath === null) {
+      violations.push({
+        type: 'error',
+        filePath: linkFilePath,
+        code: 'LINK_TARGET_UNRESOLVABLE',
+        message: `Link target unresolvable — "${parsed.repo}" has no entry in .taproot/repos.yaml`,
+      });
+      continue;
+    }
+
+    // Cycle detection
+    if (visited.has(resolvedPath)) {
+      violations.push({
+        type: 'error',
+        filePath: linkFilePath,
+        code: 'LINK_CIRCULAR',
+        message: `Circular link detected — "${resolvedPath}" has already been visited in this chain`,
+      });
+      continue;
+    }
+
+    if (!existsSync(resolvedPath)) {
+      violations.push({
+        type: 'error',
+        filePath: linkFilePath,
+        code: 'LINK_TARGET_MISSING',
+        message: `Orphan link: target "${resolvedPath}" not found on disk`,
+      });
+      continue;
+    }
+
+    // Follow one level of transitive links from the source repo (cycle detection)
+    const newVisited = new Set(visited);
+    newVisited.add(resolvedPath);
+    const sourceRepoRoot = reposMap.get(parsed.repo.trim());
+    if (sourceRepoRoot && existsSync(sourceRepoRoot)) {
+      const transitive = checkLinkTargets(sourceRepoRoot, sourceRepoRoot, newVisited);
+      // Only propagate circular violations (not other orphan errors from the source repo)
+      violations.push(...transitive.filter(v => v.code === 'LINK_CIRCULAR').map(v => ({
+        ...v,
+        filePath: linkFilePath,
+        message: `Circular link via source repo: ${v.message}`,
+      })));
     }
   }
 

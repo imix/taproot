@@ -113,6 +113,11 @@ const BUNDLED_DOCS_DIR = resolve(__dirname, '..', '..', 'docs');
 // Bundled examples directory — two levels up from src/commands/ → package root → examples/
 const BUNDLED_EXAMPLES_DIR = resolve(__dirname, '..', '..', 'examples');
 export const AVAILABLE_TEMPLATES = ['webapp', 'cli-tool'];
+export const TEMPLATE_PROMPT_CHOICES = [
+    { name: 'No template — start with an empty hierarchy', value: '' },
+    { name: 'webapp        — SaaS web application (user auth, profiles)', value: 'webapp' },
+    { name: 'cli-tool      — Command-line tool or developer utility', value: 'cli-tool' },
+];
 export const DOMAIN_PRESETS = {
     coding: { label: 'Coding / software', vocabulary: {} },
     'technical-writing': {
@@ -167,6 +172,9 @@ export function applyTemplate(templateName, cwd, force = false) {
     }
     const srcTaprootDir = join(templateDir, 'taproot');
     const destTaprootDir = join(cwd, 'taproot');
+    if (existsSync(destTaprootDir) && !force) {
+        throw new Error(`taproot/ already exists — use --force to overwrite or copy manually from examples/${templateName}/`);
+    }
     if (existsSync(srcTaprootDir)) {
         cpSync(srcTaprootDir, destTaprootDir, { recursive: true });
         messages.push(`created  taproot/ (from ${templateName} template)`);
@@ -212,11 +220,7 @@ export function registerInit(program) {
             if (!existsSync(taprootDir)) {
                 const chosen = await select({
                     message: 'Start from a template?',
-                    choices: [
-                        { name: 'No template — start with an empty hierarchy', value: '' },
-                        { name: 'webapp        — SaaS web application (user auth, profiles)', value: 'webapp' },
-                        { name: 'cli-tool      — Command-line tool or developer utility', value: 'cli-tool' },
-                    ],
+                    choices: TEMPLATE_PROMPT_CHOICES,
                 });
                 if (chosen) {
                     template = chosen;

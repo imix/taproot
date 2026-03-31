@@ -120,6 +120,14 @@ Finds broken references across the hierarchy:
 - Source files listed in `impl.md` that no longer exist on disk
 - `## Behaviour` references in `impl.md` that point to non-existent `usecase.md` files
 - Commits in `## Commits` that are not in git history
+- Cross-repo link files (`link.md`) whose targets cannot be resolved or no longer exist on disk
+
+**Cross-repo link validation** requires `.taproot/repos.yaml` (local, not committed) mapping repo URLs to local filesystem paths:
+```yaml
+"https://github.com/org/platform-repo": "/local/path/to/platform-repo"
+```
+
+Set `TAPROOT_OFFLINE=1` to skip link resolution (useful in CI environments where repos.yaml cannot exist).
 
 Use `--include-unimplemented` to also report behaviours with no implementations (useful for coverage gaps, not just broken links).
 

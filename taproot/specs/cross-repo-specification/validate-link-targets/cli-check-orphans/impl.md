@@ -25,10 +25,29 @@
 - `test/integration/check-orphans.test.ts` — AC-1 (all resolve), AC-2 (target missing), AC-3 (repos.yaml absent), AC-4 (URL not mapped), AC-5 (circular reference), AC-7 (TAPROOT_OFFLINE=1); AC-6 (hook blocks commit) tested via commithook integration
 
 ## DoR Resolutions
-- condition: check-if-affected-by: quality-gates/architecture-compliance | note: link-parser.ts is a pure core module with no settings reads; config (repos.yaml path) passed as parameter from command boundary — consistent with build-time vs runtime config split pattern | resolved: 2026-03-31
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: Architecture compliance verified: link-parser.ts is a pure core module with no settings.yaml reads; config passed as parameters from command boundary (check-orphans.ts and commithook.ts). Follows build-time vs runtime config split pattern from global-truths. | resolved: 2026-03-31T14:30:34.555Z
 - condition: check-if-affected-by: quality-gates/nfr-measurability | note: usecase has no NFR criteria — link validation is a correctness check, not a latency-sensitive operation | resolved: 2026-03-31
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-03-31
 - **Last verified:** 2026-03-31
+
+## DoD Resolutions
+- condition: tests-passing | note: 1122/1122 tests pass (confirmed via npx vitest run). 10 new tests added for link validation covering AC-1 through AC-5 and AC-7. | resolved: 2026-03-31
+- condition: document-current | note: docs/cli.md updated: added cross-repo link validation section to check-orphans entry documenting .taproot/repos.yaml format and TAPROOT_OFFLINE=1. README.md does not list individual CLI commands — no update needed. | resolved: 2026-03-31
+- condition: check-if-affected: package.json | note: No new npm dependencies. js-yaml is already in dependencies. No package.json changes needed. | resolved: 2026-03-31
+- condition: check-if-affected: src/commands/update.ts | note: update.ts copies skill files and docs to installed locations. link-parser.ts is a core module not installed as a skill — no update.ts changes needed. | resolved: 2026-03-31
+- condition: check-if-affected: skills/guide.md | note: not applicable — no skills/*.md files in Source Files (src/core/link-parser.ts, src/commands/check-orphans.ts, src/commands/commithook.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-31T14:42:15.419Z
+- condition: check-if-affected: docs/ | note: docs/cli.md updated with cross-repo link validation section for check-orphans. No other docs affected. | resolved: 2026-03-31
+- condition: check-if-affected: examples/ | note: No examples reference check-orphans internals or link validation. No examples update needed. | resolved: 2026-03-31
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — no skills/*.md files in Source Files (src/core/link-parser.ts, src/commands/check-orphans.ts, src/commands/commithook.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-31T14:42:15.421Z
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — no skills/*.md files in Source Files (src/core/link-parser.ts, src/commands/check-orphans.ts, src/commands/commithook.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-31T14:42:15.421Z
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — no skills/*.md files in Source Files (src/core/link-parser.ts, src/commands/check-orphans.ts, src/commands/commithook.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-31T14:42:15.422Z
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — no skills/*.md files in Source Files (src/core/link-parser.ts, src/commands/check-orphans.ts, src/commands/commithook.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-31T14:42:15.422Z
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — no skills/*.md files in Source Files (src/core/link-parser.ts, src/commands/check-orphans.ts, src/commands/commithook.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-31T14:42:15.423Z
+- condition: check-if-affected-by: human-integration/pattern-hints | note: No skill files modified. Pattern-hints applies to skill interaction steps. Does not apply. | resolved: 2026-03-31
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: Architecture compliance verified: link-parser.ts is a pure core module with no settings.yaml reads; config passed as parameters from command boundary. Follows build-time vs runtime config split pattern. | resolved: 2026-03-31
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: TAPROOT_OFFLINE=1 env var is a new project-wide convention but doesn't warrant a check-if-affected-by entry — no downstream skill or spec needs to enforce it. No settings.yaml update needed. | resolved: 2026-03-31
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: Cross-repo link validation is a project-specific feature, not a reusable agent pattern. No patterns.md entry warranted. | resolved: 2026-03-31
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: No skill files (skills/*.md) were modified in this implementation. Does not apply. | resolved: 2026-03-31
