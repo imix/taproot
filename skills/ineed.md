@@ -113,6 +113,11 @@ Route a natural language requirement to the right place in the taproot hierarchy
 
    **If [C]:** Proceed to Step 4 with the synthesised requirement as context. This summary will carry forward into `/tr-behaviour` as richer input than a raw one-liner.
 
+   **If [C] — deferred items present:** If **Out of scope** listed any deferred items, offer before continuing:
+   > "You've named [N] deferred item(s). Add them to `taproot/backlog.md` now?
+   > **[B]** Yes, capture to backlog · **[S]** Skip"
+   If [B]: call `/tr-backlog` for each deferred item, then continue to placement.
+
 4a. **Scope-split check** — Before searching for placement, check whether the requirement (or synthesised description) spans multiple distinct business goals. Signals:
    - No hierarchy exists yet and the description covers a whole product or system
    - Multiple independent actors with different needs appear in the description
@@ -130,7 +135,10 @@ Route a natural language requirement to the right place in the taproot hierarchy
    > **[B]** Decompose — `/tr-decompose` to write a top-level intent and enumerate child behaviours
    > **[C]** Treat as one intent — I'll note the scope risk in Constraints"
 
-   - **[A]**: invoke `/tr-ineed` for each goal sequentially, waiting for placement confirmation before the next
+   - **[A]**: invoke `/tr-ineed` for each goal sequentially, waiting for placement confirmation before the next. After all intents are placed, offer:
+     > "All [N] intents are in the hierarchy. Build a first `taproot/plan.md` from them?
+     > **[P]** Yes, build plan · **[S]** Skip"
+     If [P]: call `/tr-plan` with the explicit intent list as source. Stop after the plan is written.
    - **[B]**: call `/tr-decompose` with the full description
    - **[C]**: proceed to step 4, adding a Constraints note: "Scope risk: this intent may cover multiple independent business goals — consider splitting if it grows beyond 3–4 behaviours"
 
