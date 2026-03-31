@@ -56,8 +56,8 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
    ```
    Executing N items:
     1. [spec]      "description"
-    2. [implement] taproot/specs/<intent>/<behaviour>/ — "Validate Input Parameters"
-    3. [refine]    taproot/specs/<intent>/<behaviour>/usecase.md — "Execute Release Plan"
+    2. [implement] <intent>/<behaviour>/ — "Validate Input Parameters"
+    3. [refine]    <intent>/<behaviour>/usecase — "Execute Release Plan"
    ...
    [A] Begin  [Q] Abort
    ```
@@ -65,9 +65,11 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
 
 7. **For each pending item** (in plan order, respecting the filter):
 
+   **Path handling:** plan.md stores abbreviated paths (hierarchy root and `.md` stripped). Always display the abbreviated form. Before invoking a skill or CLI command, expand to the full path: prepend the hierarchy root (`taproot/` or configured root) and restore `.md` for file references.
+
    **a. Present the item** (always — even in batch mode, each item is shown before its skill runs). If the item references a path with an existing `usecase.md`, read its `# Behaviour: <title>` heading first:
    ```
-   Next: [implement] taproot/specs/<intent>/<behaviour>/
+   Next: [implement] <intent>/<behaviour>/
          "Validate Input Parameters" — <goal>
    Skill: /tr-implement
    [R] Review spec  [A] Proceed  [S] Skip  [Q] Stop

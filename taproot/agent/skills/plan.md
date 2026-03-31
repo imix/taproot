@@ -44,7 +44,7 @@ Sources: backlog items, unimplemented hierarchy behaviours, or developer-supplie
      ## Items
 
      1. pending  [spec]      hitl  "description"
-     2. pending  [implement] afk   taproot/specs/<intent>/<behaviour>/
+     2. pending  [implement] afk   <intent>/<behaviour>/
      ```
   8. Confirm: *"Plan saved — N items in `taproot/plan.md`."* Stop — do not continue to step 1.
 
@@ -103,9 +103,11 @@ Sources: backlog items, unimplemented hierarchy behaviours, or developer-supplie
    ## Items
 
    1. pending  [spec]      hitl  "description of new item"
-   2. pending  [implement] afk   taproot/specs/<intent>/<behaviour>/
-   3. pending  [refine]    hitl  taproot/specs/<intent>/<behaviour>/usecase.md
+   2. pending  [implement] afk   <intent>/<behaviour>/
+   3. pending  [refine]    hitl  <intent>/<behaviour>/usecase
    ```
+
+   **Path format:** store abbreviated paths — strip the hierarchy root prefix (`taproot/` or `taproot/specs/`) and `.md` extension. Preserve trailing `/` for directory references. Expand to full path before passing to CLI commands.
 
    Status values: `pending` · `done` · `skipped` · `blocked` · `stale`
 

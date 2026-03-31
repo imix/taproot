@@ -12,6 +12,27 @@ When something will fail, detect and surface it as early as possible in the flow
 
 **Example:** `taproot init` should check for a git repository before asking the user any questions — not after.
 
+## Abbreviated Hierarchy Paths
+
+Hierarchy paths shown in skill prompts, plan items, and output use an abbreviated form — strip the hierarchy root prefix and `.md` extension. Full filesystem paths are reserved for CLI invocations only.
+
+**Abbreviation rule:**
+- Strip the leading `taproot/` prefix (or configured hierarchy root)
+- Strip an optional `specs/` component if present
+- Strip the trailing `.md` extension for file paths
+- Preserve trailing `/` for directory references (implement items)
+
+**Examples:**
+- `taproot/security-findings/intent.md` → `security-findings/intent`
+- `taproot/specs/security-findings/scan-engine/usecase.md` → `security-findings/scan-engine/usecase`
+- `taproot/security-findings/scan-engine/` → `security-findings/scan-engine/`
+
+**When to expand:** Before passing a path to any CLI command (`taproot dod`, `taproot validate-format`, `taproot browse`, etc.), prepend the hierarchy root and restore `.md` where needed.
+
+**Rationale:** The hierarchy root is always known from context. Repeating it in every displayed path adds noise without information.
+
+---
+
 ## No Surprises
 
 The user should always know what is happening. Avoid silent failures, unexpected state changes, and late-stage errors.
