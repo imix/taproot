@@ -87,6 +87,27 @@ describe('status.md — Parked section (AC-1, AC-2)', () => {
   it('AC-2: Parked section includes instruction to omit when zero deferred items', () => {
     expect(content).toMatch(/omit.*if 0|if.*zero|if both are zero/i);
   });
+
+  it('AC-3: report template contains a ## Backlog section', () => {
+    expect(content).toContain('## Backlog');
+  });
+
+  it('AC-3: Backlog section includes instruction to omit when absent or empty', () => {
+    expect(content).toMatch(/omit.*backlog|backlog.*absent or empty/i);
+  });
+
+  it('AC-4: report template contains a ## Plan section', () => {
+    expect(content).toContain('## Plan');
+  });
+
+  it('AC-4: Plan section references pending and complete item counts', () => {
+    expect(content).toMatch(/pending/i);
+    expect(content).toMatch(/complete/i);
+  });
+
+  it('AC-4: Plan section includes instruction to omit when plan.md absent', () => {
+    expect(content).toMatch(/omit.*plan|plan.*absent/i);
+  });
 });
 
 // ─── AC-1/AC-3/AC-4: implement.md commit-awareness ────────────────────────────

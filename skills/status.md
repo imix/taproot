@@ -18,7 +18,11 @@ Generate a health dashboard for the requirement hierarchy. Combines `taproot cov
 
 4. Run `taproot validate-structure --path <path>` and `taproot validate-format --path <path>`. Any errors here are top-priority — flag them before the narrative.
 
-5. Synthesize into a structured report:
+5. Read `taproot/backlog.md` if it exists. Count the total number of items and extract the first 3 item titles for the summary. If the file is absent or empty, omit the **Backlog** section from the report entirely.
+
+6. Read `taproot/plan.md` if it exists. Count pending items (unchecked `[ ]`) and complete items (checked `[x]`). Identify the title of the first pending item as the next action. If the file is absent, omit the **Plan** section from the report entirely.
+
+7. Synthesize into a structured report:
 
 ```
 # Taproot Status Report
@@ -53,6 +57,17 @@ Generated: <date>
 ## Structural Issues
 - <from check-orphans>
 
+## Backlog
+<N> items captured  (omit section if backlog.md absent or empty)
+· <item 1 title>
+· <item 2 title>
+· <item 3 title>
+… and <N-3> more
+
+## Plan
+<N> pending · <N> complete  (omit section if plan.md absent)
+Next: <title of first pending item>
+
 ## Suggested Next Actions
 1. Fix format errors: `taproot validate-format --fix`
 2. Implement next behaviour: `/taproot:implement taproot/<path>/`
@@ -60,14 +75,14 @@ Generated: <date>
 4. Review stale spec: `/taproot:refine taproot/<path>/`
 ```
 
-6. Prioritize suggestions by severity:
+8. Prioritize suggestions by severity:
    - Validation errors first (broken structure/format)
    - Orphaned or broken references second
    - Unimplemented behaviours third (sorted by how long they've been in `proposed` state)
    - Missing tests fourth
    - Stale specs fifth
 
-7. If no issues are found: "Everything looks healthy. <N> intents, <N> behaviours, <N> implementations — all valid, complete, and tested."
+9. If no issues are found: "Everything looks healthy. <N> intents, <N> behaviours, <N> implementations — all valid, complete, and tested."
 
    Present next steps based on what was found:
 

@@ -3,8 +3,9 @@ import { readFileSync, existsSync } from 'fs';
 import { join, resolve } from 'path';
 
 const ROOT = resolve(__dirname, '../..');
-const SKILL_PATH = join(ROOT, 'skills/design-constraints.md');
-const INSTALLED_SKILL_PATH = join(ROOT, 'taproot/agent/skills/design-constraints.md');
+// design-constraints was absorbed into define-truth (commit f7d71e8) — structured formats live there now
+const SKILL_PATH = join(ROOT, 'skills/define-truth.md');
+const INSTALLED_SKILL_PATH = join(ROOT, 'taproot/agent/skills/define-truth.md');
 const PATTERNS_PATH = join(ROOT, 'docs/patterns.md');
 const BEHAVIOUR_SKILL_PATH = join(ROOT, 'skills/behaviour.md');
 const INEED_SKILL_PATH = join(ROOT, 'skills/ineed.md');
@@ -12,11 +13,11 @@ const GUIDE_PATH = join(ROOT, 'skills/guide.md');
 const SPEC_PATH = join(ROOT, 'taproot/specs/global-truth-store/author-design-constraints/usecase.md');
 
 describe('design-constraints skill', () => {
-  it('skill file exists at skills/design-constraints.md', () => {
+  it('structured formats live in skills/define-truth.md (absorbed from design-constraints)', () => {
     expect(existsSync(SKILL_PATH)).toBe(true);
   });
 
-  it('installed copy exists at taproot/agent/skills/design-constraints.md', () => {
+  it('installed copy exists at taproot/agent/skills/define-truth.md', () => {
     expect(existsSync(INSTALLED_SKILL_PATH)).toBe(true);
   });
 
@@ -73,7 +74,7 @@ describe('design-constraints skill', () => {
     expect(content).toMatch(/Completeness check|completeness/i);
   });
 
-  it('skill references free-form alternative (define-truth)', () => {
+  it('skill references itself as a repeat invocation option', () => {
     const content = readFileSync(SKILL_PATH, 'utf-8');
     expect(content).toMatch(/tr-define-truth/);
   });

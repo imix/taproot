@@ -2,9 +2,7 @@
 
 ## Description
 
-Create or update a truth entry in `taproot/global-truths/` — a fact, business rule, glossary term, convention, architecture decision, or principle that applies across the project. Accepts a pre-populated candidate from `/tr-discover-truths` or runs interactively.
-
-For structured truths (architecture decisions, design principles, coding conventions, external constraints), the skill detects the format and prompts accordingly. For free-form truths (schemas, glossaries, domain models, reference data), it captures content directly.
+Create or update a free-form truth entry in `taproot/global-truths/` — a fact, rule, term, convention, or decision that applies across the project. Accepts a pre-populated candidate from `/tr-discover-truths` or runs interactively.
 
 ## Inputs
 
@@ -153,6 +151,8 @@ i. Format:
 
 After writing a structured entry, ask: "Another structured truth, or done?" If another: return to step 2.
 
+**Completeness check** — after ending a structured session covering 2 or more entries, briefly note any of the four formats not yet captured: "You've added [formats]. You haven't captured [remaining formats] — worth recording those now?"
+
 ---
 
 ### Phase 2 — Determine Scope (free-form path only)
@@ -241,3 +241,4 @@ None.
 - This skill is the target of `/tr-ineed` routing when a requirement is classified as a project-wide truth.
 - When invoked from `/tr-discover-truths`, the `candidate` argument pre-populates steps 1–3, making the interaction faster.
 - Structured formats and their scope defaults: Decisions → `impl`; Principles → `intent`; Conventions → `impl`; External constraints → `intent`.
+- Structured format authoring was originally a separate skill (`/tr-design-constraints`). It was absorbed here so developers invoke one command regardless of truth type. See the originating spec: `taproot/specs/global-truth-store/author-design-constraints/usecase.md`.
