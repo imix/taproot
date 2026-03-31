@@ -26,12 +26,12 @@ Navigate the requirement hierarchy in any direction: from code to intent (bottom
 
 ```
 File: src/auth/password-reset.ts
-  └─ impl: taproot/password-reset/request-reset/email-trigger/impl.md
+  └─ impl: password-reset/request-reset/email-trigger/impl
         State: complete | 2 commits | 1 test
-     └─ behaviour: taproot/password-reset/request-reset/usecase.md
+     └─ behaviour: password-reset/request-reset/usecase
            Behaviour: Request Password Reset
            State: implemented
-        └─ intent: taproot/password-reset/intent.md
+        └─ intent: password-reset/intent
                Intent: Password Reset Without Support Contact
                State: active
 ```

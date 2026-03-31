@@ -29,7 +29,7 @@ Sources: backlog items, unimplemented hierarchy behaviours, or developer-supplie
      Vertical slice — actor: <actor> · entry: <entry point> · outcome: <observable outcome>
      N critical-path items:
       1. hitl  [spec]      "description"
-      2. afk   [implement] taproot/specs/<intent>/<behaviour>/
+      2. afk   [implement] <intent>/<behaviour>/
      [A] Confirm  [E] Edit directly then reply A  [Q] Abort
      ```
      Wait for confirmation. On `[Q]`: stop — no files written. On `[E]`: wait for edits.
@@ -74,8 +74,8 @@ Sources: backlog items, unimplemented hierarchy behaviours, or developer-supplie
    ```
    Proposed plan — N items:
     1. hitl  [spec]      "description of new item"
-    2. hitl  [refine]    taproot/specs/<intent>/<behaviour>/usecase.md
-    3. afk   [implement] taproot/specs/<intent>/<behaviour>/
+    2. hitl  [refine]    <intent>/<behaviour>/usecase
+    3. afk   [implement] <intent>/<behaviour>/
 
    [A] Confirm  [E] Edit directly then reply A  [Q] Abort
    ```

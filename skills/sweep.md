@@ -36,8 +36,8 @@ Apply a uniform task to a filtered set of hierarchy files — enumerate matching
 3. Present the list and ask for confirmation:
    > "Found **N** `<type>` files under `<scope>`:"
    > ```
-   > taproot/intent-a/behaviour-b/usecase.md
-   > taproot/intent-a/behaviour-c/usecase.md
+   > intent-a/behaviour-b/usecase
+   > intent-a/behaviour-c/usecase
    > ...
    > ```
    > "Apply '`<task>`' to each of these **N** files? **[Y] Yes** / **[N] No**"
@@ -51,7 +51,7 @@ Apply a uniform task to a filtered set of hierarchy files — enumerate matching
    b. Apply the task directly — edit the file in place
    c. Mark the file complete and output progress:
       ```
-      [x] taproot/intent-a/behaviour-b/usecase.md
+      [x] intent-a/behaviour-b/usecase
       ```
    d. Write the updated checklist (task description + full file list with current `[x]`/`[ ]` state) to `.taproot/sessions/sweep-status.md`. This persists progress so the session can be resumed if interrupted.
 
@@ -60,7 +60,7 @@ Apply a uniform task to a filtered set of hierarchy files — enumerate matching
    - Find the **matching artefact**: use the usecase slug (second-to-last path segment) to locate a related test file, source file, or doc (e.g. slug `validate-format` → `test/integration/validate-format.test.ts`)
    - If no match is found for a file, mark it skipped and move on:
      ```
-     [ ] taproot/intent-a/behaviour-c/usecase.md — no matching test file found
+     [ ] intent-a/behaviour-c/usecase — no matching test file found
      ```
 
    If the task description is vague, ask one clarifying question before processing the first file: "What specifically should change — is there a pattern to add, a section to fill, or a format to fix?"

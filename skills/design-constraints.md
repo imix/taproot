@@ -130,4 +130,4 @@ None.
 
 - For free-form truths — DB schemas, API contracts, data dictionaries, reference tables — use `/tr-define-truth` directly. This skill is for constraints that benefit from structured prompting.
 - Scope conventions: Decisions default to `impl` (technology choices); Principles default to `intent` (cross-cutting values); Conventions default to `impl` (coding rules); External constraints default to `intent` (project-wide impositions). Developers may choose any scope.
-- Sub-behaviour specs for each format: `taproot/specs/global-truth-store/author-design-constraints/usecase.md`
+- Sub-behaviour specs for each format: `global-truth-store/author-design-constraints/usecase`
