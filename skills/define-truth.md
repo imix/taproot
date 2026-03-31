@@ -106,6 +106,7 @@ Create or update a truth entry in `taproot/global-truths/` — a fact, business 
 [A] `/tr-discover-truths` — scan the hierarchy for more truth candidates
 [B] `/tr-commit` — commit the new truth file
 [C] Define another truth — run `/tr-define-truth` again
+[S] `/tr-sweep` — apply this truth across relevant project files (source, docs, specs, security, etc.)
 
 ## Output
 
