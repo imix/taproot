@@ -16,8 +16,8 @@ Create or update a truth entry in `taproot/global-truths/` — a fact, business 
 
    **If no truth files exist:**
    a. Read the `## What belongs in taproot/global-truths/` section from `.taproot/docs/patterns.md` (create the file with that section if it does not exist — see alternate flow in `guide-truth-capture/usecase.md`).
-   b. Present the five truth type categories (glossary, domain model, architecture decisions, naming conventions, business rules) with their default scopes and one-line descriptions.
-   c. Ask: "Which of these apply to your project right now? (You can always add more later.) Select all that apply, or press Enter to skip and define a truth directly."
+   b. Say: "Truth files are free-form — anything worth knowing across the project (prose, tables, bullet lists, any markdown). Common starting points: **glossary** (canonical terms), **domain model** (entity shapes), **architecture decisions**, **naming conventions**, **business rules**. You can also define any other type directly."
+   c. Ask: "Which of these would you like to scaffold now? Enter names or numbers (e.g. 1 3), type your own category name, or press Enter to skip straight to defining a truth."
    d. For each selected category: note it as a pending file to create. After Phase 3 and 4 (scope and file naming), create a blank scoped file per category using the category name as the filename. Report each file created.
    e. If the developer skips (presses Enter): proceed directly to Phase 1 as normal.
 
