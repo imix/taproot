@@ -47,6 +47,18 @@ Any plan-execute prompt where a spec is present or was just written must include
 
 ---
 
+## Plan Offer After Multi-Finding Skills
+
+Any skill that surfaces multiple findings, candidates, or action items — including `/tr-review-all`, `/tr-review`, `/tr-intent`, and similar — must include a plan offer in its **What's next?** section:
+
+> `[P] Plan these — build a taproot/plan.md from these findings`
+
+If selected: invoke `/tr-plan` with the findings as explicit source items. The developer describes which items to include and any ordering preference.
+
+**Rationale:** Findings without a follow-up path get lost. A plan offer turns a review session directly into an actionable queue without manual re-entry.
+
+---
+
 ## No Surprises
 
 The user should always know what is happening. Avoid silent failures, unexpected state changes, and late-stage errors.
