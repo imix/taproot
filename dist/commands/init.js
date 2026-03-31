@@ -130,7 +130,6 @@ const AVAILABLE_LANGUAGES = [
     { name: 'Portuguese', value: 'pt' },
 ];
 export const SKILL_FILES = [
-    'analyse-change.md',
     'review.md',
     'review-all.md',
     'grill-me.md',
@@ -141,7 +140,6 @@ export const SKILL_FILES = [
     'status.md',
     'refine.md',
     'promote.md',
-    'decompose.md',
     'next.md',
     'plan.md',
     'plan-execute.md',
@@ -150,7 +148,6 @@ export const SKILL_FILES = [
     'discover.md',
     'discover-truths.md',
     'define-truth.md',
-    'design-constraints.md',
     'ineed.md',
     'research.md',
     'sweep.md',

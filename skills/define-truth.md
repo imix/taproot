@@ -9,6 +9,7 @@ For structured truths (architecture decisions, design principles, coding convent
 ## Inputs
 
 - `candidate` (optional): Pre-populated context from `/tr-discover-truths` or `/tr-ineed` — includes term/rule, proposed scope, and evidence. If omitted, the skill asks interactively.
+- `entry` (optional): Pre-drafted structured content assembled by a calling skill — a complete ADR, principle, convention, or external constraint already formatted and ready to write. If provided, all elicitation phases are skipped; the skill displays the draft and asks for confirmation only.
 
 ## Steps
 
@@ -26,6 +27,18 @@ For structured truths (architecture decisions, design principles, coding convent
    **If truth files already exist:** skip Phase 0 entirely.
 
 ### Phase 1 — Establish Content
+
+0. **Entry handoff (skip elicitation).** If `entry` was provided by a calling skill:
+   - Display the drafted content:
+     ```
+     Here's what I've captured — does this look right?
+
+     <entry content>
+     ```
+   - Present: `[A] Write it · [E] Edit · [C] Cancel`
+   - **[A]**: proceed directly to Phase 5 (Write) with the entry as content. Use the structured format's scope and file defaults unless the entry specifies otherwise.
+   - **[E]**: apply the developer's corrections, re-display, and repeat until `[A]` or `[C]`.
+   - **[C]**: stop. Do not write anything.
 
 1. If `candidate` was provided, display it:
    ```
