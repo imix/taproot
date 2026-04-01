@@ -342,6 +342,27 @@ describe('runCommithook — declaration commit', () => {
     const code = await runCommithook({ cwd: tmpDir });
     expect(code).toBe(1);
   });
+
+  it('skips DoR for a renamed (moved) impl.md — relocation is not a new declaration', async () => {
+    // Commit the impl.md at original path
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'old-impl'), { recursive: true });
+    stage([{
+      path: 'taproot/my-intent/my-behaviour/old-impl/impl.md',
+      content: IMPL_MD,
+    }], tmpDir);
+    git(['commit', '-m', 'declare impl'], tmpDir);
+
+    // Move impl.md to a new path (git mv creates a rename)
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'new-impl'), { recursive: true });
+    git(['mv',
+      'taproot/my-intent/my-behaviour/old-impl/impl.md',
+      'taproot/my-intent/my-behaviour/new-impl/impl.md',
+    ], tmpDir);
+
+    const code = await runCommithook({ cwd: tmpDir });
+    // Should pass — DoR must not fire on a rename
+    expect(code).toBe(0);
+  });
 });
 
 describe('runCommithook — implementation commit', () => {

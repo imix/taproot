@@ -499,10 +499,16 @@ export async function runCommithook(options: { cwd: string }): Promise<number> {
 
   // Declaration tier: DoR check on the behaviour spec
   if (tiers.includes('declaration')) {
+    // Collect renamed (moved) impl files — these are relocations, not new declarations
+    const renameResult = spawnSync('git', ['diff', '--cached', '--diff-filter=R', '--name-only'], { cwd, encoding: 'utf-8' });
+    const renamedImplFiles = new Set((renameResult.status === 0 ? renameResult.stdout : '').split('\n').filter(Boolean));
+
     for (const implFile of staged.filter(isImplMd)) {
       // Skip DoR for modifications to already-committed impl files — only gate first declarations
       const headCheck = spawnSync('git', ['show', `HEAD:${implFile}`], { cwd, encoding: 'utf-8' });
       if (headCheck.status === 0) continue;
+      // Skip DoR for renamed/moved impl files — relocation is not a new declaration
+      if (renamedImplFiles.has(implFile)) continue;
       const report = runDorChecks(implFile, cwd);
       if (!report.allPassed) {
         process.stdout.write(`taproot commithook — Declaration commit: DoR failed for ${implFile}\n`);

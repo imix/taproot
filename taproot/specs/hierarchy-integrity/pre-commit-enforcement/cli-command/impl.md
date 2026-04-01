@@ -40,6 +40,10 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md commithook section updated: added reverse-lookup explanation and new table row for missing impl.md case | resolved: 2026-03-20T07:33:53.988Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: No new cross-cutting concern. The rename-skip is specific to the DoR declaration gate — it does not introduce a new architectural rule that should gate all implementations. | resolved: 2026-04-01T20:11:12.342Z
+
+- condition: check-if-affected: package.json | note: No new CLI commands or dependencies. commithook.ts change adds rename detection using existing spawnSync — no new packages. | resolved: 2026-04-01T20:11:12.059Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: NO skill files modified — this implementation touches commithook.ts, truth-sign.ts, and test files only. | resolved: 2026-03-27T15:03:47.072Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — the isHierarchyFile exclusion is a narrow correctness fix specific to commithook.ts and truth-sign.ts. Not a pattern applicable to other implementations. | resolved: 2026-03-27T15:03:45.813Z
