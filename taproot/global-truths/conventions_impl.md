@@ -35,3 +35,27 @@ All distribution channel artifacts live under `channels/<channel-name>/` at proj
 Only add a skill to `SKILL_FILES` if a developer would call it directly. Internal sub-skills
 routed to from other skills must be omitted — every entry generates a `/tr-` command and
 appears in `taproot update` output, so internal-only skills add noise.
+
+---
+
+# Agent Integration Files — Reference, Don't Define
+
+`CLAUDE.md`, `.aider.conf.yml`, `.cursorrules`, and equivalent agent integration files must **reference** quality rules — they must not **define** them.
+
+- Quality rules (DoD/DoR conditions, commithook checks, enforcement logic) belong in `taproot/settings.yaml`, `src/commands/commithook.ts`, or `taproot/global-truths/`
+- Agent files contain only: pointers to skills/docs, natural language triggers, and project-specific invocation hints (e.g. CLI prefix)
+- A rule defined in an agent file is invisible to other agents and cannot be enforced at commit time — it will drift
+
+**Correct:**
+```
+See the **Why / What / How rule** in `docs/concepts.md` — each layer must stay in its lane.
+The pre-commit hook enforces this; if it rejects a spec, the error message includes a correction hint.
+```
+
+**Incorrect:**
+```
+When writing usecase.md: never mention SQL, REST, or HTTP verbs in the Main Flow.
+Actor must be a human or external system. Postconditions must be present.
+```
+
+The second form duplicates commithook logic into a single-agent file. When the rule changes, it changes in one place but not the other.

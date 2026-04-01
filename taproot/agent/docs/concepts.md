@@ -10,6 +10,13 @@ Taproot uses three layers, each represented by a markdown file. Every layer answ
 
 This separation matters because the layers evolve at different rates. Business goals (intents) are stable. Specific use cases (behaviours) change when users give feedback. Implementations change every sprint. Keeping them separate means a code refactor doesn't invalidate a behaviour spec, and a scope change doesn't orphan an implementation.
 
+> **The Why / What / How rule:** each layer must stay in its lane.
+> - `intent.md` answers *why* — business outcome, stakeholders, success criteria. No solution language.
+> - `usecase.md` answers *what* — observable, actor-visible behaviour. No database queries, no API calls, no HTTP status codes.
+> - `impl.md` answers *how* — code, design decisions, test coverage. Technical detail belongs here and only here.
+>
+> A behaviour spec that mentions SQL, REST, or endpoint is leaking implementation into the contract layer. A developer reading the spec should understand what the system does without needing to know how it is built.
+
 ---
 
 ## Intent (`intent.md`)
@@ -65,7 +72,7 @@ A behaviour contains:
 
 - **Actor** — who or what triggers this behaviour (a user, a scheduled job, another service)
 - **Preconditions** — what must be true before this can happen
-- **Main Flow** — the steps in the happy path, written as active-voice actions (subject + verb + object)
+- **Main Flow** — the steps in the happy path, written as active-voice actions (subject + verb + object). Steps describe *what* the actor and system do — not *how* internally (no SQL, no HTTP verbs, no service names). "System saves the profile" is correct; "System executes an UPDATE query on the users table" is not.
 - **Alternate Flows** — named variations: what if the user cancels? what if a network call fails?
 - **Postconditions** — what is true after successful completion (these should map to success criteria in the parent intent)
 - **Error Conditions** — unrecoverable failures with specific triggers and specific system responses
@@ -242,6 +249,37 @@ taproot/
             └── redis-check/
                 └── impl.md
 ```
+
+## Vertical Slice
+
+A vertical slice is the minimum set of behaviours an actor needs to reach a specific observable outcome end-to-end. It cuts across the full layer stack — intent → behaviour → implementation — but is intentionally thin: no luxury features, no edge cases, no behaviours that aren't on the critical path.
+
+A slice answers: **"Which behaviours must exist for actor Y to do Z?"**
+
+It may involve one behaviour or several. What makes it a slice is the selection criterion — critical path only — not the count.
+
+```
+Slice: developer can submit a scan and receive findings
+
+Critical-path behaviours:
+  ✓ submit-scan/          ← must exist
+  ✓ dispatch-to-worker/   ← must exist
+  ✓ return-findings/      ← must exist
+
+Deferred (not on this path):
+  ✗ view-scan-history/
+  ✗ cancel-in-progress-scan/
+```
+
+Each behaviour in the slice still follows the normal taproot cycle: spec → impl → commit. The slice defines the *selection and ordering*, not a shortcut through the quality gates.
+
+**When to use a vertical slice**
+
+Use `/tr-plan "<slice description>"` to build a slice plan: the skill derives the actor, entry point, and observable outcome from the description, scans the hierarchy for critical-path behaviours, and produces a sequenced plan of only those items.
+
+Slices are the recommended delivery unit for new features. Starting with a slice produces a working demo earlier, surfaces integration problems sooner, and avoids implementing behaviours that turn out not to be needed.
+
+---
 
 ## Document States
 
