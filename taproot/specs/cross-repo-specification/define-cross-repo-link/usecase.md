@@ -81,9 +81,10 @@ sequenceDiagram
 
 ## Implementations <!-- taproot-managed -->
 - [validate-format extension](./validate-format-extension/impl.md)
+- [agent skill](./agent-skill/impl.md)
 
 ## Status
-- **State:** implemented
+- **State:** specified
 - **Created:** 2026-03-31
 - **Last reviewed:** 2026-03-31
 
