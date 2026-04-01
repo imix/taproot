@@ -130,6 +130,9 @@ sequenceDiagram
 - When a cross-repo change is identified
 - Then the agent writes the handoff to `taproot/backlog.md` without interrupting the session and records a note in the current impl.md
 
+## Implementations <!-- taproot-managed -->
+- [docs pattern](./docs-pattern/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-04-01
