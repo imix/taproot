@@ -18,20 +18,12 @@ Detection in `update.ts`: Aider adapter is detected by presence of `.aider.conf.
 - `src/adapters/index.ts` — added `'aider'` to `AgentName`, `ALL_AGENTS`, `AGENT_TIERS` (tier 2); `generateAiderAdapter()`, `buildAiderConfYml()`, `buildAiderConventionsMd()`, `aiderReadPaths()`; `error?` field on `AdapterResult`
 - `src/commands/update.ts` — Aider detection in `detectInstalledAgents()`; error handling in adapter output loop
 - `src/commands/init.ts` — `'aider'` added to `AGENT_BASE_LABELS`; error handling in adapter output loop
-- `test/integration/adapters.test.ts` — 8 new Aider adapter tests covering AC-1, AC-4, AC-6, and `--agent all`
+- `.aider.conf.yml` — generated Aider config (output of `taproot init --agent aider`)
+- `CONVENTIONS.md` — generated Taproot workflow instructions for Aider (output of `taproot init --agent aider`)
 
 ## Tests
 
-- AC-1: creates `.aider.conf.yml` and `CONVENTIONS.md`
-- AC-1: `.aider.conf.yml` has `read:` entries for all skill files and `CONVENTIONS.md`
-- AC-1: `CONVENTIONS.md` contains taproot workflow instructions
-- Skill list: `CONVENTIONS.md` lists all skills
-- AC-4: merges `read:` entries into existing `.aider.conf.yml` without destroying settings
-- AC-4: merge is idempotent — no duplicate `read:` entries on second run
-- AC-6: returns error for invalid YAML without modifying file
-- Included in `--agent all`
-
-All 645 tests pass.
+- `test/integration/adapters.test.ts` — 8 Aider adapter tests: AC-1 (creates both files, correct content), AC-4 (merge preserves existing settings, idempotent), AC-6 (invalid YAML returns error), `--agent all` inclusion
 
 ## Acceptance Criteria
 

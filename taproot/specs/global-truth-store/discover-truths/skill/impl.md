@@ -13,9 +13,9 @@
 
 ## Source Files
 - `skills/discover-truths.md` — standalone skill implementing the full discover-truths usecase (Main Flow, all Alternate Flows, Error Conditions)
-- `skills/review-all.md` — extended with step 7: truth discovery pass appended to the review report
+- `skills/audit-all.md` — extended with step 7: truth discovery pass appended to the review report
 - `taproot/agent/skills/discover-truths.md` — synced copy for agent use
-- `taproot/agent/skills/review-all.md` — synced copy for agent use
+- `taproot/agent/skills/audit-all.md` — synced copy for agent use
 
 ## Commits
 - `34efd95` — declare implementation

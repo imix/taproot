@@ -18,9 +18,8 @@
 - `d9d264d` — declare impl
 
 ## Tests
-- AC-1, AC-2, AC-3: verified by reading `truth-checker.ts` — no `/tr-commit` references remain
-- AC-4, AC-5: verified by reading `adapters/index.ts` — all 5 adapters contain `taproot commit` and `taproot truth-sign` guidance
-- AC-6: missing-session error now includes both CLI command and session file name
+- `src/core/truth-checker.ts` — AC-1, AC-2, AC-3: verified by reading — no `/tr-commit` references remain
+- `src/adapters/index.ts` — AC-4, AC-5: verified by reading — all 5 adapters contain `taproot commit` and `taproot truth-sign` guidance; AC-6: missing-session error includes CLI command and session file name
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — error message strings are pure data in truth-checker.ts (no logic change); adapter additions are string literals in builder functions. No I/O boundary changes. | resolved: 2026-03-30

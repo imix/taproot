@@ -19,8 +19,8 @@
 - `skills/behaviour.md` — step 13
 - `skills/implement.md` — step 13 (new)
 - `skills/refine.md` — step 9 (new)
-- `skills/review.md` — step 6
-- `skills/review-all.md` — step 8 (new)
+- `skills/audit.md` — step 6
+- `skills/audit-all.md` — step 8 (new)
 - `skills/status.md` — step 7
 - `skills/discover.md` — step 14
 - `skills/analyse-change.md` — step 9 (after [A])
