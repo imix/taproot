@@ -349,6 +349,25 @@ See full spec: `taproot/specs/global-truth-store/author-design-constraints/useca
 
 ---
 
+## Cross-repo specification sharing
+
+**Problem:** A system spans multiple repositories. Specs that describe shared behaviour live in one repo, but other repos need to implement — and trace — them independently. Duplicating specs creates drift; leaving them only in the source repo means implementing repos have no local coverage record.
+
+**Pattern:** A **link file** in the implementing repo points to the spec in the source repo. A local `impl.md` references the link file as its source — making coverage counting entirely local. The source repo creates a `delegated` impl.md to mark the ACs that another repo handles.
+
+**Variants:**
+- **Main repo with satellites** — one repo owns shared specs and some implementations; satellite repos link to it
+- **Coordination repo** — a requirements-only repo owns all specs; all implementing repos link to it
+- **Shared truths only** — repos don't share specs, just global truths (API contracts, domain models) via `Type: truth` link files
+
+**When to use it:**
+- A behaviour is implemented across multiple repos and you need independent coverage on each side
+- You have a canonical domain model or API contract that must be enforced at commit time in several repos
+
+Full documentation and setup checklist: [docs/cross-repo.md](cross-repo.md)
+
+---
+
 ## What belongs in `taproot/global-truths/`
 
 **Problem:** You know you want to capture project-wide facts in `taproot/global-truths/` but aren't sure what kinds of facts are worth formalising — or how to scope them.
