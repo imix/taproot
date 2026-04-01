@@ -11,6 +11,8 @@ Define a UseCase (observable system behaviour) under an intent or another behavi
 
 ## Steps
 
+0. **Resolve the hierarchy root.** Read `taproot/settings.yaml`. Extract the `root:` value (default: `taproot/specs/`). Verify that `parent` is under this root — if not, warn: "The parent path `<parent>` is outside the configured hierarchy root (`<root>`). Did you mean `<root>/<relative-path>`?" and wait for confirmation before proceeding.
+
 1. Read the parent artifact at `parent`:
    - If `parent` contains `intent.md`: read the intent to understand the goal and success criteria.
    - If `parent` contains `usecase.md`: read the parent behaviour — this new behaviour is a sub-behaviour.

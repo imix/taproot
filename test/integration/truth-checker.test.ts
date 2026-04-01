@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { mkdtempSync, rmSync, mkdirSync, writeFileSync } from 'fs';
+import { mkdtempSync, rmSync, mkdirSync, writeFileSync, readFileSync } from 'fs';
 import { tmpdir } from 'os';
 import { join } from 'path';
 import { spawnSync } from 'child_process';
@@ -113,6 +113,10 @@ beforeEach(() => {
   tmpDir = mkdtempSync(join(tmpdir(), 'taproot-truth-'));
   initRepo(tmpDir);
   runInit({ cwd: tmpDir });
+  // Tests place fixtures directly under taproot/ — override root to match
+  const settingsPath = join(tmpDir, 'taproot', 'settings.yaml');
+  const settings = readFileSync(settingsPath, 'utf-8');
+  writeFileSync(settingsPath, settings.replace(/^root:.*$/m, 'root: taproot/'));
   git(['add', '-A'], tmpDir);
   git(['commit', '-m', 'taproot init'], tmpDir);
 });

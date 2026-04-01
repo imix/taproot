@@ -13,6 +13,8 @@ Create a new business intent or refine an existing one. An intent captures the "
 
 ### Creating a new intent
 
+0. **Resolve the hierarchy root.** Read `taproot/settings.yaml`. Extract the `root:` value (default: `taproot/specs/`). Use this as the base path for all intent folder creation and references below — replace every `taproot/<slug>/` in this skill with `<root>/<slug>/`.
+
 1. If the description is vague (under two sentences, or contains words like "improve", "better", "more" without specifics), ask up to three clarifying questions before drafting:
    - "Who benefits from this, and what specifically changes for them?"
    - "How would you know in 6 months that this was a success?"

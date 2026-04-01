@@ -371,6 +371,22 @@ export async function runCommithook(options) {
             process.stdout.write(renderViolations(violations));
             failed = true;
         }
+        // Out-of-root check: warn if hierarchy files are staged outside the configured root
+        // config.root is always absolute (resolved by loadConfig). Staged files are relative.
+        // Compute a relative root from cwd to compare against staged relative paths.
+        const relRoot = relative(cwd, config.root).replace(/\\/g, '/').replace(/\/$/, '');
+        for (const f of staged) {
+            if (!isHierarchyFile(f) || isGlobalTruth(f) || isImplMd(f))
+                continue;
+            const normalised = f.replace(/\\/g, '/');
+            if (!normalised.startsWith(relRoot + '/') && normalised !== relRoot) {
+                process.stdout.write(`taproot commithook — Requirement commit: hierarchy file outside configured root\n` +
+                    `  ✗ ${f}\n` +
+                    `    → This file is outside the configured hierarchy root (\`${relRoot}/\`).\n` +
+                    `      Move it to \`${relRoot}/${normalised.split('/').slice(1).join('/')}\` or update \`root:\` in \`taproot/settings.yaml\`.\n`);
+                failed = true;
+            }
+        }
         // Proposed-state gate: block newly added usecase.md files in 'proposed' state
         const newlyAdded = getNewlyAddedFiles(cwd);
         for (const f of newlyAdded) {

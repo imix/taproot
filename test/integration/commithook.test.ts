@@ -106,6 +106,10 @@ beforeEach(() => {
   tmpDir = mkdtempSync(join(tmpdir(), 'taproot-hook-'));
   initRepo(tmpDir);
   runInit({ cwd: tmpDir });
+  // Most tests place fixtures directly under taproot/ — override root to match
+  const settingsPath = join(tmpDir, 'taproot', 'settings.yaml');
+  const settings = readFileSync(settingsPath, 'utf-8');
+  writeFileSync(settingsPath, settings.replace(/^root:.*$/m, 'root: taproot/'));
   git(['add', '-A'], tmpDir);
   git(['commit', '-m', 'taproot init'], tmpDir);
 });
@@ -140,6 +144,21 @@ describe('runCommithook — requirement commit', () => {
     expect(code).toBe(0);
   });
 
+  it('fails when hierarchy file is staged outside the configured root', async () => {
+    // settings.yaml has root: taproot/ — stage a file at taproot/specs/foo/ which is inside root
+    // then override root to taproot/specs/ and stage a file at taproot/outside/
+    const settingsPath = join(tmpDir, 'taproot', 'settings.yaml');
+    const settings = readFileSync(settingsPath, 'utf-8');
+    writeFileSync(settingsPath, settings.replace(/^root:.*$/m, 'root: taproot/specs/'));
+    mkdirSync(join(tmpDir, 'taproot', 'outside'), { recursive: true });
+    stage([{
+      path: 'taproot/outside/intent.md',
+      content: `# Intent: Test\n\n## Goal\nEnable teams to test\n\n## Stakeholders\n- Dev: needs to verify\n\n## Success Criteria\n- [ ] Tests pass\n\n## Status\n- **State:** active\n- **Created:** 2026-03-30\n`,
+    }], tmpDir);
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(1);
+  });
+
   it('fails when staged hierarchy files have format errors', async () => {
     mkdirSync(join(tmpDir, 'taproot', 'bad-intent'), { recursive: true });
     stage([{
@@ -152,7 +171,7 @@ describe('runCommithook — requirement commit', () => {
 });
 
 describe('runCommithook — proposed-state gate', () => {
-  const VALID_INTENT = `# Intent: Test\n\n## Goal\nEnable teams to test\n\n## Stakeholders\n- Dev: needs to verify\n\n## Success Criteria\n- [ ] Tests pass\n\n## Status\n- **State:** active\n- **Created:** 2026-03-30\n`;
+  const VALID_INTENT = `# Intent: Test\n\n## Goal\nEnable teams to test\n\n## Stakeholders\n- Dev: needs to verify\n\n## Success Criteria\n- [ ] Tests pass\n\n## Behaviours <!-- taproot-managed -->\n\n## Status\n- **State:** active\n- **Created:** 2026-03-30\n`;
 
   // Full-quality usecase with Acceptance Criteria (required by spec quality check)
   const FULL_USECASE_SPECIFIED = `# Behaviour: Test
@@ -833,7 +852,10 @@ describe('checkBehaviourIntentAlignment', () => {
 describe('runCommithook — behaviour-intent alignment', () => {
   it('AC-5: passes for sub-behaviour when root intent has a valid Goal', async () => {
     mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'parent-behaviour', 'sub-behaviour'), { recursive: true });
-    const intentContent = `# Intent: Test\n\n## Goal\nEnable teams to test the system\n\n## Stakeholders\n- Dev: yes\n\n## Success Criteria\n- [ ] Tests pass\n\n## Status\n- **State:** active\n- **Created:** 2026-03-29\n`;
+    const intentContent = `# Intent: Test\n\n## Goal\nEnable teams to test the system\n\n## Stakeholders\n- Dev: yes\n\n## Success Criteria\n- [ ] Tests pass\n\n## Behaviours <!-- taproot-managed -->\n\n## Status\n- **State:** active\n- **Created:** 2026-03-29\n`;
+    // parent-behaviour/usecase.md must exist on disk so validate-structure recognises the folder
+    const parentUsecaseContent = `# Behaviour: Parent\n\n## Actor\nDeveloper\n\n## Preconditions\n- System is running\n\n## Main Flow\n1. Developer triggers parent behaviour\n\n## Postconditions\n- Parent behaviour complete\n\n## Status\n- **State:** specified\n- **Created:** 2026-03-29\n`;
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'parent-behaviour', 'usecase.md'), parentUsecaseContent);
     writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'intent.md'), intentContent);
     git(['add', 'taproot/my-intent/intent.md'], tmpDir);
     git(['commit', '-m', 'add intent'], tmpDir);
