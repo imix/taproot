@@ -3,9 +3,9 @@
  * use short one line commit messages
  * when editing skills in `taproot/skills/`, always copy the file back to `skills/` (package source) before running `taproot update` — otherwise update overwrites your changes
 
-## Committing
+## Natural language triggers
 
-When you are about to stage and commit files, or when the user says "commit", "let's commit", "commit that", or similar — invoke `/tr-commit` instead of running git commands directly. The skill handles commit classification, proactive gate checks, impl.md staging, DoD/DoR resolution, and commit message formatting.
+See `## Natural Language Triggers` in `skills/guide.md` — it lists phrases that must invoke specific taproot skills (commit, plan, backlog, etc.) instead of built-in agent tools.
 
 ## Writing intent.md and usecase.md
 

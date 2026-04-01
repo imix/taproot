@@ -122,6 +122,21 @@ A formatted guide presented in the conversation. No files are created or modifie
 
 None.
 
+## Natural Language Triggers
+
+Invoke the matching skill whenever the developer uses these phrases — even without a slash command:
+
+| Phrase(s) | Invoke |
+|---|---|
+| "commit", "let's commit", "commit that", "commit this" | `/tr-commit` |
+| "create a plan", "make a plan", "plan this", "plan this out", "build a plan" | `/tr-plan` |
+| "what's next", "what should I work on", "next item" | `/tr-next` |
+| "add to backlog", "capture this", "log this idea" | `/tr-backlog` |
+| "I need", "we need", "the system should", "we also need" | `/tr-ineed` |
+| "it's broken", "wrong output", "this crashes", "not working", "regression" | `/tr-bug` |
+
+These triggers apply regardless of which agent is running. Do not use a built-in tool (e.g. the agent's native Plan tool) when a taproot skill covers the intent.
+
 ## Notes
 
 - This skill is read-only. It reports, it does not modify.
