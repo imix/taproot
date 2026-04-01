@@ -110,3 +110,7 @@ A new `intent.md` in `taproot/<slug>/intent.md` (create mode), or an updated `in
 ## Notes
 <Free-form context, links to external docs, meeting notes, etc.>
 ```
+
+## Notes
+
+- **Why, not what.** The intent must stay in its lane: it answers *why* the feature exists, not *what* the system does or *how* it is built. Goal and Success Criteria must describe business outcomes from a stakeholder's perspective — not behaviours, endpoints, or data models. "Users can reset their password without contacting support" is an intent; "the /reset endpoint accepts a token" is not.

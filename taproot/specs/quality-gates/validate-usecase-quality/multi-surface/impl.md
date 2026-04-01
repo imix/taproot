@@ -25,6 +25,18 @@
 
 ## DoD Resolutions
 - condition: check-if-affected-by: skill-architecture/commit-awareness | note: no commit step in this impl; gate enforcement is in commithook.ts invoked by the pre-commit hook, not a skill | resolved: 2026-03-21T00:00:00.000Z
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: VERIFIED — skills/behaviour.md and skills/intent.md updated with guidance notes only (no shell commands, no credentials, no executable instructions). skills/define-truth.md updated with concrete naming examples (glossary_intent.md, intent/glossary.md) — purely illustrative text. All changes follow least-privilege. | resolved: 2026-04-01T16:39:57.387Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — the Main Flow implementation-terms check is part of the existing validate-usecase-quality gate, not a new cross-cutting concern. It extends checkUsecaseQuality in commithook.ts. No new settings.yaml entry needed. | resolved: 2026-04-01T16:39:50.633Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: Not applicable — commithook.ts is TypeScript source code (a git hook), not a skill file. The agent-agnostic-language behaviour applies to skills/*.md files. No agent-specific syntax introduced. | resolved: 2026-04-01T16:39:43.155Z
+
+- condition: check-if-affected: examples/ | note: NOT AFFECTED — starter examples scaffold spec hierarchy structure; they do not demonstrate commithook enforcement logic or Main Flow quality rules. | resolved: 2026-04-01T16:39:37.771Z
+
+- condition: check-if-affected: docs/ | note: docs/concepts.md updated with the Why/What/How rule callout block and updated Main Flow bullet to describe actor-visible language. This is the doc-layer enforcement of the same constraint the hook now enforces at commit time. | resolved: 2026-04-01T16:39:33.354Z
+
+- condition: check-if-affected: package.json | note: No new CLI commands or npm dependencies added. commithook.ts change adds a Main Flow check to checkUsecaseQuality (pure logic). package.json unchanged. | resolved: 2026-04-01T16:39:26.702Z
+
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no — spec quality checks are part of the existing commithook requirement tier; no new check-if-affected-by needed | resolved: 2026-03-21T06:36:49.895Z
 
 - condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — pattern-hints applies to skills routing natural language requests; commithook.ts is a git hook | resolved: 2026-03-21T06:36:49.658Z

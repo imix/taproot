@@ -174,6 +174,8 @@ After writing a structured entry, ask: "Another structured truth, or done?" If a
      > "I'll put this in `<suggested-name>_<scope>.md` — ok, or different name?"
 
    - **Convention**: if the project already uses one convention (suffix or sub-folder), match it silently. If no files exist yet, default to suffix and note the choice; only ask if the developer seems likely to care.
+     - Suffix example: `taproot/global-truths/glossary_intent.md`
+     - Sub-folder example: `taproot/global-truths/intent/glossary.md`
 
    The goal is zero questions when context is clear. Ask only what's genuinely ambiguous.
 

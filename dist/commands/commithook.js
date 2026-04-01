@@ -202,6 +202,23 @@ export function checkUsecaseQuality(filePath, content, pack = null) {
             hint: `Add a \`## ${postHeading}\` section describing what is true after the flow succeeds`,
         });
     }
+    // Main Flow: must not contain implementation terms (SQL, HTTP, REST, endpoint, etc.)
+    const mainFlowHeading = localizedHeading('Main Flow', pack);
+    const mainFlowBody = getSection(content, mainFlowHeading);
+    if (mainFlowBody !== null && !pack) {
+        const lines = mainFlowBody.split('\n').filter(l => /^\s*\d+\./.test(l));
+        for (const line of lines) {
+            if (TECH_KEYWORDS.test(line)) {
+                const match = line.match(TECH_KEYWORDS)?.[0] ?? '';
+                failures.push({
+                    file: filePath,
+                    message: `Main Flow step contains implementation term: "${match}" — use actor-visible language instead`,
+                    hint: "Main Flow steps describe what the actor sees or the system produces — not internal mechanisms. Move SQL, HTTP, endpoint, and service-layer terms to impl.md.",
+                });
+                break; // one failure is enough to communicate the issue
+            }
+        }
+    }
     return failures;
 }
 export function checkIntentQuality(filePath, content, pack = null) {
