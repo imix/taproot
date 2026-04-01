@@ -13,7 +13,9 @@ Diagnose a defect through structured root cause analysis (5-Why) and delegate to
 
 1. **Check for hand-off.** If `handoff` is `true` (invoked from `/tr-ineed`), skip to step 3. Otherwise, proceed to step 2.
 
-2. **Confirm reproducibility.** Ask the actor: "Can you reproduce this consistently? If so, what are the minimal steps?" If the actor cannot reproduce it after clarification (environment details, inputs, frequency, logs), suspend with: "Cannot confirm reproduction — add a failing test case and re-run `/tr-bug` once it's consistent." Stop.
+2. **Confirm reproducibility — only when needed.** Assess the symptom description:
+   - **Self-evident** (wrong output visible, crash message shown, specific incorrect value): skip reproduction confirmation entirely — the symptom is already confirmed. Proceed to step 3.
+   - **Ambiguous** (intermittent, environment-specific, "sometimes", no clear trigger): ask: "Can you reproduce this consistently? What are the minimal steps?" If the actor cannot reproduce it after clarification (environment details, inputs, frequency, logs), suspend with: "Cannot confirm reproduction — add a failing test case and re-run `/tr-bug` once it's consistent." Stop.
 
 3. **5-Why root cause dialogue.** Ask one "Why?" at a time, building on each answer:
 
