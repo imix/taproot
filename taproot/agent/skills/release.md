@@ -81,7 +81,7 @@ Run the taproot maintainer's local release phase: pre-flight checks, changelog g
    - Verifies `CHANGELOG.md` has an entry for `<next>`
    - Bumps `version` in both `package.json` and `channels/vscode/package.json`
    - Runs `taproot truth-sign` (ensures session is fresh for the hook)
-   - Commits `package.json`, `channels/vscode/package.json`, `CHANGELOG.md`, and `.taproot/.truth-check-session` with message `chore: release v<next>`
+   - Commits `package.json`, `channels/vscode/package.json`, `CHANGELOG.md`, and `taproot/truth-checks.md` with message `chore: release v<next>`
    - Creates tag `v<next>`
    - Pushes commit and tag to `origin/main`
 

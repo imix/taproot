@@ -22,9 +22,9 @@ Architectural decisions, constraints, and patterns for the taproot codebase. Eve
 
 **No global mutable state** — No module-level variables that accumulate state across calls. Functions that need shared state receive it as parameters.
 
-**Unified `taproot/` directory layout** — All taproot content lives under `taproot/`: requirement documents in `taproot/specs/` (or directly under `taproot/` with a custom `root:` setting), agent skills and docs in `taproot/agent/`, and global truths in `taproot/global-truths/`. Settings live at `taproot/settings.yaml`. The `.taproot/` directory is reserved for gitignored runtime scratch only (session state, test result cache, truth-check sessions).
+**Unified `taproot/` directory layout** — All taproot content lives under `taproot/`: requirement documents in `taproot/specs/` (or directly under `taproot/` with a custom `root:` setting), agent skills and docs in `taproot/agent/`, and global truths in `taproot/global-truths/`. Settings live at `taproot/settings.yaml`. The `.taproot/` directory is reserved for gitignored runtime scratch only (session state, test result cache).
 
-**`.taproot/` is runtime scratch, not content** — Files written by CLI invocations that should not be committed (session state, `.truth-check-session`, `.test-results/`) go in `.taproot/`. Add `.taproot/` to `.gitignore`. Never place spec documents, skill files, or configuration there.
+**`.taproot/` is runtime scratch, not content** — Files written by CLI invocations that should not be committed (session state, `.test-results/`) go in `.taproot/`. Add `.taproot/` to `.gitignore`. Never place spec documents, skill files, or configuration there. The truth-check session marker (`taproot/truth-checks.md`) is an exception — it lives in `taproot/` and is committed as an audit trail.
 
 **Markdown is the schema** — All hierarchy documents (intent.md, usecase.md, impl.md) must be valid CommonMark. No proprietary extensions.
 

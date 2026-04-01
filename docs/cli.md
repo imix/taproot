@@ -209,7 +209,7 @@ See [Configuration](configuration.md) for how to define DoD conditions.
 taproot commit [<message>] [--all] [--dry-run]
 ```
 
-Orchestrates the full commit sequence in one step: stage all changes (optional), run `taproot truth-sign` if hierarchy files are staged and `taproot/global-truths/` exists, automatically stage `.taproot/.truth-check-session`, then run `git commit`.
+Orchestrates the full commit sequence in one step: stage all changes (optional), run `taproot truth-sign` if hierarchy files are staged and `taproot/global-truths/` exists, automatically stage `taproot/truth-checks.md`, then run `git commit`.
 
 | Option | Effect |
 |--------|--------|
@@ -247,7 +247,7 @@ The hook uses a three-tier classification, where the implementation tier is dete
 
 The DoR gate prevents committing an implementation record before the behaviour is fully specified. The DoD gate prevents marking an implementation complete without passing the quality checks defined in `taproot/settings.yaml`.
 
-**Truth consistency check:** when hierarchy files are staged and `taproot/global-truths/` exists, the hook validates that a truth-check session marker (`.taproot/.truth-check-session`) is present and matches the current staged content. This marker is written by `taproot truth-sign`, which `taproot commit` calls automatically. Committing hierarchy files directly with `git commit` (bypassing `taproot commit` or a manual `taproot truth-sign` + stage step) will be blocked if applicable truths exist.
+**Truth consistency check:** when hierarchy files are staged and `taproot/global-truths/` exists, the hook validates that a truth-check session marker (`taproot/truth-checks.md`) is present and matches the current staged content. This marker is written by `taproot truth-sign`, which `taproot commit` calls automatically. Committing hierarchy files directly with `git commit` (bypassing `taproot commit` or a manual `taproot truth-sign` + stage step) will be blocked if applicable truths exist.
 
 ---
 

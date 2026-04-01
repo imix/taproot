@@ -1,3 +1,4 @@
 node_modules/
 *.vsix
 channels/vscode/out/
+.taproot/

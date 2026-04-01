@@ -13,8 +13,8 @@ Developer or AI agent calling `taproot commit` as a one-command replacement for 
 1. Developer or agent calls `taproot commit [<message>] [--all] [--dry-run]`
 2. System runs `git status --short` to show what is staged and unstaged
 3. If `--all` is specified: system runs `git add .` to stage all changes
-4. **Truth-sign step:** If `taproot/global-truths/` exists and hierarchy files (`intent.md`, `usecase.md`) are staged, system runs `taproot truth-sign` to generate the session marker (`.taproot/.truth-check-session`)
-5. If `.taproot/.truth-check-session` was written, system stages it: `git add .taproot/.truth-check-session`
+4. **Truth-sign step:** If `taproot/global-truths/` exists and hierarchy files (`intent.md`, `usecase.md`) are staged, system runs `taproot truth-sign` to generate the session marker (`taproot/truth-checks.md`)
+5. If `taproot/truth-checks.md` was written, system stages it: `git add taproot/truth-checks.md`
 6. System runs `git commit -m "<message>"` with the provided message, or opens the editor if no message is given
 7. System reports commit hash and summary
 
@@ -55,7 +55,7 @@ Developer or AI agent calling `taproot commit` as a one-command replacement for 
 
 ## Postconditions
 - A new git commit exists with the provided or entered message
-- `.taproot/.truth-check-session` is included in the commit if hierarchy files were staged and global-truths exist
+- `taproot/truth-checks.md` is included in the commit if hierarchy files were staged and global-truths exist
 - The working tree reflects the committed state
 
 ## Error Conditions
@@ -76,7 +76,7 @@ flowchart TD
     D -->|yes| F{global-truths + hierarchy files staged?}
     F -->|yes| G[taproot truth-sign]
     F -->|no| H[skip truth-sign]
-    G --> I[git add .taproot/.truth-check-session]
+    G --> I[git add taproot/truth-checks.md]
     H --> J[git commit -m message]
     I --> J
     J --> K{hook passes?}
@@ -94,7 +94,7 @@ flowchart TD
 **AC-1: Happy path — hierarchy files staged, global-truths present**
 - Given hierarchy files are staged and `taproot/global-truths/` exists
 - When the developer runs `taproot commit "my message"`
-- Then `taproot truth-sign` runs, `.taproot/.truth-check-session` is staged, and `git commit -m "my message"` is executed
+- Then `taproot truth-sign` runs, `taproot/truth-checks.md` is staged, and `git commit -m "my message"` is executed
 
 **AC-2: No hierarchy files staged — truth-sign skipped**
 - Given only source files (no `intent.md` / `usecase.md`) are staged

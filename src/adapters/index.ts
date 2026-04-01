@@ -675,7 +675,7 @@ When committing hierarchy files (\`intent.md\`, \`usecase.md\`, \`impl.md\`) or 
 taproot commit "your message"
 \`\`\`
 
-This automatically runs \`taproot truth-sign\`, stages \`.taproot/.truth-check-session\`, and commits in one step. If you use plain \`git commit\`, run \`taproot truth-sign\` and stage the session file manually first.
+This automatically runs \`taproot truth-sign\`, stages \`taproot/truth-checks.md\`, and commits in one step. If you use plain \`git commit\`, run \`taproot truth-sign\` and stage the session file manually first.
 
 ## Pre-commit Hook
 

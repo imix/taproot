@@ -86,7 +86,7 @@ export function runCommit(options: {
       return 1;
     }
     // Stage the session marker
-    const sessionFile = '.taproot/.truth-check-session';
+    const sessionFile = 'taproot/truth-checks.md';
     if (existsSync(join(cwd, sessionFile))) {
       const addSession = spawnSync('git', ['add', sessionFile], { cwd, encoding: 'utf-8' });
       if (addSession.status !== 0) {

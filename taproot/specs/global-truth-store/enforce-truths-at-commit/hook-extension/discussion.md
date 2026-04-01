@@ -10,7 +10,7 @@
 It can't — hooks run synchronously and can't wait for an LLM. The solution: `tr-commit` is the primary enforcement path. The agent performs the semantic check via the skill, and if approved, calls `taproot truth-sign` to write a session hash. The hook validates the hash, providing protection against bypassing `tr-commit` with a direct `git commit`.
 
 **Where to store the truth-check approval record?**
-Options considered: inline in usecase.md (`## Truth Resolutions`), sidecar file per spec, centralised `.taproot/.truth-check-session`. The centralised session file was chosen — it avoids polluting spec files with session metadata, and is naturally ephemeral (not committed to git).
+Options considered: inline in usecase.md (`## Truth Resolutions`), sidecar file per spec, centralised session file. The centralised session file was chosen (`taproot/truth-checks.md`) — it avoids polluting spec files with session metadata, and is committed as an audit trail alongside hierarchy docs.
 
 **Should `global-truths/` be excluded from the hierarchy walker?**
 Yes — it is not an intent/behaviour/impl folder. Adding it to `DEFAULT_EXCLUDE` (alongside `skills/`) prevents false ORPHAN_FOLDER and INVALID_FOLDER_NAME errors from validate-structure.

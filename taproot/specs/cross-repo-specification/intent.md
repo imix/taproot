@@ -17,7 +17,7 @@ Enable teams working across multiple repositories to link to shared intents, beh
 - [ ] v1 does not detect when a linked target spec changes in the source repo — linking repos are responsible for re-validating links after upstream changes (drift detection is explicitly deferred)
 
 ## Constraints
-- Link targets are resolved via a local path mapping (`.taproot/repos.yaml`, not committed) — no remote git fetching in v1; requires `.taproot/` to be gitignored (see backlog: `.taproot/.truth-check-session` bug)
+- Link targets are resolved via a local path mapping (`.taproot/repos.yaml`, not committed) — no remote git fetching in v1; `.taproot/` is gitignored by `taproot init`
 - Links must form a DAG — circular references (A → B → A at any depth) are not permitted and are flagged by `taproot check-orphans`
 - No cross-repo CI aggregation in v1 — each repo's coverage and validation runs independently
 - No "integrated" state — a local `impl.md` referencing a linked behaviour is sufficient for the behaviour to count as implemented in that repo

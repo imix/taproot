@@ -98,7 +98,7 @@ export function collectApplicableTruths(cwd, docLevel) {
     return results;
 }
 // ─── Session management ────────────────────────────────────────────────────────
-const SESSION_PATH = '.taproot/.truth-check-session';
+const SESSION_PATH = 'taproot/truth-checks.md';
 function computeHash(stagedDocs, truths) {
     const h = createHash('sha256');
     for (const d of [...stagedDocs].sort((a, b) => a.path.localeCompare(b.path))) {
@@ -131,7 +131,7 @@ export function validateTruthSession(cwd, stagedDocs, truths) {
     if (!existsSync(sessionFile)) {
         return {
             valid: false,
-            reason: 'no truth-check session found — run `taproot truth-sign` and stage `.taproot/.truth-check-session` before committing (or use `taproot commit` to handle this automatically)',
+            reason: 'no truth-check session found — run `taproot truth-sign` and stage `taproot/truth-checks.md` before committing (or use `taproot commit` to handle this automatically)',
         };
     }
     let session;
@@ -144,7 +144,7 @@ export function validateTruthSession(cwd, stagedDocs, truths) {
     if (session.hash !== computeHash(stagedDocs, truths)) {
         return {
             valid: false,
-            reason: 'staged files or truths have changed since the last truth check — run `taproot truth-sign` again and re-stage `.taproot/.truth-check-session`',
+            reason: 'staged files or truths have changed since the last truth check — run `taproot truth-sign` again and re-stage `taproot/truth-checks.md`',
         };
     }
     return { valid: true, reason: '' };

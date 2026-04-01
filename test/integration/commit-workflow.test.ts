@@ -48,9 +48,9 @@ describe('AC-2: no hierarchy files staged — truth-sign skipped', () => {
     const result = runCommit({ message: 'add src', cwd: TMP });
     expect(result).toBe(0);
     expect(log(TMP)).toContain('add src');
-    // .taproot/.truth-check-session should NOT be staged/committed
+    // taproot/truth-checks.md should NOT be staged when truth-sign skipped
     const commitFiles = spawnSync('git', ['show', '--name-only', 'HEAD'], { cwd: TMP, encoding: 'utf-8' }).stdout;
-    expect(commitFiles).not.toContain('truth-check-session');
+    expect(commitFiles).not.toContain('truth-checks.md');
   });
 });
 
@@ -64,7 +64,7 @@ describe('AC-3: no global-truths directory — truth-sign skipped', () => {
     expect(result).toBe(0);
     expect(log(TMP)).toContain('add intent');
     const commitFiles = spawnSync('git', ['show', '--name-only', 'HEAD'], { cwd: TMP, encoding: 'utf-8' }).stdout;
-    expect(commitFiles).not.toContain('truth-check-session');
+    expect(commitFiles).not.toContain('truth-checks.md');
   });
 });
 

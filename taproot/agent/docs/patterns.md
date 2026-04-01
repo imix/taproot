@@ -240,7 +240,7 @@ Then at each confirmation step, add a conditional note:
 
 **Pattern:** Separate the reasoning from the enforcement:
 1. The skill performs the semantic check (via the agent) before `git commit` is called
-2. If the check passes, the skill runs `taproot truth-sign` to write a session marker (`.taproot/.truth-check-session`) containing a SHA-256 hash of the checked content
+2. If the check passes, the skill runs `taproot truth-sign` to write a session marker (`taproot/truth-checks.md`) containing a SHA-256 hash of the checked content
 3. The hook validates the marker exists and matches the current staged state — a fast, deterministic check
 
 ```bash

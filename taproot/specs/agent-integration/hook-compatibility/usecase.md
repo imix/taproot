@@ -25,7 +25,7 @@ Developer or AI coding agent (Claude Code, Cursor, Copilot, Aider, or any other 
   1. Hook reports: "no truth-check session found — run `taproot truth-sign` before committing"
   2. Agent reads its adapter instructions (`CONVENTIONS.md`, `.cursorrules`, etc.), finds the `taproot truth-sign` step
   3. Agent runs `taproot truth-sign`; session file created
-  4. Agent re-stages `.taproot/.truth-check-session` and re-commits
+  4. Agent re-stages `taproot/truth-checks.md` and re-commits
   5. Hook passes
 
 ### No truth-check session — human committing directly
@@ -33,7 +33,7 @@ Developer or AI coding agent (Claude Code, Cursor, Copilot, Aider, or any other 
 - **Steps:**
   1. Hook reports: "no truth-check session found — run `taproot truth-sign` before committing"
   2. Developer runs `taproot truth-sign` from the CLI
-  3. Developer stages `.taproot/.truth-check-session` and re-commits
+  3. Developer stages `taproot/truth-checks.md` and re-commits
   4. Hook passes
 
 ### DoD not resolved for implementation commit
@@ -104,12 +104,12 @@ flowchart TD
 **AC-5: generate-agent-adapter includes commit guidance in all generated adapter files**
 - Given a developer runs `taproot init --agent <any-agent>` or `taproot update --agent <any-agent>`
 - When the adapter instruction file is generated (CONVENTIONS.md, .cursorrules, etc.)
-- Then it includes guidance equivalent to: run `taproot truth-sign`, stage `.taproot/.truth-check-session`, then commit
+- Then it includes guidance equivalent to: run `taproot truth-sign`, stage `taproot/truth-checks.md`, then commit
 
 **AC-6: Human committing via plain git gets a usable error**
 - Given a developer stages hierarchy files and runs `git commit` without any AI agent
 - When truth-check session is missing
-- Then the hook error message names the CLI command to run (`taproot truth-sign`) and the file to stage (`.taproot/.truth-check-session`)
+- Then the hook error message names the CLI command to run (`taproot truth-sign`) and the file to stage (`taproot/truth-checks.md`)
 
 ## Implementations <!-- taproot-managed -->
 - [CLI Command](./cli-command/impl.md)
