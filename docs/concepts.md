@@ -250,6 +250,37 @@ taproot/
                 └── impl.md
 ```
 
+## Vertical Slice
+
+A vertical slice is the minimum set of behaviours an actor needs to reach a specific observable outcome end-to-end. It cuts across the full layer stack — intent → behaviour → implementation — but is intentionally thin: no luxury features, no edge cases, no behaviours that aren't on the critical path.
+
+A slice answers: **"Which behaviours must exist for actor Y to do Z?"**
+
+It may involve one behaviour or several. What makes it a slice is the selection criterion — critical path only — not the count.
+
+```
+Slice: developer can submit a scan and receive findings
+
+Critical-path behaviours:
+  ✓ submit-scan/          ← must exist
+  ✓ dispatch-to-worker/   ← must exist
+  ✓ return-findings/      ← must exist
+
+Deferred (not on this path):
+  ✗ view-scan-history/
+  ✗ cancel-in-progress-scan/
+```
+
+Each behaviour in the slice still follows the normal taproot cycle: spec → impl → commit. The slice defines the *selection and ordering*, not a shortcut through the quality gates.
+
+**When to use a vertical slice**
+
+Use `/tr-plan "<slice description>"` to build a slice plan: the skill derives the actor, entry point, and observable outcome from the description, scans the hierarchy for critical-path behaviours, and produces a sequenced plan of only those items.
+
+Slices are the recommended delivery unit for new features. Starting with a slice produces a working demo earlier, surfaces integration problems sooner, and avoids implementing behaviours that turn out not to be needed.
+
+---
+
 ## Document States
 
 Each document has a `State` field that tracks its lifecycle. States are validated by `taproot validate-format` and enforced by the pre-commit hook.
