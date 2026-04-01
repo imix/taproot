@@ -147,16 +147,14 @@ If any of these is true, **autonomous mode is active** — apply the autonomous 
 
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
-   **If not all ACs were delivered** (incremental delivery — some ACs deferred): offer a continuation slot as option [1]:
-   > [1] `/tr-implement <behaviour-path>` — next slice: <one-line description of the remaining ACs>
+   **If a natural next slice is apparent** (e.g. the just-implemented behaviour unblocks an obvious next step), surface it as option [1] with a concrete description:
+   > [1] `/tr-plan "<one-line slice description>"` — plan next slice
 
-   Do NOT offer "Next slice" as a label without a bound `/tr-implement <path>` command — a description-only option loses its target after context compaction and causes the agent to re-ask for slice inputs.
+   Pass the description as an argument so `/tr-plan` can derive Actor/Entry/Outcome without re-asking.
 
    **What's next?**
    [A] `/tr-next` — surface the next implementable behaviour
    [B] `/tr-status` — coverage snapshot
-
-   *(Omit [A] and [B] if a [1] continuation slot is shown — don't present three options when one is dominant.)*
 
 ## Output
 

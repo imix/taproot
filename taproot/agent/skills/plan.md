@@ -19,9 +19,18 @@ Sources: backlog items, unimplemented hierarchy behaviours, or developer-supplie
    - On confirm: write the modified `taproot/plan.md` and report: *"Plan updated — N items."* Stop.
    - On abort: stop — no files modified.
 
-0a. **Detect vertical slice request.** If the developer's request uses phrases like "vertical slice", "walking skeleton", "tracer bullet", "thin slice", "minimal path", "just enough to demo", or similar:
-  1. Ask: *"Vertical slice — I need three things: **Actor** (who initiates), **Entry point** (where the flow begins), and **Observable outcome** (what the actor sees when it works)."*
-  2. Wait for the developer to supply the three inputs.
+0a. **Detect vertical slice request.** If the developer's request uses phrases like "vertical slice", "walking skeleton", "tracer bullet", "thin slice", "minimal path", "just enough to demo", or passes a pre-populated slice description (e.g. from a `/tr-implement` What's next option):
+  1. **If a description was pre-populated:** derive Actor, Entry point, and Observable outcome from it. Present the derived summary and ask for confirmation before proceeding:
+     ```
+     Slice: <description>
+     - Actor: <derived>
+     - Entry point: <derived>
+     - Observable outcome: <derived>
+
+     [A] Plan this slice  [E] Edit  [D] Discuss first  [C] Cancel
+     ```
+     Wait for the developer's choice. On `[E]`: apply edits, re-show, repeat. On `[D]`: discuss open questions, then re-present. On `[C]`: stop. On `[A]`: proceed to step 3 with the confirmed inputs.
+  2. **If no description was pre-populated:** ask: *"Vertical slice — I need three things: **Actor** (who initiates), **Entry point** (where the flow begins), and **Observable outcome** (what the actor sees when it works)."* Wait for the developer to supply the three inputs.
   3. Scan the hierarchy (`node dist/cli.js coverage`) and `taproot/backlog.md` to identify behaviours on the critical path — those whose absence would prevent the actor from reaching the observable outcome via the entry point. Non-critical-path behaviours are excluded entirely.
   4. Classify critical-path items using the same heuristics as step 3 (`spec`/`implement`/`refine`, `hitl`/`afk`).
   5. Present the filtered plan:
