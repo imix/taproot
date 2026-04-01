@@ -155,8 +155,18 @@ function checkImplOrdering(implMdPath, cwd) {
 export function runDorChecks(implMdPath, cwd) {
     const results = [];
     const usecasePath = resolveUsecasePath(implMdPath, cwd);
-    // 1. usecase.md exists
+    // 1. usecase.md exists (or link.md as cross-repo substitute)
     if (!existsSync(usecasePath)) {
+        const behaviourDir = dirname(usecasePath);
+        const linkPath = join(behaviourDir, 'link.md');
+        if (existsSync(linkPath)) {
+            // Cross-repo spec: link.md is a valid substitute for usecase.md.
+            // Section/state checks require local usecase.md content — skip them.
+            results.push({ name: 'usecase-exists', passed: true, output: '', correction: '' });
+            const orderingResults = checkImplOrdering(implMdPath, cwd);
+            results.push(...orderingResults);
+            return { results, allPassed: results.every(r => r.passed) };
+        }
         results.push({
             name: 'usecase-exists',
             passed: false,

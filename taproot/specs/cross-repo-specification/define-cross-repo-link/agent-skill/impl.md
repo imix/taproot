@@ -21,7 +21,7 @@
 - (none — skill is guidance-only; validate-format integration covers link file format AC-1)
 
 ## Status
-- **State:** complete
+- **State:** needs-rework
 - **Created:** 2026-04-01
 - **Last verified:** 2026-04-01
 

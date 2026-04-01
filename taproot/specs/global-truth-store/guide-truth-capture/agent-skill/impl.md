@@ -24,7 +24,7 @@ Added the global-truths pattern entry to `taproot/agent/docs/patterns.md` (and s
 
 ## Tests
 
-No automated tests — skill file and pattern entry are agent-readable markdown. AC coverage is via manual invocation of `/tr-define-truth` in a project with no existing truths.
+No automated tests — skill file and pattern entry are agent-readable markdown. AC coverage verified by manual review of `skills/define-truth.md` Phase 0 logic and `docs/patterns.md` global-truths section.
 
 ## DoR Resolutions
 

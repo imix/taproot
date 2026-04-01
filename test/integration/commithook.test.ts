@@ -456,6 +456,14 @@ describe('runDorChecks', () => {
     expect(report.results[0]!.passed).toBe(false);
   });
 
+  it('passes usecase-exists when link.md exists as cross-repo substitute', () => {
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'link.md'),
+      '**Repo:** https://github.com/org/source\n**Path:** taproot/specs/auth/usecase.md\n**Type:** behaviour\n');
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'my-impl', 'impl.md'), IMPL_MD);
+    const report = runDorChecks('taproot/my-intent/my-behaviour/my-impl/impl.md', tmpDir);
+    expect(report.results.find(r => r.name === 'usecase-exists')!.passed).toBe(true);
+  });
+
   it('fails when usecase state is not specified', () => {
     const notSpec = VALID_USECASE.replace('State:** specified', 'State:** proposed');
     writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour', 'usecase.md'), notSpec);

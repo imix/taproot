@@ -58,7 +58,7 @@
 
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: VERIFIED — changes are limited to adding /tr-backlog as a lettered menu option in What's next? blocks. No shell commands, no credentials, no executable instructions beyond presenting a slash command suggestion. Least-privilege maintained. | resolved: 2026-03-25T15:38:21.496Z
 
-- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: COMPLIANT — all five updated skill files (review.md, review-all.md, grill-me.md, status.md, guide.md) use agent-agnostic language: 'the developer', 'the skill'. No Claude-specific syntax introduced. | resolved: 2026-03-25T15:38:13.494Z
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: COMPLIANT — all five updated skill files (audit.md, audit-all.md, grill-me.md, status.md, guide.md) use agent-agnostic language: 'the developer', 'the skill'. No Claude-specific syntax introduced. | resolved: 2026-03-25T15:38:13.494Z
 
 - condition: check-if-affected: examples/ | note: NOT APPLICABLE — starter examples demonstrate hierarchy structure; they do not illustrate skill-internal What's next? guidance patterns. | resolved: 2026-03-25T15:38:03.507Z
 

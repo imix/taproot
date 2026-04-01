@@ -633,7 +633,12 @@ export async function runCommithook(options: { cwd: string }): Promise<number> {
     resolve(cwd, linkConfig.root ?? 'taproot/specs/'),
     cwd
   );
-  const linkErrors = linkViolations.filter(v => v.type === 'error' && v.code !== 'LINK_VALIDATION_SKIPPED');
+  const linkErrors = linkViolations.filter(v => v.type === 'error');
+  const linkSkipWarnings = linkViolations.filter(v => v.code === 'LINK_VALIDATION_SKIPPED');
+  if (linkSkipWarnings.length > 0) {
+    process.stdout.write('taproot commithook — Link validation skipped (offline mode):\n');
+    process.stdout.write(renderViolations(linkSkipWarnings));
+  }
   if (linkErrors.length > 0) {
     process.stdout.write('taproot commithook — Link validation:\n');
     process.stdout.write(renderViolations(linkErrors));
