@@ -134,6 +134,7 @@ Invoke the matching skill whenever the developer uses these phrases — even wit
 | "add to backlog", "capture this", "log this idea" | `/tr-backlog` |
 | "I need", "we need", "the system should", "we also need" | `/tr-ineed` |
 | "it's broken", "wrong output", "this crashes", "not working", "regression" | `/tr-bug` |
+| "research", "look into", "investigate", "find out about", "explore" | `/tr-research` |
 
 These triggers apply regardless of which agent is running. Do not use a built-in tool (e.g. the agent's native Plan tool) when a taproot skill covers the intent.
 

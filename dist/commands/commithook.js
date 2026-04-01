@@ -378,6 +378,9 @@ export async function runCommithook(options) {
         for (const f of staged) {
             if (!isHierarchyFile(f) || isGlobalTruth(f) || isImplMd(f))
                 continue;
+            // Only check actual spec files — not taproot/backlog.md, plan.md, settings.yaml, etc.
+            if (!f.endsWith('intent.md') && !f.endsWith('usecase.md'))
+                continue;
             const normalised = f.replace(/\\/g, '/');
             if (!normalised.startsWith(relRoot + '/') && normalised !== relRoot) {
                 process.stdout.write(`taproot commithook — Requirement commit: hierarchy file outside configured root\n` +
