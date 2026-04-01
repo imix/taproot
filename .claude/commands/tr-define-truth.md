@@ -1,6 +1,6 @@
 ---
 name: 'tr-define-truth'
-description: 'Create or update a truth entry in `taproot/global-truths/` — a fact, business rule, glossary term, or convention that applies across the project'
+description: 'Create or update a truth entry in `taproot/global-truths/` — a fact, business rule, glossary term, convention, architecture decision, or principle that applies across the project'
 ---
 
 <!-- taproot:cli-invocation: node dist/cli.js -->

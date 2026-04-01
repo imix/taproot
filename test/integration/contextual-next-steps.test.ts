@@ -9,8 +9,8 @@ const LEAF_SKILLS = [
   'behaviour.md',
   'implement.md',
   'refine.md',
-  'review.md',
-  'review-all.md',
+  'audit.md',
+  'audit-all.md',
   'status.md',
   'discover.md',
   'discover-truths.md',
@@ -53,7 +53,7 @@ describe('contextual-next-steps — guidance format references correct commands'
   it('behaviour.md guidance references /tr-implement and /tr-review', () => {
     const content = readFileSync(resolve(SKILLS_DIR, 'behaviour.md'), 'utf-8');
     expect(content).toContain('/tr-implement');
-    expect(content).toContain('/tr-review');
+    expect(content).toContain('/tr-audit');
   });
 
   it('implement.md guidance references /tr-next', () => {
@@ -61,8 +61,8 @@ describe('contextual-next-steps — guidance format references correct commands'
     expect(content).toContain('/tr-next');
   });
 
-  it('review.md guidance references /tr-refine and /tr-implement', () => {
-    const content = readFileSync(resolve(SKILLS_DIR, 'review.md'), 'utf-8');
+  it('audit.md guidance references /tr-refine and /tr-implement', () => {
+    const content = readFileSync(resolve(SKILLS_DIR, 'audit.md'), 'utf-8');
     expect(content).toContain('/tr-refine');
     expect(content).toContain('/tr-implement');
   });

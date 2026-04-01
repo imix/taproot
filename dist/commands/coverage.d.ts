@@ -1,5 +1,11 @@
 import type { Command } from 'commander';
 export type CoverageFormat = 'tree' | 'json' | 'markdown' | 'context';
+export interface LinkedItemSummary {
+    linkFilePath: string;
+    linkType: string;
+    implState: 'complete' | 'pending' | 'gap';
+    warnUnresolvable: boolean;
+}
 export interface ImplSummary {
     name: string;
     path: string;
@@ -13,12 +19,14 @@ export interface BehaviourSummary {
     state: string;
     implementations: ImplSummary[];
     subBehaviours: BehaviourSummary[];
+    linkedItems: LinkedItemSummary[];
 }
 export interface IntentSummary {
     name: string;
     path: string;
     state: string;
     behaviours: BehaviourSummary[];
+    linkedItems: LinkedItemSummary[];
 }
 export interface CoverageReport {
     intents: IntentSummary[];
@@ -30,6 +38,7 @@ export interface CoverageReport {
         testedImpls: number;
         deferredBehaviours: number;
         deferredImpls: number;
+        linkedIntents: number;
     };
 }
 export declare function registerCoverage(program: Command): void;

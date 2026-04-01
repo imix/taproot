@@ -47,7 +47,7 @@ describe('claude adapter', () => {
 
   it('each command file contains imperative execution framing', () => {
     generateAdapters('claude', tmpDir);
-    const grillPath = join(tmpDir, '.claude', 'commands', 'tr-review.md');
+    const grillPath = join(tmpDir, '.claude', 'commands', 'tr-audit.md');
     const content = readFileSync(grillPath, 'utf-8');
     expect(content).toContain('IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY');
     expect(content).toContain('<steps CRITICAL="TRUE">');
@@ -56,7 +56,7 @@ describe('claude adapter', () => {
 
   it('thin launcher instructs to use /tr- commands instead of /taproot:', () => {
     generateAdapters('claude', tmpDir);
-    const grillPath = join(tmpDir, '.claude', 'commands', 'tr-review.md');
+    const grillPath = join(tmpDir, '.claude', 'commands', 'tr-audit.md');
     const content = readFileSync(grillPath, 'utf-8');
     expect(content).toContain('/taproot:intent');
     expect(content).toContain('/tr-intent');
@@ -218,7 +218,7 @@ describe('gemini adapter', () => {
 
   it('each command file contains imperative execution framing', () => {
     generateAdapters('gemini', tmpDir);
-    const reviewPath = join(tmpDir, '.gemini', 'commands', 'tr-review.toml');
+    const reviewPath = join(tmpDir, '.gemini', 'commands', 'tr-audit.toml');
     const content = readFileSync(reviewPath, 'utf-8');
     expect(content).toContain('IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY');
   });

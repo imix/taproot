@@ -6,7 +6,7 @@ const SKILLS_DIR = resolve(__dirname, '../../skills');
 const TAPROOT_SKILLS_DIR = resolve(__dirname, '../../taproot/agent/skills');
 
 const skill = readFileSync(resolve(SKILLS_DIR, 'discover-truths.md'), 'utf-8');
-const reviewAll = readFileSync(resolve(SKILLS_DIR, 'review-all.md'), 'utf-8');
+const reviewAll = readFileSync(resolve(SKILLS_DIR, 'audit-all.md'), 'utf-8');
 
 // ─── AC-1: candidates surfaced from recurring terms ───────────────────────────
 
@@ -143,8 +143,8 @@ describe('skill structure', () => {
     expect(skill).toMatch(/promoted.*skipped.*backlogged.*dismissed|N promoted/i);
   });
 
-  it('review-all.md is synced to .taproot/skills/', () => {
-    const taproot = readFileSync(resolve(TAPROOT_SKILLS_DIR, 'review-all.md'), 'utf-8');
+  it('audit-all.md is synced to .taproot/skills/', () => {
+    const taproot = readFileSync(resolve(TAPROOT_SKILLS_DIR, 'audit-all.md'), 'utf-8');
     expect(taproot).toContain('## Truth Candidates');
   });
 });
