@@ -31,6 +31,7 @@ Enable teams working across multiple repositories to link to shared intents, beh
 - [Validate Link Targets](./validate-link-targets/usecase.md)
 - [Delegate Implementation to Linking Repo](./delegate-implementation/usecase.md)
 - [Enforce Linked Global Truth at Commit](./enforce-linked-truth/usecase.md)
+- [Signal Cross-Repo Change Needed](./signal-cross-repo-change/usecase.md)
 
 ## Status
 - **State:** active

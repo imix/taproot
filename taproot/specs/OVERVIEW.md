@@ -62,6 +62,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[enforce-linked-truth](./cross-repo-specification/enforce-linked-truth/usecase.md)** `[specified]` — Actor: Developer in a linking repo committing hierarchy documents (`intent.md` or `usecase.md`) that are subject to a global truth defined in a source repo.
 - **[resolve-linked-coverage](./cross-repo-specification/resolve-linked-coverage/usecase.md)** `[implemented]` — Actor: Developer in a linking repo (running `taproot coverage`)
   - [coverage-extension](./cross-repo-specification/resolve-linked-coverage/coverage-extension/impl.md) `[complete]` (2 commits, 1 test)
+- **[signal-cross-repo-change](./cross-repo-specification/signal-cross-repo-change/usecase.md)** `[specified]` — Actor: Agent working in the current repository
 - **[validate-link-targets](./cross-repo-specification/validate-link-targets/usecase.md)** `[implemented]` — Actor: Developer in a linking repo (running `taproot check-orphans` or triggering a pre-commit hook)
   - [cli-check-orphans](./cross-repo-specification/validate-link-targets/cli-check-orphans/impl.md) `[complete]` (2 commits, 1 test)
 
@@ -285,4 +286,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-19 intents · 93 behaviours · 91 implementations · 89/91 complete
+19 intents · 94 behaviours · 91 implementations · 89/91 complete
