@@ -16,6 +16,8 @@
 
 ## Commits
 - (placeholder)
+- `3310e0e7f75da56c27cc23b9b676c06edbf69203` — (auto-linked by taproot link-commits)
+- `95f44bb58a6716407248cf4a2cd4b3c72fc2faae` — (auto-linked by taproot link-commits)
 
 ## Tests
 - (none — skill is guidance-only; validate-format integration covers link file format AC-1)

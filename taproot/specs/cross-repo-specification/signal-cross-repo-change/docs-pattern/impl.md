@@ -20,6 +20,8 @@
 
 ## Commits
 - (placeholder)
+- `c2dab4d083d81a13b9df0feff2376e8093f2ee3c` — (auto-linked by taproot link-commits)
+- `a3891e6e2da14e5b4b237c595235f929445f5c42` — (auto-linked by taproot link-commits)
 
 ## Tests
 - (none — pattern documentation; no CLI or TypeScript changes)
