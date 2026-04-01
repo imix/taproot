@@ -107,7 +107,7 @@ function resolveCondition(entry) {
             name: `check: ${question}`,
             agentCheck: true,
             description: question,
-            correction: question,
+            correction: `check: ${question} — resolve with: taproot dod <impl-path> --resolve "check: ${question}" --note "<your finding>"`,
         };
     }
     if (typeof entry === 'object' && 'require-discussion-log' in entry) {

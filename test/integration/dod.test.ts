@@ -458,6 +458,31 @@ describe('writeResolution and agent check passing', () => {
     const count = (content.match(/condition:/g) ?? []).length;
     expect(count).toBe(2);
   });
+
+  it('writeResolution + runDodChecks: check: type condition passes after resolution', async () => {
+    // Regression: check: correction was identical to the question (no "check: " prefix),
+    // causing agents to store the wrong name and the lookup to silently fail.
+    const implPath = makeImplMd(tmpDir);
+    const question = 'all ACs and NFRs are covered by tests';
+    const conditionName = `check: ${question}`;
+    writeResolution(implPath, conditionName, 'AC-2 covered by Go tests; E2E deferred per precedent', tmpDir);
+    const report = await runDodChecks(
+      [{ check: question }],
+      tmpDir,
+      { implPath }
+    );
+    const result = report.results.find(r => r.name === conditionName);
+    expect(result).toBeDefined();
+    expect(result!.passed).toBe(true);
+  });
+
+  it('check: condition correction includes full condition name to prevent agent name-mismatch', async () => {
+    const question = 'all ACs and NFRs are covered by tests';
+    const report = await runDodChecks([{ check: question }], process.cwd());
+    const result = report.results[0]!;
+    expect(result.correction).toContain(`check: ${question}`);
+    expect(result.correction).toContain('--resolve');
+  });
 });
 
 // ─── cascadeUsecaseState ──────────────────────────────────────────────────────
