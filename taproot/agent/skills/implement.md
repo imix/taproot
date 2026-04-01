@@ -148,7 +148,7 @@ If any of these is true, **autonomous mode is active** — apply the autonomous 
 
    **What's next?**
    [1] `/tr-next` — surface the next implementable behaviour
-   [2] `/tr-status` — see full project health after this implementation
+   [2] `/tr-status` — coverage snapshot
 
 ## Output
 

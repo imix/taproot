@@ -73,7 +73,7 @@ Create a new business intent or refine an existing one. An intent captures the "
    **What's next?**
    [1] `/tr-behaviour <path>/` — add or refine a behaviour under this intent
    [2] `/tr-audit <path>/intent.md` — stress-test the updated intent
-   [3] `/tr-status` — see overall project health
+   [3] `/tr-status` — coverage snapshot
    [4] `/tr-browse <path>/` — browse this intent and its behaviours for context
 
 ## Output

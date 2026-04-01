@@ -62,14 +62,14 @@ Gap: Success criterion "Support <5 second load time" has no behaviour —
    Satisfies: <success criterion>
    Depends on: <dependency or "none">
 
-   [Y] Create it   [E] Edit description before creating   [S] Skip   [C] Cancel
+   [Y] Create it   [E] Edit description before creating   [S] Skip   [Q] Quit
 
    ```
 
    - **[Y]**: run `/taproot:behaviour <path> "<description>"` to create the `usecase.md`
    - **[E]**: apply corrections to the description, re-present the preview, then create on next [Y]
    - **[S]**: skip — note "Skipped `taproot/<intent-slug>/<behaviour-slug>/`" and move to the next
-   - **[C]**: stop immediately; list what was created, skipped, and remaining
+   - **[Q]**: stop immediately; list what was created, skipped, and remaining
 
    If the user says "just go" or "do all", acknowledge once and create the remaining behaviours without pausing.
 

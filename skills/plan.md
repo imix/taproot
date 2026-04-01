@@ -77,13 +77,13 @@ Sources: backlog items, unimplemented hierarchy behaviours, or developer-supplie
     2. hitl  [refine]    <intent>/<behaviour>/usecase
     3. afk   [implement] <intent>/<behaviour>/
 
-   [A] Confirm  [E] Edit directly then reply A  [C] Cancel
+   [A] Confirm  [E] Edit directly then reply A  [Q] Abort  [C] Cancel
    ```
    Wait for developer response. Do not write any files before confirmation.
 
 6. **Handle developer choice:**
    - **[E]**: wait for the developer to paste an edited list in the conversation, then treat it as the confirmed plan and continue to step 7.
-   - **[C]**: stop — no files written.
+   - **[Q] Abort** or **[C]**: stop — no files written.
    - **[A]** or any affirmative: continue to step 7.
 
 7. **Check for existing plan.** If `taproot/plan.md` already exists:

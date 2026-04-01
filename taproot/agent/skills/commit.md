@@ -169,7 +169,7 @@ Execute the full commit procedure: classify the commit type, run the appropriate
    - **[1] Continue plan** — only if `taproot/plan.md` exists and contains `pending` items: invoke `/tr-plan-execute`
    - **[2] Implement next** — only for requirement or declaration commits: prompt `Which behaviour should I implement next?` then invoke `/tr-implement <path>`
    - **[3] Check backlog** — open `taproot/backlog.md` to review deferred ideas and captured findings
-   - **[4] Check coverage** — `/tr-status` to review hierarchy health
+   - **[4] Check coverage** — `/tr-status` coverage snapshot
 
    Omit [1] if no plan exists or no pending items remain. Omit [2] after implementation and plain commits. Developer may ignore the prompt silently.
 

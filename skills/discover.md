@@ -125,13 +125,13 @@ Reverse-engineer an existing project into a taproot hierarchy — from source co
 
       <full proposed content>
 
-      [Y] Write it   [E] Edit before writing   [S] Skip   [C] Cancel
+      [Y] Write it   [E] Edit before writing   [S] Skip   [Q] Quit session
       ```
 
       - **[Y]**: write the file, report the path written, proceed to the next intent
       - **[E]**: apply the developer's corrections, re-present the updated proposal with the same menu
       - **[S]**: skip — do not write; note "Skipped `taproot/<slug>/intent.md`" and move on
-      - **[C]**: stop the session immediately and write the session summary (see Phase 0)
+      - **[Q]**: stop the session immediately and write the session summary (see Phase 0)
 
    f. Update `.taproot/sessions/discovery-status.md`: mark this intent `[x]` in Phase 2, set Phase to `2`, update Last updated.
 

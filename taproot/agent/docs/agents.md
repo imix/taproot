@@ -35,15 +35,13 @@ After `taproot init --agent claude --with-skills`, skills are available as `/tr-
 | `/tr-ineed` | Route a natural language requirement to the right place; runs structured discovery for vague requirements before placement |
 | `/tr-intent` | Create or refine a business intent document with stakeholders and success criteria |
 | `/tr-behaviour` | Define a UseCase under an intent or another behaviour; walks alternate flows and error conditions proactively |
-| `/tr-decompose` | Break an intent into the set of behaviours needed to fulfil it |
 | `/tr-implement` | Implement a behaviour: write code, write tests, create `impl.md`, commit with conventional tag |
 | `/tr-trace` | Navigate the hierarchy in any direction — file to intent (bottom-up), intent to code (top-down), or across siblings |
 | `/tr-status` | Coverage dashboard: shows what's implemented, what's planned, what's stale, and what to do next |
-| `/tr-review` | Stress-test a single artifact — challenges assumptions, identifies gaps, asks adversarial questions |
-| `/tr-review-all` | Comprehensive review of an entire subtree — structural checks, cross-cutting analysis, per-artifact findings |
+| `/tr-audit` | Stress-test a single artifact — challenges assumptions, identifies gaps, asks adversarial questions |
+| `/tr-audit-all` | Comprehensive review of an entire subtree — structural checks, cross-cutting analysis, per-artifact findings |
 | `/tr-refine` | Update a behaviour spec based on post-implementation learnings |
 | `/tr-promote` | Escalate a finding from implementation or behaviour level up to the intent |
-| `/tr-analyse-change` | Impact analysis before editing an existing artifact — identifies downstream breakage and related behaviours |
 | `/tr-next` | Surface the next independently-implementable work item from the hierarchy |
 | `/tr-plan` | Build a persistent implementation plan (`taproot/plan.md`) from backlog items, hierarchy gaps, or explicit items |
 | `/tr-plan-execute` | Execute items from `taproot/plan.md` — step-by-step, batch, specify (spec+refine only), or implement (implement only) mode |

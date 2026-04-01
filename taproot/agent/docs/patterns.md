@@ -21,7 +21,7 @@ user-authentication/
   oauth-login/
     usecase.md        ← state: deferred
 ```
-Run `/tr-decompose` to create sub-behaviours. Set deferred ones to `state: deferred`. Each sub-behaviour has its own DoD gate. `/tr-status` and `/tr-next` surface deferred items for future iterations.
+Use `/tr-ineed` to decompose and create sub-behaviours. Set deferred ones to `state: deferred`. Each sub-behaviour has its own DoD gate. `/tr-status` and `/tr-next` surface deferred items for future iterations.
 
 **Pattern B — AC-scoped impl** (when all ACs share the same flow shape):
 Keep one `usecase.md`. Create `impl.md` for the in-scope ACs. In `## Design Decisions`, name which ACs are covered. At DoD time, resolve each deferred AC explicitly:

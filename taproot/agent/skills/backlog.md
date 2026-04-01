@@ -56,7 +56,7 @@ Capture ideas, findings, and deferred work mid-session with a single command —
 
    **What's next?**
    [1] `/tr-ineed <idea>` — route a kept item into the hierarchy now
-   [2] `/tr-status` — see current project health
+   [2] `/tr-status` — coverage snapshot
 
 ## Output
 

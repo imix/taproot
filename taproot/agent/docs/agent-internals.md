@@ -18,18 +18,16 @@ If you already know what you want and where it goes, call `/tr-intent` or `/tr-b
 ## Top-down feature development
 
 ```
-/tr-intent "users need to reset their password without contacting support"
-/tr-review taproot/password-reset/intent.md
-/tr-decompose taproot/password-reset/
+/tr-ineed "users need to reset their password without contacting support"
+/tr-audit taproot/password-reset/intent.md
 /tr-implement taproot/password-reset/request-reset/
 taproot coverage --path taproot/password-reset/
 ```
 
-1. **`/tr-intent`** — writes `intent.md` with goal, stakeholders, and success criteria. Asks clarifying questions before writing.
-2. **`/tr-review`** — stress-tests the intent: challenges success criteria, surfaces scope ambiguity, flags missing stakeholders. Run before writing behaviours.
-3. **`/tr-decompose`** — breaks the intent into behaviours (UseCases). For each proposed behaviour the agent asks a probing question to validate it's observable and testable — not just a technical module.
-4. **`/tr-implement`** — for one behaviour at a time: writes the code, writes the tests, creates `impl.md`, and commits using the conventional tag format.
-5. **`taproot coverage`** — shows what's implemented vs. still planned.
+1. **`/tr-ineed`** — routes the requirement: writes `intent.md` with goal, stakeholders, and success criteria, then offers to decompose it into behaviours. Asks clarifying questions before writing.
+2. **`/tr-audit`** — stress-tests the intent: challenges success criteria, surfaces scope ambiguity, flags missing stakeholders. Run before writing behaviours.
+3. **`/tr-implement`** — for one behaviour at a time: writes the code, writes the tests, creates `impl.md`, and commits using the conventional tag format.
+4. **`taproot coverage`** — shows what's implemented vs. still planned.
 
 ---
 
@@ -68,11 +66,7 @@ Use the `depth` argument to limit scope: `intents-only` for a quick intent captu
 
 ## Impact analysis before changes
 
-```
-/tr-analyse-change taproot/password-reset/intent.md
-```
-
-Before editing a behaviour or intent that already has implementations, this skill walks the hierarchy below the artifact and identifies: which implementations would break, which sibling behaviours share preconditions, and what tests would need updating.
+Before editing a behaviour or intent that already has implementations, the analyse-change skill walks the hierarchy below the artifact and identifies: which implementations would break, which sibling behaviours share preconditions, and what tests would need updating. It is called automatically by `/tr-ineed`, `/tr-refine`, and `/tr-promote` when they detect a potentially breaking change.
 
 ---
 
@@ -84,7 +78,7 @@ Before editing a behaviour or intent that already has implementations, this skil
 
 Scans all `intent.md` and `usecase.md` files for recurring terms, business rules, and conventions not yet defined in `taproot/global-truths/`. For each candidate: **promote** (routes to `/tr-define-truth`), **backlog**, **skip**, or **dismiss**.
 
-Truth discovery also runs as a final pass inside `/tr-review-all`.
+Truth discovery also runs as a final pass inside `/tr-audit-all`.
 
 ---
 
