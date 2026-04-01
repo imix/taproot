@@ -55,8 +55,11 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 **Goal:** Enable teams working across multiple repositories to link to shared intents, behaviours, and global truths defined in a source repo — so that a requirement specified once can be implemented locally in each codebase without duplication, and each repo's coverage and validation runs independently.
 
-- **[define-cross-repo-link](./cross-repo-specification/define-cross-repo-link/usecase.md)** `[implemented]` — Actor: Developer in a linking repo
+- **[define-cross-repo-link](./cross-repo-specification/define-cross-repo-link/usecase.md)** `[specified]` — Actor: Developer in a linking repo
+  - [agent-skill](./cross-repo-specification/define-cross-repo-link/agent-skill/impl.md) `[complete]` (0 commits ⚠ no tests)
   - [validate-format-extension](./cross-repo-specification/define-cross-repo-link/validate-format-extension/impl.md) `[complete]` (2 commits, 2 tests)
+- **[delegate-implementation](./cross-repo-specification/delegate-implementation/usecase.md)** `[specified]` — Actor: Developer in the source repo — the repo that owns the shared spec and wants to record that some or all of its ACs are implemented in a separate linking repo.
+- **[enforce-linked-truth](./cross-repo-specification/enforce-linked-truth/usecase.md)** `[specified]` — Actor: Developer in a linking repo committing hierarchy documents (`intent.md` or `usecase.md`) that are subject to a global truth defined in a source repo.
 - **[resolve-linked-coverage](./cross-repo-specification/resolve-linked-coverage/usecase.md)** `[implemented]` — Actor: Developer in a linking repo (running `taproot coverage`)
   - [coverage-extension](./cross-repo-specification/resolve-linked-coverage/coverage-extension/impl.md) `[complete]` (2 commits, 1 test)
 - **[validate-link-targets](./cross-repo-specification/validate-link-targets/usecase.md)** `[implemented]` — Actor: Developer in a linking repo (running `taproot check-orphans` or triggering a pre-commit hook)
@@ -282,4 +285,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-19 intents · 91 behaviours · 90 implementations · 88/90 complete
+19 intents · 93 behaviours · 91 implementations · 89/91 complete

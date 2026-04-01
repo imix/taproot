@@ -29,6 +29,7 @@ validation:
     - in-progress
     - complete
     - needs-rework
+    - delegated
 naRules:
   - condition: "check-if-affected: package.json"
     when: prose-only
