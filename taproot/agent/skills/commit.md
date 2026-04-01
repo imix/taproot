@@ -86,6 +86,8 @@ Execute the full commit procedure: classify the commit type, run the appropriate
    d. If a conflict is found, surface it before proceeding:
       > "Truth conflict: `<excerpt>` in staged changes conflicts with `global-truths/<file>`: `<truth excerpt>`. [A] Fix the implementation | [B] Update the truth | [C] Proceed with conflict noted"
 
+      **If the truth file is a cross-repo link** (e.g. `global-truths/*-link.md`): option [B] cannot be done locally. Surface a cross-repo handoff instead — see the **Cross-repo change handoff** pattern in `taproot/agent/docs/patterns.md`.
+
       **Interactive mode:** Wait for the developer's choice. Do not proceed to step 5 until resolved.
 
       **Autonomous mode:** Record the conflict in `impl.md` under `## Notes` as "Autonomous commit — truth conflict detected: `<excerpt>` conflicts with `<truth file>`. Proceeding with conflict noted." Run `taproot truth-sign` and continue — do not stop.

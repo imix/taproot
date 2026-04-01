@@ -36,6 +36,7 @@ If any of these is true, **autonomous mode is active** — apply the autonomous 
    - Read each applicable file; apply defined terms and conventions when choosing the implementation approach, naming, and design decisions
    - If the implementation plan contradicts an applicable truth, surface the conflict before proceeding: "This implementation contradicts `global-truths/<file>`: `<excerpt>`. [A] update plan to align, [B] update the truth, [C] proceed with the conflict noted."
    - **Enforcement note:** These truths are automatically enforced at commit time by the commithook. A contradiction left unresolved here will block the commit when `/tr-commit` runs. Resolve conflicts now rather than at commit time.
+   - **Cross-repo truth conflict:** If the conflict can only be resolved by changing a truth file in another repo (e.g. a linked truth via `global-truths/*-link.md`), surface a cross-repo handoff instead of blocking — see the **Cross-repo change handoff** pattern in `taproot/agent/docs/patterns.md`.
 
 4. **Pattern check + plan mode.** Before proposing the plan: if `taproot/agent/docs/patterns.md` exists, scan the behaviour description and any design notes for semantic matches. Match signals:
    - "applies to all implementations / cross-cutting concern" → `check-if-affected-by`

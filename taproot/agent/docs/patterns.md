@@ -349,6 +349,66 @@ See full spec: `taproot/specs/global-truth-store/author-design-constraints/useca
 
 ---
 
+## Cross-repo specification sharing
+
+**Problem:** A system spans multiple repositories. Specs that describe shared behaviour live in one repo, but other repos need to implement — and trace — them independently. Duplicating specs creates drift; leaving them only in the source repo means implementing repos have no local coverage record.
+
+**Pattern:** A **link file** in the implementing repo points to the spec in the source repo. A local `impl.md` references the link file as its source — making coverage counting entirely local. The source repo creates a `delegated` impl.md to mark the ACs that another repo handles.
+
+**Variants:**
+- **Main repo with satellites** — one repo owns shared specs and some implementations; satellite repos link to it
+- **Coordination repo** — a requirements-only repo owns all specs; all implementing repos link to it
+- **Shared truths only** — repos don't share specs, just global truths (API contracts, domain models) via `Type: truth` link files
+
+**When to use it:**
+- A behaviour is implemented across multiple repos and you need independent coverage on each side
+- You have a canonical domain model or API contract that must be enforced at commit time in several repos
+
+Full documentation and setup checklist: [docs/cross-repo.md](cross-repo.md)
+
+---
+
+## Cross-repo change handoff
+
+**Problem:** An agent working in repo A identifies that repo B needs a change — a truth update, a spec amendment, an API contract extension. Without a clear convention, the agent either silently proceeds (creating drift) or reaches directly into repo B's files (unauthorized modification with no review or traceability).
+
+**Pattern:** Surface a structured handoff block and stop. The block contains everything the developer needs to act in the other repo — no cross-repo writes by the agent.
+
+```
+Cross-repo change needed
+─────────────────────────────────────────────
+Repo:    https://github.com/org/target-repo
+File:    taproot/global-truths/api-contract_impl.md
+Change:  Add `base_ref` field to the scan submission payload
+Why:     Local implementation now sends base_ref; target contract must document it
+Action:  Run taproot validate-format in the source repo; linking repos re-validate at next commit
+```
+
+**Action field** is derived from the relationship type:
+- Truth link target → `Run taproot validate-format in the source repo; linking repos re-validate at next commit`
+- Behaviour/intent link target → `Update spec and notify linking repos of the change`
+- No formal link → `Open target repo, apply change, verify with target repo maintainer`
+
+**When to trigger:**
+- **Explicit** — developer or agent states directly that a change is needed
+- **Inferred** — agent detects a concrete conflict (e.g. local code now contradicts a linked truth, or a spec change breaks a linked behaviour)
+- **Not speculative** — if uncertain, ask "Is it clear that [repo] needs to change?" before presenting the block
+
+**Blocking vs non-blocking:**
+- If the current task cannot proceed without the upstream change: add `Blocking: yes` to the block and pause the session
+- If non-blocking: present the block then offer to defer to `taproot/backlog.md`
+
+**Autonomous mode:** Capture the block to `taproot/backlog.md` silently; add a `## Notes` entry to the current `impl.md`: "Autonomous session — cross-repo change captured to backlog: [summary]"
+
+**When to use it:**
+- Agent detects a linked truth needs updating to accommodate local changes
+- Agent implements a spec that requires a contract change in a source repo
+- Agent working in a linking repo realises the source repo's spec is stale relative to the implementation
+
+See full spec: `taproot/specs/cross-repo-specification/signal-cross-repo-change/usecase.md`
+
+---
+
 ## What belongs in `taproot/global-truths/`
 
 **Problem:** You know you want to capture project-wide facts in `taproot/global-truths/` but aren't sure what kinds of facts are worth formalising — or how to scope them.

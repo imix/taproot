@@ -12,11 +12,11 @@ Create a cross-repo link file (`link.md`) that references a spec — intent, beh
 
 0. **Identify which side you're on.** Cross-repo linking is a two-sided workflow:
 
-   - **Linking repo** (you are implementing a spec that lives in another repo): create a `link.md` + local `impl.md` — steps 1–7 below.
-   - **Source repo** (your spec is being implemented by a linking repo): create a `delegated` impl.md in your repo — jump to the **Source repo side** section now.
+   - **Linking repo** (you are implementing a spec or referencing a truth that lives in another repo): create a `link.md` — steps 1–7 below.
+   - **Source repo** (your spec is being implemented by a linking repo, or your truth is being referenced): create a `delegated` impl.md (behaviour/intent links) or structure the truth file correctly (truth links) — jump to the **Source repo side** section now.
    - **Both repos at once** (setting up the full connection from scratch): start with the **Source repo side** section, then return to step 1 for the linking repo side.
 
-   If it's unclear, ask: "Are you in the repo that *owns* the shared spec, the repo that *implements* it, or setting up both?"
+   If it's unclear, ask: "Are you in the repo that *owns* the shared spec or truth, the repo that *implements or references* it, or setting up both?"
 
    → If **source repo only or both repos**: skip steps 1–7 and go to **Source repo side** first.
 
@@ -91,6 +91,12 @@ Create a cross-repo link file (`link.md`) that references a spec — intent, beh
 
 ### Source repo side
 
+**S-0.** Check the link type:
+- **`behaviour` or `intent` link**: the linking repo is implementing your spec — continue with S-1 through S-5 (delegated impl.md workflow).
+- **`truth` link**: the linking repo is enforcing your truth file at commit time — skip S-1 through S-5 and go to **Source repo side — truth link** below.
+
+---
+
 When a spec in the source repo has ACs that are implemented by a linking repo, create a `delegated` impl.md in the source repo so its coverage stays clean.
 
 **S-1.** Ask: "Which ACs in the source repo's spec are delegated to the linking repo, and which (if any) are implemented locally?"
@@ -134,6 +140,30 @@ When a spec in the source repo has ACs that are implemented by a linking repo, c
    ```
 
 **S-5.** Commit the delegated impl.md as a declaration commit in the source repo.
+
+---
+
+### Source repo side — truth link
+
+When the link type is `truth`, the source repo's role is to own and maintain the truth file. No delegated impl.md is needed — truth links are commit-time enforcement hooks, not coverage records.
+
+**T-1.** Locate or create the truth file in `taproot/global-truths/`. Use a filename that encodes the scope:
+- `<name>_intent.md` — enforced at intent, behaviour, and impl level (broadest; use for domain models, glossaries, business rules)
+- `<name>_behaviour.md` — enforced at behaviour and impl level
+- `<name>_impl.md` — enforced at impl level only (use for API contracts, technology constraints)
+- No scope suffix → treated as intent-scoped
+
+**T-2.** Truth files are **plain markdown — no YAML frontmatter**. Do not add a `---` frontmatter block. Scope is determined entirely by the filename suffix, not by any metadata inside the file.
+
+**T-3.** Write the truth file to be self-contained and unambiguous. It is read verbatim by the agent at commit time in the linking repo — the agent must be able to check conformance without fetching any other file.
+
+**T-4.** Do not cross-reference files in the linking repo from within the truth. The linking repo links *to* the truth; the truth must not depend on files in the linking repo. A back-reference creates a circular dependency that breaks offline resolution and creates fragile coupling.
+
+**T-5.** Ask the developer to run `taproot check-orphans` in the linking repo (with `repos.yaml` configured) to confirm the truth link resolves correctly.
+
+> Truth links do not affect coverage in either repo. The linking repo's commit hook enforces the truth at commit time; the source repo's coverage is unaffected.
+
+> If the linking repo's local changes require the truth file to be updated, surface a cross-repo handoff rather than editing the truth directly — see the **Cross-repo change handoff** pattern in `taproot/agent/docs/patterns.md`.
 
 ---
 

@@ -368,6 +368,47 @@ Full documentation and setup checklist: [docs/cross-repo.md](cross-repo.md)
 
 ---
 
+## Cross-repo change handoff
+
+**Problem:** An agent working in repo A identifies that repo B needs a change — a truth update, a spec amendment, an API contract extension. Without a clear convention, the agent either silently proceeds (creating drift) or reaches directly into repo B's files (unauthorized modification with no review or traceability).
+
+**Pattern:** Surface a structured handoff block and stop. The block contains everything the developer needs to act in the other repo — no cross-repo writes by the agent.
+
+```
+Cross-repo change needed
+─────────────────────────────────────────────
+Repo:    https://github.com/org/target-repo
+File:    taproot/global-truths/api-contract_impl.md
+Change:  Add `base_ref` field to the scan submission payload
+Why:     Local implementation now sends base_ref; target contract must document it
+Action:  Run taproot validate-format in the source repo; linking repos re-validate at next commit
+```
+
+**Action field** is derived from the relationship type:
+- Truth link target → `Run taproot validate-format in the source repo; linking repos re-validate at next commit`
+- Behaviour/intent link target → `Update spec and notify linking repos of the change`
+- No formal link → `Open target repo, apply change, verify with target repo maintainer`
+
+**When to trigger:**
+- **Explicit** — developer or agent states directly that a change is needed
+- **Inferred** — agent detects a concrete conflict (e.g. local code now contradicts a linked truth, or a spec change breaks a linked behaviour)
+- **Not speculative** — if uncertain, ask "Is it clear that [repo] needs to change?" before presenting the block
+
+**Blocking vs non-blocking:**
+- If the current task cannot proceed without the upstream change: add `Blocking: yes` to the block and pause the session
+- If non-blocking: present the block then offer to defer to `taproot/backlog.md`
+
+**Autonomous mode:** Capture the block to `taproot/backlog.md` silently; add a `## Notes` entry to the current `impl.md`: "Autonomous session — cross-repo change captured to backlog: [summary]"
+
+**When to use it:**
+- Agent detects a linked truth needs updating to accommodate local changes
+- Agent implements a spec that requires a contract change in a source repo
+- Agent working in a linking repo realises the source repo's spec is stale relative to the implementation
+
+See full spec: `taproot/specs/cross-repo-specification/signal-cross-repo-change/usecase.md`
+
+---
+
 ## What belongs in `taproot/global-truths/`
 
 **Problem:** You know you want to capture project-wide facts in `taproot/global-truths/` but aren't sure what kinds of facts are worth formalising — or how to scope them.
