@@ -160,6 +160,7 @@ export const SKILL_FILES = [
     'bug.md',
     'browse.md',
     'backlog.md',
+    'link.md',
 ];
 export function applyTemplate(templateName, cwd, force = false) {
     const messages = [];

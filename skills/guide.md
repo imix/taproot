@@ -57,6 +57,7 @@ ineed → intent → behaviour → implement → trace → status
 | `/tr-audit-all` | Audit an entire subtree — structural checks, cross-cutting analysis, per-artifact findings |
 | `/tr-discover-truths` | Scan the hierarchy for implicit facts and promote them to global truths |
 | `/tr-define-truth` | Capture any truth — free-form or structured (architecture decisions, principles, conventions, external constraints) |
+| `/tr-design-constraints` | Guided session for structured design constraints — decisions (ADR), principles, conventions, and external constraints |
 | `/tr-browse` | Read a hierarchy document section by section in the terminal — with inline editing via `[M] Modify` |
 | `/tr-backlog` | Capture an idea or finding instantly mid-session; called with no args opens triage to discard, keep, or promote items |
 | `/tr-grill-me` | Interview the user relentlessly to sharpen a plan or design |
@@ -66,6 +67,7 @@ ineed → intent → behaviour → implement → trace → status
 | `/tr-plan-execute` | Execute items from `taproot/plan.md` — step-by-step, batch, specify (spec+refine only), or implement (implement only) mode |
 | `/tr-plan-analyse` | Analyse `taproot/plan.md` before execution — check readiness, flag ambiguous specs, unresolved dependencies, and missing prerequisites |
 | `/tr-sweep` | Apply a uniform task to a filtered set of hierarchy files — enumerate, confirm, then call `taproot apply` |
+| `/tr-link` | Create a cross-repo link file (`link.md`) referencing a spec in another repository |
 | `/tr-commit` | Execute the full commit procedure: classify type, run proactive gates, resolve DoD/DoR conditions, stage, and commit |
 | `/tr-refine` | Update a behaviour spec based on implementation learnings |
 | `/tr-promote` | Move discoveries from implementation back upstream |

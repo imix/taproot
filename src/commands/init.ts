@@ -129,6 +129,12 @@ const BUNDLED_EXAMPLES_DIR = resolve(__dirname, '..', '..', 'examples');
 export const AVAILABLE_TEMPLATES = ['webapp', 'cli-tool'] as const;
 export type TemplateName = typeof AVAILABLE_TEMPLATES[number];
 
+export const TEMPLATE_PROMPT_CHOICES: Array<{ name: string; value: string }> = [
+  { name: 'No template — start with an empty hierarchy', value: '' },
+  { name: 'webapp        — SaaS web application (user auth, profiles)', value: 'webapp' },
+  { name: 'cli-tool      — Command-line tool or developer utility', value: 'cli-tool' },
+];
+
 export const DOMAIN_PRESETS: Record<string, { label: string; vocabulary: Record<string, string> }> = {
   coding: { label: 'Coding / software', vocabulary: {} },
   'technical-writing': {
@@ -173,6 +179,7 @@ export const SKILL_FILES = [
   'bug.md',
   'browse.md',
   'backlog.md',
+  'link.md',
 ];
 
 export function applyTemplate(templateName: string, cwd: string, force = false): string[] {
@@ -189,6 +196,9 @@ export function applyTemplate(templateName: string, cwd: string, force = false):
 
   const srcTaprootDir = join(templateDir, 'taproot');
   const destTaprootDir = join(cwd, 'taproot');
+  if (existsSync(destTaprootDir) && !force) {
+    throw new Error(`taproot/ already exists — use --force to overwrite or copy manually from examples/${templateName}/`);
+  }
   if (existsSync(srcTaprootDir)) {
     cpSync(srcTaprootDir, destTaprootDir, { recursive: true });
     messages.push(`created  taproot/ (from ${templateName} template)`);
@@ -237,11 +247,7 @@ export function registerInit(program: Command): void {
         if (!existsSync(taprootDir)) {
           const chosen = await select<string>({
             message: 'Start from a template?',
-            choices: [
-              { name: 'No template — start with an empty hierarchy', value: '' },
-              { name: 'webapp        — SaaS web application (user auth, profiles)', value: 'webapp' },
-              { name: 'cli-tool      — Command-line tool or developer utility', value: 'cli-tool' },
-            ],
+            choices: TEMPLATE_PROMPT_CHOICES,
           });
           if (chosen) {
             template = chosen;
