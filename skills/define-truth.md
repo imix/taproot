@@ -62,8 +62,16 @@ Create or update a free-form truth entry in `taproot/global-truths/` — a fact,
    - **[Y]**: follow the **Structured path** section below, then skip to Phase 5 (Write).
    - **[N]** or no clear match: continue to step 3 (free-form path).
 
-3. Confirm the truth content — the actual text to write into the file. Ask if not already clear:
-   > "How would you like to phrase this truth? (Free-form markdown — prose, table, bullet list, or heading are all valid.)"
+3. Confirm the truth content — the actual text to write into the file.
+
+   **If `candidate` was provided** (pre-populated from discover-truths): always ask before drafting:
+   > "[S] One sentence — just the rule  ·  [L] Longer — add rationale or examples"
+   - **[S]**: draft a single sentence that states the rule, present it, ask "Does this work?"
+   - **[L]**: ask "What should I include?" then draft; present and ask "Does this work?"
+   - The developer may also just type the text they want directly — use it verbatim.
+
+   **If no candidate** (interactive): ask:
+   > "How would you like to phrase this truth? (One sentence is fine — anything from a single rule statement to a longer explanation.)"
 
 ---
 
@@ -155,43 +163,19 @@ After writing a structured entry, ask: "Another structured truth, or done?" If a
 
 ---
 
-### Phase 2 — Determine Scope (free-form path only)
+### Phase 2 — Scope, File, and Convention (free-form path only)
 
-3. If scope is not already confirmed, ask:
-   > "What scope should this truth have?
-   > - **intent** — applies to intent, behaviour, and implementation levels (broadest)
-   > - **behaviour** — applies to behaviour and implementation levels
-   > - **impl** — applies to implementation level only (narrowest)"
+3. Determine scope, file name, and storage convention. **Collapse into a single confirmation when possible:**
 
-   Wait for the developer's choice.
+   - **Scope**: if `candidate` proposed a scope, use it without asking. Otherwise ask:
+     > "Scope: **intent** (broadest — all levels) · **behaviour** · **impl** (narrowest)?"
 
-### Phase 3 — Name the File (free-form path only)
+   - **File name**: check `taproot/global-truths/` for existing files. If a file already exists whose name fits this truth (e.g. `architecture_intent.md` for an architecture principle), use it — just note "I'll append to `<name>`." Don't ask. If no obvious match, suggest one category-level name:
+     > "I'll put this in `<suggested-name>_<scope>.md` — ok, or different name?"
 
-4. Propose a category-level name for the file — one that can hold multiple related truths, not the specific term being captured now:
+   - **Convention**: if the project already uses one convention (suffix or sub-folder), match it silently. If no files exist yet, default to suffix and note the choice; only ask if the developer seems likely to care.
 
-   > "What should the file be called? Pick a category name so related truths can live together:
-   >
-   > Suggested names by scope:
-   > - **intent**: `glossary` · `principles` · `ux-principles` · `domain-model` · `system-context`
-   > - **behaviour**: `principles` · `guarantees` · `rules`
-   > - **impl**: `architecture` · `tech-choices` · `patterns`
-   >
-   > (Or enter your own name — keep it generic enough to hold future truths of the same kind.)"
-
-   If a file with that name already exists at the target path, note it:
-   > "A file `<name>_<scope>.md` already exists — I'll append to it rather than create a new one."
-
-### Phase 4 — Choose Convention (free-form path only)
-
-5. Ask which storage convention to use:
-   > "Which convention do you prefer?
-   > - **[S] Suffix** — `<name>_<scope>.md` in `taproot/global-truths/` (e.g. `glossary_intent.md`)
-   > - **[F] Sub-folder** — `<scope>/<name>.md` in `taproot/global-truths/` (e.g. `intent/glossary.md`)
-   >
-   > Both are valid. Use suffix if you have few truths; sub-folder if you expect many."
-
-   If the project already has truth files using one convention, note it:
-   > "Your project currently uses the <suffix|sub-folder> convention — using it here keeps things consistent."
+   The goal is zero questions when context is clear. Ask only what's genuinely ambiguous.
 
 ### Phase 5 — Write the File
 
@@ -235,7 +219,7 @@ None.
 
 ## Notes
 
-- Truth content is free-form — no schema is enforced. The developer chooses prose, tables, bullet lists, or headings.
+- Truth content is free-form — no schema is enforced. The developer chooses prose, tables, bullet lists, or headings. **A single sentence is sufficient for enforcement** — the truth-check hook reads the file verbatim and checks staged changes for consistency. Longer explanations help future readers but are not required for the hook to work.
 - Both conventions (suffix and sub-folder) may coexist in the same project. Neither is preferred.
 - Scope resolution precedence: sub-folder takes precedence over suffix when they conflict (most restrictive wins).
 - This skill is the target of `/tr-ineed` routing when a requirement is classified as a project-wide truth.
