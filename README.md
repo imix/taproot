@@ -113,6 +113,30 @@ Taproot's own requirements are managed with Taproot. [`taproot/OVERVIEW.md`](tap
 
 It's a working example of what a mature hierarchy looks like in practice.
 
+## Multi-repo projects
+
+Taproot works across repository boundaries. If your system spans multiple repos — a platform repo plus plugin repos, a coordination repo plus service repos — you can define specs in one place and implement them independently in each repo.
+
+A **link file** in the linking repo points to the spec that lives elsewhere:
+
+```markdown
+# Link: Plugin Login
+
+**Repo:** https://github.com/org/platform-repo
+**Path:** taproot/specs/auth/plugin-login/usecase.md
+**Type:** behaviour
+```
+
+Each repo's `taproot coverage` runs independently. The linking repo counts the behaviour as implemented via its local `impl.md`; the source repo marks it `delegated`. Both stay clean with no duplication.
+
+Shared **global truths** (API contracts, domain models) work the same way — a `truth` link in `taproot/global-truths/` is enforced at commit time, even when the truth file lives in another repo.
+
+Use `/tr-link` to set up either side of the two-sided workflow interactively.
+
+Full documentation: [docs/cross-repo.md](docs/cross-repo.md)
+
+---
+
 ## Docs
 
 - [Workflows](docs/workflows.md) — common patterns: new feature, bug fix, onboarding, discovery
@@ -121,6 +145,7 @@ It's a working example of what a mature hierarchy looks like in practice.
 - [Agent setup & tiers](docs/agents.md)
 - [Configuration & CI](docs/configuration.md)
 - [Patterns](docs/patterns.md)
+- [Cross-repo linking](docs/cross-repo.md)
 
 ## License
 
