@@ -22,6 +22,9 @@
 - `d9abca638cfbf193b5b8cc1ab18fcdd68a2ebcde` — (auto-linked by taproot link-commits)
 - `bab36a92f9c991bd32ad5d8764aab62ed7e205a8` — (auto-linked by taproot link-commits)
 - `b2adc103b5cb12ef56c2248b73ae5e31d1251217` — (auto-linked by taproot link-commits)
+- `074588e320365343d323f0af0112694f11ef952e` — (auto-linked by taproot link-commits)
+- `59b9612257bf8cc7b66ef1ceb5843723d249abf1` — (auto-linked by taproot link-commits)
+- `0fa2f57cd5af463a400af7770dfbaca358963d65` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/plan-build.test.ts` — structural tests: required sections present, item types documented, plan.md format documented, what's-next block present, append/replace/abort flows present, vertical slice mode (AC-11): trigger phrases, actor/entry/outcome prompts, critical-path filtering, slice header format

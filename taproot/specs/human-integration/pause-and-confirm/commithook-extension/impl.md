@@ -16,6 +16,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `a930c9c824ef330e81ea72bdc60d939d1a8a71a2` — (auto-linked by taproot link-commits)
+- `8f2eb5a8b38beabd7eeb53653f583f60675d44de` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/commithook.test.ts` — 4 tests: proposed blocked, specified passes, implemented passes, modified-proposed passes

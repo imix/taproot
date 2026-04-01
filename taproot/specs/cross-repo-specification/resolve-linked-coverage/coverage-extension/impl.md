@@ -17,6 +17,8 @@
 
 ## Commits
 - (placeholder)
+- `7abcdd9061fa9d36c8455ae31941d50d133d4cdd` — (auto-linked by taproot link-commits)
+- `e0957fbfd14b7129b51f01bb257b848dda3231df` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/linked-coverage.test.ts` — AC-1 through AC-5: linked behaviour coverage counting and display

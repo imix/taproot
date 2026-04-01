@@ -14,7 +14,6 @@ Developer starting a new project with taproot — who has decided to use taproot
    Start from a template?
    ❯ No template — start with an empty hierarchy
      webapp        — SaaS web application (user auth, profiles)
-     book-authoring — Book or content project (manuscript, research, publishing)
      cli-tool      — Command-line tool or developer utility
    ```
 3. Developer selects an option (default: "No template")
@@ -32,14 +31,6 @@ Developer starting a new project with taproot — who has decided to use taproot
   1. Developer runs `npx @imix-js/taproot init --template <type>` directly
   2. System skips the prompt and copies the named template immediately
   3. Rest of flow proceeds from step 6 of the main flow
-
-### Non-development domain (e.g. book authoring)
-- **Trigger:** Developer is not building software — they are writing a book, producing a research report, or running a content-driven project
-- **Steps:**
-  1. Developer selects `book-authoring` at the template prompt (or runs `init --template book-authoring`)
-  2. System copies the starter, which includes vocabulary overrides (`tests → manuscript reviews`, `source files → chapters`, `implementation → writing`) pre-configured in `.taproot/settings.yaml`
-  3. Developer runs `npx @imix-js/taproot update` so vocabulary overrides are applied to installed skill files
-  4. Developer has a domain-appropriate hierarchy with no dev-specific terminology in skill files
 
 ### Developer tooling (e.g. CLI tool)
 - **Trigger:** Developer is building a CLI tool, library, or backend service — not a user-facing web app
@@ -64,7 +55,7 @@ Developer starting a new project with taproot — who has decided to use taproot
 
 ## Error Conditions
 - **Existing `taproot/` detected when `--template` is used**: System warns "taproot/ already exists — use `--force` to overwrite or copy manually from `examples/<type>/`" and exits without modifying files.
-- **Unknown template name**: System lists available templates and exits. Example: `Unknown template 'django'. Available: webapp, book-authoring, cli-tool`.
+- **Unknown template name**: System lists available templates and exits. Example: `Unknown template 'django'. Available: webapp, cli-tool`.
 - **`run:` commands in settings.yaml do not match the project's stack**: `taproot dod` fails on the first implementation commit. The settings template includes inline comments explaining which command to substitute for each stack.
 
 ## Flow
@@ -76,10 +67,8 @@ flowchart TD
     B --> D[Developer selects template]
     D --> E{Template?}
     E -->|webapp| F[Copy examples/webapp/]
-    E -->|book-authoring| G[Copy examples/book-authoring/\ntaproot update for vocabulary]
     E -->|cli-tool| H[Copy examples/cli-tool/]
     F --> I[Adapter generation\nEdit run: commands]
-    G --> I
     H --> I
     I --> J[/tr-implement taproot/first-behaviour/]
     A -->|existing taproot/| K[Error: already exists\nuse --force]
@@ -98,10 +87,8 @@ flowchart TD
 - When the command completes
 - Then the resulting `taproot/` directory contains at least 2 intents with behaviours in `specified` state, and `/tr-implement taproot/user-auth/sign-up/` can be invoked immediately without any manual editing of the spec
 
-**AC-2: Book-authoring template configures domain vocabulary**
-- Given a developer who runs `npx @imix-js/taproot init --template book-authoring`
-- When they then run `npx @imix-js/taproot update`
-- Then `.taproot/settings.yaml` has `vocabulary:` overrides configured (`tests → manuscript reviews`, `source files → chapters`) and the installed skill files reflect those substitutions
+**AC-2: Book-authoring template — descoped**
+- The book-authoring starter was removed after implementation: it was found to be too domain-specific for a general-purpose template. The vocabulary override mechanism it would have demonstrated is already exercised by `taproot/taproot-adaptability/domain-vocabulary/`. This AC is not implemented and will not be addressed in this behaviour.
 
 **AC-3: CLI tool template has CLI-appropriate DoD conditions**
 - Given a developer who runs `npx @imix-js/taproot init --template cli-tool`
@@ -137,7 +124,7 @@ flowchart TD
 - **Last reviewed:** 2026-03-27
 
 ## Notes
-- The webapp starter already exists at `examples/webapp/`. This behaviour spec covers the full collection including the two starters yet to be built (book-authoring, cli-tool) and the `--template` flag for `taproot init`.
+- The webapp starter (`examples/webapp/`) and cli-tool starter (`examples/cli-tool/`) are both shipped. The book-authoring starter was descoped — too domain-specific for a general-purpose template; vocabulary overrides for non-dev domains are demonstrated by `taproot-adaptability/domain-vocabulary/` instead.
 - Starters are hierarchy-only — no source code. This keeps them maintenance-free and avoids the "example project goes stale" problem.
 - The `examples/settings/` templates (webapp.yaml, library.yaml, microservice.yaml) complement this but are not the same thing — they provide settings without a hierarchy.
 - `taproot init --template` is an extension to the existing `initialise-hierarchy` behaviour — the implementation should add the flag to the existing init command rather than creating a new command.

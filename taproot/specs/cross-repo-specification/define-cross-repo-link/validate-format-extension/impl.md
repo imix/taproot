@@ -16,6 +16,8 @@
 
 ## Commits
 - (placeholder)
+- `5ac1bd4ec2b656a2acd285550350c4c8f646a527` — (auto-linked by taproot link-commits)
+- `7f0652298372e71f7bea0001bc8aeae6a6b301dc` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/cross-links.test.ts` — AC-1: valid link file passes validate-format; missing fields fail; invalid Type fails

@@ -21,6 +21,8 @@
 - `84a6dfbc2f3c62e87ff88b7a111303834bdc09d0` — (auto-linked by taproot link-commits)
 - `d5ec52a5c1218c23dffc90af78b1061cf6678c7a` — (auto-linked by taproot link-commits)
 - `cbc7888f34f8ec363ecbc10d0a4cf4abf31f48ed` — (auto-linked by taproot link-commits)
+- `1c04caf76515427f456fb6dca54e24a39a3919c6` — (auto-linked by taproot link-commits)
+- `dc86c1702556fa41c171052ad25c5aa55183548e` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/init.test.ts` — scaffolding, config generation, skill installation, hook installation, adapter generation

@@ -20,6 +20,8 @@
 
 ## Commits
 - (placeholder)
+- `802bc75fe93d73dcf87c69f384468a76e2170df9` — (auto-linked by taproot link-commits)
+- `d4c59c8a1675e322c2cf51a4ba05b52dca06a4f7` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/check-orphans.test.ts` — AC-1 (all resolve), AC-2 (target missing), AC-3 (repos.yaml absent), AC-4 (URL not mapped), AC-5 (circular reference), AC-7 (TAPROOT_OFFLINE=1); AC-6 (hook blocks commit) tested via commithook integration
