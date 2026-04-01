@@ -4,7 +4,7 @@
 ../usecase.md
 
 ## Design Decisions
-- **Session hash model over inline LLM invocation**: the pre-commit hook cannot call an LLM directly (too slow, requires auth). Instead, `tr-commit` performs the semantic check via the agent and writes a `.taproot/.truth-check-session` file containing a SHA-256 hash of the staged doc contents + applicable truth contents. The hook validates this hash at commit time. If the hash is absent or mismatched (content changed since the agent checked), the commit is blocked.
+- **Session hash model over inline LLM invocation**: the pre-commit hook cannot call an LLM directly (too slow, requires auth). Instead, `tr-commit` performs the semantic check via the agent and writes a `taproot/truth-checks.md` file containing a SHA-256 hash of the staged doc contents + applicable truth contents. The hook validates this hash at commit time. If the hash is absent or mismatched (content changed since the agent checked), the commit is blocked.
 - **`taproot truth-sign` command**: a dedicated CLI command writes the session file after agent approval, keeping session management out of the skill and testable independently.
 - **Scope-based truth collection**: `collectApplicableTruths(cwd, docLevel)` implements the cascade model — intent-scoped truths apply to all levels, behaviour-scoped to behaviour+impl, impl-scoped to impl only. README.md is always skipped.
 - **`isGlobalTruth()` guard in commithook**: truth files ending with `intent.md` (e.g. `glossary_intent.md`) would otherwise match the spec quality checker. The guard excludes `taproot/global-truths/` files from all hierarchy quality checks.

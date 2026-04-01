@@ -35,7 +35,7 @@
 - condition: check-if-affected-by: quality-gates/nfr-measurability | note: NOT APPLICABLE — parent usecase.md contains no NFR-N entries. This behaviour has no performance, security, or reliability thresholds. | resolved: 2026-03-29
 
 ## Status
-- **State:** complete
+- **State:** needs-rework
 - **Created:** 2026-03-29
 - **Last verified:** 2026-03-29
 

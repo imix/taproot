@@ -5,7 +5,7 @@
 
 ## Design Decisions
 - **`taproot commit` delegates truth-sign internally**: The command reuses `runTruthSign()` from `truth-sign.ts` — no duplication of signing logic. If truth-sign exits non-zero the commit is aborted before `git commit` runs.
-- **Only stages `.taproot/.truth-check-session` automatically**: No other implicit staging. All other file selection is explicit (`--all` or prior `git add`).
+- **Only stages `taproot/truth-checks.md` automatically**: No other implicit staging. All other file selection is explicit (`--all` or prior `git add`).
 - **`stdio: 'inherit'` for `git commit`**: The pre-commit hook output (taproot commithook) must reach the developer's terminal verbatim. Using `stdio: 'inherit'` ensures hook output is not swallowed.
 - **Hierarchy detection is identical to `truth-sign.ts`**: Uses the same path-prefix filter (`taproot/`, excluding `global-truths/` and `agent/`) so the truth-sign decision is consistent.
 - **No implicit DoD**: `taproot commit` does not run DoD. DoD is enforced by the pre-commit hook, not by this command. The command's job is workflow orchestration, not quality checking.

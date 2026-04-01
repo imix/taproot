@@ -4,7 +4,7 @@
 ../usecase.md
 
 ## Design Decisions
-- **Error messages reference CLI, not slash commands** — `validateTruthSession()` in `truth-checker.ts` emits messages that name `taproot truth-sign` and `.taproot/.truth-check-session` explicitly; no agent-specific slash commands. All three error paths (missing, malformed, stale) updated.
+- **Error messages reference CLI, not slash commands** — `validateTruthSession()` in `truth-checker.ts` emits messages that name `taproot truth-sign` and `taproot/truth-checks.md` explicitly; no agent-specific slash commands. All three error paths (missing, malformed, stale) updated.
 - **`taproot commit` as primary guidance** — since the commit wrapper (P10) now exists, adapter guidance directs all agents to use `taproot commit` rather than the manual 3-step sequence; fallback manual instructions included for agents that bypass it.
 - **Commit guidance added to all 5 adapter builders** — Cursor, Copilot, Windsurf, Generic, and Aider each have a section explaining `taproot commit`; no adapter-specific knowledge required by the hook itself.
 
