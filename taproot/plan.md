@@ -13,6 +13,13 @@ _HITL = human decision required · AFK = agent executes autonomously_
 6.  done     [implement] afk   "fix: commithook DoR usecase-exists check doesn't accept link.md as a valid usecase substitute — update check to treat link.md as equivalent"
 7.  done     [implement] afk   "fix: offline mode silent degradation — warn explicitly when falling back to TAPROOT_OFFLINE=1 (missing repos.yaml or unresolvable clone path) instead of silently continuing"
 8.  done     [implement] hitl  "fix: .taproot/ gitignore boundary — moved truth-check session to taproot/truth-checks.md, .taproot/ gitignored, old session file removed from git"
-9.  pending  [implement] hitl  "add truths — run /tr-discover-truths to process review-all candidates (plan item glossary entry; display path / filesystem path distinction)"
+9.  done     [implement] hitl  "add truths — superseded by item 18"
 10. done     [implement] afk   "refresh last-verified: requirements-completeness/coverage-report/cli-command/impl — coverage.ts extended this session"
 11. done     [implement] afk   "refresh last-verified: requirements-compliance/check-orphans/cli-command/impl — check-orphans.ts extended this session"
+12. done     [implement] afk   "fix cross-repo-specification/define-cross-repo-link/agent-skill/impl.md — update from needs-rework to reflect actual skill state"
+13. done     [implement] afk   "add test for cross-repo-specification/signal-cross-repo-change/docs-pattern — verify pattern pointers exist in skill files"
+14. done     [implement] afk   cross-repo-specification/delegate-implementation/
+15. pending  [implement] hitl  cross-repo-specification/enforce-linked-truth/
+16. pending  [implement] hitl  requirements-hierarchy/enforce-spec-abstraction/
+17. pending  [implement] hitl  agent-integration/parallel-agent-execution/
+18. pending  [implement] hitl  "run /tr-discover-truths to process truth candidates"

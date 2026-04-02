@@ -90,7 +90,10 @@ flowchart TD
 - When a developer reads the source repo's hierarchy
 - Then the traceability is clear: which ACs are handled locally, which are delegated, and to which repo
 
+## Implementations
+- [cli-command](cli-command/impl.md)
+
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-04-01
-- **Last reviewed:** 2026-04-01
+- **Last reviewed:** 2026-04-02

@@ -74,7 +74,7 @@ export async function runCoverage(options) {
             }
             else {
                 implCount++;
-                if (impl.state === 'complete')
+                if (impl.state === 'complete' || impl.state === 'delegated')
                     completeCount++;
                 if (impl.testCount > 0)
                     testedCount++;
@@ -468,7 +468,7 @@ export function collectIncomplete(report) {
     const items = [];
     function walk(b) {
         for (const impl of b.implementations) {
-            if (impl.state !== 'complete' && impl.state !== 'deferred') {
+            if (impl.state !== 'complete' && impl.state !== 'deferred' && impl.state !== 'delegated') {
                 items.push({ path: impl.path, state: impl.state });
             }
         }

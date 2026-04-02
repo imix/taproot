@@ -132,7 +132,7 @@ export async function runCoverage(options: {
         deferredImplCount++;
       } else {
         implCount++;
-        if (impl.state === 'complete') completeCount++;
+        if (impl.state === 'complete' || impl.state === 'delegated') completeCount++;
         if (impl.testCount > 0) testedCount++;
       }
     }
@@ -592,7 +592,7 @@ export function collectIncomplete(report: CoverageReport): { path: string; state
   const items: { path: string; state: string }[] = [];
   function walk(b: BehaviourSummary): void {
     for (const impl of b.implementations) {
-      if (impl.state !== 'complete' && impl.state !== 'deferred') {
+      if (impl.state !== 'complete' && impl.state !== 'deferred' && impl.state !== 'delegated') {
         items.push({ path: impl.path, state: impl.state });
       }
     }

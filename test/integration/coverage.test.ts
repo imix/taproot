@@ -109,4 +109,40 @@ describe('coverage — collectIncomplete', () => {
     expect(collectIncomplete(report)).toHaveLength(0);
     impl.state = 'complete';
   });
+
+  it('excludes delegated impls', async () => {
+    const report = await runCoverage({ path: fixture('valid-hierarchy') });
+    const impl = report.intents[0]!.behaviours[0]!.implementations[0]!;
+    impl.state = 'delegated';
+    expect(collectIncomplete(report)).toHaveLength(0);
+    impl.state = 'complete';
+  });
+});
+
+describe('coverage — delegated impls', () => {
+  it('AC-2: counts delegated impl alongside complete impl as accounted for', async () => {
+    const report = await runCoverage({ path: fixture('delegated-hierarchy') });
+    // shared-auth has 1 complete + 1 delegated = 2 accounted impls
+    const sharedAuth = report.intents[0]!.behaviours.find(b => b.name === 'shared-auth');
+    expect(sharedAuth).toBeDefined();
+    expect(sharedAuth!.implementations).toHaveLength(2);
+    // Both should count toward completeImpls
+    const completeStates = sharedAuth!.implementations.map(i => i.state);
+    expect(completeStates).toContain('complete');
+    expect(completeStates).toContain('delegated');
+    // behaviour should not appear in collectIncomplete
+    expect(collectIncomplete(report)).toHaveLength(0);
+  });
+
+  it('AC-3: fully-delegated behaviour is not a coverage gap', async () => {
+    const report = await runCoverage({ path: fixture('delegated-hierarchy') });
+    // fully-delegated has only a delegated impl — still accounted for
+    const fullyDelegated = report.intents[0]!.behaviours.find(b => b.name === 'fully-delegated');
+    expect(fullyDelegated).toBeDefined();
+    expect(fullyDelegated!.implementations).toHaveLength(1);
+    expect(fullyDelegated!.implementations[0]!.state).toBe('delegated');
+    // Should count in completeImpls total
+    expect(report.totals.completeImpls).toBeGreaterThanOrEqual(2); // 1 complete + 1 delegated minimum
+    expect(collectIncomplete(report)).toHaveLength(0);
+  });
 });
