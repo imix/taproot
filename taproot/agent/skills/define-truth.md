@@ -34,7 +34,7 @@ Create or update a free-form truth entry in `taproot/global-truths/` — a fact,
      <entry content>
      ```
    - Present: `[A] Write it · [E] Edit · [C] Cancel`
-   - **[A]**: proceed directly to Phase 5 (Write) with the entry as content. Use the structured format's scope and file defaults unless the entry specifies otherwise.
+   - **[A]**: proceed to Phase 4 (Find Existing Home) then Phase 5 (Write) with the entry as content. Use the structured format's scope and file defaults unless Phase 4 finds a better existing home.
    - **[E]**: apply the developer's corrections, re-display, and repeat until `[A]` or `[C]`.
    - **[C]**: stop. Do not write anything.
 
@@ -157,7 +157,7 @@ i. Format:
    **Workaround:** [mitigation, if any]
    ```
 
-After writing a structured entry, ask: "Another structured truth, or done?" If another: return to step 2.
+After confirming a structured entry's content, proceed to Phase 4 (Find Existing Home) then Phase 5 (Write). Then ask: "Another structured truth, or done?" If another: return to step 2.
 
 **Completeness check** — after ending a structured session covering 2 or more entries, briefly note any of the four formats not yet captured: "You've added [formats]. You haven't captured [remaining formats] — worth recording those now?"
 
@@ -178,6 +178,18 @@ After writing a structured entry, ask: "Another structured truth, or done?" If a
      - Sub-folder example: `taproot/global-truths/intent/glossary.md`
 
    The goal is zero questions when context is clear. Ask only what's genuinely ambiguous.
+
+### Phase 4 — Find Existing Home (all paths)
+
+This phase runs for every path — structured, free-form, and entry handoff. Do not skip it.
+
+5. Scan all `.md` files in `taproot/global-truths/`. For each file, read its headings and content summary. Check whether the new truth fits topically into an existing file — e.g. a new convention belongs in `conventions_impl.md`, a new principle belongs alongside existing principles.
+
+   - **Match found and file is not overloaded** (fewer than ~10 top-level entries): use that file. Note: "I'll append to `<file>`." Do not ask unless the match is ambiguous.
+   - **Match found but file is large** (10+ top-level entries): propose a split before writing: "⚠ `<file>` already has N entries. Before adding more, consider splitting it — e.g. `<domain>_<scope>.md` for the related group. [A] Split first · [B] Append anyway"
+   - **No match**: proceed with the file name from Phase 2 (free-form), the structured path default, or the entry handoff default.
+
+   For **structured path** and **entry handoff**: this step overrides the format's file default when a better existing home is found. The default (`conventions_impl.md`, `principles_intent.md`, etc.) is a fallback, not a mandate.
 
 ### Phase 5 — Write the File
 
