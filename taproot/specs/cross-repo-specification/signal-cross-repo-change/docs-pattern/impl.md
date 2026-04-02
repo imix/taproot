@@ -19,17 +19,16 @@
 - `taproot/agent/skills/link.md` — mirror
 
 ## Commits
-- (placeholder)
 - `c2dab4d083d81a13b9df0feff2376e8093f2ee3c` — (auto-linked by taproot link-commits)
 - `a3891e6e2da14e5b4b237c595235f929445f5c42` — (auto-linked by taproot link-commits)
 
 ## Tests
-- (none — pattern documentation; no CLI or TypeScript changes)
+- `test/integration/signal-cross-repo-change.test.ts` — verifies pattern entry in docs/patterns.md, agent copy sync, and skill pointers in implement.md, commit.md, link.md
 
 ## Status
 - **State:** complete
 - **Created:** 2026-04-01
-- **Last verified:** 2026-04-01
+- **Last verified:** 2026-04-02
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: prose-only impl — skill pointers and pattern entry only; no TypeScript design decisions. Not applicable. | resolved: 2026-04-01T10:25:52.464Z
