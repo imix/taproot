@@ -16,6 +16,8 @@ Architectural decisions, constraints, and patterns for the taproot codebase. Eve
 
 **Agent-agnostic output** — Skill files and adapter files must be plain markdown/text. No agent-specific syntax in the hierarchy documents themselves.
 
+**Project-agnostic tooling** — All skills, CLI commands, and agent instructions must work for every project using taproot, regardless of programming language, test framework, or build tooling. Never hardcode tool-specific commands. When a skill needs to run a project-specific action (test, lint, build), it must read the configured command from `settings.yaml`.
+
 ---
 
 ## Constraints

@@ -163,7 +163,9 @@ Execute the full commit procedure: classify the commit type, run the appropriate
 
 ### Plain commit
 
-1. Stage source files and commit — no taproot gate runs.
+1. Check whether staged files include source code (files outside `taproot/`, `docs/`, `CHANGELOG.md`, `README.md`). If yes and `testsCommand` is configured in `taproot/settings.yaml`, run it before committing. If tests fail, report: "Cannot commit — tests failed. Fix and retry." Stop.
+
+2. Stage source files and commit.
 
 ---
 
