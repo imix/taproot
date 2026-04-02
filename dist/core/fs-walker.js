@@ -5,7 +5,8 @@ const MARKER_FILES = {
     'usecase.md': 'behaviour',
     'impl.md': 'impl',
 };
-const DEFAULT_EXCLUDE = new Set(['_brainstorms', 'skills', '.git', 'node_modules', 'dist', 'global-truths', 'agent', 'specs', 'research']);
+/** Directories excluded from hierarchy walks and link-file scans. */
+export const DEFAULT_EXCLUDE = new Set(['_brainstorms', 'skills', '.git', 'node_modules', 'dist', 'global-truths', 'agent', 'specs', 'research']);
 export function walkHierarchy(rootPath, options = {}) {
     const excludeDirs = options.excludeDirs ?? DEFAULT_EXCLUDE;
     return walkDir(rootPath, rootPath, null, 0, excludeDirs);
