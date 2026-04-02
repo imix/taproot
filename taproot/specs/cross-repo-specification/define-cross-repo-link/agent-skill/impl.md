@@ -15,7 +15,6 @@
 - `skills/link.md` — package source copy
 
 ## Commits
-- (placeholder)
 - `3310e0e7f75da56c27cc23b9b676c06edbf69203` — (auto-linked by taproot link-commits)
 - `95f44bb58a6716407248cf4a2cd4b3c72fc2faae` — (auto-linked by taproot link-commits)
 
@@ -23,9 +22,9 @@
 - (none — skill is guidance-only; validate-format integration covers link file format AC-1)
 
 ## Status
-- **State:** needs-rework
+- **State:** complete
 - **Created:** 2026-04-01
-- **Last verified:** 2026-04-01
+- **Last verified:** 2026-04-02
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: skill implementation is markdown-only — no design decisions that could conflict with docs/architecture.md. Not applicable. | resolved: 2026-04-01
