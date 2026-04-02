@@ -317,11 +317,11 @@ See also: `taproot/specs/global-truth-store/enforce-truths-at-commit/usecase.md`
 
 ---
 
-## Design constraints session (`/tr-design-constraints`)
+## Structured design constraints (`/tr-define-truth`)
 
-**Problem:** You want to define your project's architectural decisions, design principles, naming conventions, or external constraints before writing specs — but `define-truth` is single-truth oriented and doesn't guide you through the right structure for each constraint type. An architecture decision recorded as a flat note is hard to reason about; an ADR with context, options, and consequences is actionable.
+**Problem:** You want to define your project's architectural decisions, design principles, naming conventions, or external constraints before writing specs — but a flat note is hard to reason about. An ADR with context, options, and consequences is actionable.
 
-**Four structured formats:**
+**Four structured formats** (available via `/tr-define-truth` → Structured path):
 
 | Format | What it captures | Default scope | Example |
 |---|---|---|---|
@@ -332,11 +332,9 @@ See also: `taproot/specs/global-truth-store/enforce-truths-at-commit/usecase.md`
 
 **How to use it:**
 ```
-/tr-design-constraints
+/tr-define-truth
 ```
-The skill asks which format applies (or classifies from your description), guides the appropriate prompts, appends to the right truth file, and loops until you're done. A completeness check at the end surfaces any formats you haven't used.
-
-**For free-form truths** — DB schemas, API contracts, glossaries — use `/tr-define-truth` instead.
+When describing a truth, `/tr-define-truth` detects structured formats and offers guided prompts for each type. It appends to existing truth files, checks for contradictions, and offers a completeness check at session end.
 
 **Signal phrases** (pattern-check will match these):
 - "define our architecture / record our tech choices / document our decisions"
@@ -345,7 +343,7 @@ The skill asks which format applies (or classifies from your description), guide
 - "external constraint / we have to use / imposed on us / client requires"
 - "what's the right way to capture our..."
 
-See full spec: `taproot/specs/global-truth-store/author-design-constraints/usecase.md`
+See spec: `taproot/specs/global-truth-store/define-truth/usecase.md`
 
 ---
 

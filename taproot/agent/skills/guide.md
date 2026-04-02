@@ -57,7 +57,6 @@ ineed → intent → behaviour → implement → trace → status
 | `/tr-audit-all` | Audit an entire subtree — structural checks, cross-cutting analysis, per-artifact findings |
 | `/tr-discover-truths` | Scan the hierarchy for implicit facts and promote them to global truths |
 | `/tr-define-truth` | Capture any truth — free-form or structured (architecture decisions, principles, conventions, external constraints) |
-| `/tr-design-constraints` | Guided session for structured design constraints — decisions (ADR), principles, conventions, and external constraints |
 | `/tr-browse` | Read a hierarchy document section by section in the terminal — with inline editing via `[M] Modify` |
 | `/tr-backlog` | Capture an idea or finding instantly mid-session; called with no args opens triage to discard, keep, or promote items |
 | `/tr-grill-me` | Interview the user relentlessly to sharpen a plan or design |

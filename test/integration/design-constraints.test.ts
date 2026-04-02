@@ -9,7 +9,6 @@ const INSTALLED_SKILL_PATH = join(ROOT, 'taproot/agent/skills/define-truth.md');
 const PATTERNS_PATH = join(ROOT, 'docs/patterns.md');
 const BEHAVIOUR_SKILL_PATH = join(ROOT, 'skills/behaviour.md');
 const INEED_SKILL_PATH = join(ROOT, 'skills/ineed.md');
-const GUIDE_PATH = join(ROOT, 'skills/guide.md');
 const SPEC_PATH = join(ROOT, 'taproot/specs/global-truth-store/author-design-constraints/usecase.md');
 
 describe('design-constraints skill', () => {
@@ -78,11 +77,6 @@ describe('design-constraints skill', () => {
     const content = readFileSync(SKILL_PATH, 'utf-8');
     expect(content).toMatch(/tr-define-truth/);
   });
-
-  it('skill links to the usecase spec', () => {
-    const content = readFileSync(SKILL_PATH, 'utf-8');
-    expect(content).toMatch(/author-design-constraints\/usecase\.md/);
-  });
 });
 
 describe('design-constraints pattern discovery', () => {
@@ -105,9 +99,9 @@ describe('design-constraints pattern discovery', () => {
     expect(content).toMatch(/UX guidelines|design principles/i);
   });
 
-  it('docs/patterns.md links to the usecase spec', () => {
+  it('docs/patterns.md links to define-truth spec', () => {
     const content = readFileSync(PATTERNS_PATH, 'utf-8');
-    expect(content).toMatch(/author-design-constraints\/usecase\.md/);
+    expect(content).toMatch(/define-truth\/usecase\.md/);
   });
 
   it('behaviour skill includes design constraints signal phrase', () => {
@@ -115,22 +109,17 @@ describe('design-constraints pattern discovery', () => {
     expect(content).toMatch(/design constraints session|UX guidelines.*design principles/i);
   });
 
-  it('ineed skill routes to /tr-design-constraints for structured constraints', () => {
+  it('ineed skill routes structured constraints to /tr-define-truth', () => {
     const content = readFileSync(INEED_SKILL_PATH, 'utf-8');
-    expect(content).toMatch(/tr-design-constraints/);
-  });
-
-  it('guide.md includes /tr-design-constraints entry', () => {
-    const content = readFileSync(GUIDE_PATH, 'utf-8');
-    expect(content).toMatch(/tr-design-constraints/);
+    expect(content).toMatch(/tr-define-truth/);
   });
 });
 
 describe('design-constraints spec', () => {
-  it('usecase.md exists and is implemented or beyond', () => {
+  it('usecase.md exists and is deprecated', () => {
     expect(existsSync(SPEC_PATH)).toBe(true);
     const content = readFileSync(SPEC_PATH, 'utf-8');
-    expect(content).toMatch(/\*\*State:\*\* (specified|implemented|tested)/);
+    expect(content).toMatch(/\*\*State:\*\* deprecated/);
   });
 
   it('usecase.md sub-behaviours list all four formats', () => {

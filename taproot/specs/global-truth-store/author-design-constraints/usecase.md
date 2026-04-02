@@ -149,9 +149,10 @@ The following sub-behaviours define the prompting and output format for each con
 - [Record External Constraint](./record-external-constraint/usecase.md) — External format: constraint, source, implications, optional expiry
 
 ## Implementations <!-- taproot-managed -->
-- [Agent Skill — design constraints session](./agent-skill/impl.md)
+- Deprecated — absorbed into [define-truth](../define-truth/agent-skill/impl.md)
 
 ## Status
-- **State:** implemented
+- **State:** deprecated
 - **Created:** 2026-03-29
-- **Last reviewed:** 2026-03-29
+- **Last reviewed:** 2026-04-02
+- **Deprecated:** 2026-04-02 — absorbed into `define-truth`. Structured format authoring (Decision, Principle, Convention, External) is now the "Structured path" in `define-truth/usecase.md` and `skills/define-truth.md`.

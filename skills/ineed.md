@@ -29,7 +29,7 @@ Route a natural language requirement to the right place in the taproot hierarchy
    > **[B]** Enforcement gate → apply `check-if-affected-by` pattern
    > **[C]** New requirement → continue with normal routing"
 
-   - **[A]**: If the description clearly fits a structured format (Decision/Principle/Convention/External), route to `/tr-design-constraints` — it guides the developer through the right prompts for each constraint type. If no structured format fits (free-form truth: schema, glossary, domain model), call `/tr-define-truth` directly. Stop — do not continue routing.
+   - **[A]**: If the description clearly fits a structured format (Decision/Principle/Convention/External), ask the structured questions inline — then call `/tr-define-truth` passing all gathered content as `entry` so define-truth skips re-asking. If no structured format fits, call `/tr-define-truth` directly. Stop — do not continue routing.
    - **[B]**: proceed to pattern check below.
    - **[C]** or no global truth signal: proceed to pattern check below.
 

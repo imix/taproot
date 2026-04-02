@@ -13,7 +13,7 @@ Developer or project lead recording a constraint imposed from outside the projec
 2. Agent checks: if the description sounds like a choice ("we use X", "we prefer Y") rather than an imposition, agent asks: "Was this imposed on you, or did your team choose it? If you chose it, this is better captured as a Decision." Developer confirms or redirects.
 3. Agent asks: "Who or what imposed this? (e.g. client contract, regulator, platform, legacy system, corporate policy)"
 4. Agent asks: "What are the implications for the project — what does this constrain or require in practice?"
-5. Agent asks: "Is there an expiry or review date? (e.g. API contract ends, regulation under review)" — optional
+5. Agent asks: "Is there an expiry or review date? (e.g. vendor contract ends, regulation under review)" — optional
 6. Agent proposes scope:
    - **intent** (default) — applies project-wide, visible to all specs
    - **behaviour** — constrains how specific features behave
@@ -110,12 +110,13 @@ flowchart TD
 - Then a truth entry exists — the source type (client contract) does not affect the format or flow
 
 ## Implementations <!-- taproot-managed -->
-- [Agent Skill — design constraints session](../agent-skill/impl.md)
+- Deprecated — absorbed into [define-truth](../../define-truth/agent-skill/impl.md)
 
 ## Status
-- **State:** implemented
+- **State:** deprecated
 - **Created:** 2026-03-29
-- **Last reviewed:** 2026-03-30
+- **Last reviewed:** 2026-04-02
+- **Deprecated:** 2026-04-02 — absorbed into `define-truth` Structured path (External constraint format).
 
 ## Notes
-Implemented as part of the parent `/tr-design-constraints` session skill alongside the other three constraint formats — see `../agent-skill/impl.md`. All four formats (Decision, Principle, Convention, External) are handled inline by the `design-constraints.md` skill file. No standalone implementation is needed for this sub-behaviour.
+Deprecated — absorbed into `/tr-define-truth` Structured path. All four formats (Decision, Principle, Convention, External) are handled inline by `skills/define-truth.md`.

@@ -231,9 +231,9 @@ describe('commit.md — commit procedure skill', () => {
     expect(content).toMatch(/\/tr-refine/);
   });
 
-  it('AC-5: plain commit — no taproot gate runs', () => {
+  it('AC-5: plain commit — runs testsCommand when source files staged', () => {
     expect(content).toMatch(/Plain commit/i);
-    expect(content).toMatch(/no taproot gate runs/i);
+    expect(content).toMatch(/testsCommand/i);
   });
 
   it('AC-7: mass commit — offers [A]/[B]/[C] choice when N > 3', () => {

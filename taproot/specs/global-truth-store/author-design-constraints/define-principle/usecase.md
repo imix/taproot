@@ -90,12 +90,13 @@ flowchart TD
 - Then intent scope is proposed as the default
 
 ## Implementations <!-- taproot-managed -->
-- [Agent Skill — design constraints session](../agent-skill/impl.md)
+- Deprecated — absorbed into [define-truth](../../define-truth/agent-skill/impl.md)
 
 ## Status
-- **State:** implemented
+- **State:** deprecated
 - **Created:** 2026-03-29
-- **Last reviewed:** 2026-03-30
+- **Last reviewed:** 2026-04-02
+- **Deprecated:** 2026-04-02 — absorbed into `define-truth` Structured path (Principle format).
 
 ## Notes
-Implemented as part of the parent `/tr-design-constraints` session skill alongside the other three constraint formats — see `../agent-skill/impl.md`. All four formats (Decision, Principle, Convention, External) are handled inline by the `design-constraints.md` skill file. No standalone implementation is needed for this sub-behaviour.
+Deprecated — absorbed into `/tr-define-truth` Structured path. All four formats (Decision, Principle, Convention, External) are handled inline by `skills/define-truth.md`.
