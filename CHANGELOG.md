@@ -4,6 +4,78 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [0.9.5] - 2026-04-02
+
+### Taproot
+- taproot(cross-repo-specification/signal-cross-repo-change/docs-pattern): add cross-repo change handoff pattern + skill pointers (c2dab4d)
+- taproot(cross-repo-specification/signal-cross-repo-change/docs-pattern): declare implementation (a3891e6)
+- taproot(cross-repo-specification/define-cross-repo-link/agent-skill): implement /tr-link skill (3310e0e)
+- taproot(cross-repo-specification/define-cross-repo-link/agent-skill): declare /tr-link skill impl (95f44bb)
+- taproot(cross-repo-specification/resolve-linked-coverage/coverage-extension): extend coverage to count and display linked behaviours with [linked] marker (7abcdd9)
+- taproot(cross-repo-specification/resolve-linked-coverage/coverage-extension): declare implementation (e0957fb)
+- taproot(cross-repo-specification/define-cross-repo-link/validate-format-extension): validate link file format in validate-format and add LINK_TARGET_DRAFT warning in check-orphans (5ac1bd4)
+- taproot(cross-repo-specification/define-cross-repo-link/validate-format-extension): declare implementation (7f06522)
+- taproot(cross-repo-specification/validate-link-targets/cli-check-orphans): implement cross-repo link target validation (802bc75)
+- taproot(cross-repo-specification/validate-link-targets/cli-check-orphans): declare implementation (d4c59c8)
+
+### Features
+- feat(quality-gates/validate-usecase-quality): enforce why/what/how; add Main Flow impl-terms check; thin CLAUDE.md (cdf89b4)
+- feat(ineed): offer plan build after scope-split [A] and backlog capture after synthesis deferred items (c598dec)
+
+### Bug Fixes
+- fix(validate-format): use link-specific exclusion set for findLinkFiles (0482230)
+- fix(validate-format): exclude agent dir from link-file scan (3a18ac6)
+- fix(definition-of-ready): remove implementation term from Main Flow (1182578)
+- fix: move truth-check session to taproot/truth-checks.md, gitignore .taproot/ (01cf350)
+- fix(commithook): skip DoR for renamed/moved impl.md files (e8a5c69)
+- fix: v1.0 release blockers — link.md DoR fix, offline warning, stale impl refs (354088c)
+- fix(dod-runner): check: correction text now includes full condition name (d73f0af)
+- fix(commithook): restrict out-of-root check to spec files; add /tr-research trigger to guide (6c48a50)
+- fix: detect hierarchy files staged outside configured root; read root from settings.yaml in skills (7a006fe)
+- fix(bug): skip reproduction question for self-evident symptoms (7bd54e0)
+- fix(plan/implement): derive slice context from description; skip re-asking Actor/Entry/Outcome (9e087a7)
+- fix(implement): bind next-slice option to /tr-implement path to prevent context-loss re-ask (500dcce)
+- fix: correct Tests misclassifications, stale skill refs, last-verified dates (2c2af52)
+- fix(guide): add natural language triggers section; thin CLAUDE.md to pointer (ad801b7)
+- fix(define-truth): ask brevity preference before drafting; collapse phases 2-4 for candidate path (c35e2b4)
+- fix(commit): add new-doc check to document-current mandatory steps (4c47fa0)
+- fix(define-truth): absorb design-constraints; route structured formats from single entry point (f7d71e8)
+- fix(define-truth): add [S] sweep option to What's next after writing a truth (6c0d08e)
+- fix(plan-execute): add [R] Review to post-execution prompt; add UX principle (3637bf4)
+- fix(define-truth): replace closed-set category table with open-ended framing (904b84f)
+- fix(skills): abbreviate hierarchy display paths across plan, sweep, trace, design-constraints (579cbc5)
+- fix(plan): abbreviated hierarchy paths in plan.md and skill prompts (c55ec20)
+- fix(plan-execute): restore [R] option for spec items with no browseable path (38cb6d5)
+
+### Maintenance
+- chore: backlog — add explicit dependency tracking in tr-plan (0e35941)
+- chore: update impl.md refs for truth-checks.md path change (2d015b3)
+- chore: link commits (1b151e2)
+- docs: sync concepts.md to agent copy; add agent-integration-files global truth; close plan items 12+13 (42aab27)
+- docs(concepts): add Vertical Slice section (451b1a2)
+- docs: add cross-repo specification sharing pattern (8c58360)
+- docs: add cross-repo linking documentation and README section (4c47fa0)
+- chore: impl.md maintenance — DoD resolutions and last-verified updates (c0368d9)
+- chore: refresh agent skills and docs from taproot update (78319de)
+- chore: update tests and dist artifacts (00a2364)
+- chore: add audit + bug findings to plan (cd977ed)
+- chore: apply Option Labeling Convention across all 29 skills (87056ba)
+
+### Other
+- spec(cross-repo-specification/signal-cross-repo-change): define behaviour (fd508b2)
+- spec(cross-repo-specification): add three behaviours with audit refinements (b98593c)
+- spec(cross-repo-specification): add intent for cross-repo spec and link mechanism (ce54337)
+- spec: add delegate-implementation and enforce-linked-truth behaviours; add delegated impl state (8eb303b)
+- spec: add enforce-spec-abstraction behaviour (1adc88e)
+- rename: tr-review → tr-audit, tr-review-all → tr-audit-all (1e8b6c0)
+- fix(bundled-templates/impl): remove book-authoring from Source Files, update Tests (5a47106)
+- fix(design-constraints): update test to point at define-truth after skill absorption (5663414)
+- fix(define-truth): add entry param to skip re-asking questions on handoff (6ecc7be)
+- fix: remove /tr-analyse-change and /tr-decompose references from docs and skills (b18eb00)
+- chore(init): remove analyse-change and decompose from SKILL_FILES (086dfc7)
+- truth: SKILL_FILES convention — user-facing skills only (ad750f0)
+- truth: plan offer after multi-finding skills UX principle (3a80c83)
+
 ## [0.9.4] - 2026-03-30
 
 ### Taproot
