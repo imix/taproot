@@ -8,8 +8,7 @@ const MARKER_FILES: Record<string, MarkerType> = {
   'impl.md': 'impl',
 };
 
-/** Directories excluded from hierarchy walks and link-file scans. */
-export const DEFAULT_EXCLUDE = new Set(['_brainstorms', 'skills', '.git', 'node_modules', 'dist', 'global-truths', 'agent', 'specs', 'research']);
+const DEFAULT_EXCLUDE = new Set(['_brainstorms', 'skills', '.git', 'node_modules', 'dist', 'global-truths', 'agent', 'specs', 'research']);
 
 export function walkHierarchy(
   rootPath: string,

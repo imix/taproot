@@ -1,7 +1,8 @@
 import { readFileSync, existsSync, readdirSync, statSync } from 'fs';
 import { join, resolve } from 'path';
 import yaml from 'js-yaml';
-import { DEFAULT_EXCLUDE } from './fs-walker.js';
+/** Dirs excluded from link-file scans (subset of fs-walker's DEFAULT_EXCLUDE — link files live inside specs/ and global-truths/) */
+const LINK_SCAN_EXCLUDE = new Set(['.git', 'node_modules', 'dist', '.taproot', 'agent', 'skills']);
 /**
  * Parse a link.md file and extract Repo, Path, Type fields.
  * Returns null values for any field not found.
@@ -35,7 +36,7 @@ export function findLinkFiles(rootPath) {
             try {
                 const stat = statSync(fullPath);
                 if (stat.isDirectory()) {
-                    if (!DEFAULT_EXCLUDE.has(entry))
+                    if (!LINK_SCAN_EXCLUDE.has(entry))
                         walk(fullPath);
                 }
                 else if (entry === 'link.md' || entry.endsWith('-link.md')) {
