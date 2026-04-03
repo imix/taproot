@@ -118,6 +118,20 @@ describe('plan-execute skill — review option (AC-22, AC-23)', () => {
   });
 });
 
+describe('plan-execute skill — execution style per mode', () => {
+  it('HITL mode is always step-by-step', () => {
+    expect(skill).toMatch(/HITL.*always step-by-step|HITL.*always.*step.by.step/i);
+  });
+
+  it('AFK mode is always batch (no per-item prompt)', () => {
+    expect(skill).toMatch(/AFK.*always batch|AFK.*always.*batch/i);
+  });
+
+  it('batch mode pauses on hitl items', () => {
+    expect(skill).toMatch(/[Bb]atch.*paus.*hitl|hitl.*paus.*batch/i);
+  });
+});
+
 describe('plan-execute skill — filter modes (AC-8, AC-9)', () => {
   it('specify mode filters to spec and refine only', () => {
     expect(skill).toMatch(/spec.*refine|refine.*spec/i);

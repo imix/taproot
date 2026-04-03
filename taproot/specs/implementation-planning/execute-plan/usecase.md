@@ -121,7 +121,7 @@ Developer — working through a previously built plan, delegating each item to t
 - **Trigger:** Developer invokes "hitl only", "run human items", selects `[C]` from orientation, or similar.
 - **Steps:**
   1. Agent filters pending items to those labelled `hitl` only. `afk` items remain `pending` untouched.
-  2. Agent presents the filtered list and proceeds with step-by-step or batch flow as requested.
+  2. Agent presents the filtered list and proceeds with step-by-step flow (HITL items require human decisions during execution — batch is not offered).
   3. When filtered items are exhausted, agent reports: *"HITL pass complete — N items done. M afk items remain pending."*
 
 ### AFK mode (afk items only)
@@ -302,6 +302,7 @@ flowchart TD
 - **Refined:** 2026-03-30 — enriched item display: behaviour title + one-line goal in Next: prompt (AC-21)
 - **Refined:** 2026-03-30 — added [R] Review spec option to HITL pause menu; invokes /tr-browse and returns to same prompt (AC-22)
 - **Refined:** 2026-03-30 — clarified [R] browse runs to full completion before plan-execute resumes; browse sub-actions (e.g. /tr-review) must not be swallowed (AC-23)
+- **Refined:** 2026-04-02 — HITL mode always step-by-step (batch meaningless for human-decision items); AFK mode always batch (no per-item prompt for autonomous items)
 
 ## Notes
 - When invoked without a mode, the agent presents an orientation menu summarising the plan state and available modes. When a mode is specified explicitly (e.g. "implement all"), the orientation is skipped.

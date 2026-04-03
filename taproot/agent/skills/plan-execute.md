@@ -21,8 +21,8 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
    **Detect mode** from the developer's request (interactive mode only):
    - *"execute next item"* / *"execute plan"* / *"run next"* → **step-by-step** (default)
    - *"execute all"* / *"run all"* / *"batch"* → **batch**
-   - *"hitl only"* / *"run human items"* / *"interactive only"* → **hitl** (filter: `hitl` items only)
-   - *"afk only"* / *"run autonomous"* / *"implement automatically"* → **afk** (filter: `afk` items only)
+   - *"hitl only"* / *"run human items"* / *"interactive only"* → **hitl** (filter: `hitl` items only; always step-by-step)
+   - *"afk only"* / *"run autonomous"* / *"implement automatically"* → **afk** (filter: `afk` items only; always batch — no per-item prompt)
    - *"bring all to specified"* / *"run spec and refine only"* / *"specify mode"* → **specify** (filter: `spec` + `refine` types only)
    - *"implement all specified"* / *"implement all"* / *"run implement only"* → **implement** (filter: `implement` type only)
    - No mode specified (bare `/tr-plan-execute` or ambiguous): → **show orientation** (step 3a)
@@ -33,9 +33,9 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
 
    How would you like to proceed?
    [1] Step-by-step     — one item at a time, confirm each (default)
-   [2] Batch            — confirm full list upfront, then run all
-   [3] HITL only        — human-decision items only
-   [4] AFK only         — autonomous items only
+   [2] Batch            — confirm list, then run all (pauses on hitl items)
+   [3] HITL only        — human-decision items, one at a time
+   [4] AFK only         — autonomous items, run all without pausing
    [C] Cancel
    ```
    Wait for developer response, then continue with the chosen mode.
@@ -76,7 +76,12 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
    ```
    Where `"<Behaviour Title>"` comes from the `# Behaviour:` heading of the referenced `usecase.md` (omitted for `[spec]` items with no existing spec); `<goal>` is the plan item's inline description if present, otherwise a one-sentence summary derived from the spec's Actor and main outcome.
 
-   **b. In step-by-step mode**, wait for developer response:
+   **b. Determine execution style for this item:**
+   - **Step-by-step mode** or **HITL-only mode**: always wait for developer response.
+   - **Batch mode**: wait only if the item is labelled `hitl`; skip to c for `afk` items.
+   - **AFK-only mode**: always skip to c (no per-item prompt — the upfront confirmation in step 6 grants permission).
+
+   **When waiting for developer response**, present:
    - `[R]`:
      - **If the item has an existing path** (a `usecase.md` is present): invoke `/tr-browse <path>` and let browse run to full completion — including any sub-actions the developer selects within browse (e.g. `/tr-audit`, navigating sections). Do not re-present the plan-execute prompt until the developer has finished all browse activity and browse itself has exited.
      - **If the item has no spec yet** (`[spec]` type with no existing path): show available design context inline — the item description, which skill will handle it, and any relevant hierarchy context (parent intent goal, sibling behaviours). Do not invoke `/tr-browse`.
@@ -99,17 +104,17 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
    - *Step-by-step*: offer `[A] Continue to next · [D] Stop`
    - *Batch*: pause and wait for developer to resolve before continuing
 
-   **f. In step-by-step mode**, after each completed item:
-   ```
-   ✓ Done — <description>
-   M items remaining.
-   [R] Review written spec  [A] Continue to next  [D] Stop for now
-   ```
-   - `[R]`: invoke `/tr-browse <path>` on the spec just written (the path the skill targeted); let browse run to full completion. Then re-present this same prompt with all three options — `[R]`, `[A]`, `[D]` — so the developer can keep reviewing before deciding. Omit `[R]` only if the item type is `[implement]` and no spec path is associated.
-   - `[A]`: continue to next item
-   - `[D]` or no items remain: report final status (see step 8)
-
-   **g. In batch mode**: mark done and proceed to next item without waiting.
+   **f. After each completed item**, apply the same execution-style logic as step b:
+   - **Step-by-step** or **HITL-only**, or **batch mode with a `hitl` item**: present completion prompt:
+     ```
+     ✓ Done — <description>
+     M items remaining.
+     [R] Review written spec  [A] Continue to next  [D] Stop for now
+     ```
+     - `[R]`: invoke `/tr-browse <path>` on the spec just written (the path the skill targeted); let browse run to full completion. Then re-present this same prompt with all three options — `[R]`, `[A]`, `[D]` — so the developer can keep reviewing before deciding. Omit `[R]` only if the item type is `[implement]` and no spec path is associated.
+     - `[A]`: continue to next item
+     - `[D]` or no items remain: report final status (see step 8)
+   - **AFK-only**, or **batch mode with an `afk` item**: mark done and proceed to next item without waiting.
 
 8. **Report final status** when done or stopped:
    - All items executed: *"Plan complete — all N items executed."*
@@ -135,7 +140,9 @@ None
 
 ## Notes
 
-- In batch mode, the developer confirms the whole list up-front. The agent still presents each item before invoking its skill — per-item visibility is preserved.
+- In batch mode, the developer confirms the whole list up-front. The agent still presents each item before invoking its skill — per-item visibility is preserved. Batch pauses on `hitl` items (they require human decisions during execution).
+- HITL mode is always step-by-step — batch is meaningless for items that require human decisions.
+- AFK mode is always batch — the whole point of `afk` items is that the agent executes them without per-item prompting. The upfront list confirmation in step 6 is the only human touchpoint.
 - Specify and implement modes are filters, not separate modes. Filtered-out items stay `pending` (not `skipped`) so they can be processed in a later pass.
-- A typical two-pass workflow: run specify mode to bring all specs to `specified`, then run implement mode to code them all.
+- A typical two-pass workflow: run HITL mode to work through human-decision items, then run AFK mode to execute all autonomous items without interruption.
 - Autonomous execution (agent works through all items without any human confirmation) is explicitly out of scope.
