@@ -13,8 +13,9 @@ Two distinct prompt types exist — treat them differently:
 | `[A]` | Accept / Proceed | Mid-flow decision prompts |
 | `[C]` | Cancel — abort, no changes made | Mid-flow decision prompts |
 | `[R]` | Review | Mid-flow and post-execution prompts |
-| `[S]` | Skip | Mid-flow decision prompts |
-| `[D]` | Done / Stop for now | Continuation prompts (e.g. `[A] Continue  [D] Stop for now`) |
+| `[L]` | Later (defer) | Mid-flow decision prompts — item deferred, not abandoned |
+| `[X]` | Drop (exclude) | Mid-flow decision prompts — item intentionally excluded |
+| `[D]` | Done / Stop for now | Continuation prompts (e.g. `[A] Continue  [D] Done for now`) |
 | `[P]` | Plan — invoke `/tr-plan` with findings | Multi-finding closing prompts |
 | `[B]` | Browse | Mid-flow, when context navigation is offered |
 
@@ -28,7 +29,7 @@ Two distinct prompt types exist — treat them differently:
 - Max 4 options in any single prompt
 - `[D]` (Done) only in continuation prompts — omit from numbered "What's next?" menus (stopping is implicit)
 - `/tr-commit` always appears as a numbered "What's next?" option, never a reserved letter
-- `[Q]` is retired — use `[C]` for Cancel
+- `[S]` and `[Q]` are retired — use `[L]` Later for deferral, `[X]` Drop for exclusion, `[C]` Cancel for aborting
 
 ---
 

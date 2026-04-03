@@ -56,12 +56,16 @@ describe('plan-execute skill — item presentation and confirmation (AC-1)', () 
     expect(skill).toMatch(/\[A\].*Proceed/i);
   });
 
-  it('offers skip option', () => {
-    expect(skill).toMatch(/\[S\].*Skip/i);
+  it('offers later (defer) option', () => {
+    expect(skill).toMatch(/\[L\].*Later/i);
   });
 
-  it('offers stop/quit option', () => {
-    expect(skill).toMatch(/\[Q\].*Stop|\[D\].*Stop/i);
+  it('offers drop option', () => {
+    expect(skill).toMatch(/\[X\].*Drop/i);
+  });
+
+  it('offers cancel option', () => {
+    expect(skill).toMatch(/\[C\].*Cancel/i);
   });
 });
 
@@ -84,8 +88,12 @@ describe('plan-execute skill — status updates (AC-2, AC-3)', () => {
     expect(skill).toMatch(/done/);
   });
 
-  it('marks skipped items as skipped', () => {
-    expect(skill).toMatch(/skipped/);
+  it('marks deferred items as deferred', () => {
+    expect(skill).toMatch(/deferred/);
+  });
+
+  it('marks dropped items as dropped', () => {
+    expect(skill).toMatch(/dropped/);
   });
 
   it('marks blocked items as blocked', () => {
@@ -137,7 +145,7 @@ describe('plan-execute skill — filter modes (AC-8, AC-9)', () => {
     expect(skill).toMatch(/spec.*refine|refine.*spec/i);
   });
 
-  it('filtered-out items stay pending (not skipped)', () => {
+  it('filtered-out items stay pending (not deferred)', () => {
     expect(skill).toMatch(/stay.*pending|remain.*pending/i);
   });
 

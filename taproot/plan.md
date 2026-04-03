@@ -19,7 +19,7 @@ _HITL = human decision required · AFK = agent executes autonomously_
 12. done     [implement] afk   "fix cross-repo-specification/define-cross-repo-link/agent-skill/impl.md — update from needs-rework to reflect actual skill state"
 13. done     [implement] afk   "add test for cross-repo-specification/signal-cross-repo-change/docs-pattern — verify pattern pointers exist in skill files"
 14. done     [implement] afk   cross-repo-specification/delegate-implementation/
-15. pending  [implement] hitl  cross-repo-specification/enforce-linked-truth/
-16. pending  [implement] hitl  requirements-hierarchy/enforce-spec-abstraction/
-17. pending  [implement] hitl  agent-integration/parallel-agent-execution/
-18. pending  [implement] hitl  "run /tr-discover-truths to process truth candidates"
+15. done     [implement] hitl  cross-repo-specification/enforce-linked-truth/
+16. done     [implement] hitl  requirements-hierarchy/enforce-spec-abstraction/
+17. deferred [implement] hitl  agent-integration/parallel-agent-execution/ — spec needs refinement (worktree vs shared-filesystem model)
+18. deferred [implement] hitl  "run /tr-discover-truths to process truth candidates"

@@ -72,7 +72,7 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
    Next: [implement] <intent>/<behaviour>/
          "Validate Input Parameters" — <goal>
    Skill: /tr-implement
-   [R] Review spec  [A] Proceed  [S] Skip  [C] Cancel
+   [R] Review spec  [A] Proceed  [L] Later  [X] Drop  [C] Cancel
    ```
    Where `"<Behaviour Title>"` comes from the `# Behaviour:` heading of the referenced `usecase.md` (omitted for `[spec]` items with no existing spec); `<goal>` is the plan item's inline description if present, otherwise a one-sentence summary derived from the spec's Actor and main outcome.
 
@@ -85,9 +85,10 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
    - `[R]`:
      - **If the item has an existing path** (a `usecase.md` is present): invoke `/tr-browse <path>` and let browse run to full completion — including any sub-actions the developer selects within browse (e.g. `/tr-audit`, navigating sections). Do not re-present the plan-execute prompt until the developer has finished all browse activity and browse itself has exited.
      - **If the item has no spec yet** (`[spec]` type with no existing path): show available design context inline — the item description, which skill will handle it, and any relevant hierarchy context (parent intent goal, sibling behaviours). Do not invoke `/tr-browse`.
-     - **In both cases**: re-present the same item prompt unchanged with all four options — `[R] Review  [A] Proceed  [S] Skip  [C] Cancel`. `[R]` must always reappear so the developer can continue reviewing before committing to proceed.
+     - **In both cases**: re-present the same item prompt unchanged with all options — `[R] Review  [A] Proceed  [L] Later  [X] Drop  [C] Cancel`. `[R]` must always reappear so the developer can continue reviewing before committing to proceed.
    - `[A]` or affirmative: proceed to c
-   - `[S]`: mark item `skipped` in `taproot/plan.md`; move to next item
+   - `[L]`: mark item `deferred` in `taproot/plan.md` (do later — carried forward to future plans); move to next item
+   - `[X]`: mark item `dropped` in `taproot/plan.md` (intentionally excluded — won't reappear); move to next item
    - `[C]`: stop — remaining items stay `pending`
 
    **c. Invoke the skill** based on item type:
@@ -101,7 +102,7 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
 
    **e. On skill failure / unresolvable blocker**: mark the item `blocked` with a one-line note in `taproot/plan.md`. Report:
    > *"Item blocked: <reason>. Remaining items are unaffected."*
-   - *Step-by-step*: offer `[A] Continue to next · [D] Stop`
+   - *Step-by-step*: offer `[A] Continue to next · [C] Cancel`
    - *Batch*: pause and wait for developer to resolve before continuing
 
    **f. After each completed item**, apply the same execution-style logic as step b:
@@ -109,7 +110,7 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
      ```
      ✓ Done — <description>
      M items remaining.
-     [R] Review written spec  [A] Continue to next  [D] Stop for now
+     [R] Review written spec  [A] Continue to next  [D] Done for now
      ```
      - `[R]`: invoke `/tr-browse <path>` on the spec just written (the path the skill targeted); let browse run to full completion. Then re-present this same prompt with all three options — `[R]`, `[A]`, `[D]` — so the developer can keep reviewing before deciding. Omit `[R]` only if the item type is `[implement]` and no spec path is associated.
      - `[A]`: continue to next item
@@ -132,7 +133,7 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
 
 ## Output
 
-Updates `taproot/plan.md` in-place — replaces `pending` with `done`, `skipped`, `blocked`, or `stale` for each processed item.
+Updates `taproot/plan.md` in-place — replaces `pending` with `done`, `deferred`, `dropped`, `blocked`, or `stale` for each processed item.
 
 ## CLI Dependencies
 
@@ -143,6 +144,7 @@ None
 - In batch mode, the developer confirms the whole list up-front. The agent still presents each item before invoking its skill — per-item visibility is preserved. Batch pauses on `hitl` items (they require human decisions during execution).
 - HITL mode is always step-by-step — batch is meaningless for items that require human decisions.
 - AFK mode is always batch — the whole point of `afk` items is that the agent executes them without per-item prompting. The upfront list confirmation in step 6 is the only human touchpoint.
-- Specify and implement modes are filters, not separate modes. Filtered-out items stay `pending` (not `skipped`) so they can be processed in a later pass.
+- Specify and implement modes are filters, not separate modes. Filtered-out items stay `pending` (not `deferred`) so they can be processed in a later pass.
+- `deferred` means "do later" — item is carried forward to future plans. `dropped` means "intentionally excluded" — item won't reappear unless manually re-added.
 - A typical two-pass workflow: run HITL mode to work through human-decision items, then run AFK mode to execute all autonomous items without interruption.
 - Autonomous execution (agent works through all items without any human confirmation) is explicitly out of scope.

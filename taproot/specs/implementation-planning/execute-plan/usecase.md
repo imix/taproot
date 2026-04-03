@@ -17,11 +17,11 @@ Developer — working through a previously built plan, delegating each item to t
    Plan: N items pending (X hitl · Y afk)
 
    How would you like to proceed?
-   [A] Step-by-step     — one item at a time, confirm each (default)
-   [B] Batch            — confirm full list upfront, then run all
-   [C] HITL only        — human-decision items only
-   [D] AFK only         — autonomous items only
-   [Q] Cancel
+   [1] Step-by-step     — one item at a time, confirm each (default)
+   [2] Batch            — confirm full list upfront, then run all
+   [3] HITL only        — human-decision items only
+   [4] AFK only         — autonomous items only
+   [C] Cancel
    ```
 4. Developer selects a mode; agent continues with the corresponding flow below.
 
@@ -34,7 +34,7 @@ Developer — working through a previously built plan, delegating each item to t
    Next: [implement] taproot/<intent>/<behaviour>/
          "Validate Input Parameters" — <goal>
    Skill: /tr-implement
-   [R] Review spec  [A] Proceed  [S] Skip  [Q] Stop
+   [R] Review spec  [A] Proceed  [L] Later  [X] Drop  [C] Cancel
    ```
    Where `"<Behaviour Title>"` is read from the referenced `usecase.md`'s heading (omitted if no spec exists yet — `spec` type items); `<goal>` is the plan item's inline description if present, otherwise a one-sentence summary of what the behaviour achieves derived from the spec's Actor and main outcome.
 4. Developer confirms with `[A]`.
@@ -46,15 +46,15 @@ Developer — working through a previously built plan, delegating each item to t
 7. Agent reports. If the completed item was `hitl`:
    ```
    ✓ Done — <description>
-   [+] Add follow-on to plan  [A] Continue to next  [D] Stop for now
+   [+] Add follow-on to plan  [A] Continue to next  [D] Done for now
    ```
    If the completed item was `afk`:
    ```
    ✓ Done — <description>
    M items remaining.
-   [A] Continue to next  [D] Stop for now
+   [A] Continue to next  [D] Done for now
    ```
-8. If `[+]`: agent infers the logical follow-on (e.g. `spec hitl` done → offer `implement afk` for the same behaviour; `refine hitl` done → offer `implement afk`) and appends it to `taproot/plan.md` as a new `pending` item. Then present the updated item count and offer `[A] Continue · [D] Stop`.
+8. If `[+]`: agent infers the logical follow-on (e.g. `spec hitl` done → offer `implement afk` for the same behaviour; `refine hitl` done → offer `implement afk`) and appends it to `taproot/plan.md` as a new `pending` item. Then present the updated item count and offer `[A] Continue · [D] Done`.
 9. If `[A]`: repeat from step 2 with the next pending item.
 10. If `[D]` or no items remain: agent reports final status (see Postconditions).
 
@@ -68,20 +68,28 @@ Developer — working through a previously built plan, delegating each item to t
     2. [implement] taproot/<intent>/<behaviour>/ — "Validate Input Parameters"
     3. [refine]    taproot/<intent>/<behaviour>/usecase.md — "Execute Release Plan"
    ...
-   [A] Begin  [Q] Abort
+   [A] Begin  [C] Cancel
    ```
 3. Developer confirms.
 4. Agent works through pending items sequentially — presenting each item before invoking its skill (same as step 3–6 of step-by-step mode, including reading the behaviour title from each item's `usecase.md`).
-5. After each `afk` item completes, agent marks it `done` and proceeds to the next without waiting. When a `hitl` item is reached, agent pauses and presents it with `[A] Proceed [S] Skip [R] Review spec [Q] Stop` before invoking its skill — HITL items require human attention and may change what comes next.
+5. After each `afk` item completes, agent marks it `done` and proceeds to the next without waiting. When a `hitl` item is reached, agent pauses and presents it with `[R] Review spec [A] Proceed [L] Later [X] Drop [C] Cancel` before invoking its skill — HITL items require human attention and may change what comes next.
 6. When all items are done: *"Plan complete — all N items executed."*
 
 ## Alternate Flows
 
-### Developer skips an item
-- **Trigger:** Developer selects `[S]` at step 4.
+### Developer defers an item
+- **Trigger:** Developer selects `[L]` at the item prompt.
 - **Steps:**
-  1. Agent marks the item `skipped` in `taproot/plan.md`.
+  1. Agent marks the item `deferred` in `taproot/plan.md`.
   2. Agent moves to the next pending item and repeats from step 3.
+  3. Deferred items are carried forward into future plans — they represent "do later, not now."
+
+### Developer drops an item
+- **Trigger:** Developer selects `[X]` at the item prompt.
+- **Steps:**
+  1. Agent marks the item `dropped` in `taproot/plan.md`.
+  2. Agent moves to the next pending item and repeats from step 3.
+  3. Dropped items are intentionally excluded — they will not reappear unless manually re-added.
 
 ### Developer reviews item before deciding
 - **Trigger:** Developer selects `[R]` at the item confirmation prompt (step 3 of step-by-step mode, or at any HITL pause in batch mode).
@@ -92,16 +100,16 @@ Developer — working through a previously built plan, delegating each item to t
      Next: [implement] taproot/<intent>/<behaviour>/
            "<Behaviour Title>" — <goal>
      Skill: /tr-implement
-     [R] Review spec  [A] Proceed  [S] Skip  [Q] Stop
+     [R] Review spec  [A] Proceed  [L] Later  [X] Drop  [C] Cancel
      ```
-  3. Developer may review again or choose `[A]`, `[S]`, or `[Q]`.
+  3. Developer may review again or choose `[A]`, `[L]`, `[X]`, or `[C]`.
 
 ### Item is blocked (skill cannot complete)
 - **Trigger:** The invoked skill encounters an unresolvable error or the agent cannot proceed without developer input outside the normal flow.
 - **Steps:**
   1. Agent marks the item `blocked` in `taproot/plan.md` with a one-line note.
   2. Agent reports: *"Item blocked: <reason>. Remaining items are unaffected."*
-  3. In step-by-step mode: offer `[A] Continue to next · [D] Stop`.
+  3. In step-by-step mode: offer `[A] Continue to next · [D] Done for now`.
   4. In batch mode: pause and wait for developer to resolve before continuing.
 
 ### Plan is empty or fully complete
@@ -118,14 +126,14 @@ Developer — working through a previously built plan, delegating each item to t
   3. Agent reports: *"Stopped after N items — M items remaining."*
 
 ### HITL mode (hitl items only)
-- **Trigger:** Developer invokes "hitl only", "run human items", selects `[C]` from orientation, or similar.
+- **Trigger:** Developer invokes "hitl only", "run human items", selects `[3]` from orientation, or similar.
 - **Steps:**
   1. Agent filters pending items to those labelled `hitl` only. `afk` items remain `pending` untouched.
   2. Agent presents the filtered list and proceeds with step-by-step flow (HITL items require human decisions during execution — batch is not offered).
   3. When filtered items are exhausted, agent reports: *"HITL pass complete — N items done. M afk items remain pending."*
 
 ### AFK mode (afk items only)
-- **Trigger:** Developer invokes "afk only", "run autonomous", selects `[D]` from orientation, or similar.
+- **Trigger:** Developer invokes "afk only", "run autonomous", selects `[4]` from orientation, or similar.
 - **Steps:**
   1. Agent filters pending items to those labelled `afk` only. `hitl` items remain `pending` untouched.
   2. Agent presents the filtered list and proceeds with batch flow (afk items require no human confirmation per-item).
@@ -158,7 +166,7 @@ Developer — working through a previously built plan, delegating each item to t
 
 ## Postconditions
 - Each executed item is marked `done` in `taproot/plan.md`.
-- Skipped items are marked `skipped`; blocked items are marked `blocked` with a note.
+- Deferred items are marked `deferred` (do later); dropped items are marked `dropped` (intentionally excluded); blocked items are marked `blocked` with a note.
 - Each `done` item's output exists in the hierarchy (`usecase.md`, `impl.md`, or updated spec as appropriate).
 - When all items are done: `taproot/plan.md` contains no `pending` items.
 - After each completed `hitl` item, developer was offered the opportunity to append a follow-on item.
@@ -166,7 +174,7 @@ Developer — working through a previously built plan, delegating each item to t
 
 ## Error Conditions
 - **`taproot/plan.md` absent:** Agent reports *"No plan found — build one first with `/tr-plan`."* No skills are invoked.
-- **Item path invalid (behaviour deleted or moved):** Agent marks the item `stale` in `taproot/plan.md`, reports *"Item N is stale — path `<path>` not found."*, and offers `[S] Skip · [Q] Stop`.
+- **Item path invalid (behaviour deleted or moved):** Agent marks the item `stale` in `taproot/plan.md`, reports *"Item N is stale — path `<path>` not found."*, and offers `[L] Later · [X] Drop · [C] Cancel`.
 - **Commit gate omitted — item stays in-progress:** If `/tr-commit` is not invoked after a skill completes, or if the commit fails or is aborted, the item must not be marked `done`. The agent must not present the next pending item until the commit succeeds. If the commit cannot be completed, the item is treated as `blocked` (not `done`).
 
 ## Flow
@@ -180,9 +188,10 @@ flowchart TD
     D -->|Yes| F[Present next pending item]
     F --> G{Developer choice}
     G -->|A proceed| H[Invoke skill\ntr-behaviour / tr-implement / tr-refine]
-    G -->|S skip| I[Mark skipped] --> K
+    G -->|L later| I[Mark deferred] --> K
+    G -->|X drop| I2[Mark dropped] --> K
     G -->|R review| T[Invoke /tr-browse path] --> F
-    G -->|Q stop| J[Report stopped — M remaining]
+    G -->|C cancel| J[Report stopped — M remaining]
     H --> L{Skill outcome}
     L -->|success| M1[Invoke /tr-commit]
     M1 -->|succeeds| M[Mark done] --> K
@@ -212,10 +221,15 @@ flowchart TD
 - When the invoked skill completes successfully
 - Then the item is marked `done` in `taproot/plan.md`
 
-**AC-3: Skip marks item and moves to next**
-- Given the developer selects skip on a pending item
+**AC-3: Defer marks item and moves to next**
+- Given the developer selects defer on a pending item
 - When execution continues
-- Then the item is marked `skipped` and the agent presents the next pending item
+- Then the item is marked `deferred` and the agent presents the next pending item
+
+**AC-24: Drop marks item and moves to next**
+- Given the developer selects drop on a pending item
+- When execution continues
+- Then the item is marked `dropped` and the agent presents the next pending item
 
 **AC-4: Batch mode executes all without per-item confirmation**
 - Given the developer invokes "execute all" and confirms the full list
@@ -233,7 +247,7 @@ flowchart TD
 - Then the agent reports no plan found and suggests `/tr-plan`
 
 **AC-7: All items done reports plan complete**
-- Given all items in `taproot/plan.md` are `done`, `skipped`, or `blocked`
+- Given all items in `taproot/plan.md` are `done`, `deferred`, `dropped`, or `blocked`
 - When execute-plan runs
 - Then the agent reports the plan is complete with no pending items
 
@@ -303,12 +317,13 @@ flowchart TD
 - **Refined:** 2026-03-30 — added [R] Review spec option to HITL pause menu; invokes /tr-browse and returns to same prompt (AC-22)
 - **Refined:** 2026-03-30 — clarified [R] browse runs to full completion before plan-execute resumes; browse sub-actions (e.g. /tr-review) must not be swallowed (AC-23)
 - **Refined:** 2026-04-02 — HITL mode always step-by-step (batch meaningless for human-decision items); AFK mode always batch (no per-item prompt for autonomous items)
+- **Refined:** 2026-04-03 — replaced ambiguous `skipped` status with `deferred` (do later) and `dropped` (intentionally excluded); [L] Later and [X] Drop replace [S] Skip; letter assignments aligned with UX principles truth
 
 ## Notes
 - When invoked without a mode, the agent presents an orientation menu summarising the plan state and available modes. When a mode is specified explicitly (e.g. "implement all"), the orientation is skipped.
 - Autonomous execution (agent works through all items without any human confirmation) is explicitly out of scope for this behaviour.
-- The plan file format (how `done`/`skipped`/`blocked`/`pending` are encoded) is an implementation concern.
+- The plan file format (how `done`/`deferred`/`dropped`/`blocked`/`pending` are encoded) is an implementation concern.
 - In batch mode, the agent still presents each item before invoking its skill — the batch confirmation at the start grants permission to proceed through the list, but each item is still shown as it executes.
-- Specify and implement modes are filters, not separate modes — they compose with step-by-step or batch. Filtered-out items stay `pending` (not `skipped`) so they can be processed in a subsequent pass with a different filter.
+- Specify and implement modes are filters, not separate modes — they compose with step-by-step or batch. Filtered-out items stay `pending` (not `deferred`) so they can be processed in a subsequent pass with a different filter.
 - A typical two-pass workflow: run HITL mode first to work through all human-decision items (spec, refine, design choices), then run AFK mode to execute all autonomous items without interruption.
 - Specify and implement modes are type-based filters and remain available for teams that prefer to organise work by item type rather than execution mode.
