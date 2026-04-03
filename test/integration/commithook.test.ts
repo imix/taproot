@@ -669,6 +669,30 @@ describe('checkUsecaseQuality', () => {
     const failures = checkUsecaseQuality('taproot/x/usecase.md', content);
     expect(failures.some(f => f.message.includes('Postconditions'))).toBe(true);
   });
+
+  it('AC-4: fails when Postconditions contain implementation terms', () => {
+    const content = VALID.replace('- Something is true', '- A row is inserted into the database table');
+    const failures = checkUsecaseQuality('taproot/x/usecase.md', content);
+    expect(failures.some(f => f.message.includes('Postconditions') && f.message.includes('implementation term'))).toBe(true);
+  });
+
+  it('AC-8: fails when Alternate Flows contain implementation terms', () => {
+    const content = VALID + '\n## Alternate Flows\n### Timeout\n- **Trigger:** The REST endpoint returns a 503\n- **Steps:**\n  1. System retries\n';
+    const failures = checkUsecaseQuality('taproot/x/usecase.md', content);
+    expect(failures.some(f => f.message.includes('Alternate Flows') && f.message.includes('implementation term'))).toBe(true);
+  });
+
+  it('AC-8: fails when Error Conditions contain implementation terms', () => {
+    const content = VALID + '\n## Error Conditions\n- **Database timeout**: The PostgreSQL query takes too long\n';
+    const failures = checkUsecaseQuality('taproot/x/usecase.md', content);
+    expect(failures.some(f => f.message.includes('Error Conditions') && f.message.includes('implementation term'))).toBe(true);
+  });
+
+  it('AC-1: passes when all sections use actor-visible language', () => {
+    const content = VALID + '\n## Alternate Flows\n### Timeout\n- **Trigger:** The system does not respond within the expected time\n- **Steps:**\n  1. User retries\n\n## Error Conditions\n- **Service unavailable**: The system is temporarily down\n';
+    const failures = checkUsecaseQuality('taproot/x/usecase.md', content);
+    expect(failures).toHaveLength(0);
+  });
 });
 
 describe('checkIntentQuality', () => {
@@ -707,6 +731,12 @@ describe('checkIntentQuality', () => {
     const content = VALID.replace(/## Success Criteria[\s\S]*$/, '');
     const failures = checkIntentQuality('taproot/x/intent.md', content);
     expect(failures.some(f => f.message.includes('Success Criteria'))).toBe(true);
+  });
+
+  it('fails when Success Criteria contain implementation terms', () => {
+    const content = VALID.replace('- [ ] Teams can configure conditions', '- [ ] REST API returns 200 within 100ms');
+    const failures = checkIntentQuality('taproot/x/intent.md', content);
+    expect(failures.some(f => f.message.includes('Success Criteria') && f.message.includes('implementation term'))).toBe(true);
   });
 });
 

@@ -237,6 +237,20 @@ export function checkUsecaseQuality(filePath: string, content: string, pack: Lan
       message: `Missing or empty \`## ${postHeading}\` section`,
       hint: `Add a \`## ${postHeading}\` section describing what is true after the flow succeeds`,
     });
+  } else if (!pack) {
+    // AC-4: Postconditions must describe actor-visible outcomes, not internal state
+    const postLines = postBody.split('\n').filter(l => l.trim().startsWith('-'));
+    for (const line of postLines) {
+      if (TECH_KEYWORDS.test(line)) {
+        const match = line.match(TECH_KEYWORDS)?.[0] ?? '';
+        failures.push({
+          file: filePath,
+          message: `Postconditions contain implementation term: "${match}" — describe actor-visible outcomes instead`,
+          hint: "Postconditions should state what is true for the actor after success, not internal system state. Move implementation details to impl.md.",
+        });
+        break;
+      }
+    }
   }
 
   // Main Flow: must not contain implementation terms (SQL, HTTP, REST, endpoint, etc.)
@@ -253,6 +267,27 @@ export function checkUsecaseQuality(filePath: string, content: string, pack: Lan
           hint: "Main Flow steps describe what the actor sees or the system produces — not internal mechanisms. Move SQL, HTTP, endpoint, and service-layer terms to impl.md.",
         });
         break; // one failure is enough to communicate the issue
+      }
+    }
+  }
+
+  // AC-8: Alternate Flows and Error Conditions — same abstraction rules as Main Flow
+  if (!pack) {
+    for (const sectionName of ['Alternate Flows', 'Error Conditions']) {
+      const heading = localizedHeading(sectionName, pack);
+      const body = getSection(content, heading);
+      if (body === null) continue;
+      const lines = body.split('\n').filter(l => l.trim().length > 0);
+      for (const line of lines) {
+        if (TECH_KEYWORDS.test(line)) {
+          const match = line.match(TECH_KEYWORDS)?.[0] ?? '';
+          failures.push({
+            file: filePath,
+            message: `${sectionName} contain implementation term: "${match}" — use actor-visible language instead`,
+            hint: `${sectionName} should describe actor-visible outcomes and triggers, not internal mechanisms. Move implementation details to impl.md.`,
+          });
+          break;
+        }
       }
     }
   }
@@ -310,6 +345,20 @@ export function checkIntentQuality(filePath: string, content: string, pack: Lang
       message: `Missing or empty \`## ${scHeading}\` section`,
       hint: "Add at least one measurable success criterion that is observable and distinct from the goal statement",
     });
+  } else if (!pack) {
+    // Success Criteria must describe business outcomes, not implementation technology
+    const scLines = scBody.split('\n').filter(l => l.trim().startsWith('-'));
+    for (const line of scLines) {
+      if (TECH_KEYWORDS.test(line)) {
+        const match = line.match(TECH_KEYWORDS)?.[0] ?? '';
+        failures.push({
+          file: filePath,
+          message: `Success Criteria contain implementation term: "${match}" — describe measurable business outcomes instead`,
+          hint: "Success criteria should describe observable business outcomes, not the technology used to achieve them.",
+        });
+        break;
+      }
+    }
   }
 
   return failures;

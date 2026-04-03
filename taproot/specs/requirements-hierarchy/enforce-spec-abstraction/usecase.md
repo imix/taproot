@@ -38,8 +38,8 @@ Developer or agent authoring or committing a spec file (`intent.md` or `usecase.
 
 ## Error Conditions
 - **Technology reference in Goal or Success Criteria**: System reports the file and line; suggests describing the business outcome instead (e.g. "Enable teams to … using Supabase" → "Enable teams to authenticate securely")
-- **Technology reference in Main Flow, Postconditions, Alternate Flows, or Error Conditions**: System reports the file, section, and line; suggests reformulating as an actor-visible action or outcome (e.g. "System queries the PostgreSQL database" → "System retrieves the matching records")
-- **Implementation mechanism named as Actor**: System reports the file; suggests naming a human role, external system, or service instead (e.g. "The API endpoint" → "External service")
+- **Technology reference in Main Flow, Postconditions, Alternate Flows, or Error Conditions**: System reports the file, section, and line; suggests reformulating as an actor-visible action or outcome (e.g. "System queries the data store directly" → "System retrieves the matching records")
+- **Implementation mechanism named as Actor**: System reports the file; suggests naming a human role, external system, or service instead (e.g. "The routing layer" → "External service")
 
 ## Flow
 ```mermaid
@@ -101,7 +101,10 @@ flowchart TD
 - When the developer commits
 - Then the commit is blocked and the report identifies the section and the offending line
 
+## Implementations <!-- taproot-managed -->
+- [cli-command](cli-command/impl.md)
+
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-31
-- **Last reviewed:** 2026-04-01
+- **Last reviewed:** 2026-04-03
