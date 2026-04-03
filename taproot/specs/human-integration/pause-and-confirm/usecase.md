@@ -63,7 +63,7 @@ Developer using any taproot skill that writes more than one document in sequence
   3. If the skill supports session state (e.g. `/tr-discover`), the state file is updated so the session can be resumed
 
 ### Batch-confirm remaining items
-- **Trigger:** Developer says "yes to all" or "confirm the rest"
+- **Trigger:** Developer says "yes to all" or "confirm all remaining"
 - **Steps:**
   1. Equivalent to auto-proceed from that point: skill writes all remaining items without pausing
   2. Still reports each path as it is written
@@ -174,9 +174,9 @@ flowchart TD
 - [Commithook Extension](./commithook-extension/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-20
-- **Last reviewed:** 2026-03-30
+- **Last reviewed:** 2026-04-03
 - **Last updated:** 2026-03-30
 - **Note:** Phase 0.5 in /tr-discover (requirements artifact detection + conflict resolution question) does not violate this spec — those are configuration questions, not document writes. Requirements-only mode (skip Phase 4) reduces write count but uses the same Y/E/S/Q protocol.
 
