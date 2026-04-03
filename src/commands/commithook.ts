@@ -17,6 +17,7 @@ import {
   docLevelFromFilename,
   validateTruthSession,
   type TruthFile,
+  type DocLevel,
 } from '../core/truth-checker.js';
 
 // ─── File classification ───────────────────────────────────────────────────────
@@ -578,6 +579,35 @@ export async function runCommithook(options: { cwd: string }): Promise<number> {
     const allDocContents: Array<{ path: string; content: string }> = [];
     const unreadableWarnings: string[] = [];
 
+    const linkedUnresolvable: string[] = [];
+    const linkedOfflineSkipped: string[] = [];
+
+    function collectTruthsForLevel(level: DocLevel): void {
+      for (const t of collectApplicableTruths(cwd, level)) {
+        // Linked truth: unresolvable → block commit
+        if (t.linked && t.unresolvable) {
+          if (!linkedUnresolvable.includes(t.linkPath ?? t.relPath)) {
+            linkedUnresolvable.push(t.linkPath ?? t.relPath);
+          }
+          allTruths.set(t.relPath, t); // include in session hash
+          continue;
+        }
+        // Linked truth: offline-skipped → warn but include in hash
+        if (t.linked && t.unreadable) {
+          if (!linkedOfflineSkipped.includes(t.linkPath ?? t.relPath)) {
+            linkedOfflineSkipped.push(t.linkPath ?? t.relPath);
+          }
+          allTruths.set(t.relPath, t);
+          continue;
+        }
+        if (t.unreadable) {
+          if (!unreadableWarnings.includes(t.relPath)) unreadableWarnings.push(t.relPath);
+        } else {
+          allTruths.set(t.relPath, t);
+        }
+      }
+    }
+
     // Hierarchy docs: intent.md, usecase.md — collect truths by their level
     for (const f of staged) {
       if (!isHierarchyFile(f) || isImplMd(f) || isGlobalTruth(f)) continue;
@@ -585,13 +615,7 @@ export async function runCommithook(options: { cwd: string }): Promise<number> {
       if (!level) continue;
       const content = getStagedContent(f, cwd) ?? '';
       allDocContents.push({ path: f, content });
-      for (const t of collectApplicableTruths(cwd, level)) {
-        if (t.unreadable) {
-          if (!unreadableWarnings.includes(t.relPath)) unreadableWarnings.push(t.relPath);
-        } else {
-          allTruths.set(t.relPath, t);
-        }
-      }
+      collectTruthsForLevel(level);
     }
 
     // Impl-level: staged impl.md files + staged source files (non-taproot)
@@ -610,13 +634,18 @@ export async function runCommithook(options: { cwd: string }): Promise<number> {
           content: [...stagedSourceFiles].sort().join('\n'),
         });
       }
-      for (const t of collectApplicableTruths(cwd, 'impl')) {
-        if (t.unreadable) {
-          if (!unreadableWarnings.includes(t.relPath)) unreadableWarnings.push(t.relPath);
-        } else {
-          allTruths.set(t.relPath, t);
-        }
+      collectTruthsForLevel('impl');
+    }
+
+    // Linked truth enforcement
+    if (linkedUnresolvable.length > 0) {
+      for (const lp of linkedUnresolvable) {
+        process.stdout.write(`taproot commithook — Linked truth \`${lp}\` could not be resolved — configure \`.taproot/repos.yaml\` or set \`TAPROOT_OFFLINE=1\` to skip.\n`);
       }
+      failed = true;
+    }
+    if (linkedOfflineSkipped.length > 0) {
+      process.stdout.write(`taproot commithook — Linked truth validation skipped (TAPROOT_OFFLINE=1) — ${linkedOfflineSkipped.length} linked truth(s) not checked.\n`);
     }
 
     for (const relPath of unreadableWarnings) {

@@ -432,6 +432,208 @@ describe('runCommithook — truth checks', () => {
   });
 });
 
+// ─── Unit: collectApplicableTruths — linked truths ──────────────────────────
+
+describe('collectApplicableTruths — linked truths', () => {
+  let sourceRepoDir: string;
+
+  beforeEach(() => {
+    // Create a "source repo" with a truth file
+    sourceRepoDir = mkdtempSync(join(tmpdir(), 'taproot-source-'));
+    mkdirSync(join(sourceRepoDir, 'taproot', 'global-truths'), { recursive: true });
+    writeFileSync(
+      join(sourceRepoDir, 'taproot', 'global-truths', 'api-rules_behaviour.md'),
+      '## API Rules\n- All endpoints must return JSON\n- Use HTTP status codes correctly\n'
+    );
+  });
+
+  afterEach(() => {
+    rmSync(sourceRepoDir, { recursive: true, force: true });
+  });
+
+  it('AC-1: resolves linked truth and includes it in collection', () => {
+    const gtDir = join(tmpDir, 'taproot', 'global-truths');
+    writeFileSync(join(gtDir, 'api-rules-link.md'),
+      `# Link: API Rules\n\n**Repo:** https://github.com/test/source\n**Path:** taproot/global-truths/api-rules_behaviour.md\n**Type:** truth\n`
+    );
+    // Set up repos.yaml
+    mkdirSync(join(tmpDir, '.taproot'), { recursive: true });
+    writeFileSync(join(tmpDir, '.taproot', 'repos.yaml'),
+      `https://github.com/test/source: ${sourceRepoDir}\n`
+    );
+
+    const truths = collectApplicableTruths(tmpDir, 'behaviour');
+    const linked = truths.find(t => t.linked);
+    expect(linked).toBeDefined();
+    expect(linked!.content).toMatch(/All endpoints must return JSON/);
+    expect(linked!.scope).toBe('behaviour');
+    expect(linked!.linked).toBe(true);
+  });
+
+  it('AC-5: linked truth with no scope signal defaults to intent-scoped', () => {
+    // Source truth with no scope suffix
+    writeFileSync(
+      join(sourceRepoDir, 'taproot', 'global-truths', 'glossary.md'),
+      '## Terms\n- booking: a confirmed slot\n'
+    );
+    const gtDir = join(tmpDir, 'taproot', 'global-truths');
+    writeFileSync(join(gtDir, 'glossary-link.md'),
+      `# Link: Glossary\n\n**Repo:** https://github.com/test/source\n**Path:** taproot/global-truths/glossary.md\n**Type:** truth\n`
+    );
+    mkdirSync(join(tmpDir, '.taproot'), { recursive: true });
+    writeFileSync(join(tmpDir, '.taproot', 'repos.yaml'),
+      `https://github.com/test/source: ${sourceRepoDir}\n`
+    );
+
+    // Intent-scoped should apply to all levels
+    const intentTruths = collectApplicableTruths(tmpDir, 'intent');
+    expect(intentTruths.some(t => t.linked && t.ambiguous)).toBe(true);
+  });
+
+  it('skips link files that are not Type: truth', () => {
+    const gtDir = join(tmpDir, 'taproot', 'global-truths');
+    writeFileSync(join(gtDir, 'feature-link.md'),
+      `# Link: Feature\n\n**Repo:** https://github.com/test/source\n**Path:** some/usecase.md\n**Type:** behaviour\n`
+    );
+
+    const truths = collectApplicableTruths(tmpDir, 'behaviour');
+    expect(truths.filter(t => t.linked)).toHaveLength(0);
+  });
+
+  it('AC-3: marks unresolvable when repos.yaml missing', () => {
+    const gtDir = join(tmpDir, 'taproot', 'global-truths');
+    writeFileSync(join(gtDir, 'api-rules-link.md'),
+      `# Link: API Rules\n\n**Repo:** https://github.com/test/source\n**Path:** taproot/global-truths/api-rules_behaviour.md\n**Type:** truth\n`
+    );
+    // No repos.yaml
+
+    const truths = collectApplicableTruths(tmpDir, 'behaviour');
+    const linked = truths.find(t => t.linked);
+    expect(linked).toBeDefined();
+    expect(linked!.unresolvable).toBe(true);
+    expect(linked!.unreadable).toBe(true);
+  });
+
+  it('AC-3: marks unresolvable when repo URL not in repos.yaml', () => {
+    const gtDir = join(tmpDir, 'taproot', 'global-truths');
+    writeFileSync(join(gtDir, 'api-rules-link.md'),
+      `# Link: API Rules\n\n**Repo:** https://github.com/test/unknown-repo\n**Path:** taproot/global-truths/api-rules_behaviour.md\n**Type:** truth\n`
+    );
+    mkdirSync(join(tmpDir, '.taproot'), { recursive: true });
+    writeFileSync(join(tmpDir, '.taproot', 'repos.yaml'),
+      `https://github.com/test/source: ${sourceRepoDir}\n`
+    );
+
+    const truths = collectApplicableTruths(tmpDir, 'behaviour');
+    const linked = truths.find(t => t.linked);
+    expect(linked).toBeDefined();
+    expect(linked!.unresolvable).toBe(true);
+  });
+
+  it('AC-4: offline mode skips linked truth resolution', () => {
+    const gtDir = join(tmpDir, 'taproot', 'global-truths');
+    writeFileSync(join(gtDir, 'api-rules-link.md'),
+      `# Link: API Rules\n\n**Repo:** https://github.com/test/source\n**Path:** taproot/global-truths/api-rules_behaviour.md\n**Type:** truth\n`
+    );
+    // No repos.yaml — would normally be unresolvable, but offline mode skips
+
+    const origEnv = process.env['TAPROOT_OFFLINE'];
+    process.env['TAPROOT_OFFLINE'] = '1';
+    try {
+      const truths = collectApplicableTruths(tmpDir, 'behaviour');
+      const linked = truths.find(t => t.linked);
+      expect(linked).toBeDefined();
+      expect(linked!.unreadable).toBe(true);
+      expect(linked!.unresolvable).toBeUndefined(); // not unresolvable — just skipped
+    } finally {
+      if (origEnv === undefined) delete process.env['TAPROOT_OFFLINE'];
+      else process.env['TAPROOT_OFFLINE'] = origEnv;
+    }
+  });
+});
+
+// ─── Integration: commithook — linked truth enforcement ─────────────────────
+
+describe('runCommithook — linked truth enforcement', () => {
+  let sourceRepoDir: string;
+
+  beforeEach(() => {
+    sourceRepoDir = mkdtempSync(join(tmpdir(), 'taproot-source-'));
+    mkdirSync(join(sourceRepoDir, 'taproot', 'global-truths'), { recursive: true });
+    writeFileSync(
+      join(sourceRepoDir, 'taproot', 'global-truths', 'api-rules_intent.md'),
+      '## API Rules\n- All endpoints must return JSON\n'
+    );
+  });
+
+  afterEach(() => {
+    rmSync(sourceRepoDir, { recursive: true, force: true });
+  });
+
+  it('AC-1: commit passes when linked truth resolves and session is valid', async () => {
+    const gtDir = join(tmpDir, 'taproot', 'global-truths');
+    writeFileSync(join(gtDir, 'api-rules-link.md'),
+      `# Link: API Rules\n\n**Repo:** https://github.com/test/source\n**Path:** taproot/global-truths/api-rules_intent.md\n**Type:** truth\n`
+    );
+    mkdirSync(join(tmpDir, '.taproot'), { recursive: true });
+    writeFileSync(join(tmpDir, '.taproot', 'repos.yaml'),
+      `https://github.com/test/source: ${sourceRepoDir}\n`
+    );
+    git(['add', '-A'], tmpDir);
+    git(['commit', '-m', 'add linked truth'], tmpDir);
+
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour'), { recursive: true });
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'intent.md'), VALID_INTENT);
+    stage([{ path: 'taproot/my-intent/my-behaviour/usecase.md', content: VALID_USECASE }], tmpDir);
+
+    runTruthSign({ cwd: tmpDir });
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(0);
+  });
+
+  it('AC-3: commit blocked when linked truth is unresolvable', async () => {
+    const gtDir = join(tmpDir, 'taproot', 'global-truths');
+    writeFileSync(join(gtDir, 'api-rules-link.md'),
+      `# Link: API Rules\n\n**Repo:** https://github.com/test/unknown\n**Path:** taproot/global-truths/api-rules_intent.md\n**Type:** truth\n`
+    );
+    // No repos.yaml → unresolvable
+    git(['add', '-A'], tmpDir);
+    git(['commit', '-m', 'add unresolvable linked truth'], tmpDir);
+
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour'), { recursive: true });
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'intent.md'), VALID_INTENT);
+    stage([{ path: 'taproot/my-intent/my-behaviour/usecase.md', content: VALID_USECASE }], tmpDir);
+
+    runTruthSign({ cwd: tmpDir });
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(1);
+  });
+
+  it('AC-4: offline mode skips linked truth with warning and commit passes', async () => {
+    const gtDir = join(tmpDir, 'taproot', 'global-truths');
+    writeFileSync(join(gtDir, 'api-rules-link.md'),
+      `# Link: API Rules\n\n**Repo:** https://github.com/test/unknown\n**Path:** taproot/global-truths/api-rules_intent.md\n**Type:** truth\n`
+    );
+    git(['add', '-A'], tmpDir);
+    git(['commit', '-m', 'add linked truth'], tmpDir);
+
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent', 'my-behaviour'), { recursive: true });
+    writeFileSync(join(tmpDir, 'taproot', 'my-intent', 'intent.md'), VALID_INTENT);
+    stage([{ path: 'taproot/my-intent/my-behaviour/usecase.md', content: VALID_USECASE }], tmpDir);
+
+    const origEnv = process.env['TAPROOT_OFFLINE'];
+    process.env['TAPROOT_OFFLINE'] = '1';
+    try {
+      runTruthSign({ cwd: tmpDir });
+      const code = await runCommithook({ cwd: tmpDir });
+      expect(code).toBe(0);
+    } finally {
+      if (origEnv === undefined) delete process.env['TAPROOT_OFFLINE'];
+      else process.env['TAPROOT_OFFLINE'] = origEnv;
+    }
+  });
+});
+
 // ─── Integration: impl-level truth checks (AC-7 through AC-10) ───────────────
 
 /** Helpers for impl commit tests. */

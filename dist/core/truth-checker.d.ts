@@ -6,6 +6,12 @@ export interface TruthFile {
     ambiguous: boolean;
     unreadable: boolean;
     content: string;
+    /** True if this truth was resolved from a cross-repo link file */
+    linked?: boolean;
+    /** For linked truths: the link file path (relative to cwd) */
+    linkPath?: string;
+    /** For linked truths that could not be resolved */
+    unresolvable?: boolean;
 }
 /**
  * Determine scope from a path relative to the global-truths directory.

@@ -1,6 +1,7 @@
 import { createHash } from 'crypto';
 import { existsSync, readFileSync, readdirSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname, basename, relative } from 'path';
+import { parseLinkFile, loadReposYaml, resolveLinkTarget } from './link-parser.js';
 const SCOPES = ['intent', 'behaviour', 'impl'];
 /**
  * Determine scope from a path relative to the global-truths directory.
@@ -52,12 +53,24 @@ export function docLevelFromFilename(filename) {
         return 'impl';
     return null;
 }
+/** Check if a filename matches the link file naming convention. */
+function isLinkFilename(name) {
+    return name === 'link.md' || name.endsWith('-link.md');
+}
 /** Collect all truth files applicable to the given document level. Skips README.md. */
 export function collectApplicableTruths(cwd, docLevel) {
     const dir = globalTruthsDir(cwd);
     if (!dir)
         return [];
     const results = [];
+    const offline = process.env['TAPROOT_OFFLINE'] === '1';
+    // Lazy-load repos.yaml only when needed (first linked truth encountered)
+    let reposMap;
+    function getReposMap() {
+        if (reposMap === undefined)
+            reposMap = loadReposYaml(cwd);
+        return reposMap;
+    }
     function walk(currentDir, relFromGT) {
         let entries;
         try {
@@ -73,6 +86,11 @@ export function collectApplicableTruths(cwd, docLevel) {
                 walk(fullPath, childRel);
             }
             else if (entry.isFile() && entry.name.endsWith('.md') && entry.name !== 'README.md') {
+                // Check if this is a link file with Type: truth
+                if (isLinkFilename(entry.name)) {
+                    resolveLinkedTruth(cwd, fullPath, childRel, docLevel, offline, getReposMap, results);
+                    continue;
+                }
                 const { scope, ambiguous } = resolveTruthScope(childRel);
                 if (!scopeAppliesTo(scope, docLevel))
                     continue;
@@ -96,6 +114,100 @@ export function collectApplicableTruths(cwd, docLevel) {
     }
     walk(dir, '');
     return results;
+}
+/**
+ * Resolve a linked truth file: parse link, resolve target, read source content.
+ * Only processes links with Type: truth; other link types are ignored.
+ */
+function resolveLinkedTruth(cwd, linkFullPath, relFromGT, docLevel, offline, getReposMap, results) {
+    const linkRelPath = relative(cwd, linkFullPath).replace(/\\/g, '/');
+    let linkContent;
+    try {
+        linkContent = readFileSync(linkFullPath, 'utf-8');
+    }
+    catch {
+        return; // unreadable link file — skip silently (link validation catches this)
+    }
+    const parsed = parseLinkFile(linkContent);
+    if (parsed.type !== 'truth')
+        return; // not a truth link — skip
+    // Offline mode: skip linked truth resolution entirely
+    if (offline) {
+        results.push({
+            relPath: linkRelPath,
+            scope: 'intent',
+            ambiguous: true,
+            unreadable: true,
+            content: '',
+            linked: true,
+            linkPath: linkRelPath,
+        });
+        return;
+    }
+    // Resolve the link target
+    if (!parsed.repo || !parsed.path) {
+        results.push({
+            relPath: linkRelPath,
+            scope: 'intent',
+            ambiguous: true,
+            unreadable: true,
+            content: '',
+            linked: true,
+            linkPath: linkRelPath,
+            unresolvable: true,
+        });
+        return;
+    }
+    const map = getReposMap();
+    if (!map) {
+        results.push({
+            relPath: linkRelPath,
+            scope: 'intent',
+            ambiguous: true,
+            unreadable: true,
+            content: '',
+            linked: true,
+            linkPath: linkRelPath,
+            unresolvable: true,
+        });
+        return;
+    }
+    const targetPath = resolveLinkTarget(parsed.repo, parsed.path, map);
+    if (!targetPath || !existsSync(targetPath)) {
+        results.push({
+            relPath: linkRelPath,
+            scope: 'intent',
+            ambiguous: true,
+            unreadable: true,
+            content: '',
+            linked: true,
+            linkPath: linkRelPath,
+            unresolvable: true,
+        });
+        return;
+    }
+    // Determine scope from the source truth's filename
+    const sourceFilename = basename(targetPath);
+    const { scope, ambiguous } = resolveTruthScope(sourceFilename);
+    if (!scopeAppliesTo(scope, docLevel))
+        return;
+    let content = '';
+    let unreadable = false;
+    try {
+        content = readFileSync(targetPath, 'utf-8');
+    }
+    catch {
+        unreadable = true;
+    }
+    results.push({
+        relPath: linkRelPath,
+        scope,
+        ambiguous,
+        unreadable,
+        content,
+        linked: true,
+        linkPath: linkRelPath,
+    });
 }
 // ─── Session management ────────────────────────────────────────────────────────
 const SESSION_PATH = 'taproot/truth-checks.md';

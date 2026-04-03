@@ -5,13 +5,13 @@ Developer in a linking repo committing hierarchy documents (`intent.md` or `usec
 
 ## Preconditions
 - A link file with `Type: truth` exists in `taproot/global-truths/` of the linking repo, pointing to a truth file in a source repo
-- `.taproot/repos.yaml` maps the source repo URL to a local filesystem path (or `TAPROOT_OFFLINE=1` is set)
+- A local repo mapping is configured that maps the source repo URL to a local filesystem path (or `TAPROOT_OFFLINE=1` is set)
 - The developer is staging hierarchy documents for commit
 
 ## Main Flow
 1. Developer stages `intent.md` or `usecase.md` files and runs `taproot commit` (or `git commit` with the pre-commit hook installed).
 2. Truth-check logic scans `taproot/global-truths/` for link files (`*-link.md` or `link.md` with `Type: truth`).
-3. For each linked truth file found, system resolves the link target via `.taproot/repos.yaml` to obtain the local path of the source truth file.
+3. For each linked truth file found, system resolves the link target via the local repo mapping to obtain the local path of the source truth file.
 4. System reads the source truth file content at the resolved path.
 5. System validates the staged hierarchy documents against the linked truth's content, applying the same scope rules as local truths (intent-scoped, behaviour-scoped, or impl-scoped based on the link file's placement or a `Scope:` field).
 6. If staged documents are consistent with the linked truth, commit proceeds.
@@ -103,7 +103,10 @@ flowchart TD
 - When the truth-check runs
 - Then the linked truth is treated as intent-scoped and validated against all staged hierarchy documents regardless of level
 
+## Implementations <!-- taproot-managed -->
+- [cli-command](cli-command/impl.md)
+
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-04-01
-- **Last reviewed:** 2026-04-01
+- **Last reviewed:** 2026-04-03
