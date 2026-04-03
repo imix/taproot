@@ -2,3 +2,4 @@ node_modules/
 *.vsix
 channels/vscode/out/
 .taproot/
+!.taproot/repos.yaml.example

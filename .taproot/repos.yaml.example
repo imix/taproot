@@ -1,0 +1,9 @@
+# Local repo mapping for cross-repo link resolution.
+# Copy this file to repos.yaml and update paths to your local clones.
+#
+# Format: "repo-url": "absolute-local-path"
+# Used by: taproot check-orphans, taproot coverage, truth-check hook
+# This file is gitignored — each developer maintains their own copy.
+
+# "https://github.com/org/platform-repo": "/home/you/code/platform-repo"
+# "https://github.com/org/shared-specs": "/home/you/code/shared-specs"
