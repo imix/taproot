@@ -33,7 +33,7 @@ Developer in a linking repo
 ## Postconditions
 - A link file exists in the linking repo referencing the source repo spec
 - The link file is committed to version control
-- Running `taproot check-orphans` (with `.taproot/repos.yaml` configured) reports the link as resolved or surfaces specific errors
+- Running `taproot check-orphans` (with local repo mapping configured) reports the link as resolved or surfaces specific errors
 
 ## Error Conditions
 - **Invalid link file format**: `taproot validate-format` rejects the file if required fields (`Repo`, `Path`, `Type`) are missing or malformed; developer must fix the format before committing
@@ -45,7 +45,7 @@ sequenceDiagram
     Developer->>LinkingRepo: Create link.md with Repo + Path + Type
     Developer->>Git: Commit link file (requirement commit)
     Git-->>LinkingRepo: Link file committed
-    Developer->>Taproot: taproot check-orphans (after repos.yaml configured)
+    Developer->>Taproot: taproot check-orphans (after local repo mapping configured)
     alt Target resolves + state ok
         Taproot-->>Developer: ✓ Link resolved
     else Source spec in draft state
@@ -84,9 +84,9 @@ sequenceDiagram
 - [agent skill](./agent-skill/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-03-31
-- **Last reviewed:** 2026-03-31
+- **Last reviewed:** 2026-04-03
 
 ## Notes
 - Link file format (canonical definition):
