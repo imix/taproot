@@ -55,7 +55,7 @@ Developer
   2. If accepted, agent writes a backlog entry with the full handoff content and notes the current task is proceeding with a known gap
 
 ### Session is in autonomous mode
-- **Trigger:** `TAPROOT_AUTONOMOUS=1` is set or autonomous mode is active in `taproot/settings.yaml`
+- **Trigger:** Autonomous mode is active (environment variable or project settings)
 - **Steps:**
   1. Agent captures the handoff to `taproot/backlog.md` instead of presenting it interactively
   2. Agent records in the current impl.md under `## Notes`: "Autonomous session — cross-repo change captured to backlog: [summary]"
@@ -69,7 +69,7 @@ Developer
 ## Error Conditions
 - **Change description is vague**: Agent must not present a handoff without a specific, actionable change description. If the agent cannot determine exactly what needs changing, it must ask the developer before presenting the block.
 - **Target repo not identifiable**: Agent asks the developer to supply the repo URL or name before presenting the handoff.
-- **Target file path unverifiable**: If the agent cannot confirm the target file exists (e.g. no `repos.yaml` mapping or `TAPROOT_OFFLINE=1`), agent includes a `Path unverified` note in the handoff and proceeds — the developer confirms the path on arrival in the target repo.
+- **Target file path unverifiable**: If the agent cannot confirm the target file exists (e.g. no local repo mapping or offline mode active), agent includes a `Path unverified` note in the handoff and proceeds — the developer confirms the path on arrival in the target repo.
 - **Speculative signal**: If the agent is not certain a change is required, it must ask "Is it clear that [target repo] needs to change?" before presenting a handoff. A speculative handoff adds noise and must be blocked.
 
 ## Flow
@@ -134,6 +134,6 @@ sequenceDiagram
 - [docs pattern](./docs-pattern/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-04-01
-- **Last reviewed:** 2026-04-01
+- **Last reviewed:** 2026-04-03
