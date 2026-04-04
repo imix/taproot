@@ -85,7 +85,7 @@ export function collectApplicableTruths(cwd, docLevel) {
             if (entry.isDirectory()) {
                 walk(fullPath, childRel);
             }
-            else if (entry.isFile() && entry.name.endsWith('.md') && entry.name !== 'README.md') {
+            else if (entry.isFile() && entry.name.endsWith('.md') && entry.name !== 'README.md' && !entry.name.endsWith('.discussion.md')) {
                 // Check if this is a link file with Type: truth
                 if (isLinkFilename(entry.name)) {
                     resolveLinkedTruth(cwd, fullPath, childRel, docLevel, offline, getReposMap, results);

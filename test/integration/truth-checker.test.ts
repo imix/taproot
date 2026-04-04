@@ -215,6 +215,17 @@ describe('collectApplicableTruths', () => {
     expect(truths).toHaveLength(0);
   });
 
+  it('skips .discussion.md sidecar files', () => {
+    const gtDir = join(tmpDir, 'taproot', 'global-truths');
+    writeFileSync(join(gtDir, 'conventions_impl.md'), '## Rules\n- Use const\n');
+    writeFileSync(join(gtDir, 'conventions_impl.discussion.md'), '## Rules\n**Correct:** ...\n**Rationale:** ...\n');
+
+    const truths = collectApplicableTruths(tmpDir, 'impl');
+    expect(truths).toHaveLength(1);
+    expect(truths[0]!.relPath).toContain('conventions_impl.md');
+    expect(truths[0]!.relPath).not.toContain('.discussion.md');
+  });
+
   it('AC-5: only collects truths applicable to the document level', () => {
     const gtDir = join(tmpDir, 'taproot', 'global-truths');
     writeFileSync(join(gtDir, 'glossary_intent.md'), '## Terms\n- booking: a confirmed slot\n');

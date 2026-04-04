@@ -13,3 +13,4 @@
 - [2026-03-28] VS Code extension Phase 2: Language Model API integration — add Copilot-powered commands (e.g. "Taproot: review this file") and spec status sidebar using VS Code's built-in Language Model API, making the extension a genuine workflow tool for Copilot users rather than just an onboarding/discovery vehicle
 - [2026-04-01] a command to check source code against the spec — verify that files listed in impl.md still behave as the usecase.md says they should; surface spec/code drift earlier than sync-check (which only checks timestamps)
 - [2026-04-02] add explicit dependency tracking in tr-plan
+- [2026-04-03] user-definable audit types for /tr-audit and /tr-audit-all (e.g. security, accessibility) — configurable in settings.yaml, each type defines its own checklist and review criteria

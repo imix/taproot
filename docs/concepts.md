@@ -305,6 +305,26 @@ The pre-commit hook uses state transitions to enforce workflow gates: you cannot
 
 ---
 
+## Global Truths
+
+Global truths are project-wide facts, rules, and conventions stored in `taproot/global-truths/`. The truth-check hook validates staged changes against applicable truths at commit time.
+
+**Scope follows the Why / What / How rule:**
+
+| Scope | Suffix | Question | Content |
+|-------|--------|----------|---------|
+| Intent | `_intent` | Why? | Business rules, UX outcomes, cross-cutting values |
+| Behaviour | `_behaviour` | What? | Observable actor-visible patterns |
+| Implementation | `_impl` | How? | Technical patterns, code conventions |
+
+Intent-scoped truths apply at all levels (intent, behaviour, impl). Behaviour-scoped truths apply at behaviour and impl levels. Impl-scoped truths apply only at impl level.
+
+**Truth file format:** Multi-entry files grouped by category with `##` headings. Each truth is 1-2 sentences — the rule only. Correct/incorrect examples, rationale, and history go in a `.discussion.md` sidecar file (same directory, same stem). The agent loads truth files for enforcement; discussion files are loaded on demand by review skills.
+
+**Generalisation rule:** Truth statements must be framework-agnostic — name the pattern, not the tool. Examples in the discussion file may reference specific technologies.
+
+---
+
 ## When taproot is a poor fit
 
 Taproot is designed for **software traceability** — the gap between what a system is supposed to do and what it actually does. The format assumes an actor triggering a system and observing its response. If your work doesn't fit that model, the format will fight you.

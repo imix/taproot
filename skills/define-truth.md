@@ -168,7 +168,8 @@ After confirming a structured entry's content, proceed to Phase 4 (Find Existing
 3. Determine scope, file name, and storage convention. **Collapse into a single confirmation when possible:**
 
    - **Scope**: if `candidate` proposed a scope, use it without asking. Otherwise ask:
-     > "Scope: **intent** (broadest — all levels) · **behaviour** · **impl** (narrowest)?"
+     > "Scope: **intent** (why — business rules, UX outcomes, cross-cutting values) · **behaviour** (what — observable actor-visible patterns) · **impl** (how — technical patterns, code conventions)?"
+     The scope determines the abstraction level of the content. Intent-scoped truths must not contain framework-specific or technology-specific details. Impl-scoped truths may name specific technologies.
 
    - **File name**: check `taproot/global-truths/` for existing files. If a file already exists whose name fits this truth (e.g. `architecture_intent.md` for an architecture principle), use it — just note "I'll append to `<name>`." Don't ask. If no obvious match, suggest one category-level name:
      > "I'll put this in `<suggested-name>_<scope>.md` — ok, or different name?"
@@ -233,10 +234,14 @@ None.
 
 ## Notes
 
-- Truth content is free-form — no schema is enforced. The developer chooses prose, tables, bullet lists, or headings. **A single sentence is sufficient for enforcement** — the truth-check hook reads the file verbatim and checks staged changes for consistency. Longer explanations help future readers but are not required for the hook to work.
+- **Truth file format:** Multi-entry files with `##` section headings. Each truth is 1-2 sentences — the rule only, no examples or rationale. Correct/incorrect examples and rationale go in a `.discussion.md` sidecar (same directory, same stem — e.g. `conventions_impl.discussion.md` next to `conventions_impl.md`). The agent loads truth files for enforcement; humans and review skills (`/tr-browse`, `/tr-audit`) load discussion files for context.
+- **File limits:** ~50 lines per truth file (roughly 25-30 truths). When a file exceeds this, propose splitting a section into its own file. No hard cap on sections, but when a section exceeds ~10 truths, propose splitting it out.
+- **Generalisation rule:** The rule statement must be framework-agnostic and portable across technology stacks. Name the *pattern*, not the *tool*. Examples in the discussion file may be specific. E.g. rule: "Shared visual properties belong in the nearest common ancestor layout" — not "move CSS to `+layout.svelte`".
+- **Scope = abstraction level:** intent = why (business rules, UX outcomes); behaviour = what (observable actor-visible patterns); impl = how (technical patterns, code conventions). A truth about `$lib/components/` placement is impl-scoped. A truth about "recurring elements are reused, not reimplemented" is intent-scoped.
+- Truth content is free-form — no schema is enforced. **A single sentence is sufficient for enforcement** — the truth-check hook reads the file verbatim and checks staged changes for consistency.
 - Both conventions (suffix and sub-folder) may coexist in the same project. Neither is preferred.
 - Scope resolution precedence: sub-folder takes precedence over suffix when they conflict (most restrictive wins).
 - This skill is the target of `/tr-ineed` routing when a requirement is classified as a project-wide truth.
 - When invoked from `/tr-discover-truths`, the `candidate` argument pre-populates steps 1–3, making the interaction faster.
 - Structured formats and their scope defaults: Decisions → `impl`; Principles → `intent`; Conventions → `impl`; External constraints → `intent`.
-- Structured format authoring was originally a separate skill (`/tr-design-constraints`). It was absorbed here so developers invoke one command regardless of truth type. See the originating spec: `taproot/specs/global-truth-store/author-design-constraints/usecase.md`.
+- Structured format authoring was originally a separate skill (`/tr-design-constraints`). It was absorbed here so developers invoke one command regardless of truth type.
