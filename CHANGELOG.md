@@ -4,6 +4,32 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [1.0.0] - 2026-04-03
+
+### Taproot
+- taproot(requirements-hierarchy/enforce-spec-abstraction/cli-command): enforce abstraction in Postconditions, Alternate Flows, Error Conditions, Success Criteria (f42dbca)
+- taproot(cross-repo-specification/enforce-linked-truth/cli-command): enforce linked truths at commit time (f8519a2)
+- taproot(cross-repo-specification/delegate-implementation/cli-command): count delegated impls as accounted-for in coverage (0e28ed9)
+
+### Bug Fixes
+- fix(execute-plan): align letter keys with UX principles truth — [L] Later, [X] Drop, [C] Cancel, [D] Done (559aa97)
+- fix(plan-execute): HITL always step-by-step, AFK always batch (0c05f4f)
+- fix(define-truth): add Phase 4 to check existing truths before creating new files (f885103)
+- fix(commit): run testsCommand for plain commits; add project-agnostic principle (7b76859)
+- fix: promote define-cross-repo-link usecase state to implemented (cc1fb2d)
+- fix: promote signal-cross-repo-change usecase state to implemented (5700afc)
+- fix: promote pause-and-confirm usecase state to implemented (841c834)
+
+### Maintenance
+- chore: add .taproot/repos.yaml.example for cross-repo link setup (933535f)
+- chore: deprecate author-design-constraints subtree — absorbed into define-truth (f2db0f2)
+- chore: update plan-execute impl.md design decisions for mode semantics (607867b)
+
+### Other
+- refine: slim down global truth format — rules only in truth files, examples+rationale in .discussion.md sidecars (567a1bf)
+- refine(define-truth): add grouping, no-scope-comments, no-title-heading guidance (5eb8eb4)
+- test(signal-cross-repo-change): add tests for pattern entry and skill pointers (1d7360b)
+
 ## [0.9.5] - 2026-04-02
 
 ### Taproot
