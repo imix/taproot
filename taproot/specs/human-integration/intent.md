@@ -29,6 +29,7 @@ Ensure the human orchestrator retains meaningful control of the requirement hier
 - [Hierarchy Sweep](./hierarchy-sweep/usecase.md)
 - [Bug Triage and Root Cause Analysis](./bug-triage/usecase.md)
 - [Browse Hierarchy Item](./browse-hierarchy-item/usecase.md)
+- [Interactive Audit Walkthrough](./interactive-audit/usecase.md)
 
 
 ## Status
