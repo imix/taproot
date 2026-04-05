@@ -130,7 +130,7 @@ sequenceDiagram
 - [Agent Skill — /tr-audit interactive walkthrough](./agent-skill/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-04-05
 
 ## Notes

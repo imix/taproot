@@ -2,7 +2,7 @@
 
 ## Description
 
-Stress-test a single Taproot artifact — an `intent.md`, `usecase.md`, or `impl.md` — by challenging it from multiple angles. Produces a structured critique with prioritized findings. Does **not** auto-modify the artifact; the user decides what to act on.
+Stress-test a single Taproot artifact — an `intent.md`, `usecase.md`, or `impl.md` — by challenging it from multiple angles. Presents findings one at a time with a proposed fix and recommended action per finding. The user triages each finding interactively; only accepted findings carry to `/tr-refine`.
 
 ## Inputs
 
@@ -10,11 +10,11 @@ Stress-test a single Taproot artifact — an `intent.md`, `usecase.md`, or `impl
 
 ## Steps
 
-1. Read the artifact at `path`. Identify its type by filename.
+1. Read the artifact at `path`. Identify its type by filename. If the artifact is a placeholder or stub (lots of `<placeholder>` text), report: "This artifact is a placeholder — audit findings would not be meaningful. Write the spec first, then audit." Stop.
 
-2. If the artifact has a parent (e.g., a `usecase.md` has a parent `intent.md`), read the parent to understand context. If siblings exist (other behaviours under the same intent), read those too — cross-checking is part of a thorough review.
+2. If the artifact has a parent (e.g., a `usecase.md` has a parent `intent.md`), read the parent to understand context. Intents have no parent — skip for intents. If siblings exist (other behaviours under the same intent), read those too — cross-checking is part of a thorough review.
 
-3. Apply the challenge set appropriate to the artifact type:
+3. Apply the challenge set appropriate to the artifact type and generate findings internally. Do **not** present findings yet.
 
    **For `intent.md`:**
    - Is the goal measurable? Can you unambiguously declare it achieved?
@@ -51,32 +51,69 @@ Stress-test a single Taproot artifact — an `intent.md`, `usecase.md`, or `impl
    - **Concern** — should be addressed soon (spec has a gap or assumption that will likely cause problems)
    - **Suggestion** — worth considering (improvement that reduces risk or improves clarity, but not urgent)
 
-5. Present findings in priority order (blockers first), using concrete examples from the artifact text. For each finding, quote the specific line or section being challenged.
+   For each finding, also prepare:
+   - The quoted artifact excerpt being challenged
+   - The challenge — why this is a problem
+   - A **proposed fix** — the specific wording change, addition, or removal that would resolve the finding
+   - A **recommended action** (accept, dismiss, or defer) with a one-line reason
 
-6. Present next steps:
+   Sort findings: Blockers first, then Concerns, then Suggestions.
+
+5. **Interactive walkthrough** — present findings one at a time. For each finding, show:
+
+   ```
+   **<Category>** (<N of M>) — Recommendation: **<Accept/Dismiss/Defer>**
+
+   > "<quoted artifact excerpt>"
+
+   <Challenge — why this is a problem>
+
+   **Proposed fix:** <specific change to make>
+
+   [A] Accept — apply the proposed fix  [X] Dismiss — not relevant  [E] Edit — change the fix before accepting  [L] Later — capture to backlog
+   ```
+
+   Process the developer's response:
+   - **[A] Accept** or **Enter** (accepts the recommendation): record the finding and its proposed fix as accepted
+   - **[X] Dismiss**: record as dismissed, move to next finding
+   - **[E] Edit**: ask the developer to reword the fix, record the edited version as accepted
+   - **[L] Later**: capture to `taproot/backlog.md` via `/tr-backlog` with the finding text, move to next
+   - **"go"** or **"apply remaining"**: apply the agent's recommended action for each remaining finding (accept, dismiss, or defer as recommended), then show the triage summary
+
+6. **Triage summary** — after all findings are triaged, show:
+
+   ```
+   Triage complete: N accepted, N dismissed, N deferred
+   ```
+
+7. Present next steps:
 
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
-   [1] `/tr-refine <path>` — apply the findings to the spec
+   [1] `/tr-refine <path>` — apply the N accepted findings to the spec
    [2] `/tr-implement <path>/` — spec is clean; proceed to implementation
-   [3] `/tr-backlog <finding>` — capture an out-of-scope issue for later without routing it now
-   [P] Plan these — build a `taproot/plan.md` from these findings
+   [3] `/tr-backlog` — review deferred items
+   [P] Plan these — build a `taproot/plan.md` from the accepted findings
+
+   When the developer selects [1], pass **only the accepted findings with their proposed fixes** as context to `/tr-refine`. Dismissed findings are not passed.
 
 ## Output
 
-A structured critique report with findings grouped as **Blockers**, **Concerns**, and **Suggestions**. Each finding quotes the relevant artifact text and explains the risk.
+An interactive triage session where each finding is presented individually with a proposed fix and recommendation. The developer triages each finding. Accepted findings carry as structured input to `/tr-refine`.
 
-The artifact is NOT modified.
+The artifact is NOT modified by the audit itself.
 
 ## CLI Dependencies
 
 None during review. The user then decides whether to run:
-- `taproot validate-format` (to check current state)
-- `/taproot:refine` (to apply suggested changes)
-- `/taproot:intent` (to revise the intent)
+- `/taproot:refine` (to apply accepted findings)
+- `/taproot:implement` (to proceed to implementation)
 
 ## Notes
 
 - Do not soften the critique. The purpose is to find real problems before implementation, not to validate the work. A review that finds nothing is not a success — it means you weren't looking hard enough.
-- If the artifact is clearly a placeholder or stub (lots of `<placeholder>` text), flag this explicitly rather than reviewing the placeholders themselves.
+- The proposed fix per finding is **not optional**. Every finding must include a concrete change — "this is vague" is not actionable; "change X to Y" is. Without a proposed fix, [A] Accept has no clear meaning for downstream `/tr-refine`.
+- Finding order matters: Blockers first forces the developer to confront the most important issues before fatigue sets in on Suggestions.
+- The "go" / "apply remaining" batch escape applies the agent's recommendations for remaining findings — the agent has already done the analysis, so the developer only needs to override where they disagree.
+- The agent's recommendation per finding reduces cognitive load: instead of evaluating each finding from scratch, the developer reviews a proposal and confirms or overrides.
