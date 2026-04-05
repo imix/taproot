@@ -16,6 +16,7 @@
 - `src/commands/commithook.ts` — linked truth enforcement: unresolvable blocks commit, offline emits warning
 
 ## Commits
+- `f8519a2400896889f32e5eb269567e0d9faf65c4` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/truth-checker.test.ts` — AC-1: linked truth resolves and commit passes; AC-3: unresolvable blocks commit; AC-4: offline skips with warning; AC-5: no scope defaults to intent; unit tests for collectApplicableTruths with linked truths

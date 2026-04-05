@@ -13,6 +13,7 @@
 - `src/commands/coverage.ts` — `completeCount` increment (line ~135) and `collectIncomplete` exclusion (line ~595)
 
 ## Commits
+- `0e28ed9726ba1e5b5fe4f8a75c449358ebb9e9a7` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/coverage.test.ts` — AC-2: delegated + complete counted as accounted; AC-3: fully-delegated not a gap; collectIncomplete excludes delegated

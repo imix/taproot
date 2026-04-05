@@ -14,6 +14,7 @@
 - `src/commands/commithook.ts` — `checkUsecaseQuality`: Postconditions tech check, Alternate Flows + Error Conditions tech check; `checkIntentQuality`: Success Criteria tech check
 
 ## Commits
+- `f42dbca4667958d1ac99d3427acf1207a7784957` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/commithook.test.ts` — AC-1: clean spec passes; AC-4: Postconditions impl term; AC-8: Alternate Flows impl term, Error Conditions impl term; Success Criteria impl term on intent

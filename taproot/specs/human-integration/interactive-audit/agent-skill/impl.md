@@ -14,6 +14,8 @@
 - `skills/audit.md` — package source mirror
 
 ## Commits
+- `3a9a5d3b2895f5185af1ecdc079182e3a460cfc2` — (auto-linked by taproot link-commits)
+- `33b3360fd15b59f0866d086491f6de821b840019` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/audit-skill.test.ts` — verifies skill file contains triage prompt, proposed fix requirement, batch escape, and recommendation per finding
