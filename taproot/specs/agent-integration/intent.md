@@ -18,6 +18,7 @@ Enable any AI coding agent to participate fully in the taproot workflow — thro
 - Workflow definitions must be plain markdown — no agent-specific syntax in the canonical definitions
 - Per-agent adapters are thin delivery wrappers only; all workflow logic lives in the portable definitions
 - Agent-specific behaviour (e.g. Claude Code hooks, Cursor rules format) is isolated to the adapter layer
+- Before adding a capability to a single agent's adapter or plugin, evaluate whether it can or must be generalized as an agent-agnostic feature — if the capability is useful across agents, build it once in the core and surface it through each adapter
 
 ## Behaviours <!-- taproot-managed -->
 - [Generate Agent Adapter](./generate-agent-adapter/usecase.md)
@@ -30,6 +31,8 @@ Enable any AI coding agent to participate fully in the taproot workflow — thro
 - [CLI Invocation Prefix](./cli-invocation/usecase.md)
 - [Aider Adapter](./aider-adapter/usecase.md)
 - [Multi-Agent Hook Compatibility](./hook-compatibility/usecase.md)
+- [Native Cursor Plugin](./cursor-plugin/usecase.md)
+- [Portable Skill Output Patterns](./portable-output-patterns/usecase.md)
 
 ## Status
 - **State:** active
