@@ -28,6 +28,32 @@ When run on an empty project (no `taproot/` directory yet), the command prompts:
 
 Running `taproot init` again on an existing project is safe — it skips files that already exist and reports `exists` for each.
 
+### `taproot new`
+
+```bash
+taproot new <type> [parent-path] <slug>
+```
+
+Scaffolds a new hierarchy artifact from a template, creating the directory and a pre-populated stub file. Eliminates the need to manually `mkdir` and write boilerplate.
+
+| Type | Parent required | Creates |
+|------|----------------|---------|
+| `intent` | No (uses hierarchy root) | `taproot/specs/<slug>/intent.md` |
+| `behaviour` | Yes (intent or behaviour dir) | `<parent>/<slug>/usecase.md` |
+| `impl` | Yes (behaviour dir only) | `<parent>/<slug>/impl.md` |
+
+The slug is converted to a title (`password-login` → `Password Login`) in the file heading. Each stub includes placeholder sections and the correct initial state (`draft`, `proposed`, or `planned`).
+
+If arguments are omitted, the command prompts for each missing value interactively.
+
+```bash
+taproot new intent user-authentication
+taproot new behaviour taproot/specs/user-authentication password-login
+taproot new impl taproot/specs/user-authentication/password-login cli-command
+```
+
+**When to use:** Start here before calling `/tr-intent` or `/tr-behaviour` — agents can scaffold the file then fill it in, rather than using `mkdir` followed by template writes.
+
 ### `taproot update`
 
 ```bash

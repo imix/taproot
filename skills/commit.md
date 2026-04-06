@@ -179,6 +179,10 @@ Execute the full commit procedure: classify the commit type, run the appropriate
 
    Omit [1] if no plan exists or no pending items remain. Omit [2] after implementation and plain commits. Developer may ignore the prompt silently.
 
+   **Path format:** Use abbreviated hierarchy paths in all What's next displays — strip the hierarchy root prefix (`taproot/specs/`) and `.md` extension. Full paths are for CLI invocations only (see `ux-principles_intent.md` global truth).
+   - Display: `discovery-strategy/execute-strategy/`
+   - CLI invocation: `taproot/specs/discovery-strategy/execute-strategy/`
+
 ## Output
 
 A clean commit where the pre-commit hook passes on the first attempt. All conditions resolved with written rationale before staging.

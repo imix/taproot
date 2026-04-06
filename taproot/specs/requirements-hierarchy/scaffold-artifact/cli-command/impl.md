@@ -16,6 +16,8 @@
 
 ## Commits
 <!-- taproot-managed -->
+- `86c21c6e4e498c52c1cb911e846f1a49fa12f378` — (auto-linked by taproot link-commits)
+- `ace97efdcf548ff7691b0d003841c9c6a7de6790` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/new.test.ts` — covers AC-1 (intent scaffold), AC-2 (behaviour under intent), AC-3 (impl under behaviour), AC-4 (sub-behaviour), AC-6 (already-exists error), AC-7 (parent-not-found error), AC-8 (type-mismatch error), AC-9 (required sections present)

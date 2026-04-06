@@ -238,7 +238,8 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [unified-layout](./requirements-hierarchy/initialise-hierarchy/unified-layout/impl.md) `[complete]` (2 commits, 7 tests)
 - **[park-hierarchy-item](./requirements-hierarchy/park-hierarchy-item/usecase.md)** `[implemented]` — Actor: Developer — who has decided that a behaviour or implementation is not being pursued for the foreseeable future and wants to formally record that decision in the hierarchy.
   - [multi-surface](./requirements-hierarchy/park-hierarchy-item/multi-surface/impl.md) `[complete]` (2 commits, 1 test)
-- **[scaffold-artifact](./requirements-hierarchy/scaffold-artifact/usecase.md)** `[specified]` — Actor: Developer or AI agent adding a new node to the requirement hierarchy
+- **[scaffold-artifact](./requirements-hierarchy/scaffold-artifact/usecase.md)** `[implemented]` — Actor: Developer or AI agent adding a new node to the requirement hierarchy
+  - [cli-command](./requirements-hierarchy/scaffold-artifact/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ## [skill-architecture](./skill-architecture/intent.md) `[active]`
 
@@ -294,4 +295,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-19 intents · 98 behaviours · 95 implementations · 93/95 complete
+19 intents · 98 behaviours · 96 implementations · 94/96 complete
