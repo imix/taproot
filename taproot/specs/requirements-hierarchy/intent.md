@@ -29,6 +29,7 @@ Enable teams to capture the full requirements hierarchy — from business intent
 - [Apply Domain Preset During Init](./init-domain-presets/usecase.md)
 - [Implement a Behaviour Incrementally](./incremental-behaviour-implementation/usecase.md)
 - [Enforce Spec Abstraction Level](./enforce-spec-abstraction/usecase.md)
+- [Scaffold Hierarchy Artifact](./scaffold-artifact/usecase.md)
 
 
 ## Status
