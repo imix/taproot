@@ -130,6 +130,6 @@ sequenceDiagram
 - [CLI Command — taproot new](./cli-command/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-04-05
-- **Last reviewed:** 2026-04-05
+- **Last reviewed:** 2026-04-06
