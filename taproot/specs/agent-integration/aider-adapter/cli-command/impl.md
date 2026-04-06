@@ -18,8 +18,6 @@ Detection in `update.ts`: Aider adapter is detected by presence of `.aider.conf.
 - `src/adapters/index.ts` — added `'aider'` to `AgentName`, `ALL_AGENTS`, `AGENT_TIERS` (tier 2); `generateAiderAdapter()`, `buildAiderConfYml()`, `buildAiderConventionsMd()`, `aiderReadPaths()`; `error?` field on `AdapterResult`
 - `src/commands/update.ts` — Aider detection in `detectInstalledAgents()`; error handling in adapter output loop
 - `src/commands/init.ts` — `'aider'` added to `AGENT_BASE_LABELS`; error handling in adapter output loop
-- `.aider.conf.yml` — generated Aider config (output of `taproot init --agent aider`)
-- `CONVENTIONS.md` — generated Taproot workflow instructions for Aider (output of `taproot init --agent aider`)
 
 ## Tests
 
