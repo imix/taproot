@@ -85,6 +85,35 @@ Reverse-engineer an existing project into a taproot hierarchy — from source co
 
    Wait for the user's answer before continuing.
 
+### Phase 1.5 — Identify Cross-Cutting Truths
+
+Before proposing intents, scan what was found for content that is **not** a business goal — facts, rules, conventions, or decisions that apply across the whole project regardless of which intent is being served.
+
+Signals that something is a cross-cutting truth rather than a business intent:
+- It describes *how the system must work* rather than *what value it provides to a stakeholder*
+- It applies to every intent equally (e.g. "all API responses use camelCase", "all user-facing errors include a support code")
+- It would appear in a style guide, architecture decision record, or glossary — not in a user story
+- A non-technical stakeholder would not describe it as a separate business goal
+
+For each candidate cross-cutting truth:
+
+a. Surface it to the developer:
+   > "I found something that looks like a cross-cutting rule/fact/convention rather than a business intent: **[description]**. I'd route this to `taproot/global-truths/` rather than the intent hierarchy."
+
+b. Ask the developer to confirm the scope:
+   > "[intent] — applies to the whole project (why/business level)
+   > [behaviour] — applies to observable interactions (what/actor level)
+   > [impl] — applies to technical implementation details (how/code level)
+   > [S] Skip — don't capture this as a truth"
+
+c. On confirmation: write the truth file as `taproot/global-truths/<name>_<scope>.md` following the truth file format (rule statements only, grouped by `##` category headings). Present the proposed content with [Y]/[E]/[S] menu before writing.
+
+d. Update the status file: record confirmed truths under a "Phase 1.5 — Truths" section.
+
+If no cross-cutting truths are identified: note "No cross-cutting truths identified — proceeding to intent surfacing." and continue.
+
+*Skip this phase if `taproot/global-truths/` already exists and is non-empty — truths are already captured; don't duplicate them. Still check for new truths not already present.*
+
 ### Phase 2 — Surface Intents (interactive, one at a time)
 
 7. Based on the user's answer, the codebase scan, and any requirements artifacts, form a hypothesis about the top-level business intents. An intent is a **business goal** — not a module, not a command, not a feature flag. Good intents start with verbs: "Enable users to…", "Allow operators to…", "Provide developers with…".

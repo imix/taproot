@@ -23,6 +23,7 @@ Developer invoking `/tr-discover` on a project that has no taproot hierarchy yet
 7. Developer answers; agent forms hypotheses about the top-level business intents
 8. Agent proposes intents one at a time, asking a probing question about each to validate it reflects a real business goal (not a technical module)
 9. For each confirmed intent, agent writes `taproot/<slug>/intent.md` and updates the status file
+9a. After all intents are confirmed, agent reviews what was surfaced but does not fit a business goal — cross-cutting facts, rules, conventions, or decisions that apply across intents. Agent proposes each as a global truth entry in `taproot/global-truths/`, using the same [Y]/[E]/[S] confirmation pattern before writing
 10. After all intents are confirmed, agent works through each intent's source code (and/or requirements artifacts) to propose use cases — observable system behaviours from the actor's perspective
 11. For each confirmed behaviour, agent writes `taproot/<intent>/<behaviour>/usecase.md` and updates the status file
 12. For each confirmed behaviour where source code exists, agent identifies source files, tests, and relevant commits, then writes `taproot/<intent>/<behaviour>/<impl>/impl.md`
@@ -30,6 +31,7 @@ Developer invoking `/tr-discover` on a project that has no taproot hierarchy yet
 14. Agent runs `taproot coverage` and presents the results as a closing summary
 
 ## Alternate Flows
+- **Cross-cutting content identified**: During intent surfacing, agent recognises that a candidate is a rule, convention, fact, or decision that applies across intents rather than a discrete business goal — agent proposes it as a global truth entry in `taproot/global-truths/` and asks the developer to confirm scope (intent/behaviour/impl) before writing
 - **Resume session**: Agent reads the status file, skips already-completed items, and resumes from the last confirmed phase/item
 - **`scope` argument**: Discovery is limited to a specific subdirectory or area
 - **`depth: intents-only`**: Agent stops after writing intent documents
@@ -48,6 +50,7 @@ Developer invoking `/tr-discover` on a project that has no taproot hierarchy yet
 
 ## Postconditions
 - The project has a living taproot hierarchy that reflects what was built and/or specified
+- Cross-cutting facts, rules, conventions, and decisions identified during discovery are routed to `taproot/global-truths/` rather than forced into the intent hierarchy
 - For source-based discovery: documents are marked `status: active` / `complete` (or `in-progress` where gaps were noted)
 - For requirements-only discovery: behaviours are marked `status: specified`; no `impl.md` files are created
 - The session state is preserved in `taproot/_sessions/discovery-status.md` and can be resumed if interrupted
@@ -114,6 +117,11 @@ sequenceDiagram
 - When the agent scans the project
 - Then the agent reads the artifacts and researches the tool before describing what it found to the developer
 
+**AC-8: Cross-cutting content is routed to global-truths**
+- Given the developer confirms an item that is a rule, convention, fact, or decision spanning multiple intents
+- When the agent identifies it during discovery
+- Then the agent proposes it as a global truth entry in `taproot/global-truths/` with confirmed scope, not as an intent
+
 ## Related
 - `taproot/human-integration/route-requirement/usecase.md` — individual requirements discovered during this flow are routed via tr-ineed
 
@@ -124,5 +132,5 @@ sequenceDiagram
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
-- **Last reviewed:** 2026-03-20
+- **Last reviewed:** 2026-04-06
 - **Note:** `_brainstorms/` renamed to `_sessions/` — the folder contains structured session state, not ideation artefacts

@@ -27,18 +27,30 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-03-20
+- **Last verified:** 2026-04-06
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: This implementation modifies skills/discover.md — a plain markdown agent skill file. Compliant with agent-agnostic output constraint. No CLI commands, no source modules, no architectural concerns apply. | resolved: 2026-03-20T00:00:00.000Z
 
 ## DoD Resolutions
 - condition: document-current | note: Updated README.md: changed '/tr-discover — reverse-engineer an existing codebase' to 'existing project (source, requirements, or both)'. guide.md does not mention /tr-discover and needs no update. docs/ has no discover-specific content. | resolved: 2026-03-20T19:49:07.565Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: No. Global-truths routing is specific to the discover skill and does not introduce a constraint applicable to other implementations. No new settings.yaml gate needed. | resolved: 2026-04-06T15:12:06.391Z
+
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: Phase 1.5 is read-only: agent reads the project, identifies content, proposes to the user, and writes truth files on confirmation. No shell commands introduced. No credentials or tokens. Agent instructions follow least-privilege — every write requires explicit [Y] confirmation. Compliant. | resolved: 2026-04-06T15:11:48.639Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: Phase 1.5 uses generic agent language throughout: 'agent proposes', 'developer confirms', [Y]/[E]/[S] menu. No Claude-specific syntax (@{project-root}, CLAUDE.md), no agent-specific tool references. Compliant. | resolved: 2026-04-06T15:11:35.560Z
+
+- condition: check-if-affected: examples/ | note: examples/ contains starter hierarchy templates, not skill definitions. The discover skill Phase 1.5 addition does not affect example content. | resolved: 2026-04-06T15:11:24.972Z
+
+- condition: check-if-affected: docs/ | note: Updated docs/agent-internals.md: added Phase 1.5 (Cross-cutting truths) to the /tr-discover phase list. No other docs/ files describe the discover phase flow. | resolved: 2026-04-06T15:11:14.598Z
+
+- condition: check-if-affected: package.json | note: Skill-only change — no new dependencies introduced. package.json not affected. | resolved: 2026-04-06T15:10:42.320Z
+
 - condition: sessions-rename | note: skills/discover.md updated: _brainstorms/ renamed to _sessions/ throughout. Naming change only — no behavioural change. All existing DoD conditions remain valid. | resolved: 2026-03-20T20:13:47.476Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: No. Heuristic requirements artifact detection is specific to the discover skill. Not a reusable pattern applicable across the hierarchy. | resolved: 2026-03-20T19:49:50.950Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: No. This change extends a single skill (discover.md) with requirements artifact detection. Not a cross-cutting concern across all implementations. | resolved: 2026-03-20T19:49:50.716Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: No. Global-truths routing is specific to the discover skill — it is not a constraint that applies to other implementations. No new settings.yaml gate needed. | resolved: 2026-04-06T15:11:41.500Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: Already resolved at DoR. Skill file is plain markdown — compliant with agent-agnostic output constraint. No source modules or architectural concerns involved. | resolved: 2026-03-20T19:49:50.490Z
 
