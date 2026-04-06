@@ -9,7 +9,7 @@ _HITL = human decision required · AFK = agent executes autonomously_
 2.  done     [implement] afk   "fix cross-repo-specification/signal-cross-repo-change/usecase.md state: specified → implemented (impl complete)"
 3.  done     [implement] afk   "fix human-integration/pause-and-confirm/usecase.md state: specified → implemented (2/2 impls complete)"
 4.  done     [implement] afk   "add .taproot/repos.yaml.example with commented format and usage note"
-5.  pending  [implement] afk   "fix skills/plan.md — status values still say skipped, should be deferred/dropped"
+5.  done     [implement] afk   "fix skills/plan.md — status values still say skipped, should be deferred/dropped"
 6.  pending  [implement] afk   "docs/agents.md — add 9 missing skills: analyse-change, backlog, browse, bug, commit, decompose, define-truth, discover-truths, release"
 7.  pending  [implement] afk   "docs/concepts.md + docs/configuration.md — document delegated impl state for cross-repo scenarios"
 8.  pending  [implement] afk   "fix stale /tr-review and /tr-review-all references → /tr-audit and /tr-audit-all across specs and ux-principles truth (~30 occurrences)"

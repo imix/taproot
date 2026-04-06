@@ -35,22 +35,31 @@ After `taproot init --agent claude --with-skills`, skills are available as `/tr-
 | `/tr-ineed` | Route a natural language requirement to the right place; runs structured discovery for vague requirements before placement |
 | `/tr-intent` | Create or refine a business intent document with stakeholders and success criteria |
 | `/tr-behaviour` | Define a UseCase under an intent or another behaviour; walks alternate flows and error conditions proactively |
+| `/tr-decompose` | Break an intent down into the set of behaviours needed to fulfill it; produces a proposed behaviour list tied to each success criterion |
 | `/tr-implement` | Implement a behaviour: write code, write tests, create `impl.md`, commit with conventional tag |
+| `/tr-commit` | Execute the full commit procedure: classify commit type, resolve all DoD conditions, and commit; handles implementation, declaration, requirement, and plain commits |
 | `/tr-trace` | Navigate the hierarchy in any direction — file to intent (bottom-up), intent to code (top-down), or across siblings |
 | `/tr-status` | Coverage dashboard: shows what's implemented, what's planned, what's stale, and what to do next |
 | `/tr-audit` | Stress-test a single artifact — challenges assumptions, identifies gaps, asks adversarial questions |
 | `/tr-audit-all` | Comprehensive review of an entire subtree — structural checks, cross-cutting analysis, per-artifact findings |
+| `/tr-analyse-change` | Analyse the impact of a proposed change before any edits are made — identifies affected downstream and upstream artefacts; read-only |
 | `/tr-refine` | Update a behaviour spec based on post-implementation learnings |
 | `/tr-promote` | Escalate a finding from implementation or behaviour level up to the intent |
+| `/tr-bug` | Diagnose a defect through structured root cause analysis (5-Why) and delegate to the right fix skill |
+| `/tr-browse` | Read a hierarchy document section by section — presents each section one at a time with inline editing; developer-driven, distinct from `/tr-audit` |
 | `/tr-next` | Surface the next independently-implementable work item from the hierarchy |
 | `/tr-plan` | Build a persistent implementation plan (`taproot/plan.md`) from backlog items, hierarchy gaps, or explicit items |
 | `/tr-plan-execute` | Execute items from `taproot/plan.md` — step-by-step, batch, specify (spec+refine only), or implement (implement only) mode |
 | `/tr-plan-analyse` | Analyse `taproot/plan.md` before execution — check readiness, flag ambiguous specs, unresolved dependencies, and missing prerequisites |
+| `/tr-backlog` | Capture ideas and deferred work mid-session without interrupting flow; or triage existing backlog items (keep, promote, discard) |
 | `/tr-discover` | Reverse-engineer an existing codebase into a taproot hierarchy through structured, interactive discovery |
+| `/tr-discover-truths` | Scan the hierarchy for implicit facts — recurring terms, rules, and conventions — not yet captured as global truths; present candidates for promotion |
+| `/tr-define-truth` | Create or update a truth entry in `taproot/global-truths/` — a fact, rule, term, convention, or decision that applies across the project |
 | `/tr-grill-me` | Interview you relentlessly about a plan or design — one decision branch at a time, recommended answer first |
 | `/tr-research` | Research a domain or technical subject before speccing — scans local resources, searches the web, optionally grills domain experts |
 | `/tr-sweep` | Apply a uniform task to a filtered set of hierarchy files — enumerate, confirm, then call `taproot apply` per file |
 | `/tr-link` | Create a cross-repo link file referencing a spec in another repository; guides both linking-repo and source-repo sides of the two-sided workflow |
+| `/tr-release` | Run the taproot maintainer's local release phase: pre-flight checks, changelog generation, version bump, tag, and publish via CI |
 
 ### How skills work
 
