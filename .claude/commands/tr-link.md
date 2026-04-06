@@ -1,6 +1,6 @@
 ---
-name: 'tr-define-truth'
-description: 'Create or update a free-form truth entry in `taproot/global-truths/` — a fact, rule, term, convention, or decision that applies across the project'
+name: 'tr-link'
+description: 'Create a cross-repo link file (`link.md`) that references a spec — intent, behaviour, or global truth — in another repository'
 ---
 
 <!-- taproot:cli-invocation: node dist/cli.js -->
@@ -9,7 +9,7 @@ description: 'Create or update a free-form truth entry in `taproot/global-truths
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
 
 <steps CRITICAL="TRUE">
-1. LOAD the FULL skill file at @{project-root}/taproot/agent/skills/define-truth.md
+1. LOAD the FULL skill file at @{project-root}/taproot/agent/skills/link.md
 2. READ its entire contents — this contains the complete skill definition with steps, inputs, and output format
 3. FOLLOW every step in the ## Steps section precisely and in order
 4. When the skill references other taproot commands (e.g. `/taproot:intent`), use the corresponding `/tr-intent` command instead

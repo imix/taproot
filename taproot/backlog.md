@@ -14,3 +14,8 @@
 - [2026-04-01] a command to check source code against the spec — verify that files listed in impl.md still behave as the usecase.md says they should; surface spec/code drift earlier than sync-check (which only checks timestamps)
 - [2026-04-02] add explicit dependency tracking in tr-plan
 - [2026-04-03] user-definable audit types for /tr-audit and /tr-audit-all (e.g. security, accessibility) — configurable in settings.yaml, each type defines its own checklist and review criteria
+- [2026-04-05] `taproot find-unlinked` CLI command — scan source directories, diff against all impl.md Source Files sections, report unlinked files; skill spec for /tr-trace --unlinked already describes the expected behaviour
+- [2026-04-05] pre-commit backward gate — when staging source files, verify each is listed in some impl.md (mirrors the existing forward gate that checks impl.md refs point to real files)
+- [2026-04-05] LOC coverage metric — extend `taproot coverage` to report "X/Y source files traced (Z%)" alongside existing impl completion counts
+- [2026-04-05] skill visibility metadata — add `visibility: primary | supporting` to canonical `skills/*.md` frontmatter; each adapter maps to its native mechanism (Cursor: `disable-model-invocation`, Claude: command generation filtering)
+- [2026-04-05] BUG: /tr-discover does not seem to know about global truths — tries to pack everything into intents instead of routing facts/rules/conventions to taproot/global-truths/

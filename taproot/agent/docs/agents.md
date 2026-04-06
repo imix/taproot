@@ -50,6 +50,7 @@ After `taproot init --agent claude --with-skills`, skills are available as `/tr-
 | `/tr-grill-me` | Interview you relentlessly about a plan or design — one decision branch at a time, recommended answer first |
 | `/tr-research` | Research a domain or technical subject before speccing — scans local resources, searches the web, optionally grills domain experts |
 | `/tr-sweep` | Apply a uniform task to a filtered set of hierarchy files — enumerate, confirm, then call `taproot apply` per file |
+| `/tr-link` | Create a cross-repo link file referencing a spec in another repository; guides both linking-repo and source-repo sides of the two-sided workflow |
 
 ### How skills work
 
