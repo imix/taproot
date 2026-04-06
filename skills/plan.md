@@ -118,7 +118,7 @@ Sources: backlog items, unimplemented hierarchy behaviours, or developer-supplie
 
    **Path format:** store abbreviated paths — strip the hierarchy root prefix (`taproot/` or `taproot/specs/`) and `.md` extension. Preserve trailing `/` for directory references. Expand to full path before passing to CLI commands.
 
-   Status values: `pending` · `done` · `skipped` · `blocked` · `stale`
+   Status values: `pending` · `done` · `deferred` · `dropped` · `blocked` · `stale`
 
 9. **Remove consumed backlog items.** If any plan items were sourced from `taproot/backlog.md`, remove those lines from the file and report: *"Removed N item(s) from `taproot/backlog.md`."* Skip this step if no backlog items were used or if `taproot/backlog.md` is absent.
 

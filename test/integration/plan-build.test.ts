@@ -60,8 +60,12 @@ describe('plan skill — plan.md format', () => {
     expect(skill).toMatch(/done/);
   });
 
-  it('documents skipped status', () => {
-    expect(skill).toMatch(/skipped/);
+  it('documents deferred status', () => {
+    expect(skill).toMatch(/deferred/);
+  });
+
+  it('documents dropped status', () => {
+    expect(skill).toMatch(/dropped/);
   });
 
   it('documents blocked status', () => {
