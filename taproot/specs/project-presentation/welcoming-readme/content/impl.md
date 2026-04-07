@@ -4,6 +4,7 @@
 ../usecase.md
 
 ## Design Decisions
+- Logo placed above the animation as the first visual element — satisfies AC-8; `assets/logo-192.png` chosen over `logo.svg` (10.6MB base64-embedded) to avoid bloating GitHub page load
 - Animation leads the README — placed above all prose to satisfy AC-6; visitor sees the workflow before reading a word
 - Hand-crafted animated SVG (`docs/demo.svg`) chosen over VHS: zero external tooling dependency, GitHub-safe, no JS required — satisfies NFR-2
 - Tagline "Your AI coding agent finally knows why." placed beneath the animation as the first text — conveys the emotional benefit (AC-7) before the technical explanation
@@ -15,8 +16,9 @@
 - No automated test — content artefact; ACs verified by human review and GitHub rendering
 
 ## Source Files
-- `README.md` — project landing page satisfying AC-1 through AC-7 and NFR-1
+- `README.md` — project landing page satisfying AC-1 through AC-8 and NFR-1
 - `docs/demo.svg` — animated SVG terminal demo embedded at top of README; satisfies AC-6 and NFR-2
+- `assets/logo-192.png` — 192px logo displayed above the animation; satisfies AC-8
 
 ## Commits
 - (run `taproot link-commits` to populate)
@@ -31,7 +33,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-21
-- **Last verified:** 2026-03-24
+- **Last verified:** 2026-04-07
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — implementation writes README.md and docs/demo.svg (documentation/asset files); no code design decisions; no architectural constraints apply | resolved: 2026-03-24

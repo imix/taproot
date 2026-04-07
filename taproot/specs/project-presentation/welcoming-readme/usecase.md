@@ -6,10 +6,11 @@ Developer discovering taproot for the first time
 ## Preconditions
 - `README.md` exists in the taproot repository root
 - The README is rendered on the GitHub repository landing page
+- A taproot logo asset exists (SVG format) suitable for display at the top of the README
 - A terminal animation asset (SVG or GIF) exists showing the end-to-end taproot workflow
 
 ## Main Flow
-1. Visitor lands on the taproot GitHub page and immediately sees a terminal animation playing the taproot workflow — `npx taproot init`, then `claude`, then `/tr-ineed I need…`, a spec being written, and a commit gated by `taproot dod` — before reading a single line of prose
+1. Visitor lands on the taproot GitHub page and immediately sees the taproot logo, followed by a terminal animation playing the taproot workflow — `npx taproot init`, then `claude`, then `/tr-ineed I need…`, a spec being written, and a commit gated by `taproot dod` — before reading a single line of prose
 2. Visitor reads the punchy headline beneath the animation and immediately understands what taproot does and why it matters
 3. Visitor reads the pain point hook — a concrete statement of the problem AI-assisted coding creates (agents generate code fast, but six months later nobody knows *why* a module exists)
 4. Visitor reads the one-line value proposition and the three design principles — filesystem-based, agent-agnostic, CLI-validated — and judges fit for their project
@@ -117,6 +118,11 @@ flowchart TD
 - When they scan the headline and first two sections
 - Then the copy conveys what it *feels like* to use taproot — requirements that survive the conversation, agents that remember why code exists — not just a feature list
 
+**AC-8: Logo is displayed above the terminal animation**
+- Given a visitor lands on the taproot GitHub page
+- When the README renders
+- Then the taproot logo appears as the first visual element, above the terminal animation and all prose
+
 **NFR-1: README renders without broken syntax on GitHub**
 - Given the README.md content pushed to the repository
 - When GitHub renders it on the repository landing page
@@ -133,7 +139,7 @@ flowchart TD
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-21
-- **Last reviewed:** 2026-03-24
+- **Last reviewed:** 2026-04-07
 
 ## Notes
 - The README is the only document a first-time visitor reads before deciding whether to install — it carries more weight than any other doc in the project.
