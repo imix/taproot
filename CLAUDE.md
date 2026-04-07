@@ -2,6 +2,7 @@
  * build after each implementation
  * use short one line commit messages
  * when editing skills in `taproot/skills/`, always copy the file back to `skills/` (package source) before running `taproot update` — otherwise update overwrites your changes
+ * when editing `README.md`, always run `bash scripts/sync-channel-readmes.sh` immediately after — the channel README (channels/vscode/README.md) embeds a SHA of root README.md, and the `sync-channel-readmes` test will fail if they drift
 
 ## Natural language triggers
 
