@@ -297,11 +297,42 @@ Each document has a `State` field that tracks its lifecycle. States are validate
 | `in-progress` | — | — | Being implemented |
 | `complete` | — | — | Done; DoD passed |
 | `needs-rework` | — | — | Implementation failed DoD |
+| `delegated` | — | — | ACs implemented in a linking repo, not locally |
 | `achieved` | All behaviours complete | — | — |
 | `deprecated` | No longer relevant | No longer relevant | — |
 | `deferred` | — | Not pursuing for now | Not pursuing for now |
 
 The pre-commit hook uses state transitions to enforce workflow gates: you cannot declare an implementation without the parent behaviour being in `specified` state, and you cannot mark an implementation complete without passing Definition of Done checks.
+
+---
+
+## Delegated Implementations (Cross-Repo)
+
+When a behaviour spec lives in one repository but some or all of its acceptance criteria are implemented in a separate linking repository, use `state: delegated` to record this in the source repo without creating a false coverage gap.
+
+A delegated `impl.md` looks like any other implementation record, except:
+- `## Status` sets `**State:** delegated`
+- `## Design Decisions` names the linking repo and which ACs it handles
+- `## Source Files` lists `(none)` — the source files live in the linking repo
+
+```markdown
+## Design Decisions
+- ACs 1–3 implemented in the `mobile-app` repo via the taproot link at `taproot/specs/auth/`.
+  Source files: `src/auth/login.swift`, `src/auth/session.swift`.
+
+## Source Files
+- (none)
+
+## Status
+- **State:** delegated
+- **Created:** 2024-03-01
+```
+
+`taproot coverage` counts both `complete` and `delegated` impls as accounted for — a behaviour is not shown as a gap if it has a delegated impl. If only some ACs are delegated, create one `impl.md` per linked repo contribution plus a standard `impl.md` for local ACs.
+
+**Enabling delegated state:** add `delegated` to `allowed_impl_states` in `taproot/settings.yaml` (see [Configuration](./configuration.md#taproot-settings-yaml)).
+
+The linking repo independently creates a `link.md` file and its own local `impl.md` to claim traceability from its side. See [Cross-Repo Specification](./cross-repo.md) for the full workflow.
 
 ---
 

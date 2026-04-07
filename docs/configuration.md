@@ -43,7 +43,8 @@ validation:
   require_status: true          # all marker files must have a ## Status section
   allowed_intent_states: [draft, active, achieved, deprecated]
   allowed_behaviour_states: [proposed, specified, implemented, tested, deprecated, deferred]
-  allowed_impl_states: [planned, in-progress, complete, needs-rework, deferred]
+  allowed_impl_states: [planned, in-progress, complete, needs-rework, deferred, delegated]
+  # Add 'delegated' when using cross-repo delegation — see docs/concepts.md#delegated-implementations-cross-repo
 
 # Definition of Done — conditions checked before taproot dod marks an impl complete.
 definitionOfDone:

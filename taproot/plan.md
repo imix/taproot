@@ -10,7 +10,7 @@ _HITL = human decision required · AFK = agent executes autonomously_
 3.  done     [implement] afk   "fix human-integration/pause-and-confirm/usecase.md state: specified → implemented (2/2 impls complete)"
 4.  done     [implement] afk   "add .taproot/repos.yaml.example with commented format and usage note"
 5.  done     [implement] afk   "fix skills/plan.md — status values still say skipped, should be deferred/dropped"
-6.  pending  [implement] afk   "docs/agents.md — add 9 missing skills: analyse-change, backlog, browse, bug, commit, decompose, define-truth, discover-truths, release"
+6.  done     [implement] afk   "docs/agents.md — add 9 missing skills: analyse-change, backlog, browse, bug, commit, decompose, define-truth, discover-truths, release"
 7.  pending  [implement] afk   "docs/concepts.md + docs/configuration.md — document delegated impl state for cross-repo scenarios"
 8.  pending  [implement] afk   "fix stale /tr-review and /tr-review-all references → /tr-audit and /tr-audit-all across specs and ux-principles truth (~30 occurrences)"
 9.  done     [refine]    hitl  "slim down global truth format — rule + correct/incorrect examples only; move rationale and exceptions to a discussion.md sidecar; fix define-truth scope prompt (line 171: 'broadest/narrowest' → why/what/how guidance); add scope-appropriate content guidelines (intent=why/business rules, behaviour=what/observable patterns, impl=how/technical patterns); teach agents to generalise truths (no framework-specific details in rules — e.g. 'shared presentation belongs in the nearest common ancestor layout' not 'move CSS to +layout.svelte'); reduce token cost for agent context"
