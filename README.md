@@ -14,6 +14,12 @@ AI coding agents generate code fast — but six months later, nobody knows *why*
 
 Taproot keeps requirements as first-class files in your repo. The agent writes the spec, writes the code, and git refuses to accept one without the other.
 
+- **Single source of truth** — Why → What → How, three layers, committed alongside code
+- **Every change traces back to a spec** — no orphan code, no mystery modules
+- **Plan and backlog** — prioritise, batch, and execute requirements autonomously or step-by-step
+- **Enforced at commit time** — git hooks block code without traceability, failing tests, or incomplete specs
+- **Global truths** — architecture rules, security constraints, and domain terms enforced at every commit
+
 ## Quick Start
 
 ```bash
