@@ -1,6 +1,10 @@
 # Taproot
 
 <p align="center">
+  <img src="assets/logo-192.png" alt="Taproot" width="96"/>
+</p>
+
+<p align="center">
   <img src="docs/demo.svg" alt="Taproot demo — npx taproot init, /tr-ineed, taproot dod" width="700"/>
 </p>
 
