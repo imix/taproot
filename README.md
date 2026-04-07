@@ -1,7 +1,7 @@
 # Taproot
 
 <p align="center">
-  <img src="assets/logo-192.png" alt="Taproot" width="96"/>
+  <img src="assets/logo-512.png" alt="Taproot" width="200"/>
 </p>
 
 <p align="center">
