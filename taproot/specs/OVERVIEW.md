@@ -44,14 +44,14 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[configuration-discoverability](./agent-integration/configuration-discoverability/usecase.md)** `[implemented]` — Actor: AI coding agent — given a natural-language configuration task ("configure taproot for German", "add vocabulary overrides for book authoring") by the developer
   - [cli-command](./agent-integration/configuration-discoverability/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 - **[cursor-plugin](./agent-integration/cursor-plugin/usecase.md)** `[implemented]` — Actor: Developer using Cursor IDE who wants taproot's requirement workflow available natively through Cursor's plugin system
-  - [plugin-source](./agent-integration/cursor-plugin/plugin-source/impl.md) `[complete]` (0 commits, 1 test)
+  - [plugin-source](./agent-integration/cursor-plugin/plugin-source/impl.md) `[complete]` (2 commits, 1 test)
 - **[generate-agent-adapter](./agent-integration/generate-agent-adapter/usecase.md)** `[implemented]` — Actor: Developer initializing taproot for a specific AI coding agent via `taproot init --agent `
-  - [cli-command](./agent-integration/generate-agent-adapter/cli-command/impl.md) `[complete]` (5 commits, 2 tests)
+  - [cli-command](./agent-integration/generate-agent-adapter/cli-command/impl.md) `[complete]` (6 commits, 2 tests)
 - **[hook-compatibility](./agent-integration/hook-compatibility/usecase.md)** `[implemented]` — Actor: Developer or AI coding agent (Claude Code, Cursor, Copilot, Aider, or any other agent) committing changes to a taproot project.
   - [cli-command](./agent-integration/hook-compatibility/cli-command/impl.md) `[complete]` (2 commits, 2 tests)
 - **[parallel-agent-execution](./agent-integration/parallel-agent-execution/usecase.md)** `[specified]` — Actor: Developer or orchestrator running multiple taproot implementation tasks in parallel across the same codebase
 - **[portable-output-patterns](./agent-integration/portable-output-patterns/usecase.md)** `[implemented]` — Actor: Skill author writing or maintaining a taproot skill file (`skills/*.md`)
-  - [skill-conventions](./agent-integration/portable-output-patterns/skill-conventions/impl.md) `[complete]` (0 commits, 1 test)
+  - [skill-conventions](./agent-integration/portable-output-patterns/skill-conventions/impl.md) `[complete]` (2 commits, 1 test)
 - **[update-adapters-and-skills](./agent-integration/update-adapters-and-skills/usecase.md)** `[implemented]` — Actor: Developer running `taproot update` after upgrading taproot or modifying skill definitions
   - [cli-command](./agent-integration/update-adapters-and-skills/cli-command/impl.md) `[complete]` (1 commit, 2 tests)
 
@@ -67,7 +67,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[enforce-linked-truth](./cross-repo-specification/enforce-linked-truth/usecase.md)** `[implemented]` — Actor: Developer in a linking repo committing hierarchy documents (`intent.md` or `usecase.md`) that are subject to a global truth defined in a source repo.
   - [cli-command](./cross-repo-specification/enforce-linked-truth/cli-command/impl.md) `[complete]` (1 commit, 1 test)
 - **[per-repo-offline-mode](./cross-repo-specification/per-repo-offline-mode/usecase.md)** `[implemented]` — Actor: Developer or CI pipeline running link validation in an environment where one or more external repos are unavailable
-  - [cli-check-orphans](./cross-repo-specification/per-repo-offline-mode/cli-check-orphans/impl.md) `[complete]` (0 commits, 1 test)
+  - [cli-check-orphans](./cross-repo-specification/per-repo-offline-mode/cli-check-orphans/impl.md) `[complete]` (2 commits, 1 test)
 - **[resolve-linked-coverage](./cross-repo-specification/resolve-linked-coverage/usecase.md)** `[implemented]` — Actor: Developer in a linking repo (running `taproot coverage`)
   - [coverage-extension](./cross-repo-specification/resolve-linked-coverage/coverage-extension/impl.md) `[complete]` (2 commits, 1 test)
 - **[signal-cross-repo-change](./cross-repo-specification/signal-cross-repo-change/usecase.md)** `[implemented]` — Actor: Developer
@@ -138,7 +138,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [commithook-extension](./human-integration/pause-and-confirm/commithook-extension/impl.md) `[complete]` (2 commits, 1 test)
   - [discover-and-decompose](./human-integration/pause-and-confirm/discover-and-decompose/impl.md) `[complete]` (2 commits, 1 test)
 - **[requirement-exploration](./human-integration/requirement-exploration/usecase.md)** `[implemented]` — Actor: Developer with a vague idea, problem statement, or feature concept not yet ready to spec
-  - [agent-skill](./human-integration/requirement-exploration/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
+  - [agent-skill](./human-integration/requirement-exploration/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
 - **[route-requirement](./human-integration/route-requirement/usecase.md)** `[implemented]` — Actor: Human orchestrator / developer stating a requirement in natural language — at any level of clarity, from vague instinct to fully-formed specification
   - [agent-skill](./human-integration/route-requirement/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
 
@@ -161,7 +161,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 **Goal:** Allow any project with an existing codebase or requirements to be fully represented as a taproot requirement hierarchy — so that teams using another tool or workflow can adopt taproot without losing prior work or starting from scratch.
 
 - **[discover-existing-project](./project-discovery/discover-existing-project/usecase.md)** `[implemented]` — Actor: Developer invoking `/tr-discover` on a project that has no taproot hierarchy yet (or a partial one)
-  - [agent-skill](./project-discovery/discover-existing-project/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
+  - [agent-skill](./project-discovery/discover-existing-project/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
 
 ## [project-presentation](./project-presentation/intent.md) `[active]`
 
@@ -172,7 +172,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[starter-examples](./project-presentation/starter-examples/usecase.md)** `[implemented]` — Actor: Developer starting a new project with taproot — who has decided to use taproot but is facing a blank hierarchy and does not know what intents or behaviours to create.
   - [bundled-templates](./project-presentation/starter-examples/bundled-templates/impl.md) `[complete]` (4 commits, 1 test)
 - **[welcoming-readme](./project-presentation/welcoming-readme/usecase.md)** `[implemented]` — Actor: Developer discovering taproot for the first time
-  - [content](./project-presentation/welcoming-readme/content/impl.md) `[complete]` (4 commits, 1 test)
+  - [content](./project-presentation/welcoming-readme/content/impl.md) `[complete]` (7 commits, 1 test)
 
 ## [quality-gates](./quality-gates/intent.md) `[active]`
 

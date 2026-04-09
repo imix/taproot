@@ -5,7 +5,7 @@
 
 ## Design Decisions
 - **Skill location `taproot/agent/skills/release.md` (not `skills/`)**: `installSkills()` only copies files listed in `SKILL_FILES`; anything in `taproot/agent/skills/` not in that list is safe from `taproot update` overwrites. No code changes needed to prevent distribution.
-- **Two-job workflow (`ci` + `publish`)**: CI checks run in the `ci` job with no environment gate so they start immediately on tag push. `publish` runs in a separate job that `needs: ci` and declares `environment: release`. The approval request only appears after CI passes — the maintainer is never asked to approve a release that would immediately fail.
+- **Three-job workflow (`ci` → `security-scan` → `publish`)**: CI checks run in the `ci` job with no environment gate so they start immediately on tag push. `security-scan` runs after `ci` and executes the reusable `.github/workflows/security-scan.yml` workflow (blocking on high-severity CVEs). `publish` runs after both jobs pass and declares `environment: release`. The approval request only appears after both `ci` and `security-scan` pass — the maintainer is never asked to approve a release that would immediately fail.
 - **`id-token: write` on `publish` job only**: The OIDC token required for npm provenance attestation is scoped to the publish job only, following the least-privilege principle from `docs/security.md`.
 - **Changelog extraction via awk**: The GitHub release body is extracted from CHANGELOG.md using `awk` to match the entry for the released version. No external dependencies or scripts required.
 - **`<!-- entries below -->` marker in CHANGELOG.md**: The skill inserts new entries after this marker line, making insertion deterministic without full file parsing.
@@ -29,7 +29,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-24
-- **Last verified:** 2026-03-24
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: Implementation adds taproot/agent/skills/release.md (maintainer-only, not distributed) and .github/workflows/release.yml (CI infrastructure). Neither is a user-facing CLI command or distributed skill. README.md and docs/ do not need updating — docs/security.md already contextualises the CI-driven release and provenance controls. | resolved: 2026-03-24T18:45:12.123Z
