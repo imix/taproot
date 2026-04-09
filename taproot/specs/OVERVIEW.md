@@ -50,7 +50,8 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[hook-compatibility](./agent-integration/hook-compatibility/usecase.md)** `[implemented]` — Actor: Developer or AI coding agent (Claude Code, Cursor, Copilot, Aider, or any other agent) committing changes to a taproot project.
   - [cli-command](./agent-integration/hook-compatibility/cli-command/impl.md) `[complete]` (2 commits, 2 tests)
 - **[parallel-agent-execution](./agent-integration/parallel-agent-execution/usecase.md)** `[specified]` — Actor: Developer or orchestrator running multiple taproot implementation tasks in parallel across the same codebase
-- **[portable-output-patterns](./agent-integration/portable-output-patterns/usecase.md)** `[specified]` — Actor: Skill author writing or maintaining a taproot skill file (`skills/*.md`)
+- **[portable-output-patterns](./agent-integration/portable-output-patterns/usecase.md)** `[implemented]` — Actor: Skill author writing or maintaining a taproot skill file (`skills/*.md`)
+  - [skill-conventions](./agent-integration/portable-output-patterns/skill-conventions/impl.md) `[complete]` (0 commits, 1 test)
 - **[update-adapters-and-skills](./agent-integration/update-adapters-and-skills/usecase.md)** `[implemented]` — Actor: Developer running `taproot update` after upgrading taproot or modifying skill definitions
   - [cli-command](./agent-integration/update-adapters-and-skills/cli-command/impl.md) `[complete]` (1 commit, 2 tests)
 
@@ -300,4 +301,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-19 intents · 100 behaviours · 99 implementations · 97/99 complete
+19 intents · 100 behaviours · 100 implementations · 98/100 complete
