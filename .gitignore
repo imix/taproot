@@ -3,3 +3,4 @@ node_modules/
 channels/vscode/out/
 .taproot/
 !.taproot/repos.yaml.example
+/assets/logo-big.png
