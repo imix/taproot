@@ -12,7 +12,7 @@ Enable teams working across multiple repositories to link to shared intents, beh
 - [ ] A developer can create a link file in a linking repo that references an intent, behaviour, or global truth defined in a source repo
 - [ ] `taproot coverage` in a linking repo counts a linked behaviour as implemented when a local `impl.md` references the link file
 - [ ] `taproot check-orphans` in a linking repo flags link files whose targets do not resolve on disk
-- [ ] A shared global truth (e.g. API contract, domain model) defined in a source repo can be referenced from linking repos and is enforced at commit time via the truth-check hook
+- [ ] A shared global truth (e.g. a service contract, domain model) defined in a source repo can be referenced from linking repos and is enforced at commit time via the truth-check hook
 - [ ] A developer in a partially-delegating source repo can mark specific ACs as delegated to a linking repo — and `taproot validate` accepts this as complete coverage for those ACs
 - [ ] v1 does not detect when a linked target spec changes in the source repo — linking repos are responsible for re-validating links after upstream changes (drift detection is explicitly deferred)
 
@@ -32,6 +32,7 @@ Enable teams working across multiple repositories to link to shared intents, beh
 - [Delegate Implementation to Linking Repo](./delegate-implementation/usecase.md)
 - [Enforce Linked Global Truth at Commit](./enforce-linked-truth/usecase.md)
 - [Signal Cross-Repo Change Needed](./signal-cross-repo-change/usecase.md)
+- [Per-Repo Offline Mode for Link Validation](./per-repo-offline-mode/usecase.md)
 
 ## Status
 - **State:** active

@@ -17,3 +17,6 @@
 - [2026-04-05] LOC coverage metric — extend `taproot coverage` to report "X/Y source files traced (Z%)" alongside existing impl completion counts
 - [2026-04-05] skill visibility metadata — add `visibility: primary | supporting` to canonical `skills/*.md` frontmatter; each adapter maps to its native mechanism (Cursor: `disable-model-invocation`, Claude: command generation filtering)
 - [2026-04-05] BUG: /tr-discover does not seem to know about global truths — tries to pack everything into intents instead of routing facts/rules/conventions to taproot/global-truths/
+- [2026-04-09] BUG: /tr-behaviour does not detect when the user's input describes a global truth rather than a behaviour — proceeds with behaviour placement questions instead of redirecting to /tr-define-truth; example: user described an authorization error UX rule that was already captured in security_behaviour.md truth
+- [2026-04-09] analyse gaps to https://www.adlc.io/ and see if we can fill them to claim adls compliance
+- [2026-04-09] UX: when starting a skill on a new subject, open with a 1–2 sentence orientation summary ("We're writing a behaviour for X under intent Y — here's what exists so far") before diving into questions — the current output drops straight into step-by-step findings with no framing
