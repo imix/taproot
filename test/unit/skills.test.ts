@@ -153,9 +153,9 @@ describe('sweep.md — confirmation gate and live progress (AC-1, AC-2, AC-4)', 
     expect(content).toMatch(/\[x\] taproot\//);
   });
 
-  it('cross-item context warning redirects to /tr-review-all', () => {
+  it('cross-item context warning redirects to /tr-audit-all', () => {
     expect(content).toContain('cross-item context');
-    expect(content).toContain('tr-review-all');
+    expect(content).toContain('tr-audit-all');
   });
 });
 
