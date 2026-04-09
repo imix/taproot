@@ -4,6 +4,27 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [1.1.0] - 2026-04-09
+
+### Taproot
+- cursor plugin: 26 skill launchers, rules file, 5 commands, build script — native Cursor integration distributed via Cursor Marketplace (297c01c)
+- per-repo offline mode: `offline:` sentinel in `.taproot/repos.yaml` skips specific repos in `check-orphans` and truth-checker without requiring global `TAPROOT_OFFLINE=1` (c62c996)
+- scaffold artifact: `taproot new` command generates intent, behaviour, or implementation from template (86c21c6)
+- interactive audit: `/tr-audit-all` walkthrough skill for reviewing entire hierarchy subtrees (3a9a5d3)
+- discover: agent now routes cross-cutting truths to `taproot/global-truths/` during discovery (36b79b0)
+- welcoming README: added taproot logo and capability summary (f0332c9, eb06fe8)
+
+### Bug Fixes
+- bump vite to 8.0.6, resolving two high-severity CVEs (GHSA-p9ff, GHSA-4w7w) (b31093f)
+- fix aider-adapter: remove generated output files from Source Files (0783413)
+- fix commit: abbreviate hierarchy paths in What's next block (1536ff4)
+- fix plan skill: rename `skipped` status to `deferred`/`dropped` (7f3794b)
+
+### Maintenance
+- rename all `/tr-review` and `/tr-review-all` references to `/tr-audit` and `/tr-audit-all` across specs and skills
+- document delegated impl state for cross-repo scenarios in docs/
+- add 9 missing skills to agents.md skill table
+
 ## [1.0.0] - 2026-04-03
 
 ### Taproot
