@@ -65,6 +65,8 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [cli-command](./cross-repo-specification/delegate-implementation/cli-command/impl.md) `[complete]` (1 commit, 1 test)
 - **[enforce-linked-truth](./cross-repo-specification/enforce-linked-truth/usecase.md)** `[implemented]` — Actor: Developer in a linking repo committing hierarchy documents (`intent.md` or `usecase.md`) that are subject to a global truth defined in a source repo.
   - [cli-command](./cross-repo-specification/enforce-linked-truth/cli-command/impl.md) `[complete]` (1 commit, 1 test)
+- **[per-repo-offline-mode](./cross-repo-specification/per-repo-offline-mode/usecase.md)** `[implemented]` — Actor: Developer or CI pipeline running link validation in an environment where one or more external repos are unavailable
+  - [cli-check-orphans](./cross-repo-specification/per-repo-offline-mode/cli-check-orphans/impl.md) `[complete]` (0 commits, 1 test)
 - **[resolve-linked-coverage](./cross-repo-specification/resolve-linked-coverage/usecase.md)** `[implemented]` — Actor: Developer in a linking repo (running `taproot coverage`)
   - [coverage-extension](./cross-repo-specification/resolve-linked-coverage/coverage-extension/impl.md) `[complete]` (2 commits, 1 test)
 - **[signal-cross-repo-change](./cross-repo-specification/signal-cross-repo-change/usecase.md)** `[implemented]` — Actor: Developer
@@ -134,6 +136,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[pause-and-confirm](./human-integration/pause-and-confirm/usecase.md)** `[implemented]` — Actor: Developer using any taproot skill that writes more than one document in sequence (primarily `/tr-discover`, `/tr-decompose`, and any future bulk-authoring skill)
   - [commithook-extension](./human-integration/pause-and-confirm/commithook-extension/impl.md) `[complete]` (2 commits, 1 test)
   - [discover-and-decompose](./human-integration/pause-and-confirm/discover-and-decompose/impl.md) `[complete]` (2 commits, 1 test)
+- **[requirement-exploration](./human-integration/requirement-exploration/usecase.md)** `[specified]` — Actor: Developer with a vague idea, problem statement, or feature concept not yet ready to spec
 - **[route-requirement](./human-integration/route-requirement/usecase.md)** `[implemented]` — Actor: Human orchestrator / developer stating a requirement in natural language — at any level of clarity, from vague instinct to fully-formed specification
   - [agent-skill](./human-integration/route-requirement/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
 
@@ -296,4 +299,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-19 intents · 98 behaviours · 97 implementations · 95/97 complete
+19 intents · 100 behaviours · 98 implementations · 96/98 complete
