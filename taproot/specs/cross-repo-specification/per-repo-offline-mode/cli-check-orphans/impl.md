@@ -17,6 +17,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `c62c996290b404ed77f3cb874e396b6437f2b5d4` — (auto-linked by taproot link-commits)
+- `4dc6044ac4c6c7953fb76270bde19feed06c3952` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/check-orphans.test.ts` — AC-1 (offline repo emits warning, no error), AC-2 (mixed offline/local repos), AC-3 (TAPROOT_OFFLINE=1 overrides per-repo entries)

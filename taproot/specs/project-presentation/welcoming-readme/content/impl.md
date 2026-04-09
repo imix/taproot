@@ -26,6 +26,9 @@
 - `26ee968be01d21b49a6825dcc30a8cd614eb6efc` — (auto-linked by taproot link-commits)
 - `8a5de155a441ac8d76ca4b2676a766e3c703b498` — (auto-linked by taproot link-commits)
 - `fa57208f439f49117e3cfc07a7fbe7b10c807e85` — (auto-linked by taproot link-commits)
+- `eb06fe84ea4abfa001ec6f06e9dc9ab1c5374abb` — (auto-linked by taproot link-commits)
+- `0b6d4b24ebc13ce67d92dabfe771871e2479a2da` — (auto-linked by taproot link-commits)
+- `f0332c9b24adff7daf3ba82e4d8e96974b0c8d66` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/welcoming-readme.test.ts`

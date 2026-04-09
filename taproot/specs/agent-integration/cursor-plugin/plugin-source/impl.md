@@ -24,6 +24,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `297c01c16589e445909958083588722dcf0c1ea7` — (auto-linked by taproot link-commits)
+- `53d7b1207c333752c49637626f8167c71c010eab` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/cursor-plugin.test.ts` — validates plugin structure: skill count matches SKILL_FILES length (NFR-1), all skills in plugin match SKILL_FILES (AC-7), each SKILL.md references canonical skill path (AC-3), all 5 command files exist (AC-5)

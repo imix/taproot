@@ -18,6 +18,8 @@
 
 ## Commits
 <!-- taproot-managed -->
+- `8061c0f57988be0fc5ede992d1f69fd3dff670cc` — (auto-linked by taproot link-commits)
+- `1dbf62d8e07943c5405ab9be4221025caae42130` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/skill-output-patterns.test.ts` — structural: file exists, is readable, has required sections (Pattern Types, Declaration Rules, Enforcement), all 4 pattern type names present

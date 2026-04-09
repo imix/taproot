@@ -20,6 +20,7 @@
 - (run `taproot link-commits` to populate)
 - `137233ff0f11dc8402174d1e6dff6f303bea5217` — (auto-linked by taproot link-commits)
 - `2c71ee4ef7c2762f1a60a2517b28a9dbb8b011bc` — (auto-linked by taproot link-commits)
+- `36b79b026505060332e28877befb642384b3e584` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/skills.test.ts` — validates skill file format and required sections

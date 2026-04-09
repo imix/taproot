@@ -21,6 +21,9 @@
 
 ## Commits
 <!-- taproot-managed -->
+- `984d7f7b60a4356f93c5d3a7aac3b49e6e5bcad8` — (auto-linked by taproot link-commits)
+- `202ea82deaabbe03674a1e065a76a61f626bd9f1` — (auto-linked by taproot link-commits)
+- `fe5cf2ed0f79824a5d11ea817ba05c2f834a123c` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/skills.test.ts` — structural validation: explore.md is readable, non-empty, has `# Skill:` heading, all required sections (Description, Inputs, Steps, Output, CLI Dependencies), Steps has numbered items, CLI Dependencies is "None"
