@@ -22,7 +22,7 @@
 - `8d5ad94954605e2ef9bd0ac1f186cdc21b7591d1` — (auto-linked by taproot link-commits)
 
 ## Tests
-- `test/integration/adapters.test.ts` — covers adapter generation for all five agent types, idempotency, and marker-based injection
+- `test/integration/adapters.test.ts` — covers adapter generation for all five agent types, idempotency, marker-based injection, and YAML apostrophe escaping (regression for \' bug)
 - `test/integration/init.test.ts` — covers adapter generation as part of full init flow
 
 ## Status
@@ -31,6 +31,8 @@
 - **Last verified:** 2026-04-09
 
 ## DoD Resolutions
+- condition: check-if-affected: package.json | note: NO — bug fix only changes string replacement logic in buildClaudeSkillFile; no new CLI commands or npm dependencies added. | resolved: 2026-04-09
+- condition: check-if-affected-by: agent-integration/portable-output-patterns | note: NOT APPLICABLE — no skill files (skills/*.md) modified; only src/adapters/index.ts and test/integration/adapters.test.ts staged. | resolved: 2026-04-09
 - condition: no-git-abort | note: test/integration/adapters.test.ts beforeEach updated to create .git — required by AC-13 (runInit throws without git). Not applicable to adapter generation logic. | resolved: 2026-03-21
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: NO skill files modified. | resolved: 2026-03-27T17:08:19.818Z
 

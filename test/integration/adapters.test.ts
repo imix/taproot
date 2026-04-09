@@ -62,6 +62,19 @@ describe('claude adapter', () => {
     expect(content).toContain('/tr-intent');
   });
 
+  it('description field uses valid YAML single-quoted escaping for apostrophes', () => {
+    // Regression: \' is not a valid escape in YAML single-quoted strings; '' is correct.
+    // A skill description containing an apostrophe (e.g. "you're") must not produce \'.
+    generateAdapters('claude', tmpDir);
+    for (const filename of SKILL_FILES) {
+      const path = join(tmpDir, '.claude', 'commands', `tr-${filename}`);
+      const content = readFileSync(path, 'utf-8');
+      const descMatch = /^description: '(.*)'$/m.exec(content);
+      expect(descMatch, `No description found in ${filename}`).not.toBeNull();
+      expect(descMatch![1], `Invalid \\' escape in ${filename} description`).not.toContain("\\'");
+    }
+  });
+
   it('is idempotent — running twice produces same output', () => {
     generateAdapters('claude', tmpDir);
     const firstContent = readFileSync(

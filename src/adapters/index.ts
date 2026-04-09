@@ -176,7 +176,7 @@ function buildClaudeSkillFile(skill: SkillDef, projectRoot: string, cli?: string
     : '';
   return `---
 name: 'tr-${skill.name}'
-description: '${skill.description.replace(/'/g, "\\'")}'
+description: '${skill.description.replace(/'/g, "''")}'
 ---
 ${invocationNote}
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:

@@ -1,6 +1,6 @@
 ---
 name: 'tr-explore'
-description: 'Collaborative requirement exploration — think through a vague idea before speccing it; asks one focused question at a time across four angles and hands off to the right taproot skill when you\'re ready'
+description: 'Collaborative requirement exploration — think through a vague idea before speccing it; asks one focused question at a time across four angles and hands off to the right taproot skill when you''re ready'
 ---
 
 <!-- taproot:cli-invocation: node dist/cli.js -->
