@@ -103,6 +103,9 @@ sequenceDiagram
 - When the skill is committed
 - Then the agent-agnostic language DoD gate identifies the agent-specific rendering instruction
 
+## Implementations <!-- taproot-managed -->
+- [Skill Conventions](./skill-conventions/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-04-05
