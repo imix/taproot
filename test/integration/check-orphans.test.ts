@@ -227,6 +227,68 @@ describe('link target validation — AC-6: draft-state target warning', () => {
   });
 });
 
+describe('link target validation — per-repo offline mode (AC-1, AC-2, AC-3)', () => {
+  let dir: string;
+  const origOffline = process.env['TAPROOT_OFFLINE'];
+
+  beforeEach(() => {
+    dir = makeTmpDir();
+    delete process.env['TAPROOT_OFFLINE'];
+  });
+
+  afterEach(() => {
+    rmSync(dir, { recursive: true, force: true });
+    if (origOffline === undefined) delete process.env['TAPROOT_OFFLINE'];
+    else process.env['TAPROOT_OFFLINE'] = origOffline;
+  });
+
+  it('AC-1: link to offline repo emits warning and exits 0 (no error)', () => {
+    makeReposYaml(dir, { 'https://github.com/org/repo-b': 'offline' });
+    const linkDir = join(dir, 'taproot/specs/my-intent/my-behaviour');
+    makeLinkFile(linkDir, 'link.md', 'https://github.com/org/repo-b', 'taproot/specs/auth/login/usecase.md', 'behaviour');
+    const violations = checkLinkTargets(join(dir, 'taproot'), dir);
+    expect(violations.some(v => v.code === 'LINK_VALIDATION_SKIPPED')).toBe(true);
+    const skipped = violations.find(v => v.code === 'LINK_VALIDATION_SKIPPED');
+    expect(skipped?.type).toBe('warning');
+    expect(violations.some(v => v.type === 'error')).toBe(false);
+  });
+
+  it('AC-2: links to local-path repo validated normally alongside offline repo', () => {
+    const sourceDir = join(dir, 'source-repo');
+    mkdirSync(join(sourceDir, 'taproot/specs/auth/login'), { recursive: true });
+    writeFileSync(join(sourceDir, 'taproot/specs/auth/login/usecase.md'),
+      '# Behaviour: Login\n\n## Status\n- **State:** specified\n', 'utf-8');
+    makeReposYaml(dir, {
+      'https://github.com/org/repo-a': sourceDir,
+      'https://github.com/org/repo-b': 'offline',
+    });
+    const linkDirA = join(dir, 'taproot/specs/intent-a/beh-a');
+    const linkDirB = join(dir, 'taproot/specs/intent-b/beh-b');
+    makeLinkFile(linkDirA, 'link.md', 'https://github.com/org/repo-a', 'taproot/specs/auth/login/usecase.md', 'behaviour');
+    makeLinkFile(linkDirB, 'link.md', 'https://github.com/org/repo-b', 'taproot/specs/auth/login/usecase.md', 'behaviour');
+    const violations = checkLinkTargets(join(dir, 'taproot'), dir);
+    // repo-b link skipped with warning
+    expect(violations.some(v => v.code === 'LINK_VALIDATION_SKIPPED')).toBe(true);
+    // repo-a link resolves cleanly (no error for it)
+    expect(violations.some(v => v.type === 'error')).toBe(false);
+  });
+
+  it('AC-3: TAPROOT_OFFLINE=1 overrides per-repo offline entries — emits single global skip message', () => {
+    makeReposYaml(dir, {
+      'https://github.com/org/repo-a': '/some/local/path',
+      'https://github.com/org/repo-b': 'offline',
+    });
+    const linkDir = join(dir, 'taproot/specs/my-intent/my-beh');
+    makeLinkFile(linkDir, 'link.md', 'https://github.com/org/repo-a', 'taproot/specs/auth/login/usecase.md', 'behaviour');
+    process.env['TAPROOT_OFFLINE'] = '1';
+    const violations = checkLinkTargets(join(dir, 'taproot'), dir);
+    // Global skip message, not per-link
+    expect(violations.some(v => v.code === 'LINK_VALIDATION_SKIPPED')).toBe(true);
+    const skipViolation = violations.find(v => v.code === 'LINK_VALIDATION_SKIPPED');
+    expect(skipViolation?.message).toContain('TAPROOT_OFFLINE=1');
+  });
+});
+
 describe('check-orphans — --include-unimplemented', () => {
   it('reports UNIMPLEMENTED_BEHAVIOUR when flag is set', async () => {
     // create a fixture scenario with a behaviour that has no impls

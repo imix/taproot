@@ -68,7 +68,8 @@ export function loadReposYaml(projectRoot) {
         const map = new Map();
         for (const [url, localPath] of Object.entries(raw)) {
             if (typeof localPath === 'string') {
-                map.set(url.trim(), resolve(projectRoot, localPath));
+                // 'offline' is a sentinel — do not resolve as a filesystem path
+                map.set(url.trim(), localPath.trim() === 'offline' ? 'offline' : resolve(projectRoot, localPath));
             }
         }
         return map;
@@ -83,8 +84,12 @@ export function loadReposYaml(projectRoot) {
  */
 export function resolveLinkTarget(repo, targetPath, reposMap) {
     const repoRoot = reposMap.get(repo.trim());
-    if (!repoRoot)
+    if (!repoRoot || repoRoot === 'offline')
         return null;
     return join(repoRoot, targetPath);
+}
+/** Returns true if the given repo URL is explicitly marked offline in the repos map. */
+export function isOfflineRepo(repo, reposMap) {
+    return reposMap.get(repo.trim()) === 'offline';
 }
 //# sourceMappingURL=link-parser.js.map

@@ -33,3 +33,5 @@ export declare function loadReposYaml(projectRoot: string): Map<string, string> 
  * Returns null if the repo URL is not mapped in repos.yaml.
  */
 export declare function resolveLinkTarget(repo: string, targetPath: string, reposMap: Map<string, string>): string | null;
+/** Returns true if the given repo URL is explicitly marked offline in the repos map. */
+export declare function isOfflineRepo(repo: string, reposMap: Map<string, string>): boolean;

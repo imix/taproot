@@ -7,7 +7,7 @@ import { parseMarkdown } from '../core/markdown-parser.js';
 import { parseImplData } from '../core/impl-reader.js';
 import { commitExists, isGitRepo, getRepoRoot } from '../core/git.js';
 import { renderViolations, exitCode } from '../core/reporter.js';
-import { findLinkFiles, loadReposYaml, parseLinkFile, resolveLinkTarget } from '../core/link-parser.js';
+import { findLinkFiles, loadReposYaml, parseLinkFile, resolveLinkTarget, isOfflineRepo } from '../core/link-parser.js';
 import type { FolderNode, Violation } from '../validators/types.js';
 
 export function registerCheckOrphans(program: Command): void {
@@ -112,6 +112,16 @@ export function checkLinkTargets(
       continue;
     }
 
+    if (isOfflineRepo(parsed.repo, reposMap)) {
+      violations.push({
+        type: 'warning',
+        filePath: linkFilePath,
+        code: 'LINK_VALIDATION_SKIPPED',
+        message: `Link skipped — repo "${parsed.repo}" marked offline in repository mapping`,
+      });
+      continue;
+    }
+
     const resolvedPath = resolveLinkTarget(parsed.repo, parsed.path, reposMap);
     if (resolvedPath === null) {
       violations.push({
@@ -159,7 +169,7 @@ export function checkLinkTargets(
     const newVisited = new Set(visited);
     newVisited.add(resolvedPath);
     const sourceRepoRoot = reposMap.get(parsed.repo.trim());
-    if (sourceRepoRoot && existsSync(sourceRepoRoot)) {
+    if (sourceRepoRoot && sourceRepoRoot !== 'offline' && existsSync(sourceRepoRoot)) {
       const transitive = checkLinkTargets(sourceRepoRoot, sourceRepoRoot, newVisited);
       // Only propagate circular violations (not other orphan errors from the source repo)
       violations.push(...transitive.filter(v => v.code === 'LINK_CIRCULAR').map(v => ({

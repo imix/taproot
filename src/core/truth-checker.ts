@@ -1,7 +1,7 @@
 import { createHash } from 'crypto';
 import { existsSync, readFileSync, readdirSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname, basename, relative } from 'path';
-import { parseLinkFile, loadReposYaml, resolveLinkTarget } from './link-parser.js';
+import { parseLinkFile, loadReposYaml, resolveLinkTarget, isOfflineRepo } from './link-parser.js';
 
 export type TruthScope = 'intent' | 'behaviour' | 'impl';
 export type DocLevel = 'intent' | 'behaviour' | 'impl';
@@ -205,6 +205,20 @@ function resolveLinkedTruth(
       linked: true,
       linkPath: linkRelPath,
       unresolvable: true,
+    });
+    return;
+  }
+
+  // Per-repo offline: treat this linked truth as offline (skip resolution)
+  if (isOfflineRepo(parsed.repo, map)) {
+    results.push({
+      relPath: linkRelPath,
+      scope: 'intent',
+      ambiguous: true,
+      unreadable: true,
+      content: '',
+      linked: true,
+      linkPath: linkRelPath,
     });
     return;
   }
