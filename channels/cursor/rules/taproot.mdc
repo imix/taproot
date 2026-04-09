@@ -1,0 +1,30 @@
+---
+description: Taproot requirement hierarchy — document conventions and workflow rules
+globs: ["taproot/**"]
+alwaysApply: false
+---
+
+# Taproot Conventions
+
+This project uses [Taproot](https://github.com/imix/taproot) to maintain a living requirement hierarchy alongside the codebase. The hierarchy lives in `taproot/` with three layers: **intent** (why), **behaviour** (what), and **implementation** (how).
+
+## Why / What / How rule
+
+Each layer must stay in its lane:
+- `intent.md` answers *why* — business outcome, stakeholders, success criteria. No solution language.
+- `usecase.md` answers *what* — observable, actor-visible behaviour. No SQL, REST, or HTTP verbs in Main Flow.
+- `impl.md` answers *how* — code, design decisions, test coverage. Technical detail belongs here only.
+
+## Skills
+
+Invoke taproot skills with `/tr-<name>` in chat. All skills load their instructions from `taproot/agent/skills/`.
+
+## Commit convention
+
+Use `taproot commit "message"` instead of plain `git commit` — handles traceability signing automatically.
+
+## Validation
+
+- `taproot validate-structure` — checks hierarchy integrity
+- `taproot validate-format` — checks spec format compliance
+- `taproot coverage` — shows implementation coverage

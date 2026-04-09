@@ -141,7 +141,7 @@ flowchart TD
 - [Plugin Source](./plugin-source/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-04-05
 - **Last reviewed:** 2026-04-09
 

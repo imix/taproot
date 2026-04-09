@@ -91,9 +91,26 @@ If `.aider.conf.yml` already exists, `taproot init` merges the `read:` entries w
 
 ---
 
+## Cursor native plugin
+
+A richer Cursor integration is available as a native plugin in `channels/cursor/`. It provides:
+- **26 skill launchers** — each taproot workflow as a `/tr-<name>` slash command, using the thin-launcher pattern (loads canonical skills from `taproot/agent/skills/`)
+- **Rules file** — taproot conventions injected as Cursor agent context when taproot files are open
+- **5 commands** — Initialize, Status, Route Requirement, Report Bug, Build Plan
+
+The plugin files live in `channels/cursor/` and are distributed via the Cursor Marketplace. If the plugin is installed, `taproot init --agent cursor` is not required — the plugin provides equivalent and richer coverage. The thin adapter remains a fallback if the plugin is uninstalled.
+
+To regenerate the plugin files after upgrading taproot:
+
+```bash
+npx tsx scripts/build-cursor-plugin.ts
+```
+
+---
+
 ## Non-Claude agents
 
-For Cursor, Copilot, and Windsurf, the adapter installs a rules or instructions file. These give the agent context on the taproot hierarchy, the document formats, and the commit convention — enough to read and navigate the hierarchy, write conformant documents, and use the CLI commands correctly.
+For Cursor (without the native plugin), Copilot, and Windsurf, the adapter installs a rules or instructions file. These give the agent context on the taproot hierarchy, the document formats, and the commit convention — enough to read and navigate the hierarchy, write conformant documents, and use the CLI commands correctly.
 
 These adapters do not provide slash commands. Instead, refer to the relevant document or hierarchy path in your prompt:
 
