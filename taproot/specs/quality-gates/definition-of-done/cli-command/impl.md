@@ -43,7 +43,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-03-19
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md documents taproot dod including --dry-run and --resolve; guide.md lists taproot dod | resolved: 2026-03-19T18:34:52.172Z

@@ -28,7 +28,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-26
-- **Last verified:** 2026-03-26
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current: README.md and docs/ accurately reflect all currently implemented CLI commands, skills, and configuration options | note: depends-on is a new impl.md field, not a CLI command or config option — no README or docs/ changes needed; the format reference in skills/implement.md is the natural home for impl.md field documentation | resolved: 2026-03-26T19:05:11.895Z

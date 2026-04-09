@@ -31,7 +31,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-20
-- **Last verified:** 2026-03-20
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: Updated docs/concepts.md: added deferred to state table and added explanatory paragraph. Updated docs/configuration.md: added deferred to allowed_behaviour_states and allowed_impl_states examples. update.ts propagates skill/adapter files only — not affected. skills/guide.md has no state references — not affected. | resolved: 2026-03-20T17:59:49.767Z

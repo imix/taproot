@@ -28,7 +28,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-03-21
+- **Last verified:** 2026-04-09
 - **Agent checks (verified):**
   - `document-current`: `docs/cli.md` and `skills/guide.md` already document `taproot commithook` and DoR — no update needed
   - `check-if-affected: src/commands/update.ts` — DoR is in `dor-runner.ts`/`commithook.ts`; `update.ts` unaffected

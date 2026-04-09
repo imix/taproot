@@ -29,7 +29,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-29
-- **Last verified:** 2026-03-29
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: docs/patterns.md updated with incremental delivery pattern (spec commit 000471e). No new CLI commands or config options introduced. README and docs/ accurately reflect all implemented features. | resolved: 2026-03-29T12:52:37.862Z

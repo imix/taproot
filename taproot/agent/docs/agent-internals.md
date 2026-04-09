@@ -54,6 +54,7 @@ taproot coverage --path taproot/password-reset/
 Works in phases:
 
 1. **Orient** — reads README, package manifests, and any existing taproot documents
+1.5. **Cross-cutting truths** — identifies facts, rules, conventions, and decisions that apply across intents; routes them to `taproot/global-truths/` rather than forcing them into the intent hierarchy
 2. **Intents** — proposes top-level business intents one at a time, asking a probing question about each
 3. **Behaviours** — for each confirmed intent, reads source code and proposes use cases
 4. **Implementations** — for each confirmed behaviour, identifies source files, tests, and commits, then writes `impl.md`

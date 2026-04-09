@@ -33,7 +33,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-26
-- **Last verified:** 2026-03-26
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: docs/workflows.md already covers the global truths workflow. docs/cli.md lists CLI commands only — this implementation adds no CLI commands. skills/guide.md is handled by check-if-affected below. No other docs/ files list individual skill pre-steps. README.md does not enumerate skill internals. Docs are current. | resolved: 2026-03-26T15:17:40.435Z

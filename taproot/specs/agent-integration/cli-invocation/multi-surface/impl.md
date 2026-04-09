@@ -32,7 +32,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-25
-- **Last verified:** 2026-03-25
+- **Last verified:** 2026-04-09
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: implementation adds `cli?: string` to TaprootConfig (types.ts) and injects a block into adapter files (adapters/index.ts). Design decisions: optional config key with safe default; idempotent via full regeneration. No architectural constraints violated — follows established adapter patterns. | resolved: 2026-03-25

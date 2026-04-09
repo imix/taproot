@@ -25,7 +25,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-20
-- **Last verified:** 2026-03-25
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: docs/configuration.md updated: added check-if-affected-by to DoR condition syntax and documented architecture compliance use case with reference to docs/architecture.md. docs/architecture.md created as the architecture reference document. README.md and other docs/ files not affected. | resolved: 2026-03-20T13:38:11.010Z

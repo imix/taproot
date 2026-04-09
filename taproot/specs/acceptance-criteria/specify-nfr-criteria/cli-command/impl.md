@@ -25,7 +25,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-21
-- **Last verified:** 2026-03-21
+- **Last verified:** 2026-04-09
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — extending the criterion ID regex in checkAcceptanceCriteria() is pure validation logic; no I/O, no global state; skill additions are markdown-only; no architectural constraints violated | resolved: 2026-03-21

@@ -24,7 +24,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-03-27
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: UPDATED docs/configuration.md: added Quick discovery section documenting .taproot/CONFIGURATION.md (installed by taproot update) and the taproot --help footer as the primary configuration discovery surfaces. README and docs/agents.md describe what taproot update does (refreshes skills), not how; no additional changes needed. | resolved: 2026-03-24T15:16:59.944Z

@@ -26,7 +26,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-28
-- **Last verified:** 2026-03-28
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: updated docs/configuration.md with when: source-matches: qualifier syntax and docs/patterns.md with Scoped conditions pattern | resolved: 2026-03-28

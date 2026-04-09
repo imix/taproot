@@ -5,7 +5,7 @@
 
 ## Design Decisions
 - File-based plugin structure in `channels/cursor/` rather than a compiled VS Code extension — matches Cursor's convention-based discovery model (`skills/*/SKILL.md`, `rules/*.mdc`, `commands/*.md`) and keeps the plugin distributable as plain files without a build step on the user's side
-- Thin-launcher pattern for SKILL.md files: each launcher contains Cursor-native frontmatter (`name`, `description`) plus a body directing the agent to load the canonical skill from `taproot/agent/skills/<name>.md` — avoids duplicating skill content and ensures the canonical skill is always the source of truth (satisfies AC-3)
+- Thin-launcher pattern for SKILL.md files: each launcher contains Cursor-native frontmatter (`name`, `description`) plus a body directing the agent to load the canonical skill from `taproot/agent/skills/<name>.md` — avoids duplicating skill content and ensures the canonical skill is always the source of truth (satisfies AC-3); currently 27 launchers generated
 - `scripts/build-cursor-plugin.ts` generates all plugin artifacts from `SKILL_FILES` at source — re-running after `taproot update` keeps the plugin in sync with new or renamed skills without manual file management
 - CLI invocation deferred to the project's `taproot/settings.yaml` `cli:` field — the plugin cannot know how taproot is installed in each user's project, so launchers direct the agent to use the project's configured CLI
 - Five commands (Initialize, Status, Route Requirement, Report Bug, Build Plan) chosen to match AC-5 — these are the most common entry points for developers unfamiliar with `/tr-*` syntax
@@ -13,8 +13,7 @@
 - Plugin files are pre-generated and checked in — distributable as-is without requiring users to run a build step
 
 ## Source Files
-- `scripts/build-cursor-plugin.ts` — generates all `channels/cursor/` plugin artifacts from `SKILL_FILES`; re-run after adding or renaming skills
-- `channels/cursor/skills/*/SKILL.md` — thin launcher files, one per entry in `SKILL_FILES` (26 files)
+- `scripts/build-cursor-plugin.ts` — generates all `channels/cursor/` plugin artifacts from `SKILL_FILES`; re-run after adding or renaming skills (currently produces 27 SKILL.md launchers under `channels/cursor/skills/`)
 - `channels/cursor/rules/taproot.mdc` — MDC conventions rule injected when taproot files are open
 - `channels/cursor/commands/initialize.md` — Initialize command launcher
 - `channels/cursor/commands/status.md` — Status command launcher

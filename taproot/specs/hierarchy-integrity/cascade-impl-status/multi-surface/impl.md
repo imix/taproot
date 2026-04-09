@@ -26,6 +26,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: Added cascade behaviour to taproot dod description in docs/cli.md | resolved: 2026-03-19T21:57:22.440Z

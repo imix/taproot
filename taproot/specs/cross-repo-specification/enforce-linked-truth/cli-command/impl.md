@@ -24,7 +24,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-04-03
-- **Last verified:** 2026-04-03
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: check-if-affected: skills/guide.md | note: not applicable — no skills/*.md files in Source Files (src/core/truth-checker.ts, src/commands/commithook.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-04-03T06:37:34.222Z

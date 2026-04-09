@@ -39,7 +39,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-27
-- **Last verified:** 2026-03-27
+- **Last verified:** 2026-04-09
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: INTENTIONAL SUPERSESSION — `docs/architecture.md` contains constraint "Skills, config, and framework files live in `.taproot/`." This implementation is the authoritative change to that constraint: agent files now live in `taproot/agent/`, `.taproot/` is runtime scratch only. `docs/architecture.md` must be updated as part of DoD to reflect the new layout. All other architecture principles (stateless CLI, immutable config, filesystem as data model, no global mutable state) are fully honoured. | resolved: 2026-03-27

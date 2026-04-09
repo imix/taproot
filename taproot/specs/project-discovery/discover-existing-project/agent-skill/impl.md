@@ -27,7 +27,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-04-06
+- **Last verified:** 2026-04-09
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: This implementation modifies skills/discover.md — a plain markdown agent skill file. Compliant with agent-agnostic output constraint. No CLI commands, no source modules, no architectural concerns apply. | resolved: 2026-03-20T00:00:00.000Z

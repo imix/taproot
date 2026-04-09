@@ -22,7 +22,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-04-01
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: NO UPDATE NEEDED — docs/configuration.md and README document user-facing CLI behaviour (commands, flags, output). The path-token recognition fix is an internal parsing detail in impl-reader.ts with no change to CLI interface, flags, or user-visible output format. | resolved: 2026-03-24T13:38:41.663Z

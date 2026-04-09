@@ -30,7 +30,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-29
-- **Last verified:** 2026-03-29
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md updated: commithook table row for hierarchy files now explicitly lists spec quality checks including behaviour-intent alignment. README.md does not enumerate individual commithook checks. docs/ accurately reflects the change. | resolved: 2026-03-29T18:36:55.909Z

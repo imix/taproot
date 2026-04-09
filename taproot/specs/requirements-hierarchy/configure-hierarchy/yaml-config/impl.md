@@ -25,7 +25,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-03-27
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: docs/configuration.md covers settings.yaml config loading. README references taproot/settings.yaml in Quick Start. No new options added by this test-only change — docs are current. | resolved: 2026-03-28T16:22:30.332Z

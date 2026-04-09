@@ -28,7 +28,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-27
-- **Last verified:** 2026-03-27
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: No new CLI commands or config options introduced. commithook.ts is internal; truth-sign.ts already documented. skills/commit.md updated with new step 4 (truth check in implementation sub-flow). docs/cli.md does not need updating — no new commands. README.md unchanged. | resolved: 2026-03-27T12:06:05.127Z

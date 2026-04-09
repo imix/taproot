@@ -29,6 +29,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-25
+- **Last verified:** 2026-04-09
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — handler added in src/core/dor-runner.ts using existsSync (consistent with existing dor-runner.ts I/O pattern); new DodConditionEntry variant in src/validators/types.ts follows existing union type pattern; error message includes correction hint per architecture error-messages constraint | resolved: 2026-03-25T12:10:00.000Z

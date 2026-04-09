@@ -23,7 +23,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-03-20
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: skills/status.md updated with Parked section in report template; guide.md describes /tr-status at a high level only (no report sections listed) — no change needed; docs/agents.md lists /tr-status as a coverage dashboard — no section-level detail to update | resolved: 2026-03-20T18:33:53.194Z

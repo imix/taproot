@@ -25,7 +25,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-20
-- **Last verified:** 2026-03-20
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: check-if-affected: src/commands/update.ts | note: update.ts regenerates agent adapters and skill files — it does not enumerate or invoke CLI commands. Adding acceptance-check to cli.ts does not affect update.ts logic. | resolved: 2026-03-20T06:54:30.454Z

@@ -26,6 +26,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-24
+- **Last verified:** 2026-04-09
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — buildConfigurationMd() is pure logic in src/core/configuration.ts (no I/O). File writes happen only at the command boundary in update.ts. cli.ts change is addHelpText only. Follows established architecture: external I/O at command boundaries only. | resolved: 2026-03-24

@@ -29,7 +29,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-29
-- **Last verified:** 2026-03-29
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: check-if-affected: skills/guide.md | note: not applicable — no skills/*.md files in Source Files (src/commands/commit.ts, src/cli.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-30T05:56:40.349Z

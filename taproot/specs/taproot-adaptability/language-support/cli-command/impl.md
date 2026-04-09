@@ -47,7 +47,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-23
-- **Last verified:** 2026-03-27
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: Updated docs/configuration.md: added language: field to settings.yaml example, added ## Language section documenting all 5 supported codes, what gets localised, and the unknown-code abort behaviour | resolved: 2026-03-23T12:17:50.488Z

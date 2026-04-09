@@ -29,7 +29,7 @@
 - **State:** deferred
 - **Reason:** headless agent permission system blocks file writes in unattended mode — fix requires agent-agnostic mechanism; see usecase.md Finding section
 - **Created:** 2026-03-20
-- **Last verified:** 2026-03-26
+- **Last verified:** 2026-04-09
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — stateless CLI command; external I/O (file reads/writes, agent spawn) at command boundary in runApply; no global mutable state; validation runs before any filesystem mutation | resolved: 2026-03-20T15:36:07.435Z

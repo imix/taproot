@@ -29,7 +29,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-21
-- **Last verified:** 2026-03-28
+- **Last verified:** 2026-04-09
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — skill-only change; no CLI code, no I/O, no module boundaries affected | resolved: 2026-04-06T08:55:47.384Z

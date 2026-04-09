@@ -25,7 +25,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-30
-- **Last verified:** 2026-03-30
+- **Last verified:** 2026-04-09
 
 ## DoD
 - [x] New `usecase.md` with `State: proposed` → blocked (exit 1)

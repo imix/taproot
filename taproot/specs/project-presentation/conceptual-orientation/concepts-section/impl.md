@@ -28,7 +28,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-26
-- **Last verified:** 2026-03-26
+- **Last verified:** 2026-04-09
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — implementation writes a section of README.md (documentation only); no code design decisions; no architectural constraints apply | resolved: 2026-03-26

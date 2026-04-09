@@ -24,7 +24,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-03-19
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md updated with MISSING_ACCEPTANCE_CRITERIA and DUPLICATE_CRITERION_ID violation codes | resolved: 2026-03-19T22:32:00.969Z

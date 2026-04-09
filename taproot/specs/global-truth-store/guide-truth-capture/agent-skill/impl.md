@@ -67,4 +67,4 @@ No automated tests — skill file and pattern entry are agent-readable markdown.
 
 - **State:** complete
 - **Created:** 2026-03-28
-- **Last verified:** 2026-03-28
+- **Last verified:** 2026-04-09

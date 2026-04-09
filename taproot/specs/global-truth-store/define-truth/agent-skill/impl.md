@@ -29,7 +29,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-26
-- **Last verified:** 2026-03-27
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: skills/guide.md updated: /tr-define-truth added to slash commands table. docs/workflows.md already covers global truths workflow via /tr-discover-truths — no separate entry needed for define-truth (it is an internal routing target, not a primary workflow entry point). README.md does not list individual skills. | resolved: 2026-03-26T15:06:45.358Z

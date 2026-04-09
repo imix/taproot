@@ -30,7 +30,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-31
-- **Last verified:** 2026-03-31
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: coverage extension reads link files using parseLinkFile() and loadReposYaml() from core module; no direct settings reads inside core logic. Compliant. | resolved: 2026-03-31T17:03:10.000Z

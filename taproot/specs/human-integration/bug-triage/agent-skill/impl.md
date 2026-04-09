@@ -27,6 +27,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-24
+- **Last verified:** 2026-04-09
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — skill is a markdown file; no I/O or source code. Adding bug.md to SKILL_FILES follows the established pattern. | resolved: 2026-03-24

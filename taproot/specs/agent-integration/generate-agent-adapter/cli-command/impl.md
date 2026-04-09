@@ -28,7 +28,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-03-21
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: no-git-abort | note: test/integration/adapters.test.ts beforeEach updated to create .git — required by AC-13 (runInit throws without git). Not applicable to adapter generation logic. | resolved: 2026-03-21

@@ -29,7 +29,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-26
-- **Last verified:** 2026-03-26
+- **Last verified:** 2026-04-09
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — changes are confined to `src/validators/types.ts` (type definition), `src/core/configuration.ts` (CONFIGURATION.md generator), `src/adapters/` (adapter generation), and skill markdown files. No new commands, no global state, no cross-layer imports. Config field follows established `deepMerge` pattern. No architectural constraints violated. | resolved: 2026-03-26

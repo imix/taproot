@@ -39,7 +39,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-27
-- **Last verified:** 2026-04-02
+- **Last verified:** 2026-04-09
 
 ## Notes
 - 2026-03-30: updated step 6 batch list and step 7a item prompt to show behaviour title + one-line goal (AC-21)

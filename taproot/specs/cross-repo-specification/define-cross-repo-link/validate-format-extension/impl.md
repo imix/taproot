@@ -30,7 +30,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-31
-- **Last verified:** 2026-03-31
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: validate-format extension uses findLinkFiles() from core module, receives path config from command boundary. No direct settings reads inside core logic. Compliant with build-time vs runtime config split. | resolved: 2026-03-31T15:58:00.000Z

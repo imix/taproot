@@ -33,6 +33,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-25
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: docs/ and README.md do not document agent skill steps — they document CLI commands and configuration. discussion.md is an agent-driven artefact described in skills/implement.md and skills/behaviour.md, which are the correct home for this content. No docs/ or README.md change required. | resolved: 2026-03-25T12:11:25.381Z

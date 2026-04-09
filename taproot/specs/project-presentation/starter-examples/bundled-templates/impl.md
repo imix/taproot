@@ -38,6 +38,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-25
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md updated to document --template and --force flags and the interactive template prompt; skills/guide.md updated to mention --template in init row and new-project context note; README.md does not reference init flags in detail — it uses a minimal quick-start example, which is appropriate | resolved: 2026-03-25T11:18:24.806Z

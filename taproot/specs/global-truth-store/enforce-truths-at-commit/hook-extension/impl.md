@@ -35,7 +35,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-26
-- **Last verified:** 2026-03-27
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md updated: added truth-sign command documentation and updated commithook table to mention truth consistency check. docs/patterns.md updated with new session-hash pattern. README.md does not list individual CLI commands and does not need updating. | resolved: 2026-03-26T12:23:54.070Z

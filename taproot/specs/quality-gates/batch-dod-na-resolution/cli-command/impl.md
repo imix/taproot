@@ -35,7 +35,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-30
-- **Last verified:** 2026-03-30
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md: added --resolve-all-na flag to taproot dod synopsis and added description paragraph. docs/configuration.md: added naRules section documenting when predicates, protected conditions, and default rules. taproot/agent/ synced. README.md does not enumerate individual CLI flags. Docs current. | resolved: 2026-03-30T05:37:14.269Z

@@ -24,7 +24,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-20
-- **Last verified:** 2026-03-21
+- **Last verified:** 2026-04-09
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: compliant — changes are YAML config (taproot/settings.yaml) and markdown skill files (skills/implement.md); no source code modified; no architectural constraints affected | resolved: 2026-03-20T20:00:00.000Z

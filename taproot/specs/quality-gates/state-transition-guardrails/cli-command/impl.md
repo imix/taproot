@@ -31,7 +31,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-25
-- **Last verified:** 2026-03-25
+- **Last verified:** 2026-04-09
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: test-cache.ts is a new src/core/ module that does process spawning and file I/O — same pattern as dod-runner.ts which already uses spawnSync/writeFileSync in core. Architecture constraint says "wherever practical"; this is the established pattern. Design decisions follow module boundary rules: test-cache.ts is pure evidence logic; dod-runner.ts orchestrates; dod.ts handles CLI. No architectural constraints violated. | resolved: 2026-03-25

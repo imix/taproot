@@ -20,7 +20,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
-- **Last verified:** 2026-03-27
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: init.test.ts updated to add AC-9–12 tests for interactive init prompts. git-hook impl not affected — hook installation logic unchanged; new tests cover the prompt/flag UX, not hook content. | resolved: 2026-03-21T07:49:49.245Z

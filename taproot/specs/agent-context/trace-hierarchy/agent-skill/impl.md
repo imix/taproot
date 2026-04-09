@@ -25,6 +25,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-19
+- **Last verified:** 2026-04-09
 
 ## DoD Resolutions
 - condition: document-current | note: README.md and docs/ accurately cover /tr-trace (agents.md line 36, workflows.md lines 46-51). Fixed incorrect description in skills/guide.md (was 'Map recent commits' — corrected to navigation description). | resolved: 2026-03-19T21:45:10.556Z
