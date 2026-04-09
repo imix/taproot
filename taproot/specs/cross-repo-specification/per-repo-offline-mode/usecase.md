@@ -108,6 +108,9 @@ flowchart TD
 - When the pre-commit hook runs
 - Then the hook skips those links with warnings and does not block the commit
 
+## Implementations <!-- taproot-managed -->
+- [CLI check-orphans Extension](./cli-check-orphans/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-04-09
