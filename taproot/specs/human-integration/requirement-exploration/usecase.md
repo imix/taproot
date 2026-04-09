@@ -116,6 +116,9 @@ flowchart TD
 - When the agent responds
 - Then the agent names the distinct ideas and asks which to explore first before proceeding
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-04-09
