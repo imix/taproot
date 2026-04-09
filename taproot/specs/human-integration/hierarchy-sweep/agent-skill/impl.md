@@ -27,7 +27,7 @@
 - `d5888d5b8cfe8d0539cbfde67573a9ab3cfcc991` — (auto-linked by taproot link-commits)
 
 ## Tests
-- `test/unit/skills.test.ts` — AC-1: [x] progress marking present; AC-2: Y/N confirmation gate and cancellation; AC-4: [x] line includes taproot path; cross-item context warning redirects to /tr-review-all
+- `test/unit/skills.test.ts` — AC-1: [x] progress marking present; AC-2: Y/N confirmation gate and cancellation; AC-4: [x] line includes taproot path; cross-item context warning redirects to /tr-audit-all
 
 ## Status
 - **State:** complete

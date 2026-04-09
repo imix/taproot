@@ -18,7 +18,7 @@ Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the 
    ```
    **What's next?**
    [A] `/tr-implement taproot/my-intent/my-behaviour/` — start building
-   [B] `/tr-review taproot/my-intent/my-behaviour/usecase.md` — stress-test the spec first
+   [B] `/tr-audit taproot/my-intent/my-behaviour/usecase.md` — stress-test the spec first
    ```
 5. Developer reads the suggestion and either acts on it or ignores it
 
@@ -64,7 +64,7 @@ Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the 
   2. `/tr-backlog` is preferred over `/tr-ineed` when the item is not yet ready to be placed in the hierarchy — use `/tr-ineed` when the item is ready to route
 
 ### Findings-informed guidance
-- **Trigger:** The skill's output includes specific identified actionable items — e.g. `/tr-status` finds an unimplemented behaviour; `/tr-review-all` flags a broken spec at a known path
+- **Trigger:** The skill's output includes specific identified actionable items — e.g. `/tr-status` finds an unimplemented behaviour; `/tr-audit-all` flags a broken spec at a known path
 - **Steps:**
   1. Skill selects the top 1–2 highest-priority items from its findings
   2. Those items appear as the first lettered options with the exact command and path pre-filled
@@ -116,7 +116,7 @@ flowchart TD
 **AC-1: Open-ended menu shown after /tr-behaviour**
 - Given a developer has just completed `/tr-behaviour` and a new `usecase.md` was written
 - When the skill finishes its output
-- Then the skill appends a `**What's next?**` menu with `/tr-implement <path>` and `/tr-review <usecase.md>` as lettered options
+- Then the skill appends a `**What's next?**` menu with `/tr-implement <path>` and `/tr-audit <usecase.md>` as lettered options
 
 **AC-2: Lettered menu shown for open-ended context**
 - Given a developer has just completed `/tr-discover` and the next step could be any of several workflows
@@ -170,11 +170,11 @@ flowchart TD
 - **Router vs leaf:** A skill is a **router** if its primary output is invoking another skill (e.g. `/tr-ineed` routes to `/tr-behaviour`; `/tr-decompose` routes to multiple `/tr-behaviour` calls). A skill is a **leaf** if its primary output is a document, report, or validation result. When in doubt: if the skill ends by writing files or presenting findings directly, it is a leaf and must show guidance.
 - **Canonical next-step map** — this Notes section is the authoritative reference. When implementing this behaviour in a skill file, copy the relevant entry into the skill's final step. When a new skill is added to the ecosystem, update this map first, then propagate to the skill file:
   - `/tr-intent` → open-ended: `/tr-behaviour <intent-path>/` (define first behaviour) **or** `/tr-decompose <intent-path>/` (if intent has many sub-behaviours)
-  - `/tr-behaviour` → open-ended: `/tr-implement <path>/` (start building) **or** `/tr-review <usecase.md>` (stress-test first)
+  - `/tr-behaviour` → open-ended: `/tr-implement <path>/` (start building) **or** `/tr-audit <usecase.md>` (stress-test first)
   - `/tr-implement` → deterministic: `taproot dod <impl-path>` (run DoD and mark complete)
   - `/tr-refine` → open-ended: commit the change **or** `/tr-implement <path>/` (if spec changes require reimplementing)
-  - `/tr-review` → open-ended: `/tr-refine <path>` (if issues found) **or** `/tr-implement <path>/` (if spec is clean) **or** `/tr-backlog <finding>` (if issues are out of scope for now)
-  - `/tr-review-all` → findings-informed: surface top 1–2 issues as direct options; fallback: `/tr-backlog <finding>` (capture deferred items) **or** `/tr-next` (next slice)
+  - `/tr-audit` → open-ended: `/tr-refine <path>` (if issues found) **or** `/tr-implement <path>/` (if spec is clean) **or** `/tr-backlog <finding>` (if issues are out of scope for now)
+  - `/tr-audit-all` → findings-informed: surface top 1–2 issues as direct options; fallback: `/tr-backlog <finding>` (capture deferred items) **or** `/tr-next` (next slice)
   - `/tr-next` → deterministic: `/tr-implement <returned-slice-path>/`
   - `/tr-status` → findings-informed when specific items found (surface top 1–2 as direct options + one generic fallback); otherwise open-ended: `/tr-next` (pick next item) **or** `/tr-ineed` (route a gap) **or** `/tr-backlog` (if backlog is non-empty — triage before moving on)
   - `/tr-discover` → open-ended: `/tr-status` (see coverage), `/tr-next` (get next slice), or `/tr-ineed` (add missing requirements)

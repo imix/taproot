@@ -54,7 +54,7 @@
 
 - condition: check-if-affected-by: human-integration/pause-and-confirm | note: Not applicable: discover-truths is not a bulk document-writing skill. It presents one candidate at a time with a P/S/B/D choice menu and does not write documents directly — it delegates to /tr-ineed for any promoted candidate. The pause-and-confirm spec applies to skills that 'write more than one document in sequence' (Alternate Flow: Single-document skills — not applicable). Compliant with the spirit: the skill never writes files without developer confirmation. | resolved: 2026-03-26T13:58:43.010Z
 
-- condition: check-if-affected-by: human-integration/contextual-next-steps | note: Applies: discover-truths.md produces primary output (discovery summary). The skill ends with a What's next? block offering [A] /tr-ineed, [B] /tr-status, [C] /tr-review-all. Compliant with open-ended context menu format. | resolved: 2026-03-26T13:58:33.246Z
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: Applies: discover-truths.md produces primary output (discovery summary). The skill ends with a What's next? block offering [A] /tr-ineed, [B] /tr-status, [C] /tr-audit-all. Compliant with open-ended context menu format. | resolved: 2026-03-26T13:58:33.246Z
 
 - condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: Applies: discover-truths.md is a skills/*.md file. Reviewed for agent bias: (AC-1) no bare 'Claude' or 'Claude Code' references; (AC-4) no @{project-root} syntax. All language is generic ('the agent', 'the developer'). Compliant. | resolved: 2026-03-26T13:58:27.603Z
 

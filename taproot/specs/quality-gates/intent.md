@@ -11,7 +11,7 @@ Enforce quality at every level of the hierarchy — from intent and usecase docu
 
 ## Success Criteria
 - [ ] A `usecase.md` or `intent.md` missing required quality elements (e.g. acceptance criteria, observable actor, measurable goal) is rejected at commit time with an actionable error
-- [ ] Teams can configure a Definition of Done in `.taproot/settings.yaml` with one or more named conditions
+- [ ] Teams can configure a Definition of Done in the taproot settings file with one or more named conditions
 - [ ] `/tr-implement` checks all configured DoD conditions before marking an impl `complete`
 - [ ] Each condition produces a clear pass/fail result with an actionable error message on failure
 - [ ] Agent context includes enough guidance that specs are written correctly on the first attempt
@@ -19,7 +19,7 @@ Enforce quality at every level of the hierarchy — from intent and usecase docu
 ## Constraints
 - Conditions must be runnable in CI and locally without difference in behaviour
 - Failing a quality gate must block the commit — it cannot be silently skipped
-- Semantic quality checks must use checkable heuristics (AC section present, step count, etc.) — subjective judgement stays in `/tr-review`
+- Semantic quality checks must use checkable heuristics (AC section present, step count, etc.) — subjective judgement stays in `/tr-audit`
 
 ## Behaviours <!-- taproot-managed -->
 - [Definition of Done Enforcement](./definition-of-done/usecase.md)
@@ -41,4 +41,4 @@ Enforce quality at every level of the hierarchy — from intent and usecase docu
 - **Last reviewed:** 2026-03-19
 
 ## Notes
-First behaviour: configurable Definition of Done — conditions declared in `.taproot/settings.yaml` and enforced by `/tr-implement`. Future behaviours may include lint-enforcement, commit-convention checks, and coverage thresholds as first-class conditions.
+First behaviour: configurable Definition of Done — conditions declared in the taproot settings file and enforced by `/tr-implement`. Future behaviours may include lint-enforcement, commit-convention checks, and coverage thresholds as first-class conditions.

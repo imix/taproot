@@ -49,7 +49,7 @@ Developer — applying a uniform task across many hierarchy items without accumu
 - `.taproot/sessions/sweep-status.md` is absent after clean completion; present (with remaining `[ ]` files) if the session was interrupted
 
 ## Error Conditions
-- **Task requires cross-item context** (e.g. "renumber all AC IDs globally"): skill warns "This task needs cross-item context — consider `/tr-review-all` instead." No filelist is written.
+- **Task requires cross-item context** (e.g. "renumber all AC IDs globally"): skill warns "This task needs cross-item context — consider `/tr-audit-all` instead." No filelist is written.
 - **No matching items found**: `No <type> items found under <path>.`
 
 ## Flow

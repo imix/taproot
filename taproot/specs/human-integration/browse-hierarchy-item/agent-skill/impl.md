@@ -55,7 +55,7 @@
 
 - condition: check-if-affected-by: human-integration/pause-and-confirm | note: NOT APPLICABLE — pause-and-confirm governs skills that write multiple documents in sequence; browse writes at most one document (via [M] edits) and does not bulk-author. | resolved: 2026-03-25T13:06:44.102Z
 
-- condition: check-if-affected-by: human-integration/contextual-next-steps | note: APPLIED — browse.md step 7 added with What's next? block offering [A] /tr-browse child, [B] /tr-implement, [C] /tr-review; compact hint included. | resolved: 2026-03-25T13:06:43.833Z
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: APPLIED — browse.md step 7 added with What's next? block offering [A] /tr-browse child, [B] /tr-implement, [C] /tr-audit; compact hint included. | resolved: 2026-03-25T13:06:43.833Z
 
 - condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: COMPLIANT — browse.md uses agent-agnostic language throughout: 'the agent', 'the developer', 'the skill'; no Claude-specific syntax or references. | resolved: 2026-03-25T13:06:43.575Z
 

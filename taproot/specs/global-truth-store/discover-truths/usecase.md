@@ -8,7 +8,7 @@ Developer with an existing `taproot/` hierarchy who wants to identify what proje
 - `taproot/global-truths/` exists (created by `taproot init`)
 
 ## Main Flow
-1. Developer invokes truth discovery — either directly via `/tr-review-all` (as a final pass) or standalone
+1. Developer invokes truth discovery — either directly via `/tr-audit-all` (as a final pass) or standalone
 1a. System checks for `.taproot/sessions/discover-truths-status.md`. If found: *"A previous session exists (N processed, M remaining). [A] Resume  [R] Restart"*. On **[R]**: overwrite status file from scratch. On **[A]**: skip already-processed candidates and resume from the first unprocessed one.
 2. System scans all `intent.md` and `usecase.md` files in `taproot/`, excluding `taproot/global-truths/` itself; unreadable files are skipped with a warning
 3. System identifies candidate truths across three categories:
@@ -83,8 +83,8 @@ Developer with an existing `taproot/` hierarchy who wants to identify what proje
   1. System surfaces the routing decision: "This candidate was routed to `<location>`. [A] Accept routing  [B] Override — invoke define-truth directly"
   2. Developer chooses; system proceeds accordingly
 
-### Developer runs discovery as part of `/tr-review-all`
-- **Trigger:** `/tr-review-all` completes its spec quality review and triggers the truth discovery pass automatically
+### Developer runs discovery as part of `/tr-audit-all`
+- **Trigger:** `/tr-audit-all` completes its spec quality review and triggers the truth discovery pass automatically
 - **Steps:**
   1. Discovery runs on the full hierarchy (same scan as standalone)
   2. Candidates are appended to the review-all report under a `## Truth Candidates` section
@@ -169,8 +169,8 @@ flowchart TD
 - When discovery is invoked
 - Then the system warns that cross-spec patterns may not surface reliably but proceeds with scanning
 
-**AC-7: Discovery pass appended to /tr-review-all output**
-- Given a developer running `/tr-review-all` on a hierarchy with undefined truth candidates
+**AC-7: Discovery pass appended to /tr-audit-all output**
+- Given a developer running `/tr-audit-all` on a hierarchy with undefined truth candidates
 - When the review completes
 - Then a `## Truth Candidates` section appears at the end of the report, and unprocessed candidates are appended to `taproot/backlog.md` if the developer defers
 

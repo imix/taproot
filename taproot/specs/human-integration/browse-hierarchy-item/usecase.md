@@ -101,7 +101,7 @@ flowchart TD
 - `../hierarchy-integrity/validate-format/usecase.md` — validates document structure; browse shows it as-is without validation
 - `../requirements-compliance/record-decision-rationale/usecase.md` — defines what discussion.md contains; browse surfaces it as contextual notes
 - `../agent-context/trace-hierarchy/usecase.md` — navigates the hierarchy for agents; browse is the human-facing equivalent
-- **`/tr-review` skill** — agent stress-tests a spec by challenging it; browse is the human-driven reading equivalent, no agent critique
+- **`/tr-audit` skill** — agent stress-tests a spec by challenging it; browse is the human-driven reading equivalent, no agent critique
 
 ## Acceptance Criteria
 
@@ -154,7 +154,7 @@ flowchart TD
 - **Last reviewed:** 2026-03-25
 
 ## Notes
-- "Browse" is intentionally distinct from `/tr-review` (agent stress-test) — browse is the developer reading the spec themselves, with the agent as a display and editing assistant only
+- "Browse" is intentionally distinct from `/tr-audit` (agent stress-test) — browse is the developer reading the spec themselves, with the agent as a display and editing assistant only
 - The [M] modify flow is open-ended: the agent does not pre-empt what needs changing. The developer drives the edit.
 - The ~20-line threshold for section pagination is a guideline, not a hard rule — the agent uses judgment to avoid outputting a wall of text in a single turn.
 - To go deeper into a listed child after browsing, the developer calls `/tr-browse <child-path>` — no automatic traversal.

@@ -8,10 +8,10 @@ Developer or project stakeholder invoking `/tr-status`
 
 ## Main Flow
 1. Developer invokes `/tr-status`
-2. Agent runs `taproot coverage --format json` and parses the completeness data
+2. Agent runs `taproot coverage` and collects completeness data
 3. Agent runs `taproot check-orphans --include-unimplemented` and collects structural violations
 4. Agent runs `taproot sync-check` and collects staleness warnings
-5. Agent runs `taproot validate-structure` and `taproot validate-format` to check for schema errors
+5. Agent runs `taproot validate-structure` and `taproot validate-format` to check for structural and format errors
 6. Agent reads `taproot/backlog.md` if it exists — counts items and extracts the first 3 for the summary
 7. Agent reads `taproot/plan.md` if it exists — counts pending vs complete items and identifies the next pending item
 8. Agent synthesizes all results into a structured narrative report:
@@ -28,13 +28,13 @@ Developer or project stakeholder invoking `/tr-status`
 
 ## Alternate Flows
 - **`--path <subpath>`**: Scopes all commands to a subtree of the hierarchy
-- **No issues found**: Agent presents a clean health summary with a suggestion to run `/tr-review-all` for deeper semantic review
+- **No issues found**: Agent presents a clean health summary with a suggestion to run `/tr-audit-all` for deeper semantic review
 - **No deferred items**: Parked section is omitted from the report entirely
 - **No backlog.md or empty backlog**: Backlog section is omitted from the report
 - **No plan.md**: Plan section is omitted from the report
 
 ## Error Conditions
-- **Validation errors present**: Agent flags these as top priority before presenting the rest of the report — broken structure/format must be fixed before other metrics are meaningful
+- **Validation errors present**: Agent flags these as top priority before presenting the remaining report sections — broken structure/format must be fixed before other metrics are meaningful
 
 ## Postconditions
 - Developer has a single consolidated view of hierarchy health without running multiple commands

@@ -94,7 +94,7 @@ Developer — working through a previously built plan, delegating each item to t
 ### Developer reviews item before deciding
 - **Trigger:** Developer selects `[R]` at the item confirmation prompt (step 3 of step-by-step mode, or at any HITL pause in batch mode).
 - **Steps:**
-  1. Agent invokes `/tr-browse <path>` for the item's behaviour path and lets it run to full completion — including any sub-actions the developer selects within browse (e.g. `/tr-review`, navigating further sections). The plan-execute prompt is not re-presented until browse has fully exited.
+  1. Agent invokes `/tr-browse <path>` for the item's behaviour path and lets it run to full completion — including any sub-actions the developer selects within browse (e.g. `/tr-audit`, navigating further sections). The plan-execute prompt is not re-presented until browse has fully exited.
   2. Once browse has fully exited, agent re-presents the same item prompt unchanged:
      ```
      Next: [implement] taproot/<intent>/<behaviour>/
@@ -298,7 +298,7 @@ flowchart TD
 
 **AC-23: Browse sub-actions execute fully before plan-execute resumes**
 - Given the developer selected `[R]` and is inside browse
-- When the developer selects a browse exit action (e.g. `[C] /tr-review`)
+- When the developer selects a browse exit action (e.g. `[C] /tr-audit`)
 - Then that action runs to completion before plan-execute re-presents the HITL prompt — browse exit options are not swallowed
 
 **AC-21: Item prompt includes behaviour title and goal**
@@ -315,7 +315,7 @@ flowchart TD
 - **Last reviewed:** 2026-03-30
 - **Refined:** 2026-03-30 — enriched item display: behaviour title + one-line goal in Next: prompt (AC-21)
 - **Refined:** 2026-03-30 — added [R] Review spec option to HITL pause menu; invokes /tr-browse and returns to same prompt (AC-22)
-- **Refined:** 2026-03-30 — clarified [R] browse runs to full completion before plan-execute resumes; browse sub-actions (e.g. /tr-review) must not be swallowed (AC-23)
+- **Refined:** 2026-03-30 — clarified [R] browse runs to full completion before plan-execute resumes; browse sub-actions (e.g. /tr-audit) must not be swallowed (AC-23)
 - **Refined:** 2026-04-02 — HITL mode always step-by-step (batch meaningless for human-decision items); AFK mode always batch (no per-item prompt for autonomous items)
 - **Refined:** 2026-04-03 — replaced ambiguous `skipped` status with `deferred` (do later) and `dropped` (intentionally excluded); [L] Later and [X] Drop replace [S] Skip; letter assignments aligned with UX principles truth
 

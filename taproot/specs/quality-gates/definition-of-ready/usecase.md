@@ -48,7 +48,7 @@
 
 ## Error Conditions
 - **`usecase.md` not found**: `FAIL — no behaviour spec at <path>/usecase.md. Create one with /tr-behaviour before committing an impl.md`
-- **State is not `specified`**: `FAIL — usecase.md state is '<current-state>'. Bring the spec to 'specified' (run /tr-review then /tr-refine) before starting implementation`
+- **State is not `specified`**: `FAIL — usecase.md state is '<current-state>'. Bring the spec to 'specified' (run /tr-audit then /tr-refine) before starting implementation`
 - **State is `implemented` or `tested`** (a previous implementation has been completed): `FAIL — usecase.md is already in '<state>' state — a previous implementation has been completed. To add a new implementation, revert the state: change **State:** <state> to **State:** implemented in the ## Status section of the usecase.md, then re-commit the impl.md.`
 - **`validate-format` violations**: `FAIL — usecase.md has format violations: <list>. Fix them and re-commit`
 - **Mermaid diagram missing**: `FAIL — usecase.md has no ## Flow section with a Mermaid diagram. Add one before starting implementation`

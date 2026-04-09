@@ -10,7 +10,7 @@ Agentic developer / orchestrator (human who asks the agent to plan the next work
 
 ## Main Flow
 1. Developer asks the agent to identify the next thing to implement (e.g. "what should I work on next?") or explicitly invokes `/tr-implement` on a specific behaviour
-2. Agent scans the hierarchy (via `taproot coverage --format json`) to identify unimplemented and in-progress behaviours
+2. Agent scans the hierarchy to identify unimplemented and in-progress behaviours
 3. Agent classifies each candidate as:
    - **AFK** (agent can proceed without human input): spec is unambiguous, no design decisions required, tests can be written from the spec alone
    - **HITL** (human-in-the-loop required): spec has open questions, design decisions are needed, or external dependencies must be confirmed
@@ -21,7 +21,7 @@ Agentic developer / orchestrator (human who asks the agent to plan the next work
 
 ## Alternate Flows
 - **Multiple candidates at the same priority**: Agent presents a short-list and asks the developer to choose
-- **All behaviours implemented**: Agent reports complete coverage and suggests `/tr-review-all` for semantic review
+- **All behaviours implemented**: Agent reports complete coverage and suggests `/tr-audit-all` for semantic review
 - **Developer specifies a path**: Agent skips discovery and proceeds directly to implement the named behaviour
 
 ## Error Conditions
@@ -30,7 +30,7 @@ Agentic developer / orchestrator (human who asks the agent to plan the next work
 
 ## Postconditions
 - The developer has a clear, scoped unit of work with explicit acceptance criteria
-- The selected behaviour is being implemented as a vertical slice — touching all layers needed for that behaviour to function end-to-end
+- The selected behaviour is being implemented as a vertical slice — touching all layers needed for that behaviour to work end-to-end
 - On completion, the behaviour has a passing test and a traceable `impl.md`
 
 ## Implementations <!-- taproot-managed -->
