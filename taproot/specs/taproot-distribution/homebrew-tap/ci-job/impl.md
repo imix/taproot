@@ -28,7 +28,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-28
-- **Last verified:** 2026-03-28
+- **Last verified:** 2026-04-09
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — CI workflow file only; no TypeScript source, no external API calls from taproot codebase; job runs in GitHub Actions | resolved: 2026-03-28
