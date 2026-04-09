@@ -138,11 +138,12 @@ flowchart TD
 - Then the counts match — no skill is silently omitted from the plugin
 
 ## Implementations <!-- taproot-managed -->
+- [Plugin Source](./plugin-source/impl.md)
 
 ## Status
 - **State:** specified
 - **Created:** 2026-04-05
-- **Last reviewed:** 2026-04-08
+- **Last reviewed:** 2026-04-09
 
 ## Notes
 - The plugin uses Cursor's convention-based discovery: `skills/*/SKILL.md`, `rules/*.mdc`, `commands/*.md`
