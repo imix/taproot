@@ -128,6 +128,7 @@ Taproot's own `taproot/settings.yaml` ships with several `check-if-affected-by` 
 | `check-if-affected-by: skill-architecture/commit-awareness` | Skills with git commit steps load the full commit skill rather than inventing ad-hoc git flows |
 | `check-if-affected-by: human-integration/pattern-hints` | Skills that receive natural language intent check `docs/patterns.md` for pattern matches |
 | `check-if-affected-by: quality-gates/architecture-compliance` | Implementations comply with `docs/architecture.md` constraints |
+| `check-if-affected-by: agent-integration/portable-output-patterns` | Skill files use named output patterns (`artifact-review`, `confirmation`, `progress`, `next-steps`) instead of raw rendering instructions — see `docs/skill-output-patterns.md` |
 
 ---
 

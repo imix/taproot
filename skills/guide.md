@@ -138,6 +138,13 @@ Invoke the matching skill whenever the developer uses these phrases — even wit
 
 These triggers apply regardless of which agent is running. Do not use a built-in tool (e.g. the agent's native Plan tool) when a taproot skill covers the intent.
 
+## Skill authoring references
+
+When writing or modifying a skill file (`skills/*.md`):
+- **Output interactions** — use named output patterns instead of raw rendering instructions. See `docs/skill-output-patterns.md` for the 4 pattern types (`artifact-review`, `confirmation`, `progress`, `next-steps`) and per-adapter rendering rules.
+- **Option labeling** — letters carry fixed semantic meaning (`[A]` = Accept, `[C]` = Cancel, `[D]` = Done, etc.). Numbers are positional. See `global-truths/ux-principles_intent.md`.
+- **Agent-agnostic language** — use "the agent" not "Claude". Adapter-specific instructions belong in `.claude/commands/`, not in `skills/*.md`.
+
 ## Notes
 
 - This skill is read-only. It reports, it does not modify.

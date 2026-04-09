@@ -107,9 +107,9 @@ sequenceDiagram
 - [Skill Conventions](./skill-conventions/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-04-05
-- **Last reviewed:** 2026-04-05
+- **Last reviewed:** 2026-04-09
 
 ## Notes
 - **Defined pattern types (initial set):** `artifact-review` (present a file for review + actions), `confirmation` (yes/no or multi-choice decision), `progress` (status update, no action required), `next-steps` (What's next menu). New patterns can be added as skills require them.

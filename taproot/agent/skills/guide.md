@@ -59,6 +59,7 @@ ineed → intent → behaviour → implement → trace → status
 | `/tr-define-truth` | Capture any truth — free-form or structured (architecture decisions, principles, conventions, external constraints) |
 | `/tr-browse` | Read a hierarchy document section by section in the terminal — with inline editing via `[M] Modify` |
 | `/tr-backlog` | Capture an idea or finding instantly mid-session; called with no args opens triage to discard, keep, or promote items |
+| `/tr-explore` | Collaborative exploration of a vague idea before speccing — one question at a time, hands off to the right skill when ready |
 | `/tr-grill-me` | Interview the user relentlessly to sharpen a plan or design |
 | `/tr-research` | Research a domain or technical subject before speccing — local resources, web search, expert grilling |
 | `/tr-next` | Surface the next independently-implementable work item from the hierarchy |
@@ -136,6 +137,13 @@ Invoke the matching skill whenever the developer uses these phrases — even wit
 | "research", "look into", "investigate", "find out about", "explore" | `/tr-research` |
 
 These triggers apply regardless of which agent is running. Do not use a built-in tool (e.g. the agent's native Plan tool) when a taproot skill covers the intent.
+
+## Skill authoring references
+
+When writing or modifying a skill file (`skills/*.md`):
+- **Output interactions** — use named output patterns instead of raw rendering instructions. See `docs/skill-output-patterns.md` for the 4 pattern types (`artifact-review`, `confirmation`, `progress`, `next-steps`) and per-adapter rendering rules.
+- **Option labeling** — letters carry fixed semantic meaning (`[A]` = Accept, `[C]` = Cancel, `[D]` = Done, etc.). Numbers are positional. See `global-truths/ux-principles_intent.md`.
+- **Agent-agnostic language** — use "the agent" not "Claude". Adapter-specific instructions belong in `.claude/commands/`, not in `skills/*.md`.
 
 ## Notes
 
