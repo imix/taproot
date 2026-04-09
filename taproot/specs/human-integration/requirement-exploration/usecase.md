@@ -13,7 +13,7 @@ Developer with a vague idea, problem statement, or feature concept not yet ready
    - **Problem framing**: who benefits? what problem does this actually solve?
    - **Scope**: what's the simplest version? what's explicitly out?
    - **Trade-offs**: what are the downsides? what does this cost?
-   - **Angles the developer may not have considered**: related ideas, edge cases, alternatives worth naming
+   - **Unconsidered angles**: related ideas, edge cases, alternatives worth naming; if the domain has established practices, standards, or existing tooling, this is a research signal
 4. Developer responds conversationally — no required format, no fields to fill.
 5. Agent builds on the response: asks a follow-up when the developer's response introduces new detail worth deepening; shifts to a new angle when the current angle is exhausted or the developer's response is brief and closed.
 6. Steps 3–5 repeat until the developer signals readiness (e.g. "I think I've got it", "let's spec this", "what next?") or the agent judges the idea sufficiently explored — defined as at least one question drawn from each of the four angles in step 3, or all four angles addressed at the agent's discretion.
@@ -27,6 +27,7 @@ Developer with a vague idea, problem statement, or feature concept not yet ready
    - The idea needs stress-testing before speccing → `/tr-grill-me`
    - Small and clear enough to implement directly → `/tr-implement`
    - The idea turned out to be a fact, rule, or convention → `/tr-define-truth`
+   - The idea touches a domain with established approaches, standards, or tooling worth understanding before speccing → `/tr-research`
 
 ## Alternate Flows
 ### Developer has multiple bundled ideas
@@ -109,7 +110,7 @@ flowchart TD
 **AC-4: Correct skill routing**
 - Given exploration has completed
 - When the agent makes its hand-off recommendation
-- Then: a new intent was identified → `/tr-intent`; a specific behaviour under an existing intent → `/tr-behaviour`; the idea needs stress-testing before speccing → `/tr-grill-me`; the idea is small and clearly scoped → `/tr-implement`; the idea is a fact, rule, or convention → `/tr-define-truth`
+- Then: a new intent was identified → `/tr-intent`; a specific behaviour under an existing intent → `/tr-behaviour`; the idea needs stress-testing before speccing → `/tr-grill-me`; the idea is small and clearly scoped → `/tr-implement`; the idea is a fact, rule, or convention → `/tr-define-truth`; the idea touches a domain with established practices or tooling → `/tr-research`
 
 **AC-5: Bundled ideas separated**
 - Given the developer's opening contains two or more distinct ideas
