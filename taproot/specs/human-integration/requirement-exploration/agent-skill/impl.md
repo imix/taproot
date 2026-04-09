@@ -35,7 +35,7 @@
 - **Last verified:** 2026-04-09
 
 ## DoD Resolutions
-- condition: document-current | note: docs/agents.md updated with /tr-explore row. README.md does not enumerate skills. No new CLI command or config option. | resolved: 2026-04-09T10:29:13.036Z
+- condition: document-current | note: docs/agents.md has /tr-explore row. README.md does not enumerate skills. Spec refined 2026-04-09 to add /tr-research routing — skill file updated in-sync. | resolved: 2026-04-09T10:38:26.712Z
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: Not applicable — pure markdown skill, no code paths or architectural decisions. docs/architecture.md constraints not violated. | resolved: 2026-04-09T10:26:28.960Z
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: skills/explore.md: no shell execution, no credentials, follows least-privilege (reads OVERVIEW.md on demand only, writes nothing). Compliant with docs/security.md. | resolved: 2026-04-09T10:26:31.094Z
 

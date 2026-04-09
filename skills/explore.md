@@ -53,6 +53,7 @@ Collaborative requirement exploration — think through a vague idea before spec
    - The idea needs stress-testing before speccing → `/tr-grill-me`
    - Small and clearly scoped — ready to implement → `/tr-implement`
    - The idea turned out to be a fact, rule, or convention → `/tr-define-truth`
+   - The idea touches a domain with established approaches, standards, or tooling worth understanding before speccing → `/tr-research`
 
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
@@ -61,6 +62,7 @@ Collaborative requirement exploration — think through a vague idea before spec
    [2] `/tr-behaviour <path>/` — clear behaviour under an existing intent
    [3] `/tr-grill-me` — stress-test the idea before speccing
    [4] `/tr-define-truth` — idea is a fact, rule, or convention
+   [5] `/tr-research "<topic>"` — research the domain before committing to a spec approach
 
 ## Alternate Flows
 
