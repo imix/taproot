@@ -31,8 +31,8 @@ _HITL = human decision required · AFK = agent executes autonomously_
 
 ## v1.1
 
-24. pending  [implement] afk   "per-repo offline mode — implement offline: <url> in .taproot/repos.yaml; extends check-orphans and pre-commit hook (spec: cross-repo-specification/per-repo-offline-mode/)"
-25. pending  [implement] afk   "fix remaining /tr-review-all reference in skills/sweep.md and taproot/agent/skills/sweep.md → /tr-audit-all"
+24. done     [implement] afk   "per-repo offline mode — implement offline: <url> in .taproot/repos.yaml; extends check-orphans and pre-commit hook (spec: cross-repo-specification/per-repo-offline-mode/)"
+25. done     [implement] afk   "fix remaining /tr-review-all reference in skills/sweep.md and taproot/agent/skills/sweep.md → /tr-audit-all"
 
 ## parallel-agent-execution
 
