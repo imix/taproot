@@ -180,6 +180,7 @@ export const SKILL_FILES = [
   'browse.md',
   'backlog.md',
   'link.md',
+  'explore.md',
 ];
 
 export function applyTemplate(templateName: string, cwd: string, force = false): string[] {

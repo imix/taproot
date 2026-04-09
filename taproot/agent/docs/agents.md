@@ -55,6 +55,7 @@ After `taproot init --agent claude --with-skills`, skills are available as `/tr-
 | `/tr-discover` | Reverse-engineer an existing codebase into a taproot hierarchy through structured, interactive discovery |
 | `/tr-discover-truths` | Scan the hierarchy for implicit facts — recurring terms, rules, and conventions — not yet captured as global truths; present candidates for promotion |
 | `/tr-define-truth` | Create or update a truth entry in `taproot/global-truths/` — a fact, rule, term, convention, or decision that applies across the project |
+| `/tr-explore` | Collaborative exploration of a vague idea before speccing — one question at a time across four angles; hands off to the right skill when ready |
 | `/tr-grill-me` | Interview you relentlessly about a plan or design — one decision branch at a time, recommended answer first |
 | `/tr-research` | Research a domain or technical subject before speccing — scans local resources, searches the web, optionally grills domain experts |
 | `/tr-sweep` | Apply a uniform task to a filtered set of hierarchy files — enumerate, confirm, then call `taproot apply` per file |
