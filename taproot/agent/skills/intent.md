@@ -49,10 +49,10 @@ Create a new business intent or refine an existing one. An intent captures the "
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
    **What's next?**
-   [1] `/tr-behaviour taproot/<slug>/` — define the first behaviour under this intent
+   [1] `/tr-behaviour <slug>/` — define the first behaviour under this intent
    [2] `/tr-ineed` — describe the full intent in plain language; routing will decompose it
-   [3] `/tr-audit taproot/<slug>/intent.md` — stress-test the spec before building
-   [4] `/tr-browse taproot/<slug>/` — browse related intents and behaviours for context
+   [3] `/tr-audit <slug>/intent` — stress-test the spec before building
+   [4] `/tr-browse <slug>/` — browse related intents and behaviours for context
    [P] Plan these — build a `taproot/plan.md` from these findings
 
 ### Refining an existing intent
@@ -74,7 +74,7 @@ Create a new business intent or refine an existing one. An intent captures the "
 
    **What's next?**
    [1] `/tr-behaviour <path>/` — add or refine a behaviour under this intent
-   [2] `/tr-audit <path>/intent.md` — stress-test the updated intent
+   [2] `/tr-audit <path>/intent` — stress-test the updated intent
    [3] `/tr-status` — coverage snapshot
    [4] `/tr-browse <path>/` — browse this intent and its behaviours for context
 

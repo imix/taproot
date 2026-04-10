@@ -50,8 +50,8 @@ Escalate a significant finding from implementation or behaviour level up to the 
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
     **What's next?**
-    [1] `/tr-refine taproot/<intent-slug>/<behaviour-slug>/` — refine the most-affected behaviour
-    [2] `/tr-audit taproot/<intent-slug>/intent.md` — stress-test the updated intent
+    [1] `/tr-refine <intent-slug>/<behaviour-slug>/` — refine the most-affected behaviour
+    [2] `/tr-audit <intent-slug>/intent` — stress-test the updated intent
 
 ## Output
 

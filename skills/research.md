@@ -97,7 +97,7 @@ Research any domain or technical subject before writing a behaviour spec — by 
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
      **What's next?**
-     [1] `/tr-behaviour taproot/<intent>/` — write a spec informed by this research
+     [1] `/tr-behaviour <intent>/` — write a spec informed by this research
      [2] `/tr-ineed "<topic>"` — route it as a requirement with research context attached
    - **[F]** — pass the final summary as input context to `/tr-behaviour`; no file written
    - **[C]** — discard the synthesis; exit without writing any file or chaining to another skill

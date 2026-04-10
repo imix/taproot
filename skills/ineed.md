@@ -175,8 +175,8 @@ Route a natural language requirement to the right place in the taproot hierarchy
 8. **Confirm and delegate** — Once the developer confirms placement, call the appropriate skill — carrying the synthesised summary (if discovery was run) as context for the behaviour definition:
 
    - **New top-level intent needed**: call `/taproot:intent` with the proposed slug and description, then call `/taproot:behaviour` under the new intent
-   - **New behaviour under existing intent**: call `/taproot:behaviour <taproot/<intent-slug>/> "<synthesised requirement>"`
-   - **New sub-behaviour under existing behaviour**: call `/taproot:behaviour <taproot/<intent-slug>/<behaviour-slug>/> "<synthesised requirement>"`
+   - **New behaviour under existing intent**: call `/taproot:behaviour <intent-slug>/` with the synthesised requirement
+   - **New sub-behaviour under existing behaviour**: call `/taproot:behaviour <intent-slug>/<behaviour-slug>/` with the synthesised requirement
 
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 

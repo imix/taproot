@@ -84,8 +84,8 @@ Progress: 1/5 behaviours fully implemented and tested
 4. Suggest next actions based on the tree state:
 
    **What's next?**
-   [1] `/tr-implement taproot/<intent-slug>/<unimplemented-behaviour-slug>/` — implement the first unimplemented behaviour
-   [2] `/tr-refine taproot/<intent-slug>/<behaviour-slug>/` — update a spec that has drifted
+   [1] `/tr-implement <intent-slug>/<unimplemented-behaviour-slug>/` — implement the first unimplemented behaviour
+   [2] `/tr-refine <intent-slug>/<behaviour-slug>/` — update a spec that has drifted
 
 ### Lateral (siblings and cousins)
 
@@ -128,7 +128,7 @@ Unlinked source files (not referenced by any impl.md):
 src/notifications/ (4 files)
   Possible behaviour: "Send notification on account event"
   Suggested intent: user-onboarding or a new notifications intent
-  → /taproot:behaviour taproot/user-onboarding/ "send account notification emails"
+  → /taproot:behaviour user-onboarding/ "send account notification emails"
 
 src/admin/ (12 files)
   Possible behaviour: "Admin dashboard" or "Manage user accounts"

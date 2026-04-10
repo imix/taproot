@@ -32,7 +32,7 @@ Surface the next independently-implementable work item from the requirement hier
 4. Recommend the top AFK candidate (first in the sorted output). Present it as:
    > "Next recommended slice: **`<behaviour-path>`** (`<intent goal>`)"
    > "Classification: AFK — spec is complete, no design decisions required."
-   > "To implement: `/tr-implement taproot/<behaviour-path>/`"
+   > "To implement: `/tr-implement <behaviour-path>/`"
    >
    > **[Y]** Implement this   **[L]** Show full list   **[S]** Skip to a different behaviour
 
@@ -44,9 +44,9 @@ Surface the next independently-implementable work item from the requirement hier
    > "The next unimplemented behaviour is HITL — the spec needs clarification before an agent can proceed autonomously."
    > "Behaviour: `<path>`"
 
-   **Next:** `/tr-refine taproot/<path>/` — sharpen the spec, then return here
+   **Next:** `/tr-refine <path>/` — sharpen the spec, then return here
 
-6. Invoke `/tr-implement taproot/<behaviour-path>/` with the confirmed path.
+6. Invoke `/tr-implement <behaviour-path>/` with the confirmed path.
 
 ## Output
 

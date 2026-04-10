@@ -42,17 +42,17 @@ Generated: <date>
 
 ## What Needs Attention
 - <N> behaviours specified but not implemented:
-    · taproot/<intent>/<behaviour>/ [proposed since <date>]
+    · <intent>/<behaviour>/ [proposed since <date>]
 - <N> implementations missing tests:
-    · taproot/<path>/impl.md ⚠
+    · <path>/impl ⚠
 - <N> potentially stale specs (code changed after spec):
-    · taproot/<path>/impl.md — source file modified <N> days ago
+    · <path>/impl — source file modified <N> days ago
 
 ## Parked
 - <N> behaviours deferred: (omit section entirely if 0)
-    · taproot/<intent>/<behaviour>/ — <reason if provided>
+    · <intent>/<behaviour>/ — <reason if provided>
 - <N> implementations deferred:
-    · taproot/<path>/impl.md — <reason if provided>
+    · <path>/impl — <reason if provided>
 
 ## Structural Issues
 - <from check-orphans>
@@ -70,9 +70,9 @@ Next: <title of first pending item>
 
 ## Suggested Next Actions
 1. Fix format errors: `taproot validate-format --fix`
-2. Implement next behaviour: `/taproot:implement taproot/<path>/`
-3. Add tests to: `/taproot:refine taproot/<path>/`
-4. Review stale spec: `/taproot:refine taproot/<path>/`
+2. Implement next behaviour: `/taproot:implement <path>/`
+3. Add tests to: `/taproot:refine <path>/`
+4. Review stale spec: `/taproot:refine <path>/`
 ```
 
 8. Prioritize suggestions by severity:
@@ -89,8 +89,8 @@ Next: <title of first pending item>
    - **If specific priority items were found** (unimplemented behaviours, missing tests, validation errors): surface the top 1–2 as direct lettered options with the exact command and path pre-filled. Add one generic fallback option last. Example:
 
      **What's next?**
-     [1] `/tr-implement taproot/<intent>/<behaviour>/` — implement unimplemented behaviour
-     [2] `/tr-refine taproot/<intent>/<behaviour>/` — add missing tests
+     [1] `/tr-implement <intent>/<behaviour>/` — implement unimplemented behaviour
+     [2] `/tr-refine <intent>/<behaviour>/` — add missing tests
      [3] `/tr-next` — pick a different next item
 
    - **If no specific items were found** (healthy project): check whether `taproot/backlog.md` exists and contains items. Show the generic fallback menu:
