@@ -126,6 +126,17 @@ _(Fast path: requirement is clear, concrete, and immediately placeable)_
   2. Agent states: "That sounds like a bug report rather than a new requirement. I'll hand this off to `/tr-bug` to run root cause analysis."
   3. Agent calls `/tr-bug` with `handoff: true` and the original symptom description — does not route to the hierarchy
 
+### Global-truth-shaped input detected
+- **Trigger:** Input describes a principle, fact, rule, or convention to capture rather than a feature to build — signals include: "we always...", "the rule is...", "as a convention...", "design decision:", "coding standards:", naming/formatting rules, or explicit "global truth" / "capture this as a principle"
+- **Steps:**
+  1. Agent recognises the input as a global truth rather than a requirement
+  2. Agent asks: "That sounds like a global truth — a principle to capture in `taproot/global-truths/`, not a feature to build. Should I route it there, or enforce it on every implementation via a DoD gate?"
+     - **[A]** Global truth → route to `/tr-define-truth`
+     - **[B]** DoD gate → continue routing as a requirement
+     - **[C]** Neither — I'll clarify
+  3. If **[A]**: agent calls `/tr-define-truth` and stops — does not route to the hierarchy
+  4. If **[B]** or **[C]**: agent proceeds from Main Flow step 2
+
 ### Conversational detection
 - **Trigger:** Developer mentions a requirement casually without invoking `/tr-ineed`
 - **Steps:**
@@ -205,6 +216,11 @@ flowchart TD
 - When the agent classifies the input
 - Then the agent states it is handing off to `/tr-bug` and calls `/tr-bug` with `handoff: true` — it does not route to the requirement hierarchy
 
+**AC-9: Global-truth-shaped input is offered routing to /tr-define-truth**
+- Given the developer states something containing global-truth signals (a rule, convention, fact, or design principle rather than a feature)
+- When the agent classifies the input
+- Then the agent offers to route to `/tr-define-truth` before proceeding with requirement placement — it does not silently treat a global truth as a behaviour
+
 **AC-8: Multi-goal description is split before placement**
 - Given the developer describes multiple independent goals in one statement (e.g. "I need user auth, a dashboard, and an API") or describes a whole greenfield project
 - When the agent checks scope after classification or synthesis
@@ -221,7 +237,7 @@ flowchart TD
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
-- **Last reviewed:** 2026-03-29
+- **Last reviewed:** 2026-04-10
 
 ## Notes
 - The fast path (Main Flow) is for requirements that are already clear and concrete — skip discovery when the actor, goal, and success criteria are unambiguous
