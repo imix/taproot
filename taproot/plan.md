@@ -7,17 +7,17 @@ _HITL = human decision required · AFK = agent executes autonomously_
 
 ### spec drift
 
-S1. pending  [refine]    hitl  "taproot-distribution/cut-release/multi-surface — review impl against updated usecase.md (SPEC_UPDATED)"
-S2. pending  [refine]    hitl  "taproot-distribution/homebrew-tap/ci-job — review impl against updated usecase.md (SPEC_UPDATED)"
-S3. pending  [explore]   hitl  "discover-existing-project — explore global-truths orientation phase before refining spec (feeds B1)"
+S1. done     [refine]    hitl  "taproot-distribution/cut-release/multi-surface — review impl against updated usecase.md (SPEC_UPDATED)"
+S2. done     [refine]    hitl  "taproot-distribution/homebrew-tap/ci-job — review impl against updated usecase.md (SPEC_UPDATED)"
+S3. done     [explore]   hitl  "discover-existing-project — explore global-truths orientation phase before refining spec (feeds B1)"
 
 ### bug fixes
 
 B1. dropped  [refine]    hitl  "discover-existing-project — add global-truths orientation phase: route facts/rules/conventions to taproot/global-truths/ instead of forcing into intents" — already implemented as Phase 1.5 in skills/discover.md
 B2. dropped  [implement] afk   "discover-existing-project/agent-skill/ — implement global-truths routing step in /tr-discover skill" — already implemented as Phase 1.5 in skills/discover.md
-B3. pending  [refine]    hitl  "route-requirement — add AC: when tr-behaviour input describes a global truth, detect and redirect to /tr-define-truth before proceeding"
-B4. pending  [implement] afk   "route-requirement/agent-skill/ — implement global truth detection in /tr-behaviour skill"
-B5. pending  [implement] afk   "abbreviated paths sweep — fix all What's next skill output blocks to strip taproot/specs/ prefix and .md extension per ux-principles truth"
+B3. done     [refine]    hitl  "route-requirement — add AC: when tr-behaviour input describes a global truth, detect and redirect to /tr-define-truth before proceeding"
+B4. done     [implement] afk   "route-requirement/agent-skill/ — implement global truth detection in /tr-behaviour skill"
+B5. done     [implement] afk   "abbreviated paths sweep — fix all What's next skill output blocks to strip taproot/specs/ prefix and .md extension per ux-principles truth"
 
 ## deferred
 
