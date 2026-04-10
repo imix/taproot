@@ -5,7 +5,7 @@
 
 ## Design Decisions
 - Implemented as an agent skill rather than a CLI command — discovery requires interactive dialogue with the user to surface business goals from code; no automated heuristic can replace that conversation
-- Session state is persisted to `taproot/_brainstorms/discovery-status.md` after every confirmed item — allows safe interruption and resumption without losing progress
+- Session state is persisted to `taproot/_sessions/discovery-status.md` after every confirmed item — allows safe interruption and resumption without losing progress
 - Phase progression is linear (Orient → Intents → Behaviours → Implementations) but each phase is checkpointed independently — the status file tracks which items are complete within each phase
 - Depth control (`intents-only`, `behaviours`, `full`) allows developers to do a lightweight intent-capture session and defer detail work
 - Requirements artifact detection uses naming heuristics only (prd, specs, stories, epics, adr, design, rfcs, etc.) — no hardcoded tool knowledge. The agent reads and reasons about whatever it finds; if the format is unfamiliar, it researches before proceeding

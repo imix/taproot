@@ -13,8 +13,8 @@ S3. pending  [explore]   hitl  "discover-existing-project — explore global-tru
 
 ### bug fixes
 
-B1. pending  [refine]    hitl  "discover-existing-project — add global-truths orientation phase: route facts/rules/conventions to taproot/global-truths/ instead of forcing into intents"
-B2. pending  [implement] afk   "discover-existing-project/agent-skill/ — implement global-truths routing step in /tr-discover skill"
+B1. dropped  [refine]    hitl  "discover-existing-project — add global-truths orientation phase: route facts/rules/conventions to taproot/global-truths/ instead of forcing into intents" — already implemented as Phase 1.5 in skills/discover.md
+B2. dropped  [implement] afk   "discover-existing-project/agent-skill/ — implement global-truths routing step in /tr-discover skill" — already implemented as Phase 1.5 in skills/discover.md
 B3. pending  [refine]    hitl  "route-requirement — add AC: when tr-behaviour input describes a global truth, detect and redirect to /tr-define-truth before proceeding"
 B4. pending  [implement] afk   "route-requirement/agent-skill/ — implement global truth detection in /tr-behaviour skill"
 B5. pending  [implement] afk   "abbreviated paths sweep — fix all What's next skill output blocks to strip taproot/specs/ prefix and .md extension per ux-principles truth"
