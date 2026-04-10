@@ -4,6 +4,27 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [1.2.0] - 2026-04-10
+
+### Taproot
+- taproot(human-integration/route-requirement/agent-skill): add global truth check (Step 0a) to /tr-behaviour skill (982ae4f)
+- taproot(agent-integration/generate-agent-adapter/cli-command): fix YAML apostrophe escaping in Claude adapter (8e96ac3)
+- taproot(agent-integration/portable-output-patterns/skill-conventions): implement skill output patterns (8061c0f)
+- taproot(human-integration/requirement-exploration/agent-skill): add /tr-research routing to explore skill (984d7f7)
+- taproot(human-integration/requirement-exploration/agent-skill): implement /tr-explore skill (202ea82)
+
+### Features
+- spec(human-integration/requirement-exploration): add /tr-explore skill spec (6016153)
+- spec(human-integration/route-requirement): add global-truth detection alternate flow and AC-9 (f989ebc)
+- spec(global-truth-store/apply-truths-when-authoring): add path-prefix filtering for intent-scoped truths (58453ec)
+
+### Maintenance
+- chore: strip taproot/ prefix and .md extension from What's next blocks in all skills (63fca84)
+- chore: resolve 83 stale sync-check warnings (c2c56f8)
+- refine(taproot-distribution/cut-release/multi-surface): update design decisions for three-job workflow (0c65af3)
+- refine(taproot-distribution/homebrew-tap/ci-job): mark last verified (166943b)
+- refine(project-discovery/discover-existing-project/agent-skill): fix stale _brainstorms path (a240a26)
+
 ## [1.1.0] - 2026-04-09
 
 ### Taproot
