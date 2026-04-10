@@ -13,6 +13,22 @@ Define a UseCase (observable system behaviour) under an intent or another behavi
 
 0. **Resolve the hierarchy root.** Read `taproot/settings.yaml`. Extract the `root:` value (default: `taproot/specs/`). Verify that `parent` is under this root — if not, warn: "The parent path `<parent>` is outside the configured hierarchy root (`<root>`). Did you mean `<root>/<relative-path>`?" and wait for confirmation before proceeding.
 
+0a. **Global truth check** — Before reading the parent, determine if `description` is a **principle, fact, rule, or convention to capture** rather than an observable system behaviour.
+
+   Global truth signals in the description:
+   - The description has no concrete actor or user-visible action (e.g. "fail early", "always use semantic versioning", "no surprises")
+   - The description uses "we always / we should always / the rule is / as a convention / design decision"
+   - The description names a coding standard, naming rule, formatting convention, or architectural principle
+   - The developer explicitly says "capture this as a truth / add this as a global truth / record this as a principle"
+
+   If a global truth signal is present, **interrupt before proceeding**:
+   > "That sounds like a **global truth** — a principle or rule to capture in `taproot/global-truths/`, not an observable behaviour. Should I route it to `/tr-define-truth` instead?
+   > **[A]** Yes → route to `/tr-define-truth`
+   > **[B]** No → continue writing the behaviour spec"
+
+   - **[A]**: call `/tr-define-truth` directly. Stop — do not write a `usecase.md`.
+   - **[B]** or no signal: proceed to step 1.
+
 1. Read the parent artifact at `parent`:
    - If `parent` contains `intent.md`: read the intent to understand the goal and success criteria.
    - If `parent` contains `usecase.md`: read the parent behaviour — this new behaviour is a sub-behaviour.
