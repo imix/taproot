@@ -1,3 +1,4 @@
+- [2026-04-10] global truth refinement — a fact/rule that only one usecase must enforce and has no direct impact on others is NOT a global truth; it belongs in that usecase's Error Conditions or Notes only. Example: "Organisation must always have at least one admin" — if only manage-user-role/delete-user enforces it, it stays in those usecases, not in global-truths/. The define-truth and discover-truths skills need to apply this filter before proposing promotion.
 - [2026-03-25] decompose generate-agent-adapter into per-agent behaviours (claude-adapter, cursor-adapter, gemini-adapter, etc.)
 - [2026-03-25] extended BDD/Gherkin format — support Feature:/Scenario:/Background:/And/But keywords in Acceptance Criteria, not just bare Given/When/Then; allow grouping related scenarios under a Feature block
 - [2026-03-25] add writing styles — clear concise short sentences for BA; friendly but not too long for doc

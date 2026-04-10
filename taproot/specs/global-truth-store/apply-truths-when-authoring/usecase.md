@@ -7,6 +7,7 @@ Agent — authoring or reviewing a spec (intent.md, usecase.md, or impl.md) via 
 - `taproot/global-truths/` exists and contains at least one truth file
 - A taproot skill is in the process of drafting or reviewing a hierarchy document
 - The target document level (intent, behaviour, or implementation) is known
+- The current working path (parent intent or behaviour folder) is known, or absent when creating a top-level intent
 
 ## Main Flow
 
@@ -15,6 +16,8 @@ Agent — authoring or reviewing a spec (intent.md, usecase.md, or impl.md) via 
    - **Behaviour-scoped truths** (`_behaviour` suffix or `behaviour/` sub-folder): apply to behaviour and impl
    - **Impl-scoped truths** (`_impl` suffix or `impl/` sub-folder): apply to impl only
    - **Unscoped files** (no suffix, not in sub-folder): treated as intent-scoped
+
+   After collecting by level scope, apply **path-prefix filtering**: if a filename contains a path-prefix slug before the scope suffix (pattern: `<topic>-<intent-slug>_<scope>.md`, e.g. `ux-manage-organization_behaviour.md` → slug `manage-organization`), only load it when the current working path contains a directory matching that slug. If no working path is known (creating a new top-level intent), skip all path-prefixed truths. Truths without a path prefix load for all paths as before.
 2. Agent reads the content of each applicable truth file
 3. Agent drafts the spec, incorporating applicable truths:
    - Uses defined terms and their exact definitions from the glossary
@@ -37,6 +40,12 @@ Agent — authoring or reviewing a spec (intent.md, usecase.md, or impl.md) via 
 - **Steps:**
   1. Agent proceeds with authoring normally
   2. No warning — truths are optional
+
+### Path-prefixed truth outside its intent scope
+- **Trigger:** A truth file has a path-prefix slug (e.g. `ux-manage-organization_behaviour.md`) but the current working path is under a different intent (e.g. `manage-billing/`)
+- **Steps:**
+  1. Agent skips the truth silently — no warning or interruption
+  2. Authoring proceeds with globally-scoped truths only
 
 ### Truth file is ambiguously scoped (no scope signal)
 - **Trigger:** A file like `glossary.md` exists directly in `global-truths/` without a scope suffix
@@ -106,6 +115,16 @@ flowchart TD
 - When an agent authors any spec
 - Then authoring proceeds without interruption
 
+**AC-6: Path-prefixed truth is not loaded outside its intent path**
+- Given `taproot/global-truths/ux-manage-organization_behaviour.md` exists
+- When an agent authors a spec under `manage-billing/` (a different intent)
+- Then `ux-manage-organization_behaviour.md` is not loaded — the slug `manage-organization` does not match the current working path
+
+**AC-7: Path-prefixed truth is loaded within its intent path**
+- Given `taproot/global-truths/ux-manage-organization_behaviour.md` exists
+- When an agent authors a spec under `manage-organization/invite-member/`
+- Then `ux-manage-organization_behaviour.md` is loaded alongside globally-scoped behaviour truths
+
 **AC-5: Unscoped truth file treated as intent-scoped with note**
 - Given `taproot/global-truths/glossary.md` exists with no scope signal
 - When an agent collects applicable truths for any level
@@ -117,4 +136,4 @@ flowchart TD
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-26
-- **Last reviewed:** 2026-03-26
+- **Last reviewed:** 2026-04-10

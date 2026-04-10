@@ -140,7 +140,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[requirement-exploration](./human-integration/requirement-exploration/usecase.md)** `[implemented]` — Actor: Developer with a vague idea, problem statement, or feature concept not yet ready to spec
   - [agent-skill](./human-integration/requirement-exploration/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
 - **[route-requirement](./human-integration/route-requirement/usecase.md)** `[implemented]` — Actor: Human orchestrator / developer stating a requirement in natural language — at any level of clarity, from vague instinct to fully-formed specification
-  - [agent-skill](./human-integration/route-requirement/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
+  - [agent-skill](./human-integration/route-requirement/agent-skill/impl.md) `[complete]` (4 commits, 1 test)
 
 ## [implementation-planning](./implementation-planning/intent.md) `[active]`
 
