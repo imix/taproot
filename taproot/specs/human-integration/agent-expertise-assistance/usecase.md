@@ -140,6 +140,9 @@ flowchart TD
 - Then agent flags the answer as provisional and names what should be verified
   and where to look
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — /tr-expertise-help](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-04-11
