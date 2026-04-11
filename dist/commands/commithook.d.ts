@@ -6,6 +6,7 @@ export interface SpecFailure {
     file: string;
     message: string;
     hint: string;
+    severity?: 'error' | 'warning';
 }
 /** Walk up from a staged usecase.md path to find the nearest ancestor intent.md within taproot/. */
 export declare function findParentIntentPath(usecasePath: string, cwd: string): string | null;

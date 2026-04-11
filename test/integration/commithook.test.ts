@@ -738,6 +738,26 @@ describe('checkIntentQuality', () => {
     const failures = checkIntentQuality('taproot/x/intent.md', content);
     expect(failures.some(f => f.message.includes('Success Criteria') && f.message.includes('implementation term'))).toBe(true);
   });
+
+  it('AC-8: returns a warning (not an error) when Goal contains behaviour-level language', () => {
+    // Second line of Goal: verb-start check only reads first line
+    const content = VALID.replace('Enable teams to manage their workflow', 'Enable teams to manage their workflow.\nWhen the user clicks Activate, the system installs the module files.');
+    const failures = checkIntentQuality('taproot/x/intent.md', content);
+    const warning = failures.find(f => f.severity === 'warning' && f.message.includes('behaviour-level content'));
+    expect(warning).toBeDefined();
+  });
+
+  it('AC-8: up-contamination warning does not appear as a blocking error', () => {
+    const content = VALID.replace('Enable teams to manage their workflow', 'Enable teams to manage their workflow.\nWhen the user clicks Activate, the system installs the module files.');
+    const failures = checkIntentQuality('taproot/x/intent.md', content);
+    const errors = failures.filter(f => (f.severity ?? 'error') === 'error');
+    expect(errors.some(f => f.message.includes('behaviour-level'))).toBe(false);
+  });
+
+  it('AC-8: well-formed intent with no behaviour-level language produces no warning', () => {
+    const failures = checkIntentQuality('taproot/x/intent.md', VALID);
+    expect(failures.some(f => f.severity === 'warning')).toBe(false);
+  });
 });
 
 describe('runCommithook — spec quality gates (requirement commit)', () => {
@@ -789,6 +809,17 @@ describe('runCommithook — spec quality gates (requirement commit)', () => {
     }], tmpDir);
     const code = await runCommithook({ cwd: tmpDir });
     expect(code).toBe(1);
+  });
+
+  it('AC-8: does not block commit when intent.md goal contains behaviour-level language (up-contamination warning only)', async () => {
+    mkdirSync(join(tmpDir, 'taproot', 'my-intent'), { recursive: true });
+    // Verb-start check only inspects the first line of Goal; up-contamination checks all lines
+    stage([{
+      path: 'taproot/my-intent/intent.md',
+      content: `# Intent: Test\n\n## Goal\nEnable teams to activate modules.\nWhen the user clicks Activate, the system installs the module files.\n\n## Stakeholders\n- Dev: needs this\n\n## Success Criteria\n- [ ] Teams can activate modules\n\n## Status\n- **State:** active\n- **Created:** 2026-03-21\n`,
+    }], tmpDir);
+    const code = await runCommithook({ cwd: tmpDir });
+    expect(code).toBe(0);
   });
 });
 

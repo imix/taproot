@@ -100,6 +100,7 @@ function classifyCommit(files, sourceToImpl) {
 const TECH_KEYWORDS = /\b(REST|GraphQL|API|SQL|PostgreSQL|MySQL|Redis|HTTP|gRPC|JSON|XML|YAML|endpoint|database|query|table|schema|microservice|lambda|function|webhook)\b/i;
 const VERB_STARTS = /^(Enable|Allow|Provide|Ensure|Support|Let|Give|Help|Make|Prevent|Reduce|Increase|Improve|Create|Manage|Track|Monitor|Enforce|Detect|Generate|Expose|Send|Receive|Process|Handle|Validate|Notify|Authorize|Authenticate|Store|Retrieve|Display|Show|List|Search|Filter|Export|Import|Sync|Deploy|Configure|Schedule|Audit|Report|Analyse|Analyze)\b/i;
 const IMPL_MECHANISM_ACTORS = /\b(endpoint|REST|API route|database|query|table|function|lambda|microservice|webhook|handler|controller|service|repository|middleware)\b/i;
+const UP_CONTAMINATION_PATTERNS = /\b(when the user|when a user|system displays|system shows|navigates to|user clicks|user selects|the system (?:displays|shows|navigates|redirects|renders)|then the system)\b/i;
 /** Extract the body text of a named `## Section` from markdown content. */
 function getSection(content, name) {
     const parts = content.split(/\n(?=## )/);
@@ -321,6 +322,17 @@ export function checkIntentQuality(filePath, content, pack = null) {
             }
         }
     }
+    // Up-contamination: behaviour-level language in Goal or Success Criteria (non-blocking warning)
+    const combined = `${goalBody ?? ''}\n${scBody ?? ''}`;
+    const upMatch = combined.match(UP_CONTAMINATION_PATTERNS);
+    if (upMatch) {
+        failures.push({
+            file: filePath,
+            message: `Goal or Success Criteria may contain behaviour-level content: "${upMatch[0]}"`,
+            hint: 'Consider capturing this in a `usecase.md` via `/tr-behaviour` or `/tr-refine` on a related behaviour.',
+            severity: 'warning',
+        });
+    }
     return failures;
 }
 function getStagedContent(filePath, cwd) {
@@ -483,13 +495,22 @@ export async function runCommithook(options) {
                 specFailures.push(...checkIntentQuality(f, content, pack));
             }
         }
-        if (specFailures.length > 0) {
+        const specErrors = specFailures.filter(f => (f.severity ?? 'error') === 'error');
+        const specWarnings = specFailures.filter(f => f.severity === 'warning');
+        if (specErrors.length > 0) {
             process.stdout.write('taproot commithook — Requirement commit: spec quality issues found\n');
-            for (const failure of specFailures) {
+            for (const failure of specErrors) {
                 process.stdout.write(`  ✗ ${failure.file}: ${failure.message}\n`);
                 process.stdout.write(`    → ${failure.hint}\n`);
             }
             failed = true;
+        }
+        if (specWarnings.length > 0) {
+            process.stdout.write('taproot commithook — Requirement commit: spec quality warnings\n');
+            for (const warning of specWarnings) {
+                process.stdout.write(`  ⚠ ${warning.file}: ${warning.message}\n`);
+                process.stdout.write(`    → ${warning.hint}\n`);
+            }
         }
     }
     // Declaration tier: DoR check on the behaviour spec
