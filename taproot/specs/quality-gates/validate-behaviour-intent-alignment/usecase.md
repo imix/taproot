@@ -11,15 +11,21 @@
 ## Main Flow
 1. `taproot commithook` detects staged `usecase.md` files — classifies as a requirement commit
 2. For each staged `usecase.md`, system walks up the directory tree to locate the nearest ancestor `intent.md`
-3. System checks that the located `intent.md` has a `## Goal` section and that it is non-empty
-4. If the structural check passes: commit proceeds
-5. If the structural check fails: system prints the failure with a correction hint and blocks the commit
+3. System checks structural alignment conditions:
+   a. Located `intent.md` has a `## Goal` section and that it is non-empty
+   b. Located `intent.md` has a `## Stakeholders` section (non-blocking warning if absent — intent quality gate handles blocking; alignment check surfaces it as context)
+4. If all blocking conditions pass: commit proceeds
+5. If any blocking condition fails: system prints the failure with a correction hint and blocks the commit
 
 Before the commit (at authoring time):
 
-6. Agent reads the parent `intent.md`'s `## Goal` section before writing the spec
-7. Agent reviews the draft usecase's Actor, Main Flow, and Acceptance Criteria against the goal
-8. If the ACs do not plausibly serve the intent's goal, agent raises the misalignment before saving the spec
+6. Agent reads the parent `intent.md` — specifically `## Goal`, `## Stakeholders`, and `## Success Criteria`
+7. Agent checks each of the following:
+   a. **Actor traces to a Stakeholder** — the usecase Actor is either named in intent Stakeholders or is a system directly serving one of them
+   b. **AC coverage** — at least one AC describes an outcome that advances an intent Success Criterion
+   c. **Scope boundary** — the usecase does not describe behaviour outside what the intent Goal covers
+   d. **No contradiction** — no AC directly contradicts an intent Success Criterion or stated constraint
+8. If any check fails: agent raises the specific misalignment type before saving the spec
 
 ## Alternate Flows
 
@@ -43,14 +49,35 @@ Before the commit (at authoring time):
   1. System blocks with: "No parent `intent.md` found for `<path>` — place this behaviour under an intent folder"
   2. Developer places the usecase under an intent folder or creates the intent before recommitting
 
+### Actor not traceable to a Stakeholder
+- **Trigger:** Agent finds the usecase Actor has no clear relationship to any intent Stakeholder
+- **Steps:**
+  1. Agent surfaces: "Actor `<name>` is not among the intent's Stakeholders and does not serve one directly. Is this the right Actor, or should it be `<stakeholder>`?"
+  2. Agent waits for clarification before writing the spec
+
+### AC scope overflow — behaviour beyond intent boundaries
+- **Trigger:** One or more ACs describe outcomes that fall outside what the intent Goal covers
+- **Steps:**
+  1. Agent surfaces: "AC-N describes `<outcome>` which is not implied by the intent Goal: `<goal excerpt>`. Either narrow the AC or consider a separate intent."
+  2. Agent revises or seeks clarification before saving
+
+### AC contradicts intent constraint
+- **Trigger:** An AC outcome is incompatible with an intent Success Criterion or stated constraint
+- **Steps:**
+  1. Agent surfaces: "AC-N `<excerpt>` appears to conflict with intent Success Criterion: `<SC excerpt>`. Resolve before writing the spec."
+
 ## Postconditions
 - Every committed `usecase.md` has a reachable parent `intent.md` with a non-empty Goal
-- Agents writing usecases verify goal alignment at authoring time, surfacing misalignments before the commit gate fires
+- Agents writing usecases verify Actor–Stakeholder traceability, AC coverage of Success Criteria, scope boundaries, and absence of contradictions before saving — misalignments are surfaced before the commit gate fires
 
 ## Error Conditions
 - **No ancestor `intent.md` found**: "No parent `intent.md` found for `<path>` — place this behaviour under an intent folder or create the intent first"
 - **Parent `intent.md` has no `## Goal` section**: "Parent intent at `<path>` is missing a `## Goal` section — add a goal before committing a behaviour under it"
 - **Parent `intent.md` has empty Goal**: "Parent intent at `<path>` has an empty `## Goal` — fill in the goal before committing a behaviour under it"
+- **Actor not traceable to Stakeholder** (agent-raised, pre-commit): "Actor `<name>` is not among the intent's Stakeholders and does not serve one directly. Clarify before saving."
+- **No AC advances a Success Criterion** (agent-raised, pre-commit): "No AC describes an outcome that advances an intent Success Criterion. Review AC coverage against: `<SC list>`"
+- **AC scope overflow** (agent-raised, pre-commit): "AC-N describes `<outcome>` which is not implied by the intent Goal. Narrow the AC or consider a separate intent."
+- **AC contradicts intent constraint** (agent-raised, pre-commit): "AC-N conflicts with intent Success Criterion: `<SC excerpt>`. Resolve before writing the spec."
 
 ## Flow
 
@@ -65,10 +92,16 @@ flowchart TD
     F -- Yes --> H[Structural check passes\ncommit proceeds]
 
     subgraph At authoring time
-    I[Agent writes usecase.md] --> J[Agent reads parent intent.md Goal]
-    J --> K{ACs plausibly\nserve the Goal?}
-    K -- No --> L[Agent raises misalignment\nbefore saving spec]
-    K -- Yes --> M[Agent saves spec]
+    I[Agent writes usecase.md] --> J[Agent reads parent intent.md\nGoal + Stakeholders + Success Criteria]
+    J --> K{Actor traces to\na Stakeholder?}
+    K -- No --> L[Agent raises: Actor not traceable]
+    K -- Yes --> N{AC covers at least\none Success Criterion?}
+    N -- No --> O[Agent raises: no AC advances SC]
+    N -- Yes --> P{Scope within\nintent Goal?}
+    P -- No --> Q[Agent raises: scope overflow]
+    P -- Yes --> R{No AC contradicts\nintent constraint?}
+    R -- No --> S[Agent raises: AC contradicts SC]
+    R -- Yes --> M[Agent saves spec]
     end
 ```
 
@@ -110,10 +143,25 @@ flowchart TD
 - When the agent reviews the draft spec before committing
 - Then the agent raises the misalignment and asks to revise the ACs or reframe the intent before proceeding
 
+**AC-7: Agent checks Actor against Stakeholders**
+- Given an agent is writing a `usecase.md` whose Actor is "External billing service" and the parent intent Stakeholders list "Developer" and "Team Lead" with no billing relationship
+- When the agent checks Actor–Stakeholder traceability
+- Then the agent raises: "Actor is not among the intent's Stakeholders and does not serve one directly" before saving
+
+**AC-8: Agent catches AC that advances no Success Criterion**
+- Given an agent is writing a `usecase.md` whose only AC describes generating an audit log, and the parent intent Success Criteria mention only user-facing reporting outcomes
+- When the agent checks AC coverage
+- Then the agent raises: "No AC describes an outcome that advances an intent Success Criterion" and seeks clarification
+
+**AC-9: Agent catches scope overflow**
+- Given an agent is writing a `usecase.md` whose ACs include processing payments, and the parent intent Goal is "Enable teams to manage member permissions"
+- When the agent checks scope boundary
+- Then the agent raises: "AC describes behaviour outside what the intent Goal covers" before saving
+
 ## Implementations <!-- taproot-managed -->
 - [Commithook Extension + CLAUDE.md Guidance](./commithook-extension/impl.md)
 
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-29
-- **Last reviewed:** 2026-03-29
+- **Last reviewed:** 2026-04-11
