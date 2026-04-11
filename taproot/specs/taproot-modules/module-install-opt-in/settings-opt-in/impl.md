@@ -19,6 +19,9 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `34f17ce45fd342bff9f9d3d6460ac5c5f8527f2e` — (auto-linked by taproot link-commits)
+- `8e05a0e74907a5719ddcc4b2981e3d5cc4b3602e` — (auto-linked by taproot link-commits)
+- `75bd9303e5219da6d67195d7e0e935accfa8c5c9` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/update.modules.test.ts` — covers AC-1 (declared module installed), AC-2 (no modules → none installed), AC-3 (removed from declaration → files deleted), AC-4 (unknown module name reported), AC-6 (non-module skills unaffected)
