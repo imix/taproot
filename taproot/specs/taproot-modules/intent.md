@@ -28,6 +28,7 @@ Provide optional, installable quality modules that give agents the conventions, 
 - First module to validate the model: `user-experience`
 
 ## Behaviours <!-- taproot-managed -->
+- [Activate UX Module](./user-experience/usecase.md)
 
 ## Status
 

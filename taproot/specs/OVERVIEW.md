@@ -304,7 +304,16 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 **Goal:** Provide optional, installable quality modules that give agents the conventions, checklists, and pattern vocabulary needed to produce consistent, domain-appropriate implementations — without requiring changes to core taproot or burdening projects that don't need a given domain.
 
-_No behaviours yet._
+- **[user-experience](./taproot-modules/user-experience/usecase.md)** `[specified]` — Actor: Developer (team lead or contributor) setting up UX quality guidance for a project
+  - **[accessibility](./taproot-modules/user-experience/accessibility/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
+  - **[adaptation](./taproot-modules/user-experience/adaptation/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
+  - **[consistency](./taproot-modules/user-experience/consistency/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
+  - **[feedback](./taproot-modules/user-experience/feedback/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
+  - **[flow](./taproot-modules/user-experience/flow/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
+  - **[input](./taproot-modules/user-experience/input/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
+  - **[language](./taproot-modules/user-experience/language/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
+  - **[orientation](./taproot-modules/user-experience/orientation/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
+  - **[presentation](./taproot-modules/user-experience/presentation/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
 
 ---
-20 intents · 100 behaviours · 100 implementations · 98/100 complete
+20 intents · 110 behaviours · 100 implementations · 98/100 complete
