@@ -84,6 +84,9 @@ flowchart TD
 ## Related
 - `taproot-modules/intent.md` — parent intent: optional module system goal and constraints
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — UX Module](./agent-skill/impl.md)
+
 ## Acceptance Criteria
 
 **AC-1: Full session — all aspects defined and DoD wired**
