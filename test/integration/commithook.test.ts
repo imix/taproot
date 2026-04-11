@@ -693,6 +693,24 @@ describe('checkUsecaseQuality', () => {
     const failures = checkUsecaseQuality('taproot/x/usecase.md', content);
     expect(failures).toHaveLength(0);
   });
+
+  it('AC-7: fails when Acceptance Criteria contain implementation terms', () => {
+    const content = VALID.replace(
+      '- Then ...',
+      '- Then the system calls the API endpoint with the user credentials'
+    );
+    const failures = checkUsecaseQuality('taproot/x/usecase.md', content);
+    expect(failures.some(f => f.message.includes('Acceptance Criteria') && f.message.includes('implementation term'))).toBe(true);
+  });
+
+  it('AC-8: fails when Main Flow step contains implementation terms', () => {
+    const content = VALID.replace(
+      '1. Developer does something',
+      '1. System writes the record to the users PostgreSQL table'
+    );
+    const failures = checkUsecaseQuality('taproot/x/usecase.md', content);
+    expect(failures.some(f => f.message.includes('implementation term'))).toBe(true);
+  });
 });
 
 describe('checkIntentQuality', () => {

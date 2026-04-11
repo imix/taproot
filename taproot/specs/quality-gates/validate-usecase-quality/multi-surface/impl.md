@@ -9,6 +9,7 @@
 - `checkUsecaseQuality` exported as a pure function for unit-testability independent of git
 - Actor check targets the first non-empty line of `## Actor` only — avoids false positives from multi-line actor descriptions
 - Agent context guidance added to CLAUDE.md so agents write compliant specs before the hook fires
+- AC-7 (tech-term check in Acceptance Criteria): uses same `TECH_KEYWORDS` regex as Main Flow, Postconditions, and Alternate Flows checks; checks all non-empty lines in the AC section; breaks on first match to report one actionable failure at a time; guarded by `!pack` (same pattern as other section checks) so it does not fire in localised contexts
 
 ## Source Files
 - `src/commands/commithook.ts` — `checkUsecaseQuality`, `getSection`, spec failure integration in requirement tier
@@ -25,6 +26,8 @@
 
 ## DoD Resolutions
 - condition: check-if-affected-by: skill-architecture/commit-awareness | note: no commit step in this impl; gate enforcement is in commithook.ts invoked by the pre-commit hook, not a skill | resolved: 2026-03-21T00:00:00.000Z
+- condition: check-if-affected-by: agent-integration/portable-output-patterns | note: not applicable — source files are commithook.ts (a TypeScript git hook) and CLAUDE.md; no skill file modified; portable-output-patterns governs skill files (skills/*.md) only | resolved: 2026-04-11T07:13:45.593Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: VERIFIED — skills/behaviour.md and skills/intent.md updated with guidance notes only (no shell commands, no credentials, no executable instructions). skills/define-truth.md updated with concrete naming examples (glossary_intent.md, intent/glossary.md) — purely illustrative text. All changes follow least-privilege. | resolved: 2026-04-01T16:39:57.387Z
 
 - condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — the Main Flow implementation-terms check is part of the existing validate-usecase-quality gate, not a new cross-cutting concern. It extends checkUsecaseQuality in commithook.ts. No new settings.yaml entry needed. | resolved: 2026-04-01T16:39:50.633Z

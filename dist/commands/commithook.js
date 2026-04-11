@@ -182,6 +182,22 @@ export function checkUsecaseQuality(filePath, content, pack = null) {
             hint: "Add at least one `**AC-1:**` entry with a Given/When/Then scenario",
         });
     }
+    // AC-7: Acceptance Criteria entries must not contain implementation technology terms
+    const acBody = getSection(content, acHeading);
+    if (acBody !== null && !pack) {
+        const acLines = acBody.split('\n').filter(l => l.trim().length > 0);
+        for (const line of acLines) {
+            if (TECH_KEYWORDS.test(line)) {
+                const match = line.match(TECH_KEYWORDS)?.[0] ?? '';
+                failures.push({
+                    file: filePath,
+                    message: `Acceptance Criteria contain implementation term: "${match}" — describe observable outcomes instead`,
+                    hint: 'AC entries should describe what the actor observes, not internal mechanisms. Move implementation details to impl.md.',
+                });
+                break;
+            }
+        }
+    }
     // Actor section: must not describe an implementation mechanism
     const actorBody = getSection(content, actorHeading);
     if (actorBody !== null) {
