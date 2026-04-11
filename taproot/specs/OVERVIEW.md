@@ -116,7 +116,8 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 **Goal:** Ensure the human orchestrator retains meaningful control of the requirement hierarchy — as its owner, its primary author of intent, and its final decision-maker — while making the current state of the project legible at a glance.
 
-- **[agent-expertise-assistance](./human-integration/agent-expertise-assistance/usecase.md)** `[specified]` — Actor: Developer who cannot confidently answer a specific question during a skill session
+- **[agent-expertise-assistance](./human-integration/agent-expertise-assistance/usecase.md)** `[implemented]` — Actor: Developer who cannot confidently answer a specific question during a skill session
+  - [agent-skill](./human-integration/agent-expertise-assistance/agent-skill/impl.md) `[in-progress]` (3 commits, 1 test)
 - **[browse-hierarchy-item](./human-integration/browse-hierarchy-item/usecase.md)** `[implemented]` — Actor: Developer — in the terminal, wanting to read a hierarchy document (intent.md, usecase.md, or impl.md) section by section without leaving the CLI or opening an external editor.
   - [agent-skill](./human-integration/browse-hierarchy-item/agent-skill/impl.md) `[complete]` (4 commits, 1 test)
 - **[bug-triage](./human-integration/bug-triage/usecase.md)** `[implemented]` — Actor: Developer or AI coding agent who has observed a defect — unexpected system behaviour, a failing test, or a user-reported issue
@@ -306,7 +307,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 **Goal:** Provide optional, installable quality modules that give agents the conventions, checklists, and pattern vocabulary needed to produce consistent, domain-appropriate implementations — without burdening projects that don't need a given domain.
 
 - **[module-context-discovery](./taproot-modules/module-context-discovery/usecase.md)** `[implemented]` — Actor: Developer activating a quality module on a project for the first time, or establishing project context independently before any module session
-  - [agent-skill](./taproot-modules/module-context-discovery/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
+  - [agent-skill](./taproot-modules/module-context-discovery/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[module-install-opt-in](./taproot-modules/module-install-opt-in/usecase.md)** `[implemented]` — Actor: Developer configuring which quality modules are active in a project
   - [settings-opt-in](./taproot-modules/module-install-opt-in/settings-opt-in/impl.md) `[complete]` (3 commits, 2 tests)
 - **[user-experience](./taproot-modules/user-experience/usecase.md)** `[implemented]` — Actor: Developer (team lead or contributor) setting up UX quality guidance for a project
@@ -322,4 +323,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - **[presentation](./taproot-modules/user-experience/presentation/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
 
 ---
-20 intents · 113 behaviours · 103 implementations · 101/103 complete
+20 intents · 113 behaviours · 104 implementations · 101/104 complete

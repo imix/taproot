@@ -24,6 +24,9 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `82a8ec92f448ad5642a5ee66ceb812f28cef5bf4` — (auto-linked by taproot link-commits)
+- `3c63d63101875e7f4191bc72669ccefdddfd4f03` — (auto-linked by taproot link-commits)
+- `d3991c8213f1a503be59517047fae45802bee20e` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/skills.test.ts` — validates every file in `SKILL_FILES` (including `expertise-help.md`) for required sections and format
