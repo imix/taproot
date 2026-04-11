@@ -17,6 +17,7 @@
 
 ## Commits
 - (to be filled)
+- `f3e8207a6314ac256f9fc97c664127c68ef09d37` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/commithook.test.ts` — `checkUsecaseQuality` unit describe block + `runCommithook — spec quality gates` integration describe
