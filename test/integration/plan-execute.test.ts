@@ -157,3 +157,21 @@ describe('plan-execute skill — filter modes (AC-8, AC-9)', () => {
     expect(skill).toMatch(/Implement pass complete/i);
   });
 });
+
+describe('plan-execute skill — follow-on offer after spec/refine (AC-11)', () => {
+  it('offers [+] Add follow-on to plan after spec or refine item completes', () => {
+    expect(skill).toMatch(/\[\+\]\s*Add follow-on to plan/i);
+  });
+
+  it('follow-on offer is conditional on item type (spec or refine)', () => {
+    expect(skill).toMatch(/type.*\[spec\].*or.*\[refine\]|spec.*refine.*follow.on/i);
+  });
+
+  it('guards follow-on offer: only if no implement item for same path exists', () => {
+    expect(skill).toMatch(/no.*\[implement\].*item.*same path|implement.*already exists/i);
+  });
+
+  it('appends implement afk item when [+] is selected', () => {
+    expect(skill).toMatch(/implement afk.*path|Added.*\[implement\] afk/i);
+  });
+});

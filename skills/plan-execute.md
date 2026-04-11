@@ -106,13 +106,20 @@ Execute items from `taproot/plan.md` one at a time (step-by-step) or in sequence
    - *Batch*: pause and wait for developer to resolve before continuing
 
    **f. After each completed item**, apply the same execution-style logic as step b:
-   - **Step-by-step** or **HITL-only**, or **batch mode with a `hitl` item**: present completion prompt:
+   - **Step-by-step** or **HITL-only**, or **batch mode with a `hitl` item**: check if the completed item was type `[spec]` or `[refine]`, and no `[implement]` item for the same path already exists in `taproot/plan.md`. If yes, present the completion prompt with a follow-on offer:
+     ```
+     ✓ Done — <description>
+     M items remaining.
+     [+] Add follow-on to plan  [R] Review written spec  [A] Continue to next  [D] Done for now
+     ```
+     Otherwise (item is `[implement]`, or an implement item for this path already exists):
      ```
      ✓ Done — <description>
      M items remaining.
      [R] Review written spec  [A] Continue to next  [D] Done for now
      ```
-     - `[R]`: invoke `/tr-browse <path>` on the spec just written (the path the skill targeted); let browse run to full completion. Then re-present this same prompt with all three options — `[R]`, `[A]`, `[D]` — so the developer can keep reviewing before deciding. Omit `[R]` only if the item type is `[implement]` and no spec path is associated.
+     - `[+]`: append an `implement afk` item for the same behaviour path to `taproot/plan.md` as a new `pending` item. Confirm: *"Added: [implement] afk <path>."* Then present the updated item count and offer `[A] Continue · [D] Done for now`.
+     - `[R]`: invoke `/tr-browse <path>` on the spec just written (the path the skill targeted); let browse run to full completion. Then re-present this same prompt with all options intact — so the developer can keep reviewing before deciding. Omit `[R]` only if the item type is `[implement]` and no spec path is associated.
      - `[A]`: continue to next item
      - `[D]` or no items remain: report final status (see step 8)
    - **AFK-only**, or **batch mode with an `afk` item**: mark done and proceed to next item without waiting.

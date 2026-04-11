@@ -51,6 +51,8 @@
 
 ## DoD Resolutions
 - condition: check-if-affected: src/commands/update.ts | note: not affected — update.ts copies skill files verbatim; content change picked up automatically on taproot update | resolved: 2026-04-03T05:55:29.084Z
+- condition: check-if-affected-by: agent-integration/portable-output-patterns | note: compliant — step 7f adds new completion prompts using the same fenced-block declaration style as existing skill content; no raw rendering instructions ('print the full', 'display the contents'), no adapter-specific language; prompt content declares what to present (options, confirmation text), not how to render it | resolved: 2026-04-11T06:23:53.243Z
+
 - condition: check-if-affected: package.json | note: not applicable — prose-only impl (Source Files: skills/plan-execute.md, .claude/commands/tr-plan-execute.md); no TypeScript or other non-markdown files; auto-resolved by naRules[when:prose-only] | resolved: 2026-04-02T21:41:10.874Z
 
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: compliant — changes only affect mode selection logic and notes; no shell execution, no credentials, no elevated permissions | resolved: 2026-04-03T05:57:14.403Z
