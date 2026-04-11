@@ -24,8 +24,10 @@ B5. done     [implement] afk   "abbreviated paths sweep — fix all What's next 
 Q1. done     [implement] afk   quality-gates/validate-intent-quality/multi-surface/ — SPEC_UPDATED: implement Success Criteria tech-term check and up-contamination warning
 Q2. done     [implement] afk   quality-gates/architecture-compliance/multi-surface/ — IMPL_STALE: verify impl against settings.yaml drift, update Last verified
 Q3. done     [implement] afk   quality-gates/nfr-measurability/settings-wiring/ — IMPL_STALE: verify impl against settings.yaml drift, update Last verified
-Q4. pending  [refine]    hitl  quality-gates/validate-usecase-quality/usecase — add tech-term check in AC/flow steps (down-contamination); parallel to validate-intent-quality
-Q5. pending  [refine]    hitl  quality-gates/validate-behaviour-intent-alignment/usecase — deepen alignment checks beyond structural parent-intent check
+Q4. done     [refine]    hitl  quality-gates/validate-usecase-quality/usecase — add tech-term check in AC/flow steps (down-contamination); parallel to validate-intent-quality
+Q5. done     [refine]    hitl  quality-gates/validate-behaviour-intent-alignment/usecase — deepen alignment checks beyond structural parent-intent check
+Q6. pending  [implement] afk   quality-gates/validate-usecase-quality/multi-surface/ — SPEC_UPDATED: implement AC-7, AC-8 (tech-term check in AC and flow steps)
+Q7. pending  [implement] afk   quality-gates/validate-behaviour-intent-alignment/commithook-extension/ — SPEC_UPDATED: implement deepened alignment checks (Stakeholders structural warning, CLAUDE.md agent guidance, AC-7–9)
 
 ## deferred
 
