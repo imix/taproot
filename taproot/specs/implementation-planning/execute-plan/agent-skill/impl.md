@@ -11,7 +11,7 @@
 - **HITL always step-by-step**: HITL items require human decisions during execution — batch is meaningless. HITL mode always runs step-by-step.
 - **AFK always batch**: the whole point of `afk` items is autonomous execution. AFK mode presents the list once for confirmation, then runs all items without per-item prompts.
 - **Batch pauses on HITL items**: when batch mode (all items) reaches a `hitl` item, execution pauses for confirmation. AFK items proceed without interruption.
-- **Follow-on offer after HITL completion**: when a `hitl` item of type `spec` or `refine` completes, the agent offers to append the corresponding `implement afk` item to plan.md. This closes the gap between specifying and scheduling implementation.
+- **Follow-on offer after spec/refine completion**: when an item of type `spec` or `refine` completes, the agent offers to append an `implement afk` item to plan.md — but only if no implement item for the same path already exists. Triggered by item type, not execution mode (hitl/afk). This closes the gap between specifying and scheduling implementation.
 - **Filters compose with execution style**: specify and implement modes filter by item type; hitl and afk modes filter by label and fix the execution style (step-by-step and batch respectively).
 - **Filtered-out items stay `pending`**: `skipped` implies developer intent to bypass; filtered items should be processed in a later pass. This enables the two-pass hitl→afk workflow.
 - **Per-item presentation preserved in batch**: the spec is explicit that batch grants up-front confirmation but still shows each item as it executes. The agent presents then proceeds without waiting.
