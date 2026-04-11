@@ -16,6 +16,7 @@
 
 ## Commits
 - (to be filled)
+- `11a93d899d67e9b5d3af6b52c8a785e48d89d50a` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/commithook.test.ts` — `checkIntentQuality` unit describe block + `runCommithook — spec quality gates` integration describe

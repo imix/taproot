@@ -32,6 +32,8 @@
 - `f0f0cc92f6d16bd2af55cfbccc918848cfaf87a7` — (auto-linked by taproot link-commits)
 - `6cab1e0523cf4fe32cd8d945efccf26c95689835` — (auto-linked by taproot link-commits)
 - `7e02cce00d074c22f7e7e4281fd05692c4c6f9b4` — (auto-linked by taproot link-commits)
+- `890a20911b15262104a6a076316d51174177c941` — (auto-linked by taproot link-commits)
+- `741f820da8dd164f5ea479261006c462825500be` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/plan-execute.test.ts` — structural tests: required sections, no-plan guard, mode detection (4 modes), item presentation/confirmation, skill dispatch (3 types), status updates, batch confirmation, filter modes (specify/implement stay-pending behaviour)

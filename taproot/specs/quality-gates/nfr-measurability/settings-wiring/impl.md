@@ -17,6 +17,7 @@
 - `3f13a2ea050faacd83d9032b5d76b0446c497e0a` — (auto-linked by taproot link-commits)
 - `55bee91cfa4bdb392e81d6950429eaf6901442ba` — (auto-linked by taproot link-commits)
 - `4381e4b9928fbb04194b85151c8bb3bbb3ea55b1` — (auto-linked by taproot link-commits)
+- `f24530ec72ef938f54297aeb423b16e363fe48cb` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/nfr-measurability.test.ts` — activation regression (settings.yaml entry present); DoR runner behaviour (check pending until agent resolves, check passes once resolution recorded)
