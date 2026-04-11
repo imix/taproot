@@ -197,11 +197,11 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[state-transition-guardrails](./quality-gates/state-transition-guardrails/usecase.md)** `[implemented]` — Actor: `taproot dod` CLI — when processing the `tests-passing` condition for an `impl.md` about to be marked `complete`. Also enforced by `taproot commithook` when an implementation commit includes an `impl.md` whose state is `complete`.
   - [cli-command](./quality-gates/state-transition-guardrails/cli-command/impl.md) `[complete]` (3 commits, 1 test)
 - **[validate-behaviour-intent-alignment](./quality-gates/validate-behaviour-intent-alignment/usecase.md)** `[implemented]` — Actor: `taproot commithook` (structural check) and agent/developer (semantic check) — triggered when a `usecase.md` is committed
-  - [commithook-extension](./quality-gates/validate-behaviour-intent-alignment/commithook-extension/impl.md) `[complete]` (2 commits, 1 test)
+  - [commithook-extension](./quality-gates/validate-behaviour-intent-alignment/commithook-extension/impl.md) `[complete]` (3 commits, 1 test)
 - **[validate-intent-quality](./quality-gates/validate-intent-quality/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when an `intent.md` is committed (requirement commit)
   - [multi-surface](./quality-gates/validate-intent-quality/multi-surface/impl.md) `[complete]` (1 commit, 1 test)
 - **[validate-usecase-quality](./quality-gates/validate-usecase-quality/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a `usecase.md` is committed (requirement commit)
-  - [multi-surface](./quality-gates/validate-usecase-quality/multi-surface/impl.md) `[complete]` (0 commits, 1 test)
+  - [multi-surface](./quality-gates/validate-usecase-quality/multi-surface/impl.md) `[complete]` (1 commit, 1 test)
 
 ## [requirements-completeness](./requirements-completeness/intent.md) `[active]`
 
@@ -300,9 +300,9 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[update-installation](./taproot-lifecycle/update-installation/usecase.md)** `[implemented]` — Actor: Developer running `taproot update` after upgrading the taproot package
   - [cli-command](./taproot-lifecycle/update-installation/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 
-## [taproot-modules](./taproot-modules/intent.md) `[draft]`
+## [taproot-modules](./taproot-modules/intent.md) `[active]`
 
-**Goal:** Ensure that implementations produced within a taproot project consistently apply domain quality standards — for UX, architecture, security, and release — rather than leaving each developer or agent to invent conventions independently.
+**Goal:** Provide optional, installable quality modules that give agents the conventions, checklists, and pattern vocabulary needed to produce consistent, domain-appropriate implementations — without requiring changes to core taproot or burdening projects that don't need a given domain.
 
 _No behaviours yet._
 
