@@ -302,7 +302,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 ## [taproot-modules](./taproot-modules/intent.md) `[draft]`
 
-**Goal:** Enable teams to activate optional, opinionated modules that extend taproot beyond requirement tracking into implementation quality guidance
+**Goal:** Ensure that implementations produced within a taproot project consistently apply domain quality standards — for UX, architecture, security, and release — rather than leaving each developer or agent to invent conventions independently.
 
 _No behaviours yet._
 

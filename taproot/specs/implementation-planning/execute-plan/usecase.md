@@ -43,18 +43,18 @@ Developer — working through a previously built plan, delegating each item to t
    - `implement` → `/tr-implement <path>`
    - `refine` → `/tr-refine <path>`
 6. On skill completion, agent invokes `/tr-commit` to commit the output of the completed item. Once the commit succeeds, agent marks the item `done` in `taproot/plan.md`. If the commit fails or is aborted, the item is not marked `done` and the agent reports the blocker.
-7. Agent reports. If the completed item was `hitl`:
+7. Agent reports completion. If the completed item was type `spec` or `refine`, and no `implement` item for the same path already exists in `taproot/plan.md`:
    ```
    ✓ Done — <description>
    [+] Add follow-on to plan  [A] Continue to next  [D] Done for now
    ```
-   If the completed item was `afk`:
+   Otherwise:
    ```
    ✓ Done — <description>
    M items remaining.
    [A] Continue to next  [D] Done for now
    ```
-8. If `[+]`: agent infers the logical follow-on (e.g. `spec hitl` done → offer `implement afk` for the same behaviour; `refine hitl` done → offer `implement afk`) and appends it to `taproot/plan.md` as a new `pending` item. Then present the updated item count and offer `[A] Continue · [D] Done`.
+8. If `[+]`: agent appends an `implement afk` item for the same behaviour path to `taproot/plan.md` as a new `pending` item and confirms *"Added: [implement] afk <path>."* Then presents the updated item count and offers `[A] Continue · [D] Done`.
 9. If `[A]`: repeat from step 2 with the next pending item.
 10. If `[D]` or no items remain: agent reports final status (see Postconditions).
 
@@ -153,23 +153,19 @@ Developer — working through a previously built plan, delegating each item to t
   2. Agent presents the filtered list and proceeds with step-by-step or batch flow as requested.
   3. When filtered items are exhausted, agent reports: *"Implement pass complete — N items done. M spec/refine items remain pending."*
 
-### HITL item completed — follow-on offered
-- **Trigger:** A `hitl` item completes successfully (step 6 of step-by-step mode, or during batch execution).
+### spec or refine item completed — follow-on offered
+- **Trigger:** An item of type `spec` or `refine` completes successfully, and no `implement` item for the same path already exists in `taproot/plan.md`.
 - **Steps:**
-  1. Agent infers the logical follow-on item:
-     - `spec hitl` done → `implement afk` for the same behaviour path
-     - `refine hitl` done → `implement afk` for the same behaviour path
-     - Other `hitl` items: agent proposes a follow-on if one is clearly implied; otherwise skips the offer.
-  2. Agent offers: `[+] Add follow-on to plan` alongside the normal continue/stop options.
-  3. If developer selects `[+]`: agent appends the follow-on as a new `pending afk` item to `taproot/plan.md` and confirms *"Added: [implement] afk <path>."*
-  4. If developer declines or no follow-on is inferrable: continue normally.
+  1. Agent offers `[+] Add follow-on to plan` alongside the normal continue/stop options.
+  2. If developer selects `[+]`: agent appends an `implement afk` item for the same behaviour path to `taproot/plan.md` as a new `pending` item and confirms *"Added: [implement] afk <path>."*
+  3. If developer declines: continue normally.
 
 ## Postconditions
 - Each executed item is marked `done` in `taproot/plan.md`.
 - Deferred items are marked `deferred` (do later); dropped items are marked `dropped` (intentionally excluded); blocked items are marked `blocked` with a note.
 - Each `done` item's output exists in the hierarchy (`usecase.md`, `impl.md`, or updated spec as appropriate).
 - When all items are done: `taproot/plan.md` contains no `pending` items.
-- After each completed `hitl` item, developer was offered the opportunity to append a follow-on item.
+- After each completed `spec` or `refine` item where no matching `implement` item already exists in `taproot/plan.md`, developer was offered the opportunity to append a follow-on `implement afk` item.
 - No item is marked `done` without a successful `/tr-commit` — the commit gate is mandatory, not optional.
 
 ## Error Conditions
@@ -286,10 +282,11 @@ flowchart TD
 - When the developer invokes AFK mode
 - Then only `afk` items are presented and executed; `hitl` items remain `pending` and are reported as remaining at the end
 
-**AC-11: Follow-on offered after HITL spec or refine completes**
-- Given a `hitl` item of type `spec` or `refine` completes successfully
+**AC-11: Follow-on offered after spec or refine item completes**
+- Given an item of type `spec` or `refine` completes successfully
+- And no `implement` item for the same path already exists in `taproot/plan.md`
 - When the agent reports completion
-- Then the agent offers `[+] Add follow-on to plan` and if accepted, appends the corresponding `implement afk` item to `taproot/plan.md`
+- Then the agent offers `[+] Add follow-on to plan` and if accepted, appends an `implement afk` item for the same path to `taproot/plan.md`
 
 **AC-22: Review option available at HITL item prompt**
 - Given a pending plan item is presented for confirmation
@@ -318,6 +315,7 @@ flowchart TD
 - **Refined:** 2026-03-30 — clarified [R] browse runs to full completion before plan-execute resumes; browse sub-actions (e.g. /tr-audit) must not be swallowed (AC-23)
 - **Refined:** 2026-04-02 — HITL mode always step-by-step (batch meaningless for human-decision items); AFK mode always batch (no per-item prompt for autonomous items)
 - **Refined:** 2026-04-03 — replaced ambiguous `skipped` status with `deferred` (do later) and `dropped` (intentionally excluded); [L] Later and [X] Drop replace [S] Skip; letter assignments aligned with UX principles truth
+- **Refined:** 2026-04-11 — follow-on offer extended from hitl-only to all spec/refine completions; added guard: offer only if no implement item for the same path already exists in taproot/plan.md (AC-11)
 
 ## Notes
 - When invoked without a mode, the agent presents an orientation menu summarising the plan state and available modes. When a mode is specified explicitly (e.g. "implement all"), the orientation is skipped.

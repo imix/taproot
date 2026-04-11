@@ -19,4 +19,3 @@
 - [2026-04-05] skill visibility metadata — add `visibility: primary | supporting` to canonical `skills/*.md` frontmatter; each adapter maps to its native mechanism (Cursor: `disable-model-invocation`, Claude: command generation filtering)
 - [2026-04-09] analyse gaps to https://www.adlc.io/ and see if we can fill them to claim adls compliance
 - [2026-04-09] UX: when starting a skill on a new subject, open with a 1–2 sentence orientation summary ("We're writing a behaviour for X under intent Y — here's what exists so far") before diving into questions — the current output drops straight into step-by-step findings with no framing
-- [2026-04-09] UX: after plan-execute finishes a [spec] or [refine] item, offer to add a matching [implement] item to the plan if one doesn't already exist
