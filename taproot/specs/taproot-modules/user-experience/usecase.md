@@ -9,14 +9,15 @@ Developer (team lead or contributor) setting up UX quality guidance for a projec
 
 ## Main Flow
 1. Developer invokes the user-experience module skill.
-2. System scans existing specs, code, and global truths and reports which of the 9 UX aspects already have partial coverage.
-3. System presents the 9 aspects — orientation, flow, feedback, input, presentation, language, accessibility, adaptation, consistency — marking any with existing coverage.
-4. Developer selects which aspects to define in this session (all or a subset).
-5. For each selected aspect, system asks targeted questions and surfaces discovered patterns from the codebase; developer reviews and confirms the elicited conventions.
-6. System writes a scoped global truth file for each completed aspect (e.g., `ux-orientation_behaviour.md`) containing conventions and an agent checklist.
-7. System asks whether to wire `check-if-affected-by: taproot-modules/user-experience` as a DoD condition in project configuration.
-8. Developer confirms or declines.
-9. System writes the condition to project configuration (if confirmed) and presents a summary of truths written and aspects remaining.
+2. System checks whether a project context record exists; if absent, system runs context discovery — asking the developer about the product type, target audience, and quality goals — before proceeding.
+3. System scans existing specs, code, and global truths and reports which of the 9 UX aspects already have partial coverage.
+4. System presents the 9 aspects — orientation, flow, feedback, input, presentation, language, accessibility, adaptation, consistency — marking any with existing coverage.
+5. Developer selects which aspects to define in this session (all or a subset).
+6. For each selected aspect, system asks targeted questions, uses the established project context to propose archetype-appropriate defaults, and surfaces discovered patterns from the codebase; developer reviews and confirms the elicited conventions.
+7. System writes a scoped global truth file for each completed aspect (e.g., `ux-orientation_behaviour.md`) containing conventions and an agent checklist.
+8. System asks whether to wire `check-if-affected-by: taproot-modules/user-experience` as a DoD condition in project configuration.
+9. Developer confirms or declines.
+10. System writes the condition to project configuration (if confirmed) and presents a summary of truths written and aspects remaining.
 
 ## Alternate Flows
 
@@ -35,14 +36,22 @@ Developer (team lead or contributor) setting up UX quality guidance for a projec
   3. System notes the module can be re-invoked to continue with uncovered aspects.
 
 ### DoD wiring declined
-- **Trigger:** Developer declines the DoD wiring offer in step 7.
+- **Trigger:** Developer declines the DoD wiring offer in step 8.
 - **Steps:**
   1. System skips writing the DoD condition.
   2. System includes the condition text in the summary so developer can add it manually.
 
+### Activated without project context
+- **Trigger:** Developer skips or declines context discovery when prompted in step 2.
+- **Steps:**
+  1. System proceeds using generic defaults for sub-skill questions.
+  2. No project context record is written.
+  3. System notes that context can be established at any future session by re-invoking the skill.
+
 ## Postconditions
 - A scoped global truth file exists for each completed aspect, containing conventions and a checklist for agents to apply at DoR/DoD time
-- DoD condition is wired in project configuration (if developer confirmed in step 8)
+- DoD condition is wired in project configuration (if developer confirmed in step 9)
+- If context discovery ran, the project context record is available for other quality modules to use in subsequent sessions
 
 ## Error Conditions
 - **Taproot not initialized**: System stops with a message directing the developer to run `taproot init` before activating any module.
@@ -52,22 +61,26 @@ Developer (team lead or contributor) setting up UX quality guidance for a projec
 
 ```mermaid
 flowchart TD
-    A([Developer invokes UX module skill]) --> B[Scan existing specs and truths]
-    B --> C[Present 9 UX aspects with coverage status]
-    C --> D{Developer selects aspects}
-    D --> E[For each aspect: elicit conventions + discover patterns]
-    E --> F{Truth file already exists?}
-    F -- yes --> G[Show existing conventions\nOffer: extend / replace / skip]
-    G --> H[Write or update global truth file]
-    F -- no --> I[Elicit via targeted questions]
-    I --> H
-    H --> J{More aspects selected?}
-    J -- yes --> E
-    J -- no, or Developer done --> K[Offer DoD wiring]
-    K -- confirmed --> L[Write check-if-affected-by to project configuration]
-    K -- declined --> M[Include condition text in summary]
-    L --> N([Summary: truths written, aspects remaining])
-    M --> N
+    A([Developer invokes UX module skill]) --> B{Project context\nrecord exists?}
+    B -- No --> C[Run context discovery\nproduct type · audience · quality goals]
+    C --> D[Scan existing specs and truths]
+    B -- Yes --> D
+    B -- Skipped --> D
+    D --> E[Present 9 UX aspects with coverage status]
+    E --> F{Developer selects aspects}
+    F --> G[For each aspect: propose context-informed defaults\nelicit conventions + discover patterns]
+    G --> H{Truth file already exists?}
+    H -- yes --> I[Show existing conventions\nOffer: extend / replace / skip]
+    I --> J[Write or update global truth file]
+    H -- no --> K[Elicit via targeted questions]
+    K --> J
+    J --> L{More aspects selected?}
+    L -- yes --> G
+    L -- no, or Developer done --> M[Offer DoD wiring]
+    M -- confirmed --> N[Write check-if-affected-by to project configuration]
+    M -- declined --> O[Include condition text in summary]
+    N --> P([Summary: truths written, aspects remaining])
+    O --> P
 ```
 
 ## Behaviours <!-- taproot-managed -->
@@ -83,6 +96,7 @@ flowchart TD
 
 ## Related
 - `taproot-modules/intent.md` — parent intent: optional module system goal and constraints
+- `module-context-discovery/usecase.md` — runs as a prerequisite step; produces the project context record this behaviour consumes
 
 ## Implementations <!-- taproot-managed -->
 - [Agent Skill — UX Module](./agent-skill/impl.md)
@@ -113,6 +127,11 @@ flowchart TD
 - Given a directory without taproot initialization
 - When developer invokes the UX module skill
 - Then system stops with a message to initialize taproot first
+
+**AC-6: Context discovery runs before aspect selection on first invocation**
+- Given no project context record exists
+- When Developer invokes the UX module skill
+- Then system runs context discovery before presenting the 9 UX aspects
 
 ## Status
 - **State:** implemented
