@@ -115,6 +115,6 @@ flowchart TD
 - Then system stops with a message to initialize taproot first
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-04-11
 - **Last reviewed:** 2026-04-11

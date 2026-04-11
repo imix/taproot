@@ -439,3 +439,48 @@ These five are starting categories, not an exhaustive constraint. Any fact that 
 /tr-define-truth
 ```
 On first invocation in a project with no existing truths, the skill walks you through the five categories and creates scoped starter files for the ones that apply. You populate them with your project's facts in free-form markdown.
+
+---
+
+## Quality module
+
+**Problem:** A project wants agents to apply consistent quality conventions — UX patterns, security checklists, accessibility rules — automatically at implementation time, without hardcoding the rules into the core taproot workflow or burdening projects that don't need a given domain.
+
+**Pattern:** Bundle related conventions as a module of skill files. Each module has one orchestrator skill and one sub-skill per domain aspect. Each sub-skill writes a scoped global truth file to `taproot/global-truths/`. The truth files are enforced at commit time. An optional DoD condition wires the check into every implementation commit.
+
+**Module structure:**
+```
+skills/
+  ux-define.md          ← orchestrator: scans coverage, routes to sub-skills, offers DoD wiring
+  ux-orientation.md     ← sub-skill: elicits orientation conventions, writes ux-orientation_behaviour.md
+  ux-flow.md            ← sub-skill: elicits flow conventions, writes ux-flow_behaviour.md
+  ...
+```
+
+**Activation:**
+1. User runs `/tr-<module>-define` (e.g. `/tr-ux-define`)
+2. Orchestrator presents coverage status across all aspects
+3. For each aspect, sub-skill elicits conventions through targeted questions + codebase discovery
+4. Sub-skill writes `taproot/global-truths/<module>-<aspect>_behaviour.md` with conventions + agent checklist
+5. Orchestrator offers to add `check-if-affected-by: taproot-modules/<module>` to `taproot/settings.yaml`
+6. On next implementation commit, agents read the spec and verify applicable truth-file conventions
+
+**When to use it:**
+- A quality domain has 3+ orthogonal aspects that each need their own elicitation questions
+- Conventions differ between projects (can't be hardcoded) — must be elicited per-project
+- You want agent-driven checking at commit time without hard hook enforcement
+- The domain is optional — projects that don't need it should not be burdened
+
+**Examples in taproot:**
+
+| Module | Orchestrator | Domain |
+|--------|-------------|--------|
+| `taproot-modules/user-experience` | `/tr-ux-define` | UX: orientation, flow, feedback, input, presentation, language, accessibility, adaptation, consistency |
+
+**Signal phrases** (pattern-check will match these):
+- "conventions agents should follow / checklist for every impl"
+- "optional quality module / install a module"
+- "elicit conventions for this domain / capture our [UX / security / architecture] rules"
+
+See spec: `taproot/specs/taproot-modules/intent.md`
+Full docs: `docs/modules.md`

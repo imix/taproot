@@ -181,6 +181,16 @@ export const SKILL_FILES = [
   'backlog.md',
   'link.md',
   'explore.md',
+  'ux-define.md',
+  'ux-orientation.md',
+  'ux-flow.md',
+  'ux-feedback.md',
+  'ux-input.md',
+  'ux-presentation.md',
+  'ux-language.md',
+  'ux-accessibility.md',
+  'ux-adaptation.md',
+  'ux-consistency.md',
 ];
 
 export function applyTemplate(templateName: string, cwd: string, force = false): string[] {
