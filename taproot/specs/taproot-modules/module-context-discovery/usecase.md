@@ -136,6 +136,9 @@ flowchart TD
 - When Agent Expertise Assistance runs and developer confirms a draft answer
 - Then the confirmed answer is filled into the question and context discovery continues
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — Module Context Discovery](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-04-11
