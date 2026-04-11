@@ -31,6 +31,7 @@ Ensure the human orchestrator retains meaningful control of the requirement hier
 - [Browse Hierarchy Item](./browse-hierarchy-item/usecase.md)
 - [Interactive Audit Walkthrough](./interactive-audit/usecase.md)
 - [Requirement Exploration](./requirement-exploration/usecase.md)
+- [Agent Expertise Assistance](./agent-expertise-assistance/usecase.md)
 
 
 ## Status
