@@ -159,6 +159,19 @@ export function checkBehaviourIntentAlignment(usecasePath, intentPath, intentCon
             hint: `Fill in the \`## ${goalHeading}\` section in \`${intentPath}\` before committing a behaviour under it`,
         });
     }
+    // Structural warning: Stakeholders section enables Actor–Stakeholder alignment verification at authoring time
+    if (!pack) {
+        const stakeHeading = localizedHeading('Stakeholders', pack);
+        const stakeBody = getSection(intentContent, stakeHeading);
+        if (stakeBody === null || stakeBody.trim().length === 0) {
+            failures.push({
+                file: usecasePath,
+                message: `Parent intent at \`${intentPath}\` has no \`## Stakeholders\` section`,
+                hint: `Add a \`## Stakeholders\` section to \`${intentPath}\` — it enables verifying that the usecase Actor is traceable to a stakeholder`,
+                severity: 'warning',
+            });
+        }
+    }
     return failures;
 }
 export function checkUsecaseQuality(filePath, content, pack = null) {

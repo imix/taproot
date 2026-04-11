@@ -8,7 +8,8 @@
 - `findParentIntentPath` does filesystem traversal from the usecase.md's directory upward, checking for `intent.md` at each ancestor level within the `taproot/` subtree. Returns the first found path or `null`.
 - Intent content is read from the git staging area first (`getStagedContent`) so that in-flight intent changes are respected; falls back to reading from disk. This handles the case where intent.md and usecase.md are committed together.
 - When no parent intent is found, the check blocks with a clear message — orphan usecases are a structural problem that should be fixed before committing.
-- Agent-side semantic check implemented as CLAUDE.md guidance ("read parent intent Goal and verify ACs address it") — avoids LLM overhead in the commithook and follows the same pattern as `validate-usecase-quality`.
+- Agent-side semantic checks (Actor–Stakeholder trace, AC coverage, scope boundary, no contradiction) implemented as CLAUDE.md guidance — avoids LLM overhead in the commithook; follows the same split as `validate-usecase-quality` (structural in hook, semantic in agent guidance).
+- Stakeholders warning (non-blocking): uses `severity: 'warning'` on the SpecFailure so the commithook surfaces it without blocking the commit; guarded by `!pack` to avoid false positives in localised contexts.
 - Check runs inside the existing requirement-tier block alongside `checkUsecaseQuality` — no new tier needed.
 
 ## Source Files
@@ -34,6 +35,8 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md updated: commithook table row for hierarchy files now explicitly lists spec quality checks including behaviour-intent alignment. README.md does not enumerate individual commithook checks. docs/ accurately reflects the change. | resolved: 2026-03-29T18:36:55.909Z
+- condition: check-if-affected-by: agent-integration/portable-output-patterns | note: not applicable — source files are commithook.ts (TypeScript git hook) and CLAUDE.md; no skill file (skills/*.md) modified; portable-output-patterns governs skill files only | resolved: 2026-04-11T07:17:02.746Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: COMPLIANT — CLAUDE.md is modified (not skills/*.md). The CLAUDE.md addition instructs the agent to read a file and check alignment. No shell commands, no credentials, no tokens introduced. | resolved: 2026-03-29T18:38:19.899Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — directory traversal for parent intent lookup is internal to commithook.ts. No reusable pattern for docs/patterns.md. | resolved: 2026-03-29T18:38:19.635Z

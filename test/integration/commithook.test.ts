@@ -953,6 +953,27 @@ describe('checkBehaviourIntentAlignment', () => {
     );
     expect(failures).toHaveLength(0);
   });
+
+  it('warns (non-blocking) when parent intent has no Stakeholders section', () => {
+    const noStakeholders = `# Intent: Test\n\n## Goal\nEnable teams to test the system\n\n## Success Criteria\n- [ ] Tests pass\n`;
+    const failures = checkBehaviourIntentAlignment(
+      'taproot/my-intent/my-behaviour/usecase.md',
+      'taproot/my-intent/intent.md',
+      noStakeholders
+    );
+    expect(failures.some(f => f.message.includes('Stakeholders') && f.severity === 'warning')).toBe(true);
+    // Warning only — no blocking errors
+    expect(failures.filter(f => f.severity !== 'warning')).toHaveLength(0);
+  });
+
+  it('does not warn about Stakeholders when section is present and non-empty', () => {
+    const failures = checkBehaviourIntentAlignment(
+      'taproot/my-intent/my-behaviour/usecase.md',
+      'taproot/my-intent/intent.md',
+      VALID_INTENT
+    );
+    expect(failures.some(f => f.message.includes('Stakeholders'))).toBe(false);
+  });
 });
 
 // ─── Alignment check integration (AC-5: sub-behaviour traversal) ─────────────
