@@ -26,6 +26,20 @@ Skills for undeclared modules are not installed (and are removed if previously p
 
 ---
 
+## Project context (`/tr-module-context-discovery`)
+
+Before the first module session, modules benefit from a shared project context record — the product type, target audience, and quality goals of the project. This lets module sub-skills propose archetype-appropriate defaults rather than asking open-ended questions.
+
+```
+/tr-module-context-discovery
+```
+
+The skill asks three questions (product type → audience → quality goals), each with a `[?] Get help` option where the agent scans existing specs and applies domain knowledge to propose an answer. The confirmed answers are written to `taproot/global-truths/project-context_intent.md`.
+
+You can run this standalone before starting any module session, or let any module orchestrator run it automatically when it finds no record. Re-run at any time to update or reset the record.
+
+---
+
 ## User-experience module (`/tr-ux-define`)
 
 The user-experience module captures UX conventions across 9 aspects and wires agent checklists so implementations stay consistent.

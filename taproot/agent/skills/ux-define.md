@@ -11,11 +11,69 @@ Activate the user-experience quality module: scan for existing UX coverage, walk
 
 ## Steps
 
+### Phase 0 — Establish project context
+
+1. Read `taproot/global-truths/project-context_intent.md` if it exists.
+
+   **If the record exists:**
+
+   > **Project context found**
+   >
+   > Product type: [value]   Target audience: [value]   Quality goals: [value]
+   >
+   > **[K]** Keep and continue   **[U]** Update fields   **[R]** Reset
+
+   - **[K]**: proceed to Phase 1 using this context.
+   - **[U]**: present each field for review; developer amends; write updated record; proceed to Phase 1.
+   - **[R]**: discard and run discovery (steps 1a–1e below).
+
+   **If no record exists**, run context discovery:
+
+   1a. Ask product type:
+
+   > What type of product is this? (marketing website, productivity app, developer tool, etc. — or describe freely)
+   >
+   > **[?]** Get help — scan project and propose
+
+   On **[?]**: scan `taproot/`, existing specs, and codebase for signals; propose a product type with explanation; developer confirms or adjusts.
+
+   1b. Ask target audience:
+
+   > Who are the primary users, and what do they come here to accomplish?
+   >
+   > **[?]** Get help — infer from project context
+
+   On **[?]**: scan specs and codebase for audience signals; propose with reasoning; developer confirms or adjusts.
+
+   1c. Ask quality goals:
+
+   > Which 2–3 quality goals matter most? (visual polish, performance, simplicity, trust, accessibility, discoverability, …)
+   >
+   > **[?]** Get help — suggest based on product type and audience
+
+   On **[?]**: draw on domain knowledge for the product archetype; propose 2–3 goals with rationale and one or two alternatives; developer confirms or adjusts.
+
+   1d. Present summary for confirmation:
+
+   > Product type: [value] · Target audience: [value] · Quality goals: [value]
+   >
+   > **[Y]** Confirm and write   **[E]** Edit a field   **[S]** Skip — use generic defaults
+
+   1e. On **[Y]**: write `taproot/global-truths/project-context_intent.md`:
+   ```markdown
+   ## Project context
+
+   - **Product type:** [value]
+   - **Target audience:** [value]
+   - **Quality goals:** [value]
+   ```
+   Report: "✓ Project context written. Sub-skill questions will use this to propose archetype-appropriate defaults."
+
+   On **[S]**: note "Skipping — modules will use generic defaults." Proceed to Phase 1.
+
 ### Phase 1 — Scan existing coverage
 
-1. Scan `taproot/global-truths/` for existing UX truth files matching the pattern `ux-<aspect>_behaviour.md`.
-
-2. Present the coverage summary:
+2. Scan `taproot/global-truths/` for existing UX truth files matching the pattern `ux-<aspect>_behaviour.md`. Present the coverage summary:
 
    ```
    UX module — coverage scan
@@ -50,7 +108,7 @@ Activate the user-experience quality module: scan for existing UX coverage, walk
    b. If the truth file already exists: "Found existing `ux-<aspect>_behaviour.md` — do you want to review and extend it, or skip this aspect?"
       - **[A]** Extend — proceed with sub-skill
       - **[L]** Later — skip this aspect for now
-   c. Invoke the sub-skill for this aspect, passing `surface`. The sub-skill runs its scan, elicitation, and write steps. It does **not** show its own What's next block when invoked from here.
+   c. Invoke the sub-skill for this aspect, passing `surface` and the established project context. The sub-skill runs its scan, elicitation, and write steps using the context to propose archetype-appropriate defaults. It does **not** show its own What's next block when invoked from here.
    d. After the sub-skill completes, confirm: "Aspect [N/9] done. Continue to next?" (omit if all aspects remain)
 
 6. After all aspects complete (or developer says Done):

@@ -140,6 +140,6 @@ flowchart TD
 - [Agent Skill — Module Context Discovery](./agent-skill/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-04-11
 - **Last reviewed:** 2026-04-11

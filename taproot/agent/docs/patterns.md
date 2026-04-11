@@ -484,3 +484,37 @@ skills/
 
 See spec: `taproot/specs/taproot-modules/intent.md`
 Full docs: `docs/modules.md`
+
+---
+
+## Mid-session expertise assistance (`[?] Get help`)
+
+**Problem:** A skill asks the developer a domain question they cannot confidently answer — e.g. "What copy tone should this product use?" or "What are your quality goals?" A developer unfamiliar with UX, marketing, security, or the specific domain is left with an open-ended question and no guidance.
+
+**Pattern:** At any question in a skill where the answer requires domain knowledge the developer may not have, offer `[?] Get help` as an option alongside the normal answers. When selected, the agent:
+1. Scans existing project context — specs, codebase, existing truths — for evidence relevant to the question
+2. Draws on domain knowledge for the question's subject area
+3. Presents a structured proposal: what the project already shows, a concrete draft answer with one-paragraph reasoning, and one or two alternatives with trade-offs
+4. Developer confirms the draft, adjusts wording, or rejects and provides their own answer
+
+```markdown
+> What copy tone should this product use?
+> (friendly/casual, professional/formal, technical/precise, terse)
+>
+> **[?]** Get help — agent will scan project and propose
+```
+
+On `[?]`: scan for tone signals in existing content; propose with explanation; developer confirms or adjusts.
+
+**When to use it:**
+- A skill question requires domain expertise (UX, security, accessibility, marketing, legal, architecture)
+- The developer's answer affects downstream conventions or truth files — a wrong answer has lasting impact
+- The question is open-ended enough that an informed proposal is more useful than rephrasing the question
+
+**Signal phrases** (pattern-check will match these):
+- "developer may not know / lacks domain expertise"
+- "question requires domain knowledge / hard to answer without background"
+- "get help from agent / agent can propose an answer"
+
+See spec: `taproot/specs/human-integration/agent-expertise-assistance/usecase.md`
+See spec: `taproot/specs/taproot-modules/module-context-discovery/usecase.md` (first implementation)

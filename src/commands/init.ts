@@ -192,6 +192,7 @@ export const SKILL_FILES = [
 /** Maps module name → skill filenames. Skills here are only installed when the module is declared. */
 export const MODULE_SKILL_FILES: Record<string, string[]> = {
   'user-experience': [
+    'module-context-discovery.md',
     'ux-define.md',
     'ux-orientation.md',
     'ux-flow.md',
