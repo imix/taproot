@@ -265,7 +265,7 @@ The hook uses a three-tier classification, where the implementation tier is dete
 
 | Staged files | Gate applied |
 |---|---|
-| Only hierarchy files (`intent.md`, `usecase.md`) | `validate-structure` + `validate-format` + spec quality checks (AC presence, valid actor, postconditions, verb-first intent goal, behaviour–intent alignment) + truth consistency check (if `taproot/global-truths/` applies) |
+| Only hierarchy files (`intent.md`, `usecase.md`) | `validate-structure` + `validate-format` + spec quality checks (AC presence, valid actor, postconditions, verb-first intent goal, Success Criteria tech-term check, behaviour–intent alignment) + up-contamination warning (non-blocking, surfaces behaviour-level language in intent Goal or Success Criteria) + truth consistency check (if `taproot/global-truths/` applies) |
 | Only `impl.md` (no source files in map) | Definition of Ready — the parent `usecase.md` must be in `specified` state and have `## Flow` and `## Related` sections |
 | Source files found in map + `impl.md` staged | Verify only `## Status` (and `## DoD Resolutions`) changed in `impl.md`; then run DoD |
 | Source files found in map but `impl.md` NOT staged | **Blocked** — "Stage `impl.md` alongside your source files. No implementation commit should proceed without its traceability record." |

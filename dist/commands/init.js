@@ -143,6 +143,7 @@ const AVAILABLE_LANGUAGES = [
 export const SKILL_FILES = [
     'audit.md',
     'audit-all.md',
+    'expertise-help.md',
     'grill-me.md',
     'intent.md',
     'behaviour.md',

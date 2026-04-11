@@ -162,6 +162,7 @@ const AVAILABLE_LANGUAGES: Array<{ name: string; value: string }> = [
 export const SKILL_FILES = [
   'audit.md',
   'audit-all.md',
+  'expertise-help.md',
   'grill-me.md',
   'intent.md',
   'behaviour.md',

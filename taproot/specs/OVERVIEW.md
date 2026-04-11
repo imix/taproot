@@ -305,7 +305,8 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 **Goal:** Provide optional, installable quality modules that give agents the conventions, checklists, and pattern vocabulary needed to produce consistent, domain-appropriate implementations — without burdening projects that don't need a given domain.
 
-- **[module-context-discovery](./taproot-modules/module-context-discovery/usecase.md)** `[specified]` — Actor: Developer activating a quality module on a project for the first time, or establishing project context independently before any module session
+- **[module-context-discovery](./taproot-modules/module-context-discovery/usecase.md)** `[implemented]` — Actor: Developer activating a quality module on a project for the first time, or establishing project context independently before any module session
+  - [agent-skill](./taproot-modules/module-context-discovery/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
 - **[module-install-opt-in](./taproot-modules/module-install-opt-in/usecase.md)** `[implemented]` — Actor: Developer configuring which quality modules are active in a project
   - [settings-opt-in](./taproot-modules/module-install-opt-in/settings-opt-in/impl.md) `[complete]` (3 commits, 2 tests)
 - **[user-experience](./taproot-modules/user-experience/usecase.md)** `[implemented]` — Actor: Developer (team lead or contributor) setting up UX quality guidance for a project
@@ -321,4 +322,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - **[presentation](./taproot-modules/user-experience/presentation/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
 
 ---
-20 intents · 113 behaviours · 102 implementations · 100/102 complete
+20 intents · 113 behaviours · 103 implementations · 101/103 complete

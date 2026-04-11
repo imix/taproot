@@ -71,6 +71,7 @@ ineed → intent → behaviour → implement → trace → status
 | `/tr-ux-accessibility` | Define accessibility conventions: keyboard model, focus management, contrast, motion, labelling, live regions |
 | `/tr-ux-adaptation` | Define adaptation conventions: environment targets, layout reflow, dark/high-contrast support, constrained-environment fallbacks |
 | `/tr-ux-consistency` | Define consistency conventions: shared-pattern vocabulary, deviation documentation, cross-surface alignment |
+| `/tr-expertise-help` | Get agent help on a domain question mid-session — scan the project, apply domain knowledge, and propose a concrete answer with reasoning and alternatives |
 | `/tr-grill-me` | Interview the user relentlessly to sharpen a plan or design |
 | `/tr-research` | Research a domain or technical subject before speccing — local resources, web search, expert grilling |
 | `/tr-next` | Surface the next independently-implementable work item from the hierarchy |

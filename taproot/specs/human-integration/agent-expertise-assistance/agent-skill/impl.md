@@ -34,5 +34,42 @@
 - **Last verified:** 2026-04-11
 
 ## DoR Resolutions
-- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — adds one skill markdown to skills/ and one entry to SKILL_FILES in init.ts. Follows grill-me precedent. Architecture.md constraints respected: agent-agnostic output, project-agnostic tooling, stateless CLI, no global mutable state. | resolved: 2026-04-11T13:17:40.280Z
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — follows grill-me precedent, architecture constraints satisfied. | resolved: 2026-04-11T13:21:37.446Z
 - condition: check-if-affected-by: quality-gates/nfr-measurability | note: NOT APPLICABLE — parent usecase.md contains no NFR-N entries. No performance, security, or reliability thresholds defined. | resolved: 2026-04-11
+
+## DoD Resolutions
+- condition: document-current | note: UPDATED docs/agents.md — added /tr-expertise-help entry alongside /tr-grill-me. | resolved: 2026-04-11T13:21:37.439Z
+- condition: check-if-affected-by: taproot-distribution/vscode-marketplace | note: AFFECTED — added channels/cursor/skills/expertise-help/SKILL.md Cursor thin-launcher. | resolved: 2026-04-11T13:21:37.448Z
+
+- condition: check-if-affected-by: agent-integration/portable-output-patterns | note: COMPLIANT — [Y], [A], [R] portable confirmation options. | resolved: 2026-04-11T13:21:37.447Z
+
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: COMPLIANT — no shell execution, no credentials, least-privilege. | resolved: 2026-04-11T13:21:37.447Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — Mid-session expertise assistance pattern already exists in docs/patterns.md. | resolved: 2026-04-11T13:21:37.446Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO. | resolved: 2026-04-11T13:21:37.446Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — adds one skill markdown to skills/ and one filename to SKILL_FILES in init.ts. Follows the grill-me precedent. Architecture.md constraints respected: agent-agnostic output, project-agnostic tooling, stateless CLI, no global mutable state. | resolved: 2026-04-11T13:21:00.000Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: NOT APPLICABLE — not a requirement-routing skill. | resolved: 2026-04-11T13:21:37.445Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: NOT APPLICABLE — no git commit step. | resolved: 2026-04-11T13:21:37.445Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: COMPLIANT — C-1 to C-7 all satisfied. | resolved: 2026-04-11T13:21:37.444Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: NOT APPLICABLE — skill writes nothing to disk. | resolved: 2026-04-11T13:21:37.444Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: COMPLIANT — What's next? block at step 6 [Y] Confirm path. | resolved: 2026-04-11T13:21:37.443Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: COMPLIANT — no bare Claude references, uses 'the agent' throughout. | resolved: 2026-04-11T13:21:37.443Z
+
+- condition: check-if-affected: examples/ | note: Not affected. | resolved: 2026-04-11T13:21:37.442Z
+
+- condition: check-if-affected: docs/ | note: AFFECTED AND UPDATED — docs/agents.md updated. | resolved: 2026-04-11T13:21:37.442Z
+
+- condition: check-if-affected: skills/guide.md | note: AFFECTED AND UPDATED — added /tr-expertise-help entry. | resolved: 2026-04-11T13:21:37.441Z
+
+- condition: check-if-affected: src/commands/update.ts | note: update.ts reads SKILL_FILES from init.ts. No direct changes needed. | resolved: 2026-04-11T13:21:37.441Z
+
+- condition: check-if-affected: package.json | note: No new npm dependencies. Not affected. | resolved: 2026-04-11T13:21:37.441Z
+
