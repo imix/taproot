@@ -302,9 +302,10 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 ## [taproot-modules](./taproot-modules/intent.md) `[active]`
 
-**Goal:** Provide optional, installable quality modules that give agents the conventions, checklists, and pattern vocabulary needed to produce consistent, domain-appropriate implementations — without requiring changes to core taproot or burdening projects that don't need a given domain.
+**Goal:** Provide optional, installable quality modules that give agents the conventions, checklists, and pattern vocabulary needed to produce consistent, domain-appropriate implementations — without burdening projects that don't need a given domain.
 
-- **[user-experience](./taproot-modules/user-experience/usecase.md)** `[specified]` — Actor: Developer (team lead or contributor) setting up UX quality guidance for a project
+- **[user-experience](./taproot-modules/user-experience/usecase.md)** `[implemented]` — Actor: Developer (team lead or contributor) setting up UX quality guidance for a project
+  - [agent-skill](./taproot-modules/user-experience/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
   - **[accessibility](./taproot-modules/user-experience/accessibility/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
   - **[adaptation](./taproot-modules/user-experience/adaptation/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
   - **[consistency](./taproot-modules/user-experience/consistency/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
@@ -316,4 +317,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - **[presentation](./taproot-modules/user-experience/presentation/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
 
 ---
-20 intents · 110 behaviours · 100 implementations · 98/100 complete
+20 intents · 110 behaviours · 101 implementations · 99/101 complete
