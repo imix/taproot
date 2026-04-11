@@ -151,7 +151,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[build-plan](./implementation-planning/build-plan/usecase.md)** `[implemented]` — Actor: Developer — building a multi-item implementation roadmap with agent assistance, to be executed in a future session or delegated to an agent.
   - [agent-skill](./implementation-planning/build-plan/agent-skill/impl.md) `[complete]` (7 commits, 1 test)
 - **[execute-plan](./implementation-planning/execute-plan/usecase.md)** `[implemented]` — Actor: Developer — working through a previously built plan, delegating each item to the agent and confirming at each step boundary.
-  - [agent-skill](./implementation-planning/execute-plan/agent-skill/impl.md) `[complete]` (9 commits, 1 test)
+  - [agent-skill](./implementation-planning/execute-plan/agent-skill/impl.md) `[complete]` (11 commits, 1 test)
 - **[extract-next-slice](./implementation-planning/extract-next-slice/usecase.md)** `[implemented]` — Actor: Agentic developer / orchestrator (human who asks the agent to plan the next work item)
   - [agent-skill](./implementation-planning/extract-next-slice/agent-skill/impl.md) `[complete]` (1 commit, 2 tests)
   - [cli-command](./implementation-planning/extract-next-slice/cli-command/impl.md) `[complete]` (1 commit, 1 test)
@@ -179,7 +179,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 **Goal:** Enforce quality at every level of the hierarchy — from intent and usecase documents through to implementations — so that vague specs, missing acceptance criteria, and incomplete implementations are caught at commit time, not during review.
 
 - **[architecture-compliance](./quality-gates/architecture-compliance/usecase.md)** `[implemented]` — Actor: Developer or agent declaring a new implementation (committing an `impl.md`) — the check runs automatically at Definition of Ready time before any code is written.
-  - [multi-surface](./quality-gates/architecture-compliance/multi-surface/impl.md) `[complete]` (4 commits, 1 test)
+  - [multi-surface](./quality-gates/architecture-compliance/multi-surface/impl.md) `[complete]` (5 commits, 1 test)
 - **[batch-dod-na-resolution](./quality-gates/batch-dod-na-resolution/usecase.md)** `[implemented]` — Actor: Developer or AI agent running `taproot dod  --resolve-all-na`
   - [cli-command](./quality-gates/batch-dod-na-resolution/cli-command/impl.md) `[complete]` (2 commits, 1 test)
 - **[commit-workflow](./quality-gates/commit-workflow/usecase.md)** `[implemented]` — Actor: Developer or AI agent calling `taproot commit` as a one-command replacement for the multi-step commit sequence.
@@ -191,7 +191,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[impl-ordering-constraints](./quality-gates/impl-ordering-constraints/usecase.md)** `[implemented]` — Actor: Developer or agent — making a declaration commit (`impl.md` only, no source files) for a new implementation that depends on another implementation being complete before work can begin.
   - [hook-extension](./quality-gates/impl-ordering-constraints/hook-extension/impl.md) `[complete]` (1 commit, 1 test)
 - **[nfr-measurability](./quality-gates/nfr-measurability/usecase.md)** `[implemented]` — Actor: Developer or agent declaring a new implementation (committing an `impl.md`) — the check runs automatically at Definition of Ready time before any code is written.
-  - [settings-wiring](./quality-gates/nfr-measurability/settings-wiring/impl.md) `[complete]` (3 commits, 1 test)
+  - [settings-wiring](./quality-gates/nfr-measurability/settings-wiring/impl.md) `[complete]` (4 commits, 1 test)
 - **[scoped-conditions](./quality-gates/scoped-conditions/usecase.md)** `[implemented]` — Actor: Developer — configuring `taproot/settings.yaml` to scope DoD/DoR conditions to specific implementation types using source file glob patterns.
   - [cli-extension](./quality-gates/scoped-conditions/cli-extension/impl.md) `[complete]` (2 commits, 1 test)
 - **[state-transition-guardrails](./quality-gates/state-transition-guardrails/usecase.md)** `[implemented]` — Actor: `taproot dod` CLI — when processing the `tests-passing` condition for an `impl.md` about to be marked `complete`. Also enforced by `taproot commithook` when an implementation commit includes an `impl.md` whose state is `complete`.
@@ -199,7 +199,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[validate-behaviour-intent-alignment](./quality-gates/validate-behaviour-intent-alignment/usecase.md)** `[implemented]` — Actor: `taproot commithook` (structural check) and agent/developer (semantic check) — triggered when a `usecase.md` is committed
   - [commithook-extension](./quality-gates/validate-behaviour-intent-alignment/commithook-extension/impl.md) `[complete]` (2 commits, 1 test)
 - **[validate-intent-quality](./quality-gates/validate-intent-quality/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when an `intent.md` is committed (requirement commit)
-  - [multi-surface](./quality-gates/validate-intent-quality/multi-surface/impl.md) `[complete]` (0 commits, 1 test)
+  - [multi-surface](./quality-gates/validate-intent-quality/multi-surface/impl.md) `[complete]` (1 commit, 1 test)
 - **[validate-usecase-quality](./quality-gates/validate-usecase-quality/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a `usecase.md` is committed (requirement commit)
   - [multi-surface](./quality-gates/validate-usecase-quality/multi-surface/impl.md) `[complete]` (0 commits, 1 test)
 

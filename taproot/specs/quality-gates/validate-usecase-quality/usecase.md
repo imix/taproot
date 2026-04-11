@@ -16,6 +16,7 @@
    b. `## Actor` section describes a human, system, or external service — not an implementation mechanism (e.g. "the API endpoint" or "the database query" are not valid actors)
    c. `## Main Flow` steps are written from the actor's perspective — each step has a subject performing an action (not passive voice describing system internals)
    d. `## Postconditions` section is present and non-empty
+   e. `## Acceptance Criteria` entries and `## Main Flow` steps do not contain implementation technology terms (e.g. REST endpoint paths, SQL queries, database table names, configuration keys, CLI flags, file system paths, internal module names) — if detected: block with correction hint (down-contamination)
 4. If all conditions pass: commit proceeds
 5. If any conditions fail: system prints each failure with a correction hint and blocks the commit
 
@@ -29,7 +30,7 @@
   3. Gate passes without rejection
 
 ### Custom quality conditions
-- **Trigger:** `.taproot/settings.yaml` defines `definitionOfSpec` conditions
+- **Trigger:** Project configuration defines `definitionOfSpec` conditions
 - **Steps:**
   1. System runs custom conditions alongside baseline checks
   2. Results reported and failures block the commit
@@ -39,8 +40,15 @@
 - **Steps:**
   1. Same quality checks apply — sub-behaviours must meet the same standard
 
+### Down-contamination detected — implementation details in behaviour spec
+- **Trigger:** AC entry or Main Flow step contains implementation technology terms
+- **Steps:**
+  1. Commit is blocked — implementation terms belong in `impl.md`, not the behaviour spec
+  2. System surfaces: "AC or flow step contains implementation-level detail: `<excerpt>`. Describe the observable outcome instead, and move technical specifics to `impl.md`."
+
 ## Postconditions
 - Every committed `usecase.md` has acceptance criteria, a valid actor, actor-perspective flow steps, and postconditions
+- AC and flow steps describe observable outcomes and contain no implementation technology terms
 - Agents writing usecases encounter the quality bar at commit time with actionable correction hints
 
 ## Error Conditions
@@ -48,6 +56,7 @@
 - **Actor describes implementation mechanism**: "Actor should be a human, system, or external service — not an implementation detail. Change '`<current value>`' to the person or system that initiates this behaviour"
 - **Main flow uses passive voice or describes internals**: "Main flow steps must describe what the actor does, not what the code does. Rewrite step N as: '`<Actor>` does `<action>`'"
 - **`## Postconditions` missing**: "Add a `## Postconditions` section describing what is true after the flow succeeds"
+- **AC or flow step contains implementation terms**: "AC or flow step should describe observable behaviour. Move implementation details to `impl.md` — current: '`<excerpt>`'"
 
 ## Flow
 ```mermaid
@@ -62,7 +71,9 @@ flowchart TD
     H -- No --> I[Block: rewrite steps as actor actions]
     H -- Yes --> J{Postconditions\npresent?}
     J -- No --> K[Block: add Postconditions]
-    J -- Yes --> L[Pass — commit proceeds]
+    J -- Yes --> M{AC and flow steps\nno impl terms?}
+    M -- No --> N[Block: move impl details to impl.md]
+    M -- Yes --> L[Pass — commit proceeds]
 ```
 
 ## Related
@@ -103,10 +114,20 @@ flowchart TD
 - When `git commit` runs
 - Then all quality checks pass and the commit is not blocked
 
+**AC-7: AC containing implementation terms blocks commit**
+- Given a `usecase.md` whose Acceptance Criteria reads "Then the system calls `POST /api/auth/login` with the user's JWT"
+- When `git commit` runs
+- Then the hook blocks with: "AC or flow step contains implementation-level detail"
+
+**AC-8: Flow step containing implementation terms blocks commit**
+- Given a `usecase.md` whose Main Flow step reads "System writes the record to the `users` PostgreSQL table"
+- When `git commit` runs
+- Then the hook blocks with: "AC or flow step contains implementation-level detail"
+
 ## Implementations <!-- taproot-managed -->
 - [Multi-Surface — commithook.ts + CLAUDE.md + tests](./multi-surface/impl.md)
 
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-20
-- **Last reviewed:** 2026-03-21
+- **Last reviewed:** 2026-04-11
