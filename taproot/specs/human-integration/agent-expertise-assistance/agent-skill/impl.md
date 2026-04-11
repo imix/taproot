@@ -19,6 +19,8 @@
 - `src/commands/init.ts` — `expertise-help.md` added to `SKILL_FILES`
 - `skills/guide.md` — `/tr-expertise-help` entry added
 - `taproot/agent/skills/guide.md` — synced copy
+- `channels/cursor/skills/expertise-help/SKILL.md` — Cursor plugin thin-launcher
+- `docs/agents.md` — `/tr-expertise-help` entry added
 
 ## Commits
 - (run `taproot link-commits` to populate)
@@ -32,5 +34,5 @@
 - **Last verified:** 2026-04-11
 
 ## DoR Resolutions
-- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — adds one skill markdown file to skills/, appends one filename to SKILL_FILES in init.ts, and updates guide.md. This follows the established pattern used by all human-integration agent skills (grill-me, module-context-discovery). No new TypeScript commands or architectural modules. All architecture.md constraints respected: agent-agnostic markdown output, project-agnostic tooling, stateless CLI. | resolved: 2026-04-11
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — adds one skill markdown to skills/ and one entry to SKILL_FILES in init.ts. Follows grill-me precedent. Architecture.md constraints respected: agent-agnostic output, project-agnostic tooling, stateless CLI, no global mutable state. | resolved: 2026-04-11T13:17:40.280Z
 - condition: check-if-affected-by: quality-gates/nfr-measurability | note: NOT APPLICABLE — parent usecase.md contains no NFR-N entries. No performance, security, or reliability thresholds defined. | resolved: 2026-04-11
