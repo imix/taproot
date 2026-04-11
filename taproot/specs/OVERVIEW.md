@@ -304,6 +304,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 **Goal:** Provide optional, installable quality modules that give agents the conventions, checklists, and pattern vocabulary needed to produce consistent, domain-appropriate implementations — without burdening projects that don't need a given domain.
 
+- **[module-install-opt-in](./taproot-modules/module-install-opt-in/usecase.md)** `[specified]` — Actor: Developer configuring which quality modules are active in a project
 - **[user-experience](./taproot-modules/user-experience/usecase.md)** `[implemented]` — Actor: Developer (team lead or contributor) setting up UX quality guidance for a project
   - [agent-skill](./taproot-modules/user-experience/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
   - **[accessibility](./taproot-modules/user-experience/accessibility/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
@@ -317,4 +318,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - **[presentation](./taproot-modules/user-experience/presentation/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
 
 ---
-20 intents · 110 behaviours · 101 implementations · 99/101 complete
+20 intents · 111 behaviours · 101 implementations · 99/101 complete

@@ -6,7 +6,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 import { buildConfigurationMd } from '../core/configuration.js';
 import type { Command } from 'commander';
 import { generateAdapters, type AgentName } from '../adapters/index.js';
-import { installSkills, installDocs, SKILL_FILES, wrapperScript, hookScriptContent } from './init.js';
+import { installSkills, installDocs, installModuleSkills, SKILL_FILES, MODULE_SKILL_FILES, wrapperScript, hookScriptContent } from './init.js';
 import { resolveAgentDir } from '../core/paths.js';
 import { runOverview } from './overview.js';
 import { DEFAULT_CONFIG, loadConfig } from '../core/config.js';
@@ -77,6 +77,19 @@ function setCliWrapper(cwd: string): string[] {
   const updated = content.trimEnd() + `\ncli: './taproot/agent/bin/taproot'\n`;
   writeFileSync(settingsPath, updated, 'utf-8');
   msgs.push(`updated  taproot/settings.yaml (cli: ./taproot/agent/bin/taproot)`);
+  return msgs;
+}
+
+function addModulesHint(cwd: string): string[] {
+  const msgs: string[] = [];
+  const settingsPath = join(cwd, 'taproot', 'settings.yaml');
+  if (!existsSync(settingsPath)) return msgs;
+  const content = readFileSync(settingsPath, 'utf-8');
+  if (/^modules:/m.test(content) || content.includes('# modules:')) return msgs; // already present
+  const availableModules = Object.keys(MODULE_SKILL_FILES).join(', ');
+  const hint = `\n# Quality modules — optional skill packs installed by \`taproot update\`.\n# Available: ${availableModules}\n# modules:\n#   - user-experience\n`;
+  writeFileSync(settingsPath, content.trimEnd() + hint);
+  msgs.push(`updated  taproot/settings.yaml (modules: hint added)`);
   return msgs;
 }
 
@@ -407,6 +420,7 @@ export async function runUpdate(options: { cwd?: string; withHooks?: boolean }):
   const isTaprootProject = existsSync(newSettingsPath) || existsSync(join(cwd, 'taproot', 'agent'));
   if (isTaprootProject) {
     messages.push(...installWrapper(cwd));
+    messages.push(...addModulesHint(cwd));
   }
   const hookPath = join(cwd, '.git', 'hooks', 'pre-commit');
   if (existsSync(hookPath)) {
@@ -465,6 +479,9 @@ export async function runUpdate(options: { cwd?: string; withHooks?: boolean }):
     messages.push('');
     messages.push(...installSkills(skillsDir, true, pack, vocab, skillsDisplayDir));
     messages.push(...installDocs(docsDir, true, docsDisplayDir));
+    // Install/remove module skills based on modules: setting
+    const declaredModules = config.modules ?? [];
+    messages.push(...installModuleSkills(skillsDir, declaredModules, true, pack, vocab, skillsDisplayDir));
   }
 
   // Install or refresh CONFIGURATION.md in the agent dir

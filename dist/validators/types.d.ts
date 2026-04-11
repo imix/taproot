@@ -83,6 +83,7 @@ export interface TaprootConfig {
     naRules?: NaRule[];
     cli?: string;
     autonomous?: boolean;
+    modules?: string[];
     testsCommand?: string;
     testResultMaxAge?: number;
     testTimeout?: number;

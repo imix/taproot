@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, writeFileSync, readdirSync, readFileSync, cpSync } from 'fs';
+import { existsSync, mkdirSync, writeFileSync, readdirSync, readFileSync, cpSync, unlinkSync } from 'fs';
 import { resolve, join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import yaml from 'js-yaml';
@@ -35,10 +35,16 @@ export function buildSettingsYaml(pkgVersion, vocabulary, language) {
         ? `\n# Domain vocabulary — overrides default taproot terms in skill instructions\nvocabulary:\n${Object.entries(vocabulary).map(([k, v]) => `  '${k}': '${v}'`).join('\n')}\n`
         : '';
     const langBlock = language ? `\nlanguage: '${language}'\n` : '';
+    const availableModules = Object.keys(MODULE_SKILL_FILES).join(', ');
     return `taproot_version: '${pkgVersion}'
 version: 1
 root: taproot/specs/
 cli: ./taproot/agent/bin/taproot
+
+# Quality modules — optional skill packs installed by \`taproot update\`.
+# Available: ${availableModules}
+# modules:
+#   - user-experience
 
 # Agent adapters installed by \`taproot update\`. Remove any you don't use.
 # Each adapter installs slash commands (e.g. /tr-implement) for that agent.
@@ -162,17 +168,22 @@ export const SKILL_FILES = [
     'backlog.md',
     'link.md',
     'explore.md',
-    'ux-define.md',
-    'ux-orientation.md',
-    'ux-flow.md',
-    'ux-feedback.md',
-    'ux-input.md',
-    'ux-presentation.md',
-    'ux-language.md',
-    'ux-accessibility.md',
-    'ux-adaptation.md',
-    'ux-consistency.md',
 ];
+/** Maps module name → skill filenames. Skills here are only installed when the module is declared. */
+export const MODULE_SKILL_FILES = {
+    'user-experience': [
+        'ux-define.md',
+        'ux-orientation.md',
+        'ux-flow.md',
+        'ux-feedback.md',
+        'ux-input.md',
+        'ux-presentation.md',
+        'ux-language.md',
+        'ux-accessibility.md',
+        'ux-adaptation.md',
+        'ux-consistency.md',
+    ],
+};
 export function applyTemplate(templateName, cwd, force = false) {
     const messages = [];
     if (!AVAILABLE_TEMPLATES.includes(templateName)) {
@@ -465,6 +476,16 @@ export function runInit(options) {
     if (needsSkills) {
         messages.push(...installSkills(skillsDir, false, null, null, 'taproot/agent/skills'));
         messages.push(...installDocs(join(agentDir, 'docs'), false, 'taproot/agent/docs'));
+        // Install module skills based on modules: setting (if any)
+        let configModules = [];
+        try {
+            const existing = yaml.load(readFileSync(configPath, 'utf-8')) ?? {};
+            if (Array.isArray(existing['modules'])) {
+                configModules = existing['modules'];
+            }
+        }
+        catch { /* no config yet */ }
+        messages.push(...installModuleSkills(skillsDir, configModules, false, null, null, 'taproot/agent/skills'));
     }
     // taproot/agent/bin/taproot wrapper script (always installed — hook and local dev depend on it)
     const binDir = join(agentDir, 'bin');
@@ -592,6 +613,82 @@ export function installSkills(targetSkillsDir, force = false, pack, vocab, displ
             for (const w of warnings) {
                 messages.push(`warning  ${w}`);
             }
+        }
+        if (!existsSync(dest)) {
+            writeFileSync(dest, content);
+            messages.push(`created  ${prefix}/${filename}`);
+        }
+        else if (force) {
+            writeFileSync(dest, content);
+            messages.push(`updated  ${prefix}/${filename}`);
+        }
+        else {
+            messages.push(`exists   ${prefix}/${filename}`);
+        }
+    }
+    return messages;
+}
+/**
+ * Install skill files for declared modules; remove skill files for undeclared modules.
+ * Reports unknown module names with the list of available modules.
+ */
+export function installModuleSkills(targetSkillsDir, declaredModules, force = false, pack, vocab, displayDir) {
+    const messages = [];
+    const prefix = displayDir ?? '.taproot/skills';
+    const availableModules = Object.keys(MODULE_SKILL_FILES);
+    // Validate declared module names
+    const unknownModules = declaredModules.filter(m => !MODULE_SKILL_FILES[m]);
+    for (const unknown of unknownModules) {
+        messages.push(`warning  Unknown module '${unknown}' — available: ${availableModules.join(', ')}`);
+    }
+    const validModules = declaredModules.filter(m => !!MODULE_SKILL_FILES[m]);
+    // Determine which skill files should be installed
+    const filesToInstall = new Set();
+    for (const mod of validModules) {
+        for (const f of MODULE_SKILL_FILES[mod]) {
+            filesToInstall.add(f);
+        }
+    }
+    // All known module skill files (across all modules)
+    const allModuleFiles = new Set();
+    for (const files of Object.values(MODULE_SKILL_FILES)) {
+        for (const f of files)
+            allModuleFiles.add(f);
+    }
+    mkdirSync(targetSkillsDir, { recursive: true });
+    // Remove skill files for undeclared modules
+    for (const filename of allModuleFiles) {
+        if (!filesToInstall.has(filename)) {
+            const dest = join(targetSkillsDir, filename);
+            if (existsSync(dest)) {
+                unlinkSync(dest);
+                messages.push(`removed  ${prefix}/${filename}`);
+            }
+        }
+    }
+    // Install skill files for declared modules
+    if (filesToInstall.size === 0) {
+        if (validModules.length === 0 && declaredModules.length === 0) {
+            messages.push('modules  none declared — no module skills installed');
+        }
+        return messages;
+    }
+    for (const filename of filesToInstall) {
+        const src = join(BUNDLED_SKILLS_DIR, filename);
+        const dest = join(targetSkillsDir, filename);
+        if (!existsSync(src)) {
+            messages.push(`warning  Module skill file not found: ${filename}`);
+            continue;
+        }
+        let content = readFileSync(src, 'utf-8');
+        if (pack)
+            content = substituteTokens(content, pack);
+        if (vocab && Object.keys(vocab).length > 0) {
+            const structuralKeys = getStructuralKeys(pack ?? null);
+            const { result, warnings } = applyVocabulary(content, vocab, structuralKeys);
+            content = result;
+            for (const w of warnings)
+                messages.push(`warning  ${w}`);
         }
         if (!existsSync(dest)) {
             writeFileSync(dest, content);

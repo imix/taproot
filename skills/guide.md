@@ -60,7 +60,7 @@ ineed → intent → behaviour → implement → trace → status
 | `/tr-browse` | Read a hierarchy document section by section in the terminal — with inline editing via `[M] Modify` |
 | `/tr-backlog` | Capture an idea or finding instantly mid-session; called with no args opens triage to discard, keep, or promote items |
 | `/tr-explore` | Collaborative exploration of a vague idea before speccing — one question at a time, hands off to the right skill when ready |
-| `/tr-ux-define` | Activate the user-experience quality module — scan coverage, elicit conventions for all 9 UX aspects, and optionally wire a DoD condition |
+| `/tr-ux-define` | Activate the user-experience quality module — scan coverage, elicit conventions for all 9 UX aspects, and optionally wire a DoD condition *(requires `modules: [user-experience]` in settings — run `taproot update` after declaring)* |
 | `/tr-ux-orientation` | Define orientation conventions: context indicators, empty states, onboarding, help placement |
 | `/tr-ux-flow` | Define flow conventions: navigation model, multi-step tasks, cancellation, destructive-action confirmation |
 | `/tr-ux-feedback` | Define feedback conventions: success/error/warning hierarchy, loading states, partial outcomes |

@@ -14,7 +14,15 @@ Each module consists of:
 - **Global truth files** — written to `taproot/global-truths/` with conventions and an agent checklist; enforced at commit time by the truth-check hook
 - **An optional DoD condition** — `check-if-affected-by: taproot-modules/<module>` wired into `taproot/settings.yaml` so agents check compliance at every implementation commit
 
-**Module skills are distributed via `taproot update`** and installed automatically by `taproot init`. They are dormant until invoked — no DoD conditions run unless the project explicitly wires them.
+**Module skills are opt-in.** Declare which modules your project uses in `taproot/settings.yaml` under the `modules:` key, then run `taproot update` or `taproot init` to install their skill files. Only declared module skills are installed — undeclared module skills are never present in the project.
+
+```yaml
+# taproot/settings.yaml
+modules:
+  - user-experience
+```
+
+Skills for undeclared modules are not installed (and are removed if previously present). No DoD conditions run unless the project explicitly wires them.
 
 ---
 
