@@ -19,6 +19,14 @@ B3. done     [refine]    hitl  "route-requirement — add AC: when tr-behaviour 
 B4. done     [implement] afk   "route-requirement/agent-skill/ — implement global truth detection in /tr-behaviour skill"
 B5. done     [implement] afk   "abbreviated paths sweep — fix all What's next skill output blocks to strip taproot/specs/ prefix and .md extension per ux-principles truth"
 
+### quality gate fixes
+
+Q1. done     [implement] afk   quality-gates/validate-intent-quality/multi-surface/ — SPEC_UPDATED: implement Success Criteria tech-term check and up-contamination warning
+Q2. done     [implement] afk   quality-gates/architecture-compliance/multi-surface/ — IMPL_STALE: verify impl against settings.yaml drift, update Last verified
+Q3. pending  [implement] afk   quality-gates/nfr-measurability/settings-wiring/ — IMPL_STALE: verify impl against settings.yaml drift, update Last verified
+Q4. pending  [refine]    hitl  quality-gates/validate-usecase-quality/usecase — add tech-term check in AC/flow steps (down-contamination); parallel to validate-intent-quality
+Q5. pending  [refine]    hitl  quality-gates/validate-behaviour-intent-alignment/usecase — deepen alignment checks beyond structural parent-intent check
+
 ## deferred
 
 D1. deferred [spec]      hitl  "full DAG cycle detection — extend check-orphans to traverse multi-hop link chains"

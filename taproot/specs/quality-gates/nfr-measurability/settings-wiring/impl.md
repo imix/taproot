@@ -24,13 +24,21 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-21
-- **Last verified:** 2026-04-09
+- **Last verified:** 2026-04-11
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — implementation writes only taproot/settings.yaml (a config file); no code design decisions; no architectural constraints apply | resolved: 2026-03-21
 
 ## DoD Resolutions
 - condition: document-current | note: docs/configuration.md updated: definitionOfReady section now documents both quality-gates/architecture-compliance and quality-gates/nfr-measurability as built-in DoR gates with descriptions of each | resolved: 2026-03-21T11:49:00.284Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no new concern — this is a staleness verification only; settings.yaml entry unchanged, definitionOfReady entry for quality-gates/nfr-measurability unchanged; Last verified date update only | resolved: 2026-04-11T06:41:20.507Z
+
+- condition: check-if-affected: examples/ | note: not affected — staleness verification only; examples demonstrate hierarchy structure, not nfr-measurability configuration | resolved: 2026-04-11T06:41:10.665Z
+
+- condition: check-if-affected: package.json | note: not affected — staleness verification only; no code changes, no new dependencies | resolved: 2026-04-11T06:41:10.664Z
+
+- condition: check-if-affected-by: agent-integration/portable-output-patterns | note: not applicable — source files are taproot/settings.yaml only; no skill file modified; portable-output-patterns governs skill files (skills/*.md) only | resolved: 2026-04-11T06:41:10.661Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: not applicable — this change adds a test file and updates impl.md only; no skill file modified | resolved: 2026-03-25T09:14:47.977Z
 
 - condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — adding integration tests introduces no agent-facing output, no new section headers, and no language-dependent content | resolved: 2026-03-25T09:14:47.495Z
@@ -39,7 +47,7 @@
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: no — NFR measurability gate is an instance of the existing check-if-affected-by pattern already documented in docs/patterns.md; no new pattern entry needed | resolved: 2026-03-21T11:49:49.665Z
 
-- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: yes — this story IS the cross-cutting concern; check-if-affected-by: quality-gates/nfr-measurability has been added to definitionOfReady in taproot/settings.yaml | resolved: 2026-03-21T11:49:40.887Z
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in taproot/settings.yaml? | note: no new concern — this is a staleness verification only; settings.yaml entry unchanged, definitionOfReady entry for quality-gates/nfr-measurability unchanged; Last verified date update only | resolved: 2026-04-11T06:41:10.665Z
 
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: not applicable — implementation writes taproot/settings.yaml (a config file) and docs/configuration.md (a doc); no code design decisions; no architectural constraints apply | resolved: 2026-03-21T11:49:36.289Z
 
