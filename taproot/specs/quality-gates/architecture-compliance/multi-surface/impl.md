@@ -25,10 +25,18 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-20
-- **Last verified:** 2026-04-09
+- **Last verified:** 2026-04-11
 
 ## DoD Resolutions
 - condition: document-current | note: docs/configuration.md updated: added check-if-affected-by to DoR condition syntax and documented architecture compliance use case with reference to docs/architecture.md. docs/architecture.md created as the architecture reference document. README.md and other docs/ files not affected. | resolved: 2026-03-20T13:38:11.010Z
+- condition: check-if-affected: examples/ | note: not affected — staleness verification only; examples demonstrate hierarchy structure, not architecture compliance configuration | resolved: 2026-04-11T06:38:21.818Z
+
+- condition: check-if-affected: package.json | note: not affected — staleness verification only; no code changes, no new dependencies | resolved: 2026-04-11T06:38:21.517Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: no new concern — this is a staleness verification only; settings.yaml entry unchanged, docs/architecture.md unchanged; Last verified date update only | resolved: 2026-04-11T06:38:12.758Z
+
+- condition: check-if-affected-by: agent-integration/portable-output-patterns | note: not applicable — source files are taproot/settings.yaml and docs/architecture.md; no skill file modified; portable-output-patterns governs skill files (skills/*.md) only | resolved: 2026-04-11T06:38:01.315Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: not applicable — this change adds a test file and updates impl.md only; no skill file (skills/*.md) is modified | resolved: 2026-03-25T08:59:38.539Z
 
 - condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — adding integration tests introduces no agent-facing output, no new section headers, and no language-dependent content; the test file is TypeScript with English identifiers only | resolved: 2026-03-25T08:59:32.615Z
