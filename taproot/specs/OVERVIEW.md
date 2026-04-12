@@ -117,7 +117,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 **Goal:** Ensure the human orchestrator retains meaningful control of the requirement hierarchy — as its owner, its primary author of intent, and its final decision-maker — while making the current state of the project legible at a glance.
 
 - **[agent-expertise-assistance](./human-integration/agent-expertise-assistance/usecase.md)** `[implemented]` — Actor: Developer who cannot confidently answer a specific question during a skill session
-  - [agent-skill](./human-integration/agent-expertise-assistance/agent-skill/impl.md) `[in-progress]` (3 commits, 1 test)
+  - [agent-skill](./human-integration/agent-expertise-assistance/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
 - **[browse-hierarchy-item](./human-integration/browse-hierarchy-item/usecase.md)** `[implemented]` — Actor: Developer — in the terminal, wanting to read a hierarchy document (intent.md, usecase.md, or impl.md) section by section without leaving the CLI or opening an external editor.
   - [agent-skill](./human-integration/browse-hierarchy-item/agent-skill/impl.md) `[complete]` (4 commits, 1 test)
 - **[bug-triage](./human-integration/bug-triage/usecase.md)** `[implemented]` — Actor: Developer or AI coding agent who has observed a defect — unexpected system behaviour, a failing test, or a user-reported issue
@@ -347,4 +347,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
     - [agent-skill](./taproot-modules/user-experience/visual/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-21 intents · 128 behaviours · 108 implementations · 105/108 complete
+21 intents · 128 behaviours · 108 implementations · 106/108 complete

@@ -17,8 +17,9 @@ Developer setting up UX conventions for a project
    - How are recoverable errors distinguished from fatal ones?
    - When does the system show a warning vs an error vs informational feedback?
    - How are partial successes (some items succeeded, some failed) communicated?
+   - After a save or confirm action, does the UI reflect the saved state directly (not just notify)? How quickly must the updated state become visible to the user?
 4. Developer answers for their surface type and confirms conventions.
-5. System writes `ux-feedback_behaviour.md` containing conventions and an agent checklist covering: success/error/warning hierarchy, loading states, inline vs global errors, and partial-outcome handling.
+5. System writes `ux-feedback_behaviour.md` containing conventions and an agent checklist covering: success/error/warning hierarchy, loading states, inline vs global errors, partial-outcome handling, and saved-state visibility after confirm actions.
 
 ## Alternate Flows
 
@@ -41,7 +42,7 @@ Developer setting up UX conventions for a project
   2. System offers: extend, replace, or skip.
 
 ## Postconditions
-- `ux-feedback_behaviour.md` exists in `taproot/global-truths/` with conventions and a checklist covering the success/error/warning hierarchy, loading states, and partial-outcome handling
+- `ux-feedback_behaviour.md` exists in `taproot/global-truths/` with conventions and a checklist covering the success/error/warning hierarchy, loading states, partial-outcome handling, and saved-state visibility after save/confirm actions
 
 ## Error Conditions
 - **Codebase scan fails**: System notes it could not scan and proceeds with elicitation questions only.
@@ -91,7 +92,12 @@ flowchart TD
 - When developer invokes the sub-skill
 - Then system proceeds directly to elicitation questions
 
+**AC-5: Saved-state visibility question elicited**
+- Given a project where users can save or confirm changes
+- When developer invokes the feedback sub-skill and answers all questions
+- Then `ux-feedback_behaviour.md` includes a convention on whether the UI must reflect the saved state directly after a save/confirm action, not just notify
+
 ## Status
 - **State:** specified
 - **Created:** 2026-04-11
-- **Last reviewed:** 2026-04-11
+- **Last reviewed:** 2026-04-12

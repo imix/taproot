@@ -17,8 +17,9 @@ Developer setting up UX conventions for a project
    - How dense is the default view — compact, comfortable, or spacious?
    - What distinguishes primary content from secondary or supporting content?
    - How are lists, grids, and card views chosen for presenting collections?
+   - Does the product avoid showing content before it is ready? How should visual instability (flashing views) be handled during page loads, data fetches, and state changes?
 4. Developer answers for their surface type and confirms conventions.
-5. System writes `ux-presentation_behaviour.md` containing conventions and an agent checklist covering: layout structure, information hierarchy signals, density defaults, progressive disclosure triggers, and collection display choices.
+5. System writes `ux-presentation_behaviour.md` containing conventions and an agent checklist covering: layout structure, information hierarchy signals, density defaults, progressive disclosure triggers, collection display choices, and rendering stability (no flashing views).
 
 ## Alternate Flows
 
@@ -41,7 +42,7 @@ Developer setting up UX conventions for a project
   2. System offers: extend, replace, or skip.
 
 ## Postconditions
-- `ux-presentation_behaviour.md` exists in `taproot/global-truths/` with conventions and a checklist covering layout structure, hierarchy signals, density, progressive disclosure, and collection display
+- `ux-presentation_behaviour.md` exists in `taproot/global-truths/` with conventions and a checklist covering layout structure, hierarchy signals, density, progressive disclosure, collection display, and rendering stability rules
 
 ## Error Conditions
 - **Codebase scan fails**: System notes it could not scan and proceeds with elicitation questions only.
@@ -91,7 +92,12 @@ flowchart TD
 - When developer invokes the sub-skill
 - Then system proceeds directly to elicitation questions
 
+**AC-5: Rendering stability question elicited**
+- Given a project with any surface type
+- When developer invokes the presentation sub-skill and answers all questions
+- Then `ux-presentation_behaviour.md` includes a convention on whether views may flash or show partial content during load and state changes
+
 ## Status
 - **State:** specified
 - **Created:** 2026-04-11
-- **Last reviewed:** 2026-04-11
+- **Last reviewed:** 2026-04-12
