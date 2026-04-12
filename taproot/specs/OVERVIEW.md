@@ -321,7 +321,8 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - **[language](./taproot-modules/user-experience/language/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
   - **[orientation](./taproot-modules/user-experience/orientation/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
   - **[presentation](./taproot-modules/user-experience/presentation/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
-  - **[visual](./taproot-modules/user-experience/visual/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
+  - **[visual](./taproot-modules/user-experience/visual/usecase.md)** `[implemented]` — Actor: Developer setting up UX conventions for a project
+    - [agent-skill](./taproot-modules/user-experience/visual/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
 
 ---
-20 intents · 114 behaviours · 104 implementations · 101/104 complete
+20 intents · 114 behaviours · 105 implementations · 102/105 complete
