@@ -34,9 +34,9 @@ Elicit and capture naming conventions for the project: how files, modules, types
    > - What convention applies to function and method names?
    > - What abbreviation policy applies? (no abbreviations except a permitted list, abbreviations allowed for common terms, free)
    > - Are there naming rules for specific categories? (e.g. booleans start with is/has, event handlers start with on, interfaces start with I)
-   > **[?]** Get help — agent will infer conventions from codebase patterns
+   > **[H]** Get help — agent will infer conventions from codebase patterns
 
-   On **[?]**: scan naming patterns across the codebase; identify the dominant conventions; propose a rule set; developer confirms or adjusts.
+   On **[H]**: scan naming patterns across the codebase; identify the dominant conventions; propose a rule set; developer confirms or adjusts.
 
 4. Review discovered patterns against answers. Note any gaps or contradictions.
 

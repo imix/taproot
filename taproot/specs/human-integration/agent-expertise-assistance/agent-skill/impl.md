@@ -32,7 +32,7 @@
 - `test/unit/skills.test.ts` — validates every file in `SKILL_FILES` (including `expertise-help.md`) for required sections and format
 
 ## Status
-- **State:** in-progress
+- **State:** complete
 - **Created:** 2026-04-11
 - **Last verified:** 2026-04-11
 
@@ -42,6 +42,28 @@
 
 ## DoD Resolutions
 - condition: document-current | note: UPDATED docs/agents.md — added /tr-expertise-help entry alongside /tr-grill-me. | resolved: 2026-04-11T13:21:37.439Z
+- condition: check-if-affected-by: taproot-distribution/vscode-marketplace | note: NOT AFFECTED — no channels/ files modified; [?]→[H] change is in skills/ only. | resolved: 2026-04-12T20:19:54.336Z
+
+- condition: check-if-affected-by: agent-integration/portable-output-patterns | note: COMPLIANT — [H] option letter change does not affect output pattern declarations. | resolved: 2026-04-12T20:19:54.336Z
+
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: COMPLIANT — change replaces [?] with [H] only; no shell execution, no credentials, no privilege escalation. | resolved: 2026-04-12T20:19:54.335Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: YES — [H] for help option pattern documented in docs/patterns.md as 'Use [H] not [?] for help options'. | resolved: 2026-04-12T20:19:54.335Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — [?]→[H] is a cosmetic fix to option-letter usability; no new cross-cutting concern introduced. | resolved: 2026-04-12T20:19:54.332Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — no structural change; [?]→[H] swap is a fix for option-letter usability only. | resolved: 2026-04-12T20:19:43.045Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: NOT APPLICABLE — not a requirement-routing skill; [?]→[H] swap does not affect this. | resolved: 2026-04-12T20:19:43.044Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: NOT APPLICABLE — no git commit step; [?]→[H] swap does not affect this. | resolved: 2026-04-12T20:19:43.044Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: COMPLIANT — C-1 to C-7 all satisfied. [?]→[H] swap is cosmetic. | resolved: 2026-04-12T20:19:43.043Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: NOT APPLICABLE — skill writes nothing to disk; [?]→[H] swap does not affect this. | resolved: 2026-04-12T20:19:43.043Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: COMPLIANT — What's next? block at step 6. Change is [?]→[H] text swap only, no structural change. | resolved: 2026-04-12T20:19:43.033Z
+
 - condition: check-if-affected-by: taproot-distribution/vscode-marketplace | note: AFFECTED — added channels/cursor/skills/expertise-help/SKILL.md Cursor thin-launcher. | resolved: 2026-04-11T13:21:37.448Z
 
 - condition: check-if-affected-by: agent-integration/portable-output-patterns | note: COMPLIANT — [Y], [A], [R] portable confirmation options. | resolved: 2026-04-11T13:21:37.447Z

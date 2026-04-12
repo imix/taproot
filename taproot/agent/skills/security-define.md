@@ -32,25 +32,25 @@ Activate the security quality module: establish project context, scan for existi
 
    > What language and framework does this project use? (e.g. Node/Express, Python/FastAPI, Go, Rails)
    >
-   > **[?]** Get help — detect from project files
+   > **[H]** Get help — detect from project files
 
-   On **[?]**: scan `package.json`, `requirements.txt`, `go.mod`, or equivalent; propose stack with explanation; developer confirms.
+   On **[H]**: scan `package.json`, `requirements.txt`, `go.mod`, or equivalent; propose stack with explanation; developer confirms.
 
    1b. Ask deployment:
 
    > Where does this project deploy? (e.g. Docker/K8s, AWS Lambda, Heroku, bare VPS, desktop app, CLI tool)
    >
-   > **[?]** Get help — detect from project config
+   > **[H]** Get help — detect from project config
 
-   On **[?]**: scan Dockerfile, CI config, cloud config files; propose deployment target; developer confirms.
+   On **[H]**: scan Dockerfile, CI config, cloud config files; propose deployment target; developer confirms.
 
    1c. Ask threat profile:
 
    > What best describes this project's threat surface? (public API, internal tool, handles PII, financial data, open-source CLI, other)
    >
-   > **[?]** Get help — infer from specs and codebase
+   > **[H]** Get help — infer from specs and codebase
 
-   On **[?]**: scan taproot specs and codebase for signals; propose threat profile; developer confirms.
+   On **[H]**: scan taproot specs and codebase for signals; propose threat profile; developer confirms.
 
    1d. Summarise:
 

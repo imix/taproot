@@ -22,39 +22,39 @@ Elicit and configure which security gates run in the CI/CD pipeline — which to
 
    If no CI config is detected: ask the developer to name their CI system or confirm there is none. If none: note the layer cannot be configured and return.
 
-3. Present gate categories. For each, filter out categories not applicable to the deployment environment (e.g. skip container scanning for CLI tools with no Docker). Offer **[?] Get help** at each:
+3. Present gate categories. For each, filter out categories not applicable to the deployment environment (e.g. skip container scanning for CLI tools with no Docker). Offer **[H] Get help** at each:
 
    > **SAST in pipeline**
    >
-   > - Tool/step? (reuse local SAST tool, or a dedicated pipeline action)   **[?]** Get help
+   > - Tool/step? (reuse local SAST tool, or a dedicated pipeline action)   **[H]** Get help
    > - Trigger? (on PR / on push to main / both)
    > - Blocking? (yes — fails pipeline / no — warning only)
 
    > **Secrets scanning in pipeline**
    >
-   > - Tool/step?   **[?]** Get help
+   > - Tool/step?   **[H]** Get help
    > - Trigger? (on PR / on every push)
    > - Blocking?
 
    > **Dependency vulnerability check**
    >
-   > - Tool/step?   **[?]** Get help
+   > - Tool/step?   **[H]** Get help
    > - Trigger? (on PR / scheduled / both)
    > - Blocking? (critical CVEs only / high+critical / any)
 
    > **Container/image scanning** *(skip if no container build)*
    >
-   > - Tool/step? (trivy, grype, Snyk container)   **[?]** Get help
+   > - Tool/step? (trivy, grype, Snyk container)   **[H]** Get help
    > - Trigger? (on image build / before deploy)
    > - Blocking?
 
    > **DAST** *(skip if no deployed web surface)*
    >
-   > - Tool/step? (OWASP ZAP, Burp Suite CI)   **[?]** Get help
+   > - Tool/step? (OWASP ZAP, Burp Suite CI)   **[H]** Get help
    > - Trigger? (on deploy to staging / scheduled)
    > - Blocking?
 
-   On **[?]**: scan CI config for evidence, propose a gate with reasoning and alternatives; developer confirms.
+   On **[H]**: scan CI config for evidence, propose a gate with reasoning and alternatives; developer confirms.
 
 4. Draft `security-ci-cd_behaviour.md`:
 

@@ -21,13 +21,13 @@ Elicit and configure which security scanners the agent runs locally — SAST, se
 
    Report what was found.
 
-3. Present scanner categories. For each, propose a stack-appropriate default and offer **[?] Get help**:
+3. Present scanner categories. For each, propose a stack-appropriate default and offer **[H] Get help**:
 
    > **SAST (static analysis)**
    >
    > Recommended for [stack]: [tool] (e.g. semgrep, bandit, eslint-plugin-security, gosec)
    >
-   > - Which tool? (or skip)   **[?]** Get help
+   > - Which tool? (or skip)   **[H]** Get help
    > - When does it run? (pre-commit / on-demand / before PR / all)
    > - What is a blocking finding? (any error / critical only / specific rule categories)
 
@@ -35,7 +35,7 @@ Elicit and configure which security scanners the agent runs locally — SAST, se
    >
    > Recommended: gitleaks or trufflehog
    >
-   > - Which tool? (or skip)   **[?]** Get help
+   > - Which tool? (or skip)   **[H]** Get help
    > - When does it run? (pre-commit / on-demand / before PR / all)
    > - What is a blocking finding? (any detected secret / high-confidence only)
 
@@ -43,11 +43,11 @@ Elicit and configure which security scanners the agent runs locally — SAST, se
    >
    > Recommended for [stack]: [tool] (e.g. npm audit, pip-audit, trivy, snyk, cargo audit)
    >
-   > - Which tool? (or skip)   **[?]** Get help
+   > - Which tool? (or skip)   **[H]** Get help
    > - When does it run? (on-demand / before PR / weekly / all)
    > - What is a blocking finding? (critical CVEs / high+critical / any vulnerability)
 
-   On **[?]** at any question: scan the project for evidence of existing tooling, draw on domain knowledge for the stack, propose a tool with reasoning and alternatives; developer confirms.
+   On **[H]** at any question: scan the project for evidence of existing tooling, draw on domain knowledge for the stack, propose a tool with reasoning and alternatives; developer confirms.
 
 4. Draft `security-local-tooling_behaviour.md`:
 

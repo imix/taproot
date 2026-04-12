@@ -31,9 +31,9 @@ Elicit and capture module boundary conventions for the project: how the codebase
    > - Which cross-layer imports are explicitly permitted? (e.g. commands may import core; core must not import commands)
    > - Which cross-layer imports are forbidden?
    > - What is the convention when a lower layer needs something from a higher layer? (inversion of control, event, callback, dependency injection)
-   > **[?]** Get help — agent will map the existing layer structure
+   > **[H]** Get help — agent will map the existing layer structure
 
-   On **[?]**: scan import patterns across the codebase; map the observed layer structure; propose conventions; developer confirms or adjusts.
+   On **[H]**: scan import patterns across the codebase; map the observed layer structure; propose conventions; developer confirms or adjusts.
 
 4. Review discovered patterns against answers. Note any gaps or contradictions.
 

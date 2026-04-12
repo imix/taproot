@@ -34,9 +34,9 @@ None required.
    >
    > Describe freely — the archetype is used to propose sensible defaults for each module aspect.
    >
-   > **[?]** Get help — agent will scan the project and propose a product type
+   > **[H]** Get help — agent will scan the project and propose a product type
 
-   - On **[?]**: scan `taproot/`, existing specs, and codebase for signals (product name, readme, routes, domain language). Propose a product type with a one-paragraph explanation. Developer confirms, adjusts, or overrides.
+   - On **[H]**: scan `taproot/`, existing specs, and codebase for signals (product name, readme, routes, domain language). Propose a product type with a one-paragraph explanation. Developer confirms, adjusts, or overrides.
 
 4. **Ask target audience:**
 
@@ -44,9 +44,9 @@ None required.
    >
    > Example: "Marketing managers who need to schedule and publish campaigns without developer help."
    >
-   > **[?]** Get help — agent will infer the audience from project context
+   > **[H]** Get help — agent will infer the audience from project context
 
-   - On **[?]**: scan specs and codebase for audience signals (onboarding flows, role language, existing personas). Propose a target audience description with reasoning. Developer confirms, adjusts, or overrides.
+   - On **[H]**: scan specs and codebase for audience signals (onboarding flows, role language, existing personas). Propose a target audience description with reasoning. Developer confirms, adjusts, or overrides.
 
 5. **Ask quality goals:**
 
@@ -54,9 +54,9 @@ None required.
    >
    > Examples: visual polish, performance, simplicity, trust and credibility, accessibility, discoverability, developer ergonomics, reliability.
    >
-   > **[?]** Get help — agent will suggest quality goals based on product type and audience
+   > **[H]** Get help — agent will suggest quality goals based on product type and audience
 
-   - On **[?]**: draw on domain knowledge for the product archetype and audience. Propose 2–3 quality goals with a brief rationale for each. Include one or two alternatives with trade-offs so the developer can choose. Developer confirms, adjusts, or overrides.
+   - On **[H]**: draw on domain knowledge for the product archetype and audience. Propose 2–3 quality goals with a brief rationale for each. Include one or two alternatives with trade-offs so the developer can choose. Developer confirms, adjusts, or overrides.
 
 6. Present a summary for confirmation:
 

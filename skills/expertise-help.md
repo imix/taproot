@@ -171,7 +171,7 @@ None — pure agent skill.
 
 ## Notes
 
-- This skill is designed to be invoked both directly (when a developer is stuck) and inline from other skills (via a `[?] Get help` option). When called inline, omit the What's next block and return the confirmed answer to the calling skill context.
+- This skill is designed to be invoked both directly (when a developer is stuck) and inline from other skills (via a `[H] Get help` option). When called inline, omit the What's next block and return the confirmed answer to the calling skill context.
 - Always recommend first. The developer should react to a concrete proposal, not start from scratch.
 - Keep the proposal concise — the developer is mid-session. Domain exposition belongs in the reasoning paragraph, not scattered throughout.
 - For questions requiring only a quick codebase lookup (e.g. "does the project already use X?"), read the relevant file and answer directly without going through the full proposal flow.

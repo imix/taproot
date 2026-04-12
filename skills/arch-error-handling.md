@@ -32,9 +32,9 @@ Elicit and capture error handling strategy conventions for the project: where er
    > - What is the convention for user-facing error messages vs internal error details? (separate, redacted, structured)
    > - How are unexpected errors (bugs, panics) handled at the top level? (logged + exit, logged + reported, swallowed with fallback)
    > - Are there error categories with different handling rules? (e.g. validation errors vs system errors vs network errors)
-   > **[?]** Get help — agent will propose defaults based on codebase patterns
+   > **[H]** Get help — agent will propose defaults based on codebase patterns
 
-   On **[?]**: scan error handling in existing code; identify the dominant strategy; propose conventions; developer confirms or adjusts.
+   On **[H]**: scan error handling in existing code; identify the dominant strategy; propose conventions; developer confirms or adjusts.
 
 4. Review discovered patterns against answers. Note any gaps or contradictions.
 

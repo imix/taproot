@@ -31,9 +31,9 @@ Elicit and capture test structure and placement conventions for the project: whe
    > - Where do test fixtures and shared test helpers live?
    > - Are test-only dependencies allowed in production bundles? (no, allowed, not applicable)
    > - Is there a rule about test file size or splitting? (one test file per source file, split by scenario, no rule)
-   > **[?]** Get help — agent will propose defaults based on codebase patterns
+   > **[H]** Get help — agent will propose defaults based on codebase patterns
 
-   On **[?]**: scan test file locations and naming in the codebase; propose conventions; developer confirms or adjusts.
+   On **[H]**: scan test file locations and naming in the codebase; propose conventions; developer confirms or adjusts.
 
 4. Review discovered patterns against answers. Note any gaps or contradictions.
 

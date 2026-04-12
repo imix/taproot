@@ -24,7 +24,7 @@ Elicit and capture secure coding conventions for the project across 9 rule categ
 
    Report what was found with file references.
 
-3. Ask targeted questions. Propose stack-appropriate defaults where context is available. Each question offers **[?] Get help**:
+3. Ask targeted questions. Propose stack-appropriate defaults where context is available. Each question offers **[H] Get help**:
 
    > **Secure coding conventions — [stack]**
    >
@@ -40,7 +40,7 @@ Elicit and capture secure coding conventions for the project across 9 rule categ
    > - **Injection prevention:** How are database queries constructed? (ORM, parameterised, raw SQL) How is user input used in commands, templates, or file paths?
    > - **Dependency hygiene:** How are dependencies pinned? Is there a process for reviewing new dependencies before adding them?
 
-   On **[?]** at any question: scan the codebase for evidence, apply domain knowledge for the stack, present a draft convention with reasoning and one or two alternatives; developer confirms or adjusts.
+   On **[H]** at any question: scan the codebase for evidence, apply domain knowledge for the stack, present a draft convention with reasoning and one or two alternatives; developer confirms or adjusts.
 
 4. Draft `security-rules_behaviour.md`:
 

@@ -522,6 +522,24 @@ See spec: `taproot/specs/taproot-modules/module-context-discovery/usecase.md` (f
 
 ---
 
+## Use [H] not [?] for help options
+
+**Problem:** Skills present `[?]` as an action letter alongside `[A]`, `[B]`, `[C]`. When a developer types `?` in Claude Code's chat input, it is not reliably interpreted as an option selection — it may be misinterpreted as a slash command prefix or simply not matched.
+
+**Pattern:** Use `[H]` (for "help") as the option letter for "agent will scan and propose":
+
+```markdown
+> - How are errors communicated across boundaries?   **[H]** Get help — agent will propose based on codebase
+
+On **[H]**: scan existing error handling patterns; propose a convention with rationale; developer confirms or adjusts.
+```
+
+**When to use it:** Any skill step where the developer can optionally ask the agent to scan the project and propose a default answer.
+
+**Why [H]:** `H` is free across all current skills, unambiguous, and easy to type. `?` is a special character that behaves inconsistently across agents and terminal inputs.
+
+---
+
 ## Fold blocking offers into What's next
 
 **Problem:** A skill ends with a blocking "offer" step (e.g. "Sweep the codebase? [A] Yes [S] Skip") immediately before a **What's next?** block. The agent renders both in the same output, producing two simultaneous menus — the developer must resolve the offer AND choose from What's next in the same response.

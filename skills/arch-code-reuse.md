@@ -31,9 +31,9 @@ Elicit and capture code reuse conventions for the project: when to abstract, how
    > - What is the rule for discovering existing abstractions before writing new code? (search first, ask a reviewer, consult docs)
    > - What is the convention for copy-with-modification vs abstraction? (copy is allowed for small variations, extract when variation exceeds N lines)
    > - Are there domains or layers where duplication is explicitly acceptable? (e.g. test helpers, migration scripts)
-   > **[?]** Get help — agent will propose defaults based on codebase patterns
+   > **[H]** Get help — agent will propose defaults based on codebase patterns
 
-   On **[?]**: scan for existing shared modules and duplication patterns; propose conventions; developer confirms or adjusts.
+   On **[H]**: scan for existing shared modules and duplication patterns; propose conventions; developer confirms or adjusts.
 
 4. Review discovered patterns against answers. Note any gaps or contradictions.
 

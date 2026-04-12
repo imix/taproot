@@ -32,9 +32,9 @@ Elicit and capture interface design conventions for the project: how public inte
    > - What naming pattern governs interface entry points? (verb-noun, noun-verb, noun-only, imperative)
    > - How are optional vs required parameters handled? (overloads, option objects, defaults, builder pattern)
    > - What consistency rules apply across similar interfaces? (parameter order, return shape, error shape)
-   > **[?]** Get help — agent will propose defaults based on codebase patterns
+   > **[H]** Get help — agent will propose defaults based on codebase patterns
 
-   On **[?]**: scan existing interfaces for dominant patterns; propose conventions with rationale; developer confirms or adjusts.
+   On **[H]**: scan existing interfaces for dominant patterns; propose conventions with rationale; developer confirms or adjusts.
 
 4. Review discovered patterns against answers. Note any gaps or contradictions.
 

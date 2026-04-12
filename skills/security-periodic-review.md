@@ -32,34 +32,34 @@ Two modes: **setup** — elicit the periodic security review checklist and caden
 
 2. Read `taproot/global-truths/security-context_intent.md` if it exists to load stack and threat profile.
 
-3. Present standard audit categories. For each, ask whether it applies and confirm the cadence. Offer **[?] Get help**:
+3. Present standard audit categories. For each, ask whether it applies and confirm the cadence. Offer **[H] Get help**:
 
    > **Dependency currency**
    > Are project dependencies up to date and free of known CVEs?
    >
    > - Include in checklist? (yes/skip)   Cadence if yes? (monthly / before each release / quarterly)
    >
-   > **[?]** Get help
+   > **[H]** Get help
 
    > **Secret rotation**
    > Are secrets and credentials rotated on schedule?
    >
    > - Include? Cadence? (monthly / quarterly / annually / per policy)
    >
-   > **[?]** Get help
+   > **[H]** Get help
 
    > **Threat model refresh**
    > Has the threat model been reviewed since the last major feature or architectural change?
    >
    > - Include? Cadence? (quarterly / before each major release / annually)
    >
-   > **[?]** Get help
+   > **[H]** Get help
 
    > **Custom audit items**
    > Any project-specific items to include? (e.g. licence compliance, third-party API key review, access log audit)
    > Add any, or skip.
 
-   On **[?]**: scan project for evidence (dep files, secret patterns, existing threat model docs), propose item + cadence with reasoning; developer confirms.
+   On **[H]**: scan project for evidence (dep files, secret patterns, existing threat model docs), propose item + cadence with reasoning; developer confirms.
 
 4. Draft `security-periodic-review_behaviour.md`:
 

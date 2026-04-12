@@ -33,25 +33,25 @@ Activate the user-experience quality module: scan for existing UX coverage, walk
 
    > What type of product is this? (marketing website, productivity app, developer tool, etc. — or describe freely)
    >
-   > **[?]** Get help — scan project and propose
+   > **[H]** Get help — scan project and propose
 
-   On **[?]**: scan `taproot/`, existing specs, and codebase for signals; propose a product type with explanation; developer confirms or adjusts.
+   On **[H]**: scan `taproot/`, existing specs, and codebase for signals; propose a product type with explanation; developer confirms or adjusts.
 
    1b. Ask target audience:
 
    > Who are the primary users, and what do they come here to accomplish?
    >
-   > **[?]** Get help — infer from project context
+   > **[H]** Get help — infer from project context
 
-   On **[?]**: scan specs and codebase for audience signals; propose with reasoning; developer confirms or adjusts.
+   On **[H]**: scan specs and codebase for audience signals; propose with reasoning; developer confirms or adjusts.
 
    1c. Ask quality goals:
 
    > Which 2–3 quality goals matter most? (visual polish, performance, simplicity, trust, accessibility, discoverability, …)
    >
-   > **[?]** Get help — suggest based on product type and audience
+   > **[H]** Get help — suggest based on product type and audience
 
-   On **[?]**: draw on domain knowledge for the product archetype; propose 2–3 goals with rationale and one or two alternatives; developer confirms or adjusts.
+   On **[H]**: draw on domain knowledge for the product archetype; propose 2–3 goals with rationale and one or two alternatives; developer confirms or adjusts.
 
    1d. Present summary for confirmation:
 

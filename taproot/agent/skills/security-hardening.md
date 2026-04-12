@@ -23,7 +23,7 @@ Elicit and capture the deploy-time security baseline for the project — securit
 
    Report what was found. Filter out categories not applicable to the deployment environment (e.g. skip security headers for a CLI tool).
 
-3. Present hardening categories applicable to the deployment. Offer **[?] Get help** at each:
+3. Present hardening categories applicable to the deployment. Offer **[H] Get help** at each:
 
    > **Security headers** *(web surfaces only)*
    >
@@ -31,14 +31,14 @@ Elicit and capture the deploy-time security baseline for the project — securit
    > - HSTS: enabled with max-age? (recommended: `max-age=63072000; includeSubDomains`)
    > - X-Frame-Options / X-Content-Type-Options / Referrer-Policy?
    >
-   > Confirm, adjust, or skip.   **[?]** Get help
+   > Confirm, adjust, or skip.   **[H]** Get help
 
    > **TLS requirements** *(network-exposed services only)*
    >
    > - Minimum TLS version? (recommended: TLS 1.2; preferred: TLS 1.3 only)
    > - Self-signed certs allowed in any environment? (recommended: no, not even staging)
    >
-   > Confirm, adjust, or skip.   **[?]** Get help
+   > Confirm, adjust, or skip.   **[H]** Get help
 
    > **Least-privilege**
    >
@@ -46,7 +46,7 @@ Elicit and capture the deploy-time security baseline for the project — securit
    > - Are IAM roles/service accounts scoped to minimum required permissions?
    > - Are file system permissions restricted where applicable?
    >
-   > Confirm, adjust, or skip.   **[?]** Get help
+   > Confirm, adjust, or skip.   **[H]** Get help
 
    > **Secrets management**
    >
@@ -54,15 +54,15 @@ Elicit and capture the deploy-time security baseline for the project — securit
    > - Are secrets ever written to disk, logs, or version control?
    > - What is the process when a secret needs rotation?
    >
-   > Confirm, adjust, or skip.   **[?]** Get help
+   > Confirm, adjust, or skip.   **[H]** Get help
 
    > **Platform-specific** *(if applicable)*
    >
    > Any additional hardening for [platform]? (e.g. container capabilities dropped, network policies, read-only root filesystem)
    >
-   > Confirm, adjust, or skip.   **[?]** Get help
+   > Confirm, adjust, or skip.   **[H]** Get help
 
-   On **[?]**: scan config files for evidence, draw on domain knowledge for the platform, propose baseline with reasoning; developer confirms.
+   On **[H]**: scan config files for evidence, draw on domain knowledge for the platform, propose baseline with reasoning; developer confirms.
 
 4. Draft `security-hardening_behaviour.md`:
 

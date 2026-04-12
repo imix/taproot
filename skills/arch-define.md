@@ -32,25 +32,25 @@ Activate the architecture quality module: scan for existing architecture convent
 
    > What type of product is this? (CLI tool, web service, library, mobile app, etc. — or describe freely)
    >
-   > **[?]** Get help — scan project and propose
+   > **[H]** Get help — scan project and propose
 
-   On **[?]**: scan `taproot/`, existing specs, and codebase for signals; propose a product type with explanation; developer confirms or adjusts.
+   On **[H]**: scan `taproot/`, existing specs, and codebase for signals; propose a product type with explanation; developer confirms or adjusts.
 
    1b. Ask tech stack:
 
    > What is the primary language and tech stack? (e.g. TypeScript/Node, Go, Python/FastAPI)
    >
-   > **[?]** Get help — infer from project files
+   > **[H]** Get help — infer from project files
 
-   On **[?]**: scan `package.json`, `go.mod`, `requirements.txt`, and similar for stack signals; propose with reasoning; developer confirms or adjusts.
+   On **[H]**: scan `package.json`, `go.mod`, `requirements.txt`, and similar for stack signals; propose with reasoning; developer confirms or adjusts.
 
    1c. Ask structural goals:
 
    > Which 2–3 structural quality goals matter most? (clear boundaries, minimal dependencies, DRY, consistent naming, strict layering, testability)
    >
-   > **[?]** Get help — suggest based on product type and stack
+   > **[H]** Get help — suggest based on product type and stack
 
-   On **[?]**: draw on domain knowledge for the product type; propose 2–3 goals with rationale; developer confirms or adjusts.
+   On **[H]**: draw on domain knowledge for the product type; propose 2–3 goals with rationale; developer confirms or adjusts.
 
    1d. Present summary for confirmation:
 
