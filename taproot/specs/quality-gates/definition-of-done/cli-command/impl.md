@@ -47,6 +47,8 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md documents taproot dod including --dry-run and --resolve; guide.md lists taproot dod | resolved: 2026-03-19T18:34:52.172Z
+- condition: check-if-affected-by: agent-integration/portable-output-patterns | note: not applicable — this impl is a TypeScript CLI command (src/commands/dod.ts); portable-output-patterns governs skill files (skills/*.md) only; no skill files in Source Files | resolved: 2026-04-12T18:22:54.519Z
+
 - condition: check-if-affected: package.json | note: not affected — writeResolution is an internal function change; no new CLI commands, options, or dependencies added | resolved: 2026-03-30T19:46:26.248Z
 
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: not applicable — no skills/*.md modified; TypeScript CLI changes only | resolved: 2026-03-28T09:50:42.442Z

@@ -423,19 +423,19 @@ export function writeResolution(implPath: string, condition: string, note: strin
 
   const hasResolutionSection = /^## DoD Resolutions$/m.test(content);
   if (hasResolutionSection) {
-    // Update existing entry for this condition in-place, or append if not found
+    // Scope both check and replacement to the ## DoD Resolutions section only,
+    // preventing false matches against identically-named entries in ## DoR Resolutions
     const conditionPattern = new RegExp(`^- condition: ${escapeRegex(condition)} \\|.*$`, 'm');
-    if (conditionPattern.test(content)) {
-      content = content.replace(conditionPattern, entry);
-    } else {
-      content = content.replace(
-        /(^## DoD Resolutions\n)([\s\S]*?)(\n^##\s|$)/m,
-        (_, header, body, suffix) => {
-          const trimmed = body.trimEnd();
-          return `${header}${trimmed ? trimmed + '\n' : ''}${entry}\n${suffix}`;
+    content = content.replace(
+      /(^## DoD Resolutions\n)([\s\S]*?)(\n^##\s|$)/m,
+      (_, header, body, suffix) => {
+        if (conditionPattern.test(body)) {
+          return `${header}${body.replace(conditionPattern, entry)}${suffix}`;
         }
-      );
-    }
+        const trimmed = body.trimEnd();
+        return `${header}${trimmed ? trimmed + '\n' : ''}${entry}\n${suffix}`;
+      }
+    );
   } else {
     // Append new section at end of file
     content = content.trimEnd() + `\n\n${resolutionHeader}\n${entry}\n`;

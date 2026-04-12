@@ -423,6 +423,24 @@ describe('writeResolution and agent check passing', () => {
     expect(count).toBe(2);
   });
 
+  it('writeResolution does not update a DoR Resolutions entry when condition name matches', () => {
+    const implPath = makeImplMd(tmpDir);
+    // Manually inject a ## DoR Resolutions section with the same condition name
+    const existing = readFileSync(implPath, 'utf-8');
+    const dorCondition = 'check-if-affected: src/commands/update.ts';
+    writeFileSync(implPath, existing.trimEnd() + `\n\n## DoR Resolutions\n- condition: ${dorCondition} | note: DoR note | resolved: 2026-01-01T00:00:00.000Z\n`, 'utf-8');
+    writeResolution(implPath, dorCondition, 'DoD note', tmpDir);
+    const content = readFileSync(implPath, 'utf-8');
+    // DoR entry must be unchanged
+    expect(content).toContain('DoR note');
+    // DoD Resolutions section must exist with the new entry
+    expect(content).toContain('## DoD Resolutions');
+    expect(content).toContain('DoD note');
+    // Exactly two entries total (one DoR, one DoD)
+    const count = (content.match(/condition: check-if-affected: src\/commands\/update\.ts/g) ?? []).length;
+    expect(count).toBe(2);
+  });
+
   it('resolving the same condition twice updates in-place, no duplicate entry', () => {
     const implPath = makeImplMd(tmpDir);
     writeResolution(implPath, 'check-if-affected: src/commands/update.ts', 'First note', tmpDir);
