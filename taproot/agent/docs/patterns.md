@@ -519,3 +519,38 @@ On `[?]`: scan for tone signals in existing content; propose with explanation; d
 
 See spec: `taproot/specs/human-integration/agent-expertise-assistance/usecase.md`
 See spec: `taproot/specs/taproot-modules/module-context-discovery/usecase.md` (first implementation)
+
+---
+
+## Fold blocking offers into What's next
+
+**Problem:** A skill ends with a blocking "offer" step (e.g. "Sweep the codebase? [A] Yes [S] Skip") immediately before a **What's next?** block. The agent renders both in the same output, producing two simultaneous menus — the developer must resolve the offer AND choose from What's next in the same response.
+
+**Pattern:** Never place a standalone blocking offer step immediately before What's next. Instead, fold the offer into the What's next block as the first numbered option:
+
+```markdown
+> **What's next?**
+> [1] `/tr-sweep` — scan for code not conforming to these conventions
+> [2] `/tr-other-skill` — do the next thing
+> [3] `/tr-commit` — commit
+```
+
+The offer becomes the natural top choice. If the developer selects it, the skill invokes the target (`/tr-sweep`, etc.) and the remaining options are implicitly deferred. If they skip to [2] or [3], the offer is skipped without an extra prompt round-trip.
+
+**When to use it:**
+- A skill writes a truth file or makes a significant change and wants to offer an optional follow-up action (sweep, run, validate)
+- The follow-up is one of several reasonable next steps — not the only one
+- The offer would otherwise require a separate yes/no prompt before showing What's next
+
+**Suppression note:** If What's next is suppressed (e.g. when the skill is invoked from an orchestrator), folding the offer into What's next automatically suppresses it too — no separate suppression logic needed.
+
+**Anti-pattern:**
+```markdown
+7. Offer a codebase sweep:
+   > Sweep the codebase?
+   > [A] Yes  [S] Skip
+
+> **What's next?**     ← duplicate menu, rendered simultaneously
+> [1] ...
+```
+
