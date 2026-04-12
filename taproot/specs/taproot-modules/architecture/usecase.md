@@ -110,6 +110,7 @@ DoR/DoD wiring per aspect — for the implementing agent:
 | Naming conventions | — | ✓ names follow conventions |
 
 ## Behaviours <!-- taproot-managed -->
+- [Define Architectural Style Conventions](./define-architectural-style/usecase.md)
 
 ## Related
 - `taproot-modules/intent.md` — parent intent: optional module system goal and constraints
