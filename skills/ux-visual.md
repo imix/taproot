@@ -80,19 +80,15 @@ Elicit and capture visual language conventions for the project: colour palette, 
 
 6. On **[A]**: write or append `taproot/global-truths/ux-visual_behaviour.md`. Report path written.
 
-7. Offer a codebase sweep:
-
-   > Sweep the codebase for code that may not conform to these visual conventions?
-   > **[A]** Yes, run `/tr-sweep`  **[S]** Skip
-
-   On **[A]**: invoke `/tr-sweep` with the newly written truth file as context.
-
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 
 > **What's next?**
-> [1] `/tr-ux-consistency` — define consistency conventions
-> [2] `/tr-ux-define` — return to module orchestrator
-> [3] `/tr-commit` — commit the new truth file
+> [1] `/tr-sweep` — scan for code that may not conform to these visual conventions
+> [2] `/tr-ux-consistency` — define consistency conventions
+> [3] `/tr-ux-define` — return to module orchestrator
+> [4] `/tr-commit` — commit the new truth file
+
+On **[1]**: invoke `/tr-sweep` with the newly written truth file as context.
 
 ## Output
 
@@ -104,7 +100,7 @@ None.
 
 ## Notes
 
-- If invoked from `/tr-ux-define`, suppress the What's next block and return control to the orchestrator.
-- The sweep offer (step 7) satisfies the parent intent success criterion: after any sub-skill writes a truth file, the developer is offered a sweep.
+- If invoked from `/tr-ux-define`, suppress the What's next block and return control to the orchestrator. The sweep offer is part of What's next, so suppressing the block suppresses the sweep offer too.
+- The sweep option in What's next satisfies the parent intent success criterion: after any sub-skill writes a truth file, the developer is offered a sweep.
 - Token names, not hex values, are the primary deliverable. If a developer cannot provide token names yet, record the hex values with a `TODO: assign token names` marker so the truth file remains useful while signalling the gap.
 - Partial completion is supported: if the developer can confirm colour conventions but not icon set (or vice versa), write the confirmed domain with a `TODO` placeholder for the deferred domain. The sub-skill can be re-invoked to complete it.

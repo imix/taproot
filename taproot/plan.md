@@ -27,7 +27,7 @@ Q3. done     [implement] afk   quality-gates/nfr-measurability/settings-wiring/ 
 Q4. done     [refine]    hitl  quality-gates/validate-usecase-quality/usecase — add tech-term check in AC/flow steps (down-contamination); parallel to validate-intent-quality
 Q5. done     [refine]    hitl  quality-gates/validate-behaviour-intent-alignment/usecase — deepen alignment checks beyond structural parent-intent check
 Q6. done     [implement] afk   quality-gates/validate-usecase-quality/multi-surface/ — SPEC_UPDATED: implement AC-7, AC-8 (tech-term check in AC and flow steps)
-Q7. pending  [implement] afk   quality-gates/validate-behaviour-intent-alignment/commithook-extension/ — SPEC_UPDATED: implement deepened alignment checks (Stakeholders structural warning, CLAUDE.md agent guidance, AC-7–9)
+Q7. done     [implement] afk   quality-gates/validate-behaviour-intent-alignment/commithook-extension/ — SPEC_UPDATED: implement deepened alignment checks (Stakeholders structural warning, CLAUDE.md agent guidance, AC-7–9)
 
 ## quality-audit dispatch refactor
 
