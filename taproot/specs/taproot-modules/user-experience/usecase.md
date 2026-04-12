@@ -51,7 +51,6 @@ Developer (team lead or contributor) setting up UX quality guidance for a projec
 ## Postconditions
 - A scoped global truth file exists for each completed aspect, containing conventions and a checklist for agents to apply at DoR/DoD time
 - DoD condition is wired in project configuration (if developer confirmed in step 9)
-- If context discovery ran, the project context record is available for other quality modules to use in subsequent sessions
 
 ## Error Conditions
 - **Taproot not initialized**: System stops with a message directing the developer to run `taproot init` before activating any module.

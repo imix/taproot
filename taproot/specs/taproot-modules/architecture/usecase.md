@@ -62,7 +62,6 @@ Developer (team lead or contributor) setting up architecture quality guidance fo
 - Dependency governance truth includes a `run:` DoD condition if developer provided a script
 - DoR `check:` conditions for interface design and code reuse are wired in `definitionOfReady` (if developer confirmed in step 10)
 - DoD condition `check-if-affected-by: taproot-modules/architecture` is wired in project configuration (if developer confirmed in step 12)
-- If context discovery ran, the project context record is available for other quality modules to use in subsequent sessions
 
 ## Error Conditions
 - **Taproot not initialized**: System stops with a message directing the developer to run `taproot init` before activating any module.
