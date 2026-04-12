@@ -32,6 +32,7 @@ Provide optional, installable quality modules that give agents the conventions, 
 - [Module Installation Opt-In](./module-install-opt-in/usecase.md)
 - [Module Context Discovery](./module-context-discovery/usecase.md)
 - [Activate Security Module](./security/usecase.md)
+- [Activate Testing Module](./testing/usecase.md)
 
 ## Status
 
