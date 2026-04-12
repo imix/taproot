@@ -176,6 +176,14 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[welcoming-readme](./project-presentation/welcoming-readme/usecase.md)** `[implemented]` — Actor: Developer discovering taproot for the first time
   - [content](./project-presentation/welcoming-readme/content/impl.md) `[complete]` (7 commits, 1 test)
 
+## [quality-audit](./quality-audit/intent.md) `[draft]`
+
+**Goal:** Give developers interactive, on-demand tools to review quality at any layer — taproot artefacts (intents, behaviours, implementations) and source code — through targeted challenge sets and convention checks
+
+- **[audit](./quality-audit/audit/usecase.md)** `[specified]` — Actor: Developer who wants to stress-test a taproot artefact — an intent, behaviour, or implementation spec — before shipping, after changes, or as a periodic quality check.
+- **[audit-all](./quality-audit/audit-all/usecase.md)** `[specified]` — Actor: Developer or team lead who wants a comprehensive quality review of a full hierarchy subtree — an intent and all its descendants, or the entire `taproot/` root — to surface structural issues, coverage gaps, and per-artefact findings in one pass.
+- **[code-audit](./quality-audit/code-audit/usecase.md)** `[specified]` — Actor: Developer who wants to review source files against project-defined conventions — captured as behaviour-scoped global truths — using a natural language description of what to check and which files to target.
+
 ## [quality-gates](./quality-gates/intent.md) `[active]`
 
 **Goal:** Enforce quality at every level of the hierarchy — from intent and usecase documents through to implementations — so that vague specs, missing acceptance criteria, and incomplete implementations are caught at commit time, not during review.
@@ -306,12 +314,14 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 **Goal:** Provide optional, installable quality modules that give agents the conventions, checklists, and pattern vocabulary needed to produce consistent, domain-appropriate implementations — without burdening projects that don't need a given domain.
 
-- **[architecture](./taproot-modules/architecture/usecase.md)** `[specified]` — Actor: Developer (team lead or contributor) setting up architecture quality guidance for a project
+- **[architecture](./taproot-modules/architecture/usecase.md)** `[implemented]` — Actor: Developer (team lead or contributor) setting up architecture quality guidance for a project
+  - [agent-skill](./taproot-modules/architecture/agent-skill/impl.md) `[complete]` (2 commits ⚠ no tests)
 - **[module-context-discovery](./taproot-modules/module-context-discovery/usecase.md)** `[implemented]` — Actor: Developer activating a quality module on a project for the first time, or establishing project context independently before any module session
   - [agent-skill](./taproot-modules/module-context-discovery/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[module-install-opt-in](./taproot-modules/module-install-opt-in/usecase.md)** `[implemented]` — Actor: Developer configuring which quality modules are active in a project
   - [settings-opt-in](./taproot-modules/module-install-opt-in/settings-opt-in/impl.md) `[complete]` (3 commits, 2 tests)
-- **[security](./taproot-modules/security/usecase.md)** `[specified]` — Actor: Developer (team lead or contributor) setting up security guidance for a project
+- **[security](./taproot-modules/security/usecase.md)** `[implemented]` — Actor: Developer (team lead or contributor) setting up security guidance for a project
+  - [agent-skill](./taproot-modules/security/agent-skill/impl.md) `[complete]` (4 commits, 1 test)
   - **[ci-cd](./taproot-modules/security/ci-cd/usecase.md)** `[specified]` — Actor: Developer configuring which security gates run in the CI/CD pipeline, invoked by the security module orchestrator or directly
   - **[hardening](./taproot-modules/security/hardening/usecase.md)** `[specified]` — Actor: Developer configuring the deploy-time security baseline for a project, invoked by the security module orchestrator or directly
   - **[local-tooling](./taproot-modules/security/local-tooling/usecase.md)** `[specified]` — Actor: Developer configuring which security scanners the agent runs locally, invoked by the security module orchestrator or directly
@@ -329,7 +339,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - **[orientation](./taproot-modules/user-experience/orientation/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
   - **[presentation](./taproot-modules/user-experience/presentation/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
   - **[visual](./taproot-modules/user-experience/visual/usecase.md)** `[implemented]` — Actor: Developer setting up UX conventions for a project
-    - [agent-skill](./taproot-modules/user-experience/visual/agent-skill/impl.md) `[complete]` (0 commits, 1 test)
+    - [agent-skill](./taproot-modules/user-experience/visual/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-20 intents · 115 behaviours · 105 implementations · 102/105 complete
+21 intents · 124 behaviours · 107 implementations · 104/107 complete
