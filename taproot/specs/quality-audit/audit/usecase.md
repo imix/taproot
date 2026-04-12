@@ -126,6 +126,9 @@ sequenceDiagram
 - When the audit completes
 - Then the system reports the artefact is clean and presents next steps without a triage loop
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — /tr-audit](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-04-12
