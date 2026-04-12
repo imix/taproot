@@ -93,6 +93,7 @@ flowchart TD
 - [Define Accessibility Conventions](./accessibility/usecase.md)
 - [Define Adaptation Conventions](./adaptation/usecase.md)
 - [Define Consistency Conventions](./consistency/usecase.md)
+- [Define Visual Language Conventions](./visual/usecase.md)
 
 ## Related
 - `taproot-modules/intent.md` — parent intent: optional module system goal and constraints

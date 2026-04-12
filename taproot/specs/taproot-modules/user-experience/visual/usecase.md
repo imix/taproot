@@ -132,6 +132,6 @@ flowchart TD
 - [Agent Skill — Visual Language Sub-skill](./agent-skill/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-04-12
 - **Last reviewed:** 2026-04-12

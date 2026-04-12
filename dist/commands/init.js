@@ -184,6 +184,7 @@ export const MODULE_SKILL_FILES = {
         'ux-accessibility.md',
         'ux-adaptation.md',
         'ux-consistency.md',
+        'ux-visual.md',
     ],
 };
 export function applyTemplate(templateName, cwd, force = false) {

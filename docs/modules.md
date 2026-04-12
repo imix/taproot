@@ -42,7 +42,7 @@ You can run this standalone before starting any module session, or let any modul
 
 ## User-experience module (`/tr-ux-define`)
 
-The user-experience module captures UX conventions across 9 aspects and wires agent checklists so implementations stay consistent.
+The user-experience module captures UX conventions across 10 aspects and wires agent checklists so implementations stay consistent.
 
 ### Activation
 
@@ -50,7 +50,7 @@ The user-experience module captures UX conventions across 9 aspects and wires ag
 /tr-ux-define
 ```
 
-The orchestrator scans for existing coverage, presents the 9 aspects with their status, and walks through each in sequence. At the end it offers to wire `check-if-affected-by: taproot-modules/user-experience` as a DoD condition.
+The orchestrator scans for existing coverage, presents the 10 aspects with their status, and walks through each in sequence. At the end it offers to wire `check-if-affected-by: taproot-modules/user-experience` as a DoD condition.
 
 ### Aspects and sub-skills
 
@@ -65,6 +65,7 @@ The orchestrator scans for existing coverage, presents the 9 aspects with their 
 | Accessibility | `/tr-ux-accessibility` | Keyboard model, focus management, contrast targets, motion preferences, labelling, live regions |
 | Adaptation | `/tr-ux-adaptation` | Environment targets, layout reflow, dark/high-contrast support, constrained-environment fallbacks |
 | Consistency | `/tr-ux-consistency` | Shared-pattern vocabulary, deviation documentation, cross-surface alignment |
+| Visual | `/tr-ux-visual` | Colour palette, semantic colour tokens, dark/light mode rules, icon set, iconography style, sizing |
 
 Each sub-skill can be run directly (e.g. `/tr-ux-orientation`) or via the orchestrator. Sub-skills write to `taproot/global-truths/ux-<aspect>_behaviour.md`.
 

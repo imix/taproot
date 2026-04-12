@@ -2,11 +2,11 @@
 
 ## Description
 
-Activate the user-experience quality module: scan for existing UX coverage, walk through each of the 9 UX aspects, elicit conventions via sub-skills, and optionally wire a DoD condition so agents apply UX conventions automatically. Run once to bootstrap the module; re-run at any time to extend or revisit aspects.
+Activate the user-experience quality module: scan for existing UX coverage, walk through each of the 10 UX aspects, elicit conventions via sub-skills, and optionally wire a DoD condition so agents apply UX conventions automatically. Run once to bootstrap the module; re-run at any time to extend or revisit aspects.
 
 ## Inputs
 
-- `aspects` (optional): Comma-separated subset of aspects to run — `orientation`, `flow`, `feedback`, `input`, `presentation`, `language`, `accessibility`, `adaptation`, `consistency`. Defaults to all 9.
+- `aspects` (optional): Comma-separated subset of aspects to run — `orientation`, `flow`, `feedback`, `input`, `presentation`, `language`, `accessibility`, `adaptation`, `consistency`, `visual`. Defaults to all 10.
 - `surface` (optional): Target surface type — `cli`, `web`, `mobile`, `desktop`. Passed to each sub-skill. If omitted, the first sub-skill asks; the answer is reused for all subsequent sub-skills.
 
 ## Steps
@@ -89,6 +89,7 @@ Activate the user-experience quality module: scan for existing UX coverage, walk
     accessibility   ux-accessibility_behaviour.md ✗ missing
     adaptation      ux-adaptation_behaviour.md    ✗ missing
     consistency     ux-consistency_behaviour.md   ✗ missing
+    visual          ux-visual_behaviour.md        ✗ missing
    ─────────────────────────────────────────────────────────
    ```
 
@@ -102,7 +103,7 @@ Activate the user-experience quality module: scan for existing UX coverage, walk
 
 ### Phase 2 — Run sub-skills in sequence
 
-5. For each aspect in scope (in order: orientation → flow → feedback → input → presentation → language → accessibility → adaptation → consistency):
+5. For each aspect in scope (in order: orientation → flow → feedback → input → presentation → language → accessibility → adaptation → consistency → visual):
 
    a. Announce: `── Aspect [N/9]: <aspect> ──`
    b. If the truth file already exists: "Found existing `ux-<aspect>_behaviour.md` — do you want to review and extend it, or skip this aspect?"
@@ -162,5 +163,5 @@ None.
 
 - Sub-skills invoked from this orchestrator suppress their own What's next blocks. The orchestrator presents a single summary at the end.
 - Re-running `/tr-ux-define` on a project with some aspects already defined picks up from where it left off — only aspects with missing truth files are presented as `✗ missing`.
-- To define a single aspect without the orchestrator, invoke its sub-skill directly: `/tr-ux-orientation`, `/tr-ux-flow`, etc.
+- To define a single aspect without the orchestrator, invoke its sub-skill directly: `/tr-ux-orientation`, `/tr-ux-flow`, `/tr-ux-visual`, etc.
 - Surface type, once confirmed in Phase 1, is passed to all sub-skills so the developer is not asked again.
