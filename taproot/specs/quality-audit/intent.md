@@ -23,11 +23,11 @@ Give developers interactive, on-demand tools to review quality at any layer — 
 - Reviews must not require a full project build or test run to run
 
 ## Behaviours <!-- taproot-managed -->
-- [Audit a Single Artefact](./audit/usecase.md)
-- [Audit an Entire Hierarchy Subtree](./audit-all/usecase.md)
-- [Audit Source Code Against Conventions](./code-audit/usecase.md)
+- [Audit](./audit/usecase.md)
+- [Audit All](./audit-all/usecase.md)
 
 ## Status
-- **State:** draft
+- **State:** active
 - **Created:** 2026-04-12
 - **Last reviewed:** 2026-04-12
+- **Refined:** 2026-04-12 — removed code-audit/ (moved to audit/code/ sub-behaviour); updated Behaviours links

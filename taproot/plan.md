@@ -31,13 +31,13 @@ Q7. done     [implement] afk   quality-gates/validate-behaviour-intent-alignment
 
 ## quality-audit dispatch refactor
 
-R1. pending  [spec]    hitl  "quality-audit/audit/spec/ — single-artefact audit sub-behaviour (no CLI command)"
-R2. pending  [spec]    hitl  "quality-audit/audit/code/ — code audit sub-behaviour (moves from code-audit/, no CLI command)"
-R3. pending  [refine]  hitl  "quality-audit/audit/usecase — rewrite as dispatch: spec path → spec sub-skill; source path/prompt → code sub-skill"
-R4. pending  [spec]    hitl  "quality-audit/audit-all/spec/ — subtree audit sub-behaviour (no CLI command)"
-R5. pending  [spec]    hitl  "quality-audit/audit-all/code/ — code variant sub-behaviour (new, unspecced, no CLI command)"
-R6. pending  [refine]  hitl  "quality-audit/audit-all/usecase — rewrite as dispatch (same routing logic as audit/)"
-R7. pending  [refine]  afk   "quality-audit/intent.md — remove code-audit/ from Behaviours; delete code-audit/ folder"
+R1. done     [spec]    hitl  "quality-audit/audit/spec/ — single-artefact audit sub-behaviour (no CLI command)"
+R2. done     [spec]    hitl  "quality-audit/audit/code/ — code audit sub-behaviour (moves from code-audit/, no CLI command)"
+R3. done     [refine]  hitl  "quality-audit/audit/usecase — rewrite as dispatch: spec path → spec sub-skill; source path/prompt → code sub-skill"
+R4. done     [spec]    hitl  "quality-audit/audit-all/spec/ — subtree audit sub-behaviour (no CLI command)"
+R5. done     [spec]    hitl  "quality-audit/audit-all/code/ — code variant sub-behaviour (new, unspecced, no CLI command)"
+R6. done     [refine]  hitl  "quality-audit/audit-all/usecase — rewrite as dispatch (same routing logic as audit/)"
+R7. done     [refine]  afk   "quality-audit/intent.md — remove code-audit/ from Behaviours; delete code-audit/ folder"
 
 ## deferred
 

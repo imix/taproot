@@ -176,14 +176,17 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[welcoming-readme](./project-presentation/welcoming-readme/usecase.md)** `[implemented]` — Actor: Developer discovering taproot for the first time
   - [content](./project-presentation/welcoming-readme/content/impl.md) `[complete]` (7 commits, 1 test)
 
-## [quality-audit](./quality-audit/intent.md) `[draft]`
+## [quality-audit](./quality-audit/intent.md) `[active]`
 
 **Goal:** Give developers interactive, on-demand tools to review quality at any layer — taproot artefacts (intents, behaviours, implementations) and source code — through targeted challenge sets and convention checks
 
-- **[audit](./quality-audit/audit/usecase.md)** `[implemented]` — Actor: Developer who wants to stress-test a taproot artefact — an intent, behaviour, or implementation spec — before shipping, after changes, or as a periodic quality check.
+- **[audit](./quality-audit/audit/usecase.md)** `[specified]` — Actor: Developer who wants to review quality at any layer — taproot artefacts (intents, behaviours, implementations) or source code — through a single entry point that routes to the appropriate sub-skill.
   - [agent-skill](./quality-audit/audit/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
-- **[audit-all](./quality-audit/audit-all/usecase.md)** `[specified]` — Actor: Developer or team lead who wants a comprehensive quality review of a full hierarchy subtree — an intent and all its descendants, or the entire `taproot/` root — to surface structural issues, coverage gaps, and per-artefact findings in one pass.
-- **[code-audit](./quality-audit/code-audit/usecase.md)** `[specified]` — Actor: Developer who wants to review source files against project-defined conventions — captured as behaviour-scoped global truths — using a natural language description of what to check and which files to target.
+  - **[code](./quality-audit/audit/code/usecase.md)** `[specified]` — Actor: Developer (routed via `/tr-audit` dispatch after input is identified as a source path or free-form prompt)
+  - **[spec](./quality-audit/audit/spec/usecase.md)** `[specified]` — Actor: Developer (routed via `/tr-audit` dispatch after input is identified as a spec path)
+- **[audit-all](./quality-audit/audit-all/usecase.md)** `[specified]` — Actor: Developer or team lead who wants a comprehensive quality review — either a full hierarchy subtree (structural issues, coverage gaps, per-artefact findings) or the entire codebase against all declared convention truths — through a single entry point that routes to the appropriate sub-skill.
+  - **[code](./quality-audit/audit-all/code/usecase.md)** `[specified]` — Actor: Developer or team lead (routed via `/tr-audit-all` dispatch after input is identified as a code-scope request or when no path is given and a code-wide review is requested)
+  - **[spec](./quality-audit/audit-all/spec/usecase.md)** `[specified]` — Actor: Developer or team lead (routed via `/tr-audit-all` dispatch after input is identified as a hierarchy path)
 
 ## [quality-gates](./quality-gates/intent.md) `[active]`
 
@@ -208,7 +211,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[state-transition-guardrails](./quality-gates/state-transition-guardrails/usecase.md)** `[implemented]` — Actor: `taproot dod` CLI — when processing the `tests-passing` condition for an `impl.md` about to be marked `complete`. Also enforced by `taproot commithook` when an implementation commit includes an `impl.md` whose state is `complete`.
   - [cli-command](./quality-gates/state-transition-guardrails/cli-command/impl.md) `[complete]` (3 commits, 1 test)
 - **[validate-behaviour-intent-alignment](./quality-gates/validate-behaviour-intent-alignment/usecase.md)** `[implemented]` — Actor: `taproot commithook` (structural check) and agent/developer (semantic check) — triggered when a `usecase.md` is committed
-  - [commithook-extension](./quality-gates/validate-behaviour-intent-alignment/commithook-extension/impl.md) `[complete]` (3 commits, 1 test)
+  - [commithook-extension](./quality-gates/validate-behaviour-intent-alignment/commithook-extension/impl.md) `[complete]` (3 commits, 2 tests)
 - **[validate-intent-quality](./quality-gates/validate-intent-quality/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when an `intent.md` is committed (requirement commit)
   - [multi-surface](./quality-gates/validate-intent-quality/multi-surface/impl.md) `[complete]` (1 commit, 1 test)
 - **[validate-usecase-quality](./quality-gates/validate-usecase-quality/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a `usecase.md` is committed (requirement commit)
@@ -344,4 +347,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
     - [agent-skill](./taproot-modules/user-experience/visual/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-21 intents · 125 behaviours · 108 implementations · 105/108 complete
+21 intents · 128 behaviours · 108 implementations · 105/108 complete
