@@ -311,6 +311,12 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [agent-skill](./taproot-modules/module-context-discovery/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[module-install-opt-in](./taproot-modules/module-install-opt-in/usecase.md)** `[implemented]` — Actor: Developer configuring which quality modules are active in a project
   - [settings-opt-in](./taproot-modules/module-install-opt-in/settings-opt-in/impl.md) `[complete]` (3 commits, 2 tests)
+- **[security](./taproot-modules/security/usecase.md)** `[specified]` — Actor: Developer (team lead or contributor) setting up security guidance for a project
+  - **[ci-cd](./taproot-modules/security/ci-cd/usecase.md)** `[specified]` — Actor: Developer configuring which security gates run in the CI/CD pipeline, invoked by the security module orchestrator or directly
+  - **[hardening](./taproot-modules/security/hardening/usecase.md)** `[specified]` — Actor: Developer configuring the deploy-time security baseline for a project, invoked by the security module orchestrator or directly
+  - **[local-tooling](./taproot-modules/security/local-tooling/usecase.md)** `[specified]` — Actor: Developer configuring which security scanners the agent runs locally, invoked by the security module orchestrator or directly
+  - **[periodic-review](./taproot-modules/security/periodic-review/usecase.md)** `[specified]` — Actor: Developer configuring what the periodic security review covers (setup mode) or running the review against an established checklist (review mode)
+  - **[rules](./taproot-modules/security/rules/usecase.md)** `[specified]` — Actor: Developer configuring secure coding conventions for a project, invoked by the security module orchestrator or directly
 - **[user-experience](./taproot-modules/user-experience/usecase.md)** `[implemented]` — Actor: Developer (team lead or contributor) setting up UX quality guidance for a project
   - [agent-skill](./taproot-modules/user-experience/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
   - **[accessibility](./taproot-modules/user-experience/accessibility/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project

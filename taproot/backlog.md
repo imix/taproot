@@ -20,3 +20,6 @@
 - [2026-04-09] analyse gaps to https://www.adlc.io/ and see if we can fill them to claim adls compliance
 - [2026-04-09] UX: when starting a skill on a new subject, open with a 1–2 sentence orientation summary ("We're writing a behaviour for X under intent Y — here's what exists so far") before diving into questions — the current output drops straight into step-by-step findings with no framing
 - [2026-04-12] add observability module to taproot-modules — structured logging, telemetry (metrics/traces), and event emission for CLI operations and skill invocations
+- [2026-04-12] tr-audit and tr-audit-all are unspecced skills — gap in the hierarchy. Likely home: hierarchy-integrity/ or quality-gates/. Need usecase.md for both.
+- [2026-04-12] code-quality intent needed — new top-level intent to house code-review and code-review-all behaviours (convention checking against all behaviour-scoped global truths, per-diff and full-codebase variants).
+- [2026-04-12] code-review and code-review-all behaviours under code-quality/ — check changed files (or full codebase) against all behaviour-scoped global truths. DoD condition: check-if-affected-by: code-quality/code-review.
