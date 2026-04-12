@@ -117,6 +117,7 @@ DoR/DoD wiring per aspect — for the implementing agent:
 - `module-context-discovery/usecase.md` — runs as a prerequisite step; produces the project context record this behaviour consumes
 
 ## Implementations <!-- taproot-managed -->
+- [Agent Skill — Architecture Module](./agent-skill/impl.md)
 
 ## Acceptance Criteria
 
