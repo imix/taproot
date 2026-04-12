@@ -180,7 +180,8 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 
 **Goal:** Give developers interactive, on-demand tools to review quality at any layer — taproot artefacts (intents, behaviours, implementations) and source code — through targeted challenge sets and convention checks
 
-- **[audit](./quality-audit/audit/usecase.md)** `[specified]` — Actor: Developer who wants to stress-test a taproot artefact — an intent, behaviour, or implementation spec — before shipping, after changes, or as a periodic quality check.
+- **[audit](./quality-audit/audit/usecase.md)** `[implemented]` — Actor: Developer who wants to stress-test a taproot artefact — an intent, behaviour, or implementation spec — before shipping, after changes, or as a periodic quality check.
+  - [agent-skill](./quality-audit/audit/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[audit-all](./quality-audit/audit-all/usecase.md)** `[specified]` — Actor: Developer or team lead who wants a comprehensive quality review of a full hierarchy subtree — an intent and all its descendants, or the entire `taproot/` root — to surface structural issues, coverage gaps, and per-artefact findings in one pass.
 - **[code-audit](./quality-audit/code-audit/usecase.md)** `[specified]` — Actor: Developer who wants to review source files against project-defined conventions — captured as behaviour-scoped global truths — using a natural language description of what to check and which files to target.
 
@@ -327,6 +328,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - **[local-tooling](./taproot-modules/security/local-tooling/usecase.md)** `[specified]` — Actor: Developer configuring which security scanners the agent runs locally, invoked by the security module orchestrator or directly
   - **[periodic-review](./taproot-modules/security/periodic-review/usecase.md)** `[specified]` — Actor: Developer configuring what the periodic security review covers (setup mode) or running the review against an established checklist (review mode)
   - **[rules](./taproot-modules/security/rules/usecase.md)** `[specified]` — Actor: Developer configuring secure coding conventions for a project, invoked by the security module orchestrator or directly
+- **[testing](./taproot-modules/testing/usecase.md)** `[specified]` — Actor: Developer (team lead or contributor) setting up testing quality guidance for a project
 - **[user-experience](./taproot-modules/user-experience/usecase.md)** `[implemented]` — Actor: Developer (team lead or contributor) setting up UX quality guidance for a project
   - [agent-skill](./taproot-modules/user-experience/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
   - **[accessibility](./taproot-modules/user-experience/accessibility/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
@@ -342,4 +344,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
     - [agent-skill](./taproot-modules/user-experience/visual/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 
 ---
-21 intents · 124 behaviours · 107 implementations · 104/107 complete
+21 intents · 125 behaviours · 108 implementations · 105/108 complete

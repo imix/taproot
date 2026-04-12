@@ -15,6 +15,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `8505cc7580384a734589b7010201d492caf6b904` — (auto-linked by taproot link-commits)
+- `82d67ccd71ad4dc2ccd2885dc72b9d9eac74b979` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/audit-skill.test.ts` — verifies skill file contains triage prompt, proposed fix requirement, batch escape, and recommendation-per-finding
