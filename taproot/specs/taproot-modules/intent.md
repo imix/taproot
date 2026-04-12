@@ -28,6 +28,7 @@ Provide optional, installable quality modules that give agents the conventions, 
 
 ## Behaviours <!-- taproot-managed -->
 - [Activate UX Module](./user-experience/usecase.md)
+- [Activate Architecture Module](./architecture/usecase.md)
 - [Module Installation Opt-In](./module-install-opt-in/usecase.md)
 - [Module Context Discovery](./module-context-discovery/usecase.md)
 
