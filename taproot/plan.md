@@ -29,6 +29,16 @@ Q5. done     [refine]    hitl  quality-gates/validate-behaviour-intent-alignment
 Q6. done     [implement] afk   quality-gates/validate-usecase-quality/multi-surface/ — SPEC_UPDATED: implement AC-7, AC-8 (tech-term check in AC and flow steps)
 Q7. pending  [implement] afk   quality-gates/validate-behaviour-intent-alignment/commithook-extension/ — SPEC_UPDATED: implement deepened alignment checks (Stakeholders structural warning, CLAUDE.md agent guidance, AC-7–9)
 
+## quality-audit dispatch refactor
+
+R1. pending  [spec]    hitl  "quality-audit/audit/spec/ — single-artefact audit sub-behaviour (no CLI command)"
+R2. pending  [spec]    hitl  "quality-audit/audit/code/ — code audit sub-behaviour (moves from code-audit/, no CLI command)"
+R3. pending  [refine]  hitl  "quality-audit/audit/usecase — rewrite as dispatch: spec path → spec sub-skill; source path/prompt → code sub-skill"
+R4. pending  [spec]    hitl  "quality-audit/audit-all/spec/ — subtree audit sub-behaviour (no CLI command)"
+R5. pending  [spec]    hitl  "quality-audit/audit-all/code/ — code variant sub-behaviour (new, unspecced, no CLI command)"
+R6. pending  [refine]  hitl  "quality-audit/audit-all/usecase — rewrite as dispatch (same routing logic as audit/)"
+R7. pending  [refine]  afk   "quality-audit/intent.md — remove code-audit/ from Behaviours; delete code-audit/ folder"
+
 ## deferred
 
 D1. deferred [spec]      hitl  "full DAG cycle detection — extend check-orphans to traverse multi-hop link chains"

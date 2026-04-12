@@ -9,7 +9,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import yaml from 'js-yaml';
-import { SKILL_FILES } from '../commands/init.js';
+import { SKILL_FILES, MODULE_SKILL_FILES } from '../commands/init.js';
+import { readdirSync, unlinkSync } from 'fs';
 import { loadConfig } from '../core/config.js';
 import { resolveAgentDir } from '../core/paths.js';
 import { loadLanguagePack, substituteTokens, applyVocabulary, getStructuralKeys } from '../core/language.js';
@@ -52,9 +53,10 @@ function generateAdapter(agent, projectRoot) {
     const pack = config.language ? loadLanguagePack(config.language) : null;
     const vocab = config.vocabulary ?? null;
     const cli = config.cli;
-    const skills = loadSkills(pack, vocab);
+    const declaredModules = config.modules ?? [];
+    const skills = loadSkills(pack, vocab, declaredModules);
     switch (agent) {
-        case 'claude': return generateClaudeAdapter(skills, projectRoot, cli);
+        case 'claude': return generateClaudeAdapter(skills, projectRoot, cli, declaredModules);
         case 'cursor': return generateCursorAdapter(skills, projectRoot, cli);
         case 'copilot': return generateCopilotAdapter(skills, projectRoot, cli);
         case 'windsurf': return generateWindsurfAdapter(skills, projectRoot, cli);
@@ -63,8 +65,12 @@ function generateAdapter(agent, projectRoot) {
         case 'aider': return generateAiderAdapter(skills, projectRoot);
     }
 }
-function loadSkills(pack, vocab) {
-    return SKILL_FILES.map(filename => {
+function loadSkills(pack, vocab, declaredModules) {
+    const allFilenames = [
+        ...SKILL_FILES,
+        ...((declaredModules ?? []).flatMap(m => MODULE_SKILL_FILES[m] ?? [])),
+    ];
+    return allFilenames.map(filename => {
         const name = filename.replace('.md', '');
         const path = join(BUNDLED_SKILLS_DIR, filename);
         let content = existsSync(path) ? readFileSync(path, 'utf-8') : `# Skill: ${name}\n\n(skill file not found)`;
@@ -95,10 +101,21 @@ function extractFirstSentence(content) {
 const TREE_MODIFYING_SKILLS = new Set([
     'intent', 'behaviour', 'implement', 'refine', 'promote', 'decompose', 'trace', 'discover', 'sweep',
 ]);
-function generateClaudeAdapter(skills, projectRoot, cli) {
+function generateClaudeAdapter(skills, projectRoot, cli, declaredModules) {
     const targetDir = join(projectRoot, '.claude', 'commands');
     mkdirSync(targetDir, { recursive: true });
     const files = [];
+    // Prune stale module skill stubs for undeclared modules
+    const activeModuleFilenames = new Set((declaredModules ?? []).flatMap(m => MODULE_SKILL_FILES[m] ?? []).map(f => `tr-${f}`));
+    const allModuleFilenames = new Set(Object.values(MODULE_SKILL_FILES).flat().map(f => `tr-${f}`));
+    if (existsSync(targetDir)) {
+        for (const f of readdirSync(targetDir)) {
+            if (allModuleFilenames.has(f) && !activeModuleFilenames.has(f)) {
+                unlinkSync(join(targetDir, f));
+                files.push({ path: join(targetDir, f), status: 'exists' }); // reuse 'exists' as "removed" signal
+            }
+        }
+    }
     for (const skill of skills) {
         const destPath = join(targetDir, `tr-${skill.filename}`);
         const existed = existsSync(destPath);
