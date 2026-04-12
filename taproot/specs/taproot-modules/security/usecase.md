@@ -131,6 +131,6 @@ flowchart TD
 - [Agent Skill — Security Module](./agent-skill/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-04-12
 - **Last reviewed:** 2026-04-12

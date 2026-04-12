@@ -75,6 +75,7 @@ definitionOfDone:
     when:
       source-matches: "channels/**"
 # Quality modules — optional skill packs installed by `taproot update`.
-# Available: user-experience
+# Available: user-experience, security
 # modules:
 #   - user-experience
+#   - security

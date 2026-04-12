@@ -61,7 +61,7 @@ ineed → intent → behaviour → implement → trace → status
 | `/tr-backlog` | Capture an idea or finding instantly mid-session; called with no args opens triage to discard, keep, or promote items |
 | `/tr-explore` | Collaborative exploration of a vague idea before speccing — one question at a time, hands off to the right skill when ready |
 | `/tr-module-context-discovery` | Establish the project context record (product type, audience, quality goals) used by all quality modules — run standalone before any module session *(requires a module declared in settings)* |
-| `/tr-ux-define` | Activate the user-experience quality module — scan coverage, elicit conventions for all 9 UX aspects, and optionally wire a DoD condition *(requires `modules: [user-experience]` in settings — run `taproot update` after declaring)* |
+| `/tr-ux-define` | Activate the user-experience quality module — scan coverage, elicit conventions for all 10 UX aspects, and optionally wire a DoD condition *(requires `modules: [user-experience]` in settings — run `taproot update` after declaring)* |
 | `/tr-ux-orientation` | Define orientation conventions: context indicators, empty states, onboarding, help placement |
 | `/tr-ux-flow` | Define flow conventions: navigation model, multi-step tasks, cancellation, destructive-action confirmation |
 | `/tr-ux-feedback` | Define feedback conventions: success/error/warning hierarchy, loading states, partial outcomes |
@@ -71,6 +71,13 @@ ineed → intent → behaviour → implement → trace → status
 | `/tr-ux-accessibility` | Define accessibility conventions: keyboard model, focus management, contrast, motion, labelling, live regions |
 | `/tr-ux-adaptation` | Define adaptation conventions: environment targets, layout reflow, dark/high-contrast support, constrained-environment fallbacks |
 | `/tr-ux-consistency` | Define consistency conventions: shared-pattern vocabulary, deviation documentation, cross-surface alignment |
+| `/tr-ux-visual` | Define visual language conventions: colour palette, semantic colour tokens, dark/light mode rules, icon set, iconography style, sizing |
+| `/tr-security-define` | Activate the security quality module — establish security context, scan coverage across 5 layers, configure conventions, and optionally wire a DoD condition *(requires `modules: [security]` in settings — run `taproot update` after declaring)* |
+| `/tr-security-rules` | Define secure coding rules: input validation, authentication, authorisation, secrets handling, data protection, error handling, logging, injection prevention, dependency hygiene |
+| `/tr-security-local-tooling` | Configure local security scanners: SAST, secrets scanning, and dependency audit — tool selection, run triggers, and blocking thresholds |
+| `/tr-security-ci-cd` | Configure CI/CD security gates: pipeline tools, triggers, and fail conditions for SAST, secrets, dependency checks, container scanning, and DAST |
+| `/tr-security-hardening` | Define deployment hardening baseline: security headers, TLS requirements, least-privilege, secrets management, and platform-specific hardening |
+| `/tr-security-periodic-review` | Setup or run the periodic security review: dependency currency, secret rotation, threat model refresh, and custom audit items |
 | `/tr-expertise-help` | Get agent help on a domain question mid-session — scan the project, apply domain knowledge, and propose a concrete answer with reasoning and alternatives |
 | `/tr-grill-me` | Interview the user relentlessly to sharpen a plan or design |
 | `/tr-research` | Research a domain or technical subject before speccing — local resources, web search, expert grilling |

@@ -97,13 +97,73 @@ definitionOfDone:
 
 ---
 
+## Security module (`/tr-security-define`)
+
+The security module captures security conventions across 5 enforcement layers and wires agent checklists so implementations stay secure by default.
+
+Unlike the UX module (which elicits stylistic preferences), the security module installs enforcement mechanisms at multiple levels — what the agent checks when writing code, what tools it runs locally, what the pipeline enforces, and how the deployment is hardened.
+
+### Activation
+
+```
+/tr-security-define
+```
+
+The orchestrator establishes security context (stack, deployment environment, threat profile), scans for existing coverage, and walks through each layer in sequence. At the end it offers to wire `check-if-affected-by: taproot-modules/security` as a DoD condition.
+
+### Layers and sub-skills
+
+| Layer | Skill | What it captures |
+|-------|-------|-----------------|
+| Rules | `/tr-security-rules` | Secure coding conventions: input validation, auth, authorisation, secrets, data protection, error handling, logging, injection prevention, dependency hygiene |
+| Local tooling | `/tr-security-local-tooling` | SAST, secrets scanning, and dependency audit: tool selection, run triggers, blocking thresholds |
+| CI/CD | `/tr-security-ci-cd` | Pipeline security gates: tools, triggers, and fail conditions |
+| Hardening | `/tr-security-hardening` | Deploy-time baseline: security headers, TLS requirements, least-privilege, secrets management |
+| Periodic review | `/tr-security-periodic-review` | Audit checklist: dependency currency, secret rotation, threat model refresh, custom items |
+
+### Periodic review
+
+The periodic-review layer has two modes:
+
+- **Setup** (run from orchestrator): elicits which audit items apply and their cadence; writes `security-periodic-review_behaviour.md`
+- **Run** (invoke directly): executes the review, surfaces findings, and updates last-reviewed dates
+
+```
+/tr-security-periodic-review --run
+```
+
+### What gets written
+
+Each completed layer produces a global truth file in `taproot/global-truths/`:
+
+```
+taproot/global-truths/
+  security-rules_behaviour.md           ← secure coding conventions
+  security-local-tooling_behaviour.md   ← scanner setup and thresholds
+  security-ci-cd_behaviour.md           ← pipeline gate configuration
+  security-hardening_behaviour.md       ← deployment hardening baseline
+  security-periodic-review_behaviour.md ← audit checklist with cadence
+```
+
+Each file contains conventions and an agent checklist agents apply at DoR/DoD time.
+
+### DoD wiring
+
+```yaml
+definitionOfDone:
+  - check-if-affected-by: taproot-modules/security
+```
+
+When wired, agents read `taproot/specs/taproot-modules/security/usecase.md` at every implementation commit and verify applicable security conventions are followed.
+
+---
+
 ## Planned modules
 
 The module architecture is designed to extend to other quality domains:
 
 | Module | Domain |
 |--------|--------|
-| `security` | Input validation, auth boundaries, secret handling, threat-modelling checklist |
 | `architecture` | Decision records, layer boundaries, dependency rules, coupling checklist |
 | `testing` | Coverage targets, test naming, fixture patterns, flakiness prevention |
 | `code-maintenance` | Deprecation policy, dead-code removal, dependency hygiene |

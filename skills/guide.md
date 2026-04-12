@@ -72,6 +72,12 @@ ineed → intent → behaviour → implement → trace → status
 | `/tr-ux-adaptation` | Define adaptation conventions: environment targets, layout reflow, dark/high-contrast support, constrained-environment fallbacks |
 | `/tr-ux-consistency` | Define consistency conventions: shared-pattern vocabulary, deviation documentation, cross-surface alignment |
 | `/tr-ux-visual` | Define visual language conventions: colour palette, semantic colour tokens, dark/light mode rules, icon set, iconography style, sizing |
+| `/tr-security-define` | Activate the security quality module — establish security context, scan coverage across 5 layers, configure conventions, and optionally wire a DoD condition *(requires `modules: [security]` in settings — run `taproot update` after declaring)* |
+| `/tr-security-rules` | Define secure coding rules: input validation, authentication, authorisation, secrets handling, data protection, error handling, logging, injection prevention, dependency hygiene |
+| `/tr-security-local-tooling` | Configure local security scanners: SAST, secrets scanning, and dependency audit — tool selection, run triggers, and blocking thresholds |
+| `/tr-security-ci-cd` | Configure CI/CD security gates: pipeline tools, triggers, and fail conditions for SAST, secrets, dependency checks, container scanning, and DAST |
+| `/tr-security-hardening` | Define deployment hardening baseline: security headers, TLS requirements, least-privilege, secrets management, and platform-specific hardening |
+| `/tr-security-periodic-review` | Setup or run the periodic security review: dependency currency, secret rotation, threat model refresh, and custom audit items |
 | `/tr-expertise-help` | Get agent help on a domain question mid-session — scan the project, apply domain knowledge, and propose a concrete answer with reasoning and alternatives |
 | `/tr-grill-me` | Interview the user relentlessly to sharpen a plan or design |
 | `/tr-research` | Research a domain or technical subject before speccing — local resources, web search, expert grilling |

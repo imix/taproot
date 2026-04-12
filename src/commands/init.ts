@@ -206,6 +206,15 @@ export const MODULE_SKILL_FILES: Record<string, string[]> = {
     'ux-consistency.md',
     'ux-visual.md',
   ],
+  'security': [
+    'module-context-discovery.md',
+    'security-define.md',
+    'security-rules.md',
+    'security-local-tooling.md',
+    'security-ci-cd.md',
+    'security-hardening.md',
+    'security-periodic-review.md',
+  ],
 };
 
 export function applyTemplate(templateName: string, cwd: string, force = false): string[] {

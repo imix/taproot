@@ -186,6 +186,15 @@ export const MODULE_SKILL_FILES = {
         'ux-consistency.md',
         'ux-visual.md',
     ],
+    'security': [
+        'module-context-discovery.md',
+        'security-define.md',
+        'security-rules.md',
+        'security-local-tooling.md',
+        'security-ci-cd.md',
+        'security-hardening.md',
+        'security-periodic-review.md',
+    ],
 };
 export function applyTemplate(templateName, cwd, force = false) {
     const messages = [];
