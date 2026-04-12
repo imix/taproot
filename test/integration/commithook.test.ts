@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, beforeAll } from 'vitest';
 import { mkdtempSync, rmSync, mkdirSync, writeFileSync, readFileSync, existsSync } from 'fs';
 import { tmpdir } from 'os';
 import { join } from 'path';
@@ -1007,6 +1007,34 @@ describe('runCommithook — behaviour-intent alignment', () => {
     }], tmpDir);
     const code = await runCommithook({ cwd: tmpDir });
     expect(code).toBe(1);
+  });
+});
+
+// ─── CLAUDE.md agent guidance (AC-7, AC-8, AC-9) ────────────────────────────
+// These ACs are implemented as agent guidance in CLAUDE.md, not as commithook
+// logic. The tests below verify the guidance is present and covers the required
+// checks.
+
+describe('CLAUDE.md — behaviour-intent alignment agent guidance', () => {
+  let claudeMd: string;
+
+  beforeAll(() => {
+    claudeMd = readFileSync(join(process.cwd(), 'CLAUDE.md'), 'utf-8');
+  });
+
+  it('AC-7: CLAUDE.md instructs agents to verify Actor traces to a Stakeholder before saving usecase.md', () => {
+    expect(claudeMd).toMatch(/Actor[–—-]Stakeholder/i);
+    expect(claudeMd).toMatch(/Actor is named in Stakeholders or serves one directly/i);
+  });
+
+  it('AC-8: CLAUDE.md instructs agents to verify at least one AC advances a Success Criterion', () => {
+    expect(claudeMd).toMatch(/AC coverage/i);
+    expect(claudeMd).toMatch(/advances a Success Criterion/i);
+  });
+
+  it('AC-9: CLAUDE.md instructs agents to check that no AC describes behaviour outside the intent Goal', () => {
+    expect(claudeMd).toMatch(/Scope boundary/i);
+    expect(claudeMd).toMatch(/behaviour outside the intent Goal/i);
   });
 });
 

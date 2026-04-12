@@ -24,6 +24,7 @@
 
 ## Tests
 - `test/integration/commithook.test.ts` — `checkBehaviourIntentAlignment` unit describe block (AC-1 to AC-5) + integration test for staged usecase with valid parent intent
+- `test/integration/commithook.test.ts` — `CLAUDE.md — behaviour-intent alignment agent guidance` describe block: verifies CLAUDE.md contains Actor–Stakeholder guidance (AC-7), AC coverage guidance (AC-8), and scope boundary guidance (AC-9)
 
 ## DoR Resolutions
 - condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — this impl IS a quality gate check; it extends commithook.ts in the same pattern as existing checks (`checkUsecaseQuality`, `checkIntentQuality`). No architectural decisions made. | resolved: 2026-03-29
@@ -32,7 +33,7 @@
 ## Status
 - **State:** complete
 - **Created:** 2026-03-29
-- **Last verified:** 2026-04-09
+- **Last verified:** 2026-04-12
 
 ## DoD Resolutions
 - condition: document-current | note: docs/cli.md updated: commithook table row for hierarchy files now explicitly lists spec quality checks including behaviour-intent alignment. README.md does not enumerate individual commithook checks. docs/ accurately reflects the change. | resolved: 2026-03-29T18:36:55.909Z
