@@ -211,7 +211,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 - **[state-transition-guardrails](./quality-gates/state-transition-guardrails/usecase.md)** `[implemented]` — Actor: `taproot dod` CLI — when processing the `tests-passing` condition for an `impl.md` about to be marked `complete`. Also enforced by `taproot commithook` when an implementation commit includes an `impl.md` whose state is `complete`.
   - [cli-command](./quality-gates/state-transition-guardrails/cli-command/impl.md) `[complete]` (3 commits, 1 test)
 - **[validate-behaviour-intent-alignment](./quality-gates/validate-behaviour-intent-alignment/usecase.md)** `[implemented]` — Actor: `taproot commithook` (structural check) and agent/developer (semantic check) — triggered when a `usecase.md` is committed
-  - [commithook-extension](./quality-gates/validate-behaviour-intent-alignment/commithook-extension/impl.md) `[complete]` (3 commits, 2 tests)
+  - [commithook-extension](./quality-gates/validate-behaviour-intent-alignment/commithook-extension/impl.md) `[complete]` (4 commits, 2 tests)
 - **[validate-intent-quality](./quality-gates/validate-intent-quality/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when an `intent.md` is committed (requirement commit)
   - [multi-surface](./quality-gates/validate-intent-quality/multi-surface/impl.md) `[complete]` (1 commit, 1 test)
 - **[validate-usecase-quality](./quality-gates/validate-usecase-quality/usecase.md)** `[implemented]` — Actor: `taproot commithook` — triggered automatically when a `usecase.md` is committed (requirement commit)
@@ -319,8 +319,9 @@ Compact summary for AI agents. Read this before diving into individual taproot d
 **Goal:** Provide optional, installable quality modules that give agents the conventions, checklists, and pattern vocabulary needed to produce consistent, domain-appropriate implementations — without burdening projects that don't need a given domain.
 
 - **[architecture](./taproot-modules/architecture/usecase.md)** `[implemented]` — Actor: Developer (team lead or contributor) setting up architecture quality guidance for a project
-  - [agent-skill](./taproot-modules/architecture/agent-skill/impl.md) `[complete]` (2 commits ⚠ no tests)
+  - [agent-skill](./taproot-modules/architecture/agent-skill/impl.md) `[complete]` (3 commits ⚠ no tests)
   - **[define-architectural-style](./taproot-modules/architecture/define-architectural-style/usecase.md)** `[specified]` — Actor: Developer setting up architecture quality guidance for a project
+    - [agent-skill](./taproot-modules/architecture/define-architectural-style/agent-skill/impl.md) `[in-progress]` (0 commits, 2 tests)
 - **[module-context-discovery](./taproot-modules/module-context-discovery/usecase.md)** `[implemented]` — Actor: Developer activating a quality module on a project for the first time, or establishing project context independently before any module session
   - [agent-skill](./taproot-modules/module-context-discovery/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[module-install-opt-in](./taproot-modules/module-install-opt-in/usecase.md)** `[implemented]` — Actor: Developer configuring which quality modules are active in a project
@@ -334,7 +335,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - **[rules](./taproot-modules/security/rules/usecase.md)** `[specified]` — Actor: Developer configuring secure coding conventions for a project, invoked by the security module orchestrator or directly
 - **[testing](./taproot-modules/testing/usecase.md)** `[specified]` — Actor: Developer (team lead or contributor) setting up testing quality guidance for a project
 - **[user-experience](./taproot-modules/user-experience/usecase.md)** `[implemented]` — Actor: Developer (team lead or contributor) setting up UX quality guidance for a project
-  - [agent-skill](./taproot-modules/user-experience/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
+  - [agent-skill](./taproot-modules/user-experience/agent-skill/impl.md) `[complete]` (3 commits, 1 test)
   - **[accessibility](./taproot-modules/user-experience/accessibility/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
   - **[adaptation](./taproot-modules/user-experience/adaptation/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
   - **[consistency](./taproot-modules/user-experience/consistency/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
@@ -345,7 +346,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - **[orientation](./taproot-modules/user-experience/orientation/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
   - **[presentation](./taproot-modules/user-experience/presentation/usecase.md)** `[specified]` — Actor: Developer setting up UX conventions for a project
   - **[visual](./taproot-modules/user-experience/visual/usecase.md)** `[implemented]` — Actor: Developer setting up UX conventions for a project
-    - [agent-skill](./taproot-modules/user-experience/visual/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
+    - [agent-skill](./taproot-modules/user-experience/visual/agent-skill/impl.md) `[complete]` (4 commits, 1 test)
 
 ---
-21 intents · 129 behaviours · 108 implementations · 106/108 complete
+21 intents · 129 behaviours · 109 implementations · 106/109 complete

@@ -123,6 +123,9 @@ flowchart TD
 - When system cannot find built-in knowledge for the named style
 - Then system flags uncertainty and offers question-led elicitation
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — Architectural Style Sub-skill](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-04-12
