@@ -78,6 +78,14 @@ ineed → intent → behaviour → implement → trace → status
 | `/tr-security-ci-cd` | Configure CI/CD security gates: pipeline tools, triggers, and fail conditions for SAST, secrets, dependency checks, container scanning, and DAST |
 | `/tr-security-hardening` | Define deployment hardening baseline: security headers, TLS requirements, least-privilege, secrets management, and platform-specific hardening |
 | `/tr-security-periodic-review` | Setup or run the periodic security review: dependency currency, secret rotation, threat model refresh, and custom audit items |
+| `/tr-arch-define` | Activate the architecture quality module — scan coverage, elicit conventions for all 7 architecture aspects, and optionally wire DoR check conditions and a DoD condition *(requires `modules: [architecture]` in settings — run `taproot update` after declaring)* |
+| `/tr-arch-interface-design` | Define interface design conventions: error communication, versioning, naming patterns, parameter conventions, cross-interface consistency |
+| `/tr-arch-code-reuse` | Define code reuse conventions: shared utilities location, duplication threshold, discovery rule, copy-with-modification policy |
+| `/tr-arch-dependency-governance` | Define dependency governance conventions: the universal rule that no dependency may be added without developer consent |
+| `/tr-arch-module-boundaries` | Define module boundary conventions: layer map, permitted and forbidden imports, upward dependency handling |
+| `/tr-arch-error-handling` | Define error handling strategy: catch boundary, propagation convention, user-facing vs internal errors, top-level handling |
+| `/tr-arch-test-structure` | Define test structure conventions: file placement, file naming, fixtures location, test dependency isolation (structural only — strategy in future testing module) |
+| `/tr-arch-naming` | Define naming conventions: file, directory, type, function, variable naming, abbreviation policy, category-specific rules |
 | `/tr-expertise-help` | Get agent help on a domain question mid-session — scan the project, apply domain knowledge, and propose a concrete answer with reasoning and alternatives |
 | `/tr-grill-me` | Interview the user relentlessly to sharpen a plan or design |
 | `/tr-research` | Research a domain or technical subject before speccing — local resources, web search, expert grilling |

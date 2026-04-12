@@ -215,6 +215,17 @@ export const MODULE_SKILL_FILES: Record<string, string[]> = {
     'security-hardening.md',
     'security-periodic-review.md',
   ],
+  'architecture': [
+    'module-context-discovery.md',
+    'arch-define.md',
+    'arch-interface-design.md',
+    'arch-code-reuse.md',
+    'arch-dependency-governance.md',
+    'arch-module-boundaries.md',
+    'arch-error-handling.md',
+    'arch-test-structure.md',
+    'arch-naming.md',
+  ],
 };
 
 export function applyTemplate(templateName: string, cwd: string, force = false): string[] {

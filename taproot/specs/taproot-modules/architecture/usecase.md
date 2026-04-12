@@ -177,6 +177,6 @@ DoR/DoD wiring per aspect — for the implementing agent:
 - Then system offers to run `/tr-sweep` over existing impl.md files before proceeding to wiring
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-04-12
 - **Last reviewed:** 2026-04-12

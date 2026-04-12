@@ -158,14 +158,73 @@ When wired, agents read `taproot/specs/taproot-modules/security/usecase.md` at e
 
 ---
 
+## Architecture module (`/tr-arch-define`)
+
+The architecture module captures structural conventions across 7 aspects and wires agent checklists so implementations stay within the project's architectural boundaries.
+
+### Activation
+
+```
+/tr-arch-define
+```
+
+The orchestrator scans for existing coverage, presents the 7 aspects with their status, and walks through each in sequence. At the end it offers to wire DoR `check:` conditions for interface design and code reuse, and to wire `check-if-affected-by: taproot-modules/architecture` as a DoD condition.
+
+### Aspects and sub-skills
+
+| Aspect | Skill | What it captures |
+|--------|-------|-----------------|
+| Interface design | `/tr-arch-interface-design` | Error communication, versioning, naming patterns, parameter conventions, cross-interface consistency |
+| Code reuse | `/tr-arch-code-reuse` | Shared utilities location, duplication threshold, discovery rule, copy-with-modification policy |
+| Dependency governance | `/tr-arch-dependency-governance` | Universal rule: no dependency added without developer consent; optional DoD diff script |
+| Module boundaries | `/tr-arch-module-boundaries` | Layer map, permitted and forbidden imports, upward dependency handling |
+| Error handling | `/tr-arch-error-handling` | Catch boundary, propagation convention, user-facing vs internal errors, top-level handling |
+| Test structure | `/tr-arch-test-structure` | Test file placement, naming, fixtures location, dependency isolation (structural only) |
+| Naming conventions | `/tr-arch-naming` | File, directory, type, function, variable naming; abbreviation policy; category rules |
+
+Each sub-skill can be run directly (e.g. `/tr-arch-naming`) or via the orchestrator. Sub-skills write to `taproot/global-truths/arch-<aspect>_behaviour.md`.
+
+### What gets written
+
+Each completed aspect produces a global truth file in `taproot/global-truths/`. Example:
+
+```
+taproot/global-truths/
+  arch-interface-design_behaviour.md   ← error convention, versioning policy, ...
+  arch-code-reuse_behaviour.md         ← duplication threshold, discovery rule, ...
+  arch-dependency-governance_behaviour.md  ← never add without consent, ...
+  ...
+```
+
+### DoR wiring
+
+Interface design and code reuse can wire `check:` conditions into `definitionOfReady`:
+```yaml
+definitionOfReady:
+  - check: "does the planned interface conflict with existing patterns in arch-interface-design_behaviour.md?"
+  - check: "does an existing abstraction already cover this? See arch-code-reuse_behaviour.md"
+```
+
+These fire at declaration commit time — before any code is written.
+
+### DoD wiring
+
+```yaml
+definitionOfDone:
+  - check-if-affected-by: taproot-modules/architecture
+```
+
+When active, agents read the architecture usecase at every implementation commit and verify that applicable conventions from the truth files are followed.
+
+---
+
 ## Planned modules
 
 The module architecture is designed to extend to other quality domains:
 
 | Module | Domain |
 |--------|--------|
-| `architecture` | Decision records, layer boundaries, dependency rules, coupling checklist |
-| `testing` | Coverage targets, test naming, fixture patterns, flakiness prevention |
+| `testing` | Coverage targets, test naming, mocking policy, flakiness prevention (complements `architecture`'s test-structure aspect) |
 | `code-maintenance` | Deprecation policy, dead-code removal, dependency hygiene |
 | `release` | Versioning convention, changelog format, release checklist |
 

@@ -476,6 +476,7 @@ skills/
 | Module | Orchestrator | Domain |
 |--------|-------------|--------|
 | `taproot-modules/user-experience` | `/tr-ux-define` | UX: orientation, flow, feedback, input, presentation, language, accessibility, adaptation, consistency |
+| `taproot-modules/architecture` | `/tr-arch-define` | Architecture: interface design, code reuse, dependency governance, module boundaries, error handling, test structure, naming |
 
 **Signal phrases** (pattern-check will match these):
 - "conventions agents should follow / checklist for every impl"
