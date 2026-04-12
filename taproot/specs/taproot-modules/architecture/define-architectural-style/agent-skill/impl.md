@@ -20,6 +20,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `c89c4850478554f2a2fe04bcc7a8596b78098b73` — (auto-linked by taproot link-commits)
+- `6415f783ab288d533876d9e7ae84b2b918d9d594` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/update.modules.test.ts` — existing tests cover arch-style.md installation via MODULE_SKILL_FILES (the pattern is already validated; arch-style.md just needs to be present in the files array)

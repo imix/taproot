@@ -29,6 +29,7 @@
 - (run `taproot link-commits` to populate)
 - `c62da02c7e1cd1c62b66412b9cbb6b807dec86a7` — (auto-linked by taproot link-commits)
 - `54718342a65e1b2020c2015e15f948a1fb0dee8d` — (auto-linked by taproot link-commits)
+- `9ed1d2b936b9a8be5a0c57bfc09d94de969f40d4` — (auto-linked by taproot link-commits)
 
 ## Tests
 - No new TypeScript unit tests. Skill files are agent-executed markdown; correctness is verified through DoD conditions (`skill-architecture/context-engineering`, `agent-agnostic-language`, `portable-output-patterns`) that run at commit time.
