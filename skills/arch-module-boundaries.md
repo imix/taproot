@@ -10,7 +10,9 @@ Elicit and capture module boundary conventions for the project: how the codebase
 
 ## Steps
 
-1. Scan `taproot/global-truths/` for an existing `arch-module-boundaries_behaviour.md`. If found, read it and note current conventions.
+1. Scan `taproot/global-truths/` for:
+   - `arch-module-boundaries_behaviour.md` — if found, read it and note current conventions
+   - `arch-style_behaviour.md` — if found, read the declared style and core rules; note the style for use in step 3
 
 2. Scan the codebase for module/layer structure:
    - Top-level directory organisation (`src/`, `lib/`, `pkg/`, `cmd/`, etc.)
@@ -20,8 +22,37 @@ Elicit and capture module boundary conventions for the project: how the codebase
 
    Report what was found with source file references.
 
-3. Ask targeted questions:
+3. Ask targeted questions. If `arch-style_behaviour.md` was found in step 1, adapt the question wording to the declared style:
 
+   **For Hexagonal Architecture:**
+   > **Module boundary conventions**
+   >
+   > - What are the named ports in this codebase? (e.g. `UserRepository`, `EmailSender` — interfaces the domain depends on)
+   > - What adapter types exist? (e.g. HTTP adapters, database adapters, CLI adapters)
+   > - Which packages/directories house domain logic vs adapters?
+   > - What is the rule for adapter-to-domain and domain-to-adapter dependencies?
+   > - Are there primary (driving) and secondary (driven) adapter distinctions?
+   > **[H]** Get help — agent will map ports and adapters from the codebase
+
+   **For Clean Architecture:**
+   > **Module boundary conventions**
+   >
+   > - What are the named layers? (e.g. entities, use cases, interface adapters, frameworks)
+   > - Which directories correspond to each layer?
+   > - What is the dependency rule as applied here? (inner layers must not import from outer layers)
+   > - Are domain objects (entities/use cases) plain objects free of framework types?
+   > **[H]** Get help — agent will map the layer structure from the codebase
+
+   **For Microservices:**
+   > **Module boundary conventions**
+   >
+   > - What are the named services?
+   > - How do services communicate? (HTTP, events, gRPC — document the allowed channels)
+   > - Is shared business logic via library permitted, or only infrastructure utilities?
+   > - How is service-to-service data access prevented?
+   > **[H]** Get help — agent will identify service directories and inter-service calls
+
+   **For all other styles (including no declared style):**
    > **Module boundary conventions**
    >
    > Answer each that applies; skip any that don't:

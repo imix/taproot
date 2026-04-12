@@ -218,6 +218,7 @@ export const MODULE_SKILL_FILES: Record<string, string[]> = {
   'architecture': [
     'module-context-discovery.md',
     'arch-define.md',
+    'arch-style.md',
     'arch-interface-design.md',
     'arch-code-reuse.md',
     'arch-dependency-governance.md',

@@ -68,25 +68,32 @@ Activate the architecture quality module: scan for existing architecture convent
    ```
    Report: "✓ Project context written. Sub-skill questions will use this to propose stack-appropriate defaults."
 
-   On **[S]**: note "Skipping — module will use generic defaults." Proceed to Phase 1.
+   On **[S]**: note "Skipping — module will use generic defaults." Proceed to Phase 0b.
+
+### Phase 0b — Declare architectural style
+
+Run the `arch-style` sub-skill (see `arch-style.md`). Pass the established project context. The sub-skill does **not** show its own What's next block when invoked from here.
+
+On return, proceed to Phase 1.
 
 ### Phase 1 — Scan existing coverage
 
-2. Scan `taproot/global-truths/` for existing architecture truth files matching the pattern `arch-<aspect>_behaviour.md`. Present the coverage summary:
+2. Scan `taproot/global-truths/` for existing architecture truth files. Present the coverage summary:
 
    ```
    Architecture module — coverage scan
-   ──────────────────────────────────────────────────────────────
-    aspect                  truth file                           status
-   ──────────────────────────────────────────────────────────────
-    interface-design        arch-interface-design_behaviour.md   ✗ missing
-    code-reuse              arch-code-reuse_behaviour.md         ✗ missing
-    dependency-governance   arch-dependency-governance_behaviour.md  ✗ missing
-    module-boundaries       arch-module-boundaries_behaviour.md  ✗ missing
-    error-handling          arch-error-handling_behaviour.md     ✗ missing
-    test-structure          arch-test-structure_behaviour.md     ✗ missing
-    naming                  arch-naming_behaviour.md             ✗ missing
-   ──────────────────────────────────────────────────────────────
+   ──────────────────────────────────────────────────────────────────────
+    step/aspect             truth file                                status
+   ──────────────────────────────────────────────────────────────────────
+    architectural style     arch-style_behaviour.md                   ✗ missing
+    interface-design        arch-interface-design_behaviour.md        ✗ missing
+    code-reuse              arch-code-reuse_behaviour.md              ✗ missing
+    dependency-governance   arch-dependency-governance_behaviour.md   ✗ missing
+    module-boundaries       arch-module-boundaries_behaviour.md       ✗ missing
+    error-handling          arch-error-handling_behaviour.md          ✗ missing
+    test-structure          arch-test-structure_behaviour.md          ✗ missing
+    naming                  arch-naming_behaviour.md                  ✗ missing
+   ──────────────────────────────────────────────────────────────────────
    ```
 
 3. If `aspects` was specified, filter to only those aspects and note which are being skipped.
