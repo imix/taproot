@@ -19,7 +19,7 @@ Capture dependency governance conventions for the project: the rule that no depe
 
    Report what was found with source file references.
 
-3. Present the standard convention text for confirmation:
+3. Present the standard convention text and DoD script option together in a single prompt:
 
    > **Dependency governance convention**
    >
@@ -32,19 +32,14 @@ Capture dependency governance conventions for the project: the rule that no depe
    > *3. Note the reason for the dependency in the implementation record*
    > ---
    >
-   > **[A]** Use this convention   **[E]** Edit before writing   **[C]** Cancel
+   > **[A]** Write convention (no DoD script)
+   > **[B]** Write convention + wire a DoD script at commit time
+   > **[E]** Edit convention text before writing
+   > **[C]** Cancel
 
-   On **[E]**: developer provides adjusted convention text; use that instead.
+   On **[E]**: developer provides adjusted convention text; present the updated text with options [A]/[B]/[C] again.
 
-4. Ask about the optional DoD run: script:
-
-   > Wire a DoD script to detect unapproved dependency additions at commit time?
-   >
-   > Provide a shell command that exits non-zero when new dependencies appear. Run at every implementation commit.
-   >
-   > **[A]** Yes — enter command   **[B]** No — convention text is sufficient
-
-   On **[A]**: ask for the command and note it for the truth file.
+   On **[B]**: ask for the shell command that exits non-zero when unapproved dependencies appear. Note it for the truth file and for Phase 3 wiring in the orchestrator.
 
 5. Draft the `arch-dependency-governance_behaviour.md` content:
 
