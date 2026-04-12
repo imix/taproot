@@ -127,6 +127,9 @@ flowchart TD
 - When developer invokes the security module skill
 - Then system runs context discovery before presenting the 5 security layers
 
+## Implementations <!-- taproot-managed -->
+- [Agent Skill — Security Module](./agent-skill/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-04-12
