@@ -10,7 +10,7 @@ Developer initializing taproot for a specific AI coding agent via `taproot init 
 
 ## Main Flow
 1. Developer runs `taproot init --agent <name>` (e.g. `taproot init --agent claude`)
-2. System reads the canonical skill definitions from the bundled `skills/` directory
+2. System reads the canonical skill definitions from the bundled `skills/` directory, plus any module skills for quality modules declared in the project configuration (e.g. declaring `security` and `architecture` modules adds their skills to the skill set)
 3. System generates agent-specific adapter files in the appropriate location:
    - **claude**: one `.md` file per skill in `.claude/commands/`, prefixed `tr-`, each containing a thin launcher prompt that loads the full skill from `taproot/skills/`
    - **cursor**: a single `.cursor/rules/taproot.md` combining all skills in Cursor's rules format
@@ -47,9 +47,24 @@ Developer initializing taproot for a specific AI coding agent via `taproot init 
 **AC-1: Claude adapter creates one command file per skill with tr- prefix in .claude/commands/**
 - Given a project directory
 - When the actor runs `taproot init --agent claude`
-- Then one `.claude/commands/tr-<skill>.md` file is created for each skill
+- Then one `.claude/commands/tr-<skill>.md` file is created for each core skill
 
-**AC-2: Each claude command file has YAML frontmatter with name and description**
+**AC-17: Claude adapter generates command stubs for all declared module skills**
+- Given a project with the security quality module declared in project configuration
+- When the actor runs `taproot init --agent claude`
+- Then `.claude/commands/` contains stubs for all security module skills (e.g. `tr-security-define.md`, `tr-security-rules.md`) in addition to core skill stubs
+
+**AC-18: Claude adapter does not generate stubs for undeclared module skills**
+- Given a project with only the user-experience module declared
+- When the actor runs `taproot init --agent claude`
+- Then no security-only or architecture-only skill stubs (e.g. `tr-security-define.md`, `tr-arch-define.md`) exist in `.claude/commands/`
+
+**AC-19: Claude adapter prunes stale module stubs when a module is removed**
+- Given a project where the user-experience module was previously declared and `tr-ux-visual.md` exists in `.claude/commands/`
+- When the module is removed from project configuration and `taproot init --agent claude` is re-run
+- Then `tr-ux-visual.md` is deleted from `.claude/commands/`
+
+**AC-2: Each claude command file has structured frontmatter with name and description**
 - Given a project with the claude adapter installed
 - When the actor reads `.claude/commands/tr-intent.md`
 - Then the file starts with `---\nname: 'tr-intent'` and contains a `description:` field
@@ -72,7 +87,7 @@ Developer initializing taproot for a specific AI coding agent via `taproot init 
 **AC-6: Cursor adapter creates .cursor/rules/taproot.md with all skill invocations**
 - Given a project directory
 - When the actor runs `taproot init --agent cursor`
-- Then `.cursor/rules/taproot.md` is created and contains `@taproot <skill>` for every skill, with YAML frontmatter
+- Then `.cursor/rules/taproot.md` is created and contains `@taproot <skill>` for every skill, with structured frontmatter
 
 **AC-7: Copilot adapter creates .github/copilot-instructions.md with TAPROOT markers and all skill invocations**
 - Given a project directory
@@ -127,5 +142,6 @@ Developer initializing taproot for a specific AI coding agent via `taproot init 
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
-- **Last reviewed:** 2026-03-27
+- **Last reviewed:** 2026-04-12
 - **Refined:** 2026-03-27 — Notes + AC-16: examples/ starter projects must reflect new canonical taproot/ directories; check-if-affected: examples/ guidance
+- **Refined:** 2026-04-12 — Step 2 + AC-17–19: module skills (declared via settings.yaml modules:) must be included in adapter generation and pruned when removed

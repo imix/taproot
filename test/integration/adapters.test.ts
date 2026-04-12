@@ -3,7 +3,7 @@ import { mkdtempSync, rmSync, existsSync, readFileSync, writeFileSync, mkdirSync
 import { tmpdir } from 'os';
 import { join } from 'path';
 import { generateAdapters, ALL_AGENTS, type AgentName } from '../../src/adapters/index.js';
-import { SKILL_FILES } from '../../src/commands/init.js';
+import { SKILL_FILES, MODULE_SKILL_FILES } from '../../src/commands/init.js';
 
 let tmpDir: string;
 
@@ -85,6 +85,71 @@ describe('claude adapter', () => {
       join(tmpDir, '.claude', 'commands', 'tr-intent.md'), 'utf-8'
     );
     expect(firstContent).toBe(secondContent);
+  });
+});
+
+// ─── Module skills (claude adapter) ──────────────────────────────────────────
+
+describe('claude adapter — module skills', () => {
+  function writeSettings(modules: string[]): void {
+    mkdirSync(join(tmpDir, 'taproot'), { recursive: true });
+    writeFileSync(
+      join(tmpDir, 'taproot', 'settings.yaml'),
+      `taproot_version: '1.2.0'\nversion: 1\nroot: taproot/specs/\n${modules.length ? `modules:\n${modules.map(m => `  - ${m}`).join('\n')}\n` : ''}`
+    );
+  }
+
+  it('generates .claude/commands stubs for each declared module skill', () => {
+    writeSettings(['user-experience']);
+    generateAdapters('claude', tmpDir);
+    for (const filename of MODULE_SKILL_FILES['user-experience']!) {
+      const path = join(tmpDir, '.claude', 'commands', `tr-${filename}`);
+      expect(existsSync(path), `Missing module command stub: tr-${filename}`).toBe(true);
+    }
+  });
+
+  it('does not generate stubs for undeclared modules', () => {
+    writeSettings(['user-experience']);
+    generateAdapters('claude', tmpDir);
+    // Only check files exclusive to security (not shared with user-experience)
+    const uxFiles = new Set(MODULE_SKILL_FILES['user-experience']!);
+    const securityOnlyFiles = MODULE_SKILL_FILES['security']!.filter(f => !uxFiles.has(f));
+    for (const filename of securityOnlyFiles) {
+      const path = join(tmpDir, '.claude', 'commands', `tr-${filename}`);
+      expect(existsSync(path), `Unexpected module stub for undeclared module: tr-${filename}`).toBe(false);
+    }
+  });
+
+  it('prunes stale module command stubs when module is removed from settings', () => {
+    writeSettings(['user-experience']);
+    generateAdapters('claude', tmpDir);
+    const uxVisualPath = join(tmpDir, '.claude', 'commands', 'tr-ux-visual.md');
+    expect(existsSync(uxVisualPath), 'tr-ux-visual.md should exist after declaring user-experience').toBe(true);
+
+    writeSettings([]);
+    generateAdapters('claude', tmpDir);
+    expect(existsSync(uxVisualPath), 'tr-ux-visual.md should be pruned after removing user-experience').toBe(false);
+  });
+
+  it('each module command stub is a thin launcher with correct frontmatter and skill path', () => {
+    writeSettings(['security']);
+    generateAdapters('claude', tmpDir);
+    const rulesPath = join(tmpDir, '.claude', 'commands', 'tr-security-rules.md');
+    const content = readFileSync(rulesPath, 'utf-8');
+    expect(content).toMatch(/^---\nname: 'tr-security-rules'/);
+    expect(content).toContain('IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY');
+    expect(content).toContain('security-rules.md');
+  });
+
+  it('generates stubs for all declared modules simultaneously', () => {
+    writeSettings(['user-experience', 'security', 'architecture']);
+    generateAdapters('claude', tmpDir);
+    for (const [, files] of Object.entries(MODULE_SKILL_FILES)) {
+      for (const filename of files) {
+        const path = join(tmpDir, '.claude', 'commands', `tr-${filename}`);
+        expect(existsSync(path), `Missing stub for declared module skill: tr-${filename}`).toBe(true);
+      }
+    }
   });
 });
 
