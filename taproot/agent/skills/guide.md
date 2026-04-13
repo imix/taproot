@@ -166,6 +166,10 @@ Invoke the matching skill whenever the developer uses these phrases — even wit
 
 These triggers apply regardless of which agent is running. Do not use a built-in tool (e.g. the agent's native Plan tool) when a taproot skill covers the intent.
 
+## Writing conventions
+
+Each discrete item — step, postcondition, error condition, criterion, constraint — is one sentence. No inline rationale. Rationale goes in a `**Why:**` line, a Rationale section, or `discussion.md` — and even there, keep it to one or two sentences. Output tokens are expensive; rationale is rarely read.
+
 ## Skill authoring references
 
 When writing or modifying a skill file (`skills/*.md`):

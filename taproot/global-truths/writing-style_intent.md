@@ -1,3 +1,3 @@
 ## Writing style
 
-Each discrete item in any taproot artefact — step, postcondition, error condition, success criterion, constraint — is one sentence. No inline rationale. Rationale belongs in a dedicated section (Rationale, Notes) or a `**Why:**` line. If a rule cannot be stated unambiguously in one sentence, split it into two named items.
+Each discrete item — step, postcondition, error condition, criterion, constraint — is one sentence. No inline rationale. Rationale goes in a `**Why:**` line, a Rationale section, or `discussion.md` — and even there, keep it to one or two sentences.
