@@ -187,6 +187,9 @@ ${buildConfigQuickRef(cli, projectRoot)}
 `;
 }
 
+const CLAUDE_CAPABILITY_MAP = `\n<!-- taproot:capabilities -->
+**Capabilities:** When a skill step contains \`[invoke: compress-context]\`, run \`/compact\`. For any other \`[invoke: X]\`, show "ℹ️ Capability \`X\` is not available in this agent — continuing." and proceed to the next step.\n`;
+
 function buildClaudeSkillFile(skill: SkillDef, projectRoot: string, cli?: string): string {
   const taprootBin = cli ?? 'taproot';
   const overviewStep = TREE_MODIFYING_SKILLS.has(skill.name)
@@ -200,7 +203,7 @@ function buildClaudeSkillFile(skill: SkillDef, projectRoot: string, cli?: string
 name: 'tr-${skill.name}'
 description: '${skill.description.replace(/'/g, "''")}'
 ---
-${invocationNote}
+${invocationNote}${CLAUDE_CAPABILITY_MAP}
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
 
 <steps CRITICAL="TRUE">
@@ -255,6 +258,10 @@ alwaysApply: false
 ---
 
 # Taproot Skills for Cursor
+
+## Capability declarations
+
+When a skill step contains \`[invoke: X]\`, show "ℹ️ Capability \`X\` is not available in this agent — continuing." and proceed to the next step.
 
 This project uses [Taproot](https://github.com/anthropics/taproot) to maintain a living requirement hierarchy alongside the codebase. The hierarchy lives in \`taproot/\` with three layers: **intent** (why), **behaviour** (what), and **implementation** (how).
 
@@ -312,7 +319,7 @@ function buildCopilotSection(skills: SkillDef[], cli?: string, projectRoot?: str
   return `${TAPROOT_START}
 ## Taproot Requirement Hierarchy
 
-This project uses Taproot to maintain traceability from business intent to code. The hierarchy lives in \`taproot/\` with three layers:
+This project uses Taproot to maintain traceability from business intent to code. When a skill step contains \`[invoke: X]\`, show "ℹ️ Capability \`X\` is not available in this agent — continuing." and proceed. The hierarchy lives in \`taproot/\` with three layers:
 
 - **Intent** (\`intent.md\`): business goal, stakeholders, success criteria
 - **Behaviour** (\`usecase.md\`): observable system behaviour in UseCase format
@@ -387,7 +394,7 @@ ${s.content}
   return `${TAPROOT_START}
 # Taproot Requirement Hierarchy
 
-This project uses Taproot to maintain traceability from business intent to code. The hierarchy lives in \`taproot/\`.
+This project uses Taproot to maintain traceability from business intent to code. The hierarchy lives in \`taproot/\`. When a skill step contains \`[invoke: X]\`, show "ℹ️ Capability \`X\` is not available in this agent — continuing." and proceed.
 
 ## Taproot Skills
 
@@ -464,6 +471,8 @@ See ${configDoc} for the full reference and examples.
 `;
 }
 
+const GEMINI_CAPABILITY_FALLBACK = `\n# Capabilities: for any [invoke: X] in a skill step, show "ℹ️ Capability \`X\` is not available in this agent — continuing." and proceed.\n`;
+
 function buildGeminiSkillFile(skill: SkillDef, projectRoot: string, cli?: string): string {
   const taprootBin = cli ?? 'taproot';
   const overviewStep = TREE_MODIFYING_SKILLS.has(skill.name)
@@ -475,7 +484,7 @@ function buildGeminiSkillFile(skill: SkillDef, projectRoot: string, cli?: string
     : '';
   return `description = "${skill.description.replace(/"/g, '\\"')}"
 
-prompt = """${invocationNote}
+prompt = """${invocationNote}${GEMINI_CAPABILITY_FALLBACK}
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
 
 1. LOAD the FULL skill file at ${skillPath}
@@ -525,7 +534,7 @@ ${s.content}
   return `${TAPROOT_START}
 # Taproot — Agent Instructions
 
-This project uses **Taproot** to maintain a living requirement hierarchy alongside the code. Before making changes, check whether the relevant behaviour spec exists in \`taproot/\`.
+This project uses **Taproot** to maintain a living requirement hierarchy alongside the code. Before making changes, check whether the relevant behaviour spec exists in \`taproot/\`. When a skill step contains \`[invoke: X]\`, show "ℹ️ Capability \`X\` is not available in this agent — continuing." and proceed.
 
 ## Hierarchy Overview
 

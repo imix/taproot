@@ -86,6 +86,20 @@ describe('claude adapter', () => {
     );
     expect(firstContent).toBe(secondContent);
   });
+
+  it('each launcher contains capability map with compress-context → /compact', () => {
+    generateAdapters('claude', tmpDir);
+    const content = readFileSync(join(tmpDir, '.claude', 'commands', 'tr-commit.md'), 'utf-8');
+    expect(content).toContain('compress-context');
+    expect(content).toContain('/compact');
+    expect(content).toContain('[invoke:');
+  });
+
+  it('capability map instructs fallback advisory for unknown capabilities', () => {
+    generateAdapters('claude', tmpDir);
+    const content = readFileSync(join(tmpDir, '.claude', 'commands', 'tr-commit.md'), 'utf-8');
+    expect(content).toContain('not available in this agent');
+  });
 });
 
 // ─── Module skills (claude adapter) ──────────────────────────────────────────
@@ -184,6 +198,13 @@ describe('cursor adapter', () => {
     // Should not contain duplicate skill sections
     const occurrences = (content.match(/@taproot intent/g) ?? []).length;
     expect(occurrences).toBe(2); // once in index, once in full definition
+  });
+
+  it('contains generic capability fallback advisory instruction', () => {
+    generateAdapters('cursor', tmpDir);
+    const content = readFileSync(join(tmpDir, '.cursor', 'rules', 'taproot.md'), 'utf-8');
+    expect(content).toContain('[invoke:');
+    expect(content).toContain('not available in this agent');
   });
 });
 

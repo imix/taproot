@@ -1,6 +1,6 @@
 ---
-name: 'tr-ux-language'
-description: 'Elicit and capture language UX conventions for the project: copy tone, canonical terminology, locale handling, variable-length text rules, and pluralization and formatting conventions'
+name: 'tr-arch-style'
+description: 'Elicit and capture the project''s architectural style: ask whether the team follows a named style (clean architecture, hexagonal, microservices, self-contained systems, etc.), propose canonical rules for review or accept developer-provided rules, and write `arch-style_behaviour.md` to `taproot/global-truths/`'
 ---
 
 <!-- taproot:cli-invocation: node dist/cli.js -->
@@ -12,7 +12,7 @@ description: 'Elicit and capture language UX conventions for the project: copy t
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
 
 <steps CRITICAL="TRUE">
-1. LOAD the FULL skill file at @{project-root}/taproot/agent/skills/ux-language.md
+1. LOAD the FULL skill file at @{project-root}/taproot/agent/skills/arch-style.md
 2. READ its entire contents — this contains the complete skill definition with steps, inputs, and output format
 3. FOLLOW every step in the ## Steps section precisely and in order
 4. When the skill references other taproot commands (e.g. `/taproot:intent`), use the corresponding `/tr-intent` command instead

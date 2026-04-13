@@ -170,6 +170,21 @@ These triggers apply regardless of which agent is running. Do not use a built-in
 
 Each discrete item — step, postcondition, error condition, criterion, constraint — is one sentence. No inline rationale. Rationale goes in a `**Why:**` line, a Rationale section, or `discussion.md` — and even there, keep it to one or two sentences. Output tokens are expensive; rationale is rarely read.
 
+## Capability declarations
+
+Skills may declare agent-native capabilities using `[invoke: <capability-name>]`. The agent consults its adapter's capability map and invokes the native mechanism if available, or shows an advisory and continues if not.
+
+Current capability names:
+- `compress-context` — compress the agent's context window (Claude Code: `/compact`)
+
+Example usage in a skill step:
+```
+4a. [invoke: compress-context]
+4b. Run `taproot dod <impl-path>` and resolve each condition.
+```
+
+The declaration is agent-agnostic — do not name agent-specific commands (e.g. `/compact`) in shared skill files.
+
 ## Skill authoring references
 
 When writing or modifying a skill file (`skills/*.md`):

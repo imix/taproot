@@ -6,6 +6,9 @@ description: 'Stress-test a single Taproot artifact — an `intent.md`, `usecase
 <!-- taproot:cli-invocation: node dist/cli.js -->
 **CLI:** All taproot commands in this skill must use `node dist/cli.js` instead of bare `taproot`.
 
+<!-- taproot:capabilities -->
+**Capabilities:** When a skill step contains `[invoke: compress-context]`, run `/compact`. For any other `[invoke: X]`, show "ℹ️ Capability `X` is not available in this agent — continuing." and proceed to the next step.
+
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS EXACTLY:
 
 <steps CRITICAL="TRUE">

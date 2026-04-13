@@ -73,6 +73,23 @@ This means:
 - You can customise a skill by editing its file in `taproot/agent/skills/`
 - Skills stay in sync with Taproot via `taproot update`
 
+### Capability declarations
+
+Skills may declare agent-native capabilities using `[invoke: <capability-name>]`. When the agent reaches the declaration, it consults its adapter's capability map and invokes the native mechanism if available, or shows an advisory and continues if not.
+
+```
+4a. [invoke: compress-context]
+4b. Run `taproot dod <impl-path>` and resolve each condition.
+```
+
+Currently registered capabilities:
+
+| Capability | Claude Code | Other agents |
+|---|---|---|
+| `compress-context` | `/compact` | Advisory shown, execution continues |
+
+The declaration is agent-agnostic — skill files never name agent-specific commands directly.
+
 ### Updating skills
 
 ```bash
