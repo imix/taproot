@@ -83,9 +83,11 @@ Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the 
 - When the skill identified specific actionable findings, those appear as direct lettered options — not buried in the report with only generic options below
 - When the skill surfaces ideas, findings, or open questions not ready to route, `/tr-backlog` appears as a capture option
 - When the context is terminal and the backlog is non-empty, `/tr-backlog` appears in the fallback menu
+- What's next options offering `/tr-implement <path>` only appear when a `usecase.md` already exists at that target path
 
 ## Error Conditions
 - **Context is genuinely ambiguous and no reasonable options exist:** Skill omits the guidance block entirely — silence is better than a placeholder like "consider what to do next"
+- **Implement-without-spec shortcut:** A What's next block offers `/tr-implement <path>` on a path where no `usecase.md` exists at that path — agent removes the option and replaces it with `/tr-behaviour <path>/` or `/tr-ineed "<requirement>"`. "Scope is small enough to skip speccing" is never a valid reason to offer `/tr-implement` directly.
 
 ## Flow
 ```mermaid
@@ -153,6 +155,11 @@ flowchart TD
 - When `taproot/backlog.md` exists and contains at least one item
 - Then `/tr-backlog` appears as a lettered option in the fallback What's next? menu alongside `/tr-next` and `/tr-status`
 
+**AC-10: /tr-implement not offered when no usecase.md exists at target path**
+- Given a skill's What's next block would offer `/tr-implement <path>` as an option
+- When no `usecase.md` exists at `<path>`
+- Then the option is replaced with `/tr-behaviour <path>/` or `/tr-ineed "<requirement>"` — never `/tr-implement` on an unspecced behaviour
+
 **AC-6: /tr-ineed near-duplicate termination shows refinement option**
 - Given `/tr-ineed` detects an existing behaviour that matches the requirement and stops
 - When the match is confirmed
@@ -164,7 +171,7 @@ flowchart TD
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
-- **Last reviewed:** 2026-03-25
+- **Last reviewed:** 2026-04-13
 
 ## Notes
 - **Router vs leaf:** A skill is a **router** if its primary output is invoking another skill (e.g. `/tr-ineed` routes to `/tr-behaviour`; `/tr-decompose` routes to multiple `/tr-behaviour` calls). A skill is a **leaf** if its primary output is a document, report, or validation result. When in doubt: if the skill ends by writing files or presenting findings directly, it is a leaf and must show guidance.
@@ -180,7 +187,7 @@ flowchart TD
   - `/tr-discover` → open-ended: `/tr-status` (see coverage), `/tr-next` (get next slice), or `/tr-ineed` (add missing requirements)
   - `/tr-analyse-change` → open-ended: `/tr-refine <path>` (apply safe changes) **or** `/tr-intent <path>` (if upstream affected)
   - `/tr-promote` → open-ended: `/tr-refine` on each impacted sibling behaviour
-  - `/tr-grill-me` → open-ended: `/tr-ineed "<clarified requirement>"` **or** `/tr-behaviour <path>/` **or** `/tr-backlog <deferred question>` (if questions surfaced but not ready to route)
+  - `/tr-grill-me` → open-ended: `/tr-ineed "<clarified requirement>"` **or** `/tr-behaviour <path>/` **or** `/tr-backlog <deferred question>` (if questions surfaced but not ready to route) — never `/tr-implement` directly; grill-me produces clarity, not a spec
   - `/tr-decompose` → open-ended: `/tr-behaviour <intent-path>/` (define first sub-behaviour) **or** `/tr-status` (see what's now planned)
   - `/tr-trace` → open-ended: navigate to the identified document **or** `/tr-refine <path>` (if drift found between code and spec)
   - `/tr-guide` → nothing obvious: "Whenever you're ready — `/tr-ineed` to capture a requirement, or `/tr-status` for a project overview"
