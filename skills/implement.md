@@ -123,17 +123,19 @@ If any of these is true, **autonomous mode is active** — apply the autonomous 
 
    **Autonomous mode — if tests fail:** record the full test output in `impl.md` under a `## Notes` entry headed `Autonomous execution — test failure`, set `**State:** needs-rework`, and stop. Do not attempt to fix tests autonomously without context from the developer.
 
-8. Run `taproot dod <impl-path>` to evaluate the Definition of Done. For agent-driven conditions (`check-if-affected`, `document-current`): reason about each, apply any needed changes, then record your resolution with `taproot dod <impl-path> --resolve "<condition>" --note "<reasoning>"`. Re-run until all conditions pass. `taproot dod` marks `impl.md` state `complete` when all pass.
+8. [invoke: compress-context]
+
+9. Run `taproot dod <impl-path>` to evaluate the Definition of Done. For agent-driven conditions (`check-if-affected`, `document-current`): reason about each, apply any needed changes, then record your resolution with `taproot dod <impl-path> --resolve "<condition>" --note "<reasoning>"`. Re-run until all conditions pass. `taproot dod` marks `impl.md` state `complete` when all pass.
 
    **Autonomous mode — DoD self-resolution:**
    - For every `check-if-affected-by`, `check-if-affected`, `check:`, and `document-current` condition: reason through it by reading the spec and source, then record the resolution with `--resolve` and `--note` without prompting.
    - For any `check:` condition where the answer cannot be determined from the code and spec alone: write a `<!-- autonomous: pending-review -->` comment in `## DoD Resolutions` alongside the unresolved condition entry, with the question text. Continue evaluating remaining conditions. After all conditions are processed, if any remain marked pending-review, set `**State:** in-progress` and commit — the developer will complete them on return.
    - For `run:` conditions that exit non-zero: record the output in `impl.md`, mark `needs-rework`, and stop.
 
-9. **Implementation commit** — commit source files and `impl.md` together:
+10. **Implementation commit** — commit source files and `impl.md` together:
 
    Before staging:
-   - This is an **implementation commit** — the hook detects source files tracked by impl.md and requires impl.md to be staged alongside them with a **real diff**. The `--resolve` records written by `taproot dod` in step 8 are that diff. If impl.md shows no diff, re-run `taproot dod` to confirm all conditions are resolved and that status was updated.
+   - This is an **implementation commit** — the hook detects source files tracked by impl.md and requires impl.md to be staged alongside them with a **real diff**. The `--resolve` records written by `taproot dod` in step 9 are that diff. If impl.md shows no diff, re-run `taproot dod` to confirm all conditions are resolved and that status was updated.
    - Stage impl.md with source files in the same commit — the hook rejects implementation commits missing their traceability record.
 
    ```
@@ -141,13 +143,13 @@ If any of these is true, **autonomous mode is active** — apply the autonomous 
    ```
    The pre-commit hook checks that `impl.md` changed only in the `## Status` and `## DoD Resolutions` sections and re-runs DoD in dry-run mode.
 
-10. Run `taproot link-commits --path <taproot-root>` to update the `impl.md` Commits section with the new hashes.
+11. Run `taproot link-commits --path <taproot-root>` to update the `impl.md` Commits section with the new hashes.
 
-11. Run `taproot validate-structure --path <taproot-root>`.
+12. Run `taproot validate-structure --path <taproot-root>`.
 
-12. Run `taproot coverage --path <taproot-root>` to show updated progress.
+13. Run `taproot coverage --path <taproot-root>` to show updated progress.
 
-13. Present next steps:
+14. Present next steps:
 
 > 💡 If this session is getting long, consider running `/compact` or starting a fresh context before the next task.
 

@@ -80,6 +80,9 @@ definitionOfDone:
   - check-if-affected-by: agent-integration/agent-capability-invocation
     when:
       source-matches: "src/adapters/**"
+  - check-if-affected-by: skill-architecture/neutral-dod-resolution
+    when:
+      source-matches: "skills/*.md"
 modules:
   - user-experience
   - security

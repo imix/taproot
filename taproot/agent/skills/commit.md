@@ -48,7 +48,9 @@ Execute the full commit procedure: classify the commit type, run the appropriate
 
    Wait for the user's choice before proceeding.
 
-2. For each `impl.md` that owns a staged source file:
+2. [invoke: compress-context]
+
+3. For each `impl.md` that owns a staged source file:
    a. Run `taproot dod <impl-path>` and review the output
    b. For each `✗` condition marked "Agent check required": read the referenced spec, reason through compliance, then run:
       ```
@@ -74,9 +76,9 @@ Execute the full commit procedure: classify the commit type, run the appropriate
    c. Re-run `taproot dod <impl-path>` after each resolution to check remaining failures
    d. Repeat until all conditions pass. If a condition remains `✗` after its `--resolve` invocation, stop immediately: "Cannot resolve `<condition>` — it requires: `<correction hint>`." Wait for the user to intervene.
 
-3. If a `check:` condition requires action you cannot take (e.g. failing tests), report: "Cannot commit — `<condition>` is unresolved and requires: `<correction hint>`." Stop and wait.
+4. If a `check:` condition requires action you cannot take (e.g. failing tests), report: "Cannot commit — `<condition>` is unresolved and requires: `<correction hint>`." Stop and wait.
 
-4. **Truth consistency check** — if `taproot/global-truths/` exists:
+5. **Truth consistency check** — if `taproot/global-truths/` exists:
    a. Collect all truth files applicable at impl level: intent-scoped truths (always), behaviour-scoped truths, and impl-scoped truths.
    b. Read each applicable truth file. If a file is unreadable, note it and skip.
    c. Check the staged impl.md and source changes for consistency with applicable truths:
@@ -93,7 +95,7 @@ Execute the full commit procedure: classify the commit type, run the appropriate
       **Autonomous mode:** Record the conflict in `impl.md` under `## Notes` as "Autonomous commit — truth conflict detected: `<excerpt>` conflicts with `<truth file>`. Proceeding with conflict noted." Run `taproot truth-sign` and continue — do not stop.
    e. If no conflicts (or all resolved): run `taproot truth-sign` to record the session marker the hook validates.
 
-5. **Suggest commit tag** — derive the conventional tag from the matched impl.md paths:
+6. **Suggest commit tag** — derive the conventional tag from the matched impl.md paths:
    - For each matched `impl.md`, extract the relative path between `taproot/specs/` and `/impl.md` → `<intent>/<behaviour>/<impl>`
    - If the developer has already supplied a commit message that starts with a recognised prefix (`taproot(`, `fix:`, `feat:`, `chore:`, `refine:`, `spec:`, `build:`, `docs:`): use it as-is — do not suggest or prepend anything
    - If all matched impl.md files share the same `<intent>/<behaviour>` prefix:
@@ -106,7 +108,7 @@ Execute the full commit procedure: classify the commit type, run the appropriate
    - If an impl.md path does not match `taproot/specs/<intent>/<behaviour>/<impl>/impl.md`, skip the tag suggestion for that file and note: *"Could not derive tag from `<path>` — path layout unexpected."*
    - Present: `Suggested commit tag: taproot(<path>):`
 
-6. Stage source files + all matched impl.md files. Then run:
+7. Stage source files + all matched impl.md files. Then run:
    ```
    taproot commit "<tag-prefix>: <message>"
    ```

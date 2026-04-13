@@ -87,6 +87,6 @@ flowchart TD
 - [Multi-Surface — Settings Gate + Skill Declarations](./multi-surface/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-04-13
 - **Last reviewed:** 2026-04-13
