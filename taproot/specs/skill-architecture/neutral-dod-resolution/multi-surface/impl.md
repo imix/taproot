@@ -16,6 +16,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `d2dc24dcd071fa7f39e886b68213af563fc5de52` — (auto-linked by taproot link-commits)
+- `8358dc87c12706b3bb598fb9eab249f3c72692b1` — (auto-linked by taproot link-commits)
 
 ## Tests
 - No automated tests — constraint is agent-verifiable at DoD time via `check-if-affected-by`; presence of `[invoke: compress-context]` in commit.md and implement.md is directly observable

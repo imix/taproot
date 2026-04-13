@@ -16,6 +16,8 @@
 
 ## Commits
 - (run `taproot link-commits` to populate)
+- `beadc1dfb82117f112fa9b0912a1e87984f8d034` — (auto-linked by taproot link-commits)
+- `96e44eff1d2c20955f7bd98786167f5085a0f898` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/integration/adapters.test.ts` — Claude launcher contains capability map with `compress-context` → `/compact`; other adapters contain generic fallback advisory
