@@ -20,6 +20,10 @@ If any of these is true, **autonomous mode is active** — apply the autonomous 
 
 ## Steps
 
+0. **Verify spec exists.** Check whether `<path>/usecase.md` exists.
+   - If it **does not exist**: stop immediately — "No `usecase.md` found at `<path>`. Taproot requires a behaviour spec before implementation. Run `/tr-behaviour <path>/` to write one first."
+   - If it **exists**: proceed to step 1.
+
 1. Read `<path>/usecase.md` thoroughly. Understand:
    - The Actor and what they initiate
    - Every step in the Main Flow
