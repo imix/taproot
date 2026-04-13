@@ -168,7 +168,15 @@ The architecture module captures structural conventions across 7 aspects and wir
 /tr-arch-define
 ```
 
-The orchestrator scans for existing coverage, presents the 7 aspects with their status, and walks through each in sequence. At the end it offers to wire DoR `check:` conditions for interface design and code reuse, and to wire `check-if-affected-by: taproot-modules/architecture` as a DoD condition.
+The orchestrator scans for existing coverage, runs Phase 0b to declare the project's architectural style, presents the 7 aspects with their status, and walks through each in sequence. At the end it offers to wire DoR `check:` conditions for interface design and code reuse, and to wire `check-if-affected-by: taproot-modules/architecture` as a DoD condition.
+
+### Architectural style (Phase 0b)
+
+Before the 7 aspects, `arch-define` runs `/tr-arch-style` to declare the project's preferred architectural style. The style is written to `taproot/global-truths/arch-style_behaviour.md` and used by subsequent sub-skills (especially `arch-module-boundaries`) to propose style-appropriate defaults.
+
+Supported styles with canonical rule sets: Clean Architecture, Hexagonal Architecture (Ports and Adapters), Microservices, Self-Contained Systems, Go idiomatic, Rails/MVC. For other styles, question-led elicitation derives conventions as a "Custom" style.
+
+Run `/tr-arch-style` standalone at any time to declare or update the style without re-running all 7 aspects.
 
 ### Aspects and sub-skills
 
