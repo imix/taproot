@@ -4,6 +4,48 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [1.3.0] - 2026-04-13
+
+### Taproot
+
+- taproot(taproot-modules/module-install-opt-in/settings-opt-in): implement modules: opt-in — install/remove skills per declared modules list (34f17ce)
+- taproot(taproot-modules/user-experience/agent-skill): implement UX module skills (c62da02)
+- taproot(taproot-modules/user-experience/visual/agent-skill): implement visual language sub-skill (8b6c5e1)
+- taproot(taproot-modules/user-experience/visual/agent-skill): rework — fold sweep into What's next, eliminate duplicate menu (3befda2)
+- taproot(taproot-modules/module-context-discovery/agent-skill): implement context discovery skill and Phase 0 in ux-define (1db53e8)
+- taproot(taproot-modules/security/agent-skill): implement security quality module — 6 skills, MODULE_SKILL_FILES entry, guide + docs updates (d27788b)
+- taproot(taproot-modules/architecture/agent-skill): implement architecture module skills and init wiring (d846153)
+- taproot(taproot-modules/architecture/define-architectural-style/agent-skill): implement architecture style sub-skill — Phase 0b in arch-define, MODULE_SKILL_FILES entry, module-boundaries propagation (c89c485)
+- taproot(quality-audit/audit/agent-skill): implement audit artefact review skill (8505cc7)
+- taproot(human-integration/agent-expertise-assistance/agent-skill): implement expertise-help skill (82a8ec9)
+- taproot(human-integration/bug-triage/agent-skill): fix step 4a prevention channels — use global-truths instead of taproot-internal docs (b574a7c)
+- taproot(agent-integration/agent-capability-invocation/multi-surface): implement capability map in adapters and authoring guide (beadc1d)
+- taproot(skill-architecture/neutral-dod-resolution/multi-surface): implement [invoke: compress-context] before DoD resolution in commit.md and implement.md (d2dc24d)
+- taproot(quality-gates/validate-behaviour-intent-alignment/commithook-extension): add Stakeholders structural warning, update CLAUDE.md with 4-check alignment guidance (40ded12)
+- taproot(quality-gates/validate-usecase-quality/multi-surface): implement AC-7 (tech-term check in Acceptance Criteria), add AC-8 test for Main Flow (f3e8207)
+- taproot(quality-gates/validate-intent-quality/multi-surface): add up-contamination warning (AC-8) — non-blocking warn for behaviour-level language in intent Goal/SC (11a93d8)
+- taproot(implementation-planning/execute-plan/agent-skill): follow-on offer triggered by item type (spec/refine) with existence guard (890a209)
+- taproot(taproot-modules/architecture/agent-skill): run tr-arch-define — write 6 arch truth files, wire DoR/DoD conditions (4542ed7)
+
+### Features
+
+- feat(global-truths): add writing-style_intent — one sentence per discrete item, no inline rationale (c35981c)
+
+### Bug Fixes
+
+- fix(implement): add step 0 guard — block invocation when no usecase.md exists (416fd11)
+- fix: replace [?] with [H] in all skills — [?] not recognised as input in Claude Code (e1db5d3)
+- fix(dod): scope writeResolution to DoD section only, preventing DoR entry overwrite (0915f43)
+- fix(agent-integration/generate-agent-adapter): generate .claude/commands stubs for module skills (401c284)
+- fix(agent-integration/generate-agent-adapter): regression test + spec refinement for module skill generation (AC-17–19) (00980ad)
+- fix: sync taproot/agent/docs/patterns.md with docs/patterns.md (88e0559)
+
+### Maintenance
+
+- chore: enable user-experience, security, architecture modules in settings.yaml (6032ebe)
+- chore: update OVERVIEW.md (19ffef4)
+- chore: sync agent docs mirrors from taproot update (7333c94)
+
 ## [1.2.0] - 2026-04-10
 
 ### Taproot
