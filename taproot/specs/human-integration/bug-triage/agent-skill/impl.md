@@ -35,6 +35,16 @@
 
 ## DoD Resolutions
 - condition: document-current | note: UPDATED skills/guide.md: added /tr-bug row to the slash commands table. docs/agents.md does not need updating — it describes agent adapter types, not individual skills. | resolved: 2026-03-24T16:25:20.115Z
+- condition: check-if-affected-by: skill-architecture/neutral-dod-resolution | note: NOT APPLICABLE — bug.md references DoD only in the What's next delegation block (step 7), not in any dod --resolve execution step. Per usecase applicability rule: skills that reference DoD in a What's next block only are not affected. | resolved: 2026-04-13T13:42:31.599Z
+
+- condition: check-if-affected-by: taproot-modules/architecture | note: NOT APPLICABLE — changes are markdown text only; no source code modified. | resolved: 2026-04-13T13:42:31.274Z
+
+- condition: check-if-affected-by: agent-integration/portable-output-patterns | note: NOT APPLICABLE — no output presentation or decision-collection patterns changed. The confirmation prompt in step 4a is plain interactive dialogue, unchanged by this fix. | resolved: 2026-04-13T13:42:30.980Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — targeted bug fix replacing two specific path strings in step 4a. No new cross-cutting gate warranted; the existing agent-agnostic-language check already guards against hardcoded agent-specific paths. | resolved: 2026-04-13T13:42:30.644Z
+
+- condition: check-if-affected: package.json | note: not applicable — prose-only impl (Source Files: skills/bug.md, taproot/agent/skills/bug.md, .claude/commands/tr-bug.md); no TypeScript or other non-markdown files; auto-resolved by naRules[when:prose-only] | resolved: 2026-04-13T13:41:47.019Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: COMPLIANT — step 4a only proposes edits to settings.yaml and docs/ markdown files. No shell execution introduced. No credentials or tokens. Least-privilege: changes require actor confirmation before writing. | resolved: 2026-03-26T07:19:45.041Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — recurrence check after root cause is specific to bug triage flow; not generalizable as a standalone pattern. | resolved: 2026-03-26T07:19:43.898Z
