@@ -90,6 +90,9 @@ flowchart TD
 - When the adapter processes the skill at runtime
 - Then the adapter falls back gracefully without throwing an error
 
+## Implementations <!-- taproot-managed -->
+- [Multi-Surface — Adapter Capability Maps + Skill Authoring Guide](./multi-surface/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-04-13
