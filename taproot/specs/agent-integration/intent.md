@@ -33,6 +33,7 @@ Enable any AI coding agent to participate fully in the taproot workflow — thro
 - [Multi-Agent Hook Compatibility](./hook-compatibility/usecase.md)
 - [Native Cursor Plugin](./cursor-plugin/usecase.md)
 - [Portable Skill Output Patterns](./portable-output-patterns/usecase.md)
+- [Agent Capability Invocation](./agent-capability-invocation/usecase.md)
 
 ## Status
 - **State:** active

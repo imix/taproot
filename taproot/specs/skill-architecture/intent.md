@@ -22,6 +22,7 @@ Enforce the architectural constraints that govern how taproot skills are built â
 ## Behaviours <!-- taproot-managed -->
 - [Context-Efficient Skill Design](./context-engineering/usecase.md)
 - [Commit-Aware Skill Design](./commit-awareness/usecase.md)
+- [Neutral DoD Resolution Context](./neutral-dod-resolution/usecase.md)
 
 ## Status
 - **State:** active
