@@ -83,6 +83,9 @@ flowchart TD
 - When the neutral-dod-resolution DoD check evaluates the skill
 - Then the check passes as not applicable with a recorded reason
 
+## Implementations <!-- taproot-managed -->
+- [Multi-Surface — Settings Gate + Skill Declarations](./multi-surface/impl.md)
+
 ## Status
 - **State:** specified
 - **Created:** 2026-04-13
