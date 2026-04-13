@@ -87,7 +87,7 @@ Any taproot skill (`/tr-behaviour`, `/tr-implement`, `/tr-status`, etc.) at the 
 
 ## Error Conditions
 - **Context is genuinely ambiguous and no reasonable options exist:** Skill omits the guidance block entirely — silence is better than a placeholder like "consider what to do next"
-- **Implement-without-spec shortcut:** A What's next block offers `/tr-implement <path>` on a path where no `usecase.md` exists at that path — agent removes the option and replaces it with `/tr-behaviour <path>/` or `/tr-ineed "<requirement>"`. "Scope is small enough to skip speccing" is never a valid reason to offer `/tr-implement` directly.
+- **Implement-without-spec shortcut:** A What's next block offers `/tr-implement <path>` where no `usecase.md` exists — agent replaces the option with `/tr-behaviour <path>/` or `/tr-ineed "<requirement>"`.
 
 ## Flow
 ```mermaid
