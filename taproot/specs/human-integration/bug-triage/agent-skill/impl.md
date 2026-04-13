@@ -20,6 +20,7 @@
 - `059dc4327c3df4dd9a5b788bd730bace30ed319c` — (auto-linked by taproot link-commits)
 - `82a6dce728e8ab712930c82b18e96d24549c3216` — (auto-linked by taproot link-commits)
 - `ce8113e876faf5d1f7516c1a92cff49e91df64bb` — (auto-linked by taproot link-commits)
+- `b574a7cbc162edac33b62205288e06cf5ab499de` — (auto-linked by taproot link-commits)
 
 ## Tests
 - `test/unit/skills.test.ts` — validates `bug.md` for required sections, heading, numbered steps, and CLI dependencies (auto-covered once added to `SKILL_FILES`)
