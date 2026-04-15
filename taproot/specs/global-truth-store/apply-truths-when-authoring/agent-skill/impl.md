@@ -37,6 +37,12 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/workflows.md already covers the global truths workflow. docs/cli.md lists CLI commands only — this implementation adds no CLI commands. skills/guide.md is handled by check-if-affected below. No other docs/ files list individual skill pre-steps. README.md does not enumerate skill internals. Docs are current. | resolved: 2026-03-26T15:17:40.435Z
+- condition: check-if-affected-by: skill-architecture/neutral-dod-resolution | note: Not applicable — no DoD resolution steps were added to skills/behaviour.md. The changes are: (1) a translation gate instruction in step 7, and (2) a vocabulary isolation note in step 1b. Neither instructs the agent to run DoD checks or record resolutions. The neutral-dod-resolution constraint therefore does not apply. | resolved: 2026-04-15T11:42:40.629Z
+
+- condition: check-if-affected-by: taproot-modules/architecture | note: Not applicable — changes are to the core behaviour-authoring skill (skills/behaviour.md) and a global truth (spec-language_behaviour.md), not to module infrastructure. No module installation, module skill files, or module activation logic is affected. | resolved: 2026-04-15T11:42:36.376Z
+
+- condition: check-if-affected-by: agent-integration/portable-output-patterns | note: Not applicable — no new interaction points or output patterns introduced. Changes are to existing step 7 (add translation gate text) and step 1b (add vocabulary isolation note). No new [Y]/[E]/[S] menus or content-display interactions were added; existing patterns remain unchanged. | resolved: 2026-04-15T11:42:32.066Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: APPLIES — behaviour.md and implement.md modified. Reviewed added enforcement note: no shell command execution, no credentials or tokens. The note is read-only informational prose. Least-privilege preserved. Compliant. | resolved: 2026-03-29T19:15:01.261Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: YES — already done. Added 'Global truths are live commit constraints' pattern to docs/patterns.md with enforcement explanation, practical implications, signal phrases, and spec link. | resolved: 2026-03-29T19:15:00.992Z

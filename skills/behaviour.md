@@ -55,6 +55,7 @@ Define a UseCase (observable system behaviour) under an intent or another behavi
    - Read each applicable file; note defined terms, business rules, and conventions
    - If the draft spec contradicts an applicable truth, surface the conflict before saving: "This spec uses `<term>` in a way that conflicts with `global-truths/<file>`: `<excerpt>`. [A] update spec to align, [B] update the truth, [C] proceed with the conflict noted."
    - **Enforcement note:** These truths are automatically enforced at commit time by the commithook. A contradiction left unresolved here will block the commit when `/tr-commit` runs. Resolve conflicts now rather than at commit time.
+   - **Vocabulary isolation:** Apply truths as compliance rules — check the draft against them. Do not adopt their implementation vocabulary into the spec. A truth about error handling conventions is a constraint to verify against, not a source of language for Main Flow or Error Conditions.
 
 2. Read all sibling `usecase.md` files (other behaviours already under the same parent). Identify any overlap with the described behaviour and flag it: "There's an existing behaviour `<slug>` that covers X — should this new behaviour focus on Y specifically?"
 
@@ -76,7 +77,7 @@ Define a UseCase (observable system behaviour) under an intent or another behavi
 
 6. Identify related behaviours. Scan sibling and parent behaviours for any that: share the same actor, share a precondition with this behaviour, produce an outcome this behaviour depends on, or are commonly triggered alongside this one. List them in `## Related` with a one-line note on the relationship (e.g., "must precede", "shares actor", "produces input for this flow").
 
-7. Draft the `usecase.md`. Write main flow steps as active-voice actions: subject + verb + object. Bad: "The form is submitted." Good: "User submits the registration form."
+7. Draft the `usecase.md`. Before writing any step, apply a translation pass: scan the actor's description for technical vocabulary — REST/HTTP verbs (GET/PUT/POST/DELETE), status codes (200/404/5xx/server error), database operations (INSERT/UPDATE/query), API endpoint names, internal service names, queue/worker terms. Translate each to an actor-visible equivalent before writing. Do not echo technical terms from the input. Reference `spec-language_behaviour.md` for the rule. Write main flow steps as active-voice actions: subject + verb + object. Bad: "The form is submitted." / "Staff submits a PUT request." Good: "User submits the registration form." / "Staff changes the order state."
 
 7a. After writing the main flow, alternate flows, and error conditions, generate a `## Acceptance Criteria` section. Derive one Gherkin scenario per flow: the main flow, each named alternate flow, and each error condition. Assign stable IDs starting at `AC-1`. Insert the section immediately before `## Status`:
 

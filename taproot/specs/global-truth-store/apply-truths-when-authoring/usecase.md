@@ -23,6 +23,7 @@ Agent — authoring or reviewing a spec (intent.md, usecase.md, or impl.md) via 
    - Uses defined terms and their exact definitions from the glossary
    - Applies stated business rules to the acceptance criteria and main flow
    - Respects entity definitions and project conventions in design decisions
+   - Treats constraint truths (e.g. "no technical vocabulary in specs") as compliance rules to verify against — does not adopt implementation vocabulary from those truths into the spec language
 4. If the draft spec contradicts an applicable truth, agent surfaces the conflict before saving:
    > "This spec uses `<term>` in a way that conflicts with the truth in `global-truths/<file>`: `<truth excerpt>`. Do you want to [A] update the spec to align, [B] update the truth, or [C] proceed with the conflict noted?"
 5. Agent completes the spec with truths applied

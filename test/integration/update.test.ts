@@ -77,10 +77,10 @@ describe('taproot update', () => {
     // Simulate previously installed skills
     const skillsDir = join(tmpDir, '.taproot', 'skills');
     mkdirSync(skillsDir, { recursive: true });
-    writeFileSync(join(skillsDir, 'review.md'), 'old skill content');
+    writeFileSync(join(skillsDir, 'behaviour.md'), 'old skill content');
 
     const msgs = await runUpdate({ cwd: tmpDir });
-    expect(msgs.some(m => m.includes('skills'))).toBe(true);
+    expect(msgs.some(m => /updated\s+.+skills\/.+\(\d+ files\) — v\d+\.\d+\.\d+/.test(m))).toBe(true);
   });
 
   it('ends with update complete message', async () => {
@@ -127,7 +127,7 @@ describe('taproot update', () => {
     const docsDir = join(tmpDir, '.taproot', 'docs');
     expect(existsSync(docsDir)).toBe(true);
     expect(existsSync(join(docsDir, 'patterns.md'))).toBe(true);
-    expect(msgs.some(m => m.includes('.taproot/docs/patterns.md'))).toBe(true);
+    expect(msgs.some(m => /updated\s+.+docs\/.+\(\d+ files\) — v\d+\.\d+\.\d+/.test(m))).toBe(true);
   });
 
   it('refreshes docs with updated content on re-run', async () => {
@@ -140,7 +140,7 @@ describe('taproot update', () => {
 
     const msgs = await runUpdate({ cwd: tmpDir });
     expect(readFileSync(patternsPath, 'utf-8')).not.toBe('stale content');
-    expect(msgs.some(m => m.includes('updated') && m.includes('patterns.md'))).toBe(true);
+    expect(msgs.some(m => /updated\s+.+docs\/.+\(\d+ files\) — v\d+\.\d+\.\d+/.test(m))).toBe(true);
   });
 
   it('does not install docs when no claude adapter and no existing docs', async () => {

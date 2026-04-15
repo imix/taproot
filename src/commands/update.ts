@@ -476,12 +476,23 @@ export async function runUpdate(options: { cwd?: string; withHooks?: boolean }):
     SKILL_FILES.some(f => existsSync(join(skillsDir, f)));
 
   if (agents.includes('claude') || hasInstalledSkills) {
-    messages.push('');
-    messages.push(...installSkills(skillsDir, true, pack, vocab, skillsDisplayDir));
-    messages.push(...installDocs(docsDir, true, docsDisplayDir));
-    // Install/remove module skills based on modules: setting
+    const pkg = JSON.parse(readFileSync(resolve(__dirname, '..', '..', 'package.json'), 'utf-8')) as { version: string };
+    const ver = `v${pkg.version}`;
+    const countFiles = (msgs: string[]) => msgs.filter(m => m.startsWith('updated') || m.startsWith('created')).length;
+
+    const skillMsgs = installSkills(skillsDir, true, pack, vocab, skillsDisplayDir);
+    const docMsgs = installDocs(docsDir, true, docsDisplayDir);
     const declaredModules = config.modules ?? [];
-    messages.push(...installModuleSkills(skillsDir, declaredModules, true, pack, vocab, skillsDisplayDir));
+    const moduleMsgs = installModuleSkills(skillsDir, declaredModules, true, pack, vocab, skillsDisplayDir);
+
+    const allMsgs = [...skillMsgs, ...docMsgs, ...moduleMsgs];
+    const warnings = allMsgs.filter(m => m.startsWith('warning'));
+    const removals = allMsgs.filter(m => m.startsWith('removed'));
+    messages.push('');
+    messages.push(`updated  ${skillsDisplayDir}/ (${countFiles([...skillMsgs, ...moduleMsgs])} files) — ${ver}`);
+    messages.push(`updated  ${docsDisplayDir}/ (${countFiles(docMsgs)} files) — ${ver}`);
+    for (const r of removals) messages.push(r);
+    for (const w of warnings) messages.push(w);
   }
 
   // Install or refresh CONFIGURATION.md in the agent dir
