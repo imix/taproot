@@ -29,21 +29,21 @@ export function wrapperScript() {
 export function hookScriptContent() {
     return `#!/bin/sh\nexec ./taproot/agent/bin/taproot commithook\n`;
 }
-export function buildSettingsYaml(pkgVersion, vocabulary, language) {
+export function buildSettingsYaml(pkgVersion, vocabulary, language, modules) {
     const vocabBlock = vocabulary && Object.keys(vocabulary).length > 0
         ? `\n# Domain vocabulary — overrides default taproot terms in skill instructions\nvocabulary:\n${Object.entries(vocabulary).map(([k, v]) => `  '${k}': '${v}'`).join('\n')}\n`
         : '';
     const langBlock = language ? `\nlanguage: '${language}'\n` : '';
     const availableModules = Object.keys(MODULE_SKILL_FILES).join(', ');
+    const modulesBlock = modules && modules.length > 0
+        ? `# Quality modules — optional skill packs installed by \`taproot update\`.\n# Available: ${availableModules}\nmodules:\n${modules.map((m) => `  - ${m}`).join('\n')}`
+        : `# Quality modules — optional skill packs installed by \`taproot update\`.\n# Available: ${availableModules}\n# modules:\n#   - user-experience`;
     return `taproot_version: '${pkgVersion}'
 version: 1
 root: taproot/specs/
 cli: ./taproot/agent/bin/taproot
 
-# Quality modules — optional skill packs installed by \`taproot update\`.
-# Available: ${availableModules}
-# modules:
-#   - user-experience
+${modulesBlock}
 
 # Agent adapters installed by \`taproot update\`. Remove any you don't use.
 # Each adapter installs slash commands (e.g. /tr-implement) for that agent.
@@ -250,6 +250,7 @@ export function registerInit(program) {
         .option('--with-ci <provider>', 'Generate CI workflow (github|gitlab)')
         .option('--with-skills', 'Install canonical skill definitions into taproot/skills/')
         .option('--agent <name>', `Generate agent adapter (${[...ALL_AGENTS, 'all'].join('|')})`)
+        .option('--modules <names>', `Comma-separated quality modules to enable (${Object.keys(MODULE_SKILL_FILES).join(',')})`)
         .option('--template <type>', `Start from a template (${AVAILABLE_TEMPLATES.join('|')})`)
         .option('--preset <name>', `Apply a domain preset (${AVAILABLE_PRESETS.join('|')})`)
         .option('--force', 'Overwrite existing files when applying a template')
@@ -303,6 +304,16 @@ export function registerInit(program) {
             else if (selected.length > 0) {
                 agent = selected;
             }
+        }
+        // Module selection prompt (AC-20/AC-21)
+        let selectedModules = options.modules
+            ? options.modules.split(',').map((m) => m.trim()).filter(Boolean)
+            : undefined;
+        if (selectedModules === undefined) {
+            selectedModules = await checkbox({
+                message: 'Which quality modules would you like to enable?',
+                choices: Object.keys(MODULE_SKILL_FILES).map((m) => ({ name: m, value: m })),
+            });
         }
         // Domain preset prompt — skip if --preset flag given or vocabulary already exists
         let resolvedVocabulary;
@@ -387,6 +398,7 @@ export function registerInit(program) {
             agent,
             vocabulary: resolvedVocabulary,
             language: resolvedLanguage,
+            modules: selectedModules,
         });
         for (const msg of created) {
             process.stdout.write(msg + '\n');
@@ -441,11 +453,11 @@ export function runInit(options) {
     // Write taproot/settings.yaml
     const pkgVersion = JSON.parse(readFileSync(resolve(__dirname, '..', '..', 'package.json'), 'utf-8')).version;
     if (!existsSync(configPath)) {
-        writeFileSync(configPath, buildSettingsYaml(pkgVersion, resolvedVocabulary ?? undefined, resolvedLanguage ?? undefined));
+        writeFileSync(configPath, buildSettingsYaml(pkgVersion, resolvedVocabulary ?? undefined, resolvedLanguage ?? undefined, options.modules));
         messages.push('created  taproot/settings.yaml');
     }
     else {
-        // Append vocabulary/language to existing settings.yaml if not already present
+        // Append vocabulary/language/modules to existing settings.yaml if not already present
         let existingConfig = {};
         try {
             existingConfig = yaml.load(readFileSync(configPath, 'utf-8')) ?? {};
@@ -458,6 +470,10 @@ export function runInit(options) {
         }
         if (resolvedLanguage && !('language' in existingConfig)) {
             existingConfig.language = resolvedLanguage;
+            updated = true;
+        }
+        if (options.modules && options.modules.length > 0 && !('modules' in existingConfig)) {
+            existingConfig.modules = options.modules;
             updated = true;
         }
         if (updated) {
@@ -493,15 +509,17 @@ export function runInit(options) {
     if (needsSkills) {
         messages.push(...installSkills(skillsDir, false, null, null, 'taproot/agent/skills'));
         messages.push(...installDocs(join(agentDir, 'docs'), false, 'taproot/agent/docs'));
-        // Install module skills based on modules: setting (if any)
-        let configModules = [];
-        try {
-            const existing = yaml.load(readFileSync(configPath, 'utf-8')) ?? {};
-            if (Array.isArray(existing['modules'])) {
-                configModules = existing['modules'];
+        // Install module skills: prefer explicitly provided modules, fall back to settings.yaml
+        let configModules = options.modules ?? [];
+        if (configModules.length === 0) {
+            try {
+                const existing = yaml.load(readFileSync(configPath, 'utf-8')) ?? {};
+                if (Array.isArray(existing['modules'])) {
+                    configModules = existing['modules'];
+                }
             }
+            catch { /* no config yet */ }
         }
-        catch { /* no config yet */ }
         messages.push(...installModuleSkills(skillsDir, configModules, false, null, null, 'taproot/agent/skills'));
     }
     // taproot/agent/bin/taproot wrapper script (always installed — hook and local dev depend on it)

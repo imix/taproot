@@ -5,6 +5,7 @@ import type { FolderNode, MarkerType } from '../validators/types.js';
 const MARKER_FILES: Record<string, MarkerType> = {
   'intent.md': 'intent',
   'usecase.md': 'behaviour',
+  'link.md': 'behaviour',
   'impl.md': 'impl',
 };
 

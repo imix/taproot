@@ -93,7 +93,7 @@ Exit 0 if valid, exit 1 with violations. Use `--strict` to treat warnings as err
 taproot validate-format [--path taproot/] [--fix]
 ```
 
-Validates that marker files (`intent.md`, `usecase.md`, `impl.md`) conform to their schemas — required sections present, required fields populated, state values from the allowed set. Also checks:
+Validates that marker files (`intent.md`, `usecase.md`, `link.md`, `impl.md`) conform to their schemas — required sections present, required fields populated, state values from the allowed set. Also checks:
 
 - Every `intent.md` with child behaviour folders has a `## Behaviours <!-- taproot-managed -->` section
 - Every `usecase.md` with child impl folders has an `## Implementations <!-- taproot-managed -->` section

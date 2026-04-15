@@ -89,7 +89,7 @@ Next: <title of first pending item>
    - **If specific priority items were found** (unimplemented behaviours, missing tests, validation errors): surface the top 1–2 as direct lettered options with the exact command and path pre-filled. Add one generic fallback option last. Example:
 
      **What's next?**
-     [1] `/tr-implement <intent>/<behaviour>/` — implement unimplemented behaviour
+     [1] `/tr-implement <intent>/<behaviour>/` — missing impl.md — run /tr-implement to create it and any necessary code
      [2] `/tr-refine <intent>/<behaviour>/` — add missing tests
      [3] `/tr-next` — pick a different next item
 

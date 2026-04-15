@@ -29,6 +29,10 @@
 
 ## DoD Resolutions
 - condition: document-current | note: docs/ does not document the DEFAULT_EXCLUDE list in fs-walker.ts — it's an internal implementation detail. docs/cli.md describes validate-structure behaviour, not its exclusion list. docs/patterns.md: updated research/ path reference to taproot/research/ (example path was stale from the research folder move). README.md: does not enumerate walker exclusions. Docs are current. | resolved: 2026-03-29T21:12:44.480Z
+- condition: check-if-affected-by: taproot-modules/architecture | note: fs-walker change adds link.md as a recognised marker type — structural CLI change with no interaction with the architecture module skill or its truth-writing/DoD-wiring flow. | resolved: 2026-04-15T15:43:14.818Z
+
+- condition: check-if-affected-by: agent-integration/portable-output-patterns | note: validate-structure is a CLI command, not a skill file. portable-output-patterns governs skill authors writing skills/*.md — does not apply here. | resolved: 2026-04-15T15:43:11.590Z
+
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: Not applicable — no skill files modified in this change. Only src/core/fs-walker.ts modified. | resolved: 2026-03-29T21:14:07.862Z
 
 - condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — adding a folder name to an exclusion list is not a reusable pattern. No docs/patterns.md update needed. | resolved: 2026-03-29T21:14:07.597Z

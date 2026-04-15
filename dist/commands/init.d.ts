@@ -3,7 +3,7 @@ import { type LanguagePack } from '../core/language.js';
 import { type AgentName } from '../adapters/index.js';
 export declare function wrapperScript(): string;
 export declare function hookScriptContent(): string;
-export declare function buildSettingsYaml(pkgVersion: string, vocabulary?: Record<string, string>, language?: string): string;
+export declare function buildSettingsYaml(pkgVersion: string, vocabulary?: Record<string, string>, language?: string, modules?: string[]): string;
 export declare const AVAILABLE_TEMPLATES: readonly ["webapp", "cli-tool"];
 export type TemplateName = typeof AVAILABLE_TEMPLATES[number];
 export declare const TEMPLATE_PROMPT_CHOICES: Array<{
@@ -29,6 +29,7 @@ export declare function runInit(options: {
     vocabulary?: Record<string, string>;
     language?: string;
     preset?: string;
+    modules?: string[];
 }): string[];
 export declare function installSkills(targetSkillsDir: string, force?: boolean, pack?: LanguagePack | null, vocab?: Record<string, string> | null, displayDir?: string): string[];
 /**

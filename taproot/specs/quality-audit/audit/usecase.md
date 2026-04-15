@@ -99,7 +99,7 @@ flowchart TD
 - [Agent Skill — /tr-audit](./agent-skill/impl.md)
 
 ## Status
-- **State:** specified
+- **State:** implemented
 - **Created:** 2026-04-12
-- **Last reviewed:** 2026-04-12
+- **Last reviewed:** 2026-04-15
 - **Refined:** 2026-04-12 — rewritten as dispatch: spec path → audit/spec/, source path/prompt → audit/code/; AC-1–8 deprecated (moved to sub-behaviours); AC-9–11 added for routing

@@ -3,6 +3,7 @@ import { join, relative, basename } from 'path';
 const MARKER_FILES = {
     'intent.md': 'intent',
     'usecase.md': 'behaviour',
+    'link.md': 'behaviour',
     'impl.md': 'impl',
 };
 const DEFAULT_EXCLUDE = new Set(['_brainstorms', 'skills', '.git', 'node_modules', 'dist', 'global-truths', 'agent', 'specs', 'research']);

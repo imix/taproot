@@ -84,7 +84,7 @@ Progress: 1/5 behaviours fully implemented and tested
 4. Suggest next actions based on the tree state:
 
    **What's next?**
-   [1] `/tr-implement <intent-slug>/<unimplemented-behaviour-slug>/` — implement the first unimplemented behaviour
+   [1] `/tr-implement <intent-slug>/<unimplemented-behaviour-slug>/` — missing impl.md — run /tr-implement to create it and any necessary code
    [2] `/tr-refine <intent-slug>/<behaviour-slug>/` — update a spec that has drifted
 
 ### Lateral (siblings and cousins)

@@ -11,7 +11,7 @@ Agentic developer / orchestrator, AI coding agent, or CI pipeline verifying the 
 1. Actor runs `taproot validate-structure`
 2. System walks the `taproot/` directory tree, skipping `_brainstorms/`, `skills/`, and other reserved folders
 3. System checks each folder against the nesting rules: intent folders at depth 1, behaviour folders at depth 2+, implementation folders as leaves
-4. System checks that each folder contains exactly one marker file (`intent.md`, `usecase.md`, or `impl.md`) — not zero, not multiple
+4. System checks that each folder contains exactly one marker file (`intent.md`, `usecase.md`, `link.md`, or `impl.md`) — not zero, not multiple
 5. System checks that marker file types are consistent with their depth (e.g. `impl.md` cannot appear at intent depth)
 6. System prints a violation report with file paths and error codes, or confirms the hierarchy is valid
 7. System exits with code 0 (valid) or 1 (violations found)
