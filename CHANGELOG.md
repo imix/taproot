@@ -4,6 +4,27 @@ All notable changes to taproot are documented here.
 
 <!-- entries below -->
 
+## [1.4.0] - 2026-04-15
+
+### Taproot
+- taproot(requirements-hierarchy/initialise-hierarchy/cli-command): add module selection prompt to taproot init (91db455)
+- taproot(requirements-hierarchy/initialise-hierarchy/cli-command): remove taproot/CONVENTIONS.md — stale, no consumer (8b28cd1)
+
+### Features
+- feat: link.md marker support, taproot init module prompt, audit-all coverage spec (5b53a6b)
+
+### Bug Fixes
+- fix(quality-audit/audit/agent-skill): split step 5 into 5a/5b so agent stops after each finding (505a0d3)
+- fix(global-truth-store/apply-truths-when-authoring): prevent technical vocabulary bleed into behaviour specs (e40aaad)
+
+### Maintenance
+- docs: add quality modules section to README (2f4701e)
+- chore: bump taproot_version to 1.3.0 in settings.yaml (a4fa81b)
+
+### Other
+- refine(agent-integration/update-adapters-and-skills): skill/docs output as summary line with version (38373cb)
+- spec(requirements-hierarchy/initialise-hierarchy): add module selection prompt to taproot init (eb37246)
+
 ## [1.3.0] - 2026-04-13
 
 ### Taproot

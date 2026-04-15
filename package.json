@@ -1,6 +1,6 @@
 {
   "name": "@imix-js/taproot",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "AI-driven specs, enforced at commit time. Code without traceability doesn't merge.",
   "type": "module",
   "bin": {
