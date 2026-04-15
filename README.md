@@ -145,6 +145,31 @@ Use `/tr-link` to set up either side of the two-sided workflow interactively.
 
 Full documentation: [docs/cross-repo.md](docs/cross-repo.md)
 
+## Quality modules
+
+Taproot ships three optional quality modules — installable skill packages that give agents the conventions and checklists needed for consistent, domain-appropriate implementations.
+
+| Module | Activation | What it captures |
+|--------|------------|-----------------|
+| **User experience** | `/tr-ux-define` | 10 UX aspects: orientation, flow, feedback, input, presentation, language, accessibility, adaptation, consistency, visual |
+| **Security** | `/tr-security-define` | 5 enforcement layers: coding rules, local tooling, CI/CD gates, deployment hardening, periodic review |
+| **Architecture** | `/tr-arch-define` | 7 structural aspects: interfaces, code reuse, dependencies, module boundaries, error handling, test structure, naming |
+
+Each module writes conventions to `taproot/global-truths/` and wires an optional DoD condition so agents verify compliance at every implementation commit.
+
+**Opt in per project** — declare which modules apply in `taproot/settings.yaml`, then run `taproot update`:
+
+```yaml
+modules:
+  - user-experience
+  - security
+  - architecture
+```
+
+Only declared module skills are installed. Undeclared modules have no effect.
+
+Full documentation: [docs/modules.md](docs/modules.md)
+
 ---
 
 ## Docs
