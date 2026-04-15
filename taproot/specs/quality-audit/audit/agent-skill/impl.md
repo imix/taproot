@@ -32,6 +32,10 @@
 
 ## DoD Resolutions
 - condition: document-current | note: Audit skill already documented in docs/agents.md, docs/workflows.md, and skills/guide.md. Declaration-only — no new user-facing capability added. | resolved: 2026-04-12T13:48:39.014Z
+- condition: check-if-affected-by: skill-architecture/neutral-dod-resolution | note: audit.md is an audit skill, not an implementation skill — it has no DoD resolution steps and instructs no agent to run taproot dod. Not applicable. | resolved: 2026-04-15T12:17:26.475Z
+
+- condition: check-if-affected-by: taproot-modules/architecture | note: Skill-only implementation (markdown prompt) — no TypeScript or module architecture decisions. audit.md restructures step 5 into 5a/5b for turn-by-turn interaction. Not applicable. | resolved: 2026-04-15T12:17:21.126Z
+
 - condition: check-if-affected-by: agent-integration/portable-output-patterns | note: Plain markdown output with labelled triage prompts [A][X][E][L] — no IDE-specific syntax. Compliant. | resolved: 2026-04-12T13:48:43.881Z
 
 - condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: No skill file modified — declaration only. Existing audit.md is read-only, no shell commands, no credentials. Compliant. | resolved: 2026-04-12T13:48:43.549Z

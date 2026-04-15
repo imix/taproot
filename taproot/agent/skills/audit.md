@@ -59,7 +59,7 @@ Stress-test a single Taproot artifact — an `intent.md`, `usecase.md`, or `impl
 
    Sort findings: Blockers first, then Concerns, then Suggestions.
 
-5. **Interactive walkthrough** — present findings one at a time. For each finding, show:
+5a. **Present the next finding.** Show:
 
    ```
    **<Category>** (<N of M>) — Recommendation: **<Accept/Dismiss/Defer>**
@@ -73,12 +73,16 @@ Stress-test a single Taproot artifact — an `intent.md`, `usecase.md`, or `impl
    [A] Accept — apply the proposed fix  [X] Dismiss — not relevant  [E] Edit — change the fix before accepting  [L] Later — capture to backlog
    ```
 
-   Process the developer's response:
+   **Stop here. Do not show the next finding until the developer responds.**
+
+5b. **Handle the developer's response**, then return to 5a for the next finding:
    - **[A] Accept** or **Enter** (accepts the recommendation): record the finding and its proposed fix as accepted
-   - **[X] Dismiss**: record as dismissed, move to next finding
+   - **[X] Dismiss**: record as dismissed
    - **[E] Edit**: ask the developer to reword the fix, record the edited version as accepted
-   - **[L] Later**: capture to `taproot/backlog.md` via `/tr-backlog` with the finding text, move to next
-   - **"go"** or **"apply remaining"**: apply the agent's recommended action for each remaining finding (accept, dismiss, or defer as recommended), then show the triage summary
+   - **[L] Later**: capture to `taproot/backlog.md` via `/tr-backlog` with the finding text
+   - **"go"** or **"apply remaining"**: apply the agent's recommended action for each remaining finding (accept, dismiss, or defer as recommended), then show the triage summary and skip to step 6
+
+   When all findings have been triaged, proceed to step 6.
 
 6. **Triage summary** — after all findings are triaged, show:
 

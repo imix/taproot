@@ -8,8 +8,8 @@ describe('audit skill — interactive walkthrough', () => {
   const content = readFileSync(resolve(SKILLS_DIR, 'audit.md'), 'utf-8');
 
   it('presents findings one at a time, not as a batch', () => {
-    expect(content).toContain('present findings one at a time');
-    expect(content).toContain('Interactive walkthrough');
+    expect(content).toContain('Present the next finding');
+    expect(content).toContain('Do not show the next finding until the developer responds');
   });
 
   it('requires a proposed fix per finding', () => {
