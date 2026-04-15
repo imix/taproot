@@ -515,13 +515,6 @@ export function runInit(options: {
   const appliedPreset = resolvedVocabulary && Object.keys(resolvedVocabulary).length > 0;
   const appliedLanguage = !!resolvedLanguage;
 
-  // Write CONVENTIONS.md
-  const conventionsPath = join(taprootDir, 'CONVENTIONS.md');
-  if (!existsSync(conventionsPath)) {
-    writeFileSync(conventionsPath, buildConventionsDoc());
-    messages.push('created  taproot/CONVENTIONS.md');
-  }
-
   // Create global-truths/ with a hint README
   const globalTruthsDir = join(taprootDir, 'global-truths');
   const globalTruthsReadme = join(globalTruthsDir, 'README.md');
@@ -857,63 +850,6 @@ Files without a scope suffix default to intent scope (broadest).
 Truth content is free-form markdown — prose, tables, bullet lists, and headings are all valid.
 
 Run \`/tr-define-truth\` to capture a new truth interactively.
-`;
-}
-
-function buildConventionsDoc(): string {
-  const date = new Date().toISOString().slice(0, 10);
-  return `# Taproot Conventions
-
-Auto-generated reference for document formats and commit conventions.
-
-## Document Formats
-
-### intent.md — Business Intent
-
-\`\`\`markdown
-${intentTemplate(date)}\`\`\`
-
-### usecase.md — Behaviour (UseCase)
-
-\`\`\`markdown
-${behaviourTemplate(date)}\`\`\`
-
-### impl.md — Implementation
-
-\`\`\`markdown
-${implTemplate(date)}\`\`\`
-
-## Folder Naming
-
-- Lowercase kebab-case: \`^[a-z0-9]+(-[a-z0-9]+)*\$\`
-- Each folder is exactly one type (intent, behaviour, or implementation)
-- Identified by its marker file: \`intent.md\`, \`usecase.md\`, or \`impl.md\`
-
-## Commit Convention
-
-Link commits to implementations using the conventional tag format:
-
-\`\`\`
-taproot(<intent>/<behaviour>/<impl>): <message>
-\`\`\`
-
-Or use a commit trailer:
-
-\`\`\`
-Taproot: <intent>/<behaviour>/<impl>
-\`\`\`
-
-## Folder Structure
-
-\`\`\`
-taproot/
-├── <intent-slug>/
-│   ├── intent.md
-│   └── <behaviour-slug>/
-│       ├── usecase.md
-│       └── <implementation-slug>/
-│           └── impl.md
-\`\`\`
 `;
 }
 

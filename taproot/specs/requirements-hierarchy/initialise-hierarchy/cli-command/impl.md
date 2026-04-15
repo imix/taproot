@@ -34,6 +34,42 @@
 
 ## DoD Resolutions
 - condition: gemini-toml-fix | note: src/adapters/index.ts updated to fix Gemini TOML format — removed invalid [command] section and name field; top-level prompt and description only. | resolved: 2026-03-21
+- condition: document-current | note: docs/agents.md references CONVENTIONS.md in the aider adapter context (root-level file) — still accurate and unchanged. taproot/CONVENTIONS.md had no doc coverage. No new user-facing concept introduced; this is dead code removal. No doc update needed. | resolved: 2026-04-15T05:42:08.487Z
+
+- condition: check-if-affected-by: agent-integration/agent-capability-invocation | note: not applicable — CLI source code change; agent-capability-invocation governs skill files | resolved: 2026-04-15T05:41:56.982Z
+
+- condition: check-if-affected-by: taproot-modules/architecture | note: not applicable — this is a CLI source change removing dead code; no module architecture changes | resolved: 2026-04-15T05:41:56.624Z
+
+- condition: check-if-affected-by: agent-integration/portable-output-patterns | note: not applicable — CLI command source code; no agent skill output patterns involved | resolved: 2026-04-15T05:41:56.235Z
+
+- condition: check: if this change modifies a skill file (skills/*.md), verify it does not introduce shell command execution without validation, does not hardcode credentials or tokens, and follows least-privilege for agent instructions — see docs/security.md | note: NO skill files modified — src/commands/init.ts and test/integration/init.test.ts only | resolved: 2026-04-15T05:41:55.948Z
+
+- condition: check: does this story reveal a reusable pattern worth documenting in docs/patterns.md? | note: NO — this is a straightforward deletion of dead code | resolved: 2026-04-15T05:41:55.672Z
+
+- condition: check: does this story introduce a cross-cutting concern that warrants a new check-if-affected-by or check-if-affected entry in .taproot/settings.yaml? | note: NO — removal of a dead file generation; no new cross-cutting concern introduced | resolved: 2026-04-15T05:41:55.401Z
+
+- condition: check-if-affected-by: quality-gates/architecture-compliance | note: COMPLIANT — removing a dead code path (buildConventionsDoc + write block); all I/O at command boundaries; no structural concerns | resolved: 2026-04-15T05:41:42.826Z
+
+- condition: check-if-affected-by: human-integration/pattern-hints | note: not applicable — pattern-hints governs agent skills; taproot init is a CLI command | resolved: 2026-04-15T05:41:42.560Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — no skill files in Source Files; this is a CLI command source change | resolved: 2026-04-15T05:41:42.264Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — no skill files in Source Files; this is a CLI command source change | resolved: 2026-04-15T05:41:41.982Z
+
+- condition: check-if-affected: src/commands/update.ts | note: update.ts references root-level CONVENTIONS.md for aider detection, not taproot/CONVENTIONS.md — not affected by this change | resolved: 2026-04-15T05:41:35.772Z
+
+- condition: check-if-affected: skills/guide.md | note: skills/guide.md has no reference to taproot/CONVENTIONS.md — not affected | resolved: 2026-04-15T05:41:35.498Z
+
+- condition: check-if-affected: docs/ | note: docs/ has no references to taproot/CONVENTIONS.md — not affected | resolved: 2026-04-15T05:41:35.232Z
+
+- condition: check-if-affected: examples/ | note: no examples reference taproot/CONVENTIONS.md — not affected | resolved: 2026-04-15T05:41:34.958Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — source code change, not a skill file | resolved: 2026-04-15T05:41:34.672Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — taproot init is a CLI setup command, not an agent skill; contextual-next-steps governs skills that produce primary output | resolved: 2026-04-15T05:41:34.309Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — taproot init is a CLI command; pause-and-confirm governs bulk-authoring agent skills | resolved: 2026-04-15T05:41:26.684Z
+
 - condition: tests-passing | note: All 1109 tests pass — verified with npx vitest run directly. ETIMEDOUT in DoD runner is a transient subprocess spawn issue, not a test failure. | resolved: 2026-03-30T10:29:03.095Z
 
 - condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — no skills/*.md files in Source Files (src/commands/init.ts, src/templates/index.ts, src/adapters/index.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-03-30T10:28:22.583Z

@@ -39,11 +39,6 @@ describe('taproot init', () => {
     expect(existsSync(join(tmpDir, 'taproot', '_brainstorms'))).toBe(false);
   });
 
-  it('creates taproot/CONVENTIONS.md', () => {
-    runInit({ cwd: tmpDir });
-    expect(existsSync(join(tmpDir, 'taproot', 'CONVENTIONS.md'))).toBe(true);
-  });
-
   // AC-6: Returns messages referencing taproot/ and taproot/settings.yaml
   it('AC-6: returns messages describing what was created', () => {
     const messages = runInit({ cwd: tmpDir });
