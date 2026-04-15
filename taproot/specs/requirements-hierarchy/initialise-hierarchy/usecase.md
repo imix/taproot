@@ -12,20 +12,21 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 1. Actor runs `taproot init` in the project root
 2. System checks that `.git/` exists in the project root — if absent, aborts immediately (see Error Conditions); no prompts are shown
 3. System prompts: "Which agent adapter would you like to install?" — presents a selection list (claude, cursor, none)
-4. System prompts: "Install the pre-commit hook? (Strongly recommended — prevents implementation commits without traceability and requirement commits without quality checks) [Y/n]"
-5. System creates the `taproot/` root directory
-6. System creates `taproot/specs/` for the requirements hierarchy
-7. System creates `taproot/global-truths/` with README
-8. System creates `taproot/agent/` for skills and configuration
-9. System writes `taproot/settings.yaml` with default configuration; each condition type (`check-if-affected-by`, `check-if-affected`, `document-current`, `check:`) is preceded by a YAML comment explaining what it does and when to use it, so agents and developers can author new conditions directly in the file without consulting external documentation
-10. System writes `taproot/CONVENTIONS.md` with document format reference and commit conventions
-11. System installs the selected agent adapter (if any) — skills into `taproot/agent/skills/`, docs into `taproot/agent/docs/`
-12. System installs the pre-commit hook (if confirmed)
-13. System appends `.taproot/` to `.gitignore` in the project root — creates the file if absent; skips if the entry is already present
-14. System reports each created path
+4. System prompts: "Which quality modules would you like to enable?" — presents a checkbox list (user-experience, security, architecture); actor may select any combination or none
+5. System prompts: "Install the pre-commit hook? (Strongly recommended — prevents implementation commits without traceability and requirement commits without quality checks) [Y/n]"
+6. System creates the `taproot/` root directory
+7. System creates `taproot/specs/` for the requirements hierarchy
+8. System creates `taproot/global-truths/` with README
+9. System creates `taproot/agent/` for skills and configuration
+10. System creates the project settings file with default configuration; each condition type (`check-if-affected-by`, `check-if-affected`, `document-current`, `check:`) is preceded by an explanatory comment describing what it does and when to use it, so agents and developers can author new conditions directly in the file without consulting external documentation; selected modules are recorded in the project settings
+11. System writes `taproot/CONVENTIONS.md` with document format reference and commit conventions
+12. System installs the selected agent adapter (if any) — skills into `taproot/agent/skills/`, docs into `taproot/agent/docs/`
+13. System installs the pre-commit hook (if confirmed)
+14. System appends `.taproot/` to `.gitignore` in the project root — creates the file if absent; skips if the entry is already present
+15. System reports each created path
 
 ## Alternate Flows
-- **Non-interactive mode**: if `--agent <name>` is passed, skip the agent selection prompt and use the provided value; if `--with-hooks` is passed, skip the hook prompt and install the hook
+- **Non-interactive mode**: if `--agent <name>` is passed, skip the agent selection prompt and use the provided value; if `--with-hooks` is passed, skip the hook prompt and install the hook; if `--modules <names>` is passed (comma-separated), skip the module selection prompt and record those modules as active in the project settings
 - **No agent selected**: actor selects "none" at the agent prompt — adapter installation is skipped, all other steps proceed normally
 - **Hook declined**: actor answers "n" at the hook prompt — hook installation is skipped; system notes "Pre-commit hook not installed — run `taproot init --with-hooks` to add it later"
 - **Directory already exists**: system reports `exists` instead of `created` and skips creation — idempotent
@@ -35,7 +36,7 @@ Agentic developer / orchestrator setting up taproot in a new or existing project
 
 ## Postconditions
 - `taproot/` directory exists with `specs/`, `global-truths/`, and `agent/` subdirectories
-- `taproot/settings.yaml` exists with default configuration (can be customised after init); inline YAML comments explain each gate condition type (`check-if-affected-by`, `check-if-affected`, `document-current`, `check:`) so agents and developers can author new conditions without consulting external documentation
+- The project settings file exists with default configuration (can be customised after init); inline explanatory comments describe each gate condition type (`check-if-affected-by`, `check-if-affected`, `document-current`, `check:`) so agents and developers can author new conditions without consulting external documentation; selected quality modules are recorded in the project settings; if none were selected, no modules are active
 - `taproot/CONVENTIONS.md` exists as a human-readable format reference
 - `taproot/agent/skills/` is populated with canonical skill definitions
 - Selected agent adapter is installed (or none if declined)
@@ -61,6 +62,8 @@ sequenceDiagram
     end
     CLI->>Actor: prompt: which agent adapter?
     Actor->>CLI: select (claude / cursor / none)
+    CLI->>Actor: prompt: which quality modules? (checkbox)
+    Actor->>CLI: select (user-experience / security / architecture / none)
     CLI->>Actor: prompt: install pre-commit hook? [Y/n]
     Actor->>CLI: Y / n
     CLI->>FS: create taproot/, taproot/specs/, taproot/global-truths/, taproot/agent/
@@ -88,10 +91,10 @@ sequenceDiagram
 - When the actor runs `taproot init`
 - Then a `taproot/` directory is created
 
-**AC-2: Creates taproot/settings.yaml**
+**AC-2: Creates the project settings file**
 - Given a new empty project directory
 - When the actor runs `taproot init`
-- Then `taproot/settings.yaml` is created
+- Then the project settings file is created
 
 **AC-3: Agent selection prompt installs selected adapter**
 - Given a new project directory
@@ -111,7 +114,7 @@ sequenceDiagram
 **AC-6: Returns messages describing what was created**
 - Given a new empty project directory
 - When the actor runs `taproot init`
-- Then the returned messages include references to `taproot/` and `taproot/settings.yaml`
+- Then the returned messages include references to `taproot/` and the project settings file
 
 **AC-7: Is idempotent — running twice does not fail**
 - Given a project where `taproot init` has already been run
@@ -168,15 +171,25 @@ sequenceDiagram
 - When the actor runs `taproot init`
 - Then `.gitignore` is not modified and the output reports the entry already exists
 
-**AC-19: settings.yaml includes inline documentation of condition types**
+**AC-19: Project settings file includes inline documentation of condition types**
 - Given `taproot init` runs in a new project
-- When `taproot/settings.yaml` is written
-- Then the file contains inline YAML comments explaining `check-if-affected-by`, `check-if-affected`, `document-current`, and `check:` so that agents can author new conditions correctly without reading external documentation
+- When the project settings file is written
+- Then the file contains inline explanatory comments describing `check-if-affected-by`, `check-if-affected`, `document-current`, and `check:` so that agents can author new conditions correctly without reading external documentation
 
 **AC-18: --with-ci github generates workflow including npm audit**
 - Given an actor runs `taproot init --with-ci github`
 - When init completes
 - Then `.github/workflows/taproot.yml` exists and includes an `npm audit --audit-level=high` step
+
+**AC-20: Module selection prompt presented during init**
+- Given a new project directory
+- When the actor runs `taproot init` and reaches the module selection step
+- Then a prompt is shown listing available quality modules (user-experience, security, architecture) and the actor's selection is recorded in the project settings; if no modules are selected, no modules are active
+
+**AC-21: --modules flag skips module selection prompt**
+- Given an actor runs `taproot init --modules user-experience`
+- When init runs
+- Then no module selection prompt is shown and user-experience is recorded as an active module in the project settings
 
 ## Notes
 - `taproot update` does not modify `.gitignore`. The `.taproot/` entry is written once at init time; if the developer later removes it, that is treated as an intentional choice and is not restored on update.
@@ -184,5 +197,5 @@ sequenceDiagram
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
-- **Last reviewed:** 2026-03-30
+- **Last reviewed:** 2026-04-15
 - **Refined:** 2026-03-27 — added .gitignore step, CI template alternate flows, AC-16/17/18, Notes on taproot update
