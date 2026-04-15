@@ -8,6 +8,10 @@
 - `--agent all` shorthand installs all supported adapters in one shot
 - `taproot/settings.yaml` is generated with commented defaults rather than a minimal file — aids discoverability for first-time users
 - Skills are installed to `taproot/agent/skills/` at init time so agents can load them locally without internet access
+- Module selection uses the same `@inquirer/checkbox` already used for agent selection — consistent UX, no new dependency; placed between agent and hook prompts per AC-20
+- `buildSettingsYaml` gains a `modules?: string[]` param; when non-empty, writes an active `modules:` block instead of the commented-out default — the user's selection is immediately reflected in settings
+- `runInit` prefers `options.modules` over re-reading the settings file for `installModuleSkills` — avoids a file read/parse round-trip and keeps the source of truth clear
+- `--modules <names>` accepts comma-separated values for non-interactive use (AC-21); parsed in the CLI action before prompt decision
 
 ## Source Files
 - `src/commands/init.ts` — CLI command registration, directory scaffolding, config generation, skill installation, adapter generation
@@ -26,6 +30,7 @@
 
 ## Tests
 - `test/integration/init.test.ts` — scaffolding, config generation, skill installation, hook installation, adapter generation
+- `test/integration/init.modules.test.ts` — AC-20 (modules written to settings.yaml, module skills installed at init time), AC-21 (multiple modules, re-run preserves existing declaration)
 
 ## Status
 - **State:** complete
@@ -34,6 +39,20 @@
 
 ## DoD Resolutions
 - condition: gemini-toml-fix | note: src/adapters/index.ts updated to fix Gemini TOML format — removed invalid [command] section and name field; top-level prompt and description only. | resolved: 2026-03-21
+- condition: check-if-affected-by: agent-integration/portable-output-patterns | note: not applicable — no skills/*.md files in Source Files (src/commands/init.ts, src/templates/index.ts, src/adapters/index.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-04-15T12:29:00.556Z
+
+- condition: check-if-affected-by: skill-architecture/commit-awareness | note: not applicable — no skills/*.md files in Source Files (src/commands/init.ts, src/templates/index.ts, src/adapters/index.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-04-15T12:29:00.553Z
+
+- condition: check-if-affected-by: skill-architecture/context-engineering | note: not applicable — no skills/*.md files in Source Files (src/commands/init.ts, src/templates/index.ts, src/adapters/index.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-04-15T12:29:00.544Z
+
+- condition: check-if-affected-by: human-integration/pause-and-confirm | note: not applicable — no skills/*.md files in Source Files (src/commands/init.ts, src/templates/index.ts, src/adapters/index.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-04-15T12:29:00.541Z
+
+- condition: check-if-affected-by: human-integration/contextual-next-steps | note: not applicable — no skills/*.md files in Source Files (src/commands/init.ts, src/templates/index.ts, src/adapters/index.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-04-15T12:29:00.537Z
+
+- condition: check-if-affected-by: agent-integration/agent-agnostic-language | note: not applicable — no skills/*.md files in Source Files (src/commands/init.ts, src/templates/index.ts, src/adapters/index.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-04-15T12:29:00.529Z
+
+- condition: check-if-affected: skills/guide.md | note: not applicable — no skills/*.md files in Source Files (src/commands/init.ts, src/templates/index.ts, src/adapters/index.ts); auto-resolved by naRules[when:no-skill-files] | resolved: 2026-04-15T12:29:00.525Z
+
 - condition: document-current | note: docs/agents.md references CONVENTIONS.md in the aider adapter context (root-level file) — still accurate and unchanged. taproot/CONVENTIONS.md had no doc coverage. No new user-facing concept introduced; this is dead code removal. No doc update needed. | resolved: 2026-04-15T05:42:08.487Z
 
 - condition: check-if-affected-by: agent-integration/agent-capability-invocation | note: not applicable — CLI source code change; agent-capability-invocation governs skill files | resolved: 2026-04-15T05:41:56.982Z
