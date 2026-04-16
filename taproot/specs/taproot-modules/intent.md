@@ -33,6 +33,7 @@ Provide optional, installable quality modules that give agents the conventions, 
 - [Module Context Discovery](./module-context-discovery/usecase.md)
 - [Activate Security Module](./security/usecase.md)
 - [Activate Testing Module](./testing/usecase.md)
+- [Activate Defensive Coding Module](./defensive-coding/usecase.md)
 
 ## Status
 

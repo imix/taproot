@@ -326,6 +326,7 @@ Compact summary for AI agents. Read this before diving into individual taproot d
   - [agent-skill](./taproot-modules/architecture/agent-skill/impl.md) `[complete]` (3 commits ⚠ no tests)
   - **[define-architectural-style](./taproot-modules/architecture/define-architectural-style/usecase.md)** `[specified]` — Actor: Developer setting up architecture quality guidance for a project
     - [agent-skill](./taproot-modules/architecture/define-architectural-style/agent-skill/impl.md) `[complete]` (2 commits, 2 tests)
+- **[defensive-coding](./taproot-modules/defensive-coding/usecase.md)** `[specified]` — Actor: Developer (team lead or contributor) setting up defensive coding guidance for a project
 - **[module-context-discovery](./taproot-modules/module-context-discovery/usecase.md)** `[implemented]` — Actor: Developer activating a quality module on a project for the first time, or establishing project context independently before any module session
   - [agent-skill](./taproot-modules/module-context-discovery/agent-skill/impl.md) `[complete]` (2 commits, 1 test)
 - **[module-install-opt-in](./taproot-modules/module-install-opt-in/usecase.md)** `[implemented]` — Actor: Developer configuring which quality modules are active in a project
@@ -353,4 +354,4 @@ Compact summary for AI agents. Read this before diving into individual taproot d
     - [agent-skill](./taproot-modules/user-experience/visual/agent-skill/impl.md) `[complete]` (4 commits, 1 test)
 
 ---
-21 intents · 131 behaviours · 111 implementations · 109/111 complete
+21 intents · 132 behaviours · 111 implementations · 109/111 complete
