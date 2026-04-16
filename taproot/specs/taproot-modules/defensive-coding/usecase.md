@@ -11,19 +11,19 @@ Developer (team lead or contributor) setting up defensive coding guidance for a 
 1. Developer invokes the defensive coding module skill.
 2. System checks whether a project context record exists; if absent, system runs context discovery (Module Context Discovery behaviour) before proceeding.
 3. System scans existing global truths for defensive coding truth files matching `defensive-*_behaviour.md` and reports which language × context combinations already have coverage.
-4. Developer selects a language and optionally a context (e.g. "TypeScript — frontend") to configure. If context is omitted, conventions apply to the language generally.
+4. Developer selects a language and optionally a context to configure. System asks: "Which language do you want to configure? (e.g. TypeScript, Python, Go — or describe your stack)" and offers **[H]** Get help — scan the project and propose detected stacks. If context is omitted, conventions apply to the language generally.
 5. System assesses its knowledge of defensive coding conventions for the selected language. If the system has sufficient priors, it proposes opinionated defaults for the developer to review. If the system has limited knowledge of the language, it offers to research defensive patterns before elicitation.
 6. System elicits or confirms two categories of convention for the selected language × context:
-   a. **Enforcement** — linter rules, compiler flags, and tooling configuration that mechanically prevent fragile code patterns
+   a. **Enforcement** — linter rules and static analysis configuration that mechanically prevent fragile code patterns (compiler flags and build configuration are out of scope for this module)
    b. **Conventions** — patterns to follow and anti-patterns to avoid, capturing what an experienced reviewer would flag
 7. System presents the proposed enforcement rules and conventions for developer review and confirmation.
 8. System writes a single global truth file for the completed language × context combination (e.g. `defensive-typescript-frontend_behaviour.md`) containing both enforcement rules and conventions with an agent checklist.
 9. System detects existing linter or static analysis configuration in the project. If enforcement rules were confirmed and tooling configuration is absent or incomplete, system writes or updates the linter configuration file to apply the confirmed rules. Developer confirms before any config file is written.
-10. System offers the developer the option to run `/tr-sweep` over existing implementations to surface code that may not conform to the newly written conventions.
-11. System asks whether to configure another language × context combination. If yes, return to step 4. If no, proceed.
+10. System asks whether to configure another language × context combination. If yes, return to step 4. If no, proceed.
+11. System offers the developer the option to run `/tr-sweep` over existing implementations to surface code that may not conform to the newly written conventions.
 12. If `check-if-affected-by: taproot-modules/defensive-coding` is not already present in the project's `definitionOfDone`, system asks whether to wire it as a DoD condition in project configuration. If already wired, skip this step.
 13. Developer confirms or declines.
-14. System writes the condition to project configuration (if confirmed) and presents a summary: truth files written, combinations remaining, and conditions wired.
+14. System writes the condition to project configuration (if confirmed) and presents a summary: truth files written, combinations configured, and conditions wired.
 
 ## Alternate Flows
 
@@ -34,7 +34,7 @@ Developer (team lead or contributor) setting up defensive coding guidance for a 
   2. Options: **[A]** Research first — system runs a research pass and proposes findings for developer confirmation before elicitation; **[B]** Proceed with what I know — system proposes what it has with lower confidence noted; **[C]** Skip this language.
   3. On **[A]**: system researches conventions and surfaces findings; developer confirms accuracy before proceeding to step 6.
   4. On **[B]**: system proceeds with noted uncertainty; developer reviews and adjusts each proposed default.
-  5. On **[C]**: system skips to step 11.
+  5. On **[C]**: system skips to step 10.
 
 ### Truth file already exists for combination
 - **Trigger:** At step 4, the selected language × context combination already has a truth file.
@@ -54,12 +54,18 @@ Developer (team lead or contributor) setting up defensive coding guidance for a 
 - **Trigger:** Developer selects Done before all desired combinations are completed.
 - **Steps:**
   1. System writes truth files for all completed combinations.
-  2. System records remaining combinations in the session summary; re-invoking the module surfaces unconfigured combinations.
+  2. System presents a session summary of completed combinations. When the module is re-invoked, the scan in step 3 will surface any language × context combinations that still lack truth files.
 
 ### DoD condition already wired
 - **Trigger:** At step 12, `check-if-affected-by: taproot-modules/defensive-coding` is already present in the project's `definitionOfDone`.
 - **Steps:**
   1. System skips the DoD wiring offer and notes "Defensive coding DoD condition already wired." in the session summary.
+
+### DoD wiring declined
+- **Trigger:** Developer declines the DoD wiring offer in step 12.
+- **Steps:**
+  1. System skips writing the DoD condition to project configuration.
+  2. System displays the line to add manually and presents the session summary.
 
 ## Postconditions
 - One or more truth files exist in `taproot/global-truths/` for configured language × context combinations
@@ -69,6 +75,7 @@ Developer (team lead or contributor) setting up defensive coding guidance for a 
 ## Error Conditions
 - **No language selected and no existing combinations found**: system reports "No defensive coding conventions configured yet. Start by selecting a language." and offers to begin.
 - **Linter config write fails**: system reports the failure, presents the rules as a copyable block for manual application, and continues.
+- **Linter configuration format not recognized or is dynamic**: system reports "Found a linter configuration at [path] but cannot safely modify it — the format is dynamic or unrecognized. Here are the rules to add manually: [block]." Session continues without writing the config file.
 - **Research step produces no useful findings**: system reports "I was unable to find established defensive coding conventions for [language]. Proceeding with first principles." and continues to step 6 with generic prompts.
 
 ## Flow
@@ -85,10 +92,10 @@ flowchart TD
     H --> I[Developer confirms]
     I --> J[Write truth file]
     J --> K[Write/update linter config if needed]
-    K --> L[Offer /tr-sweep]
-    L --> M{Another combination?}
-    M -->|Yes| D
-    M -->|No| N{DoD already wired?}
+    K --> L{Another combination?}
+    L -->|Yes| D
+    L -->|No| M[Offer /tr-sweep]
+    M --> N{DoD already wired?}
     N -->|No| O[Offer DoD wiring]
     N -->|Yes| P[Session summary]
     O --> P
@@ -114,7 +121,7 @@ flowchart TD
 **AC-3: Unknown language — research offered**
 - Given the developer selects a language with limited agent priors (e.g. Lua)
 - When elicitation begins
-- Then system states its limited knowledge and offers [A] Research first / [B] Proceed with what I know / [C] Skip — without proposing fabricated defaults
+- Then system states its limited knowledge and offers [A] Research first / [B] Proceed with what I know / [C] Skip — without proposing defaults it cannot substantiate with established conventions for that language
 
 **AC-4: Context qualifier produces separate truth file**
 - Given the developer selects "TypeScript — frontend" and "TypeScript — backend" in separate runs
@@ -146,10 +153,20 @@ flowchart TD
 - When asked "configure another combination?" and selects yes
 - Then system returns to language selection and allows a second combination to be configured in the same session
 
-**AC-10: /tr-sweep offered after each truth file write**
-- Given a truth file has just been written for a language × context combination
-- When the write completes
-- Then system offers the developer the option to run /tr-sweep before proceeding to the next combination
+**AC-10: /tr-sweep offered once after all combinations complete**
+- Given the developer has completed all desired language × context combinations
+- When the developer declines to configure another combination
+- Then system offers /tr-sweep once before proceeding to DoD wiring — not after each individual combination
+
+**AC-11: DoD wiring declined — manual instruction shown**
+- Given the developer declines the DoD wiring offer
+- When the session concludes
+- Then system displays the line to add manually to project configuration and presents the session summary without writing to project configuration
+
+**AC-12: Unrecognized linter config format — rules presented as copyable block**
+- Given the project has a dynamic or unrecognized linter configuration format
+- When system reaches the linter config write step
+- Then system reports it cannot safely modify the file and presents the confirmed rules as a copyable block for manual application
 
 ## Status
 - **State:** specified
