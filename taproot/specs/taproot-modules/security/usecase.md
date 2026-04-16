@@ -15,7 +15,7 @@ Developer (team lead or contributor) setting up security guidance for a project
 5. Developer selects which layers to configure in this session (all or a subset).
 6. For each selected layer, system asks targeted questions, uses the established project context to propose stack-appropriate defaults, and surfaces any existing conventions; developer reviews and confirms the elicited conventions.
 7. System writes a scoped global truth file for each completed layer (e.g. `security-rules_behaviour.md`) containing conventions and an agent checklist.
-8. System asks whether to wire `check-if-affected-by: taproot-modules/security` as a DoD condition in project configuration.
+8. If `check-if-affected-by: taproot-modules/security` is not already present in the project's `definitionOfDone`, system asks whether to wire it as a DoD condition in project configuration. If already wired, skip this step.
 9. Developer confirms or declines.
 10. System writes the condition to project configuration (if confirmed) and presents a summary of truth files written and layers remaining.
 
@@ -40,6 +40,12 @@ Developer (team lead or contributor) setting up security guidance for a project
 - **Steps:**
   1. System skips writing the DoD condition.
   2. System includes the condition text in the summary so developer can add it manually.
+
+### DoD condition already wired — wiring offer suppressed
+- **Trigger:** `check-if-affected-by: taproot-modules/security` is already present in the project's `definitionOfDone` when step 8 is reached.
+- **Steps:**
+  1. System skips the wiring offer entirely.
+  2. System proceeds directly to the summary phase.
 
 ### Activated without project context
 - **Trigger:** Developer skips or declines context discovery when prompted in step 2.
@@ -116,6 +122,12 @@ flowchart TD
 - When developer declines the DoD wiring offer
 - Then no DoD condition is written and the condition text appears in the session summary
 
+**AC-7: DoD wiring offer suppressed when condition already present**
+- Given a session where at least one layer is configured
+- And `check-if-affected-by: taproot-modules/security` is already present in the project's `definitionOfDone`
+- When the session reaches step 8
+- Then the wiring offer is skipped and the session proceeds to the summary
+
 **AC-5: Taproot not initialized**
 - Given a directory without taproot initialization
 - When developer invokes the security module skill
@@ -132,4 +144,4 @@ flowchart TD
 ## Status
 - **State:** implemented
 - **Created:** 2026-04-12
-- **Last reviewed:** 2026-04-12
+- **Last reviewed:** 2026-04-16

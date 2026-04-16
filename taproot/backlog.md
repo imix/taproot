@@ -20,4 +20,5 @@
 - [2026-04-09] analyse gaps to https://www.adlc.io/ and see if we can fill them to claim adls compliance
 - [2026-04-09] UX: when starting a skill on a new subject, open with a 1–2 sentence orientation summary ("We're writing a behaviour for X under intent Y — here's what exists so far") before diving into questions — the current output drops straight into step-by-step findings with no framing
 - [2026-04-12] add observability module to taproot-modules — structured logging, telemetry (metrics/traces), and event emission for CLI operations and skill invocations
+- [2026-04-15] new peer module: taproot-modules/defensive-coding — parallel to architecture/security/UX modules. Motivated by the sysreverse defensive-coding truth (positive-match for enum/status checks; no silent fallbacks). Could grow to cover: exhaustive checks, fail-fast, guard clauses, no silent fallbacks, explicit over implicit. Would produce tr-defensive-* skills and write defensive-coding_behaviour.md (or similar) in consumer projects.
 

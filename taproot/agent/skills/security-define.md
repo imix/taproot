@@ -111,7 +111,9 @@ Activate the security quality module: establish project context, scan for existi
 
 ### Phase 3 — DoD wiring
 
-6. Ask:
+6. Read `taproot/settings.yaml` and check whether `check-if-affected-by: taproot-modules/security` is already present in `definitionOfDone`. If it is, skip this step entirely and note "Security DoD condition already wired." in the session summary.
+
+   Otherwise, ask:
 
    > Wire security conventions as a DoD condition?
    >

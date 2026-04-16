@@ -123,7 +123,9 @@ Activate the user-experience quality module: scan for existing UX coverage, walk
 
 ### Phase 3 — DoD wiring
 
-7. Ask:
+7. Read `taproot/settings.yaml` and check whether `check-if-affected-by: taproot-modules/user-experience` is already present in `definitionOfDone`. If it is, skip this step entirely and note "UX DoD condition already wired." in the session summary.
+
+   Otherwise, ask:
 
    > Wire UX conventions as a DoD condition?
    >

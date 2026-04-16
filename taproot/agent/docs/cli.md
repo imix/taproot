@@ -9,12 +9,12 @@ The Taproot CLI handles setup, validation, and reporting. It does not generate c
 ### `taproot init`
 
 ```bash
-taproot init [--with-hooks] [--with-ci github|gitlab] [--with-skills] [--agent claude|cursor|copilot|windsurf|generic|all] [--template webapp|book-authoring|cli-tool] [--force]
+taproot init [--with-hooks] [--with-ci github|gitlab] [--with-skills] [--agent claude|cursor|copilot|windsurf|generic|all] [--modules user-experience,security,architecture] [--template webapp|book-authoring|cli-tool] [--force]
 ```
 
 Initializes Taproot in the current directory. Creates `taproot/` with `specs/`, `global-truths/`, and `agent/` subdirectories; writes `taproot/settings.yaml`. Then installs whichever integrations you request.
 
-When run on an empty project (no `taproot/` directory yet), the command prompts: **"Start from a template? [y/N]"** — entering `y` presents a list of starter hierarchies to choose from.
+When run on an empty project (no `taproot/` directory yet), the command prompts interactively for: a starter template, agent adapter, quality modules, project type, and whether to install the pre-commit hook.
 
 | Option | Effect |
 |--------|--------|
@@ -23,6 +23,7 @@ When run on an empty project (no `taproot/` directory yet), the command prompts:
 | `--with-ci gitlab` | Generates a `taproot-validate` job in `.gitlab-ci.yml` |
 | `--with-skills` | Copies skill definitions to `taproot/agent/skills/`. Implied by `--agent claude` — only needed if you want skills without a Claude adapter. |
 | `--agent <name>` | Generates agent adapter files (see [Agent Setup](agents.md)) |
+| `--modules <names>` | Comma-separated quality modules to enable at init time (e.g. `--modules user-experience,security`). Skips the interactive module prompt and writes the selection to `taproot/settings.yaml`. |
 | `--template <type>` | Skip the prompt and apply a starter template directly (`webapp`, `book-authoring`, or `cli-tool`). Copies the starter's `taproot/` hierarchy and `taproot/settings.yaml` into the project. |
 | `--force` | When used with `--template`, overwrites an existing `taproot/settings.yaml` with the template's version. |
 
@@ -92,7 +93,7 @@ Exit 0 if valid, exit 1 with violations. Use `--strict` to treat warnings as err
 taproot validate-format [--path taproot/] [--fix]
 ```
 
-Validates that marker files (`intent.md`, `usecase.md`, `impl.md`) conform to their schemas — required sections present, required fields populated, state values from the allowed set. Also checks:
+Validates that marker files (`intent.md`, `usecase.md`, `link.md`, `impl.md`) conform to their schemas — required sections present, required fields populated, state values from the allowed set. Also checks:
 
 - Every `intent.md` with child behaviour folders has a `## Behaviours <!-- taproot-managed -->` section
 - Every `usecase.md` with child impl folders has an `## Implementations <!-- taproot-managed -->` section

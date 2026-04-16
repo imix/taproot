@@ -129,6 +129,9 @@ On return, proceed to Phase 1.
 ### Phase 3 — Dependency governance wiring
 
 7. If `dependency-governance` was completed in this session:
+   Read `taproot/settings.yaml` and check whether `check-if-affected-by: taproot-modules/architecture` is already present in `definitionOfDone`. If it is, skip this step entirely — the module check already covers dependency governance at commit time.
+
+   Otherwise:
 
    > Wire a DoD script to detect unapproved dependency additions?
    >
@@ -174,7 +177,9 @@ On return, proceed to Phase 1.
 
 ### Phase 5 — DoD wiring
 
-9. Ask:
+9. Read `taproot/settings.yaml` and check whether `check-if-affected-by: taproot-modules/architecture` is already present in `definitionOfDone`. If it is, skip this step entirely and note "Architecture DoD condition already wired." in the session summary.
+
+   Otherwise, ask:
 
    > Wire architecture conventions as a DoD condition?
    >

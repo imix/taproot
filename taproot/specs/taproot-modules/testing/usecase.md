@@ -16,7 +16,7 @@ Developer (team lead or contributor) setting up testing quality guidance for a p
 6. For each selected aspect, system asks targeted questions, uses the established project context to propose stack-appropriate defaults, and surfaces discovered patterns from existing test files; developer reviews and confirms the elicited conventions.
 7. System writes a scoped global truth file for each completed aspect (e.g. `test-types_behaviour.md`) containing conventions and an agent checklist.
 8. System offers the developer the option to run `/tr-sweep` over existing impl.md files to surface implementations that may not conform to the newly written conventions; developer accepts or skips.
-9. System asks whether to wire `check-if-affected-by: taproot-modules/testing` as a DoD condition in project configuration.
+9. If `check-if-affected-by: taproot-modules/testing` is not already present in the project's `definitionOfDone`, system asks whether to wire it as a DoD condition in project configuration. If already wired, skip this step.
 10. Developer confirms or declines.
 11. System writes the condition to project configuration (if confirmed) and presents a summary of truth files written and aspects remaining.
 
@@ -41,6 +41,12 @@ Developer (team lead or contributor) setting up testing quality guidance for a p
 - **Steps:**
   1. System skips writing the DoD condition.
   2. System includes the condition text in the summary so developer can add it manually.
+
+### DoD condition already wired — wiring offer suppressed
+- **Trigger:** `check-if-affected-by: taproot-modules/testing` is already present in the project's `definitionOfDone` when step 9 is reached.
+- **Steps:**
+  1. System skips the wiring offer entirely.
+  2. System proceeds directly to the summary phase.
 
 ### Activated without project context
 - **Trigger:** Developer skips or declines context discovery when prompted in step 2.
@@ -147,6 +153,12 @@ flowchart TD
 - When the aspect loop completes or developer signals Done
 - Then system offers to run `/tr-sweep` over existing impl.md files before proceeding to wiring
 
+**AC-9: DoD wiring offer suppressed when condition already present**
+- Given a session where at least one aspect is configured
+- And `check-if-affected-by: taproot-modules/testing` is already present in the project's `definitionOfDone`
+- When the session reaches step 9
+- Then the wiring offer is skipped and the session proceeds to the summary
+
 ## Notes
 
 Aspect scope and DoD wiring for the implementing agent:
@@ -163,4 +175,4 @@ Aspect scope and DoD wiring for the implementing agent:
 ## Status
 - **State:** specified
 - **Created:** 2026-04-12
-- **Last reviewed:** 2026-04-12
+- **Last reviewed:** 2026-04-16

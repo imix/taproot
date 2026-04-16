@@ -16,9 +16,9 @@ Developer (team lead or contributor) setting up architecture quality guidance fo
 6. For each selected aspect (except dependency governance), system asks targeted questions, uses the established project context to propose stack-appropriate defaults, and surfaces discovered patterns from the codebase; developer reviews and confirms the elicited conventions. For dependency governance, system presents the standard convention text for developer confirmation.
 7. System writes a scoped global truth file for each completed aspect (e.g., `arch-interface-design_behaviour.md`) containing conventions and an agent checklist.
 8. System offers the developer the option to run `/tr-sweep` over existing impl.md files to surface implementations that may not conform to the newly written conventions; developer accepts or skips.
-9. For dependency governance: system additionally offers to wire an optional `run:` DoD condition — developer provides a stack-specific manifest diff command or skips.
+9. For dependency governance: if `check-if-affected-by: taproot-modules/architecture` is not already present in the project's `definitionOfDone`, system additionally offers to wire an optional `run:` DoD condition — developer provides a stack-specific manifest diff command or skips. If the module check is already wired, skip this offer.
 10. System offers to wire DoR `check:` conditions for interface design ("does the planned interface conflict with existing patterns?") and code reuse ("does an existing abstraction already cover this?") into `definitionOfReady` in project configuration — developer confirms or declines each.
-11. System asks whether to wire `check-if-affected-by: taproot-modules/architecture` as a DoD condition in project configuration.
+11. If `check-if-affected-by: taproot-modules/architecture` is not already present in the project's `definitionOfDone`, system asks whether to wire it as a DoD condition in project configuration. If already wired, skip this step.
 12. Developer confirms or declines.
 13. System writes all confirmed conditions to project configuration and presents a summary of truths written, aspects remaining, and conditions wired.
 
@@ -44,11 +44,23 @@ Developer (team lead or contributor) setting up architecture quality guidance fo
   1. System skips writing the DoD condition.
   2. System includes the condition text in the summary so developer can add it manually.
 
+### DoD condition already wired — wiring offer suppressed
+- **Trigger:** `check-if-affected-by: taproot-modules/architecture` is already present in the project's `definitionOfDone` when step 11 is reached.
+- **Steps:**
+  1. System skips the wiring offer entirely.
+  2. System proceeds directly to the summary phase.
+
 ### Dependency governance run: script skipped
 - **Trigger:** Developer skips the optional `run:` script in step 9.
 - **Steps:**
   1. System writes the dependency governance truth without a wired DoD command.
   2. System notes the script can be added manually to project configuration later.
+
+### Module DoD already wired — dependency governance run: script suppressed
+- **Trigger:** `check-if-affected-by: taproot-modules/architecture` is already present in the project's `definitionOfDone` when step 9 is reached.
+- **Steps:**
+  1. System skips the run: script offer entirely.
+  2. System proceeds to the next aspect or the summary phase.
 
 ### Activated without project context
 - **Trigger:** Developer skips or declines context discovery when prompted in step 2.
@@ -138,6 +150,7 @@ DoR/DoD wiring per aspect — for the implementing agent:
 
 **AC-4: Dependency governance — run: script offered and wired**
 - Given a session where dependency governance is selected
+- And `check-if-affected-by: taproot-modules/architecture` is not already in `definitionOfDone`
 - When developer provides a stack-specific manifest diff command
 - Then the command is wired as a `run:` DoD condition in project configuration
 
@@ -176,7 +189,19 @@ DoR/DoD wiring per aspect — for the implementing agent:
 - When the aspect loop completes or developer signals Done
 - Then system offers to run `/tr-sweep` over existing impl.md files before proceeding to wiring
 
+**AC-12: Dependency governance — run: script suppressed when module check already wired**
+- Given a session where dependency governance is selected
+- And `check-if-affected-by: taproot-modules/architecture` is already present in the project's `definitionOfDone`
+- When the session reaches step 9
+- Then the run: script offer is skipped and the session proceeds without prompting
+
+**AC-13: DoD wiring offer suppressed when condition already present**
+- Given a session where at least one aspect is defined
+- And `check-if-affected-by: taproot-modules/architecture` is already present in the project's `definitionOfDone`
+- When the session reaches step 11
+- Then the wiring offer is skipped and the session proceeds to the summary
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-04-12
-- **Last reviewed:** 2026-04-12
+- **Last reviewed:** 2026-04-16

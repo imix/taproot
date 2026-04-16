@@ -21,7 +21,7 @@
    - Parent `usecase.md` still exists
    - Parent `usecase.md` still has `state: specified`
    - `taproot validate-format` passes on the parent `usecase.md`
-2. System reads `definitionOfDone` conditions from `.taproot/settings.yaml` (may be empty — baseline already ran)
+2. System reads `definitionOfDone` conditions from project configuration (may be empty — baseline already ran)
 3. System runs all configured conditions — every condition runs regardless of whether earlier ones fail
 4. For each condition, system records: name, pass/fail, output, and a proposed correction if failed:
    - Shell conditions: executed directly; command success = pass, command failure = fail
@@ -29,7 +29,7 @@
      **Prohibited:** resolving this condition by inferring from backlog state, impl.md state, or the absence of related items is not valid. The agent must read actual doc content and compare it against actual implementation changes.
    - `check-if-affected`: agent reads the git diff, reasons whether the target file should have been updated, applies changes if needed — condition passes once resolved; agent writes resolution to `impl.md` via `taproot dod --resolve`
    - `check-if-affected-by`: agent reads the referenced behaviour spec at `<behaviour-path>`, reasons whether that cross-cutting behaviour applies to the current implementation, verifies compliance and applies changes if needed — condition passes once resolved; agent writes resolution to `impl.md` via `taproot dod --resolve`
-   - `check:`: agent reads the free-form question text, reasons whether the answer is yes, no, or not applicable for this implementation, and takes any indicated action (e.g. adds an entry to `.taproot/settings.yaml`, updates `docs/patterns.md`) — agent calls `taproot dod --resolve "check: <text>" "<resolution note>"` recording what was done or why it does not apply
+   - `check:`: agent reads the free-form question text, reasons whether the answer is yes, no, or not applicable for this implementation, and takes any indicated action (e.g. updates project configuration, updates `docs/patterns.md`) — agent calls `taproot dod --resolve "check: <text>" "<resolution note>"` recording what was done or why it does not apply
 5. If all conditions pass: system marks `impl.md` `state: complete` and reports success
 6. If any conditions fail: system reports all failures together with corrections and does NOT mark impl complete
 
@@ -44,7 +44,7 @@
   5. `[A]`: DoD stops; no conditions run; impl state unchanged.
 
 ### No configured conditions
-- **Trigger:** `.taproot/settings.yaml` has no `definitionOfDone` section, or the file does not exist
+- **Trigger:** Project configuration has no `definitionOfDone` section, or the configuration file does not exist
 - **Steps:**
   1. System runs DoD baseline only (step 1 of main flow)
   2. If baseline passes: impl is marked `complete`
@@ -57,7 +57,19 @@
   2. Agent reasons: does this cross-cutting requirement apply to the current implementation?
   3. If not applicable: agent records "not applicable — `<reason>`" and resolves
   4. If applicable and already satisfied: agent records "satisfied — `<how>`" and resolves
-  5. If applicable but not satisfied: agent applies the necessary changes, then resolves
+  5. If applicable but not satisfied:
+     a. Agent assesses whether a compliant fix is within the current implementation scope
+     b. If in scope: agent applies the fix, then resolves — proceed to step 6
+     c. If out of scope (compliant fix requires a migration, significant new files, or an architectural decision outside this impl): agent pauses and presents the violation to the developer:
+        - What the violation is
+        - What a compliant fix would require
+        - **[F]** Fix properly — agent expands scope and applies the compliant fix
+        - **[D]** Document as debt — agent records the violation in `## Notes` and resolves with a debt note
+        - **[W]** Waive — developer confirms this check does not apply and provides a reason
+        Developer must select one; agent may not self-resolve a known violation
+     d. **[F]**: agent applies the compliant fix and resolves with "fixed — `<how>`"
+     e. **[D]**: agent adds to `## Notes`: "Known violation: `<description>` — deferred: `<reason>`"; resolves with "debt documented — `<reason>`"
+     f. **[W]**: agent resolves with "waived — `<developer's reason>`"
   6. Agent calls `taproot dod --resolve "check-if-affected-by: <path>" "<resolution note>"`
 
 ### Generic agent check (`check:` condition)
@@ -65,7 +77,7 @@
 - **Steps:**
   1. Agent reads the question text
   2. Agent reasons whether the answer is yes, no, or not applicable for this specific implementation
-  3. If yes — agent takes the indicated action (e.g. adds a `check-if-affected-by` entry to `.taproot/settings.yaml`, documents a new pattern in `docs/patterns.md`)
+  3. If yes — agent takes the indicated action (e.g. adds a `check-if-affected-by` entry to project configuration, documents a new pattern in `docs/patterns.md`)
   4. Agent calls `taproot dod --resolve "check: <text>" "<what was done or why it does not apply>"`
 
 ### Agent check resolution
@@ -83,7 +95,7 @@
   3. System does not modify `impl.md` state — reporting only
 
 ### Custom shell command condition
-- **Trigger:** A condition in `.taproot/settings.yaml` is declared with a `run:` key
+- **Trigger:** A condition in project configuration is declared with a `run:` key
 - **Steps:**
   1. System executes the shell command in the project root
   2. Command success = pass; command failure = fail
@@ -96,8 +108,8 @@
 ## Error Conditions
 - **DoD baseline fails — usecase.md missing or no longer specified**: `FAIL — the behaviour spec this implementation references is no longer valid. Restore the spec to 'specified' before marking complete`
 - **Condition script not found**: reported as a failure with correction "Ensure the command exists and is executable from the project root"
-- **Condition times out**: reported as a failure with correction "Check for hanging processes or increase the timeout in `.taproot/settings.yaml`"
-- **`.taproot/settings.yaml` DoD section is malformed**: system aborts and reports a parse error with the offending line; impl is not marked complete
+- **Condition times out**: reported as a failure with correction "Check for hanging processes or increase the timeout in project configuration"
+- **Project configuration DoD section is malformed**: system aborts and reports a parse error with the offending line; impl is not marked complete
 
 ## Flow
 ```mermaid
@@ -126,17 +138,17 @@ flowchart TD
 ## Acceptance Criteria
 
 **AC-1: Generic check condition — action taken**
-- Given `.taproot/settings.yaml` contains `check: "does this story introduce a cross-cutting concern..."`
+- Given project configuration contains `check: "does this story introduce a cross-cutting concern..."`
 - When the agent runs DoD on an implementation that does introduce such a concern
-- Then the agent adds the appropriate `check-if-affected-by` or `check-if-affected` entry to `.taproot/settings.yaml` and records the resolution via `taproot dod --resolve`
+- Then the agent adds the appropriate `check-if-affected-by` or `check-if-affected` entry to project configuration and records the resolution via `taproot dod --resolve`
 
 **AC-2: Generic check condition — not applicable**
-- Given `.taproot/settings.yaml` contains a `check:` condition
+- Given project configuration contains a `check:` condition
 - When the agent runs DoD on an implementation where the answer is no
 - Then the agent records "no — <reason>" via `taproot dod --resolve` and the condition passes without any file changes
 
 **AC-3: Generic check condition — appears in dod output**
-- Given `.taproot/settings.yaml` contains a `check:` condition with no prior resolution in `impl.md`
+- Given project configuration contains a `check:` condition with no prior resolution in `impl.md`
 - When `taproot dod` is run
 - Then the condition appears in the output as an agent check required, with the full question text displayed
 
@@ -151,7 +163,7 @@ flowchart TD
 - Then all three conditions are evaluated and two failures are reported
 
 **AC-6: document-current condition reports as agent check required**
-- Given a `document-current` condition in `.taproot/settings.yaml`
+- Given a `document-current` condition in project configuration
 - When `taproot dod` runs without a resolution in `impl.md`
 - Then the condition is reported as not passed with "Agent check required" in the output
 
@@ -220,11 +232,27 @@ flowchart TD
 - When `taproot dod --dry-run` runs
 - Then `impl.md` is unchanged
 
+**AC-20: check-if-affected-by out-of-scope violation — developer presented options before resolution**
+- Given a `check-if-affected-by` condition where the implementation violates the referenced spec
+- And the compliant fix would require work outside the current implementation scope
+- When the agent runs the DoD condition
+- Then the agent pauses and presents the violation with [F] Fix properly / [D] Document as debt / [W] Waive — without recording any resolution until the developer selects
+
+**AC-21: Developer selects [D] — debt documented and condition resolves**
+- Given a `check-if-affected-by` out-of-scope violation presented to the developer
+- When the developer selects [D]
+- Then a debt note is added to `## Notes` in `impl.md` AND a resolution is recorded — the impl may proceed
+
+**AC-22: Agent cannot self-resolve a known out-of-scope violation**
+- Given a `check-if-affected-by` condition finds a violation the agent cannot fix within scope
+- When the agent processes the condition
+- Then self-resolving with a TODO comment or inline note is not a valid resolution — developer confirmation is required before any resolution is recorded
+
 ## Status
 - **State:** implemented
 - **Created:** 2026-03-19
 - **Last verified:** 2026-03-20
-- **Last reviewed:** 2026-03-28
+- **Last reviewed:** 2026-04-15
 
 
 ## Notes
